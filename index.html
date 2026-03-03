@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>unpingable</title>
+  <meta name="description" content="Lab notebook and project index for unpingable. Agent governance, temporal coherence, ATProto tooling.">
+  <style>
+    :root {
+      --bg: #fafafa;
+      --fg: #1a1a1a;
+      --fg-muted: #555;
+      --border: #ddd;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --card-bg: #fff;
+      --card-border: #e5e5e5;
+      --tag-bg: #f0f0f0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111;
+        --fg: #e5e5e5;
+        --fg-muted: #999;
+        --border: #333;
+        --accent: #60a5fa;
+        --accent-hover: #93bbfd;
+        --card-bg: #1a1a1a;
+        --card-border: #2a2a2a;
+        --tag-bg: #252525;
+      }
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    /* -- Hero -- */
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .hero h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero .handle {
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero .tagline {
+      font-size: 1.05rem;
+      color: var(--fg-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero nav {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .hero nav a {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .hero nav a:hover {
+      background: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+    }
+
+    /* -- Sections -- */
+    section {
+      margin-bottom: 3rem;
+    }
+
+    section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section > p {
+      color: var(--fg-muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    /* -- Start Here -- */
+    .entry-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .entry-points li {
+      padding: 0.75rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+    }
+
+    .entry-points .label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .entry-points .desc {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+    }
+
+    /* -- Project Groups -- */
+    .project-group {
+      margin-bottom: 2rem;
+    }
+
+    .project-group h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .project-group > p {
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .project-card {
+      padding: 0.75rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 6px;
+    }
+
+    .project-card .name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .project-card .desc {
+      color: var(--fg-muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    /* -- Writing -- */
+    .writing-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .writing-group h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .writing-list {
+      list-style: none;
+    }
+
+    .writing-list li {
+      padding: 0.35rem 0;
+      font-size: 0.9rem;
+    }
+
+    .writing-list li + li {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .writing-list .date {
+      color: var(--fg-muted);
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+
+    /* -- Now -- */
+    .now-list {
+      list-style: none;
+    }
+
+    .now-list li {
+      padding: 0.3rem 0;
+      font-size: 0.95rem;
+    }
+
+    .now-list li::before {
+      content: "- ";
+      color: var(--fg-muted);
+    }
+
+    .now-list .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.1rem 0.4rem;
+      background: var(--tag-bg);
+      border-radius: 3px;
+      margin-right: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    /* -- Footer -- */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--fg-muted);
+      font-size: 0.85rem;
+    }
+
+    footer .links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    footer .coda {
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 2rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>unpingable</h1>
+    <p class="handle">@jbeck</p>
+    <p class="tagline">Building tools for agent governance, temporal coherence, and distributed trust.</p>
+    <nav>
+      <a href="#start-here">Start Here</a>
+      <a href="#projects">Projects</a>
+      <a href="#writing">Writing</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Start Here -->
+    <section id="start-here">
+      <h2>Start Here</h2>
+      <ul class="entry-points">
+        <li>
+          <span class="label">If you only read one thing&hellip;</span><br>
+          <span class="desc"><a href="#" target="_blank" rel="noopener">Placeholder &mdash; essay or post TBD</a></span>
+        </li>
+        <li>
+          <span class="label">If you only try one thing&hellip;</span><br>
+          <span class="desc"><a href="#" target="_blank" rel="noopener">Placeholder &mdash; project or demo TBD</a></span>
+        </li>
+        <li>
+          <span class="label">The thesis in 2 minutes&hellip;</span><br>
+          <span class="desc"><a href="#" target="_blank" rel="noopener">Placeholder &mdash; short explainer TBD</a></span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <h2>Projects</h2>
+
+      <div class="project-group">
+        <h3>Agent Governor</h3>
+        <p>An ecosystem for runtime governance of autonomous agents&mdash;policy enforcement, audit, and oversight.</p>
+        <div class="project-grid">
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
+            <span class="desc">Core governance engine for autonomous agents.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/guvnah" target="_blank" rel="noopener">guvnah</a>
+            <span class="desc">CLI companion for agent governance workflows.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/governor_webui" target="_blank" rel="noopener">governor_webui</a>
+            <span class="desc">Web dashboard for monitoring governed agents.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
+            <span class="desc">Formal verification layer for governance policies.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/vscode-governor" target="_blank" rel="noopener">vscode-governor</a>
+            <span class="desc">VS Code extension for in-editor governance.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/epistemic_governor" target="_blank" rel="noopener">epistemic_governor</a>
+            <span class="desc">Epistemic state tracking for governed agents.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-group">
+        <h3>ATProto / Bluesky</h3>
+        <p>Tooling for transparency, monitoring, and moderation on the AT Protocol.</p>
+        <div class="project-grid">
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/atproto-labelwatch" target="_blank" rel="noopener">atproto-labelwatch</a>
+            <span class="desc">Monitor and analyze labeling activity across the network.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/atproto-driftwatch" target="_blank" rel="noopener">atproto-driftwatch</a>
+            <span class="desc">Detect schema and behavioral drift in ATProto feeds.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/atproto-labeler" target="_blank" rel="noopener">atproto-labeler</a>
+            <span class="desc">Custom labeling service for ATProto content.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/atproto-stats" target="_blank" rel="noopener">atproto-stats</a>
+            <span class="desc">Network-level statistics and health metrics.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-group">
+        <h3>Temporal Coherence</h3>
+        <p>Research on detecting and measuring temporal inconsistency in model outputs.</p>
+        <div class="project-grid">
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/delta-t-detector" target="_blank" rel="noopener">delta-t-detector</a>
+            <span class="desc">Detect temporal coherence failures in LLM outputs.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers</a>
+            <span class="desc">Research papers and writeups.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-group">
+        <h3>Other</h3>
+        <p>Standalone explorations and utilities.</p>
+        <div class="project-grid">
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/scalar-reward-collapse" target="_blank" rel="noopener">scalar-reward-collapse</a>
+            <span class="desc">Investigating failure modes of scalar reward signals.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/substrate-defense" target="_blank" rel="noopener">substrate-defense</a>
+            <span class="desc">Defensive patterns for substrate-level AI safety.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/clerk" target="_blank" rel="noopener">clerk</a>
+            <span class="desc">Lightweight task and context management.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Writing -->
+    <section id="writing">
+      <h2>Writing</h2>
+      <p>Selected essays. Full archive at <a href="https://neutral.zone" target="_blank" rel="noopener">neutral.zone</a>.</p>
+
+      <div class="writing-group">
+        <h3>Governance &amp; Alignment</h3>
+        <ul class="writing-list">
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+        </ul>
+      </div>
+
+      <div class="writing-group">
+        <h3>Temporal Coherence</h3>
+        <ul class="writing-list">
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+        </ul>
+      </div>
+
+      <div class="writing-group">
+        <h3>Distributed Systems &amp; Trust</h3>
+        <ul class="writing-list">
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+          <li><a href="#" target="_blank" rel="noopener">Placeholder essay title</a> <span class="date">TBD</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Now -->
+    <section id="now">
+      <h2>Now</h2>
+      <ul class="now-list">
+        <li><span class="tag">building</span> Placeholder &mdash; current focus area</li>
+        <li><span class="tag">next</span> Placeholder &mdash; upcoming work</li>
+        <li><span class="tag">next</span> Placeholder &mdash; upcoming work</li>
+        <li><span class="tag">not doing</span> Placeholder &mdash; explicitly deprioritized</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="links">
+      <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://bsky.app/profile/unpingable.com" target="_blank" rel="noopener">Bluesky</a>
+      <a href="https://neutral.zone" target="_blank" rel="noopener">neutral.zone</a>
+      <a href="mailto:j@unpingable.com">Email</a>
+    </div>
+    <p class="coda">This is a lab notebook, not an oracle.</p>
+  </footer>
+
+</body>
+</html>
