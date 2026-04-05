@@ -5,44 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
   <meta name="description" content="Lab notebook and project index for unpingable. Agent governance, temporal coherence, ATProto tooling.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
   <style>
     :root {
-      --bg: #f6f5f0;
-      --bg-subtle: #edece6;
-      --fg: #2c2c2c;
-      --fg-muted: #6b6966;
-      --fg-faint: #9e9a94;
-      --border: #d8d5ce;
-      --border-subtle: #e8e5de;
-      --accent: #c45d3e;
-      --accent-hover: #a84830;
-      --accent-faint: rgba(196, 93, 62, 0.08);
-      --card-bg: #faf9f5;
-      --card-border: #e2dfda;
-      --tag-bg: #e8e5de;
-      --tag-fg: #5c5955;
-      --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-      --hero-pattern: rgba(0,0,0,0.02);
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --fg-ghost: #b0aca5;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --accent-faint: rgba(160, 66, 42, 0.06);
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #181715;
-        --bg-subtle: #201f1c;
-        --fg: #d4d0c8;
-        --fg-muted: #8f8b83;
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
         --fg-faint: #5e5b55;
-        --border: #302e2a;
-        --border-subtle: #272523;
-        --accent: #d4704f;
-        --accent-hover: #e8855e;
-        --accent-faint: rgba(212, 112, 79, 0.07);
-        --card-bg: #1e1d1a;
-        --card-border: #2a2825;
-        --tag-bg: #272523;
-        --tag-fg: #8f8b83;
-        --hero-pattern: rgba(255,255,255,0.015);
+        --fg-ghost: #3e3c38;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+        --accent-faint: rgba(196, 96, 62, 0.06);
       }
     }
 
@@ -52,213 +46,170 @@
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      font-family: var(--sans);
+      font-family: var(--serif);
       background: var(--bg);
       color: var(--fg);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .container {
-      max-width: 740px;
+      line-height: 1.65;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 0 2rem;
+      padding: 4rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
     }
 
     a {
       color: var(--accent);
       text-decoration: none;
-      transition: color 0.15s ease;
     }
 
     a:hover {
       color: var(--accent-hover);
+      text-decoration: underline;
     }
 
-    /* ═══════════════════════════════════════
-       HERO
-       ═══════════════════════════════════════ */
-    .hero {
-      padding: 4.5rem 0 3.5rem;
-      background-image:
-        radial-gradient(var(--hero-pattern) 1px, transparent 1px);
-      background-size: 20px 20px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 3rem;
+    /* ── HEADER ── */
+    header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
     }
 
-    .hero h1 {
+    header h1 {
       font-family: var(--mono);
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 0.15rem;
-      color: var(--fg);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.1rem;
     }
 
-    .hero .handle {
+    header .author {
       font-family: var(--mono);
+      font-size: 0.78rem;
       color: var(--fg-faint);
-      font-size: 0.85rem;
-      margin-bottom: 1rem;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.9rem;
     }
 
-    .hero .tagline {
-      font-size: 1.1rem;
+    header .tagline {
+      font-size: 1.02rem;
       color: var(--fg-muted);
-      margin-bottom: 1.75rem;
-      max-width: 520px;
-      line-height: 1.55;
+      max-width: 500px;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
     }
 
-    .hero nav {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .hero nav a {
+    header nav {
       font-family: var(--mono);
-      display: inline-block;
-      padding: 0.45rem 1.1rem;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      font-size: 0.8rem;
-      color: var(--fg-muted);
-      background: var(--card-bg);
-      transition: all 0.2s ease;
-      letter-spacing: 0.01em;
+      font-size: 0.78rem;
+      display: flex;
+      gap: 1.5rem;
     }
 
-    .hero nav a:hover {
-      border-color: var(--accent);
+    header nav a {
+      color: var(--fg-muted);
+    }
+
+    header nav a:hover {
       color: var(--accent);
-      background: var(--accent-faint);
       text-decoration: none;
     }
 
-    /* ═══════════════════════════════════════
-       SECTIONS
-       ═══════════════════════════════════════ */
+    /* ── SECTIONS ── */
     section {
-      margin-bottom: 3.5rem;
+      margin-bottom: 3rem;
     }
 
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 1.5rem;
     }
 
-    .section-header h2 {
-      font-family: var(--sans);
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--fg);
-      letter-spacing: -0.01em;
-    }
-
-    .section-prefix {
+    section h2 {
       font-family: var(--mono);
-      font-size: 0.75rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--fg-faint);
-      user-select: none;
+      margin-bottom: 0.75rem;
     }
 
-    section > p,
-    section > .section-desc {
+    section > p {
       color: var(--fg-muted);
-      margin-bottom: 1.25rem;
       font-size: 0.92rem;
-      line-height: 1.6;
+      margin-bottom: 1rem;
     }
 
-    /* ═══════════════════════════════════════
-       PROJECTS
-       ═══════════════════════════════════════ */
+    /* ── PROJECTS ── */
     .project-group {
-      margin-bottom: 2.25rem;
+      margin-bottom: 2rem;
     }
 
     .project-group h3 {
       font-family: var(--mono);
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--fg);
-      margin-bottom: 0.2rem;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.15rem;
     }
 
     .project-group > p {
-      color: var(--fg-muted);
+      color: var(--fg-faint);
       font-size: 0.82rem;
-      margin-bottom: 0.85rem;
-      line-height: 1.55;
+      margin-bottom: 0.7rem;
+      line-height: 1.5;
     }
 
     .project-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 0.6rem;
+      gap: 1px;
+      background: var(--border-faint);
+      border: 1px solid var(--border-faint);
     }
 
     .project-card {
-      padding: 0.8rem 1rem;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 3px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-    }
-
-    .project-card:hover {
-      border-color: var(--accent);
-      box-shadow: 0 1px 8px rgba(0,0,0,0.04);
-    }
-
-    @media (prefers-color-scheme: dark) {
-      .project-card:hover {
-        box-shadow: 0 1px 8px rgba(0,0,0,0.2);
-      }
+      padding: 0.7rem 0.85rem;
+      background: var(--bg);
     }
 
     .project-card .name {
       font-family: var(--mono);
       font-weight: 600;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       display: block;
-      margin-bottom: 0.25rem;
-      letter-spacing: 0.01em;
+      margin-bottom: 0.2rem;
     }
 
     .project-card .desc {
       color: var(--fg-muted);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       line-height: 1.45;
     }
 
-    /* ═══════════════════════════════════════
-       RESEARCH
-       ═══════════════════════════════════════ */
+    .project-card .desc a {
+      color: var(--fg-faint);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+    }
+
+    .project-card .desc a:hover {
+      color: var(--accent);
+    }
+
+    /* ── RESEARCH ── */
     .research-group {
-      margin-bottom: 2rem;
+      margin-bottom: 1.75rem;
     }
 
     .research-group h3 {
-      font-size: 0.88rem;
+      font-size: 0.92rem;
       font-weight: 600;
       color: var(--fg);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
+      font-style: italic;
     }
 
     .paper-list {
@@ -266,21 +217,20 @@
     }
 
     .paper-list li {
-      padding: 0.6rem 0;
+      padding: 0.5rem 0;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.1rem;
     }
 
     .paper-list li + li {
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--border-faint);
     }
 
     .paper-list .paper-title {
-      font-weight: 500;
       font-size: 0.88rem;
+      font-weight: 500;
       line-height: 1.4;
-      transition: color 0.15s ease;
     }
 
     .paper-list .paper-title:hover {
@@ -290,14 +240,13 @@
 
     .paper-list .paper-meta {
       font-family: var(--mono);
-      color: var(--fg-faint);
-      font-size: 0.7rem;
+      color: var(--fg-ghost);
+      font-size: 0.68rem;
       letter-spacing: 0.02em;
     }
 
     .paper-list .paper-meta a {
-      color: var(--fg-faint);
-      transition: color 0.15s ease;
+      color: var(--fg-ghost);
     }
 
     .paper-list .paper-meta a:hover {
@@ -305,30 +254,28 @@
     }
 
     .research-links {
-      margin-top: 1.25rem;
+      margin-top: 1rem;
       padding-top: 0.75rem;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--border-faint);
       font-family: var(--mono);
-      font-size: 0.78rem;
+      font-size: 0.74rem;
       display: flex;
       gap: 1.5rem;
     }
 
     .research-links a {
-      color: var(--fg-muted);
+      color: var(--fg-faint);
     }
 
     .research-links a:hover {
       color: var(--accent);
     }
 
-    /* ═══════════════════════════════════════
-       FOOTER
-       ═══════════════════════════════════════ */
+    /* ── FOOTER ── */
     footer {
-      margin-top: 2rem;
-      padding: 2rem 0 3rem;
-      border-top: 1px solid var(--border);
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
     }
 
     footer .links {
@@ -336,13 +283,12 @@
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
-      margin-bottom: 1rem;
-      font-size: 0.78rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.74rem;
     }
 
     footer .links a {
-      color: var(--fg-muted);
-      transition: color 0.15s ease;
+      color: var(--fg-faint);
     }
 
     footer .links a:hover {
@@ -352,144 +298,101 @@
     footer .coda {
       font-style: italic;
       font-size: 0.78rem;
-      color: var(--fg-faint);
+      color: var(--fg-ghost);
     }
 
-    /* ═══════════════════════════════════════
-       RESPONSIVE
-       ═══════════════════════════════════════ */
+    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .container {
-        padding: 0 1.25rem;
+      body {
+        padding: 2.5rem 1.25rem 2rem;
       }
 
-      .hero {
-        padding: 3rem 0 2.5rem;
-      }
-
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-
-      .hero .tagline {
-        font-size: 1rem;
+      header h1 {
+        font-size: 1.3rem;
       }
 
       .project-grid {
         grid-template-columns: 1fr;
       }
     }
-
-    /* ═══════════════════════════════════════
-       ANIMATIONS
-       ═══════════════════════════════════════ */
-    @media (prefers-reduced-motion: no-preference) {
-      .hero h1, .hero .handle, .hero .tagline, .hero nav {
-        animation: fadeUp 0.5s ease both;
-      }
-      .hero .handle { animation-delay: 0.05s; }
-      .hero .tagline { animation-delay: 0.1s; }
-      .hero nav { animation-delay: 0.15s; }
-
-      section {
-        animation: fadeUp 0.4s ease both;
-      }
-
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(8px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header class="hero">
-    <div class="container">
-      <h1>unpingable</h1>
-      <p class="handle">James Beck</p>
-      <p class="tagline">Independent open-source tools and research on agent governance, temporal coherence, and technical systems that reorganize human judgment.</p>
-      <nav>
-        <a href="#projects">Projects</a>
-        <a href="#research">Research</a>
-      </nav>
-    </div>
+  <header>
+    <h1>unpingable</h1>
+    <p class="author">James Beck</p>
+    <p class="tagline">Open-source tools and research on agent governance, temporal coherence, and technical systems that reorganize human judgment.</p>
+    <nav>
+      <a href="#projects">Projects</a>
+      <a href="#research">Research</a>
+    </nav>
   </header>
 
-  <main class="container">
+  <main>
 
-    <!-- Projects -->
     <section id="projects">
-      <div class="section-header">
-        <span class="section-prefix">$</span>
-        <h2>Projects</h2>
-      </div>
+      <hr class="section-rule">
+      <h2>Projects</h2>
 
       <div class="project-group">
         <h3>Agent Governor</h3>
-        <p>An ecosystem for runtime governance of autonomous agents&mdash;policy enforcement, audit, and oversight.</p>
+        <p>Runtime governance for autonomous agents&mdash;policy enforcement, audit, and oversight.</p>
         <div class="project-grid">
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
-            <span class="desc">Core governance engine for autonomous agents.</span>
+            <span class="desc">Core governance engine. Claims require evidence, decisions produce receipts.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/guvnah" target="_blank" rel="noopener">guvnah</a>
-            <span class="desc">CLI companion for agent governance workflows.</span>
+            <span class="desc">Desktop cockpit. Session control, regime visualization, governance telemetry.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/governor_webui" target="_blank" rel="noopener">governor_webui</a>
-            <span class="desc">Web dashboard for monitoring governed agents.</span>
+            <span class="desc">Web writing interface. Continuity anchors, provenance-tracked claims, editorial receipts.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
-            <span class="desc">Terminal UI for governed AI chat.</span>
+            <span class="desc">Terminal UI. Governed chat, diff review, promotion from the command line.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/nlai" target="_blank" rel="noopener">nlai</a>
-            <span class="desc">Evidence-gated claims and deterministic receipts for agent workflows. The soft landing for governed AI.</span>
+            <span class="desc">Evidence-gated claims and deterministic receipts. Language is a proposal, not an authority.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/vscode-governor" target="_blank" rel="noopener">vscode-governor</a>
-            <span class="desc">VS Code extension for in-editor governance.</span>
+            <span class="desc">VS Code extension. In-editor governance diagnostics and receipt status.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/clerk" target="_blank" rel="noopener">clerk</a>
-            <span class="desc">Desktop gateway for Agent Governor. Drag-and-drop governance for the rest of us.</span>
+            <span class="desc">Desktop gateway. File-first governed workflows without living in the CLI.</span>
           </div>
         </div>
       </div>
 
       <div class="project-group">
         <h3>ATProto / Bluesky</h3>
-        <p>Tooling for transparency, monitoring, and moderation on the AT Protocol.</p>
+        <p>Transparency, monitoring, and moderation tooling for the AT Protocol.</p>
         <div class="project-grid">
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-labelwatch" target="_blank" rel="noopener">atproto-labelwatch</a>
-            <span class="desc">Monitor and analyze labeling activity across the network. <a href="https://labelwatch.neutral.zone/" target="_blank" rel="noopener">Live instance&nbsp;&rarr;</a></span>
+            <span class="desc">Monitor labeling activity across the network, flag integrity-risk patterns. <a href="https://labelwatch.neutral.zone/" target="_blank" rel="noopener">Live&nbsp;&rarr;</a></span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-driftwatch" target="_blank" rel="noopener">atproto-driftwatch</a>
-            <span class="desc">Track how claims propagate and mutate across the network. A labeler that doesn't emit labels.</span>
+            <span class="desc">Track how claims propagate and mutate. A labeler that doesn't emit labels.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-labeler" target="_blank" rel="noopener">atproto-labeler</a>
-            <span class="desc">Custom labeling service for ATProto content.</span>
+            <span class="desc">Custom labeling service with governed drift detection and a label decision ledger.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-feeds" target="_blank" rel="noopener">atproto-feeds</a>
-            <span class="desc">Source-first Bluesky signal desk. Structural feed ranking that rewards originality over engagement. <a href="https://instantinternet.news/" target="_blank" rel="noopener">Live&nbsp;&rarr;</a></span>
+            <span class="desc">Source-first signal desk. Structural feed ranking that rewards originality over engagement. <a href="https://instantinternet.news/" target="_blank" rel="noopener">Live&nbsp;&rarr;</a></span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-archive" target="_blank" rel="noopener">atproto-archive</a>
-            <span class="desc">Personal corpus archiver. Pulls your posts into durable, diffable JSONL + plaintext.</span>
+            <span class="desc">Personal corpus archiver. Posts into durable, diffable JSONL + plaintext.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/atproto-stats" target="_blank" rel="noopener">atproto-stats</a>
@@ -503,11 +406,11 @@
         <div class="project-grid">
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a>
-            <span class="desc">Local-first diagnostic monitor. Classifies the kind of wrong, preserves evidence, lets you interrogate it with SQL. One binary, zero infrastructure.</span>
+            <span class="desc">Local-first diagnostic monitor. Classifies the kind of wrong, preserves evidence, interrogate with SQL. One binary, zero infrastructure.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a>
-            <span class="desc">Standing and entitlement observability for production actions: grant lifecycle, authority provenance, policy decisions, and receipt chains.</span>
+            <span class="desc">Standing and entitlement observability. Grant lifecycle, authority provenance, policy decisions, receipt chains.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/grid-dependency-atlas" target="_blank" rel="noopener">grid-dependency-atlas</a>
@@ -522,13 +425,10 @@
 
     </section>
 
-    <!-- Research -->
     <section id="research">
-      <div class="section-header">
-        <span class="section-prefix">$</span>
-        <h2>Research</h2>
-      </div>
-      <p class="section-desc">Selected papers and preprints.</p>
+      <hr class="section-rule">
+      <h2>Research</h2>
+      <p>Selected papers and preprints.</p>
 
       <div class="research-group">
         <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
@@ -630,17 +530,14 @@
 
   </main>
 
-  <!-- Footer -->
   <footer>
-    <div class="container">
-      <div class="links">
-        <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
-        <a href="https://www.linkedin.com/in/james-beck/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://neutral.zone" target="_blank" rel="noopener">Writing</a>
-      </div>
-      <p class="coda">This is a lab notebook, not an oracle.</p>
+    <div class="links">
+      <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
+      <a href="https://www.linkedin.com/in/james-beck/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://neutral.zone" target="_blank" rel="noopener">Writing</a>
     </div>
+    <p class="coda">This is a lab notebook, not an oracle.</p>
   </footer>
 
 </body>
