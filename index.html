@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
-  <meta name="description" content="Lab notebook and project index for unpingable. Agent governance, temporal coherence, ATProto tooling.">
+  <meta name="description" content="Project index for unpingable. Operational witnesses, admissibility gates, receipt chains, agent governance, ATProto tooling, and research.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
   <style>
@@ -323,10 +323,11 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline">Open-source tools and research on agent governance, temporal coherence, and technical systems that reorganize human judgment.</p>
+    <p class="tagline">Open-source tools and research for operational witnesses, admissibility gates, receipt chains, and agent governance.</p>
     <nav>
       <a href="#projects">Projects</a>
       <a href="#research">Research</a>
+      <a href="https://neutral.zone" target="_blank" rel="noopener">Writing</a>
     </nav>
   </header>
 
@@ -335,74 +336,50 @@
     <section id="projects">
       <hr class="section-rule">
       <h2>Projects</h2>
+      <p>A working surface for claims, witnesses, coverage, consequence, refusal, and receipts.</p>
 
       <div class="project-group">
-        <h3>Agent Governor</h3>
-        <p>Runtime governance for autonomous agents&mdash;policy enforcement, audit, and oversight.</p>
+        <h3>Operational</h3>
+        <p>In daily use. Local-first, evidence-preserving, ops-shaped.</p>
         <div class="project-grid">
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
-            <span class="desc">Core governance engine. Claims require evidence, decisions produce receipts.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/guvnah" target="_blank" rel="noopener">guvnah</a>
-            <span class="desc">Desktop cockpit. Session control, regime visualization, governance telemetry.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/governor_webui" target="_blank" rel="noopener">governor_webui</a>
-            <span class="desc">Web writing interface. Continuity anchors, provenance-tracked claims, editorial receipts.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
-            <span class="desc">Terminal UI. Governed chat, diff review, promotion from the command line.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/vscode-governor" target="_blank" rel="noopener">vscode-governor</a>
-            <span class="desc">VS Code extension. In-editor governance diagnostics and receipt status.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/clerk" target="_blank" rel="noopener">clerk</a>
-            <span class="desc">Desktop gateway. File-first governed workflows without living in the CLI.</span>
-          </div>
-        </div>
-        <p style="margin-top: 1rem; margin-bottom: 0.15rem; font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); letter-spacing: 0.03em;">Governance infrastructure</p>
-        <p style="font-size: 0.88rem; color: var(--fg-muted); margin-bottom: 0.7rem;">Standalone components that compose into the governance stack.</p>
-        <div class="project-grid">
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/nlai" target="_blank" rel="noopener">nlai</a>
-            <span class="desc">Evidence-gated claims and deterministic receipts. Language is a proposal, not an authority.</span>
-          </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a>
-            <span class="desc">Local-first diagnostic monitor. Classifies the kind of wrong, preserves evidence, interrogate with SQL. One binary, zero infrastructure.</span>
+            <span class="desc">Claim preflight for operational systems. Separates observation from assertion, preserves evidence, interrogate with SQL. One binary, zero infrastructure.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a>
+            <span class="desc">Deferred agent work with receipts, reconciliation, and governed promotion. Schedules and resumes intent, not commands.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a>
+            <span class="desc">Admissibility preflight kernel for agentic operations. One intent in, dimensional verdict and immutable receipt out. Heavy at the mint, light at the handle.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a>
             <span class="desc">Standing and entitlement observability. Grant lifecycle, authority provenance, policy decisions, receipt chains.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-group">
+        <h3>Governance kernels &amp; substrate</h3>
+        <p>Standalone components that compose into the governance stack.</p>
+        <div class="project-grid">
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/wicket-guard" target="_blank" rel="noopener">wicket-guard</a>
+            <span class="desc">Admissibility preflight for AI-agent-authored diffs. Cooks authority-bearing surface mutations (LICENSE, NOTICE, CODEOWNERS, SECURITY) into Wicket intents and refuses unauthorized changes.</span>
+          </div>
+          <div class="project-card">
+            <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
+            <span class="desc">Research substrate for governed agent work. Claims require evidence; actions leave receipts.</span>
           </div>
           <div class="project-card">
             <a class="name" href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a>
             <span class="desc">Governed state persistence. Cross-session memory with observe/commit/rely semantics, hash-chained receipts, local SQLite.</span>
           </div>
           <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/cadence" target="_blank" rel="noopener">cadence</a>
-            <span class="desc">Temporal admissibility checker for analytics. Declares source contracts, lints for coherence violations, receipts every decision.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/dossier" target="_blank" rel="noopener">dossier</a>
-            <span class="desc">Δt-aware code review. Approvals are scoped, time-limited grants — not immortal rubber stamps. Detects stale approvals, review theater, risk mismatches.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/custody" target="_blank" rel="noopener">custody</a>
-            <span class="desc">Chain-of-custody for sensitive refs. Standing-gated policy over keys, secrets, and signing material. Governs use, not storage.</span>
-          </div>
-          <div class="project-card">
             <a class="name" href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a>
             <span class="desc">Formal admissibility sidecar using Z3. Proposals checked against grounded facts and constraint rules. Missing evidence is denial, not imagination.</span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a>
-            <span class="desc">Deferred agent work with receipts, reconciliation, and governed promotion. Schedules and resumes intent, not commands. Let agents work late without giving them the keys.</span>
           </div>
         </div>
       </div>
