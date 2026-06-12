@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A stale yes — unpingable</title>
+  <meta name="description" content="A credentialed action refused one second past its horizon. One incident, three descents: behavior, evidence, necessity. Every artifact reproducible from a cold clone.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --fg-ghost: #b0aca5;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --accent-faint: rgba(160, 66, 42, 0.06);
+      --pass: #4a6b3a;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --fg-ghost: #3e3c38;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+        --accent-faint: rgba(196, 96, 62, 0.06);
+        --pass: #7a9a6a;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.15rem;
+      margin: 2.5rem 0 0.75rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+    }
+    h2 .act { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-faint); display: block; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    .summary {
+      background: var(--bg-inset);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.2rem;
+      margin: 1.25rem 0;
+      font-size: 1.02rem;
+    }
+    .summary .clocks { font-family: var(--mono); font-size: 0.88rem; color: var(--fg-muted); display: block; margin-bottom: 0.5rem; }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 0.9rem 1rem;
+      overflow-x: auto;
+      margin-bottom: 0.9rem;
+    }
+    code { font-family: var(--mono); font-size: 0.85em; }
+    .outcome { border: 1px solid var(--border); margin-bottom: 1rem; }
+    .outcome .head {
+      font-family: var(--mono); font-size: 0.85rem; padding: 0.5rem 1rem;
+      border-bottom: 1px solid var(--border-faint); display: flex; justify-content: space-between;
+    }
+    .outcome pre { border: 0; margin: 0; }
+    .tag-pass { color: var(--pass); }
+    .tag-block { color: var(--accent); font-weight: 600; }
+    .receipt-panel { border: 2px solid var(--accent); margin: 1.25rem 0; }
+    .receipt-panel .head {
+      font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em;
+      background: var(--accent-faint); color: var(--accent);
+      padding: 0.45rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .receipt-panel dl {
+      display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.15rem 0.8rem;
+      padding: 0.9rem 1rem; font-family: var(--mono); font-size: 0.8rem;
+    }
+    .receipt-panel dt { color: var(--fg-ghost); }
+    .receipt-panel dd { color: var(--fg); overflow-wrap: anywhere; }
+    .receipt-panel dd.hot { color: var(--accent); font-weight: 600; }
+    details { margin: 0 0 0.9rem; }
+    details summary {
+      font-family: var(--mono); font-size: 0.8rem; color: var(--fg-faint);
+      cursor: pointer; padding: 0.4rem 0;
+    }
+    details summary:hover { color: var(--accent); }
+    .qa { margin-bottom: 1.4rem; }
+    .qa .q { font-weight: 600; margin-bottom: 0.3rem; }
+    .qa .check { font-family: var(--mono); font-size: 0.8rem; color: var(--pass); }
+    .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    @media (max-width: 560px) { .lanes { grid-template-columns: 1fr; } }
+    .lane { border: 1px solid var(--border); }
+    .lane .head { font-family: var(--mono); font-size: 0.82rem; padding: 0.45rem 0.9rem; border-bottom: 1px solid var(--border-faint); }
+    .lane .body { padding: 0.8rem 0.9rem; font-size: 0.88rem; }
+    .lane .verdict { font-family: var(--mono); font-size: 0.85rem; padding: 0.5rem 0.9rem; border-top: 1px solid var(--border-faint); }
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 0.4rem 0 0.4rem 1.1rem;
+      margin: 1.1rem 0;
+      font-style: italic;
+      color: var(--fg-muted);
+    }
+    .theorem {
+      background: var(--bg-inset); border: 1px solid var(--border);
+      padding: 1rem 1.2rem; margin: 1rem 0;
+    }
+    .theorem .sig { font-family: var(--mono); font-size: 0.78rem; display: block; margin: 0.5rem 0; color: var(--fg); }
+    .objection { margin-bottom: 1rem; }
+    .objection .o { font-weight: 600; }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.9rem; }
+    footer a { margin-right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>A stale yes</h1>
+  <p class="muted">One incident, three descents: behavior, evidence, necessity. Every artifact on this page is reproducible from a cold clone.</p>
+
+  <div class="summary">
+    <span class="clocks">checked t=40&nbsp;&nbsp;&middot;&nbsp;&nbsp;horizon t=50&nbsp;&nbsp;&middot;&nbsp;&nbsp;spent t=51</span>
+    Standing was checked and <em>valid</em>. Its horizon expired ten seconds later. The spend arrived one second after that.
+    Naive auth says yes &mdash; the credential was valid when checked. Custody says no &mdash; it lapsed in the gap between observation and exercise.
+    This is not an authorization bug. Authorization passed. The receipt below shows both clocks, the gap, and the exact predicate that failed.
+  </div>
+
+  <h2><span class="act">ACT 1 &mdash; BEHAVIOR</span>Two actions, one gauntlet</h2>
+  <p>Both runs traverse the identical chain &mdash; standing verified, admission checked, spendability judged. They differ only in <em>when</em> the spend happens. A system that only says no is a brick; the twin is the proof it isn't one.</p>
+
+  <div class="outcome">
+    <div class="head"><span>LEGITIMATE &mdash; exercise at t=45, within horizon</span><span class="tag-pass">consumed</span></div>
+    <pre>standing       verified
+wicket         admitted
+spendability   judged
+LA grant       granted
+LA consume     effect
+leaf receipt   ag_rcpt_2f8d461bc9bdf930
+&rarr; consumed. Fresh standing spent cleanly (effect_count=1).</pre>
+  </div>
+
+  <div class="outcome">
+    <div class="head"><span>IMPOSTOR &mdash; exercise at t=51, one second past the horizon</span><span class="tag-block">REFUSED</span></div>
+    <pre>standing       verified      &larr; the credential WAS valid
+wicket         admitted      &larr; naive auth says yes here
+spendability   REFUSED       standing_before_spendability_not_bounded
+  gap=11s  vs bound=10s  &rarr; over by 1s
+  gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host
+leaf receipt   ag_rcpt_dda5a1e55fc0b733
+&rarr; refused. No capacity spent (effect_count=0).</pre>
+  </div>
+
+  <p>One second past a horizon, and custody is the only layer that saw it.</p>
+
+  <div class="receipt-panel">
+    <div class="head">THE REFUSAL RECEIPT &mdash; content-addressed; the id reproduces on every run</div>
+    <dl>
+      <dt>receipt_id</dt><dd>dda5a1e55fc0b733020bb5794c5909a107f97099c20a584d668e52d3e5c17ee7</dd>
+      <dt>gate</dt><dd>standing_spendability_seam</dd>
+      <dt>verdict</dt><dd class="hot">block</dd>
+      <dt>refusal_kind</dt><dd class="hot">standing_before_spendability_not_bounded</dd>
+      <dt>gap_ns</dt><dd class="hot">11&thinsp;000&thinsp;000&thinsp;000</dd>
+      <dt>bound_ns</dt><dd>10&thinsp;000&thinsp;000&thinsp;000</dd>
+      <dt>overage_ns</dt><dd>1&thinsp;000&thinsp;000&thinsp;000</dd>
+      <dt>gap_basis</dt><dd>monotonic &middot; source=process_monotonic &middot; epoch=boot:demo-single-host &middot; 40s&rarr;51s</dd>
+      <dt>wall</dt><dd>2026-06-09T00:00:40Z &middot; role=display_only &mdash; wall time is never the gap basis</dd>
+      <dt>origin_mode</dt><dd>drill &mdash; typed; demonstrated runs cannot confer operational effect</dd>
+      <dt>effect_count</dt><dd>0 &mdash; refused before any capacity was spent</dd>
+    </dl>
+  </div>
+
+  <details>
+    <summary>raw receipt JSON (as returned by <code>governor receipts --id dda5a1e5&hellip; --evidence</code>)</summary>
+    <pre>{
+  "receipt_id": "dda5a1e55fc0b733020bb5794c5909a107f97099c20a584d668e52d3e5c17ee7",
+  "schema_version": 4,
+  "timestamp": "2026-06-12T15:26:46.680476+00:00",
+  "gate": "standing_spendability_seam",
+  "verdict": "block",
+  "subject_hash": "1c5ba48d123bdda15d524e34e4622aaa29f239a72ce692508204f8e89219655c",
+  "evidence_hash": "76f843f32c8b2936dbebd49f7e5209ceda810b6a2b2b83158e667ff08d5916f7",
+  "policy_hash": "e5e8b0eaefae2352489ecb2a7c3a9c6ebc51966eec5ddd4e38ee18f143e26b74",
+  "receipt_role": "measurement",
+  "evidence": {
+    "bound_ns": 10000000000,
+    "bounded": false,
+    "gap_basis": {
+      "end_ns": 51000000000,
+      "epoch": "boot:demo-single-host",
+      "kind": "monotonic",
+      "source": "process_monotonic",
+      "start_ns": 40000000000
+    },
+    "gap_ns": 11000000000,
+    "lapse_coverage": "exceeded_horizon",
+    "origin_mode": "drill",
+    "overage_ns": 1000000000,
+    "parent_receipt_ids": [
+      "7732103275259ded364078e0a7241884c618ee5107d6f241ea9dff4c871dc5fe"
+    ],
+    "refusal_kind": "standing_before_spendability_not_bounded",
+    "wall": {
+      "observed_at": "2026-06-09T00:00:40Z",
+      "role": "display_only",
+      "source": "system_clock_unsynced",
+      "uncertainty_ms": null
+    }
+  }
+}</pre>
+  </details>
+
+  <h2><span class="act">ACT 2 &mdash; EVIDENCE</span>Just one more thing</h2>
+  <p>Interrogate the same incident. The custody chain reconstructs from receipts &mdash; evidence, not logs.</p>
+
+  <div class="qa">
+    <p class="q">What happened to the spend?</p>
+    <pre>$ governor why dda5a1e55fc0&hellip;
+REFUSED  standing_before_spendability_not_bounded  gate=standing_spendability_seam
+  OK       verdict=pass  gate=wicket_seam
+    OK       verdict=pass  gate=standing_seam
+      MISSING  no receipt found for cited id nq_fnd_drill_wal_bloat_all_green
+        ! chain terminates at this gap</pre>
+    <p class="check">&#10003; chain walks refusal &rarr; admission &rarr; standing &rarr; honest MISSING terminus</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Which predicate failed?</p>
+    <pre>$ governor receipts --id dda5a1e55fc0&hellip; --evidence
+gap_ns     = 11000000000
+bound_ns   = 10000000000
+overage_ns =  1000000000</pre>
+    <p class="check">&#10003; gap exceeded bound by exactly the lapse</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">Stale under <em>which</em> clock witness?</p>
+    <pre>"gap_basis": { "kind": "monotonic", "source": "process_monotonic",
+               "epoch": "boot:demo-single-host", "start_ns": 40&hellip;, "end_ns": 51&hellip; }
+"wall":      { "observed_at": "2026-06-09T00:00:40Z", "role": "display_only" }</pre>
+    <p class="check">&#10003; the gap ran on a named monotonic basis; wall time is display-only. A gap is a difference between compatible clock witnesses, not numbers.</p>
+  </div>
+
+  <div class="qa">
+    <p class="q">And a receipt that doesn't exist?</p>
+    <pre>$ governor why 0000000000000000&hellip;
+receipt id not found: 0000000000000000&hellip;</pre>
+    <p class="check">&#10003; honest absence &mdash; not found, never inferred</p>
+  </div>
+
+  <h2><span class="act">ACT 2.5 &mdash; THE OBJECTION</span>What a policy engine says about the same incident</h2>
+  <p>The policy is not the villain. It is right, for the world it is handed &mdash; and nothing attests the world it is handed.</p>
+
+  <div class="lanes">
+    <div class="lane">
+      <div class="head">OPA / Rego lane</div>
+      <div class="body">
+        <pre>default allow := false
+allow if {
+  input.credential.status == "valid"
+  input.credential.role == "operator"
+  input.action == "consume_capacity"
+}</pre>
+        The input document asserts <code>status: "valid"</code> &mdash; unwitnessed self-report in a structured costume. Nothing in it says <em>when</em> that was true.
+      </div>
+      <div class="verdict tag-pass">allow &mdash; the policy is sound over its input</div>
+    </div>
+    <div class="lane">
+      <div class="head">custody lane</div>
+      <div class="body">
+        Premise preflight runs <em>upstream</em> of the policy. The clocks are evidence here: gap=11s against bound=10s on a named monotonic basis. The premises failed before any policy was consulted.
+      </div>
+      <div class="verdict tag-block">refused &mdash; standing_before_spendability_not_bounded</div>
+    </div>
+  </div>
+
+  <p>And when the policy engine does run, its verdict enters the evidence plane &mdash; policy hash, input hash, input provenance (<code>unwitnessed_self_report</code>), decision &mdash; a receipt, not a line in a decision log. The demo ships this as a runnable shim: <code>./demo/opa-contrast.sh</code> (no OPA installed? it shows the policy and input and fabricates nothing).</p>
+
+  <blockquote>Policy engines decide over claims; custody systems decide whether those claims may become premises.</blockquote>
+
+  <h2><span class="act">ACT 3 &mdash; NECESSITY</span>Why this refusal is required, not chosen</h2>
+
+  <div class="theorem">
+    <p><span class="muted">refusal class</span> <code>standing_before_spendability_not_bounded</code><br>
+    <span class="muted">licensed by</span> <a href="https://github.com/unpingable/lean/blob/main/LeanProofs/Admissibility/Freshness.lean#L179"><code>Admissibility.Freshness.expired_not_fresh</code></a></p>
+    <span class="sig">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</span>
+    <p style="margin:0">An observation whose exercise time is past its expiry horizon is not Fresh. The receipt's <code>gap_ns &gt; bound_ns</code> is definitionally the theorem's hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary policy denial.</p>
+  </div>
+
+  <p><strong>Honest framing, load-bearing:</strong> the theorem proves the <em>class boundary</em>; the receipt proves the <em>instance facts</em>; the link is the artifact. It does not assert that any deployed system is safe, nor that this instance was machine-checked &mdash; only that this refusal class is the one the custody discipline requires.</p>
+
+  <h2><span class="act">REPRODUCE</span>Run it yourself</h2>
+  <p>From a cold clone to this refusal, about five minutes:</p>
+  <pre>git clone https://github.com/unpingable/agent_governor.git
+cd agent_governor</pre>
+  <pre>python3 -m venv .venv
+. .venv/bin/activate
+pip install -e .
+./demo/refused-spend.sh     # a valid credential, spent one second past its horizon — REFUSED, with receipts
+./demo/interrogate.sh       # "just one more thing": six questions, answered from receipts (no arg = fresh Act 1; or pass the root Act 1 printed)
+./demo/opa-contrast.sh      # what a policy engine would have said about the same incident (allow)</pre>
+  <p class="muted">The refusal receipt is content-addressed &mdash; you will get <code>dda5a1e5&hellip;</code>, the same id shown above.</p>
+
+  <h2><span class="act">OBJECTIONS</span>The two you're already thinking</h2>
+  <div class="objection">
+    <p><span class="o">"Isn't this just OPA / admission control?"</span> &mdash; Policy decides over premises; this receipts whether the premises were admissible in the first place. Rego can check freshness <em>if you feed it freshness</em>; it cannot establish the custody of its own inputs. OPA runs happily inside this.</p>
+  </div>
+  <div class="objection">
+    <p><span class="o">"Isn't this AI-governance vapor?"</span> &mdash; It's a refusal you can run, a receipt you can hash, and a theorem you can read. Every claim on this page reproduces from a cold clone; where the system can't prove something, the page says so (see <a href="limits.html">Limits</a>).</p>
+  </div>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="limits.html">limits</a>
+    <a href="https://github.com/unpingable/agent_governor">repo</a>
+  </footer>
+
+</body>
+</html>

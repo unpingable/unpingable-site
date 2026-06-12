@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Limits — unpingable</title>
+  <meta name="description" content="The strongest case against this work, in its author's own voice. What it doesn't prove, what it costs, what must be trusted, and where it's the wrong tool.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.1rem;
+      margin: 2.2rem 0 0.6rem;
+      padding-top: 1.3rem;
+      border-top: 1px solid var(--border);
+    }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    code { font-family: var(--mono); font-size: 0.85em; }
+    ul { margin: 0 0 0.9rem 1.2rem; }
+    li { margin-bottom: 0.35rem; }
+    .anti-sales {
+      border-left: 3px solid var(--accent);
+      padding: 0.4rem 0 0.4rem 1.1rem;
+      margin: 1.1rem 0;
+      font-style: italic;
+      color: var(--fg-muted);
+    }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.9rem; }
+    footer a { margin-right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>Limits</h1>
+  <p class="muted">The strongest case against this work, stated plainly. A system built around refusing overclaims should refuse its own.</p>
+
+  <h2>What it doesn't prove</h2>
+  <p>The Lean theorems prove <em>class boundaries of refusals</em> &mdash; that a given refusal kind is required by the custody discipline's own definitions. They do not prove that any deployed system is safe, that the Python implementation is bug-free, or that a particular production incident was machine-checked. Receipts prove <em>instance facts</em>: what was observed, what was decided, under which policy hash. They do not prove intentions, and they cannot make a wrong observation right &mdash; only attributable.</p>
+
+  <h2>What it costs</h2>
+  <p>Custody moves cost from postmortem reconstruction into runtime. Every gate is latency on the action path. Every receipt is storage. Every typed claim is friction at write time &mdash; an agent that used to just do the thing now has to propose it, and something has to verify it. The bet is the same one behind TLS and structured logging: pay steadily at runtime instead of catastrophically at incident time. If your incidents are cheap, this trade is bad for you.</p>
+
+  <h2>What must be trusted</h2>
+  <p>This architecture relocates trust; it does not eliminate it. The trusted computing base is the receipt store, the sealing path, and the clock witness source &mdash; small, boring, and enumerable, but real. Trust with a bill of materials. Trustless is not on offer here, and anyone offering it elsewhere is selling something.</p>
+
+  <h2>What happens when witnesses are wrong</h2>
+  <p>A witness can be wrong. The system's answer is not prevention &mdash; it is attribution: which witness, attesting what, when, with what coverage. False testimony becomes quarantinable evidence with a return address instead of an anonymous rumor in a log file. That is a real improvement and a real limit: garbage observed is still garbage; it is merely garbage you can recall by origin.</p>
+
+  <h2>What conventional tools already do well</h2>
+  <p>Authorization checks, RBAC, OPA over inputs you already trust, audit logs for low-stakes flows, rate limits, CI gates. If your inputs are attested by construction or your blast radius is small, the conventional stack is cheaper and you should use it.</p>
+  <p class="anti-sales">If you only need an authorization check, use an authorization check.</p>
+
+  <h2>Where it's the wrong tool</h2>
+  <ul>
+    <li>Demo or chat applications with no external actions &mdash; there is nothing to refuse.</li>
+    <li>Hot paths where added microseconds matter more than added evidence.</li>
+    <li>Teams that want a turnkey hosted assistant &mdash; this is infrastructure you operate, not a service you subscribe to.</li>
+    <li>Systems whose failures are cheap to diagnose after the fact &mdash; the receipts would be paying for insurance you don't need.</li>
+  </ul>
+
+  <h2>Current maturity</h2>
+  <p>Alpha. Solo development. A research lab with working instruments and proof artifacts, not a product seeking deployments &mdash; lab notebook, not an oracle. The demo reproduces from a cold clone in about five minutes; that is the strongest operational claim this site makes. Nothing here is deployed at scale, and this page will say so until that changes.</p>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="demo.html">demo</a>
+    <a href="https://github.com/unpingable/agent_governor">repo</a>
+  </footer>
+
+</body>
+</html>
