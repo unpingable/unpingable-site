@@ -425,6 +425,20 @@
       color: var(--accent);
     }
 
+    .paper-list .start-here {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.02rem 0.3rem;
+      margin-right: 0.45rem;
+    }
+    .paper-list li.foundational .paper-title {
+      font-weight: 600;
+    }
+
     .research-links {
       margin-top: 1rem;
       padding-top: 0.75rem;
@@ -505,7 +519,7 @@
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
     <p class="tagline">Modern systems often decide faster than their evidence stays valid. This lab builds custody machinery for claims, standing, capacity, authorization, and refusal &mdash; running code plus proof artifacts that preserve distinctions ordinary infrastructure collapses.</p>
-    <p class="demo-cta"><a href="demo.html">Watch authorization fail to become spendability&nbsp;&rarr;</a> <a class="limits-link" href="limits.html">Limits</a></p>
+    <p class="demo-cta"><a href="demo.html">Watch authorization fail to become spendability&nbsp;&rarr;</a> <a class="limits-link" href="about.html">About</a> <a class="limits-link" href="limits.html">Limits</a></p>
     <nav>
       <a href="about.html">About</a>
       <a href="#stack">Stack</a>
@@ -524,6 +538,7 @@
 
       <div class="edge-list">
         <h3>Conversions &mdash; what must be earned, not assumed</h3>
+        <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;"><span class="status live" style="margin-left:0">live</span> shipped &middot; <span class="status">operational</span> in daily use &middot; <span class="status research">research</span> exploratory &middot; <span class="status zoned">zoned</span> mapped, not built</p>
         <div class="edge-row"><span class="edge-claim">An observation becomes a claim only through preflight that preserves its evidence.</span><span class="edge-meta">nq <span class="status live">live</span></span></div>
         <div class="edge-row"><span class="edge-claim">A claim becomes a premise only if it is admissible &mdash; policy engines decide over claims; custody decides whether those claims may become premises.</span><span class="edge-meta">wicket &middot; agent_governor <span class="status live">live</span></span></div>
         <div class="edge-row"><span class="edge-claim">Standing observed is not standing spendable &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the spend.</span><span class="edge-meta">standing &middot; agent_governor <span class="status live">live</span></span></div>
@@ -599,50 +614,15 @@
     <section id="projects">
       <hr class="section-rule">
       <h2>Projects</h2>
-      <p>A working surface for claims, witnesses, coverage, consequence, refusal, and receipts.</p>
+      <p>Outside the core stack: applied wrappers, field labs, and one-off experiments. Core organs are listed above.</p>
 
       <div class="project-group">
-        <h3>Operational</h3>
-        <p>In daily use. Local-first, evidence-preserving, ops-shaped.</p>
-        <div class="project-lead">
-          <a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a>
-          <p class="desc">Claim preflight for operational systems. Separates observation from assertion, preserves evidence, interrogate with SQL. One binary, zero infrastructure.</p>
-        </div>
-        <div class="project-list">
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a>
-            <span class="desc">Deferred governed work with receipts and reconciliation.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a>
-            <span class="desc">Admissibility preflight kernel for agentic operations.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a>
-            <span class="desc">Standing and entitlement observability.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-group">
-        <h3>Custody substrate</h3>
-        <p>Standalone components that compose into the custody stack.</p>
+        <h3>Applied wrappers</h3>
+        <p>Things that wrap or apply an organ without being one themselves.</p>
         <div class="project-list">
           <div class="project-row">
             <a class="name" href="https://github.com/unpingable/wicket-guard" target="_blank" rel="noopener">wicket-guard</a>
-            <span class="desc">Preflight for AI-agent-authored diffs. Cooks authority-bearing surface mutations into Wicket intents.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
-            <span class="desc">Research substrate for governed agent work.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a>
-            <span class="desc">Governed state persistence with hash-chained receipts.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a>
-            <span class="desc">Formal admissibility sidecar using Z3.</span>
+            <span class="desc">Preflight for AI-agent-authored diffs. Cooks authority-bearing surface mutations into wicket intents.</span>
           </div>
         </div>
       </div>
@@ -707,9 +687,9 @@
         <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
         <p style="font-size: 0.88rem; color: var(--fg-muted); margin-bottom: 0.5rem; line-height: 1.5;">Selected claims from this series are formally audited in Lean &mdash; see <a href="https://github.com/unpingable/lean" target="_blank" rel="noopener">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">proof reader&rsquo;s portal</a>).</p>
         <ul class="paper-list">
-          <li>
+          <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">doi:10.5281/zenodo.17857541</a></div>
+            <div class="paper-meta"><span class="start-here">start here</span>Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">doi:10.5281/zenodo.17857541</a></div>
           </li>
           <li>
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17859323" target="_blank" rel="noopener">Detecting Temporal Debt in Language Models and Software Systems</a>
@@ -745,9 +725,9 @@
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
             <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">doi:10.5281/zenodo.17849241</a></div>
           </li>
-          <li>
+          <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a>
-            <div class="paper-meta">Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">doi:10.5281/zenodo.17726789</a></div>
+            <div class="paper-meta"><span class="start-here">start here</span>Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">doi:10.5281/zenodo.17726789</a></div>
           </li>
           <li>
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726890" target="_blank" rel="noopener">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a>
@@ -767,9 +747,9 @@
       <div class="research-group">
         <h3>Alignment &amp; Reward Dynamics</h3>
         <ul class="paper-list">
-          <li>
+          <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17791873" target="_blank" rel="noopener">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873" target="_blank" rel="noopener">doi:10.5281/zenodo.17791873</a></div>
+            <div class="paper-meta"><span class="start-here">start here</span>Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873" target="_blank" rel="noopener">doi:10.5281/zenodo.17791873</a></div>
           </li>
           <li>
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17803844" target="_blank" rel="noopener">Eigenstructure Collapse in Social Media Platforms</a>
@@ -785,9 +765,9 @@
       <div class="research-group">
         <h3>Governance &amp; Epistemic Architecture</h3>
         <ul class="paper-list">
-          <li>
+          <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.18145347" target="_blank" rel="noopener">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a>
-            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347" target="_blank" rel="noopener">doi:10.5281/zenodo.18145347</a></div>
+            <div class="paper-meta"><span class="start-here">start here</span>Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347" target="_blank" rel="noopener">doi:10.5281/zenodo.18145347</a></div>
           </li>
           <li>
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.18841815" target="_blank" rel="noopener">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a>
@@ -797,7 +777,6 @@
       </div>
 
       <div class="research-links">
-        <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
         <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">Papers repo</a>
       </div>
     </section>
