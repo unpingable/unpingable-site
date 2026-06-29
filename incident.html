@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The incident &mdash; unpingable</title>
+  <meta name="description" content="A credential valid at check, void at spend. The check-then-act race condition that custody catches and the conventional stack doesn't, written for ops, SRE, and platform readers.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --fg-ghost: #b0aca5;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --accent-faint: rgba(160, 66, 42, 0.06);
+      --pass: #4a6b3a;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --fg-ghost: #3e3c38;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+        --accent-faint: rgba(196, 96, 62, 0.06);
+        --pass: #7a9a6a;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.1rem;
+      margin: 2.2rem 0 0.6rem;
+      padding-top: 1.3rem;
+      border-top: 1px solid var(--border);
+    }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    code { font-family: var(--mono); font-size: 0.85em; }
+    pre {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      margin-bottom: 0.9rem;
+    }
+    ul { margin: 0 0 0.9rem 1.2rem; }
+    li { margin-bottom: 0.35rem; }
+    .timeline {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      background: var(--bg-inset);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 0.9rem 1.1rem;
+      margin: 1rem 0 1.2rem;
+    }
+    .timeline .row { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.6rem; padding: 0.1rem 0; }
+    .timeline .t { color: var(--accent); }
+    .timeline .ev { color: var(--fg); }
+    .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+    @media (max-width: 600px) { .lanes { grid-template-columns: 1fr; } }
+    .lane { border: 1px solid var(--border); }
+    .lane .head { font-family: var(--mono); font-size: 0.8rem; padding: 0.45rem 0.85rem; border-bottom: 1px solid var(--border-faint); color: var(--fg-faint); letter-spacing: 0.03em; }
+    .lane .body { padding: 0.75rem 0.85rem; font-size: 0.92rem; color: var(--fg-muted); }
+    .lane .verdict { font-family: var(--mono); font-size: 0.82rem; padding: 0.5rem 0.85rem; border-top: 1px solid var(--border-faint); }
+    .tag-pass { color: var(--pass); font-weight: 600; }
+    .tag-block { color: var(--accent); font-weight: 600; }
+    .receipt-fields {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 0.85rem 1rem;
+      margin: 1rem 0;
+    }
+    .receipt-fields .row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.15rem 0.8rem; line-height: 1.5; }
+    .receipt-fields .k { color: var(--fg-ghost); }
+    .receipt-fields .v { color: var(--fg); }
+    .receipt-fields .v.hot { color: var(--accent); font-weight: 600; }
+    details { margin: 0.6rem 0 1rem; border: 1px solid var(--border-faint); padding: 0.4rem 0.9rem; }
+    details summary { font-family: var(--mono); font-size: 0.82rem; color: var(--fg-muted); cursor: pointer; padding: 0.3rem 0; }
+    details summary:hover { color: var(--accent); }
+    .anti-sales {
+      border-left: 3px solid var(--accent);
+      padding: 0.4rem 0 0.4rem 1.1rem;
+      margin: 1.2rem 0;
+      font-style: italic;
+      color: var(--fg-muted);
+    }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.9rem; }
+    footer a { margin-right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>The incident</h1>
+  <p class="muted">A credential valid at check, void at spend. The classic check-then-act race condition, with a receipt that says no. Written for ops, SRE, and platform readers; the deeper descent is at <a href="demo.html">A stale yes</a>.</p>
+
+  <h2>What happened</h2>
+  <div class="timeline">
+    <div class="row"><span class="t">t=40s</span><span class="ev">standing checked &mdash; credential <span class="tag-pass">valid</span>, horizon t=50s, bound 10s</span></div>
+    <div class="row"><span class="t">t=51s</span><span class="ev"><code>consume_capacity</code> arrives at the executor</span></div>
+    <div class="row"><span class="t">t=51s</span><span class="ev"><span class="tag-block">refused</span> &mdash; gap 11s, bound 10s, overage 1s, <code>effect_count=0</code></span></div>
+  </div>
+  <p>The credential was valid when it was checked. It expired before it was exercised. The naive path doesn't catch this because the naive path doesn't re-check at exercise time &mdash; and even if it did, it would re-check against wall time, which isn't the basis the horizon was issued on.</p>
+  <p>This is TOCTOU (time-of-check to time-of-use) where the racing entity is the credential's own freshness, not a competing writer. Logs see it after the fact; policy engines don't see it at all unless something hands them the gap as input. Nothing in the conventional path attests that the check was still in scope at the moment of the spend.</p>
+
+  <h2>What naive auth allows</h2>
+  <div class="lanes">
+    <div class="lane">
+      <div class="head">policy lane (OPA / Rego)</div>
+      <div class="body">
+        <pre style="margin: 0 0 0.6rem">default allow := false
+allow if {
+  input.credential.status == "valid"
+  input.credential.role == "operator"
+  input.action == "consume_capacity"
+}</pre>
+        The input asserts <code>status: "valid"</code>. Nothing in the input says <em>when</em> that was true, or what clock measures &ldquo;still&rdquo;.
+      </div>
+      <div class="verdict tag-pass">allow &mdash; correct over its input</div>
+    </div>
+    <div class="lane">
+      <div class="head">custody lane</div>
+      <div class="body">
+        Premise preflight runs <em>upstream</em> of the policy. The gap between check (t=40) and spend (t=51) is measured on a named monotonic clock and compared to the credential&rsquo;s declared bound. If the gap exceeds the bound, the premise has lapsed; the policy never gets to run on a stale premise.
+      </div>
+      <div class="verdict tag-block">refused &mdash; before any capacity was spent</div>
+    </div>
+  </div>
+  <p>Both lanes are correct over what they were handed. The policy is right that the input it sees says &ldquo;valid.&rdquo; The custody lane is right that the input it sees has lapsed. The disagreement is about <em>which input you should be handing the policy</em>.</p>
+
+  <h2>What the custody layer does instead</h2>
+  <p>The premise (<em>standing valid</em>) and the action (<em>spend capacity</em>) are connected by a <em>seam</em> &mdash; a named conversion point. The seam checks three things and refuses if any of them fails:</p>
+  <ul>
+    <li>the gap between observation (t=40) and exercise (t=51)</li>
+    <li>on a typed clock basis &mdash; here <code>process_monotonic</code> with <code>epoch=boot:demo-single-host</code>, not wall time (wall time can move sideways under NTP and isn&rsquo;t the basis the horizon was issued on)</li>
+    <li>against the bound the credential declares (10s)</li>
+  </ul>
+  <p>When the gap exceeds the bound, the seam emits a refusal receipt <em>before</em> any capacity is consumed:</p>
+
+  <div class="receipt-fields">
+    <div class="row"><span class="k">verdict</span><span class="v hot">block</span></div>
+    <div class="row"><span class="k">refusal_kind</span><span class="v hot">standing_before_spendability_not_bounded</span></div>
+    <div class="row"><span class="k">gap_ns</span><span class="v hot">11&thinsp;000&thinsp;000&thinsp;000</span></div>
+    <div class="row"><span class="k">bound_ns</span><span class="v">10&thinsp;000&thinsp;000&thinsp;000</span></div>
+    <div class="row"><span class="k">overage_ns</span><span class="v">1&thinsp;000&thinsp;000&thinsp;000</span></div>
+    <div class="row"><span class="k">gap_basis</span><span class="v">monotonic &middot; source=process_monotonic &middot; epoch=boot:demo-single-host</span></div>
+    <div class="row"><span class="k">effect_count</span><span class="v">0 &mdash; refused before any capacity was spent</span></div>
+    <div class="row"><span class="k">receipt_id</span><span class="v">dda5a1e55fc0b733&hellip; &mdash; content-addressed; same inputs &rarr; same id</span></div>
+  </div>
+
+  <h2>What the receipt buys you</h2>
+  <ul>
+    <li><strong>Reproducible refusal.</strong> Same inputs produce the same receipt id. Run the demo and you&rsquo;ll get <code>dda5a1e5&hellip;</code>; it&rsquo;s a content hash, not a log line.</li>
+    <li><strong>Stale under <em>which</em> clock.</strong> The basis is named: <code>process_monotonic</code>, single epoch, start and end in ns. &ldquo;The credential expired&rdquo; with a named witness, not a vibe.</li>
+    <li><strong>Walkable evidence chain.</strong> <code>governor why &lt;id&gt;</code> walks from refusal &rarr; admission &rarr; standing &mdash; and terminates honestly at any missing evidence. No silent inference of facts you don&rsquo;t have.</li>
+    <li><strong><code>effect_count=0</code>.</strong> Nothing was spent. The refusal happened before capacity moved. This is the field that distinguishes &ldquo;we noticed&rdquo; from &ldquo;we blocked.&rdquo;</li>
+  </ul>
+
+  <h2>Why your existing stack misses it</h2>
+  <p><strong>OPA / Rego:</strong> decides over the input you hand it. If you can feed it the gap and the bound, it can decide on freshness &mdash; but nothing in the standard OPA pattern establishes the custody of its own inputs. The policy is right; the input is stale; the disagreement isn&rsquo;t a policy bug.</p>
+  <p><strong>Audit logs:</strong> emitted after something happens. They describe behavior; they don&rsquo;t gate it. A log entry that says &ldquo;spend at t=51 after check at t=40&rdquo; is a postmortem artifact, not a refusal.</p>
+  <p><strong>TTL on the credential:</strong> the right shape, wrong place. A TTL the issuer enforces only works if the consumer rechecks at exercise time, against the same clock the issuer used. The whole custody story is making that recheck <em>structural</em> &mdash; impossible to skip and impossible to satisfy with the wrong clock.</p>
+  <p><strong>Token introspection at the API gateway:</strong> closer, but typically against wall time and without a typed bound. It catches gross lapses; it doesn&rsquo;t catch a 1-second overrun against a stated freshness contract, and it doesn&rsquo;t emit a receipt the next system over can verify.</p>
+
+  <h2>Run it</h2>
+  <p>From a cold clone to the refusal above, about five minutes:</p>
+  <pre>git clone https://github.com/unpingable/agent_governor.git
+cd agent_governor
+python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e .
+
+./demo/refused-spend.sh    # the incident above
+./demo/opa-contrast.sh     # the same incident, OPA&rsquo;s view
+./demo/interrogate.sh      # walk the receipt chain</pre>
+  <p class="muted">The refusal receipt id is deterministic; you&rsquo;ll get <code>dda5a1e5&hellip;</code> &mdash; the same one cited above.</p>
+
+  <h2>Where this is the wrong tool</h2>
+  <p>If your incidents are cheap to diagnose after the fact, or your inputs are attested by construction, or the credential&rsquo;s blast radius is small, the conventional stack is cheaper and you should use it. Custody trades steady runtime cost for fewer catastrophic incident-time costs &mdash; the same bet as TLS or structured logging. <a href="limits.html">Limits</a> spells out the rest.</p>
+  <p class="anti-sales">If you only need an authorization check, use an authorization check.</p>
+
+  <details>
+    <summary>for the formal-methods curious &mdash; the refusal class, machine-checked</summary>
+    <p style="margin: 0.6rem 0 0.4rem; font-size: 0.92rem; color: var(--fg-muted);">The refusal kind <code>standing_before_spendability_not_bounded</code> is licensed by <a href="https://github.com/unpingable/lean/blob/main/LeanProofs/Admissibility/Freshness.lean#L179"><code>Admissibility.Freshness.expired_not_fresh</code></a>:</p>
+    <pre style="margin: 0.4rem 0 0;">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</pre>
+    <p style="margin: 0.6rem 0 0; font-size: 0.92rem; color: var(--fg-muted);">An observation whose exercise time is past its horizon is not <code>Fresh</code>. The receipt&rsquo;s <code>gap_ns &gt; bound_ns</code> is definitionally the theorem&rsquo;s hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary denial. The theorem proves the <em>class</em>; the receipt attests the <em>instance</em>. Both are narrower than &ldquo;proven safe&rdquo; &mdash; see <a href="limits.html">limits</a>.</p>
+  </details>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="about.html">about</a>
+    <a href="demo.html">descent</a>
+    <a href="limits.html">limits</a>
+    <a href="https://github.com/unpingable/agent_governor">repo</a>
+  </footer>
+
+</body>
+</html>
