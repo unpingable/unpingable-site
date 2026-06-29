@@ -91,6 +91,20 @@
     .timeline .row { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.6rem; padding: 0.1rem 0; }
     .timeline .t { color: var(--accent); }
     .timeline .ev { color: var(--fg); }
+    .strip {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--fg-muted);
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 0.6rem 0.85rem;
+      margin: 0.8rem 0 1.5rem;
+      white-space: nowrap;
+      overflow-x: auto;
+    }
+    .strip .t { color: var(--accent); font-weight: 600; }
+    .strip .refused { color: var(--accent); font-weight: 600; }
+    .strip .dash { color: var(--fg-faint); }
     .lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
     @media (max-width: 600px) { .lanes { grid-template-columns: 1fr; } }
     .lane { border: 1px solid var(--border); }
@@ -132,16 +146,18 @@
   <h1>The incident</h1>
   <p class="muted">A credential valid at check, void at spend. The classic check-then-act race condition, with a receipt that says no. Written for ops, SRE, and platform readers; the deeper descent is at <a href="demo.html">A stale yes</a>.</p>
 
+  <p class="strip"><span class="t">t=40</span> check OK <span class="dash">&mdash;</span> 10s horizon <span class="dash">&mdash;</span> <span class="t">t=50</span> expired <span class="dash">&mdash;</span> 1s <span class="dash">&mdash;</span> <span class="t">t=51</span> spend <span class="refused">REFUSED</span></p>
+
   <h2>What happened</h2>
   <div class="timeline">
     <div class="row"><span class="t">t=40s</span><span class="ev">standing checked &mdash; credential <span class="tag-pass">valid</span>, horizon t=50s, bound 10s</span></div>
     <div class="row"><span class="t">t=51s</span><span class="ev"><code>consume_capacity</code> arrives at the executor</span></div>
     <div class="row"><span class="t">t=51s</span><span class="ev"><span class="tag-block">refused</span> &mdash; gap 11s, bound 10s, overage 1s, <code>effect_count=0</code></span></div>
   </div>
-  <p>The credential was valid when it was checked. It expired before it was exercised. The naive path doesn't catch this because the naive path doesn't re-check at exercise time &mdash; and even if it did, it would re-check against wall time, which isn't the basis the horizon was issued on.</p>
+  <p>The credential was valid when it was checked. It expired before it was exercised. The conventional path doesn&rsquo;t catch this because it doesn&rsquo;t re-check at exercise time &mdash; and even when it does, it re-checks against wall time, which isn&rsquo;t the basis the horizon was issued on.</p>
   <p>This is TOCTOU (time-of-check to time-of-use) where the racing entity is the credential's own freshness, not a competing writer. Logs see it after the fact; policy engines don't see it at all unless something hands them the gap as input. Nothing in the conventional path attests that the check was still in scope at the moment of the spend.</p>
 
-  <h2>What naive auth allows</h2>
+  <h2>Why the conventional path says allow</h2>
   <div class="lanes">
     <div class="lane">
       <div class="head">policy lane (OPA / Rego)</div>
