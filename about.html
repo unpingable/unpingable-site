@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About &mdash; unpingable</title>
+  <meta name="description" content="What this lab is, why it exists, and where different readers should enter. Evidence custody for automated systems.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.1rem;
+      margin: 2.2rem 0 0.6rem;
+      padding-top: 1.3rem;
+      border-top: 1px solid var(--border);
+    }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    code { font-family: var(--mono); font-size: 0.85em; }
+    ul.entry { list-style: none; margin: 0.6rem 0 1rem; padding: 0; }
+    ul.entry li {
+      padding: 0.55rem 0;
+      border-top: 1px solid var(--border-faint);
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 0.9rem;
+      align-items: baseline;
+    }
+    ul.entry li:last-child { border-bottom: 1px solid var(--border-faint); }
+    ul.entry .who {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--fg-faint);
+      letter-spacing: 0.02em;
+    }
+    ul.entry .path { color: var(--fg-muted); font-size: 0.95rem; line-height: 1.5; }
+    ul.entry .path code { color: var(--fg); }
+    ul.misread { list-style: none; margin: 0.4rem 0 0.6rem; padding: 0; }
+    ul.misread li {
+      padding: 0.45rem 0;
+      border-top: 1px solid var(--border-faint);
+      color: var(--fg-muted);
+      font-size: 0.96rem;
+      line-height: 1.5;
+    }
+    ul.misread li:last-child { border-bottom: 1px solid var(--border-faint); }
+    ul.misread b { color: var(--fg); font-weight: 600; }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.9rem; }
+    footer a { margin-right: 1.5rem; color: var(--fg-faint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      ul.entry li { grid-template-columns: 1fr; gap: 0.15rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>About</h1>
+  <p class="muted">A research lab for evidence custody in automated systems.</p>
+
+  <h2>What this is</h2>
+  <p>Modern automation tends to act on claims &mdash; a credential is valid, a monitor is green, a model says tests passed, a policy engine allowed it, a human approved &mdash; without preserving whether those claims were witnessed, still fresh, and admissible at the moment of action. The instruments here exist to keep that gap load-bearing: small pieces that separate observation from assertion, measure standing on a typed clock, gate intent before it becomes effect, and emit receipts the next system over can act on.</p>
+
+  <h2>Authorization is not custody</h2>
+  <p>Authorization asks whether an action is allowed. Custody asks whether the premises behind that action are still good enough to act on. A credential valid at check time can be stale at spend time. A green check can outlive its evidence. A log line is self-report until sealed. A demonstrated behavior is not an operational claim. Each of those collapses is invisible to the conventional stack and unrecoverable after the fact. Keeping them visible &mdash; and refusable &mdash; is the whole job.</p>
+
+  <h2>Where to start</h2>
+  <p>Different readers want different doors.</p>
+  <ul class="entry">
+    <li><span class="who">Operations / SRE</span><span class="path"><a href="https://github.com/unpingable/nq">nq</a> first &mdash; claim preflight that preserves its evidence and answers SQL. Then the <a href="demo.html">stale-yes demo</a>.</span></li>
+    <li><span class="who">AI agents</span><span class="path"><a href="https://github.com/unpingable/agent_governor">agent_governor</a> and <a href="https://github.com/unpingable/wicket">wicket</a> &mdash; typed proposals in, gate verdicts and refusal receipts out.</span></li>
+    <li><span class="who">Formal methods</span><span class="path">The <a href="https://unpingable.github.io/lean/">Lean proof reader&rsquo;s portal</a>, where class boundaries of refusals are machine-checked.</span></li>
+    <li><span class="who">AT Protocol</span><span class="path">The labelwatch / driftwatch / receipts tooling. Treat it as a field lab where custody ideas meet a live network, not as a peer of the core stack.</span></li>
+    <li><span class="who">Cold reader</span><span class="path">Watch the <a href="demo.html">stale-yes demo</a>. The whole thesis fits in one incident: standing valid at check, void at spend, refused because authorization is not spendability.</span></li>
+  </ul>
+
+  <h2>What this is not</h2>
+  <ul class="misread">
+    <li><b>Not an observability dashboard.</b> Dashboards display claims after the fact; custody decides whether a claim may become a premise in the first place.</li>
+    <li><b>Not a policy-as-code replacement.</b> Policy engines decide over premises; custody decides whether the premises are admissible. The two compose.</li>
+    <li><b>Not &ldquo;AI governance&rdquo; in the procurement sense.</b> No frameworks, no scorecards, no committees. Refusals and receipts you can run.</li>
+    <li><b>Not a hosted service or a production platform.</b> Alpha, solo, small on purpose.</li>
+    <li><b>Not a proof of safety.</b> Lean checks refusal-class boundaries. Receipts attribute instance facts. Both are narrower than &ldquo;proven&rdquo; &mdash; see <a href="limits.html">limits</a>.</li>
+  </ul>
+
+  <h2>Why a lab and not a product</h2>
+  <p>The bet is that the right unit of governance for automated systems is the conversion between observation, claim, premise, authority, action, and receipt &mdash; and that ordinary infrastructure collapses those boundaries into &ldquo;looks fine&rdquo; in ways that only show up at incident time. A bet like that wants to be falsifiable, so the work ships as small instruments with explicit refusal boundaries and reproducible demos, not as a platform whose seams are hidden behind a marketing surface.</p>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="demo.html">demo</a>
+    <a href="limits.html">limits</a>
+    <a href="https://github.com/unpingable">github</a>
+  </footer>
+
+</body>
+</html>
