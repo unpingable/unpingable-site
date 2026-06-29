@@ -114,6 +114,29 @@
       cursor: pointer; padding: 0.4rem 0;
     }
     details summary:hover { color: var(--accent); }
+    details.glossary {
+      border: 1px solid var(--border-faint);
+      padding: 0.4rem 0.9rem;
+      margin: 1rem 0 1.5rem;
+    }
+    details.glossary summary { padding: 0.3rem 0; color: var(--fg-muted); }
+    details.glossary dl {
+      display: grid; grid-template-columns: 6.5rem 1fr;
+      gap: 0.4rem 0.8rem;
+      padding: 0.6rem 0 0.2rem;
+      font-size: 0.9rem;
+    }
+    details.glossary dt {
+      font-family: var(--mono); font-size: 0.82rem;
+      color: var(--fg); padding-top: 0.05rem;
+    }
+    details.glossary dd { color: var(--fg-muted); line-height: 1.5; }
+    .first-time {
+      font-family: var(--mono); font-size: 0.82rem;
+      color: var(--fg-faint); margin: 0.4rem 0 0;
+    }
+    .first-time a { color: var(--fg-faint); text-decoration: underline; text-decoration-color: var(--border); }
+    .first-time a:hover { color: var(--accent); text-decoration-color: var(--accent); }
     .qa { margin-bottom: 1.4rem; }
     .qa .q { font-weight: 600; margin-bottom: 0.3rem; }
     .qa .check { font-family: var(--mono); font-size: 0.8rem; color: var(--pass); }
@@ -147,6 +170,20 @@
 
   <h1>A stale yes</h1>
   <p class="muted">One incident, three descents: behavior, evidence, necessity. Every artifact on this page is reproducible from a cold clone.</p>
+  <p class="first-time">First time here? The orientation page is <a href="about.html">About</a>; the vocabulary below covers what's load-bearing for this incident.</p>
+
+  <details class="glossary">
+    <summary>vocabulary &mdash; expand if any of these are unfamiliar</summary>
+    <dl>
+      <dt>custody</dt><dd>the discipline of preserving whether a claim is still witnessed, fresh, and admissible at the moment of action &mdash; distinct from authorization, which only asks whether the action is allowed</dd>
+      <dt>standing</dt><dd>the right to do a thing, observed at some moment with a freshness horizon</dd>
+      <dt>horizon</dt><dd>the time past which a previously-valid observation can no longer be used as a premise for action</dd>
+      <dt>gap</dt><dd>elapsed time between standing observation and spend attempt, measured on a typed clock basis (named source, named epoch) &mdash; not wall time</dd>
+      <dt>seam</dt><dd>a named conversion point in the custody chain where one kind of claim becomes another (here: standing &rarr; spendability)</dd>
+      <dt>wicket</dt><dd>the admissibility preflight kernel &mdash; decides whether an intent is admissible before any action runs</dd>
+      <dt>receipt</dt><dd>a content-addressed record of a custody decision &mdash; the id reproduces deterministically from inputs, so the artifact is verifiable, not just logged</dd>
+    </dl>
+  </details>
 
   <div class="summary">
     <span class="clocks">checked t=40&nbsp;&nbsp;&middot;&nbsp;&nbsp;horizon t=50&nbsp;&nbsp;&middot;&nbsp;&nbsp;spent t=51</span>
@@ -314,6 +351,7 @@ allow if {
     <span class="muted">licensed by</span> <a href="https://github.com/unpingable/lean/blob/main/LeanProofs/Admissibility/Freshness.lean#L179"><code>Admissibility.Freshness.expired_not_fresh</code></a></p>
     <span class="sig">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</span>
     <p style="margin:0">An observation whose exercise time is past its expiry horizon is not Fresh. The receipt's <code>gap_ns &gt; bound_ns</code> is definitionally the theorem's hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary policy denial.</p>
+    <p class="muted" style="margin:0.6rem 0 0; font-size:0.88rem;">Reading Lean isn't required for what this is doing &mdash; the signature is here so the claim is checkable, not so you have to check it.</p>
   </div>
 
   <p><strong>Honest framing, load-bearing:</strong> the theorem proves the <em>class boundary</em>; the receipt proves the <em>instance facts</em>; the link is the artifact. It does not assert that any deployed system is safe, nor that this instance was machine-checked &mdash; only that this refusal class is the one the custody discipline requires.</p>
@@ -340,6 +378,7 @@ pip install -e .
 
   <footer>
     <a href="index.html">hub</a>
+    <a href="about.html">about</a>
     <a href="limits.html">limits</a>
     <a href="https://github.com/unpingable/agent_governor">repo</a>
   </footer>
