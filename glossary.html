@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary &mdash; unpingable</title>
+  <meta name="description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, organ, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --fg-ghost: #b0aca5;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --fg-ghost: #3e3c38;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    code { font-family: var(--mono); font-size: 0.85em; }
+
+    dl.glossary { margin: 2rem 0 1rem; }
+    dl.glossary dt {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 1.6rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid var(--border-faint);
+      color: var(--fg);
+      letter-spacing: -0.01em;
+    }
+    dl.glossary dt:first-of-type {
+      border-top: none;
+      padding-top: 0;
+      margin-top: 0;
+    }
+    dl.glossary dt a.anchor {
+      color: var(--fg-ghost);
+      text-decoration: none;
+      font-weight: 400;
+      margin-left: 0.4rem;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    dl.glossary dt:hover a.anchor { opacity: 1; }
+    dl.glossary dd {
+      margin: 0.35rem 0 0;
+      line-height: 1.6;
+      color: var(--fg-muted);
+    }
+    dl.glossary dd em { color: var(--fg); font-style: italic; }
+    dl.glossary dd.aka {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--fg-faint);
+      margin-top: 0.45rem;
+    }
+    dl.glossary dd ul.organ-list {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+    }
+    dl.glossary dd ul.organ-list li {
+      padding: 0.18rem 0;
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    dl.glossary dd ul.organ-list li code {
+      color: var(--fg);
+      font-weight: 600;
+      margin-right: 0.3rem;
+    }
+
+    .index-strip {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--fg-faint);
+      padding: 0.7rem 0.9rem;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      margin: 1.2rem 0 0;
+      line-height: 1.9;
+    }
+    .index-strip a { color: var(--fg-muted); text-decoration: none; margin-right: 0.6rem; }
+    .index-strip a:hover { color: var(--accent); }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.9rem;
+    }
+    footer a { margin-right: 1.5rem; }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>Glossary</h1>
+  <p class="muted">What the project vocabulary means, in one place. The prose elsewhere uses these terms; this page is where they&rsquo;re defined. Where receipt identifiers and prose words diverge (prose <em>permission</em>, receipt field <code>standing</code>), the entry notes both.</p>
+
+  <p class="index-strip">
+    <a href="#admissibility">admissibility</a>
+    <a href="#attestation">attestation</a>
+    <a href="#authority">authority</a>
+    <a href="#authorization">authorization</a>
+    <a href="#boundary">boundary</a>
+    <a href="#claim">claim</a>
+    <a href="#custody">custody</a>
+    <a href="#expiry">expiry</a>
+    <a href="#gap">gap</a>
+    <a href="#kernel">kernel</a>
+    <a href="#organ">organ</a>
+    <a href="#permission">permission</a>
+    <a href="#policy">policy</a>
+    <a href="#preflight">preflight</a>
+    <a href="#premise">premise</a>
+    <a href="#receipt">receipt</a>
+    <a href="#refusal-class">refusal class</a>
+    <a href="#spendability">spendability</a>
+    <a href="#standing">standing</a>
+    <a href="#wicket">wicket</a>
+    <a href="#witnessed">witnessed</a>
+  </p>
+
+  <dl class="glossary">
+
+    <dt id="admissibility">admissibility <a class="anchor" href="#admissibility">#</a></dt>
+    <dd>A <a href="#claim">claim</a>&rsquo;s eligibility to become a <a href="#premise">premise</a> for action. <a href="#custody">Custody</a> decides admissibility; <a href="#refusal-class">refusal classes</a> name the specific ways it can fail. The Lean theorems live under <code>Admissibility.*</code> and prove the class boundaries. Prose elsewhere on the site uses the longer phrase &ldquo;allowed to become a premise&rdquo; for cold readers; receipt and Lean identifiers use the noun directly.</dd>
+
+    <dt id="attestation">attestation <a class="anchor" href="#attestation">#</a></dt>
+    <dd>Evidence that someone or something observed and recorded a <a href="#claim">claim</a>, with attribution. Distinct from a signature (which proves who said the thing, not whether it was observed) and from a log line (which records but doesn&rsquo;t attest). <a href="#receipt">Receipts</a> are attestations of custody decisions; <code>nq</code> records attestations of operational observations.</dd>
+
+    <dt id="authority">authority <a class="anchor" href="#authority">#</a></dt>
+    <dd>The right to make a decision binding on a system. Distinct from <a href="#permission">permission</a> (which is the grant to act) and from <a href="#policy">policy</a> (which is the rule the authority applies). In the conversion chain, authority sits between premise and action: a <a href="#premise">premise</a> becomes an action only if some authority licenses it. In prose: an &ldquo;authority-bearing surface&rdquo; is one where touching it has binding effect.</dd>
+
+    <dt id="authorization">authorization <a class="anchor" href="#authorization">#</a></dt>
+    <dd>The question of whether an action is allowed under stated rules: returns yes/no over an input <a href="#claim">claim</a> (&ldquo;the credential says valid; the role says operator&rdquo;). What conventional auth checks and most <a href="#policy">policy</a> engines do well. Distinct from <a href="#custody">custody</a>: authorization decides whether the action is permitted; custody decides whether the input claim is still good enough to act on.</dd>
+
+    <dt id="boundary">boundary <a class="anchor" href="#boundary">#</a></dt>
+    <dd>A named conversion point in the <a href="#custody">custody</a> chain where one kind of <a href="#claim">claim</a> becomes another &mdash; e.g., an observed <a href="#permission">permission</a> becoming one usable at action time. The boundary is the place where the conversion can refuse.</dd>
+    <dd class="aka">In receipt fields: <code>seam</code>.</dd>
+
+    <dt id="claim">claim <a class="anchor" href="#claim">#</a></dt>
+    <dd>An assertion that something is true: that a credential is valid, a monitor is green, an action is allowed. Claims arrive from many sources (log lines, API responses, model outputs, human approvals) and may be <a href="#witnessed">witnessed</a>, stale, or self-reported. A claim is not yet a <a href="#premise">premise</a> &mdash; whether it may become one is the <a href="#custody">custody</a> question.</dd>
+
+    <dt id="custody">custody <a class="anchor" href="#custody">#</a></dt>
+    <dd>The layer that controls whether a <a href="#claim">claim</a> may become a <a href="#premise">premise</a> for action. Distinct from authorization (which asks only whether the action is allowed) and from policy (which decides over premises it has been handed). Custody decides whether the premises it would hand the policy are still good enough to act on.</dd>
+
+    <dt id="expiry">expiry <a class="anchor" href="#expiry">#</a></dt>
+    <dd>The time after which a previously-valid observation can no longer license an action. An observation&rsquo;s expiry comes from whoever issued it, on a stated clock; the custody check at action time measures against that stated clock, not against wall time.</dd>
+    <dd class="aka">In receipt fields and Lean theorems: <code>horizon</code>.</dd>
+
+    <dt id="gap">gap <a class="anchor" href="#gap">#</a></dt>
+    <dd>Elapsed time between when an observation was taken and when it&rsquo;s being used &mdash; measured on a typed clock basis (named source, named epoch). The gap is compared to a bound declared at issuance time; the bound and the <a href="#expiry">expiry</a> are the same issuer-declared limit, expressed as a duration vs. a deadline. Custody refuses when the measured gap exceeds the bound on the named basis. Wall time is not the basis (it can move sideways under NTP); the basis is named explicitly in every receipt.</dd>
+
+    <dt id="kernel">kernel <a class="anchor" href="#kernel">#</a></dt>
+    <dd>The minimal rule core of a check: small enough that its <a href="#refusal-class">refusal classes</a> can be stated precisely, and in this project, checked in Lean. Distinct from the runtime that implements it. &ldquo;Custody kernel&rdquo; = the rules that license refusals; &ldquo;intent preflight kernel&rdquo; (<a href="#wicket">wicket</a>) = the small set of conditions an intent must satisfy to become a <a href="#premise">premise</a>.</dd>
+
+    <dt id="organ">organ <a class="anchor" href="#organ">#</a></dt>
+    <dd>Project term for one of the custody stack&rsquo;s small subsystems. Used as a collection word because the subsystems are different shapes &mdash; a single noun like &ldquo;components&rdquo; would flatten that.</dd>
+    <dd>
+      <ul class="organ-list">
+        <li><code>nq</code> &mdash; observation&rarr;<a href="#claim">claim</a> preflight (evidence-preserving)</li>
+        <li><code>wicket</code> &mdash; intent preflight gate; decides whether an intent may become a <a href="#premise">premise</a></li>
+        <li><code>standing</code> &mdash; <a href="#permission">permission</a> observation with observation-age receipts</li>
+        <li><code>nightshift</code> &mdash; deferred governed work with reconciliation receipts</li>
+        <li><code>agent_governor</code> &mdash; action governor: write-blocking gate for AI agents, emits refusal receipts</li>
+        <li><code>continuity</code> &mdash; governed state persistence with hash-chained receipts</li>
+        <li><code>verifier</code> &mdash; formal constraint sidecar (Z3) for explicit invariants</li>
+      </ul>
+    </dd>
+
+    <dt id="permission">permission <a class="anchor" href="#permission">#</a></dt>
+    <dd>An active grant to perform a thing, observed at a specific moment with a valid-until time. A permission valid when checked is not automatically usable at action time &mdash; the <a href="#gap">gap</a> between check and action may exceed the permission&rsquo;s <a href="#expiry">expiry</a>.</dd>
+    <dd class="aka">In receipt identifiers and the organ name: <code><a href="#standing">standing</a></code>.</dd>
+
+    <dt id="policy">policy <a class="anchor" href="#policy">#</a></dt>
+    <dd>A set of rules that decides over inputs a system treats as <a href="#premise">premises</a> &mdash; e.g., OPA/Rego over an input document, RBAC over an identity. Returns a verdict over what it&rsquo;s been given. Distinct from <a href="#custody">custody</a>: policy decides over premises; custody decides whether the underlying <a href="#claim">claims</a> deserved premise status in the first place. The two compose &mdash; OPA can run happily inside a custody stack.</dd>
+
+    <dt id="preflight">preflight <a class="anchor" href="#preflight">#</a></dt>
+    <dd>A check that runs before an action is permitted to take effect. Distinct from logging (records but does not gate) and from postmortem (runs after). The custody stack uses preflight at three layers: <code>nq</code> for observation&rarr;<a href="#claim">claim</a>, <a href="#wicket">wicket</a> for intents, and <code>verifier</code> for declared constraints.</dd>
+
+    <dt id="premise">premise <a class="anchor" href="#premise">#</a></dt>
+    <dd>A <a href="#claim">claim</a> that <a href="#custody">custody</a> has admitted as the basis of an action. The conversion <em>claim &rarr; premise</em> is what custody gates. Policy engines decide over premises; custody decides whether the underlying claims are allowed to become premises in the first place.</dd>
+
+    <dt id="receipt">receipt <a class="anchor" href="#receipt">#</a></dt>
+    <dd>A content-addressed record of a custody decision. The receipt id is a deterministic hash of inputs &mdash; the same inputs always yield the same id (you can reproduce <code>dda5a1e5&hellip;</code> from a cold clone). Distinct from a log line: a log describes; a receipt attests, with attribution and a return address.</dd>
+
+    <dt id="refusal-class">refusal class <a class="anchor" href="#refusal-class">#</a></dt>
+    <dd>A typed category of refusal that the custody kernel licenses by definition &mdash; not a discretionary denial. Example: <code>standing_before_spendability_not_bounded</code> is the refusal class for &ldquo;permission observed earlier than the action, with the gap exceeding the bound.&rdquo; The Lean theorems prove these <em>class</em> boundaries; the receipt attests the <em>instance</em>. See <a href="limits.html">limits</a> for what each does and doesn&rsquo;t prove.</dd>
+
+    <dt id="spendability">spendability <a class="anchor" href="#spendability">#</a></dt>
+    <dd>A specific <a href="#boundary">boundary</a> check: whether a <a href="#permission">permission</a> observed earlier is still usable at action time. Receipt fields and refusal-class names use <code>spendability</code> (e.g., <code>standing_spendability_seam</code>); prose tends to use the longer phrase (&ldquo;usable at action time&rdquo;) because the bare noun reads as a coinage to cold readers.</dd>
+
+    <dt id="standing">standing <a class="anchor" href="#standing">#</a></dt>
+    <dd>Code and receipt name for a <a href="#permission">permission</a> observation with age and expiry. In prose, this site usually says <em>permission</em>. The organ named <code>standing</code> produces standing receipts (with observation age); receipt fields like <code>standing_spendability_seam</code> and <code>standing_before_spendability_not_bounded</code> use the code name.</dd>
+
+    <dt id="wicket">wicket <a class="anchor" href="#wicket">#</a></dt>
+    <dd>The intent preflight kernel &mdash; decides whether an intent (the AI agent&rsquo;s proposed action) may become a <a href="#premise">premise</a> before any effect runs. Refuses intents from revoked or out-of-scope actors. One of the <a href="#organ">organs</a>.</dd>
+
+    <dt id="witnessed">witnessed <a class="anchor" href="#witnessed">#</a></dt>
+    <dd>A <a href="#claim">claim</a> is <em>witnessed</em> when its assertion is traceable to an observation that took it &mdash; with the observation&rsquo;s source, time, and basis preserved. Distinct from <em>signed</em> (which proves an issuer&rsquo;s signature but not what the issuer actually observed) and from <em>self-reported</em> (an actor asserting something about itself without independent attestation). Witnessing is the property the conversion observation&rarr;claim is supposed to preserve.</dd>
+
+  </dl>
+
+  <p class="muted" style="font-size: 0.92rem; margin-top: 2rem;">Notes on choices: this glossary preserves the project&rsquo;s vocabulary where the ordinary alternative would launder a technical invariant (<em>custody</em>, <em>premise</em>, <em>refusal class</em>) and aligns prose with ordinary wording where it doesn&rsquo;t (<em>permission</em>, <em>expiry</em>, <em>boundary</em>). Receipt identifiers and Lean theorems keep their original names; this page is the bridge.</p>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="about.html">about</a>
+    <a href="incident.html">incident</a>
+    <a href="demo.html">demo</a>
+    <a href="limits.html">limits</a>
+    <a href="https://github.com/unpingable">github</a>
+  </footer>
+
+</body>
+</html>
