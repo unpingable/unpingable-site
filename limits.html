@@ -82,19 +82,19 @@
   <p class="muted">The strongest case against this work, stated plainly. A system built around refusing overclaims should refuse its own.</p>
 
   <h2>What it doesn't prove</h2>
-  <p>The Lean theorems prove <em>class boundaries of refusals</em> &mdash; that a given refusal kind is required by the custody discipline's own definitions. They do not prove that any deployed system is safe, that the Python implementation is bug-free, or that a particular production incident was machine-checked. Receipts prove <em>instance facts</em>: what was observed, what was decided, under which policy hash. They do not prove intentions, and they cannot make a wrong observation right &mdash; only attributable.</p>
+  <p>The Lean theorems prove <em>class boundaries of refusals</em> &mdash; that a given refusal kind is required by the <a href="glossary.html#custody">custody</a> discipline's own definitions. They do not prove that any deployed system is safe, that the Python implementation is bug-free, or that a particular production incident was machine-checked. <a href="glossary.html#receipt">Receipts</a> prove <em>instance facts</em>: what was observed, what was decided, under which <a href="glossary.html#policy">policy</a> hash. They do not prove intentions, and they cannot make a wrong observation right &mdash; only attributable.</p>
 
   <h2>What it costs</h2>
-  <p>Custody moves cost from postmortem reconstruction into runtime. Every gate is latency on the action path. Every receipt is storage. Every typed claim is friction at write time &mdash; an agent that used to just do the thing now has to propose it, and something has to verify it. The bet is the same one behind TLS and structured logging: pay steadily at runtime instead of catastrophically at incident time. If your incidents are cheap, this trade is bad for you.</p>
+  <p>Custody moves cost from postmortem reconstruction into runtime. Every gate is latency on the action path. Every receipt is storage. Every typed <a href="glossary.html#claim">claim</a> is friction at write time &mdash; an agent that used to just do the thing now has to propose it, and something has to verify it. The bet is the same one behind TLS and structured logging: pay steadily at runtime instead of catastrophically at incident time. If your incidents are cheap, this trade is bad for you.</p>
 
   <h2>What must be trusted</h2>
-  <p>This architecture relocates trust; it does not eliminate it. The trusted computing base is the receipt store, the sealing path, and the clock witness source &mdash; small, boring, and enumerable, but real. Trust with a bill of materials. Trustless is not on offer here.</p>
+  <p>This architecture relocates trust; it does not eliminate it. The trusted computing base is the receipt store, the sealing path, and the clock <a href="glossary.html#witnessed">witness</a> source &mdash; small, boring, and enumerable, but real. Trust with a bill of materials. Trustless is not on offer here.</p>
 
   <h2>What happens when witnesses are wrong</h2>
   <p>A witness can be wrong. The system's answer is not prevention &mdash; it is attribution: which witness, attesting what, when, with what coverage. False testimony becomes attributable evidence with a return address instead of an anonymous rumor in a log file. That is a real improvement and a real limit: garbage observed is still garbage; it is merely garbage you can recall by origin.</p>
 
   <h2>What conventional tools already do well</h2>
-  <p>Authorization checks, RBAC, OPA over inputs you already trust, audit logs for low-stakes flows, rate limits, CI gates. If your inputs are attested by construction or your blast radius is small, the conventional stack is cheaper and you should use it.</p>
+  <p><a href="glossary.html#authorization">Authorization</a> checks, RBAC, OPA over inputs you already trust, audit logs for low-stakes flows, rate limits, CI gates. If your inputs are attested by construction or your blast radius is small, the conventional stack is cheaper and you should use it.</p>
   <p class="anti-sales">If you only need an authorization check, use an authorization check.</p>
 
   <h2>Where it's the wrong tool</h2>

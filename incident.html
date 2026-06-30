@@ -144,18 +144,18 @@
   <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
 
   <h1>The incident</h1>
-  <p class="muted">A credential valid at check, expired at action. The classic check-then-act race condition, with a receipt that says no. Written for ops, SRE, and platform readers; the deeper descent is at <a href="demo.html">A stale yes</a>. Here, custody means the layer that controls whether a claim may become an operational premise at action time.</p>
+  <p class="muted">A credential valid at check, expired at action. The classic check-then-act race condition, with a <a href="glossary.html#receipt">receipt</a> that says no. Written for ops, SRE, and platform readers; the deeper descent is at <a href="demo.html">A stale yes</a>. Here, <a href="glossary.html#custody">custody</a> means the layer that controls whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a> at action time.</p>
 
   <p class="strip"><span class="t">t=40</span> check OK <span class="dash">&mdash;</span> expires after 10s <span class="dash">&mdash;</span> <span class="t">t=50</span> expired <span class="dash">&mdash;</span> 1s <span class="dash">&mdash;</span> <span class="t">t=51</span> action <span class="refused">REFUSED</span></p>
 
   <h2>What happened</h2>
   <div class="timeline">
-    <div class="row"><span class="t">t=40s</span><span class="ev">permission checked &mdash; credential <span class="tag-pass">valid</span>, expires t=50s, bound 10s</span></div>
+    <div class="row"><span class="t">t=40s</span><span class="ev"><a href="glossary.html#permission">permission</a> checked &mdash; credential <span class="tag-pass">valid</span>, expires t=50s, bound 10s</span></div>
     <div class="row"><span class="t">t=51s</span><span class="ev"><code>consume_capacity</code> arrives at the executor</span></div>
     <div class="row"><span class="t">t=51s</span><span class="ev"><span class="tag-block">refused</span> &mdash; gap 11s, bound 10s, overage 1s, <code>effect_count=0</code></span></div>
   </div>
-  <p>The credential was valid when it was checked. It expired before it was exercised. The conventional path doesn&rsquo;t catch this because it doesn&rsquo;t re-check at exercise time &mdash; and even when it does, it re-checks against wall time, which isn&rsquo;t the basis the expiry was issued on.</p>
-  <p>This is TOCTOU (time-of-check to time-of-use) where the racing entity is the credential's own freshness, not a competing writer. Logs see it after the fact; policy engines don't see it at all unless something hands them the gap as input. Nothing in the conventional path attests that the check was still in scope at the moment of the spend.</p>
+  <p>The credential was valid when it was checked. It expired before it was exercised. The conventional path doesn&rsquo;t catch this because it doesn&rsquo;t re-check at exercise time &mdash; and even when it does, it re-checks against wall time, which isn&rsquo;t the basis the <a href="glossary.html#expiry">expiry</a> was issued on.</p>
+  <p>This is TOCTOU (time-of-check to time-of-use) where the racing entity is the credential's own freshness, not a competing writer. Logs see it after the fact; <a href="glossary.html#policy">policy</a> engines don't see it at all unless something hands them the <a href="glossary.html#gap">gap</a> as input. Nothing in the conventional path attests that the check was still in scope at the moment of the spend.</p>
 
   <h2>Why the conventional path says allow</h2>
   <div class="lanes">
@@ -175,7 +175,7 @@ allow if {
     <div class="lane">
       <div class="head">custody lane</div>
       <div class="body">
-        Premise preflight runs <em>upstream</em> of the policy. The gap between check (t=40) and spend (t=51) is measured on a named monotonic clock and compared to the credential&rsquo;s declared bound. If the gap exceeds the bound, the premise has lapsed; the policy never gets to run on a stale premise.
+        Premise <a href="glossary.html#preflight">preflight</a> runs <em>upstream</em> of the policy. The gap between check (t=40) and spend (t=51) is measured on a named monotonic clock and compared to the credential&rsquo;s declared bound. If the gap exceeds the bound, the premise has lapsed; the policy never gets to run on a stale premise.
       </div>
       <div class="verdict tag-block">refused &mdash; before any capacity was spent</div>
     </div>
@@ -183,7 +183,7 @@ allow if {
   <p>Both lanes are correct over what they were handed. The policy is right that the input it sees says &ldquo;valid.&rdquo; The custody lane is right that the input it sees has lapsed. The disagreement is about <em>which input you should be handing the policy</em>.</p>
 
   <h2>What the custody layer does instead</h2>
-  <p>The premise (<em>credential valid</em>) and the action (<em>spend capacity</em>) are connected by a boundary check. The check verifies three things and refuses if any of them fails:</p>
+  <p>The premise (<em>credential valid</em>) and the action (<em>spend capacity</em>) are connected by a <a href="glossary.html#boundary">boundary</a> check. The check verifies three things and refuses if any of them fails:</p>
   <ul>
     <li>the gap between observation (t=40) and exercise (t=51)</li>
     <li>on a typed clock basis &mdash; here <code>process_monotonic</code> with <code>epoch=boot:demo-single-host</code>, not wall time (wall time can move sideways under NTP and isn&rsquo;t the basis the expiry was issued on)</li>
@@ -229,7 +229,7 @@ python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e 
 
   <h2>Where this is the wrong tool</h2>
   <p>If your incidents are cheap to diagnose after the fact, or your inputs are attested by construction, or the credential&rsquo;s blast radius is small, the conventional stack is cheaper and you should use it. Custody trades steady runtime cost for fewer catastrophic incident-time costs &mdash; the same bet as TLS or structured logging. <a href="limits.html">Limits</a> spells out the rest.</p>
-  <p class="anti-sales">If you only need an authorization check, use an authorization check.</p>
+  <p class="anti-sales">If you only need an <a href="glossary.html#authorization">authorization</a> check, use an authorization check.</p>
 
   <details>
     <summary>for the formal-methods curious &mdash; the refusal class, machine-checked</summary>
