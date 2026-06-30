@@ -88,7 +88,7 @@
   <p>Custody moves cost from postmortem reconstruction into runtime. Every gate is latency on the action path. Every receipt is storage. Every typed claim is friction at write time &mdash; an agent that used to just do the thing now has to propose it, and something has to verify it. The bet is the same one behind TLS and structured logging: pay steadily at runtime instead of catastrophically at incident time. If your incidents are cheap, this trade is bad for you.</p>
 
   <h2>What must be trusted</h2>
-  <p>This architecture relocates trust; it does not eliminate it. The trusted computing base is the receipt store, the sealing path, and the clock witness source &mdash; small, boring, and enumerable, but real. Trust with a bill of materials. Trustless is not on offer here, and anyone offering it elsewhere is selling something.</p>
+  <p>This architecture relocates trust; it does not eliminate it. The trusted computing base is the receipt store, the sealing path, and the clock witness source &mdash; small, boring, and enumerable, but real. Trust with a bill of materials. Trustless is not on offer here.</p>
 
   <h2>What happens when witnesses are wrong</h2>
   <p>A witness can be wrong. The system's answer is not prevention &mdash; it is attribution: which witness, attesting what, when, with what coverage. False testimony becomes quarantinable evidence with a return address instead of an anonymous rumor in a log file. That is a real improvement and a real limit: garbage observed is still garbage; it is merely garbage you can recall by origin.</p>
