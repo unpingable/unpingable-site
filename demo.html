@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A stale yes — unpingable</title>
-  <meta name="description" content="A credentialed action refused one second past its horizon. One incident, three descents: behavior, evidence, necessity. Every artifact reproducible from a cold clone.">
+  <meta name="description" content="A credentialed action refused one second after its expiry. One incident, three descents: behavior, evidence, necessity. Every artifact reproducible from a cold clone.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
   <style>
@@ -175,28 +175,28 @@
   <details class="glossary">
     <summary>vocabulary &mdash; expand if any of these are unfamiliar</summary>
     <dl>
-      <dt>custody</dt><dd>the discipline of preserving whether a claim is still witnessed, fresh, and admissible at the moment of action &mdash; distinct from authorization, which only asks whether the action is allowed</dd>
-      <dt>standing</dt><dd>the right to do a thing, observed at some moment with a freshness horizon</dd>
-      <dt>horizon</dt><dd>the time past which a previously-valid observation can no longer be used as a premise for action</dd>
-      <dt>gap</dt><dd>elapsed time between standing observation and spend attempt, measured on a typed clock basis (named source, named epoch) &mdash; not wall time</dd>
-      <dt>seam</dt><dd>a named conversion point in the custody chain where one kind of claim becomes another (here: standing &rarr; spendability)</dd>
-      <dt>wicket</dt><dd>the admissibility preflight kernel &mdash; decides whether an intent is admissible before any action runs</dd>
+      <dt>custody</dt><dd>the discipline of preserving whether a claim is still witnessed, fresh, and allowed to become a premise at the moment of action &mdash; distinct from authorization, which only asks whether the action is allowed</dd>
+      <dt>permission</dt><dd>active permission observed at some moment with a valid-until time (in receipt identifiers, the field is called <code>standing</code>)</dd>
+      <dt>expiry</dt><dd>the time after which a previously-valid observation can no longer be used as a premise for action (receipt identifiers may call this the <code>horizon</code>)</dd>
+      <dt>gap</dt><dd>elapsed time between permission observation and action attempt, measured on a typed clock basis (named source, named epoch) &mdash; not wall time</dd>
+      <dt>boundary</dt><dd>a named conversion point in the custody chain where one kind of claim becomes another; receipt fields may call this a <code>seam</code></dd>
+      <dt>wicket</dt><dd>the intent preflight kernel &mdash; decides whether an intent may become a premise before any action runs</dd>
       <dt>receipt</dt><dd>a content-addressed record of a custody decision &mdash; the id reproduces deterministically from inputs, so the artifact is verifiable, not just logged</dd>
     </dl>
   </details>
 
   <div class="summary">
-    <span class="clocks">checked t=40&nbsp;&nbsp;&middot;&nbsp;&nbsp;horizon t=50&nbsp;&nbsp;&middot;&nbsp;&nbsp;spent t=51</span>
-    Standing was checked and <em>valid</em>. Its horizon expired ten seconds later. The spend arrived one second after that.
+    <span class="clocks">checked t=40&nbsp;&nbsp;&middot;&nbsp;&nbsp;expiry t=50&nbsp;&nbsp;&middot;&nbsp;&nbsp;action t=51</span>
+    Permission was checked and <em>valid</em>. The valid-until time passed ten seconds later. The action arrived one second after that.
     Naive auth says yes &mdash; the credential was valid when checked. Custody says no &mdash; it lapsed in the gap between observation and exercise.
     This is not an authorization bug. Authorization passed. The receipt below shows both clocks, the gap, and the exact predicate that failed.
   </div>
 
   <h2><span class="act">ACT 1 &mdash; BEHAVIOR</span>Two actions, the same chain</h2>
-  <p>Both runs traverse the identical chain of checks &mdash; standing verified, intent admitted, the spend-time check evaluated against freshness. They differ only in <em>when</em> the spend happens. A system that only says no is a brick; the twin is the proof it isn&rsquo;t one.</p>
+  <p>Both runs traverse the identical chain of checks &mdash; permission verified, intent admitted, the action-time check evaluated against freshness. They differ only in <em>when</em> the action happens. A system that only says no is a brick; the twin is the proof it isn&rsquo;t one.</p>
 
   <div class="outcome">
-    <div class="head"><span>LEGITIMATE &mdash; exercise at t=45, within horizon</span><span class="tag-pass">consumed</span></div>
+    <div class="head"><span>LEGITIMATE &mdash; exercise at t=45, before expiry</span><span class="tag-pass">consumed</span></div>
     <pre>standing       verified
 wicket         admitted
 spendability   judged
@@ -207,7 +207,7 @@ leaf receipt   ag_rcpt_2f8d461bc9bdf930
   </div>
 
   <div class="outcome">
-    <div class="head"><span>IMPOSTOR &mdash; exercise at t=51, one second past the horizon</span><span class="tag-block">REFUSED</span></div>
+    <div class="head"><span>IMPOSTOR &mdash; exercise at t=51, one second after expiry</span><span class="tag-block">REFUSED</span></div>
     <pre>standing       verified      &larr; the credential WAS valid
 wicket         admitted      &larr; naive auth says yes here
 spendability   REFUSED       standing_before_spendability_not_bounded
@@ -217,7 +217,7 @@ leaf receipt   ag_rcpt_dda5a1e55fc0b733
 &rarr; refused. No capacity spent (effect_count=0).</pre>
   </div>
 
-  <p>One second past a horizon, and custody is the only layer that saw it.</p>
+  <p>One second after expiry, and custody is the only layer that saw it.</p>
 
   <div class="receipt-panel">
     <div class="head">THE REFUSAL RECEIPT &mdash; content-addressed; the id reproduces on every run</div>
@@ -350,7 +350,7 @@ allow if {
     <p><span class="muted">refusal class</span> <code>standing_before_spendability_not_bounded</code><br>
     <span class="muted">licensed by</span> <a href="https://github.com/unpingable/lean/blob/main/LeanProofs/Admissibility/Freshness.lean#L179"><code>Admissibility.Freshness.expired_not_fresh</code></a></p>
     <span class="sig">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</span>
-    <p style="margin:0">An observation whose exercise time is past its expiry horizon is not Fresh. The receipt's <code>gap_ns &gt; bound_ns</code> is definitionally the theorem's hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary policy denial.</p>
+    <p style="margin:0">An observation whose exercise time is past its expiry is not Fresh. The receipt's <code>gap_ns &gt; bound_ns</code> is definitionally the theorem's hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary policy denial.</p>
     <p class="muted" style="margin:0.6rem 0 0; font-size:0.88rem;">Reading Lean isn't required for what this is doing &mdash; the signature is here so the claim is checkable, not so you have to check it.</p>
   </div>
 
@@ -363,14 +363,14 @@ cd agent_governor</pre>
   <pre>python3 -m venv .venv
 . .venv/bin/activate
 pip install -e .
-./demo/refused-spend.sh     # a valid credential, spent one second past its horizon — REFUSED, with receipts
+./demo/refused-spend.sh     # a valid credential, acted on one second after expiry — REFUSED, with receipts
 ./demo/interrogate.sh       # "just one more thing": six questions, answered from receipts (no arg = fresh Act 1; or pass the root Act 1 printed)
 ./demo/opa-contrast.sh      # what a policy engine would have said about the same incident (allow)</pre>
   <p class="muted">The refusal receipt is content-addressed &mdash; you will get <code>dda5a1e5&hellip;</code>, the same id shown above.</p>
 
   <h2><span class="act">OBJECTIONS</span>The two you're already thinking</h2>
   <div class="objection">
-    <p><span class="o">"Isn't this just OPA / admission control?"</span> &mdash; Policy decides over premises; this receipts whether the premises were admissible in the first place. Rego can check freshness <em>if you feed it freshness</em>; it cannot establish the custody of its own inputs. OPA runs happily inside this.</p>
+    <p><span class="o">"Isn't this just OPA / admission control?"</span> &mdash; Policy decides over premises; this receipts whether the claims were allowed to become premises in the first place. Rego can check freshness <em>if you feed it freshness</em>; it cannot establish the custody of its own inputs. OPA runs happily inside this.</p>
   </div>
   <div class="objection">
     <p><span class="o">"Isn't this AI-governance vapor?"</span> &mdash; It's a refusal you can run, a receipt you can hash, and a theorem you can read. Every claim on this page reproduces from a cold clone; where the system can't prove something, the page says so (see <a href="limits.html">Limits</a>).</p>

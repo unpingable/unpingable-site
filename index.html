@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
-  <meta name="description" content="Project index for unpingable. Operational witnesses, admissibility gates, receipt chains, agent governance, ATProto tooling, and research.">
+  <meta name="description" content="Project index for unpingable. Operational witnesses, premise gates, receipt chains, agent governance, ATProto tooling, and research.">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
   <style>
@@ -519,6 +519,7 @@
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
     <p class="tagline">Modern systems often decide faster than their evidence stays valid. This lab builds custody machinery for claims, standing, capacity, authorization, and refusal &mdash; running code plus proof artifacts that preserve distinctions ordinary infrastructure collapses.</p>
+    <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.5rem 0 1.25rem; max-width: 500px; line-height: 1.5;">Custody is the layer that tracks whether a claim may become a premise for action &mdash; distinct from auth, policy, and logging.</p>
     <p class="demo-cta"><a href="demo.html">Watch a valid credential refused at the moment of spend&nbsp;&rarr;</a> <a class="limits-link" href="about.html">About</a> <a class="limits-link" href="incident.html">Incident</a> <a class="limits-link" href="limits.html">Limits</a></p>
     <nav>
       <a href="about.html">About</a>
@@ -540,11 +541,11 @@
         <h3>Conversions &mdash; what must be earned, not assumed</h3>
         <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;"><span class="status live" style="margin-left:0">live</span> shipped &middot; <span class="status">operational</span> in daily use &middot; <span class="status research">research</span> exploratory &middot; <span class="status zoned">zoned</span> mapped, not built</p>
         <div class="edge-row"><span class="edge-claim">An observation becomes a claim only through preflight that preserves its evidence.</span><span class="edge-meta">nq <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">A claim becomes a premise only if it is admissible &mdash; policy engines decide over claims; custody decides whether those claims may become premises.</span><span class="edge-meta">wicket &middot; agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">Standing observed is not standing spendable &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the spend.</span><span class="edge-meta">standing &middot; agent_governor <span class="status live">live</span></span></div>
+        <div class="edge-row"><span class="edge-claim">A claim becomes a premise only if custody allows it &mdash; policy engines decide over claims; custody decides whether those claims may become premises.</span><span class="edge-meta">wicket &middot; agent_governor <span class="status live">live</span></span></div>
+        <div class="edge-row"><span class="edge-claim">An observed permission is not automatically usable at action time &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the action.</span><span class="edge-meta">standing &middot; agent_governor <span class="status live">live</span></span></div>
         <div class="edge-row"><span class="edge-claim">Drill, replay, and synthetic runs demonstrate structure; they cannot confer operational effect.</span><span class="edge-meta">agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">A verdict enters the evidence plane as a receipted claim, not a log line.</span><span class="edge-meta">agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">An authorized action still refuses without spendable capacity.</span><span class="edge-meta">linear accountant seam <span class="status zoned">zoned</span></span></div>
+        <div class="edge-row"><span class="edge-claim">A verdict becomes evidence &mdash; a receipt the next system can verify &mdash; not a log line.</span><span class="edge-meta">agent_governor <span class="status live">live</span></span></div>
+        <div class="edge-row"><span class="edge-claim">An authorized action still refuses without capacity usable at action time.</span><span class="edge-meta">linear accountant seam <span class="status zoned">zoned</span></span></div>
         <div class="edge-row"><span class="edge-claim">Logs are self-report until sealed.</span><span class="edge-meta">notary <span class="status zoned">zoned</span></span></div>
         <div class="edge-row"><span class="edge-claim">A lapsed grant must reach everyone currently relying on it, with delivery accounted.</span><span class="edge-meta">retraction transport <span class="status zoned">zoned</span></span></div>
       </div>
@@ -563,7 +564,7 @@
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a><span class="status live">operational</span></div>
           <dl>
-            <dt>handles</dt><dd>admissibility preflight for agentic intents</dd>
+            <dt>handles</dt><dd>premise preflight for agentic intents</dd>
             <dt>refuses</dt><dd>intents from revoked or out-of-scope actors</dd>
             <dt>proof</dt><dd>spec harness; typed preflight verdicts</dd>
           </dl>
@@ -571,9 +572,9 @@
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a><span class="status live">operational</span></div>
           <dl>
-            <dt>handles</dt><dd>standing and entitlement observation</dd>
-            <dt>refuses</dt><dd>attesting standing it cannot verify</dd>
-            <dt>proof</dt><dd>standing receipts with observation age</dd>
+            <dt>handles</dt><dd>permission and entitlement observation</dd>
+            <dt>refuses</dt><dd>attesting permission it cannot verify</dd>
+            <dt>proof</dt><dd>permission receipts with observation age</dd>
           </dl>
         </div>
         <div class="component-card">
@@ -588,9 +589,9 @@
           <div class="component-head"><a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a><span class="status research">research</span></div>
           <dl>
             <dt>handles</dt><dd>write-blocking action gating for AI agents: typed claims in, receipts out</dd>
-            <dt>refuses</dt><dd>writes without verified proposals; spends past the standing horizon; demonstrated evidence conferring operational effect</dd>
+            <dt>refuses</dt><dd>writes without verified proposals; actions after the permission expiry; demonstrated evidence conferring operational effect</dd>
             <dt>proof</dt><dd>golden refusal corpus; content-addressed gate receipts; Lean class-boundary theorems</dd>
-            <dt>receipt</dt><dd><code>dda5a1e5&hellip;</code> &mdash; the temporal-lapse refusal: standing valid at check, void at spend, gap on a named monotonic basis. Reproduce: <code>demo/refused-spend.sh</code></dd>
+            <dt>receipt</dt><dd><code>dda5a1e5&hellip;</code> &mdash; the temporal-lapse refusal: permission valid at check, expired at action, gap on a named monotonic basis. Reproduce: <code>demo/refused-spend.sh</code></dd>
           </dl>
         </div>
         <div class="component-card">
@@ -604,7 +605,7 @@
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a><span class="status research">research</span></div>
           <dl>
-            <dt>handles</dt><dd>formal constraint admissibility (Z3 sidecar)</dd>
+            <dt>handles</dt><dd>formal constraint checks (Z3 sidecar)</dd>
             <dt>refuses</dt><dd>proposals that violate declared constraints &mdash; specimen: the stale-standing denial</dd>
             <dt>proof</dt><dd><code>examples/stale-standing-denied.json</code> + golden output pinned to the README</dd>
           </dl>
@@ -623,7 +624,7 @@
         <div class="project-list">
           <div class="project-row">
             <a class="name" href="https://github.com/unpingable/wicket-guard" target="_blank" rel="noopener">wicket-guard</a>
-            <span class="desc">Preflight for AI-agent-authored diffs. Cooks authority-bearing surface mutations into wicket intents.</span>
+            <span class="desc">Preflight for AI-agent-authored diffs. Converts authority-bearing surface mutations into wicket intents.</span>
           </div>
         </div>
       </div>
