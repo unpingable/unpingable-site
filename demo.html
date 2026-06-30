@@ -170,7 +170,7 @@
 
   <h1>A stale yes</h1>
   <p class="muted">One incident, three descents: behavior, evidence, necessity. Every artifact on this page is reproducible from a cold clone.</p>
-  <p class="first-time">First time here? <a href="about.html">About</a> orients; <a href="incident.html">Incident</a> is the same event in postmortem form for ops/SRE readers; the vocabulary below covers what&rsquo;s load-bearing for this descent.</p>
+  <p class="first-time">First time here? <a href="about.html">About</a> orients; <a href="incident.html">Incident</a> is the same event in postmortem form for ops/SRE readers; the vocabulary below covers what you&rsquo;ll need to follow this descent.</p>
 
   <details class="glossary">
     <summary>vocabulary &mdash; expand if any of these are unfamiliar</summary>
@@ -192,8 +192,8 @@
     This is not an authorization bug. Authorization passed. The receipt below shows both clocks, the gap, and the exact predicate that failed.
   </div>
 
-  <h2><span class="act">ACT 1 &mdash; BEHAVIOR</span>Two actions, one gauntlet</h2>
-  <p>Both runs traverse the identical chain &mdash; standing verified, admission checked, spendability judged. They differ only in <em>when</em> the spend happens. A system that only says no is a brick; the twin is the proof it isn't one.</p>
+  <h2><span class="act">ACT 1 &mdash; BEHAVIOR</span>Two actions, the same chain</h2>
+  <p>Both runs traverse the identical chain of checks &mdash; standing verified, intent admitted, the spend-time check evaluated against freshness. They differ only in <em>when</em> the spend happens. A system that only says no is a brick; the twin is the proof it isn&rsquo;t one.</p>
 
   <div class="outcome">
     <div class="head"><span>LEGITIMATE &mdash; exercise at t=45, within horizon</span><span class="tag-pass">consumed</span></div>
@@ -354,7 +354,7 @@ allow if {
     <p class="muted" style="margin:0.6rem 0 0; font-size:0.88rem;">Reading Lean isn't required for what this is doing &mdash; the signature is here so the claim is checkable, not so you have to check it.</p>
   </div>
 
-  <p><strong>Honest framing, load-bearing:</strong> the theorem proves the <em>class boundary</em>; the receipt proves the <em>instance facts</em>; the link is the artifact. It does not assert that any deployed system is safe, nor that this instance was machine-checked &mdash; only that this refusal class is the one the custody discipline requires.</p>
+  <p><strong>What this proves and what it doesn&rsquo;t:</strong> the theorem proves the <em>class boundary</em>; the receipt proves the <em>instance facts</em>; the link is the artifact. It does not assert that any deployed system is safe, nor that this instance was machine-checked &mdash; only that this refusal class is the one the custody discipline requires.</p>
 
   <h2><span class="act">REPRODUCE</span>Run it yourself</h2>
   <p>From a cold clone to this refusal, about five minutes:</p>

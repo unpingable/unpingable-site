@@ -183,13 +183,13 @@ allow if {
   <p>Both lanes are correct over what they were handed. The policy is right that the input it sees says &ldquo;valid.&rdquo; The custody lane is right that the input it sees has lapsed. The disagreement is about <em>which input you should be handing the policy</em>.</p>
 
   <h2>What the custody layer does instead</h2>
-  <p>The premise (<em>standing valid</em>) and the action (<em>spend capacity</em>) are connected by a <em>seam</em> &mdash; a named conversion point. The seam checks three things and refuses if any of them fails:</p>
+  <p>The premise (<em>credential valid</em>) and the action (<em>spend capacity</em>) are connected by a boundary check. The check verifies three things and refuses if any of them fails:</p>
   <ul>
     <li>the gap between observation (t=40) and exercise (t=51)</li>
     <li>on a typed clock basis &mdash; here <code>process_monotonic</code> with <code>epoch=boot:demo-single-host</code>, not wall time (wall time can move sideways under NTP and isn&rsquo;t the basis the horizon was issued on)</li>
     <li>against the bound the credential declares (10s)</li>
   </ul>
-  <p>When the gap exceeds the bound, the seam emits a refusal receipt <em>before</em> any capacity is consumed:</p>
+  <p>When the gap exceeds the bound, the check emits a refusal receipt <em>before</em> any capacity is consumed:</p>
 
   <div class="receipt-fields">
     <div class="row"><span class="k">verdict</span><span class="v hot">block</span></div>
