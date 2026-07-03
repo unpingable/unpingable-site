@@ -644,6 +644,7 @@
       <hr class="section-rule">
       <h2>The custody stack</h2>
       <p>The custody discipline in parts. The edges are the product; the organs implement them.</p>
+      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.4rem 0 1.1rem; letter-spacing: 0.02em;">Not a policy engine. Not a hosted platform. Not an AI-safety oracle.</p>
 
       <div class="stack-diagram">
         <svg viewBox="0 0 700 200" role="img" aria-labelledby="stack-diagram-title" aria-describedby="stack-caption" xmlns="http://www.w3.org/2000/svg">
@@ -714,22 +715,9 @@
         </p>
       </div>
 
-      <div class="edge-list">
-        <h3>Conversions &mdash; what must be earned, not assumed</h3>
-        <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;"><span class="status live" style="margin-left:0">live</span> shipped &middot; <span class="status">operational</span> in daily use &middot; <span class="status research">research</span> exploratory &middot; <span class="status zoned">zoned</span> mapped, not built</p>
-        <div class="edge-row"><span class="edge-claim">An observation becomes a claim only through preflight that preserves its evidence.</span><span class="edge-meta">nq <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">A claim becomes a premise only if custody allows it &mdash; policy engines decide over claims; custody decides whether those claims may become premises.</span><span class="edge-meta">wicket &middot; agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">An observed permission is not automatically usable at action time &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the action.</span><span class="edge-meta">standing &middot; agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">Drill, replay, and synthetic runs demonstrate structure; they cannot confer operational effect.</span><span class="edge-meta">agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">A verdict becomes evidence &mdash; a receipt the next system can verify &mdash; not a log line.</span><span class="edge-meta">agent_governor <span class="status live">live</span></span></div>
-        <div class="edge-row"><span class="edge-claim">An authorized action still refuses without capacity usable at action time.</span><span class="edge-meta">linear accountant seam <span class="status zoned">zoned</span></span></div>
-        <div class="edge-row"><span class="edge-claim">Logs are self-report until sealed.</span><span class="edge-meta">notary <span class="status zoned">zoned</span></span></div>
-        <div class="edge-row"><span class="edge-claim">A lapsed grant must reach everyone currently relying on it, with delivery accounted.</span><span class="edge-meta">retraction transport <span class="status zoned">zoned</span></span></div>
-      </div>
-
       <div class="component-skeleton">
         <h3>Organs &mdash; what each handles, and what it refuses</h3>
-        <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;">Form factor: Python libraries and CLIs you self-host. nq is one binary; verifier ships a Z3 sidecar; Lean is for proof artifacts (read-only audit, not runtime). No SaaS, no hosted control plane.</p>
+        <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;">Python libraries and CLIs you self-host. nq is one binary; verifier ships a Z3 sidecar; Lean is for proof artifacts (read-only audit, not runtime). No SaaS, no hosted control plane. Badges: <span class="status" style="margin-left:0">operational</span> in daily use &middot; <span class="status research">research</span> exploratory.</p>
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span></div>
           <dl>
@@ -801,7 +789,7 @@
         <div class="project-list">
           <div class="project-row">
             <a class="name" href="https://github.com/unpingable/wicket-guard" target="_blank" rel="noopener">wicket-guard</a>
-            <span class="desc">Preflight for AI-agent-authored diffs. Converts authority-bearing surface mutations into wicket intents.</span>
+            <span class="desc">Preflight for AI-agent diffs. Proposed writes become typed intents that go through wicket before they land.</span>
           </div>
         </div>
       </div>
@@ -860,7 +848,8 @@
     <section id="research">
       <hr class="section-rule">
       <h2>Research</h2>
-      <p>Selected papers and preprints &mdash; full list in the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>.</p>
+      <p>The papers name the failure classes; the tools above carry the response. The &Delta;t series is scaffolding for the check-vs-action logic in <a href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a> and <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>. Some of this work is theoretical only; not everything here has an instantiation yet.</p>
+      <p style="font-size: 0.9rem; color: var(--fg-faint); margin-top: -0.4rem;">Selected papers below &mdash; full list in the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>.</p>
 
       <div class="research-group">
         <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
