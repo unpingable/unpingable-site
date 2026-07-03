@@ -522,8 +522,9 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline">Modern systems often decide faster than their evidence stays valid. This lab builds custody machinery for claims, standing, capacity, authorization, and refusal &mdash; running code plus proof artifacts that preserve distinctions ordinary infrastructure collapses.</p>
-    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;"><a href="glossary.html#custody">Custody</a> is the layer that tracks whether a claim may become a premise for action &mdash; distinct from auth, policy, and logging.</p>
+    <p class="tagline">Modern systems often decide faster than their evidence stays valid.</p>
+    <p class="tagline">A permission valid when it was checked gets exercised after it lapsed. A retracted grant lands on a downstream reader that never got the retraction. A verdict logged as &ldquo;approved&rdquo; but never sealed.</p>
+    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;"><a href="glossary.html#custody">Custody</a> is the layer that catches those gaps &mdash; distinct from auth, policy, and logging. Small self-hosted tools; proof artifacts on the side.</p>
     <p class="demo-cta"><a href="demo.html">Watch a valid credential refused at the moment of spend&nbsp;&rarr;</a></p>
     <p class="demo-cta-secondary">
       <a href="about.html">About</a>
@@ -543,7 +544,7 @@
     <section id="stack">
       <hr class="section-rule">
       <h2>The custody stack</h2>
-      <p>One discipline, several organs: typed custody between observation, interpretation, authority, action, memory, and refusal. The map below is the system's actual architecture &mdash; the edges are the product.</p>
+      <p>The custody discipline in parts. The edges are the product; the organs implement them.</p>
 
       <div class="edge-list">
         <h3>Conversions &mdash; what must be earned, not assumed</h3>
