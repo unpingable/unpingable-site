@@ -229,14 +229,35 @@
   <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
 
   <h1>Constellation</h1>
-  <p class="muted">The organs that make up the custody stack, the planes they belong to, and compositions that illustrate how they can work together. Every organ is independently usable. None requires another.</p>
+  <p class="muted">Agents can propose. These tools keep them from approving themselves.</p>
 
-  <p>NQ does not require agent_governor. Agent_governor does not require NQ. The monitoring lane that wires them &mdash; NQ witnesses a disk state, Nightshift defers and reconciles the governed work, agent_governor refuses the action if the evidence is stale &mdash; is a natural composition and one illustration. It is not the product. Use the organ you need.</p>
+  <p>Everyone is being pushed to put AI agents on real work, and nobody sane
+  wants one freehanding production. The pieces on this page are the working
+  answer: an agent's output enters as <em>candidate work</em> (a proposal,
+  carrying no authority of its own); it runs against gates that can say
+  <em>no</em> and say <em>why</em>, on the record (a <em>refusal</em> is a
+  first-class outcome, not an error); and every decision leaves a
+  <em>receipt</em> you can inspect after the fact without trusting anyone's
+  prose. You can watch that happen today: the
+  <a href="https://github.com/unpingable/agent_governor/blob/main/docs/TOUR.md">three-act demo</a>
+  refuses a stale credential and lets you cross-examine the receipts; the
+  <a href="https://github.com/unpingable/agent_governor/blob/main/docs/REFUSAL_GALLERY.md">refusal gallery</a>
+  shows eight tools each saying no in 30 seconds; the
+  <a href="https://github.com/unpingable/agent_governor/blob/main/docs/NON_GRANTS.md">non-grant list</a>
+  states what agents are deliberately not given, with the enforcing code and
+  test named per line.</p>
+
+  <p>Each tool below stands alone &mdash; use the one you need. NQ does not
+  require agent_governor; agent_governor does not require NQ. The monitoring
+  lane that wires them together &mdash; NQ witnesses a disk state, Nightshift
+  defers and reconciles the governed work, agent_governor refuses the action
+  if the evidence is stale &mdash; is one natural composition, an
+  illustration. It is not the product.</p>
 
   <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; line-height: 1.6;">Honesty markers: <em>wired</em> = implemented and tested; <em>specified</em> = ratified contract, implementation pending. Resolved&nbsp;&ne;&nbsp;supported. Maturity grades are per-organ; no grade inflation. Nothing on this page is armed for live cage execution &mdash; that refusal is by construction. See <a href="limits.html">limits</a>.</p>
 
   <h2>Planes</h2>
-  <p class="muted" style="font-size: 0.94rem;">Organs grouped by what kind of work they do. A plane is analytical &mdash; it says what role the organ plays, not what it depends on.</p>
+  <p class="muted" style="font-size: 0.94rem;">The tools &mdash; this site calls them <em>organs</em> &mdash; grouped by what kind of work they do. A plane is analytical: it says what role the organ plays, not what it depends on.</p>
 
   <div class="plane-diagram">
     <table>
