@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Constellation &mdash; unpingable</title>
+  <meta name="description" content="The organs, planes, and compositions of the unpingable custody stack. Each organ is independently usable; the monitoring lane (NQ → Nightshift → agent_governor) is an illustration, not a prerequisite.">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --bg-inset: #efeee8;
+      --fg: #1a1a1a;
+      --fg-muted: #555350;
+      --fg-faint: #8a8680;
+      --fg-ghost: #b0aca5;
+      --border: #d0cdc6;
+      --border-faint: #e0ddd6;
+      --accent: #a0422a;
+      --accent-hover: #7d3320;
+      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #141311;
+        --bg-inset: #1a1917;
+        --fg: #ccc8c0;
+        --fg-muted: #8a8680;
+        --fg-faint: #5e5b55;
+        --fg-ghost: #3e3c38;
+        --border: #2a2825;
+        --border-faint: #222120;
+        --accent: #c4603e;
+        --accent-hover: #d87a56;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--fg);
+      font-size: 17px;
+      line-height: 1.65;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 3rem 2rem 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
+    .crumb a { color: var(--fg-faint); text-decoration: none; }
+    .crumb a:hover { color: var(--accent); }
+    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.1rem;
+      margin: 2.2rem 0 0.6rem;
+      padding-top: 1.3rem;
+      border-top: 1px solid var(--border);
+    }
+    p { margin-bottom: 0.9rem; }
+    .muted { color: var(--fg-muted); }
+    code { font-family: var(--mono); font-size: 0.85em; }
+
+    /* ── STATUS BADGES (from index.html) ── */
+    .status {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      padding: 0.05rem 0.4rem;
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      margin-left: 0.4rem;
+      white-space: nowrap;
+    }
+    .status.live { border-color: var(--accent); color: var(--accent); }
+    .status.research { color: var(--fg-faint); }
+
+    /* ── COMPONENT CARDS (from index.html) ── */
+    .component-card { padding: 0.7rem 0; }
+    .component-card + .component-card { border-top: 1px solid var(--border-faint); }
+    .component-head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .component-head .name {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .component-card dl {
+      display: grid;
+      grid-template-columns: 4.5rem 1fr;
+      gap: 0.1rem 0.6rem;
+    }
+    .component-card dt {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--fg-ghost);
+      letter-spacing: 0.03em;
+      padding-top: 0.15rem;
+    }
+    .component-card dd {
+      font-size: 0.9rem;
+      line-height: 1.45;
+      color: var(--fg-muted);
+    }
+    .component-card dd code {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--fg);
+    }
+
+    /* ── PLANE DIAGRAM ── */
+    .plane-diagram {
+      margin: 1.25rem 0 0.5rem;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 1rem 1.25rem 0.9rem;
+      overflow-x: auto;
+    }
+    .plane-diagram table {
+      border-collapse: collapse;
+      width: 100%;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+    }
+    .plane-diagram td {
+      padding: 0.22rem 0.9rem 0.22rem 0;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+    .plane-diagram td:first-child {
+      color: var(--fg-faint);
+      white-space: nowrap;
+      padding-right: 1.5rem;
+      letter-spacing: 0.02em;
+    }
+    .plane-diagram td:last-child {
+      color: var(--fg);
+    }
+    .plane-diagram tr + tr td {
+      border-top: 1px solid var(--border-faint);
+      padding-top: 0.35rem;
+    }
+    .plane-note {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--fg-faint);
+      margin-top: 0.75rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border-faint);
+      line-height: 1.6;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--border);
+      padding: 0.4rem 0 0.4rem 1.1rem;
+      margin: 0.9rem 0 1.1rem;
+      color: var(--fg-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .callout code { color: var(--fg); }
+
+    /* ── RUN LINKS ── */
+    .run-links {
+      list-style: none;
+      margin: 0.6rem 0 0.9rem;
+    }
+    .run-links li {
+      padding: 0.4rem 0;
+      border-top: 1px solid var(--border-faint);
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 0.9rem;
+      align-items: baseline;
+      font-size: 0.9rem;
+    }
+    .run-links li:last-child { border-bottom: 1px solid var(--border-faint); }
+    .run-links .rl-name {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--fg-faint);
+    }
+    .run-links .rl-desc { color: var(--fg-muted); line-height: 1.45; }
+
+    /* ── PARKED ── */
+    .parked-list {
+      list-style: none;
+      margin: 0.4rem 0 0.9rem;
+    }
+    .parked-list li {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--fg-faint);
+      padding: 0.3rem 0;
+      border-top: 1px solid var(--border-faint);
+      line-height: 1.6;
+    }
+    .parked-list li:last-child { border-bottom: 1px solid var(--border-faint); }
+    .parked-list a { color: var(--fg-muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.9rem;
+    }
+    footer a { margin-right: 1.5rem; color: var(--fg-faint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      body { padding: 2.5rem 1.25rem 2rem; }
+      .run-links li { grid-template-columns: 1fr; gap: 0.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+
+  <h1>Constellation</h1>
+  <p class="muted">The organs that make up the custody stack, the planes they belong to, and compositions that illustrate how they can work together. Every organ is independently usable. None requires another.</p>
+
+  <p>NQ does not require agent_governor. Agent_governor does not require NQ. The monitoring lane that wires them &mdash; NQ witnesses a disk state, Nightshift defers and reconciles the governed work, agent_governor refuses the action if the evidence is stale &mdash; is a natural composition and one illustration. It is not the product. Use the organ you need.</p>
+
+  <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; line-height: 1.6;">Honesty markers: <em>wired</em> = implemented and tested; <em>specified</em> = ratified contract, implementation pending. Resolved&nbsp;&ne;&nbsp;supported. Maturity grades are per-organ; no grade inflation. Nothing on this page is armed for live cage execution &mdash; that refusal is by construction. See <a href="limits.html">limits</a>.</p>
+
+  <h2>Planes</h2>
+  <p class="muted" style="font-size: 0.94rem;">Organs grouped by what kind of work they do. A plane is analytical &mdash; it says what role the organ plays, not what it depends on.</p>
+
+  <div class="plane-diagram">
+    <table>
+      <tr>
+        <td>witness&nbsp;/&nbsp;testimony</td>
+        <td>nq &middot; porter &middot; verifier</td>
+      </tr>
+      <tr>
+        <td>authority</td>
+        <td>agent_governor &middot; wicket &middot; standing &middot; linear_accountant</td>
+      </tr>
+      <tr>
+        <td>operator</td>
+        <td>maude &middot; gov-webui &middot; vscode-governor</td>
+      </tr>
+      <tr>
+        <td>memory&nbsp;+&nbsp;read</td>
+        <td>continuity &middot; spine</td>
+      </tr>
+      <tr>
+        <td>formal</td>
+        <td>lean</td>
+      </tr>
+    </table>
+    <p class="plane-note">Illustrated composition (not a prerequisite stack): nq (witness) &rarr; nightshift (defer + reconcile) &rarr; agent_governor (govern). Each organ in that lane works standalone &mdash; absent any neighbor, the seam yields honest absence or cannot-testify, never silent failure.</p>
+  </div>
+
+  <h2>Witness / testimony plane</h2>
+  <p class="muted" style="font-size: 0.94rem;">Observe and report. These organs produce evidence; they do not gate authority. <em>Cannot-testify</em> is a first-class outcome, not an error.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a>
+      <span class="status live">flagship</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Observation-to-claim preflight for operational systems. Witnesses disk health, process state, network reachability, and similar substrate facts; packages each finding with its evidence so the claim is traceable to an observation. When evidence is unavailable, emits <em>cannot-testify</em> rather than a smooth nothing &mdash; the refusal is the product surface, not an error to handle.</dd>
+      <dt>refuses</dt>
+      <dd>Producing a finding it cannot trace to an actual observation; smoothing over evidence loss.</dd>
+      <dt>grade</dt>
+      <dd>Operational &mdash; public GitHub, Apache-2.0, 1203 tests, 15+ operator docs. Operator calibration 2026-07-05: &ldquo;usable today by a normal SRE.&rdquo; (Campaign STATUS.md §Sprint&nbsp;3, packet&nbsp;9b.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/porter" target="_blank" rel="noopener">porter</a>
+      <span class="status live">v0.1</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Substrate courier. Executes work via ssh, serial, or recipe substrates and packages the outcome as a <code>record.v0</code> with exit-code custody. The record carries whether the exit code was actually observed; a record with <code>exit_code_observed: false</code> is refused, not promoted.</dd>
+      <dt>refuses</dt>
+      <dd>Marking work complete when <code>exit_code_observed</code> is false; emitting outcome vocabulary that belongs to the caller&rsquo;s domain (porter&rsquo;s outcomes name transport facts, not admissibility verdicts).</dd>
+      <dt>grade</dt>
+      <dd>v0.1 &mdash; three substrates (ssh, serial, recipe), 19 tests, charter commitments closed. <code>demo/refused-exit.sh</code> produces a live refusal specimen. Serial substrate may slip to v0.2. (STATUS.md §Lane&nbsp;P.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a>
+      <span class="status live">operational</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Formal constraint checking via a Z3 sidecar. Accepts a declared invariant set and a proposal; refuses proposals that violate the constraints and emits a verdict receipt. The specimen at the front of the README is the stale-standing denial.</dd>
+      <dt>refuses</dt>
+      <dd>Proposals that fail the declared invariants; constraint-checking without a named clock basis on temporal predicates.</dd>
+      <dt>grade</dt>
+      <dd>Operational &mdash; lib, CLI, and MCP server; specimen pinned to README. (Campaign §3 table: READY.)</dd>
+    </dl>
+  </div>
+
+  <h2>Authority plane</h2>
+  <p class="muted" style="font-size: 0.94rem;">Gate work. These organs decide whether a claim, intent, or permission may become a premise for action, and emit receipts for the decisions they make.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>
+      <span class="status research">alpha</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Admissibility kernel for AI coding agents. Every proposed file write and command requires a typed claim with pointers; the governor verifies and produces receipts. Language is a proposal, not an authority &mdash; an agent saying &ldquo;done&rdquo; is not the operator approving it. Supervised runs, refusal gallery, governed workflow, and specimen corpus are runnable from a fresh clone.</dd>
+      <dt>refuses</dt>
+      <dd>Prose as authority; tests-passing treated as code-ready-to-land; permissions exercised after their observation horizon; a rehearsal that confers operational effect.</dd>
+      <dt>grade</dt>
+      <dd>2.8.1-alpha &mdash; ~14.6k tests, demo path fresh-clone verified. Bootstrap limits: in-process custody forgeability, operator-fiat standing, live cage unarmed by construction. (STATUS.md §Sprint&nbsp;2, exit ticket.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a>
+      <span class="status live">operational</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Single-call admissibility preflight for intents. Decides whether an actor&rsquo;s proposed action may become a premise before any effect runs; refuses intents from revoked or out-of-scope actors. One call in, one typed verdict out.</dd>
+      <dt>refuses</dt>
+      <dd>Intents where the actor cannot demonstrate standing or scope; revoked actors.</dd>
+      <dt>grade</dt>
+      <dd>Operational &mdash; SPEC v0.3, 21 fixtures, wicket-guard absorbed and tombstoned. (Campaign §3 table: READY.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a>
+      <span class="status live">operational</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Permission observation with observation-age receipts. Produces standing receipts that carry when the permission was seen and when it expires; the gap between check and action is measured on a named clock basis, not wall time. A permission valid at check is not automatically usable at spend time.</dd>
+      <dt>refuses</dt>
+      <dd>Attesting a permission it cannot verify; a spend whose standing observation lapsed past its horizon by exercise time (<code>standing_before_spendability_not_bounded</code>).</dd>
+      <dt>grade</dt>
+      <dd>Operational &mdash; specimen flow runs; HMAC-only identity substrate (named limit; mTLS/OIDC deferred). (Campaign §3 table: READY.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/linearaccountant" target="_blank" rel="noopener">linear_accountant</a>
+      <span class="status research">reference</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Conserved capacity and spend &mdash; the reference boundary that ensures no organ mints authority from an ALLOW verdict. An authorized action still refuses without capacity usable at action time. Frozen as a reference seam until a consumer trigger; the transport layer is deliberately deferred.</dd>
+      <dt>refuses</dt>
+      <dd>Minting capacity from an ALLOW verdict (the organ named consumer, not minter). The no-mint invariant is the load-bearing property; no transport is built until it has a consumer.</dd>
+      <dt>grade</dt>
+      <dd>Reference &mdash; pushed, frozen by design. &ldquo;Respect the freeze&rdquo; is the standing operator ruling. (Campaign §3 table: READY as reference seam, not product.)</dd>
+    </dl>
+  </div>
+
+  <h2>Operator plane</h2>
+  <p class="muted" style="font-size: 0.94rem;">Operator-facing surfaces over the same daemon. Maude is a TUI; gov-webui is a browser path. Both consume the governed shell contract; neither is a hard requirement for the organs they expose.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
+      <span class="status live">operational</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Operator shell for supervised agent sessions. Runs an AI coding agent under agent_governor; every tool call appears in the decision queue before it runs. When the session ends, the operator reviews the diff and either keeps or discards the changes. Governed-plan runs ingest a <code>plan.md</code>, verify citations, and report as a ReviewPacket.</dd>
+      <dt>refuses</dt>
+      <dd>Silently promoting session output &mdash; promotion is an explicit operator act; the report surface says &ldquo;not recorded&rdquo; rather than inferring; <code>used &gt; granted</code> renders OVERRUN, never &ldquo;authorized.&rdquo;</dd>
+      <dt>grade</dt>
+      <dd>v2.4.0 operational &mdash; 301 tests, supervised loop, governed-plan path, M-4 run report, live-daemon smoke verified. (STATUS.md §Sprint&nbsp;4, packet&nbsp;15.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/governor_webui" target="_blank" rel="noopener">gov-webui</a>
+      <span class="status research">alpha</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Browser-based operator mode over the governor daemon. Legacy chat modes plus desk mode v0 in progress &mdash; decision queue, sessions board, and promotion keep/discard, consuming the same shell contract as maude so the two surfaces cannot drift on the wire protocol. Zero-install path for visitors who won&rsquo;t run a terminal app.</dd>
+      <dt>refuses</dt>
+      <dd>N/A (operator UI surface; the one-mutation-door rule is enforced in the daemon, not the UI).</dd>
+      <dt>grade</dt>
+      <dd>v0.5.0 alpha &mdash; currency repairs done (U2), DaemonShellClient landed (U3-A, 513 tests); desk routes (U3-B..E) in progress. (STATUS.md §Lanes after S4.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/vscode-governor" target="_blank" rel="noopener">vscode-governor</a>
+      <span class="status research">alpha</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Editor surface &mdash; wraps the <code>governor check</code> CLI for VS Code. Surfaces security and continuity findings inline. CLI-wrapper architecture, not daemon-dependent.</dd>
+      <dt>refuses</dt>
+      <dd>N/A (editor integration; verdicts come from the CLI).</dd>
+      <dt>grade</dt>
+      <dd>Alpha &mdash; compat+smoke packet completed against AG 2.8.x; structural extension work is post-MVP. (Campaign §3 table: SMALL compat+smoke packet.)</dd>
+    </dl>
+  </div>
+
+  <h2>Memory + read plane</h2>
+  <p class="muted" style="font-size: 0.94rem;">Persist state with receipts; index the corpus for navigation. Neither organ is authority-bearing; both hold things other organs need to find or resume from.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a>
+      <span class="status live">operational</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Governed cross-session memory via MCP. Observe &rarr; commit &rarr; rely with hash-chained receipts; a reliance cannot happen without a prior commit. State mutation without a receipt is refused. Used as the persistent memory substrate for agent_governor sessions.</dd>
+      <dt>refuses</dt>
+      <dd>State mutation without a receipt; relying on state that was never committed.</dd>
+      <dt>grade</dt>
+      <dd>Operational &mdash; 32 test files, MCP server live. Named limit: reliance-policy semantics are currently permissive (hardening deferred). (Campaign §3 table: READY.)</dd>
+    </dl>
+  </div>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/spine" target="_blank" rel="noopener">spine</a>
+      <span class="status research">building</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Read plane for the constellation &mdash; a navigable index over the declared document corpus. Findability is not legitimacy: spine renders an index artifact, never an admissibility verdict. The charter is fixed; a map page may cite spine&rsquo;s index as &ldquo;how to browse the corpus&rdquo; but does not depend on it.</dd>
+      <dt>refuses</dt>
+      <dd>N/A (observer only; spine holds no authority seam). Output fields must not imply endorsement or status &mdash; the non-authority pin test is the stop condition.</dd>
+      <dt>grade</dt>
+      <dd>Building &mdash; S-A documentation de-staled and pushed; core index (S-B) gated on operator decisions OQ-1/OQ-2. (STATUS.md §Lane&nbsp;S after S4.)</dd>
+    </dl>
+  </div>
+
+  <h2>Formal plane</h2>
+  <p class="muted" style="font-size: 0.94rem;">Proof artifacts. Not runtime. The theorems prove class boundaries of refusals, not deployment safety.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/lean" target="_blank" rel="noopener">lean</a>
+      <span class="status live">v7.0.0</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Formal audit of refusal-class boundaries. Machine-checks that a given refusal kind is required by the custody discipline&rsquo;s own definitions. Read-only audit surface; not runtime. Citation tiers: <code>[1.0]</code> stable / <code>[annex]</code> compiled / <code>[scratch]</code> reconnaissance. Annex cannot ratify.</dd>
+      <dt>refuses</dt>
+      <dd>N/A (proof artifact). The proofs refuse to compile if a stated boundary is falsified; they prove the class, not any deployed instance.</dd>
+      <dt>grade</dt>
+      <dd>v7.0.0 &mdash; sorry-free; Zenodo DOI. See <a href="limits.html">limits</a> for what the theorems do and don&rsquo;t prove. (Campaign §3 table: READY.)</dd>
+    </dl>
+  </div>
+
+  <h2>Nightshift</h2>
+  <p class="muted" style="font-size: 0.94rem;">Deferred governed work. Earlier-stage than nq; presented here as a specimen, not a maturity peer.</p>
+
+  <div class="component-card">
+    <div class="component-head">
+      <a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a>
+      <span class="status research">specimen</span>
+    </div>
+    <dl>
+      <dt>handles</dt>
+      <dd>Deferred governed work with receipts and reconciliation. Holds work that arrives outside the authorized window, reconciles it when the window opens, and refuses completion claims without a reconciliation receipt. The stale-witness refusal specimen runs from the README with no live infrastructure.</dd>
+      <dt>refuses</dt>
+      <dd>Completion claims without reconciliation; work completed with a stale witness.</dd>
+      <dt>grade</dt>
+      <dd>Specimen &mdash; runnable as a demonstration of the stale-witness refusal; earlier-stage than nq as a product. The monitoring lane (nq &rarr; nightshift &rarr; agent_governor) presents nightshift as the deferred-work layer, not as a maturity peer of nq. (Campaign §3 table: READY as specimen, not as product claim.)</dd>
+    </dl>
+  </div>
+
+  <h2>Runnable material</h2>
+  <p class="muted" style="font-size: 0.94rem;">What a stranger can run or inspect today, from a fresh clone of agent_governor.</p>
+
+  <ul class="run-links">
+    <li>
+      <span class="rl-name"><a href="https://github.com/unpingable/agent_governor/blob/main/docs/TOUR.md" target="_blank" rel="noopener">TOUR.md</a></span>
+      <span class="rl-desc">Three-act walkthrough of the demo path: refused spend, receipt interrogation, OPA contrast. Narrates what each receipt field means.</span>
+    </li>
+    <li>
+      <span class="rl-name"><a href="https://github.com/unpingable/agent_governor/blob/main/docs/GOVERNED_WORKFLOW.md" target="_blank" rel="noopener">GOVERNED_WORKFLOW.md</a></span>
+      <span class="rl-desc">Smallest end-to-end governed workflow: propose &rarr; verify &rarr; apply &rarr; receipts, with zero external agent required. Every command executed; two refusal modes included.</span>
+    </li>
+    <li>
+      <span class="rl-name"><a href="https://github.com/unpingable/agent_governor/blob/main/docs/REFUSAL_GALLERY.md" target="_blank" rel="noopener">REFUSAL_GALLERY.md</a></span>
+      <span class="rl-desc">Eight organs, each refusing in 30 seconds with verbatim output and the receipt field that carries the typed reason. No network, LLM, or live infrastructure required.</span>
+    </li>
+    <li>
+      <span class="rl-name"><a href="https://github.com/unpingable/agent_governor/blob/main/docs/NON_GRANTS.md" target="_blank" rel="noopener">NON_GRANTS.md</a></span>
+      <span class="rl-desc">What agents are deliberately not granted: no self-approval, no authority from prose, no minting from ALLOW, no agent-to-agent coordination, no unwitnessed clock math. Each entry carries a code pointer and pinning test.</span>
+    </li>
+    <li>
+      <span class="rl-name"><a href="https://github.com/unpingable/agent_governor/tree/main/specimens" target="_blank" rel="noopener">specimens/</a></span>
+      <span class="rl-desc">Self-verifiable specimen corpus: queue latch, approval witness, ReviewPacket, verify-run receipts. README walks digest re-verification by hand.</span>
+    </li>
+  </ul>
+
+  <p style="font-size: 0.9rem; color: var(--fg-muted);">Quick start: <code>git clone https://github.com/unpingable/agent_governor &amp;&amp; cd agent_governor &amp;&amp; pip install -e .</code> then <code>./demo/refused-spend.sh</code>. The demo fails loudly if it passes for the wrong reason.</p>
+
+  <h2>Parked residents</h2>
+  <p class="muted" style="font-size: 0.94rem;">Named without full description. Not retired; revisit if the forcing case arrives.</p>
+
+  <ul class="parked-list">
+    <li>
+      <a href="https://github.com/unpingable/clerk" target="_blank" rel="noopener">clerk</a>
+      &mdash; Electron desktop operator app. Parked for MVP (overlaps maude and gov-webui as operator surfaces; three concurrent operator UIs is over-claim). Revisit post-MVP if gov-webui desk mode proves the demand.
+    </li>
+    <li>
+      <a href="https://github.com/unpingable/governor-atlas" target="_blank" rel="noopener">governor-atlas</a>
+      &mdash; Agent_governor as a receipt-backed claim graph. Early; honest about the wired/specified split (most edges are specified, not wired). Useful secondary surface for browsing the claim topology.
+    </li>
+    <li style="color: var(--fg-ghost);">
+      Nine PARKED.md residents (cadence, custody, dossier, nlai, receipt_kernel, resonance, sorry, thinkulator, wlp) &mdash; named, not described here.
+    </li>
+  </ul>
+
+  <footer>
+    <a href="index.html">hub</a>
+    <a href="about.html">about</a>
+    <a href="demo.html">demo</a>
+    <a href="limits.html">limits</a>
+    <a href="glossary.html">glossary</a>
+    <a href="https://github.com/unpingable">github</a>
+  </footer>
+
+</body>
+</html>
