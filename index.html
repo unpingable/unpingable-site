@@ -623,7 +623,7 @@
     <p class="author">James Beck</p>
     <p class="tagline">Modern systems often decide faster than their evidence stays valid.</p>
     <p class="tagline">A permission valid when it was checked gets exercised after it lapsed. A retracted grant lands on a downstream reader that never got the retraction. A verdict logged as &ldquo;approved&rdquo; but never sealed.</p>
-    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;"><a href="glossary.html#custody">Custody</a> is the layer that catches those gaps &mdash; distinct from auth, policy, and logging. Small self-hosted tools; proof artifacts on the side.</p>
+    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;"><a href="glossary.html#custody">Custody</a> is the layer that catches those gaps &mdash; distinct from authorization, from a run that finished, from a proposal that passed. Small self-hosted tools; proof artifacts on the side.</p>
     <p class="demo-cta"><a href="demo.html">Watch a valid credential refused at the moment of spend&nbsp;&rarr;</a></p>
     <p class="demo-cta-secondary">
       <a href="about.html">About</a>
@@ -753,10 +753,10 @@
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a><span class="status research">research</span></div>
           <dl>
-            <dt>handles</dt><dd>write-blocking action gating for AI agents: typed claims in, receipts out</dd>
-            <dt>refuses</dt><dd>writes without verified proposals; actions after the permission expiry; demonstrated evidence conferring operational effect</dd>
-            <dt>proof</dt><dd>golden refusal corpus; content-addressed gate receipts; Lean class-boundary theorems</dd>
-            <dt>receipt</dt><dd><code>dda5a1e5&hellip;</code> &mdash; the temporal-lapse refusal: permission valid at check, expired at action, gap on a named monotonic basis. Reproduce: <code>demo/refused-spend.sh</code></dd>
+            <dt>handles</dt><dd>sits between an AI coding agent and its keyboard. Every action &mdash; writing a file, running a command &mdash; asks first. You approve, deny, or let read-only stuff through.</dd>
+            <dt>refuses</dt><dd>agent saying &ldquo;done&rdquo; treated as operator approving; tests passing treated as code ready to land; a rehearsal treated as production; permissions used after they expired</dd>
+            <dt>proof</dt><dd>golden refusal corpus; content-addressed receipts; Lean-audited class boundaries</dd>
+            <dt>receipt</dt><dd><code>dda5a1e5&hellip;</code> &mdash; permission valid at check, expired at action, gap on a named clock. Reproduce: <code>demo/refused-spend.sh</code></dd>
           </dl>
         </div>
         <div class="component-card">
@@ -781,7 +781,18 @@
     <section id="projects">
       <hr class="section-rule">
       <h2>Projects</h2>
-      <p>Outside the core stack: field labs and one-off experiments. Core organs are listed above.</p>
+      <p>Outside the core stack: supervised runs, field labs, and one-off experiments. Core organs are listed above.</p>
+
+      <div class="project-group">
+        <h3>Supervised runs</h3>
+        <p>Where you supervise an AI coding agent through agent_governor.</p>
+        <div class="project-list">
+          <div class="project-row">
+            <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
+            <span class="desc">Runs an AI coding agent under agent_governor. You see every action before it happens; approve, deny, or let read-only stuff through. When the run ends, review the diff and either accept the changes or throw them out.</span>
+          </div>
+        </div>
+      </div>
 
       <div class="project-group">
         <h3>Field lab &mdash; ATProto / Bluesky</h3>
