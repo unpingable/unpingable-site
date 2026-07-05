@@ -274,7 +274,7 @@
     </div>
     <dl>
       <dt>handles</dt>
-      <dd>Observation-to-claim preflight for operational systems. Witnesses disk health, process state, network reachability, and similar substrate facts; packages each finding with its evidence so the claim is traceable to an observation. When evidence is unavailable, emits <em>cannot-testify</em> rather than a smooth nothing &mdash; the refusal is the product surface, not an error to handle.</dd>
+      <dd>Observation-to-claim preflight for operational systems. Witnesses disk health, service state, host metrics, and similar substrate facts; packages each finding with its evidence so the claim is traceable to an observation. When evidence is unavailable, emits <em>cannot-testify</em> rather than a smooth nothing &mdash; the refusal is the product surface, not an error to handle.</dd>
       <dt>refuses</dt>
       <dd>Producing a finding it cannot trace to an actual observation; smoothing over evidence loss.</dd>
       <dt>grade</dt>
@@ -419,7 +419,7 @@
       <dt>refuses</dt>
       <dd>N/A (editor integration; verdicts come from the CLI).</dd>
       <dt>grade</dt>
-      <dd>Alpha &mdash; compat+smoke packet completed against AG 2.8.x; structural extension work is post-MVP. (Campaign §3 table: SMALL compat+smoke packet.)</dd>
+      <dd>Alpha &mdash; pinned against AG 2.7.0; a compat+smoke pass against 2.8.x is queued (campaign lane U5); structural extension work is post-MVP. (Campaign §3 table: SMALL compat+smoke packet.)</dd>
     </dl>
   </div>
 
