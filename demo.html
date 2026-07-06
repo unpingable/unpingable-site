@@ -236,6 +236,8 @@ leaf receipt   ag_rcpt_dda5a1e55fc0b733
     </dl>
   </div>
 
+  <p class="muted" style="font-size: 0.9rem; margin: -0.4rem 0 0.6rem;">The receipt id covers the canonical decision inputs; display and recording timestamps are carried as evidence fields, not as entropy in the id.</p>
+
   <details>
     <summary>raw receipt JSON (as returned by <code>governor receipts --id dda5a1e5&hellip; --evidence</code>)</summary>
     <pre>{
@@ -281,6 +283,7 @@ leaf receipt   ag_rcpt_dda5a1e55fc0b733
 
   <div class="qa">
     <p class="q">What happened to the spend?</p>
+    <p class="muted" style="font-size: 0.9rem; margin: 0 0 0.5rem;">The missing upstream receipt is intentional in this specimen: absence is reported as absence, not inferred away.</p>
     <pre>$ governor why dda5a1e55fc0&hellip;
 REFUSED  standing_before_spendability_not_bounded  gate=standing_spendability_seam
   OK       verdict=pass  gate=wicket_seam

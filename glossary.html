@@ -158,15 +158,20 @@
 
   <p class="index-strip">
     <a href="#admissibility">admissibility</a>
+    <a href="#approval">approval</a>
     <a href="#attestation">attestation</a>
     <a href="#authority">authority</a>
     <a href="#authorization">authorization</a>
     <a href="#boundary">boundary</a>
+    <a href="#candidate">candidate</a>
     <a href="#claim">claim</a>
     <a href="#custody">custody</a>
     <a href="#expiry">expiry</a>
     <a href="#gap">gap</a>
     <a href="#kernel">kernel</a>
+    <a href="#minting">minting</a>
+    <a href="#non-grant">non-grant</a>
+    <a href="#obstruction">obstruction</a>
     <a href="#organ">organ</a>
     <a href="#permission">permission</a>
     <a href="#policy">policy</a>
@@ -185,6 +190,9 @@
     <dt id="admissibility">admissibility <a class="anchor" href="#admissibility">#</a></dt>
     <dd>A <a href="#claim">claim</a>&rsquo;s eligibility to become a <a href="#premise">premise</a> for action. <a href="#custody">Custody</a> decides admissibility; <a href="#refusal-class">refusal classes</a> name the specific ways it can fail. The Lean theorems live under <code>Admissibility.*</code> and prove the class boundaries. Prose elsewhere on the site uses the longer phrase &ldquo;allowed to become a premise&rdquo; for cold readers; receipt and Lean identifiers use the noun directly.</dd>
 
+    <dt id="approval">approval <a class="anchor" href="#approval">#</a></dt>
+    <dd>An explicit operator or gate decision over a specific proposal, at an <a href="#authority">authority</a>-bearing surface, with scope, time, and evidence recorded. What approval is <em>not</em>: an agent saying &ldquo;done,&rdquo; a passing test run, a chat message, a completed rehearsal, a green check, or a demo succeeding. Approval is a bounded authority-bearing act &mdash; if nothing recorded a scoped decision, nothing was approved. Contrasts with automatic promotion: agents may propose; approval is a distinct operator/gate step, never a byproduct.</dd>
+
     <dt id="attestation">attestation <a class="anchor" href="#attestation">#</a></dt>
     <dd>Evidence that someone or something observed and recorded a <a href="#claim">claim</a>, with attribution. Distinct from a signature (which proves who said the thing, not whether it was observed) and from a log line (which records but doesn&rsquo;t attest). <a href="#receipt">Receipts</a> are attestations of custody decisions; <code>nq</code> records attestations of operational observations.</dd>
 
@@ -197,6 +205,9 @@
     <dt id="boundary">boundary <a class="anchor" href="#boundary">#</a></dt>
     <dd>A named conversion point in the <a href="#custody">custody</a> chain where one kind of <a href="#claim">claim</a> becomes another &mdash; e.g., an observed <a href="#permission">permission</a> becoming one usable at action time. The boundary is the place where the conversion can refuse.</dd>
     <dd class="aka">In receipt fields: <code>seam</code>.</dd>
+
+    <dt id="candidate">candidate <a class="anchor" href="#candidate">#</a></dt>
+    <dd>A proposed <a href="#claim">claim</a>, action, or receipt that has entered the system but has not yet been admitted as authoritative. Agent output arrives as candidate: it may carry structure and content, but it does not carry <a href="#authority">authority</a> until a gate admits it. The word is deliberately distinct from <em>approved</em> or <em>accepted</em> &mdash; candidate names the intermediate status where proposal exists but promotion has not.</dd>
 
     <dt id="claim">claim <a class="anchor" href="#claim">#</a></dt>
     <dd>An assertion that something is true: that a credential is valid, a monitor is green, an action is allowed. Claims arrive from many sources (log lines, API responses, model outputs, human approvals) and may be <a href="#witnessed">witnessed</a>, stale, or self-reported. A claim is not yet a <a href="#premise">premise</a> &mdash; whether it may become one is the <a href="#custody">custody</a> question.</dd>
@@ -213,6 +224,15 @@
 
     <dt id="kernel">kernel <a class="anchor" href="#kernel">#</a></dt>
     <dd>The minimal rule core of a check: small enough that its <a href="#refusal-class">refusal classes</a> can be stated precisely, and in this project, checked in Lean. Distinct from the runtime that implements it. &ldquo;Custody kernel&rdquo; = the rules that license refusals; &ldquo;intent preflight kernel&rdquo; (<a href="#wicket">wicket</a>) = the small set of conditions an intent must satisfy to become a <a href="#premise">premise</a>.</dd>
+
+    <dt id="minting">minting <a class="anchor" href="#minting">#</a></dt>
+    <dd>Promoting a <a href="#candidate">candidate</a> into an authoritative artifact &mdash; a released version, an accepted claim, a receipt others may rely on. Minting is the explicit act of granting <a href="#authority">authority</a> to something that previously carried none. Distinct from <em>visibility</em>: a candidate can be visible (committed, pushed, published as a draft) without being minted. Custody insists this step be explicit &mdash; not something that happens by accident when an agent finishes running.</dd>
+
+    <dt id="non-grant">non-grant <a class="anchor" href="#non-grant">#</a></dt>
+    <dd>A capability an agent is deliberately not given, with enforcing code and tests on the line that denies it. Not a warning or a policy note &mdash; a structural refusal. The non-grant list names what agents cannot do (approve themselves, promote their own output, mint <a href="#authority">authority</a> from prose, use permissions after expiry, turn rehearsal into production, treat &ldquo;tests passed&rdquo; as safe to land) and points at the code that refuses each case.</dd>
+
+    <dt id="obstruction">obstruction <a class="anchor" href="#obstruction">#</a></dt>
+    <dd>A refusal grounded in <em>missing</em> evidence or action &mdash; the gate cannot proceed because a required witness, receipt, seal, or step is absent. Distinct from a substantive refusal (evidence exists but fails a predicate): an obstruction says &ldquo;I do not have what I need to decide.&rdquo; Reported as absence rather than inferred away; the point is that the gap is visible and named.</dd>
 
     <dt id="organ">organ <a class="anchor" href="#organ">#</a></dt>
     <dd>Project term for one of the custody stack&rsquo;s small subsystems. Used as a collection word because the subsystems are different shapes &mdash; a single noun like &ldquo;components&rdquo; would flatten that.</dd>

@@ -260,6 +260,38 @@
       color: var(--accent);
     }
 
+    /* ── CONTRACT BOX ── */
+    .contract {
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      border-left: 3px solid var(--accent);
+      padding: 0.7rem 1rem 0.65rem;
+      margin: 0.2rem 0 1.4rem;
+      max-width: 620px;
+    }
+    .contract p {
+      font-size: 0.94rem;
+      line-height: 1.5;
+      color: var(--fg-muted);
+      margin: 0;
+      padding: 0.15rem 0;
+    }
+    .contract p + p {
+      border-top: 1px solid var(--border-faint);
+      margin-top: 0.35rem;
+      padding-top: 0.5rem;
+    }
+    .contract .ck {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--fg-faint);
+      display: inline-block;
+      min-width: 6.5rem;
+      margin-right: 0.55rem;
+    }
+
     /* ── CUSTODY STACK ── */
     .demo-cta {
       margin: 0.9rem 0 0;
@@ -621,16 +653,21 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline" style="color: var(--fg); font-weight: 500;">A way to let AI tools help with operational work while keeping every action bounded, reviewable, and backed by receipts. Agents can propose work. They cannot approve themselves.</p>
-    <p class="tagline">Underneath: modern systems often decide faster than their evidence stays valid.</p>
-    <p class="tagline">A permission valid when it was checked gets exercised after it lapsed. A retracted grant lands on a downstream reader that never got the retraction. A verdict logged as &ldquo;approved&rdquo; but never sealed.</p>
-    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;"><a href="glossary.html#custody">Custody</a> is the layer that catches those gaps &mdash; distinct from authorization, from a run that finished, from a proposal that passed. Small self-hosted tools; proof artifacts on the side.</p>
-    <p class="demo-cta"><a href="demo.html">Watch a valid credential refused at the moment of spend&nbsp;&rarr;</a></p>
+    <p class="tagline" style="color: var(--fg); font-weight: 500;">State can lapse between check and action.</p>
+    <p class="tagline">A credential was valid when checked. A permission was fresh when observed. A <a href="glossary.html#policy">policy</a> said yes over the input it was handed. Then time passed, evidence went stale, scope changed, or the action arrived after the bound expired.</p>
+    <p class="tagline">Small self-hosted gates for that gap. Automation can propose work &mdash; runbooks, scripts, Terraform plans, AI agents &mdash; but it cannot self-approve, spend stale permission, or turn &ldquo;tests passed&rdquo; into &ldquo;safe to apply.&rdquo; Every decision leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not just a log line.</p>
+    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;">Internally, this is evidence <a href="glossary.html#custody">custody</a>: deciding whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a>. Small self-hosted tools; proof artifacts on the side.</p>
+    <div class="contract">
+      <p><span class="ck">contract</span>Agents may propose work; gates decide whether the proposal is admissible; operators decide whether governed output is promoted.</p>
+      <p><span class="ck">not approval</span>An agent saying &ldquo;done,&rdquo; tests passing, a completed run, a green check, or a demo.</p>
+      <p><span class="ck">evidence</span>Every refusal names the gate, the failed predicate, the clock basis, and whether any effect occurred.</p>
+    </div>
+    <p class="demo-cta"><a href="incident.html">Start with the incident: valid at check, refused at action&nbsp;&rarr;</a></p>
     <p class="demo-cta-secondary">
-      <a href="about.html">About</a>
-      <a href="incident.html">Incident</a>
+      <a href="demo.html">Run the demo</a>
       <a href="limits.html">Limits</a>
-      <a href="constellation.html">Constellation</a>
+      <a href="about.html">About</a>
+      <a href="constellation.html">Components</a>
     </p>
     <nav>
       <a href="#stack">Stack</a>
@@ -713,7 +750,7 @@
           </g>
         </svg>
         <p class="diagram-caption" id="stack-caption" role="status" aria-live="polite">
-          <span class="cap-default">Hover an edge for the claim it enforces. <span class="cap-key">Solid</span> shipped; <span class="cap-key">dashed</span> mapped, not built. Drill runs demonstrate structure &mdash; they cannot confer operational effect.</span>
+          <span class="cap-default">Select an edge for the claim it enforces. <span class="cap-key">Solid</span> shipped; <span class="cap-key">dashed</span> mapped, not built. Drill runs demonstrate structure &mdash; they cannot confer operational effect.</span>
         </p>
       </div>
 

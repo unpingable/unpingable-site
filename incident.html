@@ -154,7 +154,7 @@
     <div class="row"><span class="t">t=51s</span><span class="ev"><code>consume_capacity</code> arrives at the executor</span></div>
     <div class="row"><span class="t">t=51s</span><span class="ev"><span class="tag-block">refused</span> &mdash; gap 11s, bound 10s, overage 1s, <code>effect_count=0</code></span></div>
   </div>
-  <p>The credential was valid when it was checked. It expired before it was exercised. The conventional path doesn&rsquo;t catch this because it doesn&rsquo;t re-check at exercise time &mdash; and even when it does, it re-checks against wall time, which isn&rsquo;t the basis the <a href="glossary.html#expiry">expiry</a> was issued on.</p>
+  <p>The credential was valid when it was checked. It expired before it was exercised. The conventional path often either does not re-check at exercise time, or re-checks without preserving the original witness basis, typed bound, and downstream-verifiable receipt &mdash; so the <a href="glossary.html#expiry">expiry</a> gets compared against the wrong clock, or nothing at all.</p>
   <p>This is TOCTOU (time-of-check to time-of-use) where the racing entity is the credential's own freshness, not a competing writer. Logs see it after the fact; <a href="glossary.html#policy">policy</a> engines don't see it at all unless something hands them the <a href="glossary.html#gap">gap</a> as input. Nothing in the conventional path attests that the check was still in scope at the moment of the spend.</p>
 
   <h2>Why the conventional path says allow</h2>
