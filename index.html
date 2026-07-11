@@ -310,20 +310,43 @@
       color: var(--bg);
       background: var(--accent);
     }
-    .demo-cta-secondary {
-      margin: 0.75rem 0 0;
+    .routes {
+      margin: 1.5rem 0 0.5rem;
+    }
+    .routes h3 {
       font-family: var(--mono);
-      font-size: 0.92rem;
-      display: flex;
-      gap: 1.25rem;
-    }
-    .demo-cta-secondary a {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: var(--fg-faint);
-      text-decoration: underline;
+      margin-bottom: 0.5rem;
     }
-    .demo-cta-secondary a:hover {
-      color: var(--accent);
-      text-decoration: underline;
+    .route {
+      display: flex;
+      gap: 1rem;
+      padding: 0.4rem 0;
+      align-items: baseline;
+    }
+    .route + .route {
+      border-top: 1px solid var(--border-faint);
+    }
+    .route .who {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--fg-faint);
+      flex-shrink: 0;
+      width: 9.5rem;
+      letter-spacing: 0.02em;
+    }
+    .route .path {
+      font-size: 0.92rem;
+      color: var(--fg-muted);
+      line-height: 1.5;
+    }
+    .route .path a {
+      font-family: var(--mono);
+      font-size: 0.85rem;
     }
     .edge-list, .component-skeleton {
       margin-top: 1.5rem;
@@ -635,6 +658,15 @@
         width: auto;
       }
 
+      .route {
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+
+      .route .who {
+        width: auto;
+      }
+
       .stack-diagram {
         overflow-x: auto;
         padding: 1rem 0 0.5rem;
@@ -653,22 +685,24 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline" style="color: var(--fg); font-weight: 500;">State can lapse between check and action.</p>
-    <p class="tagline">A credential was valid when checked. A permission was fresh when observed. A <a href="glossary.html#policy">policy</a> said yes over the input it was handed. Then time passed, evidence went stale, scope changed, or the action arrived after the bound expired.</p>
-    <p class="tagline">Small self-hosted gates for that gap. Automation can propose work &mdash; runbooks, scripts, Terraform plans, AI agents &mdash; but it cannot self-approve, spend stale permission, or turn &ldquo;tests passed&rdquo; into &ldquo;safe to apply.&rdquo; Every decision leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not just a log line.</p>
-    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 500px; line-height: 1.55;">Internally, this is evidence <a href="glossary.html#custody">custody</a>: deciding whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a>. Small self-hosted tools; proof artifacts on the side.</p>
+    <p class="tagline" style="color: var(--fg); font-weight: 500;">How automated systems move from observation to action &mdash; and what has to hold, at each step, before an action is legitimate.</p>
+    <p class="tagline">Systems routinely skip the steps. An observation becomes a <a href="glossary.html#claim">claim</a>, a claim becomes a permission, a permission becomes an action &mdash; without the conversions being made explicit, and without re-checking that they still hold at the moment they are used. A credential valid at check time is spent after it expired. A monitor that was green authorizes a change. &ldquo;Tests passed&rdquo; becomes &ldquo;safe to apply.&rdquo; Each was true earlier; by the moment of action it is stale, unsupported, or out of scope.</p>
+    <p class="tagline">This lab builds small, self-hosted gates that make those conversions explicit, bounded, and inspectable &mdash; and able to refuse. Automation may propose work: runbooks, scripts, Terraform plans, AI agents. It cannot approve its own output, spend permission that has expired, or turn a demonstration into an operational fact. Every decision, and especially every refusal, leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not a log line.</p>
+    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 520px; line-height: 1.55;">The same failure shows up across domains &mdash; operations, AI agents, distributed systems, formal verification, governance. Not separate programs; each is a place the one problem appears. Internally the invariant is evidence <a href="glossary.html#custody">custody</a>: deciding whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a>. Small self-hosted tools; proof artifacts on the side.</p>
     <div class="contract">
       <p><span class="ck">contract</span>Agents may propose work; gates decide whether the proposal is admissible; operators decide whether governed output is promoted.</p>
       <p><span class="ck">not approval</span>An agent saying &ldquo;done,&rdquo; tests passing, a completed run, a green check, or a demo.</p>
       <p><span class="ck">evidence</span>Every refusal names the gate, the failed predicate, the clock basis, and whether any effect occurred.</p>
     </div>
     <p class="demo-cta"><a href="incident.html">Start with the incident: valid at check, refused at action&nbsp;&rarr;</a></p>
-    <p class="demo-cta-secondary">
-      <a href="demo.html">Run the demo</a>
-      <a href="limits.html">Limits</a>
-      <a href="about.html">About</a>
-      <a href="constellation.html">Components</a>
-    </p>
+    <div class="routes">
+      <h3>Where to start &mdash; the same problem, five environments</h3>
+      <div class="route"><span class="who">Operations / SRE</span><span class="path">The <a href="incident.html">incident write-up</a> &mdash; a check-then-act race in postmortem form &mdash; then <a href="demo.html">run the demo</a>.</span></div>
+      <div class="route"><span class="who">AI agents</span><span class="path"><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a> and <a href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a> &mdash; typed proposals in, gate verdicts and refusal receipts out.</span></div>
+      <div class="route"><span class="who">Formal methods</span><span class="path">The <a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">Lean proof reader&rsquo;s portal</a> &mdash; refusal-class boundaries, machine-checked.</span></div>
+      <div class="route"><span class="who">Publications</span><span class="path">The <a href="#research">research index</a> below, or the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>.</span></div>
+      <div class="route"><span class="who">Background</span><span class="path">Why a lab and not a product, and what it is and isn&rsquo;t &mdash; <a href="about.html">about</a>. Reference: <a href="limits.html">limits</a>, <a href="glossary.html">glossary</a>, <a href="constellation.html">components</a>.</span></div>
+    </div>
     <nav>
       <a href="#stack">Stack</a>
       <a href="#projects">Projects</a>
