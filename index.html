@@ -452,6 +452,12 @@
       text-align: right;
       letter-spacing: 0.02em;
     }
+    #design h3 {
+      font-size: 0.98rem;
+      font-weight: 600;
+      font-style: italic;
+      margin: 1.6rem 0 0.5rem;
+    }
     .lc-split {
       padding: 0.3rem 1rem;
       border-top: 1px dashed var(--border);
@@ -803,7 +809,13 @@
       </div>
 
       <p>What it would buy: a declared surface to name (&ldquo;the public edge&rdquo;) instead of a list of hostnames pasted between tools; a comparison of declared structure against admissible observation, where divergence is a finding rather than a silent widening; and authority that binds to an exact design revision, so a changed system does not inherit the old permission.</p>
-      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); letter-spacing: 0.02em; line-height: 1.55;">Status: named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. Nothing above the line exists.</p>
+
+      <h3>One narrow case already runs</h3>
+      <p>A firewall rule is a small declaration: <em>this traffic is refused.</em> nq can read that rule over a read-only connection and probe the path from a named vantage point &mdash; and then refuse to let the declaration and the observation be quietly merged into one story. It is not a firewall test. nq never rules the firewall correct or broken; it holds the two apart and says which one it actually saw.</p>
+      <p>The discipline is in what it will not say. A rule that does not match is <em>cannot testify</em>, never &ldquo;allowed.&rdquo; A blocked path proves nothing by itself &mdash; a dead vantage point looks exactly like a working rule &mdash; so &ldquo;blocked&rdquo; is only admissible alongside a control probe to a known-reachable target proving the vantage had a way out at all. Only a real completed handshake to a declared-denied address is an unambiguous contradiction; a rejection packet is not a way through. The verdicts are typed and there is no <code>is_ok()</code> &mdash; a test asserts the receipt contains no <code>healthy</code> and no <code>green</code>.</p>
+      <p>Pointed at a real firewall &mdash; a blocklist rule with 17,007 entries behind it &mdash; the answer was <em>cannot testify</em>: the rule was present and readable, the vantage had ordinary egress, and the path itself was deliberately never probed, because probing it means firing a packet at a named malicious host to make a demo look better. The verdicts that would be interesting exist only on a scratch firewall built for the purpose, and the got-through case had to be staged with a deliberately broken rule. nq has never caught a real firewall failing to enforce a real block. It has shown it would notice.</p>
+
+      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); letter-spacing: 0.02em; line-height: 1.55;">Status: named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. The firewall probe is one rule at a time, with none of the design layer above it: evidence the comparison is worth generalizing, not evidence that it exists. Nothing above the line is built.</p>
     </section>
 
     <section id="stack">
@@ -895,6 +907,7 @@
             <dt>handles</dt><dd>observation&rarr;claim preflight for operational systems</dd>
             <dt>refuses</dt><dd>assertion that abandons its evidence</dd>
             <dt>proof</dt><dd>SQL-interrogable evidence store; every claim traceable to its observation</dd>
+            <dt>inquiry</dt><dd>Ask a question with a budget attached. You write the question down first &mdash; which targets, what limits, what deadline, and, up front, what this question <em>cannot</em> answer. Then reading is spending: attempts are counted and capped before the first DNS lookup, and a failed attempt still costs. In the worked certificate example the entire authorized budget is four work units and 750 milliseconds. The answer comes back sealed, with the evidence, the spend, and the refusals attached &mdash; and what it found cannot fund whatever you ask next.</dd>
           </dl>
         </div>
         <div class="component-card">
