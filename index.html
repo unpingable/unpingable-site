@@ -586,12 +586,12 @@
       color: var(--fg);
       letter-spacing: 0.02em;
     }
-    .stack-diagram .diagram-caption .cap-organ {
+    .stack-diagram .diagram-caption .cap-component {
       color: var(--fg-ghost);
       margin-left: 0.5em;
       font-size: 0.92em;
     }
-    .stack-diagram .diagram-caption .cap-organ::before {
+    .stack-diagram .diagram-caption .cap-component::before {
       content: "— ";
     }
 
@@ -821,7 +821,7 @@
     <section id="stack">
       <hr class="section-rule">
       <h2>The assurance and custody kernel</h2>
-      <p>The layer that does exist, in parts. The edges are the product; the organs implement them.</p>
+      <p>The layer that does exist, in parts. The edges are the product; the components implement them.</p>
       <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.4rem 0 1.1rem; letter-spacing: 0.02em;">Not a policy engine. Not a hosted platform. Not an AI-safety oracle.</p>
 
       <div class="stack-diagram">
@@ -833,19 +833,19 @@
           </defs>
 
           <g class="edges">
-            <g class="edge live" data-claim="An observation becomes a claim only through preflight that preserves its evidence." data-organ="nq" data-status="live" tabindex="0">
+            <g class="edge live" data-claim="An observation becomes a claim only through preflight that preserves its evidence." data-component="nq" data-status="live" tabindex="0">
               <line class="edge-line" x1="115" y1="90" x2="185" y2="90" marker-end="url(#arr-live)"/>
               <rect class="edge-hit" x="115" y="72" width="70" height="36"/>
             </g>
-            <g class="edge live" data-claim="A claim becomes a premise only if custody allows it &mdash; policy engines decide over claims; custody decides whether those claims may become premises." data-organ="wicket · agent_governor" data-status="live" tabindex="0">
+            <g class="edge live" data-claim="A claim becomes a premise only if custody allows it &mdash; policy engines decide over claims; custody decides whether those claims may become premises." data-component="wicket · agent_governor" data-status="live" tabindex="0">
               <line class="edge-line" x1="240" y1="90" x2="310" y2="90" marker-end="url(#arr-live)"/>
               <rect class="edge-hit" x="240" y="72" width="70" height="36"/>
             </g>
-            <g class="edge live" data-claim="An observed permission is not automatically usable at action time &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the action." data-organ="standing · agent_governor" data-status="live" tabindex="0">
+            <g class="edge live" data-claim="An observed permission is not automatically usable at action time &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the action." data-component="standing · agent_governor" data-status="live" tabindex="0">
               <line class="edge-line" x1="388" y1="90" x2="452" y2="90" marker-end="url(#arr-live)"/>
               <rect class="edge-hit" x="388" y="72" width="64" height="36"/>
             </g>
-            <g class="edge live" data-claim="A verdict becomes evidence &mdash; a receipt the next system can verify &mdash; not a log line." data-organ="agent_governor" data-status="live" tabindex="0">
+            <g class="edge live" data-claim="A verdict becomes evidence &mdash; a receipt the next system can verify &mdash; not a log line." data-component="agent_governor" data-status="live" tabindex="0">
               <line class="edge-line" x1="525" y1="90" x2="585" y2="90" marker-end="url(#arr-live)"/>
               <rect class="edge-hit" x="525" y="72" width="60" height="36"/>
             </g>
@@ -868,19 +868,19 @@
           </g>
 
           <g class="side-edges">
-            <g class="edge zoned" data-claim="The tools operate over a system someone composed on purpose. Today that design is unwritten &mdash; each tool re-derives it by hand. An authored, ratified revision would supply the bounded referent the rest of the chain binds to." data-organ="composer" data-status="candidate &mdash; nothing built" tabindex="0">
+            <g class="edge zoned" data-claim="The tools operate over a system someone composed on purpose. Today that design is unwritten &mdash; each tool re-derives it by hand. An authored, ratified revision would supply the bounded referent the rest of the chain binds to." data-component="composer" data-status="candidate &mdash; nothing built" tabindex="0">
               <line class="edge-line dashed" x1="70" y1="28" x2="70" y2="78" marker-end="url(#arr-zoned)"/>
               <rect class="edge-hit" x="35" y="8" width="70" height="70"/>
             </g>
-            <g class="edge zoned" data-claim="A lapsed grant must reach everyone currently relying on it, with delivery accounted." data-organ="retraction transport" data-status="zoned" tabindex="0">
+            <g class="edge zoned" data-claim="A lapsed grant must reach everyone currently relying on it, with delivery accounted." data-component="retraction transport" data-status="zoned" tabindex="0">
               <line class="edge-line dashed" x1="350" y1="108" x2="350" y2="140" marker-end="url(#arr-zoned)"/>
               <rect class="edge-hit" x="315" y="105" width="70" height="55"/>
             </g>
-            <g class="edge zoned" data-claim="An authorized action still refuses without capacity usable at action time." data-organ="linear accountant seam" data-status="zoned" tabindex="0">
+            <g class="edge zoned" data-claim="An authorized action still refuses without capacity usable at action time." data-component="linear accountant seam" data-status="zoned" tabindex="0">
               <line class="edge-line dashed" x1="490" y1="108" x2="490" y2="140" marker-end="url(#arr-zoned)"/>
               <rect class="edge-hit" x="455" y="105" width="70" height="55"/>
             </g>
-            <g class="edge zoned" data-claim="Logs are self-report until sealed." data-organ="notary" data-status="zoned" tabindex="0">
+            <g class="edge zoned" data-claim="Logs are self-report until sealed." data-component="notary" data-status="zoned" tabindex="0">
               <line class="edge-line dashed" x1="630" y1="108" x2="630" y2="140" marker-end="url(#arr-zoned)"/>
               <rect class="edge-hit" x="595" y="105" width="70" height="55"/>
             </g>
@@ -899,7 +899,7 @@
       </div>
 
       <div class="component-skeleton">
-        <h3>Organs &mdash; what each handles, and what it refuses</h3>
+        <h3>Components &mdash; what each handles, and what it refuses</h3>
         <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;">Python libraries and CLIs you self-host. nq is one binary; verifier ships a Z3 sidecar; Lean is for proof artifacts (read-only audit, not runtime). No SaaS, no hosted control plane. Badges: <span class="status" style="margin-left:0">operational</span> in daily use &middot; <span class="status research">research</span> exploratory.</p>
         <div class="component-card">
           <div class="component-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span></div>
@@ -965,7 +965,7 @@
     <section id="projects">
       <hr class="section-rule">
       <h2>Projects</h2>
-      <p>Outside the core stack: supervised runs, field labs, and one-off experiments. Core organs are listed above.</p>
+      <p>Outside the core stack: supervised runs, field labs, and one-off experiments. Core components are listed above.</p>
 
       <div class="project-group">
         <h3>Supervised runs</h3>
@@ -1153,9 +1153,9 @@
       const edges = document.querySelectorAll('.stack-diagram .edge');
       const show = (el) => {
         const claim = el.getAttribute('data-claim') || '';
-        const organ = el.getAttribute('data-organ') || '';
+        const component = el.getAttribute('data-component') || '';
         const status = el.getAttribute('data-status') || '';
-        caption.innerHTML = claim + ' <span class="cap-organ">' + organ + ' &middot; ' + status + '</span>';
+        caption.innerHTML = claim + ' <span class="cap-component">' + component + ' &middot; ' + status + '</span>';
       };
       const reset = () => { caption.innerHTML = defaultHTML; };
       edges.forEach((el) => {

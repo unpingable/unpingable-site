@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Glossary &mdash; unpingable</title>
-  <meta name="description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, organ, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
+  <meta name="description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="Glossary — unpingable">
-  <meta property="og:description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, organ, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
+  <meta property="og:description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
   <meta property="og:url" content="https://unpingable.com/glossary.html">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Glossary — unpingable">
-  <meta name="twitter:description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, organ, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
+  <meta name="twitter:description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
@@ -108,22 +108,6 @@
       color: var(--fg-faint);
       margin-top: 0.45rem;
     }
-    dl.glossary dd ul.organ-list {
-      list-style: none;
-      margin: 0.5rem 0 0;
-      padding: 0;
-    }
-    dl.glossary dd ul.organ-list li {
-      padding: 0.18rem 0;
-      color: var(--fg-muted);
-      font-size: 0.95rem;
-      line-height: 1.55;
-    }
-    dl.glossary dd ul.organ-list li code {
-      color: var(--fg);
-      font-weight: 600;
-      margin-right: 0.3rem;
-    }
 
     .index-strip {
       font-family: var(--mono);
@@ -158,7 +142,6 @@
   <p class="muted" style="font-size: 0.9rem;">If you're new, the bridge from plain words to the precise ones:</p>
   <table style="font-family: var(--mono); font-size: 0.82rem; border-collapse: collapse; margin: 0 0 1.4rem;">
     <tr><th style="text-align:left; padding: 0.15rem 1.2rem 0.15rem 0; color: var(--fg-faint); font-weight: 500;">plain term</th><th style="text-align:left; color: var(--fg-faint); font-weight: 500;">precise term</th></tr>
-    <tr><td style="padding-right: 1.2rem;">component</td><td>organ</td></tr>
     <tr><td style="padding-right: 1.2rem;">system / component set</td><td>constellation</td></tr>
     <tr><td style="padding-right: 1.2rem;">what can be relied on</td><td><a href="#admissibility">admissibility</a></td></tr>
     <tr><td style="padding-right: 1.2rem;">proposed / not yet accepted</td><td>candidate</td></tr>
@@ -185,7 +168,6 @@
     <a href="#minting">minting</a>
     <a href="#non-grant">non-grant</a>
     <a href="#obstruction">obstruction</a>
-    <a href="#organ">organ</a>
     <a href="#permission">permission</a>
     <a href="#policy">policy</a>
     <a href="#preflight">preflight</a>
@@ -247,23 +229,9 @@
     <dt id="obstruction">obstruction <a class="anchor" href="#obstruction">#</a></dt>
     <dd>A refusal grounded in <em>missing</em> evidence or action &mdash; the gate cannot proceed because a required witness, receipt, seal, or step is absent. Distinct from a substantive refusal (evidence exists but fails a predicate): an obstruction says &ldquo;I do not have what I need to decide.&rdquo; Reported as absence rather than inferred away; the point is that the gap is visible and named.</dd>
 
-    <dt id="organ">organ <a class="anchor" href="#organ">#</a></dt>
-    <dd>Project term for one of the custody stack&rsquo;s small subsystems. Used as a collection word because the subsystems are different shapes &mdash; a single noun like &ldquo;components&rdquo; would flatten that.</dd>
-    <dd>
-      <ul class="organ-list">
-        <li><code>nq</code> &mdash; observation&rarr;<a href="#claim">claim</a> preflight (evidence-preserving)</li>
-        <li><code>wicket</code> &mdash; intent preflight gate; decides whether an intent may become a <a href="#premise">premise</a></li>
-        <li><code>standing</code> &mdash; <a href="#permission">permission</a> observation with observation-age receipts</li>
-        <li><code>nightshift</code> &mdash; deferred governed work with reconciliation receipts</li>
-        <li><code>agent_governor</code> &mdash; action governor: write-blocking gate for AI agents, emits refusal receipts</li>
-        <li><code>continuity</code> &mdash; governed state persistence with hash-chained receipts</li>
-        <li><code>verifier</code> &mdash; formal constraint sidecar (Z3) for explicit invariants</li>
-      </ul>
-    </dd>
-
     <dt id="permission">permission <a class="anchor" href="#permission">#</a></dt>
     <dd>An active grant to perform a thing, observed at a specific moment with a valid-until time. A permission valid when checked is not automatically usable at action time &mdash; the <a href="#gap">gap</a> between check and action may exceed the permission&rsquo;s <a href="#expiry">expiry</a>.</dd>
-    <dd class="aka">In receipt identifiers and the organ name: <code><a href="#standing">standing</a></code>.</dd>
+    <dd class="aka">In receipt identifiers and the component name: <code><a href="#standing">standing</a></code>.</dd>
 
     <dt id="policy">policy <a class="anchor" href="#policy">#</a></dt>
     <dd>A set of rules that decides over inputs a system treats as <a href="#premise">premises</a> &mdash; e.g., OPA/Rego over an input document, RBAC over an identity. Returns a verdict over what it&rsquo;s been given. Distinct from <a href="#custody">custody</a>: policy decides over premises; custody decides whether the underlying <a href="#claim">claims</a> deserved premise status in the first place. The two compose &mdash; OPA can run happily inside a custody stack.</dd>
@@ -284,10 +252,10 @@
     <dd>A specific <a href="#boundary">boundary</a> check: whether a <a href="#permission">permission</a> observed earlier is still usable at action time. Receipt fields and refusal-class names use <code>spendability</code> (e.g., <code>standing_spendability_seam</code>); prose tends to use the longer phrase (&ldquo;usable at action time&rdquo;) because the bare noun reads as a coinage to cold readers.</dd>
 
     <dt id="standing">standing <a class="anchor" href="#standing">#</a></dt>
-    <dd>Code and receipt name for a <a href="#permission">permission</a> observation with age and expiry. In prose, this site usually says <em>permission</em>. The organ named <code>standing</code> produces standing receipts (with observation age); receipt fields like <code>standing_spendability_seam</code> and <code>standing_before_spendability_not_bounded</code> use the code name.</dd>
+    <dd>Code and receipt name for a <a href="#permission">permission</a> observation with age and expiry. In prose, this site usually says <em>permission</em>. The component named <code>standing</code> produces standing receipts (with observation age); receipt fields like <code>standing_spendability_seam</code> and <code>standing_before_spendability_not_bounded</code> use the code name.</dd>
 
     <dt id="wicket">wicket <a class="anchor" href="#wicket">#</a></dt>
-    <dd>The intent preflight kernel &mdash; decides whether an intent (the AI agent&rsquo;s proposed action) may become a <a href="#premise">premise</a> before any effect runs. Refuses intents from revoked or out-of-scope actors. One of the <a href="#organ">organs</a>.</dd>
+    <dd>The intent preflight kernel &mdash; decides whether an intent (the AI agent&rsquo;s proposed action) may become a <a href="#premise">premise</a> before any effect runs. Refuses intents from revoked or out-of-scope actors.</dd>
 
     <dt id="witnessed">witnessed <a class="anchor" href="#witnessed">#</a></dt>
     <dd>A <a href="#claim">claim</a> is <em>witnessed</em> when its assertion is traceable to an observation that took it &mdash; with the observation&rsquo;s source, time, and basis preserved. Distinct from <em>signed</em> (which proves an issuer&rsquo;s signature but not what the issuer actually observed) and from <em>self-reported</em> (an actor asserting something about itself without independent attestation). Witnessing is the property the conversion observation&rarr;claim is supposed to preserve.</dd>
