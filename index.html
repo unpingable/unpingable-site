@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
-  <meta name="description" content="Research on how automated systems move from observation to action — and what must hold at each step before the action is legitimate.">
+  <meta name="description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="unpingable">
-  <meta property="og:description" content="Research on how automated systems move from observation to action — and what must hold at each step before the action is legitimate.">
+  <meta property="og:description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
   <meta property="og:url" content="https://unpingable.com/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="unpingable">
-  <meta name="twitter:description" content="Research on how automated systems move from observation to action — and what must hold at each step before the action is legitimate.">
+  <meta name="twitter:description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
@@ -110,6 +110,16 @@
       max-width: 500px;
       line-height: 1.6;
       margin-bottom: 1.25rem;
+    }
+
+    header .tagline.lead {
+      color: var(--fg);
+      font-weight: 500;
+      font-size: 1.32rem;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.9rem;
+      max-width: 540px;
     }
 
     header nav {
@@ -403,6 +413,54 @@
     }
     .status.zoned, .status.research {
       color: var(--fg-faint);
+    }
+    .status.candidate {
+      border-style: dashed;
+      color: var(--fg-faint);
+    }
+
+    /* ── LIFECYCLE (design layer) ── */
+    .lifecycle {
+      margin: 1.25rem 0 1.5rem;
+      border: 1px solid var(--border-faint);
+      background: var(--bg-inset);
+    }
+    .lc-row {
+      display: flex;
+      gap: 1rem;
+      align-items: baseline;
+      padding: 0.55rem 1rem;
+    }
+    .lc-row + .lc-row {
+      border-top: 1px solid var(--border-faint);
+    }
+    .lc-row .lc-stage {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--fg);
+      flex: 1;
+    }
+    .lc-row.pending .lc-stage {
+      color: var(--fg-faint);
+      font-weight: 500;
+    }
+    .lc-row .lc-by {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      color: var(--fg-ghost);
+      text-align: right;
+      letter-spacing: 0.02em;
+    }
+    .lc-split {
+      padding: 0.3rem 1rem;
+      border-top: 1px dashed var(--border);
+      background: var(--accent-faint);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--accent);
     }
     .component-card {
       padding: 0.7rem 0;
@@ -698,9 +756,11 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline" style="color: var(--fg); font-weight: 500;">Research on how automated systems move from observation to action &mdash; and what must hold at each step before the action is legitimate.</p>
+    <p class="tagline lead">The design and assurance layer operations never had.</p>
+    <p class="tagline">Unpingable is a self-hosted platform for governing how operational observations become claims, decisions, and actions. The constellation running today is the assurance kernel: it decides what may be relied on, what may act, and what must refuse &mdash; and leaves a <a href="glossary.html#receipt">receipt</a> either way.</p>
     <p class="tagline">Systems routinely skip the steps. An observation becomes a <a href="glossary.html#claim">claim</a>, a claim becomes a permission, a permission becomes an action &mdash; without the conversions being made explicit, and without re-checking that they still hold at the moment they are used. A credential valid at check time is spent after it expired. A monitor that was green authorizes a change. &ldquo;Tests passed&rdquo; becomes &ldquo;safe to apply.&rdquo; Each was true earlier; by the moment of action it is stale, unsupported, or out of scope.</p>
-    <p class="tagline">This lab builds small, self-hosted gates that make those conversions explicit, bounded, and inspectable &mdash; and able to refuse. Automation may propose work: runbooks, scripts, Terraform plans, AI agents. It cannot approve its own output, spend permission that has expired, or turn a demonstration into an operational fact. Every decision, and especially every refusal, leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not a log line.</p>
+    <p class="tagline">The components are small and self-hosted, but they are not a pile of policy middleware &mdash; they implement one shared model of what must hold before action. Automation may propose work: runbooks, scripts, Terraform plans, AI agents. It cannot approve its own output, spend permission that has expired, or turn a demonstration into an operational fact. Every decision, and especially every refusal, leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not a log line.</p>
+    <p class="tagline">Those conversions belong to a designed operational system &mdash; and that design is the layer still missing. It lives today in doctrine and in the operator&rsquo;s head, not in an artifact the tools can read. Naming it is <a href="#design">the design layer</a> below: a candidate, not a shipped tool.</p>
     <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 520px; line-height: 1.55;">The same failure shows up across domains &mdash; operations, AI agents, distributed systems, formal verification, governance. Not separate programs; each is a place the one problem appears. Internally the invariant is evidence <a href="glossary.html#custody">custody</a>: deciding whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a>. Small self-hosted tools; proof artifacts on the side.</p>
     <div class="contract">
       <p><span class="ck">contract</span>Agents may propose work; gates decide whether the proposal is admissible; operators decide whether governed output is promoted.</p>
@@ -717,6 +777,7 @@
       <div class="route"><span class="who">Background</span><span class="path">Why a lab and not a product, and what it is and isn&rsquo;t &mdash; <a href="about.html">about</a>. Reference: <a href="limits.html">limits</a>, <a href="glossary.html">glossary</a>, <a href="constellation.html">components</a>.</span></div>
     </div>
     <nav>
+      <a href="#design">Design</a>
       <a href="#stack">Stack</a>
       <a href="#projects">Projects</a>
       <a href="#research">Research</a>
@@ -726,15 +787,34 @@
 
   <main>
 
+    <section id="design">
+      <hr class="section-rule">
+      <h2>The design layer <span class="status candidate">candidate</span></h2>
+      <p>The tools do not operate over &ldquo;the enterprise.&rdquo; They operate over a system someone composed on purpose &mdash; its boundaries, identities, relationships, and the evidence that would count for each. That composition is real, and it is currently unwritten: it lives in doctrine and in the operator&rsquo;s head. Every tool below re-derives it by hand.</p>
+      <p>Writing it down is the missing layer. An authored, versioned design; validated and ratified rather than silently amended; compiled into the bounded view each tool is competent to consume; then compared against what was actually witnessed. The verbs already exist across the constellation. The noun does not.</p>
+
+      <div class="lifecycle">
+        <div class="lc-row pending"><span class="lc-stage">system design</span><span class="lc-by">authored, not discovered</span></div>
+        <div class="lc-row pending"><span class="lc-stage">ratified revision</span><span class="lc-by">immutable; drafts do not govern</span></div>
+        <div class="lc-row pending"><span class="lc-stage">consumer projections</span><span class="lc-by">bounded view per tool</span></div>
+        <div class="lc-split">shipped below this line</div>
+        <div class="lc-row"><span class="lc-stage">witnessed realization</span><span class="lc-by">nq &middot; porter &middot; verifier</span></div>
+        <div class="lc-row"><span class="lc-stage">admission / refusal / governed action</span><span class="lc-by">agent_governor &middot; wicket &middot; standing</span></div>
+      </div>
+
+      <p>What it would buy: a declared surface to name (&ldquo;the public edge&rdquo;) instead of a list of hostnames pasted between tools; a comparison of declared structure against admissible observation, where divergence is a finding rather than a silent widening; and authority that binds to an exact design revision, so a changed system does not inherit the old permission.</p>
+      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); letter-spacing: 0.02em; line-height: 1.55;">Status: named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. Nothing above the line exists.</p>
+    </section>
+
     <section id="stack">
       <hr class="section-rule">
-      <h2>The custody stack</h2>
-      <p>The custody discipline in parts. The edges are the product; the organs implement them.</p>
+      <h2>The assurance and custody kernel</h2>
+      <p>The layer that does exist, in parts. The edges are the product; the organs implement them.</p>
       <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.4rem 0 1.1rem; letter-spacing: 0.02em;">Not a policy engine. Not a hosted platform. Not an AI-safety oracle.</p>
 
       <div class="stack-diagram">
         <svg viewBox="0 0 700 200" role="img" aria-labelledby="stack-diagram-title" aria-describedby="stack-caption" xmlns="http://www.w3.org/2000/svg">
-          <title id="stack-diagram-title">Custody stack. Five domains &mdash; observation, claim, premise, action, evidence &mdash; with the conversions that must be earned between them, and three side obligations: retraction, capacity, seal.</title>
+          <title id="stack-diagram-title">Assurance and custody kernel. Five domains &mdash; observation, claim, premise, action, evidence &mdash; with the conversions that must be earned between them; three side obligations: retraction, capacity, seal; and one candidate layer upstream: system design.</title>
           <defs>
             <marker id="arr-live" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="arr-live"/></marker>
             <marker id="arr-zoned" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="arr-zoned"/></marker>
@@ -776,6 +856,10 @@
           </g>
 
           <g class="side-edges">
+            <g class="edge zoned" data-claim="The tools operate over a system someone composed on purpose. Today that design is unwritten &mdash; each tool re-derives it by hand. An authored, ratified revision would supply the bounded referent the rest of the chain binds to." data-organ="composer" data-status="candidate &mdash; nothing built" tabindex="0">
+              <line class="edge-line dashed" x1="70" y1="28" x2="70" y2="78" marker-end="url(#arr-zoned)"/>
+              <rect class="edge-hit" x="35" y="8" width="70" height="70"/>
+            </g>
             <g class="edge zoned" data-claim="A lapsed grant must reach everyone currently relying on it, with delivery accounted." data-organ="retraction transport" data-status="zoned" tabindex="0">
               <line class="edge-line dashed" x1="350" y1="108" x2="350" y2="140" marker-end="url(#arr-zoned)"/>
               <rect class="edge-hit" x="315" y="105" width="70" height="55"/>
@@ -791,13 +875,14 @@
           </g>
 
           <g class="side-labels">
+            <text class="side-label" x="70" y="20">system design</text>
             <text class="side-label" x="350" y="158">retraction</text>
             <text class="side-label" x="490" y="158">capacity</text>
             <text class="side-label" x="630" y="158">seal</text>
           </g>
         </svg>
         <p class="diagram-caption" id="stack-caption" role="status" aria-live="polite">
-          <span class="cap-default">Select an edge for the claim it enforces. <span class="cap-key">Solid</span> shipped; <span class="cap-key">dashed</span> mapped, not built. Drill runs demonstrate structure &mdash; they cannot confer operational effect.</span>
+          <span class="cap-default">Select an edge for the claim it enforces. <span class="cap-key">Solid</span> shipped; <span class="cap-key">dashed</span> mapped, not built &mdash; including the design layer upstream. Drill runs demonstrate structure &mdash; they cannot confer operational effect.</span>
         </p>
       </div>
 
@@ -875,7 +960,7 @@
         <div class="project-list">
           <div class="project-row">
             <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
-            <span class="desc">Runs an AI coding agent under agent_governor. You see every action before it happens; approve, deny, or let read-only stuff through. When the run ends, review the diff and either accept the changes or throw them out.</span>
+            <span class="desc">Executor desk for governed agent runs. Plans are authored elsewhere; maude takes a bounded plan, launches the coding agent as a supervised process under agent_governor, and puts every action through the gate. An approved run binds a lease &mdash; the write paths and commands it may use, and when that expires &mdash; so the run proceeds without asking about every keystroke. Maude mints no authority of its own. At the end, review the diff and promote it or throw it out.</span>
           </div>
         </div>
       </div>

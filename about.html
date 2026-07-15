@@ -129,6 +129,11 @@
   <h2>Authorization is not custody</h2>
   <p><a href="glossary.html#authorization">Authorization</a> asks whether an action is allowed. Custody asks whether the premises behind that action are still good enough to act on. A credential valid at check time can be stale at action time. A green check can outlive its evidence. A log line is self-report until sealed. A demonstrated behavior is not an operational claim. Each of those collapses is invisible to the conventional stack and unrecoverable after the fact. Keeping them visible &mdash; and able to refuse before effect &mdash; is the whole job.</p>
 
+  <h2>The category</h2>
+  <p>The closest established analogy is electronic design automation. Not because operations resembles chip layout, but because the useful parts of EDA are compilation, checking, comparison, and explicit promotion &mdash; an authored design, rule checking that refuses contradictions, compiled artifacts for each downstream consumer, a ratification step that is a deliberate act, and a comparison of intended structure against realized structure where divergence is a verdict rather than a nuisance. Outwardly the category is design and assurance for operational systems; the intellectual ancestor is EDA.</p>
+  <p>This is an integration thesis, not a novelty claim. Every constituent technique already exists somewhere &mdash; infrastructure-as-code declares intent, monitoring observes reality, policy engines decide, systems engineering has modeled designs for decades. What has not happened is their integration into one discipline with a first-class authored system artifact, explicit evidence obligations, bounded per-consumer views, and typed refusal. That gap is the bet.</p>
+  <p class="muted">The analogy stays on the positioning layer and never enters the vocabulary. Nothing here is called a schematic, a netlist, or a tape-out. The internal terms remain revision, projection, <a href="glossary.html#witnessed">witness</a>, <a href="glossary.html#standing">standing</a>, <a href="glossary.html#custody">custody</a>, admission, and refusal &mdash; a conceptual dependency on the analogy would itself be the failure mode. And the authored-design layer that completes the lifecycle is a <a href="glossary.html#candidate">candidate</a>: named, designed, not built. The <a href="index.html#design">home page</a> marks where the line falls.</p>
+
   <h2>Where to start</h2>
   <p>Different readers want different doors.</p>
   <ul class="entry">
@@ -144,7 +149,7 @@
     <li><b>Not an observability dashboard.</b> Dashboards display claims after the fact; custody decides whether a claim may become a premise in the first place.</li>
     <li><b>Not a policy-as-code replacement.</b> Policy engines decide over premises; custody decides whether the underlying claims are allowed to become premises. The two compose.</li>
     <li><b>Not &ldquo;AI governance&rdquo; in the procurement sense.</b> Refusals and receipts you can run.</li>
-    <li><b>Not a hosted service or a production platform.</b> Alpha, solo, small on purpose.</li>
+    <li><b>Not a hosted service.</b> The platform is the composed lifecycle, not a control plane someone else runs. You self-host every part of it. Alpha, solo, small on purpose &mdash; and not yet production-ready.</li>
     <li><b>Not a proof of safety.</b> Lean checks refusal-class boundaries. Receipts attribute instance facts. Both are narrower than &ldquo;proven&rdquo; &mdash; see <a href="limits.html">limits</a>.</li>
   </ul>
 
