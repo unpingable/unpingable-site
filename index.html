@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
-  <meta name="description" content="Systems forget how they know. A check goes green at 09:00; a deploy spends that green at 11:00; nothing re-asks whether it still holds. Unpingable builds systems that keep those transitions visible — and capable of refusal.">
+  <meta name="description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="unpingable — systems forget how they know">
-  <meta property="og:description" content="A check goes green at 09:00; a deploy spends that green at 11:00; nothing re-asks whether it still holds. Unpingable builds systems that keep observation→claim→permission transitions visible — and capable of refusal.">
+  <meta property="og:description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
   <meta property="og:url" content="https://unpingable.com/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="unpingable — systems forget how they know">
-  <meta name="twitter:description" content="A check goes green at 09:00; a deploy spends that green at 11:00; nothing re-asks whether it still holds. Unpingable builds systems that keep those transitions visible — and capable of refusal.">
+  <meta name="twitter:description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
@@ -361,6 +361,7 @@
       fill: none;
     }
     .diagram .scroll-hint { display: none; }
+    .diagram:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .diagram .edge-hit { fill: transparent; cursor: pointer; outline: none; }
     .diagram .edge:hover .edge-line,
     .diagram .edge:focus-within .edge-line { stroke-width: 3.5; }
@@ -630,10 +631,11 @@
   spendability   <span class="hot">REFUSED</span>       standing_before_spendability_not_bounded
     gap=11s  vs bound=10s  &rarr; over by 1s
   &rarr; refused. No capacity spent (effect_count=0).</pre>
-      <p class="prov-line"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29. The refusal class is named <a href="glossary.html#spendability">spendability</a> &mdash; the question of whether a valid permission may still be <em>used</em>. <a href="#run-it">Full excerpt and provenance below</a> &middot; <a href="demo.html">descend into the receipt</a>.</p>
+      <p class="prov-line"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29. The refusal class is named <a href="glossary.html#spendability">spendability</a> &mdash; whether otherwise-valid standing may still be exercised <em>here and now</em>, under the bounds that govern this effect. <a href="#run-it">Full excerpt and provenance below</a> &middot; <a href="demo.html">descend into the receipt</a>.</p>
+      <p class="prov-line">The ten-second bound is demonstration-sized so the failure reproduces interactively; it is not a proposed operational timeout. Real bounds belong to the specific claim and effect class &mdash; and staleness in time is one instance of the failure, not its definition.</p>
     </div>
 
-    <p class="definition">An independent research and engineering program on preserving evidence <a href="glossary.html#custody">custody</a> as systems move from observation to action over time &mdash; formal models, executable systems, and bounded compositions that keep observation, interpretation, reliance, authority, action, and retained history from silently collapsing into one another. The same failure appears across operations, AI agents, distributed systems, formal verification, and governance; each is a place the one problem shows up, and operations is merely where the questions were learned.</p>
+    <p class="definition">An independent research and engineering program on preserving evidence <a href="glossary.html#custody">custody</a> as systems move from observation to action over time &mdash; formal models, executable systems, and bounded compositions. The same failure appears across operations, AI agents, distributed systems, formal verification, and governance; operations is merely where the questions were learned.</p>
 
     <p class="notthis"><b>Not</b> an AI-governance platform. <b>Not</b> one integrated product suite. <b>Not</b> a generic agent framework. <b>Not</b> a collection of unrelated repositories &mdash; and <b>not</b> a claim that every artifact composes with every other. The components are independently useful. Compositions are earned one at a time, and each one is dated.</p>
 
@@ -665,6 +667,22 @@
 
   <main>
 
+    <!-- ══════════ ADOPTION ══════════ -->
+    <section id="adoption">
+      <span class="mode">How this enters an existing system</span>
+      <h2>One bounded piece, into an ordinary stack</h2>
+      <p>Nothing here asks you to replace Kubernetes, IAM, CI, schedulers, databases, or orchestration &mdash; and nothing asks for cryptographically verified timestamps on every action. Adoption begins at one transition whose consequences matter. The surrounding platform stays; the inserted component owns one narrow question, and refuses to silently inherit authority from the rest of the stack.</p>
+
+      <div class="key">
+        <div class="key-row"><span class="k">pre-effect gate</span><span class="v">Re-check, immediately before the effect, whether the evidence or standing that justified it is still usable. Shown by <a href="#run-it">the stale-yes refusal</a>: checked valid, refused at exercise, nothing spent.</span></div>
+        <div class="key-row"><span class="k">receipt boundary</span><span class="v">Wrap an existing executor so the premises, the decision, the exact attempted effect, the outcome, and any residual obligation survive together. Shown by <a href="demo.html">the refusal receipt</a>, and by Docket&rsquo;s settlement in <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">vertical-01.md</a>, where residual obligations travelled undischarged and were recorded as such rather than dropped.</span></div>
+        <div class="key-row"><span class="k">read-only evaluator</span><span class="v">Observe an existing system, classify what its evidence establishes, and emit testimony or a typed refusal &mdash; with no actuation authority to inherit. Shown by <a href="https://github.com/unpingable/nq" target="_blank" rel="noopener">NQ</a> and its <a href="#status-declared-deny">declared-deny probe</a> (a lab specimen, not live testimony).</span></div>
+        <div class="key-row"><span class="k">governed effect adapter</span><span class="v">Admit one exact <a href="glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; and refuse everything else before any standing is issued, leaving unrelated actions and infrastructure untouched. Shown by <a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a>; the admitted class is defined in <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md" target="_blank" rel="noopener">effect-classes.md</a>.</span></div>
+      </div>
+
+      <p class="fine">These are the shapes the existing artifacts and exhibits actually demonstrate &mdash; different artifacts support different ones, and no artifact supports them all. The unit of adoption is not &ldquo;the enterprise.&rdquo; It is one consequential transition, one bounded claim, or one admitted effect class.</p>
+    </section>
+
     <!-- ══════════ TRANSITIONS ══════════ -->
     <section id="transitions">
       <hr class="section-rule">
@@ -672,7 +690,7 @@
       <h2>The transitions under study</h2>
       <p>Evidence does not travel from a sensor to an action in one move. It crosses a series of boundaries, and at each one something is converted into something with more force than it had a moment earlier. The recurring failure is that the conversions happen silently &mdash; nothing records that they occurred, and nothing re-checks that they still hold at the moment of use.</p>
 
-      <div class="diagram">
+      <div class="diagram" role="region" tabindex="0" aria-label="Transition schematic. On narrow screens this region scrolls horizontally; use arrow keys to pan.">
         <svg viewBox="0 0 800 200" role="img" aria-labelledby="tr-title" aria-describedby="tr-caption" xmlns="http://www.w3.org/2000/svg">
           <title id="tr-title">Schematic: six states — observe, interpret, rely, authorize, act, settle — with five transitions between them, and continuity shown as a separate concern spanning all of them rather than as a final stage.</title>
           <defs>
