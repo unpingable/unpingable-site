@@ -176,10 +176,11 @@
       <div class="head">policy lane (OPA / Rego)</div>
       <div class="body">
         <pre style="margin: 0 0 0.6rem">default allow := false
+
 allow if {
-  input.credential.status == "valid"
-  input.credential.role == "operator"
-  input.action == "consume_capacity"
+    input.credential.status == "valid"
+    input.credential.role == "operator"
+    input.action == "consume_capacity"
 }</pre>
         The input asserts <code>status: "valid"</code>. Nothing in the input says <em>when</em> that was true, or what clock measures &ldquo;still&rdquo;.
       </div>
@@ -212,12 +213,13 @@ allow if {
     <div class="row"><span class="k">overage_ns</span><span class="v">1&thinsp;000&thinsp;000&thinsp;000</span></div>
     <div class="row"><span class="k">gap_basis</span><span class="v">monotonic &middot; source=process_monotonic &middot; epoch=boot:demo-single-host</span></div>
     <div class="row"><span class="k">effect_count</span><span class="v">0 &mdash; refused before any capacity was spent</span></div>
-    <div class="row"><span class="k">receipt_id</span><span class="v">dda5a1e55fc0b733&hellip; &mdash; content-addressed; same inputs &rarr; same id</span></div>
+    <div class="row"><span class="k">receipt_id</span><span class="v">3f8b93c149d02bbe&hellip; &mdash; content-addressed; same inputs, same schema &rarr; same id</span></div>
   </div>
+  <p class="muted" style="font-size: 0.86rem; font-family: var(--mono); line-height: 1.6;">Fields read from a run on 2026-07-29 against <code>agent_governor</code> at <code>485e557</code>. The full artifact, with the raw JSON, is on <a href="demo.html">the descent</a>.</p>
 
   <h2>What the receipt buys you</h2>
   <ul>
-    <li><strong>Reproducible refusal.</strong> Same inputs produce the same receipt id. Run the demo and you&rsquo;ll get <code>dda5a1e5&hellip;</code>; it&rsquo;s a content hash, not a log line.</li>
+    <li><strong>Reproducible refusal.</strong> Same inputs under the same receipt schema produce the same id &mdash; a content hash, not a log line. Run the demo today and you&rsquo;ll get <code>3f8b93c1&hellip;</code>. It was <code>dda5a1e5&hellip;</code> before the schema gained fields; the id tracks the schema, the behaviour it attests did not change.</li>
     <li><strong>Stale under <em>which</em> clock.</strong> The basis is named: <code>process_monotonic</code>, single epoch, start and end in ns. &ldquo;The credential expired&rdquo; with a named witness, not a vibe.</li>
     <li><strong>Walkable evidence chain.</strong> <code>governor why &lt;id&gt;</code> walks from refusal &rarr; admission &rarr; permission check &mdash; and terminates honestly at any missing evidence. No silent inference of facts you don&rsquo;t have.</li>
     <li><strong><code>effect_count=0</code>.</strong> Nothing was spent. The refusal happened before capacity moved. This is the field that distinguishes &ldquo;we noticed&rdquo; from &ldquo;we blocked.&rdquo;</li>
@@ -238,7 +240,8 @@ python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e 
 ./demo/refused-spend.sh    # the incident above
 ./demo/opa-contrast.sh     # the same incident, OPA&rsquo;s view
 ./demo/interrogate.sh      # walk the receipt chain</pre>
-  <p class="muted">The refusal receipt id is deterministic; you&rsquo;ll get <code>dda5a1e5&hellip;</code> &mdash; the same one cited above.</p>
+  <p class="muted">The demo&rsquo;s exit code is the claim: 0 only if the refusal happened for the right reason and spent nothing. The receipt id is deterministic under a given schema version; today that is <code>3f8b93c1&hellip;</code>, the one cited above.</p>
+  <p class="muted" style="font-size: 0.92rem;"><code>agent_governor</code> was dispositioned <strong>legacy / historical, maintained</strong> on 2026-07-26. It still runs, and this refusal still means what it says; new authority work lives in <a href="https://github.com/unpingable/ag_ng">AG&nbsp;ng</a> and governed execution in <a href="https://github.com/unpingable/docket">Docket</a>. See the <a href="index.html#ledger">status ledger</a>.</p>
 
   <h2>Where this is the wrong tool</h2>
   <p>If your incidents are cheap to diagnose after the fact, or your inputs are attested by construction, or the credential&rsquo;s blast radius is small, the conventional stack is cheaper and you should use it. Custody trades steady runtime cost for fewer catastrophic incident-time costs &mdash; the same bet as TLS or structured logging. <a href="limits.html">Limits</a> spells out the rest.</p>

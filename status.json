@@ -1,0 +1,133 @@
+{
+  "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py to regenerate the ledger block in index.html. Every row must cite public evidence; the verified field is the date the cited evidence was written or the check was run, never today’s date by default.",
+  "generated_note": "Rendered into index.html by tools/render_status.py. Do not hand-edit the ledger block.",
+  "as_of": "2026-07-29",
+  "objects": [
+    {
+      "id": "four-office-vertical",
+      "name": "Four-office governed vertical",
+      "kind": "composition",
+      "status": "exercised once; receipts not public",
+      "claim": "Four separately-owned offices carried one bounded Git change from proposal to evaluated testimony without any office absorbing another’s jurisdiction, and without code changes in any office.",
+      "verified": "2026-07-26",
+      "verified_by": "the four offices’ own dated status statements, and the pilot declaration document — itself the governed effect the pilot executed",
+      "evidence": [
+        {"label": "Nightshift · FOUR_OFFICE_PILOT_01.md", "url": "https://github.com/unpingable/nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md"},
+        {"label": "Docket · vertical-01.md", "url": "https://github.com/unpingable/docket/blob/main/docs/vertical-01.md"},
+        {"label": "NQ · status", "url": "https://github.com/unpingable/nq#status-2026-07-26"},
+        {"label": "AG ng · status", "url": "https://github.com/unpingable/ag_ng#status-2026-07-26"}
+      ],
+      "promotion": "A public, reproducible pair of artifacts — one admitted scenario and one refused scenario — that a stranger can obtain without private custody. Today the pilot’s identifiers, digests and verdicts exist only in a private campaign record; the public surface is the declaration and the offices’ own status statements."
+    },
+    {
+      "id": "docket",
+      "name": "Docket (governed work runtime)",
+      "kind": "artifact",
+      "status": "working runtime, audited baseline; not production-hardened",
+      "claim": "Exactly one effect class is admitted — the atomic Git target-ref transition. A proposal outside it refuses with a typed refusal before any standing is issued, any reservation created, any dispatch identity minted, or any provider runs.",
+      "verified": "2026-07-25",
+      "verified_by": "the gwr-greenfield-v0.1 freeze: 125 tests, four gates exiting 0 in both debug and release profiles",
+      "evidence": [
+        {"label": "repository", "url": "https://github.com/unpingable/docket"},
+        {"label": "effect-classes.md", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md"},
+        {"label": "trust-model.md", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/trust-model.md"},
+        {"label": "known gaps", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md"}
+      ],
+      "promotion": "Three trust-model premises are load-bearing assumptions rather than enforced guarantees: exclusive broker custody of the governed ref, same-UID trust of the provider and broker binaries, and monotone clock readings. Operator-ready packaging does not exist; there is a source-install path, not a published-package promise."
+    },
+    {
+      "id": "ag-ng",
+      "name": "AG ng (authority office)",
+      "kind": "artifact",
+      "status": "exercised by the vertical; explicitly not production deployable",
+      "claim": "Decides whether exact prepared work may receive authority, and burns one-use decision authority. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration.",
+      "verified": "2026-07-26",
+      "verified_by": "its issuance path authorized both the three-office vertical (2026-07-25) and the four-office pilot (2026-07-26)",
+      "evidence": [
+        {"label": "repository", "url": "https://github.com/unpingable/ag_ng"}
+      ],
+      "promotion": "Its own production-deployability checklist closes. The issuance surface is a library face exercised by harness, and the decision-burn ledger is in-memory per process."
+    },
+    {
+      "id": "nq",
+      "name": "NQ (testimony, claims, reliance)",
+      "kind": "artifact",
+      "status": "operational, pre-1.0",
+      "claim": "Pulls bounded evidence, keeps loss of observability visible rather than silently healthy, and emits testimony and typed refusals — never actions. A clean receipt approves no merge, deployment, restart, or incident closure.",
+      "verified": "2026-07-26",
+      "verified_by": "its own dated status statement and compatibility policy",
+      "evidence": [
+        {"label": "repository", "url": "https://github.com/unpingable/nq"},
+        {"label": "claim custody boundary", "url": "https://github.com/unpingable/nq/blob/main/docs/architecture/CLAIM_CUSTODY.md"}
+      ],
+      "promotion": "Consumer identity is configured, not authenticated. NQ stays pre-1.0; the office designation is a jurisdiction statement, not a stability promise."
+    },
+    {
+      "id": "nightshift",
+      "name": "Night Shift (proposal and read-only orchestration)",
+      "kind": "artifact",
+      "status": "part of the exercised vertical; not operator-ready",
+      "claim": "Proposes bounded intent behind a gate-enforced no-actuation boundary. Its proposals bind intent only — never file lists, content bytes, or authority.",
+      "verified": "2026-07-26",
+      "verified_by": "its own dated status statement; the four-office pilot ran against this repository as its target",
+      "evidence": [
+        {"label": "repository", "url": "https://github.com/unpingable/nightshift"}
+      ],
+      "promotion": "File-granular proposals are a library face, and the deployment files are reference scaffolding rather than a packaged service."
+    },
+    {
+      "id": "stale-yes",
+      "name": "The stale-yes refusal",
+      "kind": "exhibit",
+      "status": "runs; re-verified against current code",
+      "claim": "A permission valid when checked refuses at exercise time because the gap between observation and exercise exceeded its bound on a named monotonic basis — and no capacity is spent.",
+      "verified": "2026-07-29",
+      "verified_by": "./demo/refused-spend.sh run against an editable install of the tree at agent_gov 485e557 — exit 0, integrity tripwire green. Not a cold clone.",
+      "evidence": [
+        {"label": "the descent", "url": "demo.html"},
+        {"label": "the incident write-up", "url": "incident.html"},
+        {"label": "agent_governor", "url": "https://github.com/unpingable/agent_governor"}
+      ],
+      "promotion": "Re-verify from a genuinely cold clone, and pin the captured output rather than the receipt id. The id is a function of the receipt schema: it moved from dda5a1e5… to 3f8b93c1… when schema fields were added, while the behaviour it attests did not change."
+    },
+    {
+      "id": "agent-governor",
+      "name": "agent_governor (classic Python)",
+      "kind": "artifact",
+      "status": "legacy / historical, maintained",
+      "claim": "Still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports; no authority, policy decision, credential, or capability crosses that wire.",
+      "verified": "2026-07-26",
+      "verified_by": "its own disposition banner",
+      "evidence": [
+        {"label": "repository", "url": "https://github.com/unpingable/agent_governor"}
+      ],
+      "promotion": "Not applicable. New authority work lives in AG ng, with no wire compatibility between the two, and none implied."
+    },
+    {
+      "id": "declared-deny",
+      "name": "The declared-deny probe",
+      "kind": "exhibit",
+      "status": "lab specimen; no live testimony",
+      "claim": "A firewall’s declared deny rule and an observed path are held apart and never merged into one story. The frozen probe exercises its witness path against real pfSense substrate in a controlled lab.",
+      "verified": "2026-06-27",
+      "verified_by": "a self-built pfSense CE lab with a controlled deny rule, a benign subject, a passing control probe, and captured teardown",
+      "evidence": [
+        {"label": "NQ specimen", "url": "https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md"}
+      ],
+      "promotion": "The probe has never caught a real firewall failing to enforce a real block. It has shown it would notice. Promotion needs live testimony from a real estate; the lab supplies compatibility evidence, not deployment evidence."
+    },
+    {
+      "id": "design-layer",
+      "name": "The authored design layer",
+      "kind": "proposition",
+      "status": "named, not ratified — nothing built",
+      "claim": "The tools operate over a system someone composed on purpose. That composition is currently unwritten: it lives in doctrine and in the operator’s head, and every tool re-derives it by hand.",
+      "verified": null,
+      "verified_by": "Nothing to verify. There is no implementation, no schema, and no wire format.",
+      "evidence": [
+        {"label": "the proposition, in full", "url": "#propositions"}
+      ],
+      "promotion": "A forcing case that a hand-derived composition demonstrably cannot serve, plus a ratified revision format that at least two tools can consume. The filing is a handle for review, not authorization to build."
+    }
+  ]
+}

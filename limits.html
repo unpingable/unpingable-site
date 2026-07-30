@@ -97,6 +97,13 @@
   <h2>What it doesn't prove</h2>
   <p>The Lean theorems prove <em>class boundaries of refusals</em> &mdash; that a given refusal kind is required by the <a href="glossary.html#custody">custody</a> discipline's own definitions. They do not prove that any deployed system is safe, that the Python implementation is bug-free, or that a particular production incident was machine-checked. <a href="glossary.html#receipt">Receipts</a> prove <em>instance facts</em>: what was observed, what was decided, under which <a href="glossary.html#policy">policy</a> hash. They do not prove intentions, and they cannot make a wrong observation right &mdash; only attributable.</p>
 
+  <h2>What the featured composition does not show you</h2>
+  <p>The four-office governed vertical on the <a href="index.html#exhibit">home page</a> ran once, on 2026-07-26. Its identifiers, digests, and verdicts are held in a private campaign record and are <em>not</em> publicly inspectable. What is public is the declaration document, the prior three-office run written up in full, and each office's own statement of its jurisdiction and maturity. A reader can therefore check that the offices agree about their boundaries; a reader cannot independently verify the run. That is the exhibit's stated promotion condition, and until it is met the composition is a dated report, not a reproducible artifact.</p>
+  <p>Nor does it generalize. One composition being exercised is evidence about those four artifacts and that one effect class &mdash; the atomic Git target-ref transition. It is not evidence that any other pair of components here composes, and there is no universal pipeline behind it.</p>
+
+  <h2>What content-addressing does and doesn't fix</h2>
+  <p>A receipt id is a hash over the canonical decision inputs, so the same inputs under the same schema always give the same id. That is a real property and it holds. It is also narrower than it sounds: this site pinned <code>dda5a1e5&hellip;</code> in prose for months, and when the receipt schema gained fields the id became <code>3f8b93c1&hellip;</code> while the behaviour it attests did not change at all. Determinism was never violated; the claim was simply about a schema version and was written as though it were about the system. Ids belong in artifacts, not in sentences.</p>
+
   <h2>What it costs</h2>
   <p>Custody moves cost from postmortem reconstruction into runtime. Every gate is latency on the action path. Every receipt is storage. Every typed <a href="glossary.html#claim">claim</a> is friction at write time &mdash; an agent that used to just do the thing now has to propose it, and something has to verify it. The bet is the same one behind TLS and structured logging: pay steadily at runtime instead of catastrophically at incident time. If your incidents are cheap, this trade is bad for you.</p>
 
@@ -122,7 +129,9 @@
   </ul>
 
   <h2>Current maturity</h2>
-  <p>Alpha. Solo development. A research lab with working instruments and proof artifacts, not a product seeking deployments &mdash; lab notebook, not an oracle. The demo reproduces from a cold clone in about five minutes; that is the strongest operational claim this site makes. Nothing here is deployed at scale, and this page will say so until that changes.</p>
+  <p>Alpha. Solo development. A research lab with working instruments and proof artifacts, not a product seeking deployments &mdash; lab notebook, not an oracle. Nothing here is deployed at scale, and this page will say so until that changes. Per-object claims, verification dates, and promotion conditions are in the <a href="index.html#ledger">status ledger</a>; where this page and that ledger disagree, the ledger is newer.</p>
+  <p>Two claims sit at the top of the pile, and they are different kinds of claim. The runnable one: a refusal demo that reproduces in about five minutes and whose exit code fails loudly if it passes for the wrong reason &mdash; re-verified 2026-07-29 from an editable install, which is <em>not</em> the same as a cold clone. The reported one: four separately-owned offices carrying one bounded change end to end, dated 2026-07-26, whose receipts you cannot see. Neither is a deployment.</p>
+  <p>Naming is not stability. Several components describe themselves as an &ldquo;office&rdquo; of a constellation. That word states jurisdiction &mdash; what a component may and may not decide &mdash; and says nothing about API stability, packaging, or production-readiness. Two of the four offices state in their own repositories that they are not production deployable or not operator-ready.</p>
   <p>Live cage execution is unarmed by construction &mdash; the synthetic substrate (<code>ORIGIN_SYNTHETIC</code>) cannot confer operational effect; that refusal is structural, not a configuration flag. Specimens run against lab substrate; they are compatibility evidence, not live testimony about a deployed estate.</p>
 
   <footer>
@@ -130,8 +139,9 @@
     <a href="about.html">about</a>
     <a href="incident.html">incident</a>
     <a href="demo.html">demo</a>
+    <a href="constellation.html">components</a>
     <a href="glossary.html">glossary</a>
-    <a href="https://github.com/unpingable/agent_governor">repo</a>
+    <a href="https://github.com/unpingable">github</a>
   </footer>
 
 </body>

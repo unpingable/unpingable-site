@@ -175,6 +175,39 @@
     .objection .o { font-weight: 600; }
     footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.9rem; }
     footer a { margin-right: 1.5rem; }
+    .prov {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.08rem 0.42rem;
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: 0.1em;
+      margin-right: 0.45rem;
+    }
+    .prov.captured { border-color: var(--accent); color: var(--accent); }
+    .prov.schematic { border-style: dashed; color: var(--fg-faint); }
+    .provline {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--fg-faint);
+      margin: -0.4rem 0 1.1rem;
+    }
+    .provline code { color: var(--fg-muted); }
+    .disposition {
+      border: 1px solid var(--border);
+      background: var(--bg-inset);
+      padding: 0.7rem 1rem;
+      margin: 1.1rem 0 1.4rem;
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+      line-height: 1.55;
+    }
+    .disposition b { color: var(--fg); }
   </style>
 </head>
 <body>
@@ -182,8 +215,23 @@
   <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
 
   <h1>A stale yes</h1>
-  <p class="muted">One incident, three descents: behavior, evidence, necessity. Every artifact on this page is reproducible from a cold clone.</p>
+  <p class="muted">One incident, three descents: behavior, evidence, necessity. Every artifact on this page is reproducible by running the demo yourself.</p>
   <p class="first-time">First time here? <a href="about.html">About</a> orients; <a href="incident.html">Incident</a> is the same event in postmortem form for ops/SRE readers; the vocabulary below covers what you&rsquo;ll need to follow this descent.</p>
+
+  <div class="disposition">
+    <b>Provenance.</b> The outputs on this page were captured on <b>2026-07-29</b> from
+    <code>agent_governor</code> at <code>485e557</code>, installed editable into a scratch
+    virtualenv. Exit 0; the demo&rsquo;s own integrity tripwire fails loudly if it passes for the
+    wrong reason. Blocks are labelled <span class="prov captured">captured run</span> where they
+    are literal bytes and <span class="prov schematic">schematic</span> where they are designed
+    to teach.<br><br>
+    <b>Disposition.</b> <code>agent_governor</code> &mdash; the classic Python implementation this
+    demo runs on &mdash; was dispositioned <b>legacy / historical, maintained</b> on 2026-07-26.
+    New authority work lives in <a href="https://github.com/unpingable/ag_ng">AG ng</a>; governed
+    execution lives in <a href="https://github.com/unpingable/docket">Docket</a>. The refusal below
+    still runs and still means what it says; it is not the current authority implementation. See the
+    <a href="index.html#ledger">status ledger</a>.
+  </div>
 
   <details class="glossary">
     <summary>vocabulary &mdash; expand if any of these are unfamiliar</summary>
@@ -225,20 +273,24 @@ leaf receipt   ag_rcpt_2f8d461bc9bdf930
 wicket         admitted      &larr; naive auth says yes here
 spendability   REFUSED       standing_before_spendability_not_bounded
   gap=11s  vs bound=10s  &rarr; over by 1s
-  gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host
-leaf receipt   ag_rcpt_dda5a1e55fc0b733
-&rarr; refused. No capacity spent (effect_count=0).</pre>
+  gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host  (sound: one source, one epoch)
+  wall 2026-06-09T00:00:40Z [display_only, uncertainty=None] &mdash; display only, NOT the gap basis
+leaf receipt   ag_rcpt_3f8b93c149d02bbe
+&rarr; refused. No capacity spent (effect_count=0). The standing was checked &mdash;
+  it lapsed in the gap between observation and exercise, and the gap was computed over compatible monotonic witnesses (provably sound).</pre>
   </div>
+  <p class="provline"><span class="prov captured">captured run</span>Both blocks above are literal stdout from <code>./demo/refused-spend.sh</code>, 2026-07-29, leading indentation stripped.</p>
 
   <p>One second after expiry, and custody is the only layer that saw it.</p>
 
   <div class="receipt-panel">
-    <div class="head">THE REFUSAL RECEIPT &mdash; content-addressed; the id reproduces on every run</div>
+    <div class="head">THE REFUSAL RECEIPT &mdash; content-addressed over the canonical decision inputs</div>
     <dl>
-      <dt>receipt_id</dt><dd>dda5a1e55fc0b733020bb5794c5909a107f97099c20a584d668e52d3e5c17ee7</dd>
+      <dt>receipt_id</dt><dd>3f8b93c149d02bbeb87c71ddb33bea19af17b6fc162c81495d30498660db81fc</dd>
       <dt>gate</dt><dd>standing_spendability_seam</dd>
       <dt>verdict</dt><dd class="hot">block</dd>
       <dt>refusal_kind</dt><dd class="hot">standing_before_spendability_not_bounded</dd>
+      <dt>freshness_subcase</dt><dd>expired</dd>
       <dt>gap_ns</dt><dd class="hot">11&thinsp;000&thinsp;000&thinsp;000</dd>
       <dt>bound_ns</dt><dd>10&thinsp;000&thinsp;000&thinsp;000</dd>
       <dt>overage_ns</dt><dd>1&thinsp;000&thinsp;000&thinsp;000</dd>
@@ -249,23 +301,28 @@ leaf receipt   ag_rcpt_dda5a1e55fc0b733
     </dl>
   </div>
 
-  <p class="muted" style="font-size: 0.9rem; margin: -0.4rem 0 0.6rem;">The receipt id covers the canonical decision inputs; display and recording timestamps are carried as evidence fields, not as entropy in the id.</p>
+  <p class="provline"><span class="prov">rendered</span>A readable view of the machine artifact below, which is the literal <code>--evidence</code> output. <code>effect_count</code> is read from the run rather than from this receipt; the raw bytes are one expand away and nothing here alters their meaning.</p>
 
   <details>
-    <summary>raw receipt JSON (as returned by <code>governor receipts --id dda5a1e5&hellip; --evidence</code>)</summary>
+    <summary>raw receipt JSON (verbatim from <code>governor receipts --id 3f8b93c1&hellip; --evidence</code>, 2026-07-29)</summary>
     <pre>{
-  "receipt_id": "dda5a1e55fc0b733020bb5794c5909a107f97099c20a584d668e52d3e5c17ee7",
+  "receipt_id": "3f8b93c149d02bbeb87c71ddb33bea19af17b6fc162c81495d30498660db81fc",
   "schema_version": 4,
-  "timestamp": "2026-06-12T15:26:46.680476+00:00",
+  "timestamp": "2026-07-29T18:06:29.472827+00:00",
   "gate": "standing_spendability_seam",
   "verdict": "block",
   "subject_hash": "1c5ba48d123bdda15d524e34e4622aaa29f239a72ce692508204f8e89219655c",
-  "evidence_hash": "76f843f32c8b2936dbebd49f7e5209ceda810b6a2b2b83158e667ff08d5916f7",
+  "evidence_hash": "b4b6f0628d90588c0b6407f45571c8a3b51b1c539b396f39fc7880f1f81a7404",
   "policy_hash": "e5e8b0eaefae2352489ecb2a7c3a9c6ebc51966eec5ddd4e38ee18f143e26b74",
+  "principal_id": "local",
+  "tenant_id": "default",
+  "auth_method": "none",
   "receipt_role": "measurement",
+  "unsettled": [],
   "evidence": {
     "bound_ns": 10000000000,
     "bounded": false,
+    "freshness_subcase": "expired",
     "gap_basis": {
       "end_ns": 51000000000,
       "epoch": "boot:demo-single-host",
@@ -291,28 +348,45 @@ leaf receipt   ag_rcpt_dda5a1e55fc0b733
 }</pre>
   </details>
 
+  <div class="disposition">
+    <b>The id is not the claim.</b> This page previously pinned <code>dda5a1e5&hellip;</code> and told you
+    the demo would reproduce it. It no longer does. The receipt is content-addressed over the
+    canonical decision inputs, and the schema gained fields &mdash; <code>principal_id</code>,
+    <code>tenant_id</code>, <code>auth_method</code>, <code>unsettled</code>,
+    <code>freshness_subcase</code> &mdash; so <code>evidence_hash</code> moved and the id moved with it.
+    Determinism held: the same inputs under the same schema still give the same id, and the twin
+    <code>ag_rcpt_2f8d461bc9bdf930</code> never moved at all. But an id pinned in prose is a claim about
+    a schema version, not about behaviour, and it drifted here first. The behaviour is what this page
+    is for; the id is how you find the artifact on your own disk.
+  </div>
+
   <h2><span class="act">ACT 2 &mdash; EVIDENCE</span>Just one more thing</h2>
   <p>Interrogate the same incident. The custody chain reconstructs from receipts &mdash; evidence, not logs.</p>
 
   <div class="qa">
     <p class="q">What happened to the spend?</p>
     <p class="muted" style="font-size: 0.9rem; margin: 0 0 0.5rem;">The missing upstream receipt is intentional in this specimen: absence is reported as absence, not inferred away.</p>
-    <pre>$ governor why dda5a1e55fc0&hellip;
-REFUSED  standing_before_spendability_not_bounded  gate=standing_spendability_seam
-  OK       verdict=pass  gate=wicket_seam
-    OK       verdict=pass  gate=standing_seam
+    <pre>$ governor why 3f8b93c149d02bbe&hellip;
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+DRILL  chain origin: 'drill' (NQ-side mint provenance &mdash; receipt does NOT carry an observed-condition witness)
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+REFUSED  standing_before_spendability_not_bounded  gate=standing_spendability_seam  id=3f8b93c149d0...
+  OK       verdict=pass  gate=wicket_seam  id=773210327525...
+    OK       verdict=pass  gate=standing_seam  id=450d1472130e...
       MISSING  no receipt found for cited id nq_fnd_drill_wal_bloat_all_green
-        ! chain terminates at this gap</pre>
+        ! no receipt found for cited parent nq_fnd_drill_wal_bloat_all_green; chain terminates at this gap</pre>
     <p class="check">&#10003; chain walks refusal &rarr; admission &rarr; standing &rarr; honest MISSING terminus</p>
+    <p class="provline"><span class="prov captured">captured run</span>Literal, with per-receipt timestamps elided for width. The <code>DRILL</code> banner is the tool&rsquo;s own: this chain carries no observed-condition witness, and it says so before it says anything else.</p>
   </div>
 
   <div class="qa">
     <p class="q">Which predicate failed?</p>
-    <pre>$ governor receipts --id dda5a1e55fc0&hellip; --evidence
+    <pre>$ governor receipts --id 3f8b93c149d02bbe&hellip; --evidence
 gap_ns     = 11000000000
 bound_ns   = 10000000000
 overage_ns =  1000000000</pre>
     <p class="check">&#10003; gap exceeded bound by exactly the lapse</p>
+    <p class="provline"><span class="prov schematic">schematic</span>Three fields lifted from the JSON above for legibility. The command returns the whole document, not this three-line summary.</p>
   </div>
 
   <div class="qa">
@@ -326,8 +400,11 @@ overage_ns =  1000000000</pre>
   <div class="qa">
     <p class="q">And a receipt that doesn't exist?</p>
     <pre>$ governor why 0000000000000000&hellip;
-receipt id not found: 0000000000000000&hellip;</pre>
-    <p class="check">&#10003; honest absence &mdash; not found, never inferred</p>
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
+receipt id not found: 0000000000000000&hellip;
+$ echo $?
+1</pre>
+    <p class="check">&#10003; honest absence &mdash; not found, never inferred, and it exits non-zero</p>
   </div>
 
   <h2><span class="act">ACT 2.5 &mdash; THE OBJECTION</span>What a policy engine says about the same incident</h2>
@@ -338,10 +415,11 @@ receipt id not found: 0000000000000000&hellip;</pre>
       <div class="head">OPA / Rego lane</div>
       <div class="body">
         <pre>default allow := false
+
 allow if {
-  input.credential.status == "valid"
-  input.credential.role == "operator"
-  input.action == "consume_capacity"
+    input.credential.status == "valid"
+    input.credential.role == "operator"
+    input.action == "consume_capacity"
 }</pre>
         The input document asserts <code>status: "valid"</code> &mdash; unwitnessed self-report in a structured costume. Nothing in it says <em>when</em> that was true.
       </div>
@@ -356,7 +434,8 @@ allow if {
     </div>
   </div>
 
-  <p>And when the policy engine does run, its verdict enters the evidence plane &mdash; policy hash, input hash, input provenance (<code>unwitnessed_self_report</code>), decision &mdash; a receipt, not a line in a decision log. The demo ships this as a runnable shim: <code>./demo/opa-contrast.sh</code> (no OPA installed? it shows the policy and input and fabricates nothing).</p>
+  <p>And when the policy engine does run, its verdict enters the evidence plane &mdash; policy hash, input hash, input provenance (<code>unwitnessed_self_report</code>), decision &mdash; a receipt, not a line in a decision log. The demo ships this as a runnable shim: <code>./demo/opa-contrast.sh</code>. If the <code>opa</code> binary is present the policy is evaluated live; if it is not, the shim says so plainly and never fabricates a verdict.</p>
+  <p class="provline"><span class="prov">cited</span>The eight lines above are the policy the shim actually ships, verbatim &mdash; <code>src/governor/demo_opa_contrast.py</code>.</p>
 
   <blockquote>Policy engines decide over claims; custody systems decide whether those claims may become premises.</blockquote>
 
@@ -373,7 +452,7 @@ allow if {
   <p><strong>What this proves and what it doesn&rsquo;t:</strong> the theorem proves the <em>class boundary</em>; the receipt proves the <em>instance facts</em>; the link is the artifact. It does not assert that any deployed system is safe, nor that this instance was machine-checked &mdash; only that this refusal class is the one the custody discipline requires.</p>
 
   <h2><span class="act">REPRODUCE</span>Run it yourself</h2>
-  <p>From a cold clone to this refusal, about five minutes:</p>
+  <p>From a clone to this refusal, about five minutes:</p>
   <pre>git clone https://github.com/unpingable/agent_governor.git
 cd agent_governor</pre>
   <pre>python3 -m venv .venv
@@ -382,7 +461,7 @@ pip install -e .
 ./demo/refused-spend.sh     # a valid credential, acted on one second after expiry — REFUSED, with receipts
 ./demo/interrogate.sh       # "just one more thing": six questions, answered from receipts (no arg = fresh Act 1; or pass the root Act 1 printed)
 ./demo/opa-contrast.sh      # what a policy engine would have said about the same incident (allow)</pre>
-  <p class="muted">The refusal receipt is content-addressed &mdash; you will get <code>dda5a1e5&hellip;</code>, the same id shown above.</p>
+  <p class="muted">The demo&rsquo;s exit code is the claim: 0 only if the impostor was refused for the right reason &mdash; the temporal lapse, spending no capacity &mdash; and not by a short-circuit. It fails loudly if it passes for the wrong reason. Expect the refusal receipt id <code>3f8b93c1&hellip;</code> and the legitimate twin <code>ag_rcpt_2f8d461bc9bdf930</code> while the receipt schema stays at version 4; the ids are how you find the artifacts on your disk, not the thing being claimed.</p>
 
   <h2><span class="act">OBJECTIONS</span>The two you're already thinking</h2>
   <div class="objection">

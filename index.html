@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>unpingable</title>
-  <meta name="description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
+  <meta name="description" content="An independent research and engineering program on evidence custody: keeping observation, interpretation, reliance, authority, action, and retained history from silently collapsing into one another.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="unpingable">
-  <meta property="og:description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
+  <meta property="og:description" content="An independent research and engineering program on evidence custody: keeping observation, interpretation, reliance, authority, action, and retained history from silently collapsing into one another.">
   <meta property="og:url" content="https://unpingable.com/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -16,7 +16,7 @@
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="unpingable">
-  <meta name="twitter:description" content="Self-hosted platform for governing how operational observations become claims, decisions, and actions. The design and assurance layer operations never had.">
+  <meta name="twitter:description" content="An independent research and engineering program on evidence custody: keeping observation, interpretation, reliance, authority, action, and retained history from silently collapsing into one another.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
@@ -33,6 +33,7 @@
       --accent: #a0422a;
       --accent-hover: #7d3320;
       --accent-faint: rgba(160, 66, 42, 0.06);
+      --pass: #4a6b3a;
       --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
       --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
     }
@@ -50,6 +51,7 @@
         --accent: #c4603e;
         --accent-hover: #d87a56;
         --accent-faint: rgba(196, 96, 62, 0.06);
+        --pass: #7a9a6a;
       }
     }
 
@@ -65,25 +67,18 @@
       color: var(--fg);
       font-size: 17px;
       line-height: 1.65;
-      max-width: 700px;
+      max-width: 720px;
       margin: 0 auto;
       padding: 4rem 2rem 3rem;
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
 
     /* ── HEADER ── */
     header {
-      margin-bottom: 3.5rem;
+      margin-bottom: 3rem;
       padding-bottom: 1.5rem;
       border-bottom: 2px solid var(--border);
     }
@@ -101,212 +96,87 @@
       font-size: 0.85rem;
       color: var(--fg-faint);
       letter-spacing: 0.02em;
-      margin-bottom: 0.9rem;
+      margin-bottom: 1.6rem;
     }
 
-    header .tagline {
-      font-size: 1.02rem;
-      color: var(--fg-muted);
-      max-width: 500px;
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-
-    header .tagline.lead {
-      color: var(--fg);
-      font-weight: 500;
-      font-size: 1.32rem;
-      line-height: 1.35;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.9rem;
-      max-width: 540px;
-    }
-
-    header nav {
-      font-family: var(--mono);
-      font-size: 0.92rem;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    header nav a {
-      color: var(--fg-muted);
-    }
-
-    header nav a:hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── SECTIONS ── */
-    section {
-      margin-bottom: 3rem;
-    }
-
-    .section-rule {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-    }
-
-    section h2 {
-      font-family: var(--mono);
-      font-size: 0.94rem;
+    .lead {
+      font-size: 1.62rem;
+      line-height: 1.25;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--fg-faint);
-      margin-bottom: 0.75rem;
-    }
-
-    section > p {
-      color: var(--fg-muted);
-      font-size: 0.98rem;
+      letter-spacing: -0.015em;
       margin-bottom: 1rem;
     }
 
-    /* ── PROJECTS ── */
-    .project-group {
-      margin-bottom: 2rem;
-    }
-
-    .project-group h3 {
+    .cascade {
       font-family: var(--mono);
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--fg-muted);
+      border-left: 2px solid var(--accent);
+      padding-left: 1.1rem;
+      margin-bottom: 1.15rem;
+    }
+    .cascade span { display: block; }
+    .cascade span:last-child { color: var(--fg); }
+
+    .promise {
+      font-size: 1.18rem;
+      line-height: 1.45;
       color: var(--fg);
-      letter-spacing: 0.03em;
-      margin-bottom: 0.15rem;
+      max-width: 34em;
+      margin-bottom: 1.5rem;
     }
 
-    .project-group > p {
-      color: var(--fg-faint);
-      font-size: 0.94rem;
-      margin-bottom: 0.7rem;
-      line-height: 1.5;
-    }
-
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border-faint);
-      border: 1px solid var(--border-faint);
-    }
-
-    .project-card {
-      padding: 0.7rem 0.85rem;
-      background: var(--bg);
-    }
-
-    .project-card .name {
-      font-family: var(--mono);
-      font-weight: 600;
-      font-size: 0.85rem;
-      display: block;
-      margin-bottom: 0.2rem;
-    }
-
-    .project-card .desc {
-      color: var(--fg-muted);
-      font-size: 0.84rem;
-      line-height: 1.45;
-    }
-
-    .project-card .desc a {
-      color: var(--fg-faint);
-      font-family: var(--mono);
-      font-size: 0.8rem;
-    }
-
-    .project-card .desc a:hover {
-      color: var(--accent);
-    }
-
-    /* -- Project lead + rows (for instrument shelves) -- */
-    .project-lead {
-      border-left: 2px solid var(--border);
-      padding: 0.5rem 0 0.5rem 1rem;
-      margin: 0.5rem 0 1.25rem;
-    }
-
-    .project-lead .name {
-      font-family: var(--mono);
-      font-weight: 600;
+    .definition {
       font-size: 1rem;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .project-lead .desc {
       color: var(--fg-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
+      max-width: 36em;
+      margin-bottom: 1rem;
     }
 
-    .project-list {
-      margin-top: 0.5rem;
+    /* ── GROUNDING: the idea, concretely, before any vocabulary ── */
+    .ground {
+      border: 1px solid var(--border-faint);
+      border-left: 3px solid var(--accent);
+      background: var(--bg-inset);
+      padding: 0.9rem 1.1rem 0.75rem;
+      margin-bottom: 1.7rem;
     }
-
-    .project-row {
-      display: flex;
-      gap: 1.25rem;
-      padding: 0.45rem 0;
-      align-items: baseline;
-    }
-
-    .project-row + .project-row {
-      border-top: 1px solid var(--border-faint);
-    }
-
-    .project-row .name {
+    .ground p { font-size: 1rem; line-height: 1.55; color: var(--fg-muted); margin: 0; }
+    .ground p.turn { margin-top: 0.75rem; color: var(--fg); }
+    .ground pre { margin: 0.65rem 0 0.55rem; background: var(--bg); font-size: 0.78rem; }
+    .ground .prov-line {
       font-family: var(--mono);
-      font-weight: 600;
-      font-size: 0.88rem;
-      flex-shrink: 0;
-      width: 11rem;
+      font-size: 0.76rem;
+      line-height: 1.65;
+      color: var(--fg-faint);
+      letter-spacing: 0.01em;
     }
 
-    .project-row .desc {
-      color: var(--fg-muted);
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
-
-    .project-row .desc a {
+    .notthis {
       font-family: var(--mono);
       font-size: 0.82rem;
+      line-height: 1.65;
       color: var(--fg-faint);
+      letter-spacing: 0.01em;
+      max-width: 38em;
+      margin-bottom: 1.6rem;
     }
+    .notthis b { color: var(--fg-muted); font-weight: 600; }
 
-    .project-row .desc a:hover {
-      color: var(--accent);
-    }
-
-    /* ── CONTRACT BOX ── */
+    /* ── CONTRACT ── */
     .contract {
       background: var(--bg-inset);
       border: 1px solid var(--border-faint);
       border-left: 3px solid var(--accent);
       padding: 0.7rem 1rem 0.65rem;
-      margin: 0.2rem 0 1.4rem;
-      max-width: 620px;
+      margin: 0 0 1.6rem;
     }
-    .contract p {
-      font-size: 0.94rem;
-      line-height: 1.5;
-      color: var(--fg-muted);
-      margin: 0;
-      padding: 0.15rem 0;
-    }
-    .contract p + p {
-      border-top: 1px solid var(--border-faint);
-      margin-top: 0.35rem;
-      padding-top: 0.5rem;
-    }
+    .contract p { font-size: 0.93rem; line-height: 1.5; color: var(--fg-muted); margin: 0; padding: 0.15rem 0; }
+    .contract p + p { border-top: 1px solid var(--border-faint); margin-top: 0.35rem; padding-top: 0.5rem; }
     .contract .ck {
       font-family: var(--mono);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--fg-faint);
@@ -315,343 +185,365 @@
       margin-right: 0.55rem;
     }
 
-    /* ── CUSTODY STACK ── */
-    .demo-cta {
-      margin: 0.9rem 0 0;
-      font-family: var(--mono);
-      font-size: 1rem;
-    }
-    .demo-cta a {
-      display: inline-block;
-      padding: 0.5rem 0.9rem;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      background: var(--accent-faint);
-      text-decoration: none;
-    }
-    .demo-cta a:hover {
-      color: var(--bg);
-      background: var(--accent);
-    }
-    .routes {
-      margin: 1.5rem 0 0.5rem;
-    }
+    /* ── ROUTES ── */
+    .routes { margin-bottom: 1.5rem; }
     .routes h3 {
       font-family: var(--mono);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       color: var(--fg-faint);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.55rem;
     }
     .route {
       display: flex;
       gap: 1rem;
-      padding: 0.4rem 0;
+      padding: 0.38rem 0;
       align-items: baseline;
     }
-    .route + .route {
-      border-top: 1px solid var(--border-faint);
-    }
+    .route + .route { border-top: 1px solid var(--border-faint); }
     .route .who {
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--fg-faint);
-      flex-shrink: 0;
-      width: 9.5rem;
-      letter-spacing: 0.02em;
-    }
-    .route .path {
-      font-size: 0.92rem;
-      color: var(--fg-muted);
-      line-height: 1.5;
-    }
-    .route .path a {
-      font-family: var(--mono);
-      font-size: 0.85rem;
-    }
-    .edge-list, .component-skeleton {
-      margin-top: 1.5rem;
-    }
-    .edge-list h3, .component-skeleton h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      font-style: italic;
-      margin-bottom: 0.5rem;
-    }
-    .edge-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
-      padding: 0.5rem 0;
-    }
-    .edge-row + .edge-row {
-      border-top: 1px solid var(--border-faint);
-    }
-    .edge-claim {
-      font-size: 0.94rem;
-      line-height: 1.45;
-    }
-    .edge-meta {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--fg-faint);
-    }
-    .status {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.04em;
-      padding: 0.05rem 0.4rem;
-      border: 1px solid var(--border);
-      color: var(--fg-muted);
-      margin-left: 0.4rem;
-    }
-    .status.live {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-    .status.zoned, .status.research {
-      color: var(--fg-faint);
-    }
-    .status.candidate {
-      border-style: dashed;
-      color: var(--fg-faint);
-    }
-
-    /* ── LIFECYCLE (design layer) ── */
-    .lifecycle {
-      margin: 1.25rem 0 1.5rem;
-      border: 1px solid var(--border-faint);
-      background: var(--bg-inset);
-    }
-    .lc-row {
-      display: flex;
-      gap: 1rem;
-      align-items: baseline;
-      padding: 0.55rem 1rem;
-    }
-    .lc-row + .lc-row {
-      border-top: 1px solid var(--border-faint);
-    }
-    .lc-row .lc-stage {
-      font-family: var(--mono);
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--fg);
-      flex: 1;
-    }
-    .lc-row.pending .lc-stage {
-      color: var(--fg-faint);
-      font-weight: 500;
-    }
-    .lc-row .lc-by {
-      font-family: var(--mono);
-      font-size: 0.76rem;
-      color: var(--fg-ghost);
-      text-align: right;
-      letter-spacing: 0.02em;
-    }
-    #design h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      font-style: italic;
-      margin: 1.6rem 0 0.5rem;
-    }
-    .lc-split {
-      padding: 0.3rem 1rem;
-      border-top: 1px dashed var(--border);
-      background: var(--accent-faint);
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--accent);
-    }
-    .component-card {
-      padding: 0.7rem 0;
-    }
-    .component-card + .component-card {
-      border-top: 1px solid var(--border-faint);
-    }
-    .component-head {
-      display: flex;
-      align-items: baseline;
-      margin-bottom: 0.25rem;
-    }
-    .component-head .name {
-      font-family: var(--mono);
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-    .component-card dl {
-      display: grid;
-      grid-template-columns: 4.5rem 1fr;
-      gap: 0.1rem 0.6rem;
-    }
-    .component-card dt {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--fg-ghost);
-      letter-spacing: 0.03em;
-      padding-top: 0.15rem;
-    }
-    .component-card dd {
-      font-size: 0.9rem;
-      line-height: 1.45;
-      color: var(--fg-muted);
-    }
-    .component-card dd code {
       font-family: var(--mono);
       font-size: 0.82rem;
       color: var(--fg);
+      flex-shrink: 0;
+      width: 12.5rem;
+      letter-spacing: 0.01em;
+    }
+    .route .path { font-size: 0.92rem; color: var(--fg-muted); line-height: 1.5; }
+    .route .path a { font-family: var(--mono); font-size: 0.86rem; }
+
+    header nav {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+      display: flex;
+      gap: 1.35rem;
+      flex-wrap: wrap;
+      padding-top: 0.9rem;
+      border-top: 1px solid var(--border-faint);
+    }
+    header nav a { color: var(--fg-muted); }
+    header nav a:hover { color: var(--accent); text-decoration: none; }
+
+    /* ── SECTIONS ── */
+    section { margin-bottom: 3.25rem; }
+
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 1.4rem;
     }
 
-    /* ── STACK DIAGRAM ── */
-    .stack-diagram {
-      margin: 1.5rem 0 2.25rem;
-      padding: 1.5rem 0.5rem 0.25rem;
+    .mode {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    section h2 {
+      font-family: var(--mono);
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      color: var(--fg);
+      margin-bottom: 0.7rem;
+    }
+
+    section > p {
+      color: var(--fg-muted);
+      font-size: 0.98rem;
+      margin-bottom: 1rem;
+    }
+
+    section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      font-style: italic;
+      margin: 1.9rem 0 0.55rem;
+      color: var(--fg);
+    }
+
+    .fine {
+      font-family: var(--mono);
+      font-size: 0.79rem;
+      line-height: 1.6;
+      color: var(--fg-faint);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── BADGES: kind + provenance + status ── */
+    .kind, .prov, .status {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.08rem 0.42rem;
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      white-space: nowrap;
+      display: inline-block;
+      vertical-align: 0.1em;
+    }
+    .kind.composition { border-color: var(--accent); color: var(--accent); }
+    .kind.exhibit { border-color: var(--accent); color: var(--accent); background: var(--accent-faint); }
+    .kind.proposition { border-style: dashed; color: var(--fg-faint); }
+    .kind.artifact { color: var(--fg-muted); }
+    .prov.schematic { border-style: dashed; color: var(--fg-faint); }
+    .prov.captured { border-color: var(--accent); color: var(--accent); }
+    .status.live { border-color: var(--accent); color: var(--accent); }
+    .status.legacy, .status.research { color: var(--fg-faint); }
+    .status.candidate { border-style: dashed; color: var(--fg-faint); }
+
+    /* ── READING KEY ── */
+    .key {
+      border: 1px solid var(--border-faint);
+      background: var(--bg-inset);
+      margin-bottom: 1rem;
+    }
+    .key-row {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: 0.9rem;
+      padding: 0.5rem 1rem;
+      align-items: baseline;
+    }
+    .key-row + .key-row { border-top: 1px solid var(--border-faint); }
+    .key-row .k { font-family: var(--mono); font-size: 0.8rem; color: var(--fg); letter-spacing: 0.02em; }
+    .key-row .v { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.5; }
+
+    /* ── TRANSITION DIAGRAM ── */
+    .diagram {
+      margin: 1.25rem 0 1.25rem;
+      padding: 1.4rem 0.5rem 0.25rem;
       background: var(--bg-inset);
       border: 1px solid var(--border-faint);
     }
-    .stack-diagram svg {
-      width: 100%;
-      height: auto;
-      display: block;
-      overflow: visible;
-    }
-    .stack-diagram .node-label {
+    .diagram svg { width: 100%; height: auto; display: block; overflow: visible; }
+    .diagram .node-label {
       font-family: var(--mono);
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 600;
       fill: var(--fg);
       text-anchor: middle;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
-    .stack-diagram .edge-label {
+    .diagram .edge-num {
       font-family: var(--mono);
-      font-size: 10.5px;
-      fill: var(--fg-faint);
+      font-size: 10px;
+      fill: var(--fg-ghost);
       text-anchor: middle;
-      letter-spacing: 0.03em;
       pointer-events: none;
     }
-    .stack-diagram .side-label {
+    .diagram .band-label {
       font-family: var(--mono);
       font-size: 11px;
       fill: var(--fg-muted);
       text-anchor: middle;
       font-style: italic;
     }
-    .stack-diagram .edge-line {
+    .diagram .edge-line {
       stroke: var(--accent);
       stroke-width: 1.5;
       fill: none;
       transition: stroke-width 0.15s;
     }
-    .stack-diagram .edge-line.dashed {
-      stroke: var(--fg-faint);
+    .diagram .band-line {
+      stroke: var(--fg-ghost);
       stroke-width: 1;
       stroke-dasharray: 3 3;
+      fill: none;
     }
-    .stack-diagram .edge-hit {
-      fill: transparent;
-      cursor: pointer;
-      outline: none;
-    }
-    .stack-diagram .edge:hover .edge-line,
-    .stack-diagram .edge:focus-within .edge-line,
-    .stack-diagram .edge.active .edge-line {
-      stroke-width: 3;
-    }
-    .stack-diagram .edge.zoned:hover .edge-line,
-    .stack-diagram .edge.zoned:focus-within .edge-line,
-    .stack-diagram .edge.zoned.active .edge-line {
-      stroke-width: 2;
-    }
-    .stack-diagram .arr-live { fill: var(--accent); }
-    .stack-diagram .arr-zoned { fill: var(--fg-faint); }
-    .stack-diagram .diagram-caption {
+    .diagram .edge-hit { fill: transparent; cursor: pointer; outline: none; }
+    .diagram .edge:hover .edge-line,
+    .diagram .edge:focus-within .edge-line { stroke-width: 3.5; }
+    .diagram .arr { fill: var(--accent); }
+    .diagram .caption {
       font-family: var(--mono);
-      font-size: 0.82rem;
+      font-size: 0.81rem;
       color: var(--fg-muted);
-      padding: 0.9rem 0.5rem 0.25rem;
-      min-height: 3.6em;
-      line-height: 1.55;
+      padding: 0.9rem 0.75rem 0.35rem;
+      min-height: 4.4em;
+      line-height: 1.6;
       border-top: 1px solid var(--border-faint);
       margin-top: 0.75rem;
     }
-    .stack-diagram .diagram-caption .cap-key {
-      color: var(--fg);
-      letter-spacing: 0.02em;
-    }
-    .stack-diagram .diagram-caption .cap-component {
-      color: var(--fg-ghost);
-      margin-left: 0.5em;
-      font-size: 0.92em;
-    }
-    .stack-diagram .diagram-caption .cap-component::before {
-      content: "— ";
-    }
+    .diagram .caption .cap-owner { color: var(--fg-ghost); display: block; margin-top: 0.25rem; }
+    .diagram .caption .cap-owner b { color: var(--fg-muted); font-weight: 600; }
 
-    /* ── RESEARCH ── */
-    .research-group {
-      margin-bottom: 1.75rem;
-    }
-
-    .research-group h3 {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: var(--fg);
-      margin-bottom: 0.4rem;
-      font-style: italic;
-    }
-
-    .paper-list {
+    /* ── CONTINUITY QUESTIONS ── */
+    .questions { margin: 0.6rem 0 1rem; }
+    .questions li {
       list-style: none;
+      font-size: 0.93rem;
+      color: var(--fg-muted);
+      padding: 0.32rem 0;
+      line-height: 1.5;
     }
+    .questions li + li { border-top: 1px solid var(--border-faint); }
+    .questions li b { font-family: var(--mono); font-size: 0.82rem; color: var(--fg); font-weight: 600; margin-right: 0.5rem; }
 
-    .paper-list li {
-      padding: 0.5rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
+    /* ── SEQUENCE (exhibit) ── */
+    .sequence { border: 1px solid var(--border-faint); margin: 1.1rem 0 1.25rem; }
+    .seq-row {
+      display: grid;
+      grid-template-columns: 1.6rem 8.5rem 1fr;
+      gap: 0.85rem;
+      padding: 0.6rem 1rem;
+      align-items: baseline;
     }
+    .seq-row + .seq-row { border-top: 1px solid var(--border-faint); }
+    .seq-row .n { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-ghost); }
+    .seq-row .office { font-family: var(--mono); font-size: 0.86rem; font-weight: 600; color: var(--fg); }
+    .seq-row .does { font-size: 0.91rem; color: var(--fg-muted); line-height: 1.5; }
+    .seq-row .does em { color: var(--fg-faint); font-style: normal; display: block; font-size: 0.86rem; margin-top: 0.1rem; }
+    .seq-row.human { background: var(--accent-faint); }
+    .seq-row.human .office { color: var(--accent); }
 
-    .paper-list li + li {
+    /* ── TWO EVIDENCE STATES ── */
+    .states { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.1rem 0 1rem; }
+    .state { border: 1px solid var(--border); display: flex; flex-direction: column; }
+    .state .head {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.05em;
+      padding: 0.45rem 0.85rem;
+      border-bottom: 1px solid var(--border-faint);
+      color: var(--fg-faint);
+    }
+    .state .body { padding: 0.75rem 0.85rem; font-size: 0.89rem; color: var(--fg-muted); line-height: 1.5; flex: 1; }
+    .state .body ul { list-style: none; }
+    .state .body li { padding: 0.22rem 0; }
+    .state .body li + li { border-top: 1px solid var(--border-faint); }
+    .state .verdict {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      padding: 0.5rem 0.85rem;
       border-top: 1px solid var(--border-faint);
     }
+    .state.admitted .verdict { color: var(--pass); font-weight: 600; }
+    .state.refused { border-color: var(--accent); }
+    .state.refused .verdict { color: var(--accent); font-weight: 600; }
 
-    .paper-list .paper-title {
-      font-size: 0.94rem;
-      font-weight: 500;
-      line-height: 1.4;
+    /* ── WITHHELD ── */
+    .withheld {
+      border: 1px solid var(--accent);
+      background: var(--accent-faint);
+      padding: 0.85rem 1.1rem;
+      margin: 1.2rem 0;
     }
-
-    .paper-list .paper-title:hover {
-      text-decoration: none;
-      color: var(--accent-hover);
-    }
-
-    .paper-list .paper-meta {
+    .withheld .h {
       font-family: var(--mono);
-      color: var(--fg-ghost);
-      font-size: 0.75rem;
-      letter-spacing: 0.02em;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.35rem;
     }
+    .withheld p { font-size: 0.96rem; color: var(--fg-muted); line-height: 1.55; margin: 0; }
+    .withheld p + p { margin-top: 0.5rem; }
+    .withheld code { font-family: var(--mono); font-size: 0.85em; color: var(--fg); }
 
-    .paper-list .paper-meta a {
-      color: var(--fg-ghost);
+    /* ── EVIDENCE LIST ── */
+    .evidence { margin: 0.7rem 0 1rem; }
+    .ev-row {
+      display: grid;
+      grid-template-columns: 11rem 1fr;
+      gap: 0.9rem;
+      padding: 0.45rem 0;
+      align-items: baseline;
+      border-top: 1px solid var(--border-faint);
     }
+    .ev-row:last-child { border-bottom: 1px solid var(--border-faint); }
+    .ev-row .what { font-family: var(--mono); font-size: 0.8rem; color: var(--fg-faint); }
+    .ev-row .src { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.5; }
+    .ev-row .src a { font-family: var(--mono); font-size: 0.84rem; }
 
-    .paper-list .paper-meta a:hover {
+    /* ── LEDGER (generated) ── */
+    .ledger { margin: 1rem 0 0.9rem; border-top: 1px solid var(--border-faint); }
+    .ledger-row { padding: 0.85rem 0; border-bottom: 1px solid var(--border-faint); }
+    .ledger-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.3rem; }
+    .ledger-name { font-family: var(--mono); font-size: 0.92rem; font-weight: 600; color: var(--fg); }
+    .ledger-status { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); letter-spacing: 0.01em; }
+    .ledger-claim { font-size: 0.94rem; color: var(--fg-muted); line-height: 1.5; margin-bottom: 0.4rem; }
+    .ledger-meta { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.15rem 0.8rem; }
+    .ledger-meta dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-ghost); letter-spacing: 0.02em; padding-top: 0.12rem; }
+    .ledger-meta dd { font-size: 0.87rem; color: var(--fg-muted); line-height: 1.5; }
+    .ledger-meta dd a { font-family: var(--mono); font-size: 0.8rem; }
+    .ledger-asof { font-family: var(--mono); font-size: 0.76rem; color: var(--fg-faint); line-height: 1.6; }
+
+    /* ── ARTIFACT CARDS ── */
+    .artifact-card { padding: 0.75rem 0; border-top: 1px solid var(--border-faint); }
+    .artifact-card:last-of-type { border-bottom: 1px solid var(--border-faint); }
+    .artifact-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.25rem; }
+    .artifact-head .name { font-family: var(--mono); font-weight: 600; font-size: 0.93rem; }
+    .artifact-card dl { display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.1rem 0.6rem; }
+    .artifact-card dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-ghost); letter-spacing: 0.03em; padding-top: 0.15rem; }
+    .artifact-card dd { font-size: 0.89rem; line-height: 1.45; color: var(--fg-muted); }
+    .artifact-card dd code { font-family: var(--mono); font-size: 0.82rem; color: var(--fg); }
+
+    /* ── CTA ── */
+    .cta { margin: 1.1rem 0 0.4rem; font-family: var(--mono); font-size: 0.95rem; }
+    .cta a {
+      display: inline-block;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: var(--accent-faint);
+    }
+    .cta a:hover { color: var(--bg); background: var(--accent); text-decoration: none; }
+
+    pre {
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      line-height: 1.5;
+      background: var(--bg-inset);
+      border: 1px solid var(--border-faint);
+      padding: 0.85rem 1rem;
+      overflow-x: auto;
+      margin: 0.7rem 0 0.9rem;
+      color: var(--fg-muted);
+    }
+    pre .hot { color: var(--accent); font-weight: 600; }
+
+    /* ── LIFECYCLE (proposition) ── */
+    .lifecycle { margin: 1.1rem 0 1.2rem; border: 1px solid var(--border-faint); background: var(--bg-inset); }
+    .lc-row { display: flex; gap: 1rem; align-items: baseline; padding: 0.5rem 1rem; }
+    .lc-row + .lc-row { border-top: 1px solid var(--border-faint); }
+    .lc-row .lc-stage { font-family: var(--mono); font-size: 0.86rem; font-weight: 600; color: var(--fg); flex: 1; }
+    .lc-row.pending .lc-stage { color: var(--fg-faint); font-weight: 500; }
+    .lc-row .lc-by { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-ghost); text-align: right; letter-spacing: 0.02em; }
+    .lc-split {
+      padding: 0.3rem 1rem;
+      border-top: 1px dashed var(--border);
+      background: var(--accent-faint);
+      font-family: var(--mono);
+      font-size: 0.69rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--accent);
     }
 
+    /* ── RESEARCH ── */
+    .research-group { margin-bottom: 1.6rem; }
+    .research-group h3 { margin: 1.2rem 0 0.4rem; }
+    .paper-list { list-style: none; }
+    .paper-list li { padding: 0.45rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
+    .paper-list li + li { border-top: 1px solid var(--border-faint); }
+    .paper-list .paper-title { font-size: 0.93rem; font-weight: 500; line-height: 1.4; }
+    .paper-list .paper-meta { font-family: var(--mono); color: var(--fg-ghost); font-size: 0.74rem; letter-spacing: 0.02em; }
+    .paper-list .paper-meta a { color: var(--fg-ghost); }
+    .paper-list .paper-meta a:hover { color: var(--accent); }
     .paper-list .start-here {
       font-family: var(--mono);
-      font-size: 0.68rem;
+      font-size: 0.67rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--accent);
@@ -659,101 +551,49 @@
       padding: 0.02rem 0.3rem;
       margin-right: 0.45rem;
     }
-    .paper-list li.foundational .paper-title {
-      font-weight: 600;
-    }
-
+    .paper-list li.foundational .paper-title { font-weight: 600; }
     .research-links {
       margin-top: 1rem;
       padding-top: 0.75rem;
       border-top: 1px solid var(--border-faint);
       font-family: var(--mono);
-      font-size: 0.94rem;
+      font-size: 0.92rem;
       display: flex;
       gap: 1.5rem;
     }
-
-    .research-links a {
-      color: var(--fg-faint);
-    }
-
-    .research-links a:hover {
-      color: var(--accent);
-    }
+    .research-links a { color: var(--fg-faint); }
+    .research-links a:hover { color: var(--accent); }
 
     /* ── FOOTER ── */
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 2px solid var(--border);
-    }
-
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); }
     footer .links {
       font-family: var(--mono);
       display: flex;
       gap: 1.5rem;
       flex-wrap: wrap;
       margin-bottom: 0.75rem;
-      font-size: 0.94rem;
+      font-size: 0.92rem;
     }
-
-    footer .links a {
-      color: var(--fg-faint);
-    }
-
-    footer .links a:hover {
-      color: var(--accent);
-    }
-
-    footer .coda {
-      font-style: italic;
-      font-size: 0.85rem;
-      color: var(--fg-ghost);
-    }
+    footer .links a { color: var(--fg-faint); }
+    footer .links a:hover { color: var(--accent); }
+    footer .coda { font-style: italic; font-size: 0.85rem; color: var(--fg-ghost); }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      body {
-        padding: 2.5rem 1.25rem 2rem;
-      }
-
-      header h1 {
-        font-size: 1.3rem;
-      }
-
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .project-row {
-        flex-direction: column;
-        gap: 0.15rem;
-        align-items: stretch;
-      }
-
-      .project-row .name {
-        width: auto;
-      }
-
-      .route {
-        flex-direction: column;
-        gap: 0.1rem;
-      }
-
-      .route .who {
-        width: auto;
-      }
-
-      .stack-diagram {
-        overflow-x: auto;
-        padding: 1rem 0 0.5rem;
-      }
-      .stack-diagram svg {
-        min-width: 640px;
-      }
-      .stack-diagram .diagram-caption {
-        padding: 0.75rem 1rem 0.25rem;
-      }
+    @media (max-width: 640px) {
+      body { padding: 2.5rem 1.25rem 2rem; }
+      header h1 { font-size: 1.3rem; }
+      .lead { font-size: 1.35rem; }
+      .promise { font-size: 1.05rem; }
+      .route { flex-direction: column; gap: 0.1rem; }
+      .route .who { width: auto; }
+      .key-row, .ev-row, .ledger-meta { grid-template-columns: 1fr; gap: 0.1rem; }
+      .seq-row { grid-template-columns: 1.4rem 1fr; }
+      .seq-row .office { grid-column: 2; }
+      .seq-row .does { grid-column: 2; }
+      .states { grid-template-columns: 1fr; }
+      .diagram { overflow-x: auto; padding: 1rem 0 0.5rem; }
+      .diagram svg { min-width: 700px; }
+      .diagram .caption { padding: 0.75rem 1rem 0.3rem; }
     }
   </style>
 </head>
@@ -762,42 +602,442 @@
   <header>
     <h1>unpingable</h1>
     <p class="author">James Beck</p>
-    <p class="tagline lead">The design and assurance layer operations never had.</p>
-    <p class="tagline">Unpingable is a self-hosted platform for governing how operational observations become claims, decisions, and actions. The constellation running today is the assurance kernel: it decides what may be relied on, what may act, and what must refuse &mdash; and leaves a <a href="glossary.html#receipt">receipt</a> either way.</p>
-    <p class="tagline">Systems routinely skip the steps. An observation becomes a <a href="glossary.html#claim">claim</a>, a claim becomes a permission, a permission becomes an action &mdash; without the conversions being made explicit, and without re-checking that they still hold at the moment they are used. A credential valid at check time is spent after it expired. A monitor that was green authorizes a change. &ldquo;Tests passed&rdquo; becomes &ldquo;safe to apply.&rdquo; Each was true earlier; by the moment of action it is stale, unsupported, or out of scope.</p>
-    <p class="tagline">The components are small and self-hosted, but they are not a pile of policy middleware &mdash; they implement one shared model of what must hold before action. Automation may propose work: runbooks, scripts, Terraform plans, AI agents. It cannot approve its own output, spend permission that has expired, or turn a demonstration into an operational fact. Every decision, and especially every refusal, leaves a verifiable <a href="glossary.html#receipt">receipt</a>, not a log line.</p>
-    <p class="tagline">Those conversions belong to a designed operational system &mdash; and that design is the layer still missing. It lives today in doctrine and in the operator&rsquo;s head, not in an artifact the tools can read. Naming it is <a href="#design">the design layer</a> below: a candidate, not a shipped tool.</p>
-    <p style="font-family: var(--mono); font-size: 0.9rem; color: var(--fg-faint); margin: -0.5rem 0 1.4rem; max-width: 520px; line-height: 1.55;">The same failure shows up across domains &mdash; operations, AI agents, distributed systems, formal verification, governance. Not separate programs; each is a place the one problem appears. Internally the invariant is evidence <a href="glossary.html#custody">custody</a>: deciding whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a>. Small self-hosted tools; proof artifacts on the side.</p>
+
+    <p class="lead">Systems forget how they know.</p>
+    <p class="cascade">
+      <span>An observation becomes a claim.</span>
+      <span>A claim becomes a permission.</span>
+      <span>Permission survives after its reasons have changed.</span>
+    </p>
+    <p class="promise">Unpingable builds systems that keep those transitions visible &mdash; and capable of refusal.</p>
+
+    <div class="ground">
+      <p>A CI check goes green at 09:00. A deploy spends that green at 11:00. Nothing between them re-asks whether it still holds. The check was honest &mdash; but the permission it turned into outlived the observation it came from, and nothing in the path is built to notice.</p>
+      <p class="turn">Here is a system refusing exactly that, eleven seconds late against a ten-second bound:</p>
+      <pre>  standing       verified      <span class="hot">&larr; the credential WAS valid</span>
+  wicket         admitted      <span class="hot">&larr; naive auth says yes here</span>
+  spendability   <span class="hot">REFUSED</span>       standing_before_spendability_not_bounded
+    gap=11s  vs bound=10s  &rarr; over by 1s
+  &rarr; refused. No capacity spent (effect_count=0).</pre>
+      <p class="prov-line"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29. The refusal class is named <a href="glossary.html#spendability">spendability</a> &mdash; the question of whether a valid permission may still be <em>used</em>. <a href="#run-it">Full excerpt and provenance below</a> &middot; <a href="demo.html">descend into the receipt</a>.</p>
+    </div>
+
+    <p class="definition">An independent research and engineering program on preserving evidence <a href="glossary.html#custody">custody</a> as systems move from observation to action over time. It develops formal models, executable systems, and bounded compositions that keep observation, interpretation, reliance, authority, action, and retained history from silently collapsing into one another.</p>
+
+    <p class="definition">The same failure appears across domains &mdash; operations, AI agents, distributed systems, formal verification, governance. These are not separate programs; each is a place the one problem shows up. Operations is where the questions were learned, not what the work is about.</p>
+
+    <p class="notthis"><b>Not</b> an AI-governance platform. <b>Not</b> one integrated product suite. <b>Not</b> a generic agent framework. <b>Not</b> a collection of unrelated repositories &mdash; and <b>not</b> a claim that every artifact composes with every other. The components are independently useful. Compositions are earned one at a time, and each one is dated.</p>
+
     <div class="contract">
-      <p><span class="ck">contract</span>Agents may propose work; gates decide whether the proposal is admissible; operators decide whether governed output is promoted.</p>
-      <p><span class="ck">not approval</span>An agent saying &ldquo;done,&rdquo; tests passing, a completed run, a green check, or a demo.</p>
+      <p><span class="ck">contract</span>Automation may propose work &mdash; runbooks, scripts, Terraform plans, AI agents. Gates decide whether the proposal is admissible. Operators decide whether governed output is promoted.</p>
+      <p><span class="ck">not approval</span>An agent saying &ldquo;done.&rdquo; Tests passing. A completed run. A green check. A demonstration succeeding.</p>
       <p><span class="ck">evidence</span>Every refusal names the gate, the failed predicate, the clock basis, and whether any effect occurred.</p>
     </div>
-    <p class="demo-cta"><a href="incident.html">Start with the incident: valid at check, refused at action&nbsp;&rarr;</a></p>
+
     <div class="routes">
-      <h3>Where to start &mdash; the same problem, five environments</h3>
-      <div class="route"><span class="who">Operations / SRE</span><span class="path">The <a href="incident.html">incident write-up</a> &mdash; a check-then-act race in postmortem form &mdash; then <a href="demo.html">run the demo</a>.</span></div>
-      <div class="route"><span class="who">AI agents</span><span class="path"><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a> and <a href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a> &mdash; typed proposals in, gate verdicts and refusal receipts out.</span></div>
-      <div class="route"><span class="who">Formal methods</span><span class="path">The <a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">Lean proof reader&rsquo;s portal</a> &mdash; refusal-class boundaries, machine-checked.</span></div>
-      <div class="route"><span class="who">Publications</span><span class="path">The <a href="#research">research index</a> below, or the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>.</span></div>
-      <div class="route"><span class="who">Background</span><span class="path">Why a lab and not a product, and what it is and isn&rsquo;t &mdash; <a href="about.html">about</a>. Reference: <a href="limits.html">limits</a>, <a href="glossary.html">glossary</a>, <a href="constellation.html">components</a>.</span></div>
+      <h3>Doors</h3>
+      <div class="route"><span class="who">Run it yourself</span><span class="path">The refusal above in full &mdash; premises, clocks, and the theorem that licenses it: <a href="demo.html">the descent</a>, or <a href="incident.html">the same event written as a postmortem</a>.</span></div>
+      <div class="route"><span class="who">Understand the argument</span><span class="path">The <a href="#transitions">transitions under study</a>, then <a href="about.html">about</a> for why the program is shaped this way.</span></div>
+      <div class="route"><span class="who">Inspect the systems</span><span class="path">Every component, its role, and its maturity &mdash; <a href="constellation.html">components</a>.</span></div>
+      <div class="route"><span class="who">Check the receipts</span><span class="path">What is actually earned, object by object and dated &mdash; the <a href="#ledger">status ledger</a>, and the <a href="limits.html">limits and non-claims</a>.</span></div>
     </div>
+
     <nav>
-      <a href="#design">Design</a>
-      <a href="#stack">Stack</a>
-      <a href="#projects">Projects</a>
+      <a href="#transitions">Transitions</a>
+      <a href="#exhibit">Exhibit</a>
+      <a href="#ledger">Evidence</a>
+      <a href="#artifacts">Artifacts</a>
+      <a href="#propositions">Propositions</a>
       <a href="#research">Research</a>
-      <a href="https://neutral.zone" target="_blank" rel="noopener">Writing</a>
+      <a href="limits.html">Limits</a>
+      <a href="glossary.html">Glossary</a>
     </nav>
   </header>
 
   <main>
 
-    <section id="design">
+    <!-- ══════════ TRANSITIONS ══════════ -->
+    <section id="transitions">
       <hr class="section-rule">
-      <h2>The design layer <span class="status candidate">candidate</span></h2>
-      <p>The tools do not operate over &ldquo;the enterprise.&rdquo; They operate over a system someone composed on purpose &mdash; its boundaries, identities, relationships, and the evidence that would count for each. That composition is real, and it is currently unwritten: it lives in doctrine and in the operator&rsquo;s head. Every tool below re-derives it by hand.</p>
-      <p>Writing it down is the missing layer. An authored, versioned design; validated and ratified rather than silently amended; compiled into the bounded view each tool is competent to consume; then compared against what was actually witnessed. The verbs already exist across the constellation. The noun does not.</p>
+      <span class="mode">Thesis</span>
+      <h2>The transitions under study</h2>
+      <p>Evidence does not travel from a sensor to an action in one move. It crosses a series of boundaries, and at each one something is converted into something with more force than it had a moment earlier. The recurring failure is that the conversions happen silently &mdash; nothing records that they occurred, and nothing re-checks that they still hold at the moment of use.</p>
+
+      <div class="diagram">
+        <svg viewBox="0 0 800 200" role="img" aria-labelledby="tr-title" aria-describedby="tr-caption" xmlns="http://www.w3.org/2000/svg">
+          <title id="tr-title">Schematic: six states — observe, interpret, rely, authorize, act, settle — with five transitions between them, and continuity shown as a separate concern spanning all of them rather than as a final stage.</title>
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="arr"/></marker>
+          </defs>
+
+          <g class="edges">
+            <g class="edge" tabindex="0"
+               data-claim="What did the instrument actually see &mdash; and what did it fail to see? A signal that disappears must become a finding, not a silent zero."
+               data-owner="NQ" data-status="shipped, pre-1.0">
+              <line class="edge-line" x1="104" y1="96" x2="158" y2="96" marker-end="url(#arr)"/>
+              <rect class="edge-hit" x="100" y="76" width="62" height="40"/>
+            </g>
+            <g class="edge" tabindex="0"
+               data-claim="May a consumer lawfully act on this reading? Reliance is indexed to a named consumer, and a reliance refusal is never the negation of the underlying claim."
+               data-owner="NQ &mdash; reliance evaluation" data-status="shipped; consumer identity configured, not authenticated">
+              <line class="edge-line" x1="246" y1="96" x2="312" y2="96" marker-end="url(#arr)"/>
+              <rect class="edge-hit" x="242" y="76" width="74" height="40"/>
+            </g>
+            <g class="edge" tabindex="0"
+               data-claim="May this exact prepared work receive authority? The decision is made over exact bytes, and the decision authority is burned once &mdash; a second issuance for the same decision refuses."
+               data-owner="AG ng" data-status="exercised by one vertical; not production deployable">
+              <line class="edge-line" x1="360" y1="96" x2="426" y2="96" marker-end="url(#arr)"/>
+              <rect class="edge-hit" x="356" y="76" width="74" height="40"/>
+            </g>
+            <g class="edge" tabindex="0"
+               data-claim="Do the authorized bytes match what is about to execute? An authenticated issuance is checked against the executor&rsquo;s own stored attempt &mdash; never against the record&rsquo;s own echoes &mdash; before any local standing is minted."
+               data-owner="Docket" data-status="one admitted effect class: the atomic Git target-ref transition">
+              <line class="edge-line" x1="514" y1="96" x2="584" y2="96" marker-end="url(#arr)"/>
+              <rect class="edge-hit" x="510" y="76" width="78" height="40"/>
+            </g>
+            <g class="edge" tabindex="0"
+               data-claim="What actually executed, and what does the surviving record establish? Settlement is a description of what occurred; it is not a safety claim, and it mints nothing downstream."
+               data-owner="Docket settlement &rarr; NQ evaluation" data-status="exercised once; the run&rsquo;s receipts are not public">
+              <line class="edge-line" x1="624" y1="96" x2="706" y2="96" marker-end="url(#arr)"/>
+              <rect class="edge-hit" x="620" y="76" width="90" height="40"/>
+            </g>
+          </g>
+
+          <g class="nodes">
+            <text class="node-label" x="68" y="100">observe</text>
+            <text class="node-label" x="202" y="100">interpret</text>
+            <text class="node-label" x="336" y="100">rely</text>
+            <text class="node-label" x="470" y="100">authorize</text>
+            <text class="node-label" x="604" y="100">act</text>
+            <text class="node-label" x="738" y="100">settle</text>
+          </g>
+
+          <g class="edge-nums">
+            <text class="edge-num" x="131" y="78">1</text>
+            <text class="edge-num" x="279" y="78">2</text>
+            <text class="edge-num" x="393" y="78">3</text>
+            <text class="edge-num" x="549" y="78">4</text>
+            <text class="edge-num" x="665" y="78">5</text>
+          </g>
+
+          <g class="band">
+            <path class="band-line" d="M 68 126 L 68 142 L 738 142 L 738 126"/>
+            <text class="band-label" x="403" y="164">continuity &mdash; a concern across all of them, not a stage after them</text>
+          </g>
+        </svg>
+        <p class="caption" id="tr-caption" role="status" aria-live="polite">
+          <span class="cap-default">Select a transition for the question it must answer. This is a <b>schematic</b>: it draws the boundaries the program studies, not a pipeline that six named services already implement end to end. Only the annotations below name an artifact, and only where one actually does the work.</span>
+        </p>
+      </div>
+      <p class="fine"><span class="prov schematic">schematic</span> &nbsp;Illustrative. No artifact is mapped onto a transition it has not exercised; where the caption names one, the <a href="#ledger">ledger</a> carries its dated claim.</p>
+
+      <h3>Continuity is a separate question</h3>
+      <p>The last stage of a pipeline is a bad place to put memory. &ldquo;Remember&rdquo; is not one responsibility, and no artifact here owns it whole. It decomposes into five questions that have different owners, different expiries, and different failure modes:</p>
+      <ul class="questions">
+        <li><b>valid</b> What still holds, as opposed to what merely still exists?</li>
+        <li><b>attributable</b> Whose testimony was it, and can it be recalled by origin?</li>
+        <li><b>reusable</b> May this be spent again, or was its authority consumed?</li>
+        <li><b>reconstructible</b> Can the decision be walked back to its premises from what survives?</li>
+        <li><b>unknown</b> What must stay unknown, or wait for renewed judgment, rather than be inferred?</li>
+      </ul>
+      <p class="fine">Two of these have partial owners today. <a href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a> holds hash-chained cross-session state, so a reliance cannot happen without a prior commit. NQ evaluates imported continuity snapshots as one narrow claim &mdash; <code>continuity_rely_eligible</code> &mdash; and implements none of continuity&rsquo;s trajectory law. The other three are open questions, and the site does not pretend otherwise.</p>
+    </section>
+
+    <!-- ══════════ EXHIBIT ══════════ -->
+    <section id="exhibit">
+      <hr class="section-rule">
+      <span class="mode">Exhibit &mdash; composition under qualification</span>
+      <h2>Four offices, one bounded change <span class="kind composition">composition</span></h2>
+      <p>The clearest thing currently on the bench: four separately-owned <a href="glossary.html#office">offices</a> &mdash; systems that each answer one question and carry a written list of what they will <em>not</em> decide &mdash; carrying one small Git change from proposal to evaluated <a href="glossary.html#testimony">testimony</a>, with no office absorbing another&rsquo;s jurisdiction and no code changes in any of them. It ran once, on 2026-07-26, against the Night Shift repository.</p>
+      <p class="fine">This is one exhibit, not the definition of the program. It demonstrates that <em>these four</em> artifacts compose for <em>this one</em> effect class. It is not evidence that the rest of the work composes, and it is not a product.</p>
+
+      <div class="sequence">
+        <div class="seq-row"><span class="n">1</span><span class="office">Night Shift</span><span class="does">Proposes a bounded, advisory, read-only intention.<em>Binds intent only &mdash; never file lists, content bytes, or authority.</em></span></div>
+        <div class="seq-row"><span class="n">2</span><span class="office">Docket</span><span class="does">Prepares the exact bytes as a prepared attempt.<em>Preparation authorizes nothing. No standing exists at this point.</em></span></div>
+        <div class="seq-row"><span class="n">3</span><span class="office">AG ng</span><span class="does">Authorizes that exact prepared attempt, burning its own one-use decision authority.<em>Its issuance establishes nothing about repository state, and no authority object crosses the boundary.</em></span></div>
+        <div class="seq-row"><span class="n">4</span><span class="office">Docket</span><span class="does">Verifies the <a href="glossary.html#issuance">issuance</a> against its own stored attempt, <a href="glossary.html#minting">mints</a> local single-use <a href="glossary.html#standing">standing</a>, executes through its broker, and settles with evidence.<em>Checks custody, not policy. Settlement is not a safety claim.</em></span></div>
+        <div class="seq-row"><span class="n">5</span><span class="office">NQ</span><span class="does">Evaluates what the recorded testimony does and does not establish, against registered claims and configured consumer profiles.<em>Emits testimony and typed refusals, never actions.</em></span></div>
+        <div class="seq-row"><span class="n">6</span><span class="office">Night Shift</span><span class="does">Consumes NQ&rsquo;s receipt and emits a read-only disposition.<em>No actuation. The boundary is gate-enforced.</em></span></div>
+        <div class="seq-row human"><span class="n">&mdash;</span><span class="office">a human</span><span class="does">Remains the only party able to decide what happens next.</span></div>
+      </div>
+
+      <h3>The same proposal, two evidence states</h3>
+      <p>The interesting property is not that the admitted case worked. It is that the refusals happen <em>before</em> effect, and that each one leaves the world exactly as it found it.</p>
+
+      <div class="states">
+        <div class="state admitted">
+          <div class="head">EVIDENCE STATE A &mdash; coherent</div>
+          <div class="body">Trusted issuer; valid signature over the exact body bytes; fresh; the decision admitted; and every executor-owned field matching what the executor itself holds.</div>
+          <div class="verdict">local standing minted once, spent once &mdash; effect settled <code>committed</code></div>
+        </div>
+        <div class="state refused">
+          <div class="head">EVIDENCE STATE B &mdash; altered, stale, or mismatched</div>
+          <div class="body">
+            <ul>
+              <li>an altered issuance body</li>
+              <li>an expired issuance</li>
+              <li>an issuance naming a different prepared digest</li>
+              <li>an exact issuance replayed against a second attempt</li>
+              <li>a request refused outright upstream &mdash; a path outside the admitted catalogue, producing no issuance at all</li>
+            </ul>
+          </div>
+          <div class="verdict">no standing, no reservation, no dispatch, no Git mutation, and no testimony describing an execution</div>
+        </div>
+      </div>
+      <p class="fine"><span class="prov cited">cited</span> &nbsp;Both states are recorded in Docket&rsquo;s <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">vertical-01.md</a>, which was itself the governed change it describes: it was written, submitted through the vertical, and the commit that added it was authored by the runtime&rsquo;s broker rather than by hand.</p>
+
+      <div class="withheld">
+        <span class="h">The non-grant &mdash; what the run refused to conclude</span>
+        <p>Authorization succeeded. Execution succeeded. Settlement succeeded. And the composition still declined to mint the one claim a reader would most want from it: <code>safe_to_merge</code> remained <strong>structurally non-mintable</strong>, and no registered claim verified from that testimony alone.</p>
+        <p>That is the point of the exercise. A chain of successful steps is not an argument that the result is safe, and a system that cannot say no to itself at the end is not evidence infrastructure &mdash; it is a conveyor belt with a receipt printer bolted on.</p>
+      </div>
+
+      <h3>What warrants the claims above</h3>
+      <div class="evidence">
+        <div class="ev-row"><span class="what">the declaration</span><span class="src">Night Shift&rsquo;s <a href="https://github.com/unpingable/nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md" target="_blank" rel="noopener">FOUR_OFFICE_PILOT_01.md</a> &mdash; written <em>before</em> execution, deliberately carrying no identifiers or verdicts. Its presence in the repository establishes only that the pilot was declared and that the governed change carrying it executed through those offices.</span></div>
+        <div class="ev-row"><span class="what">the prior run</span><span class="src">The three-office vertical of 2026-07-25, in full, with its negative specimens &mdash; <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">vertical-01.md</a>.</span></div>
+        <div class="ev-row"><span class="what">the jurisdictions</span><span class="src">Each office states its own boundary and its own maturity, and the four statements agree: <a href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a> &middot; <a href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">ag_ng</a> &middot; <a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a> &middot; <a href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a>.</span></div>
+        <div class="ev-row"><span class="what">what is assumed</span><span class="src">Three premises hold the load and are written down as assumptions rather than guarantees &mdash; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/trust-model.md" target="_blank" rel="noopener">trust-model.md</a>. Also: <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md" target="_blank" rel="noopener">known gaps</a>.</span></div>
+        <div class="ev-row"><span class="what">not available</span><span class="src">The run&rsquo;s identifiers, digests, and verdicts. They exist only in a private campaign record and cannot be inspected from here. This is the exhibit&rsquo;s <a href="#status-four-office-vertical">promotion condition</a>, not an omission.</span></div>
+      </div>
+
+      <p class="fine">No notary exists in this composition. The downstream packet is operational testimony marked as a projection of executor-held records; its digests are producer self-consistency, not an independent chain of custody. Two premise kinds &mdash; upstream authorization premises and this effect class&rsquo;s settlement premises &mdash; stay separate everywhere, and neither becomes the other. Upstream residual obligations travelled undischarged, reported as <em>unrepresented</em> because the upstream office cannot yet express them; that was recorded as a producer limitation, not as their absence.</p>
+
+      <h3 id="run-it">An exhibit you can run right now</h3>
+      <p>Smaller, older, and fully reproducible &mdash; this is the refusal from the top of the page, with the clock basis restored: a permission checked and found valid, exercised eleven seconds later against a ten-second bound, and refused on a named monotonic basis, before any capacity moves.</p>
+      <pre>  standing       verified      <span class="hot">&larr; the credential WAS valid</span>
+  wicket         admitted      <span class="hot">&larr; naive auth says yes here</span>
+  spendability   <span class="hot">REFUSED</span>       standing_before_spendability_not_bounded
+    gap=11s  vs bound=10s  &rarr; over by 1s
+    gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host
+  &rarr; refused. No capacity spent (effect_count=0).</pre>
+      <p class="fine"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29 against an editable install of <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a> at <code>485e557</code>. Exit 0; the demo&rsquo;s integrity tripwire fails loudly if it passes for the wrong reason. Not a cold clone &mdash; see the <a href="#status-stale-yes">ledger row</a>.</p>
+      <p class="cta"><a href="demo.html">Descend into the receipt: premises, clocks, and the theorem that licenses the refusal&nbsp;&rarr;</a></p>
+    </section>
+
+    <!-- ══════════ READING KEY ══════════ -->
+    <section id="key">
+      <hr class="section-rule">
+      <span class="mode">How to read the labels</span>
+      <h2>Four kinds of object, four kinds of thing shown</h2>
+      <p>You have now seen both vocabularies in use. They exist so that you never have to guess whether something here is an idea, a design proposal, a working specimen, a qualified composition, or deployed evidence &mdash; and they are what the ledger below is written in.</p>
+
+      <div class="key">
+        <div class="key-row"><span class="k"><span class="kind artifact">artifact</span></span><span class="v">An implemented system with a bounded, independently inspectable claim.</span></div>
+        <div class="key-row"><span class="k"><span class="kind composition">composition</span></span><span class="v">A specific relationship between artifacts that has actually been exercised. Compositions are earned individually and dated; none of them generalize.</span></div>
+        <div class="key-row"><span class="k"><span class="kind exhibit">exhibit</span></span><span class="v">A behaviour you can presently inspect or run.</span></div>
+        <div class="key-row"><span class="k"><span class="kind proposition">proposition</span></span><span class="v">Candidate architecture under investigation. Named, not ratified, and usually not built.</span></div>
+      </div>
+
+      <div class="key">
+        <div class="key-row"><span class="k"><span class="prov schematic">schematic</span></span><span class="v">A designed explanatory diagram or normalized trace. It teaches the shape of the system. It is not output.</span></div>
+        <div class="key-row"><span class="k"><span class="prov captured">captured run</span></span><span class="v">Literal bytes from an actual execution, carrying the command, the version, and the date it was run.</span></div>
+        <div class="key-row"><span class="k"><span class="prov">rendered</span></span><span class="v">A readable presentation generated from a real machine artifact. The raw artifact stays reachable.</span></div>
+        <div class="key-row"><span class="k"><span class="prov">cited</span></span><span class="v">A claim whose warrant is a document in a public repository, linked at the point of use.</span></div>
+      </div>
+
+      <p class="fine">Where a distinction is not yet earned, this site says so rather than smoothing it. Synthetic fixtures appear only where they are identified as synthetic and used to demonstrate conditional behaviour &mdash; never as testimony about a real estate. Terms of art are linked to the <a href="glossary.html">glossary</a> at first use.</p>
+    </section>
+
+    <!-- ══════════ LEDGER ══════════ -->
+    <section id="ledger">
+      <hr class="section-rule">
+      <span class="mode">Evidence</span>
+      <h2>Status ledger</h2>
+      <p>One row per object: what it claims, when that was last verified and by what, where the evidence lives, and what would have to happen before the claim may be strengthened. Rows are dated statements, not a live panel &mdash; a mechanical check may satisfy a promotion condition, but promotion stays an explicit editorial act.</p>
+
+    <!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->
+    <div class="ledger">
+      <div class="ledger-row" id="status-four-office-vertical">
+        <div class="ledger-head">
+          <span class="ledger-name">Four-office governed vertical</span>
+          <span class="kind composition">composition</span>
+          <span class="ledger-status">exercised once; receipts not public</span>
+        </div>
+        <p class="ledger-claim">Four separately-owned offices carried one bounded Git change from proposal to evaluated testimony without any office absorbing another’s jurisdiction, and without code changes in any office.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>the four offices’ own dated status statements, and the pilot declaration document — itself the governed effect the pilot executed</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md" target="_blank" rel="noopener">Nightshift · FOUR_OFFICE_PILOT_01.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">Docket · vertical-01.md</a> &middot; <a href="https://github.com/unpingable/nq#status-2026-07-26" target="_blank" rel="noopener">NQ · status</a> &middot; <a href="https://github.com/unpingable/ag_ng#status-2026-07-26" target="_blank" rel="noopener">AG ng · status</a></dd>
+          <dt>promotion</dt><dd>A public, reproducible pair of artifacts — one admitted scenario and one refused scenario — that a stranger can obtain without private custody. Today the pilot’s identifiers, digests and verdicts exist only in a private campaign record; the public surface is the declaration and the offices’ own status statements.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-docket">
+        <div class="ledger-head">
+          <span class="ledger-name">Docket (governed work runtime)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">working runtime, audited baseline; not production-hardened</span>
+        </div>
+        <p class="ledger-claim">Exactly one effect class is admitted — the atomic Git target-ref transition. A proposal outside it refuses with a typed refusal before any standing is issued, any reservation created, any dispatch identity minted, or any provider runs.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-25</dt><dd>the gwr-greenfield-v0.1 freeze: 125 tests, four gates exiting 0 in both debug and release profiles</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">repository</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md" target="_blank" rel="noopener">effect-classes.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/trust-model.md" target="_blank" rel="noopener">trust-model.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md" target="_blank" rel="noopener">known gaps</a></dd>
+          <dt>promotion</dt><dd>Three trust-model premises are load-bearing assumptions rather than enforced guarantees: exclusive broker custody of the governed ref, same-UID trust of the provider and broker binaries, and monotone clock readings. Operator-ready packaging does not exist; there is a source-install path, not a published-package promise.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-ag-ng">
+        <div class="ledger-head">
+          <span class="ledger-name">AG ng (authority office)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">exercised by the vertical; explicitly not production deployable</span>
+        </div>
+        <p class="ledger-claim">Decides whether exact prepared work may receive authority, and burns one-use decision authority. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>its issuance path authorized both the three-office vertical (2026-07-25) and the four-office pilot (2026-07-26)</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">repository</a></dd>
+          <dt>promotion</dt><dd>Its own production-deployability checklist closes. The issuance surface is a library face exercised by harness, and the decision-burn ledger is in-memory per process.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-nq">
+        <div class="ledger-head">
+          <span class="ledger-name">NQ (testimony, claims, reliance)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">operational, pre-1.0</span>
+        </div>
+        <p class="ledger-claim">Pulls bounded evidence, keeps loss of observability visible rather than silently healthy, and emits testimony and typed refusals — never actions. A clean receipt approves no merge, deployment, restart, or incident closure.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>its own dated status statement and compatibility policy</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nq" target="_blank" rel="noopener">repository</a> &middot; <a href="https://github.com/unpingable/nq/blob/main/docs/architecture/CLAIM_CUSTODY.md" target="_blank" rel="noopener">claim custody boundary</a></dd>
+          <dt>promotion</dt><dd>Consumer identity is configured, not authenticated. NQ stays pre-1.0; the office designation is a jurisdiction statement, not a stability promise.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-nightshift">
+        <div class="ledger-head">
+          <span class="ledger-name">Night Shift (proposal and read-only orchestration)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">part of the exercised vertical; not operator-ready</span>
+        </div>
+        <p class="ledger-claim">Proposes bounded intent behind a gate-enforced no-actuation boundary. Its proposals bind intent only — never file lists, content bytes, or authority.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>its own dated status statement; the four-office pilot ran against this repository as its target</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">repository</a></dd>
+          <dt>promotion</dt><dd>File-granular proposals are a library face, and the deployment files are reference scaffolding rather than a packaged service.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-agent-governor">
+        <div class="ledger-head">
+          <span class="ledger-name">agent_governor (classic Python)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">legacy / historical, maintained</span>
+        </div>
+        <p class="ledger-claim">Still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports; no authority, policy decision, credential, or capability crosses that wire.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>its own disposition banner</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">repository</a></dd>
+          <dt>promotion</dt><dd>Not applicable. New authority work lives in AG ng, with no wire compatibility between the two, and none implied.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-stale-yes">
+        <div class="ledger-head">
+          <span class="ledger-name">The stale-yes refusal</span>
+          <span class="kind exhibit">exhibit</span>
+          <span class="ledger-status">runs; re-verified against current code</span>
+        </div>
+        <p class="ledger-claim">A permission valid when checked refuses at exercise time because the gap between observation and exercise exceeded its bound on a named monotonic basis — and no capacity is spent.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-29</dt><dd>./demo/refused-spend.sh run against an editable install of the tree at agent_gov 485e557 — exit 0, integrity tripwire green. Not a cold clone.</dd>
+          <dt>evidence</dt><dd><a href="demo.html">the descent</a> &middot; <a href="incident.html">the incident write-up</a> &middot; <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a></dd>
+          <dt>promotion</dt><dd>Re-verify from a genuinely cold clone, and pin the captured output rather than the receipt id. The id is a function of the receipt schema: it moved from dda5a1e5… to 3f8b93c1… when schema fields were added, while the behaviour it attests did not change.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-declared-deny">
+        <div class="ledger-head">
+          <span class="ledger-name">The declared-deny probe</span>
+          <span class="kind exhibit">exhibit</span>
+          <span class="ledger-status">lab specimen; no live testimony</span>
+        </div>
+        <p class="ledger-claim">A firewall’s declared deny rule and an observed path are held apart and never merged into one story. The frozen probe exercises its witness path against real pfSense substrate in a controlled lab.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-06-27</dt><dd>a self-built pfSense CE lab with a controlled deny rule, a benign subject, a passing control probe, and captured teardown</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md" target="_blank" rel="noopener">NQ specimen</a></dd>
+          <dt>promotion</dt><dd>The probe has never caught a real firewall failing to enforce a real block. It has shown it would notice. Promotion needs live testimony from a real estate; the lab supplies compatibility evidence, not deployment evidence.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-design-layer">
+        <div class="ledger-head">
+          <span class="ledger-name">The authored design layer</span>
+          <span class="kind proposition">proposition</span>
+          <span class="ledger-status">named, not ratified — nothing built</span>
+        </div>
+        <p class="ledger-claim">The tools operate over a system someone composed on purpose. That composition is currently unwritten: it lives in doctrine and in the operator’s head, and every tool re-derives it by hand.</p>
+        <dl class="ledger-meta">
+          <dt>not verifiable — nothing built</dt><dd>Nothing to verify. There is no implementation, no schema, and no wire format.</dd>
+          <dt>evidence</dt><dd><a href="#propositions">the proposition, in full</a></dd>
+          <dt>promotion</dt><dd>A forcing case that a hand-derived composition demonstrably cannot serve, plus a ratified revision format that at least two tools can consume. The filing is a handle for review, not authorization to build.</dd>
+        </dl>
+      </div>
+    </div>
+    <p class="ledger-asof">Ledger as of 2026-07-29. Generated from
+      <a href="status.json">status.json</a> by <code>tools/render_status.py</code> in the
+      <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
+      it is a dated statement, not a live panel. A row moves only by an explicit
+      editorial act &mdash; a passing test may satisfy a promotion condition, but it does
+      not promote the claim.</p>
+    <!-- STATUS:END -->
+    </section>
+
+    <!-- ══════════ ARTIFACTS ══════════ -->
+    <section id="artifacts">
+      <hr class="section-rule">
+      <span class="mode">Artifacts</span>
+      <h2>Implemented systems <span class="kind artifact">artifact</span></h2>
+      <p>Small, self-hosted, independently useful. Python and Rust libraries and CLIs you run yourself &mdash; no SaaS, no hosted control plane, no shared datastore. Each states what it handles and, more usefully, what it refuses.</p>
+      <p class="fine">The four offices below are the ones the current composition exercises. The full catalogue &mdash; operator surfaces, memory, proof artifacts, field labs, and the parked list &mdash; lives on <a href="constellation.html">components</a>.</p>
+
+      <div class="artifact-card">
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span><span class="status">pre-1.0</span></div>
+        <dl>
+          <dt>role</dt><dd>Testimony, claims, and reliance. Pulls bounded evidence from hosts, classifies failure modes, and keeps loss of observability visible.</dd>
+          <dt>refuses</dt><dd>Turning a signal that disappeared into a healthy zero; letting a clean receipt approve a merge, deployment, restart, or incident closure. A reliance refusal is never the negation of the underlying claim.</dd>
+          <dt>limit</dt><dd>Consumer identity is <em>configured, not authenticated</em>.</dd>
+        </dl>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">ag_ng</a><span class="status">exercised</span></div>
+        <dl>
+          <dt>role</dt><dd>Authority. Decides whether exact prepared work may receive authority, and burns one-use decision authority.</dd>
+          <dt>refuses</dt><dd>A second issuance for the same decision. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration &mdash; and did not absorb the separately-defined mandate-custody and spendability offices.</dd>
+          <dt>limit</dt><dd>Explicitly <em>not production deployable</em>; the decision-burn ledger is in-memory per process.</dd>
+        </dl>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a><span class="status">audited baseline</span></div>
+        <dl>
+          <dt>role</dt><dd>Governed execution. Prepares exact bytes, verifies an authenticated issuance against its own stored attempt, executes through a broker, and settles with evidence.</dd>
+          <dt>refuses</dt><dd>Any proposal outside its single admitted <a href="glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; with a typed refusal <em>before</em> standing is issued, a reservation created, a dispatch identity minted, or a provider runs. Its own reliance bridge refuses <code>safe-to-merge</code> as permanently inadmissible.</dd>
+          <dt>limit</dt><dd>Frozen baseline <code>gwr-greenfield-v0.1</code>; source install, not a published package. Three trust-model premises are assumptions.</dd>
+        </dl>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a><span class="status">exercised</span></div>
+        <dl>
+          <dt>role</dt><dd>Proposal and read-only orchestration. Schedules and resumes <em>intent</em>, not commands &mdash; &ldquo;resume this intention under this policy&rdquo; rather than &ldquo;run this at this time.&rdquo;</dd>
+          <dt>refuses</dt><dd>Actuation of any kind, at a gate-enforced boundary; closing a loop before the witnesses needed for closure exist.</dd>
+          <dt>limit</dt><dd>Not operator-ready. File-granular proposals are a library face; the deployment files are reference scaffolding.</dd>
+        </dl>
+      </div>
+
+      <div class="artifact-card">
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a><span class="status legacy">legacy / historical</span></div>
+        <dl>
+          <dt>role</dt><dd>The classic Python admissibility kernel for AI coding agents, and the source of the runnable exhibit above. Dispositioned legacy on 2026-07-26: still maintained, still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports.</dd>
+          <dt>refuses</dt><dd>Prose as authority; tests passing treated as code ready to land; a rehearsal treated as production; permissions exercised after their observation horizon.</dd>
+          <dt>limit</dt><dd>Receives no new authority work. No wire compatibility with <code>ag_ng</code> exists or is implied.</dd>
+        </dl>
+      </div>
+
+      <p class="fine" style="margin-top:1rem;">Also shipped and independently usable, on <a href="constellation.html">components</a>: <a href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a> (intent preflight) &middot; <a href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a> (permission observation with age) &middot; <a href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a> (hash-chained cross-session state) &middot; <a href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a> (Z3 constraint sidecar) &middot; <a href="https://github.com/unpingable/porter" target="_blank" rel="noopener">porter</a> (transport with exit-code custody) &middot; <a href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a> (operator desk) &middot; <a href="https://github.com/unpingable/lean" target="_blank" rel="noopener">lean</a> (proof artifacts, read-only audit). The AT&nbsp;Protocol field lab and the standalone experiments are catalogued there too.</p>
+    </section>
+
+    <!-- ══════════ PROPOSITIONS ══════════ -->
+    <section id="propositions">
+      <hr class="section-rule">
+      <span class="mode">Proposition</span>
+      <h2>The authored design layer <span class="kind proposition">proposition</span></h2>
+      <p>The tools do not operate over &ldquo;the enterprise.&rdquo; They operate over a system someone composed on purpose &mdash; its boundaries, identities, relationships, and the evidence that would count for each. That composition is real, and it is currently unwritten: it lives in doctrine and in the operator&rsquo;s head. Every artifact above re-derives it by hand.</p>
+      <p>Writing it down is the missing layer. An authored, versioned design; validated and ratified rather than silently amended; compiled into the bounded view each tool is competent to consume; then compared against what was actually witnessed. The verbs already exist across the work. The noun does not.</p>
 
       <div class="lifecycle">
         <div class="lc-row pending"><span class="lc-stage">system design</span><span class="lc-by">authored, not discovered</span></div>
@@ -805,239 +1045,30 @@
         <div class="lc-row pending"><span class="lc-stage">consumer projections</span><span class="lc-by">bounded view per tool</span></div>
         <div class="lc-split">shipped below this line</div>
         <div class="lc-row"><span class="lc-stage">witnessed realization</span><span class="lc-by">nq &middot; porter &middot; verifier</span></div>
-        <div class="lc-row"><span class="lc-stage">admission / refusal / governed action</span><span class="lc-by">agent_governor &middot; wicket &middot; standing</span></div>
+        <div class="lc-row"><span class="lc-stage">admission, refusal, governed action</span><span class="lc-by">ag_ng &middot; docket &middot; wicket &middot; standing</span></div>
       </div>
 
       <p>What it would buy: a declared surface to name (&ldquo;the public edge&rdquo;) instead of a list of hostnames pasted between tools; a comparison of declared structure against admissible observation, where divergence is a finding rather than a silent widening; and authority that binds to an exact design revision, so a changed system does not inherit the old permission.</p>
 
-      <h3>One narrow case already runs</h3>
-      <p>A firewall rule is a small declaration: <em>this traffic is refused.</em> nq can read that rule over a read-only connection and probe the path from a named vantage point &mdash; and then refuse to let the declaration and the observation be quietly merged into one story. It is not a firewall test. nq never rules the firewall correct or broken; it holds the two apart and says which one it actually saw.</p>
-      <p>The discipline is in what it will not say. A rule that does not match is <em>cannot testify</em>, never &ldquo;allowed.&rdquo; A blocked path proves nothing by itself &mdash; a dead vantage point looks exactly like a working rule &mdash; so &ldquo;blocked&rdquo; is only admissible alongside a control probe to a known-reachable target proving the vantage had a way out at all. Only a real completed handshake to a declared-denied address is an unambiguous contradiction; a rejection packet is not a way through. The verdicts are typed and there is no <code>is_ok()</code> &mdash; a test asserts the receipt contains no <code>healthy</code> and no <code>green</code>.</p>
-      <p>Pointed at a real firewall &mdash; a blocklist rule with 17,007 entries behind it &mdash; the answer was <em>cannot testify</em>: the rule was present and readable, the vantage had ordinary egress, and the path itself was deliberately never probed, because probing it means firing a packet at a named malicious host to make a demo look better. The verdicts that would be interesting exist only on a scratch firewall built for the purpose, and the got-through case had to be staged with a deliberately broken rule. nq has never caught a real firewall failing to enforce a real block. It has shown it would notice.</p>
+      <h3>The one narrow case that already runs</h3>
+      <p>A firewall rule is a small declaration: <em>this traffic is refused.</em> NQ can read that rule over a read-only connection and probe the path from a named vantage point &mdash; and then refuse to let the declaration and the observation be quietly merged into one story. It is not a firewall test. NQ never rules the firewall correct or broken; it holds the two apart and says which one it actually saw.</p>
+      <p>The discipline is in what it will not say. A rule that does not match is <em>cannot testify</em>, never &ldquo;allowed.&rdquo; A blocked path proves nothing by itself &mdash; a dead vantage point looks exactly like a working rule &mdash; so &ldquo;blocked&rdquo; is admissible only alongside a control probe to a known-reachable target, proving the vantage had a way out at all. Only a real completed handshake to a declared-denied address is an unambiguous contradiction; a rejection packet is not a way through. The verdicts are typed and there is no <code>is_ok()</code> &mdash; a test asserts that the receipt contains no <code>healthy</code> and no <code>green</code>.</p>
+      <p>Pointed at a real firewall &mdash; a blocklist rule with 17,007 entries behind it &mdash; the answer was <em>cannot testify</em>: the rule was present and readable, the vantage had ordinary egress, and the path itself was deliberately never probed, because probing it means firing a packet at a named malicious host to make a demonstration look better. The interesting verdicts exist only on a scratch firewall built for the purpose, and the got-through case had to be staged with a deliberately broken rule.</p>
+      <p class="fine"><span class="prov cited">cited</span> &nbsp;The lab specimen is <a href="https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md" target="_blank" rel="noopener">declared_deny_lab_subject_probe.md</a>. NQ has never caught a real firewall failing to enforce a real block. It has shown it would notice. That is lab-backed compatibility evidence, never live testimony about a deployed estate.</p>
 
-      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); letter-spacing: 0.02em; line-height: 1.55;">Status: named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. The firewall probe is one rule at a time, with none of the design layer above it: evidence the comparison is worth generalizing, not evidence that it exists. Nothing above the line is built.</p>
+      <p class="fine" style="margin-top:1.4rem;"><strong>Status of the proposition:</strong> named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. The firewall probe is one rule at a time, with none of the design layer above it: evidence that the comparison may be worth generalizing, not evidence that it exists. Nothing above the line in the diagram is built.</p>
     </section>
 
-    <section id="stack">
-      <hr class="section-rule">
-      <h2>The assurance and custody kernel</h2>
-      <p>The layer that does exist, in parts. The edges are the product; the components implement them.</p>
-      <p style="font-family: var(--mono); font-size: 0.82rem; color: var(--fg-faint); margin: -0.4rem 0 1.1rem; letter-spacing: 0.02em;">Not a policy engine. Not a hosted platform. Not an AI-safety oracle.</p>
-
-      <div class="stack-diagram">
-        <svg viewBox="0 0 700 200" role="img" aria-labelledby="stack-diagram-title" aria-describedby="stack-caption" xmlns="http://www.w3.org/2000/svg">
-          <title id="stack-diagram-title">Assurance and custody kernel. Five domains &mdash; observation, claim, premise, action, evidence &mdash; with the conversions that must be earned between them; three side obligations: retraction, capacity, seal; and one candidate layer upstream: system design.</title>
-          <defs>
-            <marker id="arr-live" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="arr-live"/></marker>
-            <marker id="arr-zoned" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" class="arr-zoned"/></marker>
-          </defs>
-
-          <g class="edges">
-            <g class="edge live" data-claim="An observation becomes a claim only through preflight that preserves its evidence." data-component="nq" data-status="live" tabindex="0">
-              <line class="edge-line" x1="115" y1="90" x2="185" y2="90" marker-end="url(#arr-live)"/>
-              <rect class="edge-hit" x="115" y="72" width="70" height="36"/>
-            </g>
-            <g class="edge live" data-claim="A claim becomes a premise only if custody allows it &mdash; policy engines decide over claims; custody decides whether those claims may become premises." data-component="wicket · agent_governor" data-status="live" tabindex="0">
-              <line class="edge-line" x1="240" y1="90" x2="310" y2="90" marker-end="url(#arr-live)"/>
-              <rect class="edge-hit" x="240" y="72" width="70" height="36"/>
-            </g>
-            <g class="edge live" data-claim="An observed permission is not automatically usable at action time &mdash; the gap between check and exercise is measured on a typed clock basis, and a lapse refuses the action." data-component="standing · agent_governor" data-status="live" tabindex="0">
-              <line class="edge-line" x1="388" y1="90" x2="452" y2="90" marker-end="url(#arr-live)"/>
-              <rect class="edge-hit" x="388" y="72" width="64" height="36"/>
-            </g>
-            <g class="edge live" data-claim="A verdict becomes evidence &mdash; a receipt the next system can verify &mdash; not a log line." data-component="agent_governor" data-status="live" tabindex="0">
-              <line class="edge-line" x1="525" y1="90" x2="585" y2="90" marker-end="url(#arr-live)"/>
-              <rect class="edge-hit" x="525" y="72" width="60" height="36"/>
-            </g>
-          </g>
-
-          <g class="nodes">
-            <text class="node-label" x="70" y="94">observation</text>
-            <text class="node-label" x="210" y="94">claim</text>
-            <text class="node-label" x="350" y="94">premise</text>
-            <text class="node-label" x="490" y="94">action</text>
-            <text class="node-label" x="630" y="94">evidence</text>
-          </g>
-
-          <g class="edge-labels">
-            <text class="edge-label" x="150" y="63">nq</text>
-            <text class="edge-label" x="275" y="63">wicket</text>
-            <text class="edge-label" x="420" y="63">standing</text>
-            <text class="edge-label" x="555" y="57">agent_</text>
-            <text class="edge-label" x="555" y="70">governor</text>
-          </g>
-
-          <g class="side-edges">
-            <g class="edge zoned" data-claim="The tools operate over a system someone composed on purpose. Today that design is unwritten &mdash; each tool re-derives it by hand. An authored, ratified revision would supply the bounded referent the rest of the chain binds to." data-component="composer" data-status="candidate &mdash; nothing built" tabindex="0">
-              <line class="edge-line dashed" x1="70" y1="28" x2="70" y2="78" marker-end="url(#arr-zoned)"/>
-              <rect class="edge-hit" x="35" y="8" width="70" height="70"/>
-            </g>
-            <g class="edge zoned" data-claim="A lapsed grant must reach everyone currently relying on it, with delivery accounted." data-component="retraction transport" data-status="zoned" tabindex="0">
-              <line class="edge-line dashed" x1="350" y1="108" x2="350" y2="140" marker-end="url(#arr-zoned)"/>
-              <rect class="edge-hit" x="315" y="105" width="70" height="55"/>
-            </g>
-            <g class="edge zoned" data-claim="An authorized action still refuses without capacity usable at action time." data-component="linear accountant seam" data-status="zoned" tabindex="0">
-              <line class="edge-line dashed" x1="490" y1="108" x2="490" y2="140" marker-end="url(#arr-zoned)"/>
-              <rect class="edge-hit" x="455" y="105" width="70" height="55"/>
-            </g>
-            <g class="edge zoned" data-claim="Logs are self-report until sealed." data-component="notary" data-status="zoned" tabindex="0">
-              <line class="edge-line dashed" x1="630" y1="108" x2="630" y2="140" marker-end="url(#arr-zoned)"/>
-              <rect class="edge-hit" x="595" y="105" width="70" height="55"/>
-            </g>
-          </g>
-
-          <g class="side-labels">
-            <text class="side-label" x="70" y="20">system design</text>
-            <text class="side-label" x="350" y="158">retraction</text>
-            <text class="side-label" x="490" y="158">capacity</text>
-            <text class="side-label" x="630" y="158">seal</text>
-          </g>
-        </svg>
-        <p class="diagram-caption" id="stack-caption" role="status" aria-live="polite">
-          <span class="cap-default">Select an edge for the claim it enforces. <span class="cap-key">Solid</span> shipped; <span class="cap-key">dashed</span> mapped, not built &mdash; including the design layer upstream. Drill runs demonstrate structure &mdash; they cannot confer operational effect.</span>
-        </p>
-      </div>
-
-      <div class="component-skeleton">
-        <h3>Components &mdash; what each handles, and what it refuses</h3>
-        <p style="font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); margin: -0.2rem 0 0.6rem; letter-spacing: 0.02em;">Python libraries and CLIs you self-host. nq is one binary; verifier ships a Z3 sidecar; Lean is for proof artifacts (read-only audit, not runtime). No SaaS, no hosted control plane. Badges: <span class="status" style="margin-left:0">operational</span> in daily use &middot; <span class="status research">research</span> exploratory.</p>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span></div>
-          <dl>
-            <dt>handles</dt><dd>observation&rarr;claim preflight for operational systems</dd>
-            <dt>refuses</dt><dd>assertion that abandons its evidence</dd>
-            <dt>proof</dt><dd>SQL-interrogable evidence store; every claim traceable to its observation</dd>
-            <dt>inquiry</dt><dd>Ask a question with a budget attached. You write the question down first &mdash; which targets, what limits, what deadline, and, up front, what this question <em>cannot</em> answer. Then reading is spending: attempts are counted and capped before the first DNS lookup, and a failed attempt still costs. In the worked certificate example the entire authorized budget is four work units and 750 milliseconds. The answer comes back sealed, with the evidence, the spend, and the refusals attached &mdash; and what it found cannot fund whatever you ask next.</dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/wicket" target="_blank" rel="noopener">wicket</a><span class="status live">operational</span></div>
-          <dl>
-            <dt>handles</dt><dd>premise preflight for agentic intents</dd>
-            <dt>refuses</dt><dd>intents from revoked or out-of-scope actors</dd>
-            <dt>proof</dt><dd>spec harness; typed preflight verdicts</dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a><span class="status live">operational</span></div>
-          <dl>
-            <dt>handles</dt><dd>permission and entitlement observation</dd>
-            <dt>refuses</dt><dd>attesting permission it cannot verify</dd>
-            <dt>proof</dt><dd>permission receipts with observation age</dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a><span class="status research">specimen</span></div>
-          <dl>
-            <dt>handles</dt><dd>deferred governed work</dd>
-            <dt>refuses</dt><dd>completion claims without reconciliation</dd>
-            <dt>proof</dt><dd>work receipts; reconciliation trail</dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a><span class="status research">alpha</span></div>
-          <dl>
-            <dt>handles</dt><dd>sits between an AI coding agent and its keyboard. Every action &mdash; writing a file, running a command &mdash; asks first. You approve, deny, or let read-only stuff through.</dd>
-            <dt>refuses</dt><dd>agent saying &ldquo;done&rdquo; treated as operator approving; tests passing treated as code ready to land; a rehearsal treated as production; permissions used after they expired</dd>
-            <dt>proof</dt><dd>golden refusal corpus; content-addressed receipts; Lean-audited class boundaries</dd>
-            <dt>receipt</dt><dd><code>dda5a1e5&hellip;</code> &mdash; permission valid at check, expired at action, gap on a named clock. Reproduce: <code>demo/refused-spend.sh</code></dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/continuity" target="_blank" rel="noopener">continuity</a><span class="status live">operational</span></div>
-          <dl>
-            <dt>handles</dt><dd>governed state persistence across sessions</dd>
-            <dt>refuses</dt><dd>state mutation without a receipt</dd>
-            <dt>proof</dt><dd>hash-chained receipts</dd>
-          </dl>
-        </div>
-        <div class="component-card">
-          <div class="component-head"><a class="name" href="https://github.com/unpingable/verifier" target="_blank" rel="noopener">verifier</a><span class="status live">operational</span></div>
-          <dl>
-            <dt>handles</dt><dd>formal constraint checks (Z3 sidecar)</dd>
-            <dt>refuses</dt><dd>proposals that violate declared constraints &mdash; specimen: the stale-standing denial</dd>
-            <dt>proof</dt><dd><code>examples/stale-standing-denied.json</code> + golden output pinned to the README</dd>
-          </dl>
-        </div>
-      </div>
-    </section>
-
-    <section id="projects">
-      <hr class="section-rule">
-      <h2>Projects</h2>
-      <p>Outside the core stack: supervised runs, field labs, and one-off experiments. Core components are listed above.</p>
-
-      <div class="project-group">
-        <h3>Supervised runs</h3>
-        <p>Where you supervise an AI coding agent through agent_governor.</p>
-        <div class="project-list">
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/maude" target="_blank" rel="noopener">maude</a>
-            <span class="desc">Executor desk for governed agent runs. Plans are authored elsewhere; maude takes a bounded plan, launches the coding agent as a supervised process under agent_governor, and puts every action through the gate. An approved run binds a lease &mdash; the write paths and commands it may use, and when that expires &mdash; so the run proceeds without asking about every keystroke. Maude mints no authority of its own. At the end, review the diff and promote it or throw it out.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-group">
-        <h3>Field lab &mdash; ATProto / Bluesky</h3>
-        <p>A live network where custody, receipt, drift, and moderation claims get stress-tested in public. Not the core stack; the place the core stack meets weather.</p>
-        <div class="project-list">
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/rpp" target="_blank" rel="noopener">rpp</a>
-            <span class="desc">Receipts and reviewability overlay for ATProto.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-labelwatch" target="_blank" rel="noopener">atproto-labelwatch</a>
-            <span class="desc">Monitor labeling activity across the network, flag integrity-risk patterns. <a href="https://labelwatch.neutral.zone/" target="_blank" rel="noopener">Live&nbsp;&rarr;</a></span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-driftwatch" target="_blank" rel="noopener">atproto-driftwatch</a>
-            <span class="desc">Track how claims propagate and mutate. A labeler that doesn't emit labels.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-labeler" target="_blank" rel="noopener">atproto-labeler</a>
-            <span class="desc">Custom labeling service with governed drift detection.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-feeds" target="_blank" rel="noopener">atproto-feeds</a>
-            <span class="desc">Source-first signal desk. Structural feed ranking that rewards originality over engagement. <a href="https://instantinternet.news/" target="_blank" rel="noopener">Live&nbsp;&rarr;</a></span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-archive" target="_blank" rel="noopener">atproto-archive</a>
-            <span class="desc">Personal corpus archiver into JSONL and plaintext.</span>
-          </div>
-          <div class="project-row">
-            <a class="name" href="https://github.com/unpingable/atproto-stats" target="_blank" rel="noopener">atproto-stats</a>
-            <span class="desc">Follow noise analyzer. Interaction density, posting cadence, graph statistics.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-group">
-        <h3>Other</h3>
-        <div class="project-grid">
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/grid-dependency-atlas" target="_blank" rel="noopener">grid-dependency-atlas</a>
-            <span class="desc">Interactive map of communities exposed to infrastructure decisions made outside their control. <a href="https://unpingable.github.io/grid-dependency-atlas/" target="_blank" rel="noopener">Explore&nbsp;&rarr;</a></span>
-          </div>
-          <div class="project-card">
-            <a class="name" href="https://github.com/unpingable/lexidoku" target="_blank" rel="noopener">lexidoku</a>
-            <span class="desc">Wordle meets Sudoku. Every row is a word, every column is a word. Local certainty causing global misery. <a href="https://lexidoku.instantinternet.news/" target="_blank" rel="noopener">Play&nbsp;&rarr;</a></span>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
+    <!-- ══════════ RESEARCH ══════════ -->
     <section id="research">
       <hr class="section-rule">
+      <span class="mode">Thesis &mdash; formal work</span>
       <h2>Research</h2>
-      <p>The papers name the failure classes; the tools above carry the response. The &Delta;t series is scaffolding for the check-vs-action logic in <a href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a> and <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a>. Some of this work is theoretical only; not everything here has an instantiation yet.</p>
-      <p style="font-size: 0.9rem; color: var(--fg-faint); margin-top: -0.4rem;">Selected papers below &mdash; full list in the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>.</p>
+      <p>The papers name the failure classes; the artifacts carry the response. The &Delta;t series is scaffolding for the check-versus-action logic in <a href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a> and the admissibility kernels. Some of this work is theoretical only; not everything here has an instantiation, and the papers are not evidence that anything is deployed.</p>
+      <p class="fine">Selected papers below &mdash; full list in the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>. Selected claims from the &Delta;t series are machine-audited in Lean: <a href="https://github.com/unpingable/lean" target="_blank" rel="noopener">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html">limits</a>.</p>
 
       <div class="research-group">
         <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
-        <p style="font-size: 0.88rem; color: var(--fg-muted); margin-bottom: 0.5rem; line-height: 1.5;">Selected claims from this series are formally audited in Lean &mdash; see <a href="https://github.com/unpingable/lean" target="_blank" rel="noopener">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">proof reader&rsquo;s portal</a>).</p>
         <ul class="paper-list">
           <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>
@@ -1073,13 +1104,13 @@
       <div class="research-group">
         <h3>Systems &amp; Institutional Dynamics</h3>
         <ul class="paper-list">
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">doi:10.5281/zenodo.17849241</a></div>
-          </li>
           <li class="foundational">
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a>
             <div class="paper-meta"><span class="start-here">start here</span>Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">doi:10.5281/zenodo.17726789</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">doi:10.5281/zenodo.17849241</a></div>
           </li>
           <li>
             <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726890" target="_blank" rel="noopener">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a>
@@ -1130,6 +1161,7 @@
 
       <div class="research-links">
         <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">Papers repo</a>
+        <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
       </div>
     </section>
 
@@ -1137,6 +1169,10 @@
 
   <footer>
     <div class="links">
+      <a href="about.html">About</a>
+      <a href="limits.html">Limits</a>
+      <a href="glossary.html">Glossary</a>
+      <a href="constellation.html">Components</a>
       <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
       <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
       <a href="https://www.linkedin.com/in/james-beck/" target="_blank" rel="noopener">LinkedIn</a>
@@ -1147,15 +1183,16 @@
 
   <script>
     (function () {
-      const caption = document.getElementById('stack-caption');
+      const caption = document.getElementById('tr-caption');
       if (!caption) return;
       const defaultHTML = caption.innerHTML;
-      const edges = document.querySelectorAll('.stack-diagram .edge');
+      const edges = document.querySelectorAll('.diagram .edge');
       const show = (el) => {
         const claim = el.getAttribute('data-claim') || '';
-        const component = el.getAttribute('data-component') || '';
+        const owner = el.getAttribute('data-owner') || '';
         const status = el.getAttribute('data-status') || '';
-        caption.innerHTML = claim + ' <span class="cap-component">' + component + ' &middot; ' + status + '</span>';
+        caption.innerHTML = claim +
+          '<span class="cap-owner">exercised today by <b>' + owner + '</b> &mdash; ' + status + '</span>';
       };
       const reset = () => { caption.innerHTML = defaultHTML; };
       edges.forEach((el) => {

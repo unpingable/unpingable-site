@@ -210,12 +210,18 @@
     <dt id="custody">custody <a class="anchor" href="#custody">#</a></dt>
     <dd>The layer that controls whether a <a href="#claim">claim</a> may become a <a href="#premise">premise</a> for action. Distinct from authorization (which asks only whether the action is allowed) and from policy (which decides over premises it has been handed). Custody decides whether the premises it would hand the policy are still good enough to act on.</dd>
 
+    <dt id="effect-class">effect class <a class="anchor" href="#effect-class">#</a></dt>
+    <dd>The narrowly-defined category of real-world change a governed runtime is willing to perform <em>at all</em>. <a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a> admits exactly one: the atomic Git target-ref transition. A proposal outside the admitted class is refused before any <a href="#authority">authority</a> is issued and before any provider runs. Breadth is decided once, in advance, rather than per request.</dd>
+
     <dt id="expiry">expiry <a class="anchor" href="#expiry">#</a></dt>
     <dd>The time after which a previously-valid observation can no longer license an action. An observation&rsquo;s expiry comes from whoever issued it, on a stated clock; the custody check at action time measures against that stated clock, not against wall time.</dd>
     <dd class="aka">In receipt fields and Lean theorems: <code>horizon</code>.</dd>
 
     <dt id="gap">gap <a class="anchor" href="#gap">#</a></dt>
     <dd>Elapsed time between when an observation was taken and when it&rsquo;s being used &mdash; measured on a typed clock basis (named source, named epoch). The gap is compared to a bound declared at issuance time; the bound and the <a href="#expiry">expiry</a> are the same issuer-declared limit, expressed as a duration vs. a deadline. Custody refuses when the measured gap exceeds the bound on the named basis. Wall time is not the basis (it can move sideways under NTP); the basis is named explicitly in every receipt.</dd>
+
+    <dt id="issuance">issuance <a class="anchor" href="#issuance">#</a></dt>
+    <dd>A signed decision from an authority <a href="#office">office</a> stating that one exact prepared piece of work may receive <a href="#authority">authority</a>. An issuance is not the work, not a capability, and not <a href="#standing">standing</a> to act. The executor verifies it against its own stored copy of the prepared bytes &mdash; never against the record&rsquo;s own echoes &mdash; and then <a href="#minting">mints</a> its own single-use standing locally. No authority object crosses the boundary; only the decision about one does.</dd>
 
     <dt id="kernel">kernel <a class="anchor" href="#kernel">#</a></dt>
     <dd>The minimal rule core of a check: small enough that its <a href="#refusal-class">refusal classes</a> can be stated precisely, and in this project, checked in Lean. Distinct from the runtime that implements it. &ldquo;Custody kernel&rdquo; = the rules that license refusals; &ldquo;intent preflight kernel&rdquo; (<a href="#wicket">wicket</a>) = the small set of conditions an intent must satisfy to become a <a href="#premise">premise</a>.</dd>
@@ -228,6 +234,9 @@
 
     <dt id="obstruction">obstruction <a class="anchor" href="#obstruction">#</a></dt>
     <dd>A refusal grounded in <em>missing</em> evidence or action &mdash; the gate cannot proceed because a required witness, receipt, seal, or step is absent. Distinct from a substantive refusal (evidence exists but fails a predicate): an obstruction says &ldquo;I do not have what I need to decide.&rdquo; Reported as absence rather than inferred away; the point is that the gap is visible and named.</dd>
+
+    <dt id="office">office <a class="anchor" href="#office">#</a></dt>
+    <dd>A system with a stated jurisdiction: one question it is competent to answer, and a written list of what it will <em>not</em> decide. Offices are separate programs, owned separately; the property under test is that none of them absorbs another&rsquo;s jurisdiction under pressure. In the featured composition, Night Shift proposes, <code>ag_ng</code> authorizes, <code>docket</code> executes and settles, and NQ evaluates the resulting <a href="#testimony">testimony</a>. &ldquo;Office&rdquo; states jurisdiction, not maturity &mdash; it is not a claim that the system is stable or deployable.</dd>
 
     <dt id="permission">permission <a class="anchor" href="#permission">#</a></dt>
     <dd>An active grant to perform a thing, observed at a specific moment with a valid-until time. A permission valid when checked is not automatically usable at action time &mdash; the <a href="#gap">gap</a> between check and action may exceed the permission&rsquo;s <a href="#expiry">expiry</a>.</dd>
@@ -243,7 +252,7 @@
     <dd>A <a href="#claim">claim</a> that <a href="#custody">custody</a> has admitted as the basis of an action. The conversion <em>claim &rarr; premise</em> is what custody gates. Policy engines decide over premises; custody decides whether the underlying claims are allowed to become premises in the first place.</dd>
 
     <dt id="receipt">receipt <a class="anchor" href="#receipt">#</a></dt>
-    <dd>A content-addressed record of a custody decision. The receipt id is a deterministic hash of inputs &mdash; the same inputs always yield the same id (you can reproduce <code>dda5a1e5&hellip;</code> from a cold clone). Distinct from a log line: a log describes; a receipt attests, with attribution and a return address.</dd>
+    <dd>A content-addressed record of a custody decision. The receipt id is a deterministic hash of the canonical decision inputs &mdash; the same inputs under the same schema always yield the same id, so the artifact is verifiable rather than merely logged. It is an <em>address</em>, not the claim: change the receipt schema and the id moves while the attested behaviour does not (see <a href="limits.html">limits</a>). Distinct from a log line: a log describes; a receipt attests, with attribution and a return address.</dd>
 
     <dt id="refusal-class">refusal class <a class="anchor" href="#refusal-class">#</a></dt>
     <dd>A typed category of refusal that the custody kernel licenses by definition &mdash; not a discretionary denial. Example: <code>standing_before_spendability_not_bounded</code> is the refusal class for &ldquo;permission observed earlier than the action, with the gap exceeding the bound.&rdquo; The Lean theorems prove these <em>class</em> boundaries; the receipt attests the <em>instance</em>. See <a href="limits.html">limits</a> for what each does and doesn&rsquo;t prove.</dd>
@@ -253,6 +262,9 @@
 
     <dt id="standing">standing <a class="anchor" href="#standing">#</a></dt>
     <dd>Code and receipt name for a <a href="#permission">permission</a> observation with age and expiry. In prose, this site usually says <em>permission</em>. The component named <code>standing</code> produces standing receipts (with observation age); receipt fields like <code>standing_spendability_seam</code> and <code>standing_before_spendability_not_bounded</code> use the code name.</dd>
+
+    <dt id="testimony">testimony <a class="anchor" href="#testimony">#</a></dt>
+    <dd>A description of what was observed, or of what occurred, emitted by a system that has no power to act on it. Testimony is deliberately weaker than <a href="#approval">approval</a>: NQ emits testimony and typed refusals and never actions, and a settlement record describes an execution rather than certifying that it was safe. Reading testimony as permission is the conversion this project exists to keep visible.</dd>
 
     <dt id="wicket">wicket <a class="anchor" href="#wicket">#</a></dt>
     <dd>The intent preflight kernel &mdash; decides whether an intent (the AI agent&rsquo;s proposed action) may become a <a href="#premise">premise</a> before any effect runs. Refuses intents from revoked or out-of-scope actors.</dd>
