@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Current public source and honest prerequisites for exploring Constellation.">
+  <title>Start with Constellation source</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/start.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="start.html" aria-current="page">Start with the source</a></nav>
+  </header>
+  <main id="main">
+    <h1>Start with what is available now</h1>
+    <p class="lede">The public source is useful for reading contracts, building individual components, and running their scoped tests. The connected newcomer runtime tutorial is still in preparation.</p>
+
+    <h2>Public source</h2>
+    <p>The confirmed family names are shown here, but the remote repositories have not yet been renamed. These links deliberately use their current addresses.</p>
+    <ul class="steps">
+      <li><strong>Constellation AG</strong> — authorization, observation, standing, one-use decisions, and the read-only Phosphor inspector: <a href="https://github.com/unpingable/ag_ng">current <code>ag_ng</code> repository</a>.</li>
+      <li><strong>Constellation Docket</strong> — custody and settlement for bounded execution attempts: <a href="https://github.com/unpingable/docket">current <code>docket</code> repository</a>.</li>
+      <li><strong>Constellation Nightshift</strong> — currentness, lineage, and attention over time: <a href="https://github.com/unpingable/nightshift">current <code>nightshift</code> repository</a>.</li>
+      <li><strong>Maude</strong> — plan authoring, checking, comparison, and locking: <a href="https://github.com/unpingable/maude">current <code>maude</code> repository</a>.</li>
+    </ul>
+    <p><strong>Constellation NQ</strong> is the confirmed name for the successor diagnostic engine, but that successor does not yet have a public source path. The public <a href="https://github.com/unpingable/nq"><code>nq</code> repository</a> is the deprecated predecessor, not the successor under a new label.</p>
+
+    <h2>What you can do safely today</h2>
+    <ol class="steps">
+      <li>Read each repository's current README and public guide. Check the stated maturity, supported surface, and deployment assumptions for the component you need.</li>
+      <li>For authoring, begin with Maude's Plan Core documentation and source-only tests. Drafting, checking, comparing, and locking a plan do not perform the planned work.</li>
+      <li>For inspection, follow Constellation AG's operator UI documentation. Phosphor is read-only: it can show joined records but cannot accept a plan, grant authority, rerun work, or settle an occurrence.</li>
+      <li>Build or test only the component whose documented prerequisites you have. Do not infer compatibility between repository heads or between classic and successor components.</li>
+    </ol>
+
+    <h2>Synthetic-cache tutorial status</h2>
+    <p>The tutorial kit describes a credential-free, disposable four-container local HTTP/cache workload. “Credential-free” means no model-provider credential is required; a clean machine may still need network access to fetch source dependencies and a pinned container image.</p>
+    <p>Its Maude plan generators and selected source-level checks are verified. The documentation campaign has not completed the connected runtime run. That check requires exact compatible source revisions and built executables, access to an explicitly selected local Docker daemon, Compose, the pinned image, and a fresh disposable workspace. The runner/source-path mismatch has been repaired locally; publication and the end-to-end runtime check are still pending.</p>
+    <aside class="note" aria-label="Evidence meanings"><strong>Keep the results straight:</strong> a passing source test supports the source behavior it checked. Successful artifact generation supports the generated structure. Neither result establishes that containers ran, that the connected offices agreed, that teardown completed, or that a different host is qualified.</aside>
+
+    <h2>Before any effectful run</h2>
+    <p>Use the repository's read-only preflight first. Confirm exact revisions, executable identities, local runtime access, storage availability, and an exclusive disposable workspace. Review what the run may change and who may authorize it. Afterward, inspect the attempt outcome, current observations, attention items, and settlement separately. If the outcome is uncertain, reconcile the existing attempt before considering any new action.</p>
+
+    <p><a href="understand.html">Read the responsibility and trust-boundary overview</a>.</p>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>

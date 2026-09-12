@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Constellation composes tools for planning, authorizing, running, and reviewing automated work.">
+  <title>Constellation</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="start.html">Start with the source</a></nav>
+  </header>
+  <main id="main">
+    <h1>Automated work you can plan, bound, and review</h1>
+    <p class="lede">Constellation helps you turn an intention into a plan, control which changes are allowed, and inspect what actually happened. Planning work, granting permission, executing it, and checking the result remain separate jobs.</p>
+    <p>Operations is the first proving ground, not the limit of the project. The ECAD/design-flow work explores how to design, decompose and review work upstream; it remains pre-alpha.</p>
+
+    <h2>A small example</h2>
+    <p>Suppose you want to test a disposable local HTTP service with two caches. You describe the components, checks, and teardown in a plan. This example is designed to carry that plan through review, permission, execution and result inspection:</p>
+    <ol class="steps">
+      <li><strong>Maude prepares the plan.</strong> You review its meaning and lock the exact revision. This does not run or authorize anything.</li>
+      <li><strong>Nightshift records current conditions and the proposal.</strong> Evidence from an earlier run is not automatically current evidence.</li>
+      <li><strong>Constellation AG decides whether this run may proceed.</strong> Permission applies only to this exact work and can be used once.</li>
+      <li><strong>Docket keeps custody of the attempt.</strong> It records the execution outcome without deciding that the work is acceptable.</li>
+      <li><strong>A fresh observation checks the result.</strong> Teardown is separate work with its own permission, not an automatic consequence of success.</li>
+      <li><strong>Phosphor lets you inspect the record.</strong> You can read what was requested, allowed, attempted, observed, and settled. Phosphor does not change the run.</li>
+    </ol>
+    <aside class="note" aria-label="Example status"><strong>What is verified today:</strong> the public Maude source checks and generators for this synthetic-cache example have passed. <strong>What is not yet verified in the current public kit:</strong> the connected Docker/runtime journey. The example above describes that intended journey; it is not a claim that a newcomer run completed.</aside>
+
+    <h2>What the family separates</h2>
+    <p><strong>Execution outcome</strong> says whether the work succeeded, failed, or remains uncertain according to the available evidence. <strong>Settlement</strong> records the attempt's result in the owning runtime. A settled record does not mean the work succeeded, and it does not grant permission for another run.</p>
+    <p><strong>Attention</strong> means a known condition needs review. <strong>Unknown</strong> means the available observation cannot establish the answer. Unknown is not a softer word for failure.</p>
+
+    <h2>Choose your next step</h2>
+    <p><a href="understand.html">Understand the responsibilities and trust boundaries</a>, or <a href="start.html">inspect the source and current tutorial prerequisites</a>.</p>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>

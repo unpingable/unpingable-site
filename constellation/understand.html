@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Understand the responsibilities and trust boundaries in Constellation.">
+  <title>How Constellation works</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/understand.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html" aria-current="page">How it works</a><a href="start.html">Start with the source</a></nav>
+  </header>
+  <main id="main">
+    <h1>Different jobs, explicit handoffs</h1>
+    <p class="lede">No single screen or process is treated as the planner, permission giver, executor, observer, and judge.</p>
+
+    <h2>From proposal to review</h2>
+    <h3>Maude: author and check</h3>
+    <p>Maude lets you edit a plan, check its structure and dependencies, compare revisions, and save a fixed snapshot. You can edit directly or review a proposed change. The current design demo uses deterministic sample proposals, not a live model. Accepting a change saves a new draft revision; check that revision again. A checked or locked plan grants no permission and proves no execution.</p>
+    <h3>Constellation AG: decide and account for permission</h3>
+    <p>Constellation AG checks current observations, the applicable mandate and policy, and the exact requested work. If the work is allowed, it records a one-use permission for that run. The contracts call the current mandate support <em>standing</em>; it is an input to the decision, not permission by itself.</p>
+    <h3>Docket: keep custody of the attempt</h3>
+    <p>Docket carries an authorized unit of work through its execution boundary and records the attempt and outcome. The executor and deployment environment still need their own carefully configured permission boundaries.</p>
+    <h3>Nightshift: establish what needs attention now</h3>
+    <p>Nightshift relates evidence over time. It can distinguish a current observation from an old one, and an observed condition from a missing answer. It does not turn old evidence into a fresh fact.</p>
+    <h3>Phosphor: inspect without changing</h3>
+    <p>Phosphor is the read-only inspector hosted with Constellation AG. It presents the joined record from the owning systems. Maude's separate design workspace can change a draft plan; navigating between the two does not merge their state or authority.</p>
+
+    <h2>Trust and deployment boundaries</h2>
+    <p>The contracts describe how responsibilities are divided; deployment must actually preserve that division. Service identities, filesystem access, executor configuration, database access, and operator privileges can bypass a software workflow if they are too broad. Constellation does not make those deployment privileges safe merely by recording a well-formed plan.</p>
+    <p>Operators should be able to tell which system owns each fact, which identity acted, what exact permission applied, and which evidence supports the displayed state. If an owner is unavailable or the evidence is incomplete, the interface should report absence or unknown rather than infer success.</p>
+
+    <h2>What the formal model establishes</h2>
+    <p>The formal work describes allowed state transitions and proves selected properties of that model. Rust implementations and qualification cases are compared with those contracts, but a model proof does not establish that every deployment, adapter, clock, credential boundary, or external effect behaves correctly. Those require implementation evidence and environment-specific qualification.</p>
+
+    <h2>Future effects require a fresh decision</h2>
+    <p>A past success, a settled occurrence, or a still-visible approval does not authorize the next effect. Before new work changes anything, the system needs fresh observations and the permission applicable to that specific transition. Reconciliation may inspect an existing uncertain attempt; it must not repeat the mechanics merely to obtain a tidier answer.</p>
+
+    <p><a href="start.html">See what you can inspect today</a>.</p>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>
