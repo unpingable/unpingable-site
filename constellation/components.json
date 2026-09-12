@@ -21,7 +21,7 @@
       "relationship": "core family office",
       "role": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
       "url": "https://github.com/unpingable/constellation-nq/tree/constellation-public-source-20260912",
-      "use": "Use for source inspection, scoped builds, and the four documented diagnostic profiles—not for a general health or action claim."
+      "use": "Use for source inspection, scoped builds, and the four documented diagnostic profiles\u2014not for a general health or action claim."
     },
     {
       "availability": "Public source",
@@ -143,6 +143,50 @@
       "role": "Performs stateless admissibility preflight for supplied basis, precedence, and standing.",
       "url": "https://github.com/unpingable/wicket",
       "use": "Use for standalone or legacy preflight, not as a replacement for an owning authorization office."
+    },
+    {
+      "availability": "Public source; CLI build, render, edition create and edition compare. No native MCP server.",
+      "id": "spine",
+      "implementation_form": "Python CLI and library for explicit-source indexes and editions",
+      "maturity": "Implemented and locally tested. Continuity input is an export fixture, not a live store connection; no automatic session orientation.",
+      "name": "Spine",
+      "relationship": "optional read-plane integration",
+      "role": "Builds readable indexes and compares editions of explicitly selected sources without changing their semantic state.",
+      "url": "https://github.com/unpingable/spine",
+      "use": "Use to find and compare selected source material. An index does not establish current truth or permission to act."
+    },
+    {
+      "availability": "Public source and generated readout; use the separate claimdocs CLI to lint or report.",
+      "id": "governor-atlas",
+      "implementation_form": "claim graph, evidence references and generated documentation using claimdocs",
+      "maturity": "Implemented classic Agent Governor specimen; not a complete map of current Constellation or its deployment.",
+      "name": "Governor Atlas",
+      "relationship": "classic-lineage architectural claim specimen",
+      "role": "Records architectural relationships and their cited support, separating wired, specified and candidate claims.",
+      "url": "https://github.com/unpingable/governor-atlas",
+      "use": "Use to inspect a recorded architectural claim and its basis. A recorded claim does not establish current runtime behavior."
+    },
+    {
+      "availability": "Public source; CLI lint, verify-basis, report and render. Global options precede the command; render writes documentation.",
+      "id": "claimdocs",
+      "implementation_form": "Python CLI used by architectural claim specimens",
+      "maturity": "Implemented scoped engine. Evidence resolution and freshness are not judgments that the evidence adequately supports a claim.",
+      "name": "claimdocs",
+      "relationship": "optional architectural evidence documentation engine",
+      "role": "Checks claim structure, resolves cited evidence, reports freshness and renders documentation.",
+      "url": "https://github.com/unpingable/claimdocs",
+      "use": "Use to maintain evidence-backed architecture documentation. Human review remains responsible for adequacy; reports grant no authority."
+    },
+    {
+      "availability": "Public source; install z3-verifier from the repository. CLI verifier-check; stdio server verifier-mcp exposes verify.",
+      "id": "verifier",
+      "implementation_form": "Python library, CLI and stdio MCP server backed by Z3",
+      "maturity": "Implemented finite checking surface. Solver unsat and unknown currently collapse into failed rules; no distinct solver-timeout or translation-failure verdict.",
+      "name": "Verifier",
+      "relationship": "optional encoded-claim checking integration",
+      "role": "Checks a caller-encoded proposal, facts and rules. The caller supplies the model, assumptions and input truth.",
+      "url": "https://github.com/unpingable/verifier",
+      "use": "I need to formalize/check a claim: begin with Verifier's supported input model and inspect the JSON verdict. A passing check is not real-system correctness or permission; formalization is optional."
     },
     {
       "availability": "No public source or implementation is available.",

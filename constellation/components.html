@@ -17,6 +17,11 @@
     <main id="main">
       <h1>Components</h1>
       <p class="lede">A public source map, not a claim that every component is installed, live, or needed for every workflow.</p>
+      <section class="note" aria-label="Task-oriented source navigation">
+        <h2>Choose a source for the task</h2>
+        <p>Need to formalize or check a supplied claim? Read the <a href="https://github.com/unpingable/verifier/blob/main/HOWTO.md">Verifier HOWTO</a>. It is an optional bounded check of supplied input, not authority.</p>
+        <p>Resuming a workflow with explicit retained-memory records? Read the <a href="https://github.com/unpingable/constellation-continuity/blob/main/docs/SESSION-LIFECYCLE-HOWTO.md">Continuity lifecycle guide</a> and <a href="https://github.com/unpingable/spine/blob/main/HOWTO.md">Spine's declared-source guide</a>. Those guides do not select work, infer currentness, or authorize action.</p>
+      </section>
       <article id="ag">
         <h2><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h2>
         <p>Makes bounded, one-use authorization decisions from current inputs.</p>
@@ -158,6 +163,50 @@
           <dt>Maturity</dt><dd>Public, live with a historical consumer; its relation to AG remains unratified.</dd>
           <dt>Available now</dt><dd>Optional public source</dd>
           <dt>When to use it</dt><dd>Use for standalone or legacy preflight, not as a replacement for an owning authorization office.</dd>
+        </dl>
+      </article>
+      <article id="spine">
+        <h2><a href="https://github.com/unpingable/spine">Spine</a></h2>
+        <p>Builds readable indexes and compares editions of explicitly selected sources without changing their semantic state.</p>
+        <dl>
+          <dt>Relationship</dt><dd>optional read-plane integration</dd>
+          <dt>Implementation</dt><dd>Python CLI and library for explicit-source indexes and editions</dd>
+          <dt>Maturity</dt><dd>Implemented and locally tested. Continuity input is an export fixture, not a live store connection; no automatic session orientation.</dd>
+          <dt>Available now</dt><dd>Public source; CLI build, render, edition create and edition compare. No native MCP server.</dd>
+          <dt>When to use it</dt><dd>Use to find and compare selected source material. An index does not establish current truth or permission to act.</dd>
+        </dl>
+      </article>
+      <article id="governor-atlas">
+        <h2><a href="https://github.com/unpingable/governor-atlas">Governor Atlas</a></h2>
+        <p>Records architectural relationships and their cited support, separating wired, specified and candidate claims.</p>
+        <dl>
+          <dt>Relationship</dt><dd>classic-lineage architectural claim specimen</dd>
+          <dt>Implementation</dt><dd>claim graph, evidence references and generated documentation using claimdocs</dd>
+          <dt>Maturity</dt><dd>Implemented classic Agent Governor specimen; not a complete map of current Constellation or its deployment.</dd>
+          <dt>Available now</dt><dd>Public source and generated readout; use the separate claimdocs CLI to lint or report.</dd>
+          <dt>When to use it</dt><dd>Use to inspect a recorded architectural claim and its basis. A recorded claim does not establish current runtime behavior.</dd>
+        </dl>
+      </article>
+      <article id="claimdocs">
+        <h2><a href="https://github.com/unpingable/claimdocs">claimdocs</a></h2>
+        <p>Checks claim structure, resolves cited evidence, reports freshness and renders documentation.</p>
+        <dl>
+          <dt>Relationship</dt><dd>optional architectural evidence documentation engine</dd>
+          <dt>Implementation</dt><dd>Python CLI used by architectural claim specimens</dd>
+          <dt>Maturity</dt><dd>Implemented scoped engine. Evidence resolution and freshness are not judgments that the evidence adequately supports a claim.</dd>
+          <dt>Available now</dt><dd>Public source; CLI lint, verify-basis, report and render. Global options precede the command; render writes documentation.</dd>
+          <dt>When to use it</dt><dd>Use to maintain evidence-backed architecture documentation. Human review remains responsible for adequacy; reports grant no authority.</dd>
+        </dl>
+      </article>
+      <article id="verifier">
+        <h2><a href="https://github.com/unpingable/verifier">Verifier</a></h2>
+        <p>Checks a caller-encoded proposal, facts and rules. The caller supplies the model, assumptions and input truth.</p>
+        <dl>
+          <dt>Relationship</dt><dd>optional encoded-claim checking integration</dd>
+          <dt>Implementation</dt><dd>Python library, CLI and stdio MCP server backed by Z3</dd>
+          <dt>Maturity</dt><dd>Implemented finite checking surface. Solver unsat and unknown currently collapse into failed rules; no distinct solver-timeout or translation-failure verdict.</dd>
+          <dt>Available now</dt><dd>Public source; install z3-verifier from the repository. CLI verifier-check; stdio server verifier-mcp exposes verify.</dd>
+          <dt>When to use it</dt><dd>I need to formalize/check a claim: begin with Verifier&#x27;s supported input model and inspect the JSON verdict. A passing check is not real-system correctness or permission; formalization is optional.</dd>
         </dl>
       </article>
       <article id="axolotl">

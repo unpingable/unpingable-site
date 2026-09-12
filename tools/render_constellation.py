@@ -69,6 +69,11 @@ def render(data: object) -> str:
     <main id="main">
       <h1>Components</h1>
       <p class="lede">A public source map, not a claim that every component is installed, live, or needed for every workflow.</p>
+      <section class="note" aria-label="Task-oriented source navigation">
+        <h2>Choose a source for the task</h2>
+        <p>Need to formalize or check a supplied claim? Read the <a href="https://github.com/unpingable/verifier/blob/main/HOWTO.md">Verifier HOWTO</a>. It is an optional bounded check of supplied input, not authority.</p>
+        <p>Resuming a workflow with explicit retained-memory records? Read the <a href="https://github.com/unpingable/constellation-continuity/blob/main/docs/SESSION-LIFECYCLE-HOWTO.md">Continuity lifecycle guide</a> and <a href="https://github.com/unpingable/spine/blob/main/HOWTO.md">Spine's declared-source guide</a>. Those guides do not select work, infer currentness, or authorize action.</p>
+      </section>
 {rows}
     </main>
     {END}'''
