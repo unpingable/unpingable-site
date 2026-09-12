@@ -11,7 +11,7 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="start.html">Start with the source</a></nav>
   </header>
   <main id="main">
     <h1>Automated work you can plan, bound, and review</h1>
@@ -19,7 +19,7 @@
     <p>Operations is the first proving ground, not the limit of the project. The ECAD/design-flow work explores how to design, decompose and review work upstream; it remains pre-alpha.</p>
 
     <h2>A small example</h2>
-    <p>Suppose you want to test a disposable local HTTP service with two caches. You describe the components, checks, and teardown in a plan. This example is designed to carry that plan through review, permission, execution and result inspection:</p>
+    <p>Suppose you want to test a disposable local HTTP service with two caches. You describe the components, checks, and teardown in a plan. Below is the intended journey; the connected run has not yet been verified in the current public tutorial kit.</p>
     <ol class="steps">
       <li><strong>Maude prepares the plan.</strong> You review its meaning and lock the exact revision. This does not run or authorize anything.</li>
       <li><strong>Nightshift records current conditions and the proposal.</strong> Evidence from an earlier run is not automatically current evidence.</li>
@@ -28,7 +28,7 @@
       <li><strong>A fresh observation checks the result.</strong> Teardown is separate work with its own permission, not an automatic consequence of success.</li>
       <li><strong>Phosphor lets you inspect the record.</strong> You can read what was requested, allowed, attempted, observed, and settled. Phosphor does not change the run.</li>
     </ol>
-    <aside class="note" aria-label="Example status"><strong>What is verified today:</strong> the public Maude source checks and generators for this synthetic-cache example have passed. <strong>What is not yet verified in the current public kit:</strong> the connected Docker/runtime journey. The example above describes that intended journey; it is not a claim that a newcomer run completed.</aside>
+    <aside class="note" aria-label="Example status"><strong>What is verified today:</strong> local tests of Maude's plan-generation code and generated artifacts have passed. Those checks did not execute the plan. <strong>What is not yet verified in the current public kit:</strong> the connected Docker/runtime journey and public-only installation.</aside>
 
     <h2>What the family separates</h2>
     <p><strong>Execution outcome</strong> says whether the work succeeded, failed, or remains uncertain according to the available evidence. <strong>Settlement</strong> records the attempt's result in the owning runtime. A settled record does not mean the work succeeded, and it does not grant permission for another run.</p>

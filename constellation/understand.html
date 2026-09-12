@@ -11,7 +11,7 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html" aria-current="page">How it works</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html" aria-current="page">How it works</a><a href="components.html">Components</a><a href="start.html">Start with the source</a></nav>
   </header>
   <main id="main">
     <h1>Different jobs, explicit handoffs</h1>
@@ -33,8 +33,10 @@
     <p>The contracts describe how responsibilities are divided; deployment must actually preserve that division. Service identities, filesystem access, executor configuration, database access, and operator privileges can bypass a software workflow if they are too broad. Constellation does not make those deployment privileges safe merely by recording a well-formed plan.</p>
     <p>Operators should be able to tell which system owns each fact, which identity acted, what exact permission applied, and which evidence supports the displayed state. If an owner is unavailable or the evidence is incomplete, the interface should report absence or unknown rather than infer success.</p>
 
-    <h2>What the formal model establishes</h2>
-    <p>The formal work describes allowed state transitions and proves selected properties of that model. Rust implementations and qualification cases are compared with those contracts, but a model proof does not establish that every deployment, adapter, clock, credential boundary, or external effect behaves correctly. Those require implementation evidence and environment-specific qualification.</p>
+    <h2>What formal work does and does not establish</h2>
+    <p><a href="https://github.com/unpingable/constellation-linear-accountant/blob/main/verification/README.md">Linear Accountant's verification guide</a> documents a Lean model for its arithmetic core and a Rust differential check. It does not prove Rust <code>u64</code> behavior, persistence, deployment, or permission to act.</p>
+    <p><a href="https://github.com/unpingable/constellation-ag/blob/5c8b22b77193798f25298b02758ac3caa3a8fe24/docs/formal-calculus-crosswalk.md">AG's formal-calculus crosswalk</a> is an obligation map for a pinned Lean revision. It explicitly does not make a Lean theorem a runtime authority or prove that its Rust implementation is equivalent to the model.</p>
+    <p><a href="https://github.com/unpingable/constellation-docket/blob/c49ad8d0/docs/governed-runtime/trust-model.md">Docket's trust model</a> records the custody assumptions behind its recovery conclusions. Its invariant tags distinguish proved claims, doctrine that remains unproved, and implementation choices. Deployment evidence is still separate.</p>
 
     <h2>Future effects require a fresh decision</h2>
     <p>A past success, a settled occurrence, or a still-visible approval does not authorize the next effect. Before new work changes anything, the system needs fresh observations and the permission applicable to that specific transition. Reconciliation may inspect an existing uncertain attempt; it must not repeat the mechanics merely to obtain a tidier answer.</p>
