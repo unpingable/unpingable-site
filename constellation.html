@@ -9,7 +9,7 @@
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="Components — unpingable">
   <meta property="og:description" content="The unpingable custody stack in boring nouns. Each component has one job — witness evidence, gate a proposal, preserve state, expose an operator decision, or audit a refusal class. Components are independently usable; the monitoring lane (NQ → Nightshift → agent_governor) is an illustration, not a prerequisite.">
-  <meta property="og:url" content="https://unpingable.com/constellation.html">
+  <meta property="og:url" content="https://unpingable.com/constellation/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -18,6 +18,7 @@
   <meta name="twitter:title" content="Components — unpingable">
   <meta name="twitter:description" content="The unpingable custody stack in boring nouns. Each component has one job — witness evidence, gate a proposal, preserve state, expose an operator decision, or audit a refusal class. Components are independently usable; the monitoring lane (NQ → Nightshift → agent_governor) is an illustration, not a prerequisite.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <link rel="canonical" href="https://unpingable.com/constellation/">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
   <style>
@@ -76,6 +77,22 @@
     p { margin-bottom: 0.9rem; }
     .muted { color: var(--fg-muted); }
     code { font-family: var(--mono); font-size: 0.85em; }
+    .route-notice {
+      border: 2px solid var(--accent);
+      padding: 1rem 1.1rem;
+      margin: 0 0 1.6rem;
+      background: var(--bg-inset);
+      overflow-wrap: anywhere;
+    }
+    .route-notice strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .route-notice p { margin: 0; }
 
     /* ── STATUS BADGES (from index.html) ── */
     .status {
@@ -286,6 +303,11 @@
   </style>
 </head>
 <body>
+
+  <aside class="route-notice" aria-label="Current Constellation documentation">
+    <strong>This page is historical</strong>
+    <p>The current Constellation front door is <a href="https://unpingable.com/constellation/">unpingable.com/constellation/</a>. The component notes below are retained for historical reference and may use deprecated names or guidance.</p>
+  </aside>
 
   <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
 
