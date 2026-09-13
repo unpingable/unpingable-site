@@ -11,33 +11,40 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html" aria-current="page">Operations</a><a href="start.html">Start with the source</a></nav>
   </header>
   <main id="main">
     <h1>After the first run</h1>
-    <p class="lede">This is lifecycle guidance for the public <code>0.1.0-alpha.1</code> source routes. It is not a release or compatibility promise for a connected runtime.</p>
+    <p class="lede">This is lifecycle guidance for the public Maude authoring source. <code>0.1.0-alpha.1</code> is a candidate integration-guide target, not an existing software release.</p>
 
-    <aside class="note" aria-label="Current release boundary"><strong>Current boundary:</strong> the credential-free Maude walkthrough creates a local Plan Core fixture. Its authoring, checking, comparison, and locking steps do not execute planned work. The candidate read-only Maude external-caller profile is not qualified or released.</aside>
+    <aside class="note" aria-label="Current boundary"><strong>Current boundary:</strong> Maude's credential-free design demo creates local authoring stores. AG-hosted Phosphor is a separate read-only inspector and is not a Maude external-caller profile. Neither route executes planned work.</aside>
 
     <h2>Inspect before you restart</h2>
-    <p>Keep the exact public revision, the local store location, and the selected draft and revision identifiers together. For a Plan Core store, use the documented <code>maude-plan inspect</code>, <code>check</code>, <code>diff</code>, and <code>lock</code> commands against an explicitly selected store and draft. A check or lock is evidence about exact plan bytes; neither is permission to run work.</p>
-    <p>If the local design server was interrupted, restart it against the same retained stores as described in Maude's <a href="https://github.com/unpingable/maude/blob/main/docs/PHOSPHOR-DESIGN.md">design guide</a>. Do not rerun the fixture generator over that path. Inspect the selected revision and proposal disposition first. If browser state and stored records cannot be reconciled, preserve the corpus and use a new path for a separate exercise.</p>
+    <p>Keep the exact public revision, the local store location, and the selected draft and revision identifiers together. <code>maude-plan inspect</code> is read-only. <code>check</code> records a check receipt and <code>lock</code> records a lock, so do not group either with read-only inspection. None grants permission to execute the plan.</p>
+    <p>The deterministic generator creates <code>plans.sqlite</code>, <code>presentations.sqlite</code>, <code>proposals.sqlite</code>, and <code>owner-facts.json</code>. Stop its foreground server with <kbd>Ctrl-C</kbd>. To restart without regenerating the corpus, run from the same Maude checkout:</p>
+    <pre><code>PYTHONPATH=src .venv/bin/python -m maude.design.server \
+  --store /absolute/retained-demo/plans.sqlite \
+  --presentation-store /absolute/retained-demo/presentations.sqlite \
+  --proposal-store /absolute/retained-demo/proposals.sqlite \
+  --owner-facts /absolute/retained-demo/owner-facts.json \
+  --port 8427</code></pre>
+    <p>Open <code>http://127.0.0.1:8427/phosphor/design</code>. Use the exact retained directory you originally supplied to <code>scripts/run-phosphor-design-demo.sh</code>; do not rerun that generator over it. If the four inputs no longer agree, preserve them and use a new absent directory for a separate exercise.</p>
 
     <h2>Configuration, credentials, and ownership</h2>
     <p>The deterministic fixture route needs no model-provider credential. The optional enrolled-provider route has a separate caller-owned credential file and budget; creating or starting that route does not authorize a provider call. Keep credentials out of commands copied into notes, shell history shared with others, logs, and issue reports.</p>
-    <p>Assign one local owner for each retained store, relevant local log, and backup copy. Record the exact source revision, Python environment, selected profile (if any), store paths, and relevant plan/check/lock/proposal identifiers with that owner. Do not treat a source checkout, a browser tab, or a generated fixture as a shared service.</p>
+    <p>Assign one local owner for the four-file set, relevant server log, configuration record, and any SQLite sidecars (<code>-wal</code> and <code>-shm</code>). Record the exact source revision, Python environment, command, port, paths, and relevant plan/check/lock/proposal identifiers. Do not treat a source checkout, browser tab, or generated fixture as a shared service.</p>
 
     <h2>Stop, restart, and uncertain attempts</h2>
-    <p>Stop the foreground walkthrough server with its documented foreground control, then retain the stores if they contain records you may need to inspect. Restarting a UI does not establish that a governed attempt stopped or settled. Where a connected governed attempt has an uncertain outcome, reconcile that existing attempt and its retained records before considering another action; do not repeat the work merely because a client was interrupted.</p>
+    <p>Stop the foreground walkthrough with <kbd>Ctrl-C</kbd>, then retain the four inputs and sidecars if they contain records you may need. Restarting this authoring UI does not establish that a governed attempt stopped or settled. Where a separate connected governed attempt has an uncertain outcome, use that runtime's documented same-attempt reconciliation; do not repeat work merely because a client was interrupted.</p>
 
     <h2>Back up and restore deliberately</h2>
-    <p>Quiesce the local writer before copying a retained SQLite store. Keep the backup with its exact source revision, environment details, selected profile configuration, and record identifiers so that a later reader can identify what it contains. Test a restore only in a separate disposable copy; never use a speculative restore as evidence that the original store is current.</p>
-    <p>The public alpha does not publish a migration, compatibility, or rollback procedure for the candidate external-caller profile. Do not upgrade or restore that profile across unknown versions. Before any future published compatibility path, preserve the old state and source coordinates, read that path's release notes, and use only its stated procedure.</p>
+    <p>Cross-store backup, restore, migration, and rollback for this four-file set have not been verified as a lifecycle procedure. Do not describe a file copy as a qualified backup. If preserving diagnostic material, first stop the writer and retain all four inputs, applicable SQLite sidecars, source revision, environment, and command together. Test any proposed restore only on a separate disposable copy.</p>
+    <p>No public compatibility or migration promise exists for these authoring stores. Preserve the original bytes and coordinates rather than inventing an upgrade or rollback path.</p>
 
     <h2>Retain evidence; clean up disposable exercises</h2>
     <p>A fresh walkthrough corpus is disposable only after you decide that its drafts, checks, proposal dispositions, and logs have no replay or diagnosis value. Retain records for an interrupted or uncertain exercise until their state is understood. Remove only the local disposable directory you selected, never an unreviewed shared store or another operator's workspace.</p>
 
-    <p>For symptoms and a minimal support report, use the <a href="troubleshooting.html">troubleshooting guide</a>. For initial setup, return to <a href="start.html">Start with the source</a>.</p>
+    <p>For symptoms and a minimal support report, use the <a href="troubleshooting.html">troubleshooting guide</a>. For source detail, use Maude's <a href="https://github.com/unpingable/maude/blob/42a615ec76ccc03c6d661c6cf0c4205469eafef0/docs/PHOSPHOR-DESIGN.md">design-server guide at the documented public revision</a>. For initial setup, return to <a href="start.html">Start with the source</a>.</p>
   </main>
   <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
 </body>

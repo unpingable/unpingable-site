@@ -22,9 +22,14 @@ class RedirectRefused(HTTPRedirectHandler):
 
 def checked_url(value: str) -> str:
     parsed = urlsplit(value)
+    try:
+        port = parsed.port
+    except ValueError as error:
+        raise ValueError("--url must have a valid Phosphor loopback port") from error
     if (
         parsed.scheme != "http"
         or parsed.hostname not in {"127.0.0.1", "::1"}
+        or port != 8417
         or parsed.path != ENDPOINT_PATH
         or parsed.query
         or parsed.fragment

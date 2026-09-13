@@ -54,6 +54,7 @@ class ReaderExample(unittest.TestCase):
         self.assertEqual(MODULE.checked_url("http://127.0.0.1:8417/api/v1/campaigns"),
                          "http://127.0.0.1:8417/api/v1/campaigns")
         for value in ("http://localhost:8417/api/v1/campaigns",
+                      "http://127.0.0.1:8418/api/v1/campaigns",
                       "http://127.0.0.1:8417/api/v1/campaigns?next=x",
                       "http://127.0.0.1:8417/api/v1/campaigns/extra",
                       "https://127.0.0.1:8417/api/v1/campaigns"):
