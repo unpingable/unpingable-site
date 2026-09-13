@@ -31,5 +31,24 @@ def validate(root: Path = ROOT) -> int:
     return len(seen)
 
 
+def validate_profiles(root: Path = ROOT) -> int:
+    component_ids = {item["id"] for item in json.loads(
+        (root / "constellation/components.json").read_text())["components"]}
+    data = json.loads((root / "constellation/integration-profiles.json").read_text())
+    if (data.get("schema") != "constellation.integration-profiles/v1"
+            or data.get("version") != "0.1.0-alpha.1" or data.get("release_status") != "candidate"):
+        raise ValueError("invalid integration profile header")
+    seen = set()
+    for profile in data.get("profiles", []):
+        if set(profile) != {"id", "component_ids", "status", "guide"}:
+            raise ValueError("invalid integration profile fields")
+        if profile["id"] in seen or not set(profile["component_ids"]) <= component_ids:
+            raise ValueError("duplicate profile or unknown component")
+        if local_problem(root / "constellation/integration-profiles.json", profile["guide"], root):
+            raise ValueError("invalid integration profile guide")
+        seen.add(profile["id"])
+    return len(seen)
+
+
 if __name__ == "__main__":
-    print(f"Validated {validate()} compositions")
+    print(f"Validated {validate()} compositions and {validate_profiles()} profiles")

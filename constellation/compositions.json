@@ -1,18 +1,25 @@
 {
   "compositions": [
     {
-      "component_ids": ["maude", "phosphor"],
-      "id": "author-and-inspect",
+      "component_ids": ["maude"],
+      "id": "author-plan",
       "maturity": "runnable",
       "recipe": "recipes.html#recipe-a",
-      "summary": "Credential-free plan authoring and read-only inspection"
+      "summary": "Credential-free creation and inspection of a local plan"
+    },
+    {
+      "component_ids": ["ag", "phosphor"],
+      "id": "inspect-governed-records",
+      "maturity": "runnable-deterministic-demo",
+      "recipe": "recipes.html#recipe-a",
+      "summary": "External read-only consultation of AG-hosted Phosphor records"
     },
     {
       "component_ids": ["docket"],
       "id": "disposable-executor-contract",
-      "maturity": "runnable-development-fixture",
+      "maturity": "incomplete-public-recipe-supporting-fixture-only",
       "recipe": "recipes.html#recipe-b",
-      "summary": "Local conformance fixture for Docket executor custody"
+      "summary": "Governed bounded action; public recipe incomplete, with a local Docket conformance fixture available"
     },
     {
       "component_ids": ["maude", "nightshift", "ag", "docket", "nq", "phosphor", "monitor", "pulse"],

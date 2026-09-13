@@ -1,0 +1,25 @@
+{
+  "profiles": [
+    {
+      "component_ids": ["maude", "ag", "phosphor"],
+      "id": "read-only-a",
+      "status": "runnable-public-source",
+      "guide": "recipes.html#recipe-a"
+    },
+    {
+      "component_ids": ["ag", "docket"],
+      "id": "governed-action-b",
+      "status": "incomplete-public-recipe",
+      "guide": "recipes.html#recipe-b"
+    },
+    {
+      "component_ids": ["maude", "nightshift", "ag", "docket", "nq", "phosphor", "monitor", "pulse"],
+      "id": "connected-cache-c",
+      "status": "not-publicly-runnable",
+      "guide": "recipes.html#recipe-c"
+    }
+  ],
+  "release_status": "candidate",
+  "schema": "constellation.integration-profiles/v1",
+  "version": "0.1.0-alpha.1"
+}
