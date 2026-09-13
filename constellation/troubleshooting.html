@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Troubleshooting guidance for the public alpha Constellation authoring routes.">
+  <title>Troubleshooting the alpha routes</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/troubleshooting.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="start.html">Start with the source</a></nav>
+  </header>
+  <main id="main">
+    <h1>Troubleshooting the alpha routes</h1>
+    <p class="lede">Start with the public <code>0.1.0-alpha.1</code> source and its documented local authoring walkthrough. The connected cache runtime and the candidate read-only Maude external-caller profile are not released newcomer routes.</p>
+
+    <h2>Record a small, useful report</h2>
+    <p>Before changing state, record the exact public revision and version, operating-system and Python environment, documented command you ran, expected result, observed result, and any relevant draft, revision, check, lock, proposal, request, or attempt identifier. Retain the relevant local log with its owner, and include only the smallest redacted log or output excerpt that shows the problem.</p>
+    <aside class="note" aria-label="Information to exclude"><strong>Do not include:</strong> provider credentials, credential-file contents, private prompts, full personal databases, whole stores, or unrelated local paths. No diagnostic collector is required for this route.</aside>
+
+    <h2>Common boundaries</h2>
+    <dl>
+      <dt>The fixture generator refuses a path</dt>
+      <dd>Choose a new absent local directory. It intentionally refuses to overwrite a retained corpus. Do not delete a retained corpus merely to make the command run.</dd>
+      <dt>A proposal is visible but has not changed the draft</dt>
+      <dd>A usable proposal remains proposed until an explicit accept or reject. Inspect its base revision, scope, operation, validation, and diff. Acceptance creates a Plan Core successor only; checking, locking, handoff, authorization, and execution remain separate.</dd>
+      <dt>A structural check reports a finding</dt>
+      <dd>Use the exact displayed revision and check receipt when inspecting the finding. Do not present a prior validation as a check of a later successor revision.</dd>
+      <dt>A provider route lacks a usable credential or budget</dt>
+      <dd>Stop at the refusal. Starting the enrolled route does not read the credential or authorize a call. Do not replace the credential path with a value in a command or report, and do not retry a retained provider occurrence automatically.</dd>
+      <dt>A client or server was interrupted</dt>
+      <dd>Restart against the same retained stores and inspect the current revision and proposal disposition. If an associated governed attempt is uncertain, reconcile its existing records before considering another action; a restart is not permission to repeat work.</dd>
+      <dt>You need to move or upgrade a store</dt>
+      <dd>The public alpha has no published migration, compatibility, or rollback procedure for the candidate external-caller profile. Preserve the original and its coordinates, and do not invent a conversion path.</dd>
+    </dl>
+
+    <h2>Where to ask</h2>
+    <p>For a reproducible public-source issue, use <a href="https://github.com/unpingable/maude/issues">Maude's public issue tracker</a> and include the small report above. This alpha support channel is best effort: opening an issue does not promise a response, an operational diagnosis, or approval to change a governed workflow.</p>
+
+    <p>For lifecycle handling after the first exercise, see <a href="after-first-run.html">After the first run</a>. For the supported deterministic setup, see <a href="https://github.com/unpingable/maude/blob/main/docs/BOUNDED-AUTHORING-WALKTHROUGH.md">Maude's bounded authoring walkthrough</a>.</p>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>
