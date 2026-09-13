@@ -43,6 +43,18 @@ p, li { max-width: 68ch; }
 .steps { padding-left: 1.25rem; }
 .steps li { margin-block: .75rem; }
 code { overflow-wrap: anywhere; }
+pre { overflow-x: auto; padding: 1rem; background: var(--soft); border: 1px solid var(--rule); }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .94rem; }
+th, td { padding: .7rem; text-align: left; vertical-align: top; border: 1px solid var(--rule); }
+th { background: var(--soft); }
+.badge { display: inline-block; padding: .1rem .45rem; border: 1px solid var(--rule); border-radius: 1rem; white-space: nowrap; font-size: .82rem; }
+.ready { border-color: #3d7a46; }
+.dev { border-color: #9a741b; }
+.blocked { border-color: #a34a42; }
+.interfaces dt { margin-top: 1.2rem; font-weight: 700; }
+.interfaces dd { margin: .25rem 0 0; }
+.integration-nav { display: flex; flex-wrap: wrap; gap: .55rem 1rem; padding: .8rem 0; border-block: 1px solid var(--rule); }
 @media (max-width: 34rem) {
   header nav { display: grid; gap: .55rem; }
   header a { width: fit-content; }

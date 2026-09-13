@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Public Constellation integration recipes, prerequisites, substitutions, and current limits.">
+<title>Constellation integration recipes</title><link rel="stylesheet" href="base.css"><link rel="canonical" href="https://unpingable.com/constellation/recipes.html"></head>
+<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html" aria-current="page">Recipes</a><a href="start.html">Start with the source</a></nav></header>
+<main id="main"><h1>Integration recipes</h1><p class="lede">Begin with a read-only or disposable local fixture. Move to a connected workflow only when every required source, executable, trust boundary, and recovery path is available.</p>
+<nav class="integration-nav" aria-label="Integration sections"><a href="integration.html#composition-matrix">Composition matrix</a><a href="recipes.html" aria-current="page">Recipes</a><a href="integration.html#external-interfaces">External interfaces</a><a href="integration.html#examples">Examples</a></nav>
+
+<h2 id="recipe-a">A. Read-only authoring and inspection</h2><p><span class="badge ready">Runnable</span> This credential-free route uses public Maude source and a deterministic local corpus. It contacts no model and performs no planned work.</p>
+<pre><code>git clone https://github.com/unpingable/maude.git
+cd maude
+PHOSPHOR_DESIGN_PORT=28427 \
+  scripts/run-phosphor-design-demo.sh /tmp/maude-authoring-walkthrough</code></pre>
+<p>Open <code>http://127.0.0.1:28427/phosphor/design</code>. The caller chooses an unused loopback port and a disposable output directory, then owns stopping the foreground process and removing that directory. Follow the <a href="https://github.com/unpingable/maude/blob/main/docs/BOUNDED-AUTHORING-WALKTHROUGH.md">bounded authoring walkthrough</a>. The corpus contains substitutions; it is not evidence of a connected run.</p>
+
+<h2 id="recipe-b">B. Governed executor transport in a disposable fixture</h2><p><span class="badge dev">Runnable development fixture</span> Docket’s public conformance case exercises its governed-executor transport and local custody rules without requiring a provider credential or an application deployment.</p>
+<pre><code>git clone https://github.com/unpingable/constellation-docket.git
+cd constellation-docket
+git checkout c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b
+cargo test --locked -p gwr-local executor_transport</code></pre>
+<p>The test harness supplies local plans, attempts, markers, executor responses, and negative controls. Those are substitutions for a caller’s real standing, authorization, and executor. The command validates the published transport behavior at the pinned revision; it does not grant authority or establish that a different executor is safe to run. Read the <a href="https://github.com/unpingable/constellation-docket/blob/c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b/docs/governed-runtime/executor-transport-v1.md">transport contract</a> before implementing an adapter.</p>
+<p><strong>Caller boundary:</strong> a deployment must provide its own authorized exact work, standing resolver, executor program/configuration, exclusive target custody, and recovery evidence. Docket retains the attempt; the executor remains responsible for its effect-specific idempotency and reconciliation.</p>
+
+<h2 id="recipe-c">C. Connected disposable cache</h2><p><span class="badge blocked">Not publicly runnable</span> The intended order is host observation and Pulse support → Maude plan → Nightshift proposal → AG authorization → Docket execution and settlement → owner NQ result check → separately governed teardown. This is not a copy-and-paste public recipe yet.</p>
+<p>Local development qualification has exercised a bounded cache occurrence and governed teardown, but that does not supply a public installation route. The public path still depends on a compatible Pulse distribution and a complete, reviewed connected tutorial/recovery package. A later development attempt also required manual recovery work, so it is not presented here as a successful newcomer route. Private Monitor source and campaign records are deliberately not linked or reproduced.</p>
+<p>Until those dependencies are published and the public-only route is independently repeated, use Recipe A for authoring/inspection and Recipe B for the Docket transport contract. Do not assemble C from repository heads or reuse an old occurrence. The selected Docker daemon is a deployment trust boundary; image digest, storage limits, an exclusive project name, attempt reconciliation, and separately authorized teardown must all be explicit.</p>
+
+<h2>Choosing safely</h2><ul class="steps"><li>If you need to understand plans, use A.</li><li>If you are implementing an executor boundary, use B and its conformance corpus.</li><li>If you need the complete cache workflow, C is a tracked integration target rather than a supported public recipe.</li></ul>
+<p><a href="integration.html#composition-matrix">Return to the composition matrix</a> or inspect the <a href="components.html">component inventory</a>.</p>
+</main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>

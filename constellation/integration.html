@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Constellation components compose, where their interfaces meet, and which combinations are usable today.">
+  <title>Constellation integration</title><link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/integration.html">
+</head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html" aria-current="page">Integration</a><a href="recipes.html">Recipes</a><a href="start.html">Start with the source</a></nav></header>
+<main id="main">
+  <h1>Compose responsibilities, not a monolith</h1>
+  <p class="lede">Choose the smallest set of components that owns the decisions and records your workflow actually needs. Passing data between tools does not transfer authority.</p>
+  <nav class="integration-nav" aria-label="Integration sections"><a href="#composition-matrix">Composition matrix</a><a href="recipes.html">Recipes</a><a href="#external-interfaces">External interfaces</a><a href="#examples">Examples</a></nav>
+  <p>This matrix references component IDs from the <a href="components.json">component inventory</a>. The separate <a href="compositions.json">composition map</a> is machine-readable and does not duplicate component metadata.</p>
+
+  <h2 id="composition-matrix">Composition matrix</h2>
+  <div class="table-wrap"><table><thead><tr><th>Use case</th><th>Components</th><th>What crosses the boundary</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Author and inspect a plan</td><td><a href="components.html#maude">Maude</a>, <a href="components.html#phosphor">Phosphor</a></td><td>Plan documents, findings, revisions, and semantic diffs. Neither surface grants permission.</td><td><span class="badge ready">Runnable</span></td></tr>
+    <tr><td>Keep custody of a disposable executor attempt</td><td><a href="components.html#docket">Docket</a> plus an executor implementing its transport</td><td>Exact plan identity, Docket-issued attempt/marker, executor outcome, and reconciliation evidence.</td><td><span class="badge dev">Development fixture</span></td></tr>
+    <tr><td>Carry a command to a selected substrate</td><td><a href="components.html#porter">Porter</a>; optionally Docket</td><td>Caller-selected command and endpoint; factual transcript, exit status, artifacts, and hashes return. Docket custody is a separate composition.</td><td><span class="badge dev">Interfaces available</span></td></tr>
+    <tr><td>Run the connected cache example</td><td>Maude → Nightshift → AG → Docket → NQ; Pulse supplies named support; Phosphor reads records</td><td>Locked plan, current observations, proposal, one-use authorization, attempt outcome, and post-result diagnostic.</td><td><span class="badge blocked">Not publicly runnable</span></td></tr>
+  </tbody></table></div>
+
+  <h2 id="external-interfaces">External interfaces</h2>
+  <dl class="interfaces">
+    <dt>Plans and proposals</dt><dd>Maude produces checked, locked plan material. A proposal remains candidate input until an owning admission boundary accepts it.</dd>
+    <dt>Observation</dt><dd>Nightshift owns currentness and recurrence records. NQ derives a bounded disposition from exact evidence. Neither grants authority.</dd>
+    <dt>Authorization</dt><dd>Constellation AG decides whether exact work may proceed and records one-use consumption. Integrators must not infer permission from a passing checker or successful prior run.</dd>
+    <dt>Execution custody</dt><dd>Docket owns attempt identity, executor binding, settlement, and reconciliation. An executor owns its mechanics and evidence. Porter can be such a transport ingredient only through an explicitly supported adapter; it does not become Docket by returning a transcript.</dd>
+    <dt>Read surfaces</dt><dd>Phosphor and Spine read selected owner records. Their indexes and pages do not modify those records or decide their meaning.</dd>
+  </dl>
+
+  <h2 id="examples">Examples and caller boundaries</h2>
+  <p>The <a href="recipes.html">integration recipes</a> distinguish commands you can run from source today from a connected workflow that still lacks a public-only distribution. Each recipe names its input substitutions and the point at which the caller remains responsible.</p>
+  <aside class="note"><strong>Compatibility is explicit.</strong> Repository names, shared vocabulary, or individually passing tests do not establish that arbitrary revisions compose. Follow the revision and interface constraints in each component’s own public guide.</aside>
+</main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>

@@ -1,0 +1,34 @@
+{
+  "compositions": [
+    {
+      "component_ids": ["maude", "phosphor"],
+      "id": "author-and-inspect",
+      "maturity": "runnable",
+      "recipe": "recipes.html#recipe-a",
+      "summary": "Credential-free plan authoring and read-only inspection"
+    },
+    {
+      "component_ids": ["docket"],
+      "id": "disposable-executor-contract",
+      "maturity": "runnable-development-fixture",
+      "recipe": "recipes.html#recipe-b",
+      "summary": "Local conformance fixture for Docket executor custody"
+    },
+    {
+      "component_ids": ["maude", "nightshift", "ag", "docket", "nq", "phosphor", "monitor", "pulse"],
+      "id": "connected-cache",
+      "maturity": "not-publicly-runnable",
+      "recipe": "recipes.html#recipe-c",
+      "summary": "Connected disposable-cache workflow"
+    },
+    {
+      "component_ids": ["porter", "docket"],
+      "id": "transport-with-custody",
+      "maturity": "interface-available-composition-development-only",
+      "recipe": "integration.html#external-interfaces",
+      "summary": "Porter transport evidence under separately supplied Docket custody"
+    }
+  ],
+  "inventory": "components.json",
+  "schema": "constellation.compositions/v1"
+}
