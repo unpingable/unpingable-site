@@ -30,7 +30,7 @@
     <p>Phosphor is the read-only inspector hosted with Constellation AG. It presents the joined record from the owning systems. Maude's separate design workspace can change a draft plan; navigating between the two does not merge their state or authority.</p>
 
     <h2>Trust and deployment boundaries</h2>
-    <p>The contracts describe how responsibilities are divided; deployment must actually preserve that division. Service identities, filesystem access, executor configuration, database access, and operator privileges can bypass a software workflow if they are too broad. Constellation does not make those deployment privileges safe merely by recording a well-formed plan.</p>
+    <p>The contracts describe how responsibilities are divided; deployment must actually preserve that division. Service identities, filesystem access, executor configuration, database access, operator privileges, and access to a container daemon or its socket can bypass a software workflow if they are too broad. Docker-daemon access commonly permits broad host-level container, filesystem, and network changes. Constellation does not make those deployment privileges safe merely by recording a well-formed plan.</p>
     <p>Operators should be able to tell which system owns each fact, which identity acted, what exact permission applied, and which evidence supports the displayed state. If an owner is unavailable or the evidence is incomplete, the interface should report absence or unknown rather than infer success.</p>
 
     <h2>What formal work does and does not establish</h2>

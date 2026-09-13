@@ -2,18 +2,18 @@
   "as_of": "2026-09-13",
   "components": [
     {
-      "availability": "Public source",
+      "availability": "Public source at the revision containing the current Phosphor read-only route.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
       "maturity": "Qualification-ready development source; not production-ready.",
       "name": "Constellation AG",
       "relationship": "core family office",
       "role": "Makes bounded, one-use authorization decisions from current inputs.",
-      "url": "https://github.com/unpingable/constellation-ag",
+      "url": "https://github.com/unpingable/constellation-ag/tree/32f10101c4a93bad77d00803bad3031dd6847698",
       "use": "Use when a workflow needs an exact-work authorization boundary."
     },
     {
-      "availability": "Public source at immutable tag constellation-public-source-20260912; no binary package is published.",
+      "availability": "Public source at tag constellation-public-source-20260912, which peels to exact commit f6b734db2e97ed4ca0c568ec9fccf5223fdecb40; no binary package is published.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
       "maturity": "Developer preview with bounded local-VM qualification; no production or estate-wide qualification.",
@@ -46,14 +46,14 @@
       "use": "Use when a workflow needs temporal observation rather than authorization or execution."
     },
     {
-      "availability": "Public source, existing main branch",
+      "availability": "Public source at the documented authoring revision.",
       "id": "maude",
       "implementation_form": "standalone Python authoring and supervision product",
-      "maturity": "Public source is available; the reviewed integration/release content is not yet published as a tutorial route.",
+      "maturity": "Public source includes deterministic Plan Core authoring and the optional enrolled provider route; the connected cache runtime remains in progress.",
       "name": "Maude",
       "relationship": "core operator surface",
       "role": "Authors, checks, compares, and locks pre-governed plans.",
-      "url": "https://github.com/unpingable/maude",
+      "url": "https://github.com/unpingable/maude/tree/8c943d77013b1916a157f32f0fccc0ed933be264",
       "use": "Use for source-level Plan Core work; a checked plan grants no permission and runs no work."
     },
     {
@@ -141,7 +141,7 @@
       "name": "Switchyard Runtime",
       "relationship": "shared provider integration",
       "role": "Provides a reviewed source-only provider-runtime distribution for an enrolled integration.",
-      "url": "https://github.com/unpingable/switchyard-runtime/tree/5111a4c068855537d7d5fff76a27da34323a45b5",
+      "url": "https://github.com/unpingable/switchyard-runtime/tree/e612e195bdafc193d022f99ce683cb73dfbd7287",
       "use": "Use only where a documented integration selects it; it is not a new governance office."
     },
     {

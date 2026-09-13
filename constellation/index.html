@@ -28,11 +28,14 @@
       <li><strong>A fresh observation checks the result.</strong> Teardown is separate work with its own permission, not an automatic consequence of success.</li>
       <li><strong>Phosphor lets you inspect the record.</strong> You can read what was requested, allowed, attempted, observed, and settled. Phosphor does not change the run.</li>
     </ol>
-    <aside class="note" aria-label="Example status"><strong>What is verified today:</strong> local tests of Maude's plan-generation code and generated artifacts have passed. Those checks did not execute the plan. <strong>What is not yet verified in the current public kit:</strong> the connected Docker/runtime journey and public-only installation.</aside>
+    <aside class="note" aria-label="Example status"><strong>What is exercisable today:</strong> Maude's deterministic, credential-free Plan Core path can author, check, compare, and lock a draft; Phosphor's deterministic local demo can render production-engine-derived read models at its loopback route. Neither path executes the cache plan. <strong>What is not yet verified in the current public kit:</strong> the connected Docker/runtime journey, the new NQ integration, Pulse public distribution, and public-only installation.</aside>
 
     <h2>What the family separates</h2>
     <p><strong>Execution outcome</strong> says whether the work succeeded, failed, or remains uncertain according to the available evidence. <strong>Settlement</strong> records the attempt's result in the owning runtime. A settled record does not mean the work succeeded, and it does not grant permission for another run.</p>
     <p><strong>Attention</strong> means a known condition needs review. <strong>Unknown</strong> means the available observation cannot establish the answer. Unknown is not a softer word for failure.</p>
+    <aside class="note" aria-label="Outcome, settlement, and attention example">
+      <strong>A concrete read-only example:</strong> immediately after Docket accepts an attempt, custody exists but its execution outcome is still unknown. Later, an executor-backed settlement may record success or failure. Nightshift derives attention/currentness separately; Docket acceptance or settlement alone does not establish that value. Phosphor displays these owner records together without deriving one from another or granting permission to retry.
+    </aside>
 
     <h2>Choose your next step</h2>
     <p><a href="understand.html">Understand the responsibilities and trust boundaries</a>, or <a href="start.html">inspect the source and current tutorial prerequisites</a>.</p>
