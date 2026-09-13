@@ -29,6 +29,20 @@
     </ul>
     <p>Do not install <a href="https://github.com/unpingable/nq"><code>unpingable/nq</code></a> for this path: it is the deprecated classic predecessor. The supported successor source is explicitly <a href="https://github.com/unpingable/constellation-nq"><code>unpingable/constellation-nq</code></a>; the repositories are not drop-in compatible.</p>
 
+    <h2>Build the App Server source prerequisite</h2>
+    <p>The experimental CLI-backed review path now has a public source-build prerequisite. This is <strong>not</strong> a download, provider setup, or a completed reviewed-action tutorial. Start from the public <a href="https://github.com/unpingable/codex">Codex source repository</a> and detach the exact commit <code>97b0acd5ce2ccb3c87a763606696c35a450947f6</code>; the branch name is only a locator.</p>
+    <pre><code>git clone https://github.com/unpingable/codex.git codex-public
+cd codex-public
+git checkout --detach 97b0acd5ce2ccb3c87a763606696c35a450947f6
+cd codex-rs
+rustup toolchain install 1.95.0
+CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 \
+  cargo +1.95.0 build --locked -p codex-app-server --bin codex-app-server
+./target/debug/codex-app-server --version
+./target/debug/codex-app-server --help</code></pre>
+    <p>The source selects Rust 1.95.0 in <code>codex-rs/rust-toolchain.toml</code>; the package and binary are declared in <code>codex-rs/app-server/Cargo.toml</code>, and <code>--locked</code> uses the checked-in workspace lockfile. A fresh environment needs its normal public Cargo registry and Git dependency access. No offline cache, prebuilt binary, credential, or local campaign artifact is an installation prerequisite.</p>
+    <p>For a local process-only check, use an empty working directory and empty <code>HOME</code>/<code>CODEX_HOME</code>, then exchange only a JSON-lines <code>initialize</code> request, the <code>initialized</code> acknowledgement, and EOF over stdio. This verifies startup and protocol initialization only. Do not send a turn or thread request, configure a provider, or treat this check as review, authorization, execution, or tutorial completion.</p>
+
     <h2>What you can do safely today</h2>
     <ol class="steps">
       <li>Read each repository's current README and public guide. Check the stated maturity, supported surface, and deployment assumptions for the component you need.</li>
