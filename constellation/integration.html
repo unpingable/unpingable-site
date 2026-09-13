@@ -12,7 +12,7 @@
   <h1>Compose responsibilities, not a monolith</h1>
   <p class="lede">Choose the smallest set of components that owns the decisions and records your workflow actually needs. Passing data between tools does not transfer authority.</p>
   <nav class="integration-nav" aria-label="Integration sections"><a href="#composition-matrix">Composition matrix</a><a href="recipes.html">Recipes</a><a href="#external-interfaces">External interfaces</a><a href="#examples">Examples</a></nav>
-  <p>This matrix references component IDs from the <a href="components.json">component inventory</a>. The separate <a href="compositions.json">composition map</a> is machine-readable and does not duplicate component metadata. The candidate <a href="integration-profiles.json">0.1.0-alpha.1 profile manifest</a> versions this guide suite separately from component releases.</p>
+  <p>This matrix references component IDs from the <a href="components.json">component inventory</a>. The separate <a href="compositions.json">composition map</a> is machine-readable and does not duplicate component metadata. The <a href="integration-profiles.json">candidate profile list</a> tracks incomplete and demonstrated paths; it is not a released, reproducible suite manifest.</p>
 
   <h2 id="composition-matrix">Composition matrix</h2>
   <div class="table-wrap"><table><thead><tr><th>Use case</th><th>Components</th><th>What crosses the boundary</th><th>Status</th></tr></thead><tbody>
@@ -33,6 +33,9 @@
   </dl>
 
   <h2 id="examples">Examples and caller boundaries</h2>
+  <p>After setup, use <a href="after-first-run.html">Operations</a> for retained state and restart guidance, or <a href="troubleshooting.html">Troubleshooting</a> for inspection and a minimal issue report.</p>
   <p>The <a href="recipes.html">integration recipes</a> distinguish commands you can run from source today from a connected workflow that still lacks a public-only distribution. Each recipe names its input substitutions and the point at which the caller remains responsible.</p>
   <aside class="note"><strong>Compatibility is explicit.</strong> Repository names, shared vocabulary, or individually passing tests do not establish that arbitrary revisions compose. Follow the revision and interface constraints in each component’s own public guide.</aside>
+  <h2 id="unsupported">Unsupported compositions</h2>
+  <ul><li>Federation is not a supported profile. A shared HTTP or MCP transport does not establish matching plan, evidence, review, or authority semantics.</li><li>The deprecated Python governor and classic NQ are not drop-in implementations of the successor AG/NQ contracts.</li><li>Maude's design workspace and AG-hosted Phosphor inspection do not share a plan store. Navigation between them does not supply handoff or execution.</li><li>Porter's command transport alone does not supply an arbitrary Docket executor, task-specific NQ profile, or Nightshift composition.</li><li>General ECAD/design-flow and arbitrary campaign execution remain outside the advertised supported recipes.</li></ul>
 </main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>

@@ -1,0 +1,5 @@
+# Local Python checks generate caches, not site assets.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
