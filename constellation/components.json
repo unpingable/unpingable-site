@@ -2,15 +2,15 @@
   "as_of": "2026-09-13",
   "components": [
     {
-      "availability": "Public source at the revision containing the current Phosphor read-only route.",
+      "availability": "Public source on main at 4dafc1a774178a9e09e75afc6e22c71052fd3dce; no binary package is published.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
-      "maturity": "Qualification-ready development source; not production-ready.",
+      "maturity": "Component-qualified development source, including bounded V2 continuation; the genuine shared workflow remains unqualified.",
       "name": "Constellation AG",
       "relationship": "core family office",
       "role": "Makes bounded, one-use authorization decisions from current inputs.",
-      "url": "https://github.com/unpingable/constellation-ag/tree/32f10101c4a93bad77d00803bad3031dd6847698",
-      "use": "Use when a workflow needs an exact-work authorization boundary."
+      "url": "https://github.com/unpingable/constellation-ag/tree/4dafc1a774178a9e09e75afc6e22c71052fd3dce",
+      "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
     },
     {
       "availability": "Public source; the release guide pins the qualified runtime revision. No binary package is published.",
