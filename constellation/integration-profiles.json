@@ -3,8 +3,8 @@
     {
       "component_ids": ["ag", "phosphor"],
       "id": "ag-phosphor-demo-a",
-      "status": "candidate-unqualified-deterministic-demo",
-      "guide": "recipes.html#recipe-a"
+      "status": "verified-component-demonstration",
+      "guide": "phosphor-reader.html"
     },
     {
       "component_ids": ["maude"],

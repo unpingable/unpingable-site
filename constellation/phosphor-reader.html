@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Reproduce the public AG-hosted Phosphor deterministic demo and inspect its campaign index through a bounded external reader.">
+<title>Phosphor external reader demonstration</title><link rel="stylesheet" href="base.css"><link rel="canonical" href="https://unpingable.com/constellation/phosphor-reader.html"></head>
+<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="start.html">Start with the source</a></nav></header>
+<main id="main"><h1>Inspect a deterministic Phosphor display corpus</h1>
+<p class="lede">Build AG-hosted Phosphor from public source, generate its labeled presentation fixture, and read the loopback campaign index without changing governed state.</p>
+<aside class="note"><strong>Component demonstration:</strong> this is outside the immutable <code>0.1.0-alpha.1</code> Maude consultation profile. It demonstrates AG/Phosphor presentation and external reading, not live owner state, legitimate reliance, authorization, execution, or Maude integration.</aside>
+
+<h2>Prerequisites and exact inputs</h2>
+<ul><li>Linux x86-64, Git, Python 3, curl, and the Rust 1.94 toolchain selected by AG's committed <code>rust-toolchain.toml</code>.</li><li>Allow 20 MiB for filtered source acquisition and up to 4 GiB for a fresh Cargo target. The reproduced debug-disabled target used 1,213,247,488 bytes.</li><li>AG source <a href="https://github.com/unpingable/constellation-ag/tree/32f10101c4a93bad77d00803bad3031dd6847698"><code>32f10101c4a93bad77d00803bad3031dd6847698</code></a> and reader kit <a href="https://github.com/unpingable/unpingable-site/tree/013b05d0c5258ee1bc898a51b271e47d49c4f865/constellation/examples"><code>013b05d0c5258ee1bc898a51b271e47d49c4f865</code></a>. The reader SHA-256 is <code>d32b3141a072782ab68799754c17784ba89be096c56e8470186dca858e089445</code>.</li></ul>
+<p>AG's lock names only the public crates.io registry for external packages. The build below uses <code>--locked</code>; it may contact that registry unless its exact packages are already cached and <code>CARGO_NET_OFFLINE=true</code> is set. Git servers may ignore partial-clone filters, so check actual source and target allocation before continuing.</p>
+
+<h2>Acquire and build</h2>
+<pre><code>RUN=$(mktemp -d /tmp/phosphor-reader.XXXXXX)
+git clone --filter=blob:none https://github.com/unpingable/constellation-ag.git "$RUN/ag"
+git -C "$RUN/ag" checkout 32f10101c4a93bad77d00803bad3031dd6847698
+git clone --filter=blob:none https://github.com/unpingable/unpingable-site.git "$RUN/site"
+git -C "$RUN/site" checkout 013b05d0c5258ee1bc898a51b271e47d49c4f865
+test "$(sha256sum "$RUN/site/constellation/examples/read_phosphor.py" | cut -d' ' -f1)" = d32b3141a072782ab68799754c17784ba89be096c56e8470186dca858e089445
+
+export CARGO_TARGET_DIR="$RUN/target"
+export CARGO_BUILD_JOBS=1 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0
+mkdir "$RUN/corpus"
+cd "$RUN/ag"
+AG_OPERATOR_DEMO_OUTPUT="$RUN/corpus/operator-demo-corpus.json" \
+  cargo test --locked -j1 -p ag-app --test governed_loop_engine \
+  write_operator_demo_corpus_from_production_engine_fixtures -- --ignored --exact
+cargo build --locked -j1 -p ag-operator-ui</code></pre>
+<p>The ignored generator uses production engine fixtures to write <code>ag.operator-ui.demo-corpus/v1</code>. The output is deterministic display data. It is not a current campaign database, owner observation, or permission.</p>
+
+<h2>Serve and read the exact loopback endpoint</h2>
+<pre><code>"$RUN/target/debug/ag-operator-ui" \
+  --demo-corpus "$RUN/corpus/operator-demo-corpus.json" \
+  --bind 127.0.0.1:8417 >"$RUN/server.log" 2>&amp;1 &amp;
+SERVER_PID=$!
+
+# Wait until the bounded index endpoint answers; do not rely on a fixed sleep.
+for attempt in $(seq 1 60); do
+  curl --fail --silent --max-time 2 \
+    http://127.0.0.1:8417/api/v1/campaigns >/dev/null &amp;&amp; break
+  test "$attempt" -lt 60 || exit 1
+  sleep .25
+done
+
+python3 "$RUN/site/constellation/examples/read_phosphor.py" \
+  --url http://127.0.0.1:8417/api/v1/campaigns \
+  | tee "$RUN/reader-first.json"</code></pre>
+<p>The reader makes one proxy-free, redirect-refusing GET with a ten-second transport timeout and a 4 MiB body limit. It accepts only <code>ag.operator-ui.campaign-index/v1</code>, then emits <code>constellation.phosphor-index-summary/v1</code>. Each campaign retains independent <code>inspect</code>, <code>history</code>, and <code>refusals</code> availability. Expect both shapes in this fixture:</p>
+<pre><code>{"availability":"available"}
+{"availability":"unavailable","error_kind":"unavailable"}</code></pre>
+<p>An unavailable source is an owner-projection result, not an instruction to retry and not a claim that the entire campaign is unavailable.</p>
+
+<h2>Server loss, same-corpus recovery, and component checks</h2>
+<pre><code>kill "$SERVER_PID"
+wait "$SERVER_PID" || true
+python3 "$RUN/site/constellation/examples/read_phosphor.py" \
+  --url http://127.0.0.1:8417/api/v1/campaigns
+# expected nonzero exit: "transport failure ... Connection refused"
+
+"$RUN/target/debug/ag-operator-ui" \
+  --demo-corpus "$RUN/corpus/operator-demo-corpus.json" \
+  --bind 127.0.0.1:8417 >"$RUN/server-restarted.log" 2>&amp;1 &amp;
+SERVER_PID=$!
+# Repeat the bounded readiness loop above, then:
+python3 "$RUN/site/constellation/examples/read_phosphor.py" \
+  --url http://127.0.0.1:8417/api/v1/campaigns >"$RUN/reader-recovered.json"
+cmp "$RUN/reader-first.json" "$RUN/reader-recovered.json"
+
+python3 "$RUN/site/tools/test_read_phosphor_example.py"</code></pre>
+<p>The public-source reproduction observed a real connection refusal after stopping its owned server and byte-identical output after restarting the same retained corpus. Five small component tests passed. Their foreign schema, malformed availability and oversized-response inputs are local substitution fixtures; they are not responses observed from AG.</p>
+
+<h2>Stop, retain, and clean up</h2>
+<p>Stop only the process you started: <code>kill "$SERVER_PID"; wait "$SERVER_PID" || true</code>. Retain the exact source revisions, <code>Cargo.lock</code>, corpus hash, binary hash, reader outputs and server logs while diagnosing a mismatch. Do not regenerate the fixture to conceal a refusal or overwrite evidence from a different run.</p>
+<p>When the demonstration and any diagnosis are finished, verify the exact disposable path before removing it:</p>
+<pre><code>printf '%s\n' "$RUN"
+# Confirm this is the mktemp-created demonstration directory, then:
+rm -r -- "$RUN"</code></pre>
+<p>See <a href="recipes.html#recipe-a">the recipe comparison</a>, <a href="integration.html#composition-matrix">composition matrix</a>, and <a href="troubleshooting.html">support guide</a>. Support is best effort with no guaranteed response time.</p>
+</main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>
