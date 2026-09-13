@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Human notifications — Constellation</title>
+  <meta name="description" content="What Constellation currently provides for human attention, and what notification migration still needs.">
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/notifications.html">
+</head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+<main id="main">
+  <h1>Who gets told when work needs attention?</h1>
+  <p class="lede">An inspectable record is useful, but it is not a notification. Someone still needs a supported way to receive and act on an alert.</p>
+  <aside class="note"><strong>Migration gap:</strong> Classic NQ implements Slack and Discord webhook delivery. Successor NQ currently has notification outbox and attempt storage, but no delivery worker. Neither Monitor/Pulse nor Phosphor fills that gap. Do not retire an existing notification route solely because diagnostic migration is complete.</aside>
+
+  <h2>What exists today</h2>
+  <p>Classic NQ selects new, escalated and recurring findings above a configured severity threshold, groups them, and sends them through configured webhook, Slack or Discord channels. Its durable finding-level cooldown suppresses repeated notifications. A recorded notification cycle does not prove delivery: eligibility is consumed even when the send fails. See the <a href="https://github.com/unpingable/nq">deprecated source</a> for historical behavior, not a new installation recommendation.</p>
+  <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> exposes diagnostic and notification-storage capabilities. Storage methods alone do not deliver a message or establish that a human saw it. An installed route and its current recipients must be checked separately from source availability. Live successor Slack/Discord delivery has not been verified here; PagerDuty is not a supported profile.</p>
+
+  <h2>Keep four responsibilities separate</h2>
+  <div class="table-wrap"><table><thead><tr><th>Question</th><th>Responsibility</th></tr></thead><tbody>
+    <tr><td>What condition was observed?</td><td>The diagnostic owner supplies its scoped result, evidence references, freshness and uncertainty.</td></tr>
+    <tr><td>Does this transition need human attention?</td><td>The workflow owner and explicit operator policy decide. A raw finding does not automatically page someone.</td></tr>
+    <tr><td>Was a notification sent?</td><td>The delivery path records its exact destination and attempt outcome. Failure and ambiguous delivery stay visible.</td></tr>
+    <tr><td>Did someone acknowledge or resolve it?</td><td>The human or destination supplies a separate acknowledgment or resolution record; delivery is not acknowledgment.</td></tr>
+  </tbody></table></div>
+  <p>None of these records grants execution permission. A sent message, acknowledged alert or resolved incident does not prove that the underlying work succeeded. AG authorization, Docket custody and outcome reconciliation remain separate.</p>
+
+  <h2>Manual coverage while delivery is incomplete</h2>
+  <ol>
+    <li>Name the operator and the selected workflow's existing inspection entry point. Agree which failed, uncertain or overdue transitions need attention; do not infer an alert policy from an evidence stream.</li>
+    <li>Inspect the retained run or attempt through its owner. Preserve unresolved outcomes and reconcile before considering another submission.</li>
+    <li>Give the operator a minimal handoff: what happened, what needs attention, and an approved link or local reference to the relevant record. Exclude credentials, private prompts, raw evidence and unrelated campaign records.</li>
+    <li>Record acknowledgment separately if one is actually received. A file written to an inbox does not establish that anyone read it.</li>
+  </ol>
+  <p>This is a manual operating procedure, not dependable automated notification. The released consultation-only profile does not include notification delivery. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
+
+  <h2>Bounded successor qualification still needed</h2>
+  <p>The narrow delivery adapter must bind a stable event and route identity, suppress duplicate exact submissions, reject changed content under an existing identity, limit attempts and duration, and leave ambiguous delivery unknown without an uncontrolled retry. Delivery errors must be inspectable locally without recursively sending alerts about alerts. Recovery messages need a distinct source transition; they must not rewrite the original attempt.</p>
+  <p>These are remaining acceptance requirements, not implemented interface claims. Routine verification should use deterministic transports. A live test requires separate approval of its exact message and destination; publication or model-provider approval does not authorize contacting a channel or paging people. Broad incident management, escalation trees and PagerDuty integration remain follow-on work.</p>
+</main><footer>Constellation documentation · <a href="integration.html">Integration guide</a></footer></body></html>
