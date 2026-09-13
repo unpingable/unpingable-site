@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integration release policy</title><link rel="stylesheet" href="base.css">
+<link rel="canonical" href="https://unpingable.com/constellation/release-policy.html"></head>
+<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+<main id="main"><h1>Integration releases identify tested combinations</h1>
+<p class="lede">A suite version describes named integration profiles, not a simultaneous release of every Constellation component.</p>
+<p>The first target is <code>0.1.0-alpha.1</code>. Until qualification and publication finish, the candidate profile list is not an installable release manifest. Component versions, existing tags and release lines remain independent.</p>
+<h2>What a released manifest fixes</h2>
+<p>Each immutable snapshot names its profiles, exact public component commits, runtime/toolchain requirements, relevant configuration and schema versions, matching examples, documentation and qualification evidence. Artifact or dependency digests are included where used. The manifest schema version is separate from the suite version. No credentials or private installation prerequisites belong in a released profile.</p>
+<p>The evolving <a href="components.html">family inventory</a> answers what exists. A released manifest answers which exact combination was exercised. Family membership alone does not put a component in a tested release.</p>
+<h2>Release stages</h2><ul>
+<li><strong>Alpha:</strong> a tested external integration path with explicit limitations; interfaces may still change. Support is best effort, without a guaranteed response time.</li>
+<li><strong>Beta:</strong> evidence that the advertised external path is sufficiently stable and exercised, including relevant failures and recovery.</li>
+<li><strong>Stable:</strong> an explicit support and compatibility commitment in addition to qualification evidence.</li>
+</ul>
+<h2>Changing a snapshot</h2>
+<p>Changed runtime pins or integration contracts require a new prerelease. Never move an existing release tag, replace published manifest contents, or regenerate a released manifest from current repository heads. If a proposed version already exists, select the next unused prerelease. Identify documentation-only corrections separately when tested runtime pins and contracts are unchanged; retain the original snapshot and link the correction.</p>
+<h2>Evidence and limits</h2>
+<p>A release must reproduce its advertised external example from public sources in a clean environment and verify relevant refusal, uncertainty and recovery. Synthetic inputs are labeled, and cannot replace the capability the profile claims to demonstrate. Recorded results do not establish present system state; settlement does not establish success or permit continuation.</p>
+<p>General ECAD/design-flow readiness and unsupported federation are outside the first release. Qualifying one profile does not complete other tutorials or imply family-wide maturity. Start with the <a href="integration.html">composition guide</a>; use <a href="troubleshooting.html">the support guide</a> when a documented path fails.</p>
+</main><footer>Constellation documentation · plain working edition</footer></body></html>
