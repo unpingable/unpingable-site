@@ -112,15 +112,15 @@
       "use": "Use only in a separately authorized deployment that needs project-concern acquisition or Pulse support."
     },
     {
-      "availability": "Hosted in private Monitor source; no standalone repository or package.",
+      "availability": "Public source-only integration at Nightshift ee77d9c; no binary package is published.",
       "id": "pulse",
-      "implementation_form": "Rust evaluator and support adapter hosted within Monitor",
-      "maturity": "Bounded local implementation with proposition-specific qualified integration.",
+      "implementation_form": "standalone Rust host-load support adapter cut from the Monitor-hosted implementation",
+      "maturity": "Source and runtime component-qualified for one NQ host-load support profile; no full cache or shared-workflow qualification.",
       "name": "Pulse",
       "relationship": "hosted optional family capability",
       "role": "Evaluates proposition-specific present support under explicit coverage and policy.",
-      "url": null,
-      "use": "Use only for named consumer reliance with explicit policy; positive support expires and is not general health."
+      "url": "https://github.com/unpingable/constellation-nightshift/tree/ee77d9c97f198abc615840d604ed7bf6d5a35901/integrations/pulse-nq-load-support",
+      "use": "Use only for the documented NQ host-load support profile with explicit policy; positive support expires and is not general health or permission."
     },
     {
       "availability": "Optional public source; no daemon, MCP server, endpoint provisioner or binary package.",
