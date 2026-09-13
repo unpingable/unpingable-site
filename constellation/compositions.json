@@ -1,11 +1,244 @@
 {
-  "compositions": [
-    {"capabilities":{"optional":[],"required":[{"capability":"pre-governed plan authoring and inspection","component_ids":["maude"]}]},"id":"author-plan","lost_guarantees":["A check or lock does not grant permission or execute work."],"maturity":"runnable-source-level-plan-core; external read-only caller pending published source","public_examples":[{"example":"recipes.html#recipe-a","implementation_id":"maude","source":"https://github.com/unpingable/maude/tree/42a615ec76ccc03c6d661c6cf0c4205469eafef0","state":"Plan Core author/check/inspect/lock commands"},{"example":"recipes.html#recipe-a","implementation_id":"maude","source":null,"state":"external read-only caller candidate pending the new public --read-only source"}],"recipe":"recipes.html#recipe-a","refusals":["Absent, malformed, or incompatible read-only stores refuse; no replacement store is created."],"summary":"Credential-free local Plan Core authoring and inspection"},
-    {"capabilities":{"optional":[{"capability":"selected owner detail navigation","component_ids":["phosphor"]}],"required":[{"capability":"read-only campaign index projection","component_ids":["ag","phosphor"]}]},"id":"inspect-governed-records","lost_guarantees":["The deterministic GET demo is not current runtime state, a reliance decision, or permission.","It is independent of the Maude plan-reader candidate."],"maturity":"runnable-deterministic-demo; not a composed Maude-to-AG profile","public_examples":[{"example":"recipes.html#recipe-a","implementation_id":"ag","source":"https://github.com/unpingable/constellation-ag/tree/32f10101c4a93bad77d00803bad3031dd6847698","state":"loopback-only deterministic Phosphor demo"}],"recipe":"recipes.html#recipe-a","refusals":["Unknown schema, oversized body, redirects, and HTTP or transport failures refuse the index."],"summary":"External read-only consultation of AG-hosted Phosphor records"},
-    {"capabilities":{"optional":[{"capability":"diagnostic disposition from retained evidence","component_ids":["nq"]}],"required":[{"capability":"exact-work one-use authorization","component_ids":["ag"]},{"capability":"attempt and settlement custody","component_ids":["docket"]},{"capability":"deployment-specific standing and effect executor","component_ids":["standing"]}]},"id":"governed-action-b","lost_guarantees":["The public Docket conformance fixture is not a public end-to-end action package.","A successful prior attempt does not authorize a new effect."],"maturity":"incomplete-public-recipe-supporting-fixture-only","public_examples":[{"example":"recipes.html#recipe-b","implementation_id":"docket","source":"https://github.com/unpingable/constellation-docket/tree/c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b","state":"executor transport conformance check"}],"recipe":"recipes.html#recipe-b","refusals":["An unavailable standing input, refusal before execution, and uncertain outcome recovery are required for completion but not packaged publicly."],"summary":"Governed bounded action; public recipe remains incomplete"},
-    {"capabilities":{"optional":[{"capability":"read-only owner record inspection","component_ids":["phosphor"]}],"required":[{"capability":"pre-governed plan","component_ids":["maude"]},{"capability":"temporal observation and proposal","component_ids":["nightshift"]},{"capability":"one-use authorization","component_ids":["ag"]},{"capability":"attempt custody and settlement","component_ids":["docket"]},{"capability":"retained-evidence diagnostic","component_ids":["nq"]},{"capability":"named cache-support dependency","component_ids":["monitor","pulse"]}]},"id":"connected-cache-c","lost_guarantees":["No public-only install, recovery, or complete cache tutorial is qualified.","The genuine NQ integration and Pulse public distribution are incomplete."],"maturity":"not-publicly-runnable","public_examples":[{"example":"recipes.html#recipe-c","implementation_id":"pulse","source":null,"state":"blocked: required public distribution absent"}],"recipe":"recipes.html#recipe-c","refusals":["Do not assemble this path from repository heads or reuse an old occurrence."],"summary":"Connected disposable-cache workflow; blocked from public newcomer use"},
-    {"capabilities":{"optional":[{"capability":"Docket custody around a separately supported adapter","component_ids":["docket"]}],"required":[{"capability":"caller-selected command transport and factual transcript","component_ids":["porter"]}]},"id":"transport-with-custody","lost_guarantees":["A Porter transcript does not supply Docket custody, authorization, or a general executor contract."],"maturity":"interface-available-composition-development-only","public_examples":[{"example":"integration.html#external-interfaces","implementation_id":"porter","source":"https://github.com/unpingable/porter","state":"public CLI/library transport surface"}],"recipe":"integration.html#external-interfaces","refusals":["Unsupported federation and arbitrary Docket executor substitution remain refused."],"summary":"Porter transport evidence under separately supplied Docket custody"}
-  ],
-  "inventory": "components.json",
-  "schema": "constellation.compositions/v1"
+    "compositions": [
+        {
+            "capabilities": {
+                "optional": [],
+                "required": [
+                    {
+                        "capability": "pre-governed plan authoring and inspection",
+                        "component_ids": [
+                            "maude"
+                        ]
+                    }
+                ]
+            },
+            "id": "author-plan",
+            "lost_guarantees": [
+                "A check or lock does not grant permission or execute work."
+            ],
+            "maturity": "runnable-source-level-plan-core; public read-only CLI reader002 succeeded, frozen release profile pending",
+            "public_examples": [
+                {
+                    "example": "recipes.html#recipe-a",
+                    "implementation_id": "maude",
+                    "source": "https://github.com/unpingable/maude/tree/42a615ec76ccc03c6d661c6cf0c4205469eafef0",
+                    "state": "Plan Core author/check/inspect/lock commands"
+                },
+                {
+                    "example": "recipes.html#recipe-a",
+                    "implementation_id": "maude",
+                    "source": "https://github.com/unpingable/maude/tree/7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
+                    "state": "successful public CLI reader002 scope; frozen release profile pending"
+                }
+            ],
+            "recipe": "recipes.html#recipe-a",
+            "refusals": [
+                "Absent, malformed, or incompatible read-only stores refuse; no replacement store is created."
+            ],
+            "summary": "Credential-free local Plan Core authoring and inspection"
+        },
+        {
+            "capabilities": {
+                "optional": [],
+                "required": [
+                    {
+                        "capability": "read-only campaign index projection",
+                        "component_ids": [
+                            "ag",
+                            "phosphor"
+                        ]
+                    }
+                ]
+            },
+            "id": "inspect-governed-records",
+            "lost_guarantees": [
+                "The deterministic GET demo is not current runtime state, a reliance decision, or permission.",
+                "It is independent of the Maude plan-reader candidate."
+            ],
+            "maturity": "runnable-deterministic-demo; not a composed Maude-to-AG profile",
+            "public_examples": [
+                {
+                    "example": "recipes.html#recipe-a",
+                    "implementation_id": "ag",
+                    "source": "https://github.com/unpingable/constellation-ag/tree/32f10101c4a93bad77d00803bad3031dd6847698",
+                    "state": "loopback-only deterministic Phosphor demo"
+                }
+            ],
+            "recipe": "recipes.html#recipe-a",
+            "refusals": [
+                "Unknown schema, oversized body, redirects, and HTTP or transport failures refuse the index."
+            ],
+            "summary": "External read-only consultation of AG-hosted Phosphor records"
+        },
+        {
+            "capabilities": {
+                "optional": [
+                    {
+                        "capability": "diagnostic disposition from retained evidence",
+                        "component_ids": [
+                            "nq"
+                        ]
+                    }
+                ],
+                "required": [
+                    {
+                        "capability": "exact-work one-use authorization",
+                        "component_ids": [
+                            "ag"
+                        ]
+                    },
+                    {
+                        "capability": "attempt and settlement custody",
+                        "component_ids": [
+                            "docket"
+                        ]
+                    },
+                    {
+                        "capability": "deployment-supplied standing input",
+                        "component_ids": [],
+                        "provided_by": "deployment"
+                    },
+                    {
+                        "capability": "effect-specific executor",
+                        "component_ids": [],
+                        "provided_by": "deployment"
+                    }
+                ]
+            },
+            "id": "governed-action-b",
+            "lost_guarantees": [
+                "The public Docket conformance fixture is not a public end-to-end action package.",
+                "A successful prior attempt does not authorize a new effect."
+            ],
+            "maturity": "incomplete-public-recipe-supporting-fixture-only",
+            "public_examples": [
+                {
+                    "example": "recipes.html#recipe-b",
+                    "implementation_id": "docket",
+                    "source": "https://github.com/unpingable/constellation-docket/tree/c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b",
+                    "state": "executor transport conformance check"
+                }
+            ],
+            "recipe": "recipes.html#recipe-b",
+            "refusals": [
+                "An unavailable standing input, refusal before execution, and uncertain outcome recovery are required for completion but not packaged publicly."
+            ],
+            "summary": "Governed bounded action; public recipe remains incomplete"
+        },
+        {
+            "capabilities": {
+                "optional": [
+                    {
+                        "capability": "read-only owner record inspection",
+                        "component_ids": [
+                            "phosphor"
+                        ]
+                    }
+                ],
+                "required": [
+                    {
+                        "capability": "pre-governed plan",
+                        "component_ids": [
+                            "maude"
+                        ]
+                    },
+                    {
+                        "capability": "temporal observation and proposal",
+                        "component_ids": [
+                            "nightshift"
+                        ]
+                    },
+                    {
+                        "capability": "one-use authorization",
+                        "component_ids": [
+                            "ag"
+                        ]
+                    },
+                    {
+                        "capability": "attempt custody and settlement",
+                        "component_ids": [
+                            "docket"
+                        ]
+                    },
+                    {
+                        "capability": "retained-evidence diagnostic",
+                        "component_ids": [
+                            "nq"
+                        ]
+                    },
+                    {
+                        "capability": "named cache-support dependency",
+                        "component_ids": [
+                            "monitor",
+                            "pulse"
+                        ]
+                    },
+                    {
+                        "capability": "synthetic standing substitution used only by a local fixture",
+                        "component_ids": [],
+                        "provided_by": "synthetic-fixture"
+                    }
+                ]
+            },
+            "id": "connected-cache-c",
+            "lost_guarantees": [
+                "No public-only install, recovery, or complete cache tutorial is qualified.",
+                "The genuine NQ integration and Pulse public distribution are incomplete."
+            ],
+            "maturity": "not-publicly-runnable",
+            "public_examples": [
+                {
+                    "example": "recipes.html#recipe-c",
+                    "implementation_id": "pulse",
+                    "source": null,
+                    "state": "blocked: required public distribution absent"
+                }
+            ],
+            "recipe": "recipes.html#recipe-c",
+            "refusals": [
+                "Do not assemble this path from repository heads or reuse an old occurrence."
+            ],
+            "summary": "Connected disposable-cache workflow; blocked from public newcomer use"
+        },
+        {
+            "capabilities": {
+                "optional": [
+                    {
+                        "capability": "Docket custody around a separately supported adapter",
+                        "component_ids": [
+                            "docket"
+                        ]
+                    }
+                ],
+                "required": [
+                    {
+                        "capability": "caller-selected command transport and factual transcript",
+                        "component_ids": [
+                            "porter"
+                        ]
+                    }
+                ]
+            },
+            "id": "transport-with-custody",
+            "lost_guarantees": [
+                "A Porter transcript does not supply Docket custody, authorization, or a general executor contract."
+            ],
+            "maturity": "interface-available-composition-development-only",
+            "public_examples": [
+                {
+                    "example": "integration.html#external-interfaces",
+                    "implementation_id": "porter",
+                    "source": "https://github.com/unpingable/porter",
+                    "state": "public CLI/library transport surface"
+                }
+            ],
+            "recipe": "integration.html#external-interfaces",
+            "refusals": [
+                "Unsupported federation and arbitrary Docket executor substitution remain refused."
+            ],
+            "summary": "Porter transport evidence under separately supplied Docket custody"
+        }
+    ],
+    "inventory": "components.json",
+    "schema": "constellation.compositions/v1"
 }

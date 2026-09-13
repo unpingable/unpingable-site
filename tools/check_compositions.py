@@ -24,11 +24,17 @@ def _validate_capabilities(item: dict, component_ids: set[str]) -> None:
         if not isinstance(entries, list) or (group == "required" and not entries):
             raise ValueError("composition requires named required capabilities")
         for entry in entries:
-            if (not isinstance(entry, dict) or set(entry) != {"capability", "component_ids"}
+            if (not isinstance(entry, dict) or not set(entry) <= {"capability", "component_ids", "provided_by"}
+                    or set(entry) < {"capability", "component_ids"}
                     or not isinstance(entry["capability"], str) or not entry["capability"]
-                    or not _nonempty_strings(entry["component_ids"])
-                    or not set(entry["component_ids"]) <= component_ids):
+                    or not isinstance(entry["component_ids"], list)
+                    or entry.get("provided_by", "component") not in {"component", "deployment", "synthetic-fixture"}):
                 raise ValueError("composition has invalid capability implementation")
+            provided_by = entry.get("provided_by", "component")
+            if ((provided_by == "component" and (not _nonempty_strings(entry["component_ids"])
+                                                   or not set(entry["component_ids"]) <= component_ids))
+                    or (provided_by != "component" and entry["component_ids"])):
+                raise ValueError("composition capability has invalid provider reference")
 
 
 def _validate_examples(root: Path, item: dict, component_ids: set[str]) -> None:
