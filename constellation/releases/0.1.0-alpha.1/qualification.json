@@ -1,0 +1,70 @@
+{
+  "schema": "constellation.integration-qualification/v1",
+  "suite_version": "0.1.0-alpha.1",
+  "profile": "maude-plan-consultation/v1",
+  "manifest_sha256": "fd374b3478bcda4fcaa7499eee752304f935cc68473c2acf55c3f33313773662",
+  "result": "passed",
+  "public_inputs": {
+    "maude_commit": "7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
+    "example_kit_commit": "013b05d0c5258ee1bc898a51b271e47d49c4f865"
+  },
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "platform": "linux-x86_64",
+    "python": "3.12.3",
+    "pip": "24.0",
+    "sqlite": "3.45.1",
+    "provider_credentials": "none",
+    "services": []
+  },
+  "cases": [
+    {
+      "id": "create-and-inspect",
+      "result": "passed",
+      "observed": "A user-created draft was returned through one read-only inspect with matching draft, revision and plan digests."
+    },
+    {
+      "id": "caller-restart",
+      "result": "passed",
+      "observed": "A new reader process returned the same recorded revision and plan digests from the same store while writers were quiescent."
+    },
+    {
+      "id": "absent-draft-refusal",
+      "result": "passed",
+      "observed": "The untyped CLI refusal remained unavailable with reason command_refused; it was not relabeled as typed absence."
+    },
+    {
+      "id": "program-unavailable",
+      "result": "passed",
+      "observed": "A missing configured CLI produced unavailable with reason program_unavailable."
+    },
+    {
+      "id": "same-store-recovery",
+      "result": "passed",
+      "observed": "After restoring the valid CLI path, a new reader process recovered the same recorded revision without replacing the owner store."
+    },
+    {
+      "id": "read-only-command-refusal",
+      "result": "passed",
+      "observed": "A mutating lock command with read-only mode refused before modifying the store."
+    }
+  ],
+  "scope": {
+    "established": [
+      "clean public-source setup with hash-pinned Python dependencies",
+      "user-owned local draft creation",
+      "bounded external inspection through Maude read-only CLI",
+      "refusal and unavailable result handling",
+      "same-store inspection after caller restart"
+    ],
+    "not_established": [
+      "external truth or present deployment state",
+      "plan checking, locking, compilation, authorization or execution",
+      "AG, Docket or connected-cache composition",
+      "backup restoration, migration or rollback",
+      "behavior with concurrent writers",
+      "other operating systems, architectures or Python minor versions",
+      "independent newcomer reproduction"
+    ]
+  }
+}
