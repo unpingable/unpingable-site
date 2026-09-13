@@ -15,6 +15,7 @@
   <p>This matrix references component IDs from the <a href="components.json">component inventory</a>. The separate <a href="compositions.json">composition map</a> is machine-readable and does not duplicate component metadata. The <a href="integration-profiles.json">candidate profile list</a> tracks incomplete and demonstrated paths; it is not a released, reproducible suite manifest.</p>
 
   <h2 id="composition-matrix">Composition matrix</h2>
+  <p>The <a href="release-policy.html">integration release policy</a> explains exact snapshots, alpha limitations, and independent component versions.</p>
   <div class="table-wrap"><table><thead><tr><th>Use case</th><th>Components</th><th>What crosses the boundary</th><th>Status</th></tr></thead><tbody>
     <tr><td>Create and inspect a local plan</td><td><a href="components.html#maude">Maude</a></td><td>Plan documents, findings, revisions, and locks. Maude’s design demo is its own authoring surface, not AG-hosted Phosphor.</td><td><span class="badge ready">Runnable</span></td></tr>
     <tr><td>Consult governed records</td><td><a href="components.html#ag">AG</a>, <a href="components.html#phosphor">Phosphor</a></td><td>Independent owner projections, including explicit unavailable sources. The GET-only surface grants no permission.</td><td><span class="badge ready">Runnable demo</span></td></tr>

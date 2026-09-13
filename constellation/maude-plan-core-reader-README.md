@@ -10,40 +10,41 @@ authority to execute work.
 
 - Public Maude revision with explicit read-only mode:
   `7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6`.
-- Python: 3.11 or newer.
+- Tested environment: Linux x86_64, Ubuntu 24.04.4, CPython 3.12.3, pip 24.0.
+  The supplied wheel lock targets CPython 3.12 on Linux x86_64; other platforms
+  and Python minors are not qualified by this profile.
 - Public runtime dependencies from `pyproject.toml`: `textual>=1.0.0`,
   `pydantic>=2.6.0`, and `pyyaml>=6.0`. Do not install `.[dev]` or the optional
   `classic-rpc` extra: both are outside this read-only profile.
 
-The source does not publish a locked Python requirements file. A fresh run must
-record pip's public resolution report and installed package set; an offline run
-may use only a previously recorded public package cache with matching hashes.
+The adjacent `examples/maude-plan-reader-requirements.txt` fixes the public
+runtime and build-backend dependencies by version and wheel SHA-256. Setup uses
+that lock with no private extras and no separate build-dependency resolution.
+This profile lock does not change Maude's independent package version.
 
-## Proposed fresh public-only qualification
+## Set up the public-source example
 
-Choose a new directory with enough free space. The source checkout is sparse: it has
-the public package metadata and Plan Core import closure, not a copied full
-worktree.
+From the documentation repository checkout, choose a new directory with enough
+free space (the measured installation is about 60 MiB; allow 150 MiB). The setup
+script refuses an existing destination. It installs the public package metadata
+and Plan Core source, not the entire Maude application. Other Maude entry points
+in package metadata are outside this sparse profile. Installing it creates no
+draft and contacts no model.
 
 ```sh
-RUN=$(mktemp -d /tmp/maude-plan-reader.XXXXXX)
-SRC="$RUN/maude"
-MAUDE_REV=7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6
-python3 -m venv "$RUN/venv"
-git init "$SRC"
-git -C "$SRC" remote add origin https://github.com/unpingable/maude.git
-git -C "$SRC" sparse-checkout init --no-cone
-git -C "$SRC" sparse-checkout set /pyproject.toml /README.md /src/maude/__init__.py /src/maude/plan/
-git -C "$SRC" fetch --filter=blob:none --depth=1 origin "$MAUDE_REV"
-git -C "$SRC" checkout --detach FETCH_HEAD
-git -C "$SRC" rev-parse HEAD
-"$RUN/venv/bin/python" -m pip install --report "$RUN/pip-install-report.json" -e "$SRC"
-"$RUN/venv/bin/python" -m pip freeze --all >"$RUN/pip-freeze.txt"
-"$RUN/venv/bin/maude-plan" --help | grep -- --read-only
+PARENT=$(mktemp -d /tmp/maude-plan-reader.XXXXXX)
+RUN="$PARENT/profile"
+bash constellation/examples/setup_maude_reader.sh "$RUN"
 ```
 
 Create a user-owned draft with an actual inspection goal; no check or lock is
 needed for this profile:
+
+```text
+setup caller -> Maude CLI new -> caller-owned Plan Core store
+external reader -> Maude CLI --read-only inspect -> same store
+external reader <- exact revision and check/lock summary <- Maude
+```
 
 ```sh
 STORE="$RUN/plans.sqlite"
