@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A research-design note about recursively improving governed processes without moving their authority boundaries.">
+  <title>Governed recursive improvement — research note</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/governed-improvement.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="start.html">Start with the source</a></nav>
+  </header>
+  <main id="main">
+    <h1>Governed recursive improvement</h1>
+    <p class="lede">A research and design note for a candidate loop around a fixed model. It describes questions and boundaries; it does not add a service, release profile, authority, formal proof, or connected workflow.</p>
+
+    <h2>The candidate loop</h2>
+    <p>A process can diagnose a prior run, propose a change to a tactic, evaluate that change, retain the evidence, and decide whether an externally authorized amendment should be adopted. The model may remain fixed while tactics, prompts, routing choices, pacing, and evaluation plans change. The loop should make those changes reviewable rather than treating a generated patch, a plausible diagnosis, or a foreign claim as trusted instruction.</p>
+    <p>The protected part is deliberately smaller and slower-moving: the governing law, provenance rules, rollback boundary, reserve accounting, evaluation requirements, and evidence format. A mutable tactic may be proposed and tested, but it cannot revise those protected rules by implication. Renewal and amendment authority remain external to the loop; a successful evaluation is evidence for a human or other authorized decision, not self-issued permission to deploy or renew.</p>
+
+    <h2>Viability is two-sided</h2>
+    <p>The existing <a href="understand.html#main">architecture map</a> records a narrow scalar bridge: for a single additive resource with complete mandatory costs and no replenishment, <code>spend + requiredReserve &lt;= available</code> is sufficient to leave those obligations affordable. That bridge is a formalized invariant candidate, not a current cross-stack controller.</p>
+    <p>Baby River is related cross-cutting research because a process can fail in either direction: it may not have enough reserve to complete necessary work, or it may spend, pace, or observe in a way that leaves the system unable to establish whether it remains healthy. A fail-closed answer of unknown is more truthful than calling the process healthy. This note therefore treats observability reserve and pacing as design concerns, not as a new formalization or a present runtime verdict.</p>
+    <p>The open distinction is between true viability and observed viability. Diagnosis can be retained as evidence, but it is not proof that the diagnosis is complete or current. An <em>observable viability / indistinguishability</em> theorem remains parked research, alongside renewal-rate versus state-drift questions.</p>
+
+    <h2>Admission, evaluation, and rollback</h2>
+    <p>A candidate improvement should have a local admission record: exact inputs, declared resource spend, scope, evaluator version, and a rollback or refusal condition. It should be evaluated through more than one relevant lens where possible, rather than accepting a single self-report. An external claim or generated patch is proposal material only; local admission, local spend recording, and independent evaluation decide what becomes evidence.</p>
+    <p>Rollback must preserve the alternate transition history instead of overwriting it. A failed, inconclusive, or resource-limited candidate remains a factual result. The loop should neither relabel it as a success nor repeat work merely to obtain a tidier outcome. Reserves, pacing limits, and evidence retention are part of the boundary that prevents a series of locally plausible changes from silently consuming the ability to evaluate or recover.</p>
+
+    <h2>How the existing pieces relate</h2>
+    <p><a href="components.html">Maude</a> can hold and check plan revisions; <a href="components.html">Constellation AG</a> can make a one-use permission decision from current inputs; <a href="components.html">Docket</a> can retain attempt custody; and <a href="components.html">Nightshift</a> can distinguish current observations from missing or old evidence. Standing remains an input to an owned decision, not an effect executor. Phosphor can present joined owner records without changing them.</p>
+    <p>Linear Accountant and the frozen <code>OBLIGATION-VIABILITY-V0</code> material supply the already-described scalar bridge. Verifier can check a caller-encoded finite model, but its verdict does not establish real-world correctness, authority, or a separate solver-outcome taxonomy. Evidence and claim documentation can retain sources and freshness information; adequacy and currentness remain review questions. These are useful boundaries for an experiment, not a claim that they already compose into this loop.</p>
+
+    <h2>A bounded future experiment</h2>
+    <p>A useful next experiment would run two isolated instances against the same declared task with distinct tactics and evaluation plans, retain their inputs and results, and compare them under a fixed budget and pacing rule. It would test whether diversity of evaluation exposes a difference that a single tactic misses. It would not be federation, mutual authorization, or evidence that one instance may trust the other’s claims.</p>
+    <p>An informal human relay between tools or models can help communicate a proposal, but it is not a federation protocol, a custody record, or authorization. No model, including any named in an illustrative relay, is contacted or granted a role by this note.</p>
+
+    <h2>Status and limits</h2>
+    <p>This is future-work design material only. It does not change the existing alpha release files or qualify AG/Docket action, a reserve controller, automatic amendment, renewal, solver-world correctness, or a healthy-state verdict. Any implementation would need an explicitly owned authority boundary, public contract, resource envelope, and qualification plan.</p>
+    <p><a href="understand.html">Return to the current architecture and boundaries</a>.</p>
+  </main>
+  <footer>Constellation documentation · research/design note · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>
