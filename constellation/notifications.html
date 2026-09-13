@@ -26,6 +26,8 @@
     <tr><td>Did someone acknowledge or resolve it?</td><td>The human or destination supplies a separate acknowledgment or resolution record; delivery is not acknowledgment.</td></tr>
   </tbody></table></div>
   <p>None of these records grants execution permission. A sent message, acknowledged alert or resolved incident does not prove that the underlying work succeeded. AG authorization, Docket custody and outcome reconciliation remain separate.</p>
+  <p>For a matching predicate workflow, Nightshift already implements an <a href="https://github.com/unpingable/constellation-nightshift/blob/3cba7cccfd21bc800ed9092d6bbb80bfd763473d/runtime/crates/nightshiftd/src/project_predicate_attention.rs">operator-policy attention decision and exact replay</a>. That is an attention-side contract, not a notifier. The existing NQ notification facet is the intended home for a narrow delivery adapter; its current outbox must first gain explicit pre-contact and unknown-delivery handling.</p>
+  <p><a href="https://github.com/unpingable/porter">Porter</a> can transfer a handoff artifact through its pinned SSH adapter to an already authorized inbox. Deterministic transport checks verify source/archive hashes and endpoint-identity refusal. They do not establish a live transfer, recipient consumption, Slack/Discord delivery or acknowledgment.</p>
 
   <h2>Manual coverage while delivery is incomplete</h2>
   <ol>
