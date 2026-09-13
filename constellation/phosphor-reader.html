@@ -13,10 +13,16 @@
 
 <h2>Acquire and build</h2>
 <pre><code>RUN=$(mktemp -d /tmp/phosphor-reader.XXXXXX)
-git clone --filter=blob:none https://github.com/unpingable/constellation-ag.git "$RUN/ag"
-git -C "$RUN/ag" checkout 32f10101c4a93bad77d00803bad3031dd6847698
-git clone --filter=blob:none https://github.com/unpingable/unpingable-site.git "$RUN/site"
-git -C "$RUN/site" checkout 013b05d0c5258ee1bc898a51b271e47d49c4f865
+git init "$RUN/ag"
+git -C "$RUN/ag" remote add origin https://github.com/unpingable/constellation-ag.git
+git -C "$RUN/ag" fetch --filter=blob:none --depth=1 origin 32f10101c4a93bad77d00803bad3031dd6847698
+git -C "$RUN/ag" checkout --detach FETCH_HEAD
+git init "$RUN/site"
+git -C "$RUN/site" remote add origin https://github.com/unpingable/unpingable-site.git
+git -C "$RUN/site" sparse-checkout init --no-cone
+git -C "$RUN/site" sparse-checkout set /.gitignore /constellation/examples/read_phosphor.py /tools/test_read_phosphor_example.py
+git -C "$RUN/site" fetch --filter=blob:none --depth=1 origin 013b05d0c5258ee1bc898a51b271e47d49c4f865
+git -C "$RUN/site" checkout --detach FETCH_HEAD
 test "$(sha256sum "$RUN/site/constellation/examples/read_phosphor.py" | cut -d' ' -f1)" = d32b3141a072782ab68799754c17784ba89be096c56e8470186dca858e089445
 
 export CARGO_TARGET_DIR="$RUN/target"
@@ -30,14 +36,17 @@ cargo build --locked -j1 -p ag-operator-ui</code></pre>
 <p>The ignored generator uses production engine fixtures to write <code>ag.operator-ui.demo-corpus/v1</code>. The output is deterministic display data. It is not a current campaign database, owner observation, or permission.</p>
 
 <h2>Serve and read the exact loopback endpoint</h2>
-<pre><code>"$RUN/target/debug/ag-operator-ui" \
+<p>Port 8417 must be unused. Do not stop someone else's listener or redirect this reader to another address. The initial check refuses an existing listener; each readiness iteration also checks that your own process remains present.</p>
+<pre><code>python3 -c 'import socket; s=socket.socket(); s.settimeout(.2); busy=s.connect_ex(("127.0.0.1",8417))==0; s.close(); assert not busy, "port 8417 is already in use"'
+"$RUN/target/debug/ag-operator-ui" \
   --demo-corpus "$RUN/corpus/operator-demo-corpus.json" \
   --bind 127.0.0.1:8417 >"$RUN/server.log" 2>&amp;1 &amp;
 SERVER_PID=$!
 
 # Wait until the bounded index endpoint answers; do not rely on a fixed sleep.
 for attempt in $(seq 1 60); do
-  curl --fail --silent --max-time 2 \
+  kill -0 "$SERVER_PID" || exit 1
+  curl --noproxy '*' --fail --silent --max-time 2 --max-filesize 4194304 \
     http://127.0.0.1:8417/api/v1/campaigns >/dev/null &amp;&amp; break
   test "$attempt" -lt 60 || exit 1
   sleep .25
@@ -72,9 +81,9 @@ python3 "$RUN/site/tools/test_read_phosphor_example.py"</code></pre>
 
 <h2>Stop, retain, and clean up</h2>
 <p>Stop only the process you started: <code>kill "$SERVER_PID"; wait "$SERVER_PID" || true</code>. Retain the exact source revisions, <code>Cargo.lock</code>, corpus hash, binary hash, reader outputs and server logs while diagnosing a mismatch. Do not regenerate the fixture to conceal a refusal or overwrite evidence from a different run.</p>
-<p>When the demonstration and any diagnosis are finished, verify the exact disposable path before removing it:</p>
+<p>When the demonstration and any diagnosis are finished, inspect the exact disposable path below. If nothing needs retention, remove that one directory using your normal file manager; it contains the source checkouts, target, corpus and logs. Do not remove another workspace or a retained user store.</p>
 <pre><code>printf '%s\n' "$RUN"
-# Confirm this is the mktemp-created demonstration directory, then:
-rm -r -- "$RUN"</code></pre>
+ls -ld -- "$RUN" "$RUN/corpus" "$RUN/target"</code></pre>
+<p>These pathname checks are local. The sparse partial clones may need GitHub access for additional Git operations even after installation. Do not confuse an unavailable download with loss of the retained corpus or delete records to repair it.</p>
 <p>See <a href="recipes.html#recipe-a">the recipe comparison</a>, <a href="integration.html#composition-matrix">composition matrix</a>, and <a href="troubleshooting.html">support guide</a>. Support is best effort with no guaranteed response time.</p>
 </main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>
