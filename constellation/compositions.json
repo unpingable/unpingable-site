@@ -16,7 +16,7 @@
             "lost_guarantees": [
                 "A check or lock does not grant permission or execute work."
             ],
-            "maturity": "runnable-source-level-plan-core; public read-only CLI reader002 succeeded, frozen release profile pending",
+            "maturity": "qualified public read-only consultation; frozen release profile tag pending",
             "public_examples": [
                 {
                     "example": "recipes.html#recipe-a",
@@ -28,7 +28,7 @@
                     "example": "recipes.html#recipe-a",
                     "implementation_id": "maude",
                     "source": "https://github.com/unpingable/maude/tree/7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
-                    "state": "successful public CLI reader002 scope; frozen release profile pending"
+                    "state": "successful public CLI consultation scope; frozen release profile tag pending"
                 }
             ],
             "recipe": "recipes.html#recipe-a",

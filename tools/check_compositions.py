@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import json
+import hashlib
 from pathlib import Path
+import re
+import subprocess
 
 from check_constellation import local_problem
 
 ROOT = Path(__file__).resolve().parent.parent
 COMPOSITION_FIELDS = {"id", "summary", "capabilities", "lost_guarantees", "maturity", "public_examples", "recipe", "refusals"}
+PIN = re.compile(r"^[0-9a-f]{40}$")
 
 
 def _nonempty_strings(value: object) -> bool:
@@ -88,15 +92,101 @@ def validate_profiles(root: Path = ROOT) -> int:
         raise ValueError("invalid integration profile header")
     seen = set()
     for profile in data.get("profiles", []):
-        if set(profile) != {"id", "component_ids", "status", "guide"}:
+        fields = {"id", "component_ids", "status", "guide"}
+        if set(profile) != fields and set(profile) != fields | {"release_candidate"}:
             raise ValueError("invalid integration profile fields")
         if profile["id"] in seen or not set(profile["component_ids"]) <= component_ids:
             raise ValueError("duplicate profile or unknown component")
         if local_problem(root / "constellation/integration-profiles.json", profile["guide"], root):
             raise ValueError("invalid integration profile guide")
+        if "release_candidate" in profile:
+            candidate = profile["release_candidate"]
+            if (profile["status"] != "qualified-public-reproduction-tag-pending"
+                    or not isinstance(candidate, dict)
+                    or set(candidate) != {"suite_version", "guide", "manifest"}
+                    or candidate["suite_version"] != data["version"]
+                    or not all(isinstance(candidate[field], str) and candidate[field]
+                               for field in ("guide", "manifest"))):
+                raise ValueError("invalid release-candidate reference")
         seen.add(profile["id"])
     return len(seen)
 
 
+def _git_bytes(root: Path, commit: str, path: str) -> bytes:
+    if path.startswith("/") or ".." in Path(path).parts:
+        raise ValueError("release example path leaves its source tree")
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{path}"], cwd=root, check=False,
+        capture_output=True,
+    )
+    if completed.returncode:
+        raise ValueError("release example file is absent from its pinned source tree")
+    return completed.stdout
+
+
+def validate_releases(root: Path = ROOT) -> int:
+    """Validate immutable release records separately from the mutable profile catalog."""
+    releases = root / "constellation/releases"
+    if not releases.is_dir():
+        return 0
+    inventory = json.loads((root / "constellation/components.json").read_text())
+    component_ids = {item["id"] for item in inventory["components"]}
+    try:
+        source_head = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=root, check=True,
+            capture_output=True, text=True,
+        ).stdout.strip()
+    except subprocess.CalledProcessError as error:
+        raise ValueError("release validation requires the source Git tree") from error
+    count = 0
+    for manifest_path in sorted(releases.glob("*/manifest.json")):
+        raw = manifest_path.read_bytes()
+        data = json.loads(raw)
+        if (data.get("schema") != "constellation.integration-release-manifest/v1"
+                or data.get("manifest_schema_version") != 1
+                or data.get("suite_version") != manifest_path.parent.name
+                or data.get("schema") == "constellation.integration-profiles/v1"):
+            raise ValueError("invalid immutable release manifest header")
+        profiles = data.get("profiles")
+        components = data.get("components")
+        if not isinstance(profiles, list) or not profiles or not isinstance(components, list) or not components:
+            raise ValueError("release manifest lacks profiles or components")
+        for profile in profiles:
+            if (not isinstance(profile, dict) or not isinstance(profile.get("id"), str)
+                    or not set(profile.get("required_components", [])) <= component_ids):
+                raise ValueError("release profile has unknown component")
+        for component in components:
+            if (not isinstance(component, dict) or component.get("id") not in component_ids
+                    or not isinstance(component.get("source"), str)
+                    or not PIN.fullmatch(component.get("commit", ""))):
+                raise ValueError("release component has invalid source pin")
+        example = data.get("example_source")
+        if (not isinstance(example, dict) or not PIN.fullmatch(example.get("commit", ""))
+                or example["commit"] == source_head):
+            raise ValueError("release example source has invalid or circular self pin")
+        for stem in ("reader", "setup", "requirements"):
+            path, digest = example.get(stem), example.get(f"{stem}_sha256")
+            if (not isinstance(path, str) or not path
+                    or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)
+                    or hashlib.sha256(_git_bytes(root, example["commit"], path)).hexdigest() != digest):
+                raise ValueError("release example hash does not match pinned source tree")
+        documentation = data.get("documentation", {})
+        qualification = data.get("qualification", {})
+        guide = documentation.get("guide") if isinstance(documentation, dict) else None
+        record = qualification.get("record") if isinstance(qualification, dict) else None
+        if not isinstance(guide, str) or not isinstance(record, str):
+            raise ValueError("release manifest lacks sibling guide or qualification record")
+        guide_path, qualification_path = manifest_path.parent / guide, manifest_path.parent / record
+        if not guide_path.is_file() or not qualification_path.is_file():
+            raise ValueError("release manifest sibling record is missing")
+        qualification_data = json.loads(qualification_path.read_text())
+        if (qualification_data.get("schema") != "constellation.integration-qualification/v1"
+                or qualification_data.get("suite_version") != data["suite_version"]
+                or qualification_data.get("manifest_sha256") != hashlib.sha256(raw).hexdigest()):
+            raise ValueError("qualification does not bind this manifest")
+        count += 1
+    return count
+
+
 if __name__ == "__main__":
-    print(f"Validated {validate()} compositions and {validate_profiles()} profiles")
+    print(f"Validated {validate()} compositions, {validate_profiles()} profiles and {validate_releases()} releases")

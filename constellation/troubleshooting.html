@@ -15,7 +15,7 @@
   </header>
   <main id="main">
     <h1>Troubleshooting the alpha routes</h1>
-    <p class="lede">Start with the exact public repository revision and its documented local route. <code>0.1.0-alpha.1</code> is a candidate integration-guide target, not a released software version.</p>
+    <p class="lede">For qualified Maude-only consultation, start with the tag-pending <a href="releases/0.1.0-alpha.1/guide.html"><code>maude-plan-consultation/v1</code> guide</a>, public Maude <code>7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6</code>, and kit <code>013b05d0c5258ee1bc898a51b271e47d49c4f865</code>. This does not qualify the AG/Phosphor demo or connected profiles.</p>
 
     <h2>Record a small, useful report</h2>
     <p>If you used a released suite/profile, include its manifest version and selected profile; otherwise say “unreleased source.” Include only relevant prerequisite versions, such as <code>python3 --version</code> or <code>rustc --version</code>, not an environment dump.</p>
@@ -36,6 +36,8 @@
       <dd>Stop any remaining foreground server, then use the exact restart command in <a href="after-first-run.html">Operations</a> with the retained <code>plans.sqlite</code>, <code>presentations.sqlite</code>, <code>proposals.sqlite</code>, and <code>owner-facts.json</code>. Do not rerun the generator over that directory. This restores an inspection surface; it does not reconcile a governed attempt.</dd>
       <dt>You need to move or upgrade a store</dt>
       <dd>Cross-store backup, restore, migration, and rollback are unverified. Preserve the four-file set, SQLite sidecars, original revision, environment, and command; do not invent a conversion path.</dd>
+      <dt>A consultation reader says <code>unavailable</code></dt>
+      <dd>Parse the JSON result before deciding what happened: this condition uses exit status 0. Confirm the exact selected <code>plans.sqlite</code>, public revision, and kit revision, then stop if the store is absent, malformed, or incompatible. Keep writers quiescent for a consistent aggregate; do not retry a mutating command or replace the store.</dd>
     </dl>
 
     <h2>Where to ask</h2>

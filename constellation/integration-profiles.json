@@ -1,10 +1,21 @@
 {
   "profiles": [
     {
-      "component_ids": ["maude", "ag", "phosphor"],
-      "id": "read-only-a",
-      "status": "candidate-unqualified-independent-public-reproduction",
+      "component_ids": ["ag", "phosphor"],
+      "id": "ag-phosphor-demo-a",
+      "status": "candidate-unqualified-deterministic-demo",
       "guide": "recipes.html#recipe-a"
+    },
+    {
+      "component_ids": ["maude"],
+      "id": "maude-plan-consultation/v1",
+      "status": "qualified-public-reproduction-tag-pending",
+      "guide": "integration.html#maude-plan-consultation",
+      "release_candidate": {
+        "suite_version": "0.1.0-alpha.1",
+        "guide": "releases/0.1.0-alpha.1/guide.html",
+        "manifest": "releases/0.1.0-alpha.1/manifest.json"
+      }
     },
     {
       "component_ids": ["ag", "docket"],
