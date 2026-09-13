@@ -4,6 +4,18 @@
   "profile": "maude-plan-consultation/v1",
   "manifest_sha256": "fd374b3478bcda4fcaa7499eee752304f935cc68473c2acf55c3f33313773662",
   "result": "passed",
+  "verified_date": "2026-09-13",
+  "independent_newcomer": {
+    "reviewer": "Codex gpt-5.6-sol, fresh context restricted to public instructions and their links",
+    "result": "passed",
+    "inputs": "Public guide at 0976a00c8a0803b20bc84a751a04e3906dd00bdd; unchanged pinned runtime and example kit",
+    "observed": "Fresh public installation, user draft creation, available inspection, matching restart and recovery, mutator refusal exit 2, absent-store refusal without path creation, and unavailable program result.",
+    "documentation_repairs": [
+      "Retain full plan creation output in a private local file, separate from a redacted reader diagnostic.",
+      "Use local pathname inspection for cleanup; partial-clone Git inspection can need network access and is not a prerequisite for offline plan reading.",
+      "Show unavailable JSON including draft_id; callers parse documented fields."
+    ]
+  },
   "public_inputs": {
     "maude_commit": "7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
     "example_kit_commit": "013b05d0c5258ee1bc898a51b271e47d49c4f865"
@@ -63,8 +75,7 @@
       "AG, Docket or connected-cache composition",
       "backup restoration, migration or rollback",
       "behavior with concurrent writers",
-      "other operating systems, architectures or Python minor versions",
-      "independent newcomer reproduction"
+      "other operating systems, architectures or Python minor versions"
     ]
   }
 }

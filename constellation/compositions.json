@@ -16,7 +16,7 @@
             "lost_guarantees": [
                 "A check or lock does not grant permission or execute work."
             ],
-            "maturity": "qualified public read-only consultation; frozen release profile tag pending",
+            "maturity": "qualified public read-only consultation; integration release 0.1.0-alpha.1",
             "public_examples": [
                 {
                     "example": "recipes.html#recipe-a",
@@ -28,7 +28,7 @@
                     "example": "recipes.html#recipe-a",
                     "implementation_id": "maude",
                     "source": "https://github.com/unpingable/maude/tree/7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
-                    "state": "successful public CLI consultation scope; frozen release profile tag pending"
+                    "state": "successful public CLI consultation scope; integration release 0.1.0-alpha.1"
                 }
             ],
             "recipe": "recipes.html#recipe-a",
@@ -53,7 +53,7 @@
             "id": "inspect-governed-records",
             "lost_guarantees": [
                 "The deterministic GET demo is not current runtime state, a reliance decision, or permission.",
-                "It is independent of the Maude plan-reader candidate."
+                "It is independent of the Maude plan-reader profile."
             ],
             "maturity": "runnable-deterministic-demo; not a composed Maude-to-AG profile",
             "public_examples": [

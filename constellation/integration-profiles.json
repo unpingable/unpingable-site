@@ -9,9 +9,9 @@
     {
       "component_ids": ["maude"],
       "id": "maude-plan-consultation/v1",
-      "status": "qualified-public-reproduction-tag-pending",
+      "status": "released-alpha",
       "guide": "integration.html#maude-plan-consultation",
-      "release_candidate": {
+      "release": {
         "suite_version": "0.1.0-alpha.1",
         "guide": "releases/0.1.0-alpha.1/guide.html",
         "manifest": "releases/0.1.0-alpha.1/manifest.json"

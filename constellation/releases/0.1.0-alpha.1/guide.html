@@ -5,7 +5,7 @@
 <body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="../../index.html">Constellation</a></strong><a href="../../integration.html">Integration</a><a href="../../after-first-run.html">Operations</a><a href="../../troubleshooting.html">Troubleshooting</a></nav></header>
 <main id="main"><h1>Read a local plan before answering</h1>
 <p class="lede">The <code>maude-plan-consultation/v1</code> profile lets an external caller inspect one user-created Maude Plan Core draft without modifying the database.</p>
-<p><strong>Release qualification candidate:</strong> public-source reproduction passed. The release tag has not yet been published; this page does not claim family-wide readiness.</p>
+<p><strong>Integration release 0.1.0-alpha.1:</strong> public-source reproduction and an independent public-only newcomer attempt passed. See the <a href="https://github.com/unpingable/unpingable-site/releases/tag/constellation-v0.1.0-alpha.1">release and source tag</a> and <a href="release-notes.md">release notes</a>. This versions one tested profile, not family-wide readiness.</p>
 
 <h2>Fixed public inputs</h2>
 <p>This alpha profile was reproduced on Linux x86-64 with Ubuntu 24.04.4 LTS, CPython 3.12.3, pip 24.0 and SQLite 3.45.1. It uses:</p>
@@ -35,12 +35,13 @@ mkdir "$WORKSPACE"
 "$RUN/venv/bin/maude-plan" --store "$STORE" new \
   --draft-id user-draft \
   --goal 'Inspect the current local plan before answering a maintenance question' \
-  --workspace "$WORKSPACE" --author external-caller
+  --workspace "$WORKSPACE" --author external-caller &gt; "$RUN/created-draft.json"
 
 python3 constellation/examples/read_maude_plan.py \
   --maude-plan "$RUN/venv/bin/maude-plan" \
   --store "$STORE" --draft-id user-draft</code></pre>
 <p>The final command emits one compact JSON object. Expect <code>schema</code> to be <code>constellation.maude-plan-inspection/v1</code>, <code>availability</code> to be <code>available</code>, and the requested <code>draft_id</code>. A new draft has <code>check_summary: "never_checked"</code> and <code>last_lock_receipt_id: null</code>; its revision and plan digests are generated values.</p>
+<p>The creation output contains the full plan, including its goal and workspace path. Keep <code>created-draft.json</code> private; do not paste it into an issue. The reader's smaller JSON is the starting point for a diagnostic excerpt, still subject to redacting sensitive identifiers.</p>
 <pre><code>setup caller → Maude CLI new → caller-owned store
 external reader → Maude CLI --read-only inspect → same store
 external reader ← revision and check/lock summary ← Maude</code></pre>
@@ -53,6 +54,8 @@ external reader ← revision and check/lock summary ← Maude</code></pre>
 <pre><code>"$RUN/venv/bin/maude-plan" --store "$STORE" --read-only lock user-draft
 # expected: refusal; exit 2</code></pre>
 <p>An absent draft or incompatible store is reported by the reader as <code>availability: "unavailable"</code> with <code>reason: "command_refused"</code>; the CLI has no typed absence result, so the adapter does not infer one. If the configured program is missing, the reason is <code>program_unavailable</code>. The reader deliberately exits 0 after emitting either available or unavailable JSON: automation must parse <code>availability</code> and <code>reason</code>, not use its process status as the result.</p>
+<pre><code>{"availability":"unavailable","draft_id":"user-draft","reason":"command_refused","schema":"constellation.maude-plan-inspection/v1"}
+{"availability":"unavailable","draft_id":"user-draft","reason":"program_unavailable","schema":"constellation.maude-plan-inspection/v1"}</code></pre>
 <p>Recovery is non-destructive: correct the program or store path, leave the owner database in place, then rerun the reader. It makes no automatic retry and never constructs a replacement response. Preserve an unexpected store and inspect the bounded reason before taking another action.</p>
 <pre><code># Missing owner store: unavailable/command_refused, without creating the path.
 python3 constellation/examples/read_maude_plan.py \
@@ -74,8 +77,8 @@ python3 constellation/examples/read_maude_plan.py \
 <h2>Disposable cleanup and support</h2>
 <p>After saving anything you need, inspect the exact temporary directory printed in <code>PARENT</code>. If it contains only this disposable exercise, you may remove that directory using your normal file manager. This removes its environment, source checkout, installation reports, workspace and plan database, not the separately cloned example kit. Do not remove retained user records:</p>
 <pre><code>printf '%s\n' "$PARENT"
-git -C "$RUN/source" status --short
-git status --short</code></pre>
+ls -ld -- "$RUN" "$STORE" "$WORKSPACE"</code></pre>
+<p>These pathname checks and the installed reader work locally. The source checkouts are sparse partial clones: optional <code>git status</code> or other Git operations can fetch additional objects and require GitHub access. Do not make successful Git inspection a prerequisite for reading retained local state offline. If source verification is needed, retain the installation and perform it when the public source is reachable; do not delete records to resolve a download error.</p>
 <p>For a minimal report, include the two public revisions above, OS/Python/SQLite versions, the command used, and the reader's JSON with local paths redacted. Do not include credentials or private plan text. Use the <a href="../../troubleshooting.html">support guide</a> or the public <a href="https://github.com/unpingable/maude/issues">Maude issue tracker</a>. Support is best effort with no guaranteed response time.</p>
 <p>See the immutable <a href="manifest.json">release manifest</a>, <a href="qualification.json">sanitized qualification record</a> and <a href="../../release-policy.html">release policy</a>.</p>
 </main><footer>Constellation documentation · plain working edition</footer></body></html>

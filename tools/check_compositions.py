@@ -93,15 +93,17 @@ def validate_profiles(root: Path = ROOT) -> int:
     seen = set()
     for profile in data.get("profiles", []):
         fields = {"id", "component_ids", "status", "guide"}
-        if set(profile) != fields and set(profile) != fields | {"release_candidate"}:
+        if set(profile) not in (fields, fields | {"release_candidate"}, fields | {"release"}):
             raise ValueError("invalid integration profile fields")
         if profile["id"] in seen or not set(profile["component_ids"]) <= component_ids:
             raise ValueError("duplicate profile or unknown component")
         if local_problem(root / "constellation/integration-profiles.json", profile["guide"], root):
             raise ValueError("invalid integration profile guide")
-        if "release_candidate" in profile:
-            candidate = profile["release_candidate"]
-            if (profile["status"] != "qualified-public-reproduction-tag-pending"
+        reference = "release" if "release" in profile else "release_candidate"
+        if reference in profile:
+            candidate = profile[reference]
+            expected_status = "released-alpha" if reference == "release" else "qualified-public-reproduction-tag-pending"
+            if (profile["status"] != expected_status
                     or not isinstance(candidate, dict)
                     or set(candidate) != {"suite_version", "guide", "manifest"}
                     or candidate["suite_version"] != data["version"]
