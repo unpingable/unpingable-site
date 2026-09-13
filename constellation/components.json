@@ -93,12 +93,12 @@
       "availability": "Optional public source",
       "id": "linear-accountant",
       "implementation_form": "standalone Rust library and thin transport binary",
-      "maturity": "Frozen v0 reference component with a machine-checked arithmetic core.",
+      "maturity": "Frozen v0 reference component with a machine-checked arithmetic core; a scalar spend/residual-viability bridge is formalized, but no cross-stack reserve controller is implemented.",
       "name": "Constellation Linear Accountant",
       "relationship": "optional reference component",
       "role": "Accounts for conserved finite capacity separately from action permission.",
       "url": "https://github.com/unpingable/constellation-linear-accountant",
-      "use": "Use when finite capacity must be conserved; it does not grant permission to act."
+      "use": "Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it."
     },
     {
       "availability": "Private source; no public source link or visibility change is implied.",
