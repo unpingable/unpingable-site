@@ -3,7 +3,7 @@
     {
       "component_ids": ["maude", "ag", "phosphor"],
       "id": "read-only-a",
-      "status": "runnable-public-source",
+      "status": "candidate-unqualified-independent-public-reproduction",
       "guide": "recipes.html#recipe-a"
     },
     {
