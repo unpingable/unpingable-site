@@ -29,9 +29,9 @@
       "observed": "A new reader process returned the same recorded revision and plan digests from the same store while writers were quiescent."
     },
     {
-      "id": "absent-draft-refusal",
+      "id": "absent-store-refusal",
       "result": "passed",
-      "observed": "The untyped CLI refusal remained unavailable with reason command_refused; it was not relabeled as typed absence."
+      "observed": "An absent store path remained absent; the untyped CLI refusal remained unavailable with reason command_refused, not inferred absence."
     },
     {
       "id": "program-unavailable",

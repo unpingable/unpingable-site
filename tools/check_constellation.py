@@ -54,7 +54,7 @@ def main() -> int:
     failures = []
     external: set[str] = set()
     checked = 0
-    for path in sorted((ROOT / "constellation").glob("*.html")):
+    for path in sorted((ROOT / "constellation").rglob("*.html")):
         for href in Page(path.read_text()).links:
             checked += 1
             problem = local_problem(path, href)

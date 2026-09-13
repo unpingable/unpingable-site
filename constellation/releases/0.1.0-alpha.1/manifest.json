@@ -1,0 +1,63 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.1",
+  "inventory": "../../components.json",
+  "profiles": [{
+    "id": "maude-plan-consultation/v1",
+    "use_case": "An external caller inspects an existing local plan before answering.",
+    "required_capabilities": ["versioned-plan-records", "read-only-owner-inspection"],
+    "required_components": ["maude"],
+    "optional_components": [],
+    "writer_requirement": "Quiescent writers for a consistent aggregate; inspect is not a transaction-wide snapshot.",
+    "synthetic_capabilities": [],
+    "example_inputs": "A user-created disposable draft, not substituted owner responses.",
+    "limitations": [
+      "Reads recorded plan state, not external truth or present deployment state.",
+      "A successful read does not establish legitimate reliance, plan validity, authorization, or execution.",
+      "The CLI has no typed absence result; refusal remains unavailable, not inferred absence.",
+      "SQLite read-only mode preserves database contents but may involve sidecar activity.",
+      "No cross-version migration, rollback, or backup restoration is qualified."
+    ]
+  }],
+  "components": [{
+    "id": "maude",
+    "source": "https://github.com/unpingable/maude.git",
+    "commit": "7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6",
+    "component_version": "2.4.0",
+    "entry_point": "maude-plan --read-only --store PATH inspect DRAFT"
+  }],
+  "environment": {
+    "platform": "linux-x86_64",
+    "tested_os": "Ubuntu 24.04.4 LTS",
+    "python": "3.12.3",
+    "python_wheel_abi": "cp312",
+    "pip": "24.0",
+    "sqlite": "3.45.1",
+    "services": [],
+    "provider_credentials": "none",
+    "container_images": []
+  },
+  "contracts": {
+    "store": "maude.plan-store/v1",
+    "revision": "maude.plan-revision/v1",
+    "owner_response": "maude.plan-lifecycle-projection/v1",
+    "caller_response": "constellation.maude-plan-inspection/v1",
+    "caller_deadline_seconds": 10,
+    "automatic_retries": 0,
+    "maximum_bytes_per_cli_stream": 1048576
+  },
+  "example_source": {
+    "repository": "https://github.com/unpingable/unpingable-site.git",
+    "commit": "013b05d0c5258ee1bc898a51b271e47d49c4f865",
+    "reader": "constellation/examples/read_maude_plan.py",
+    "reader_sha256": "94ebb2d30d861749fcc78cb765b6a741806058e71d71d64fe8ea60aadb6c9852",
+    "setup": "constellation/examples/setup_maude_reader.sh",
+    "setup_sha256": "f7f7fe41e54effd202d8ed96ed9cd4aee0418e35c0e49810f1f227b6da7d379f",
+    "requirements": "constellation/examples/maude-plan-reader-requirements.txt",
+    "requirements_sha256": "c04c8e10863b09fc3b89bc6ea1f51a654f0968b1003f7879c2b993a976a5336b"
+  },
+  "documentation": {"guide": "guide.html", "release_policy": "../../release-policy.html"},
+  "qualification": {"record": "qualification.json", "scope": "public-only external read, refusal, unavailable result and same-store recovery"},
+  "outside_release": ["AG/Docket governed action", "connected cache", "model-assisted authoring", "general ECAD/design-flow", "federation", "family-wide maturity"]
+}

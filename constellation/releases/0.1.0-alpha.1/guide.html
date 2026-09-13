@@ -5,19 +5,25 @@
 <body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="../../index.html">Constellation</a></strong><a href="../../integration.html">Integration</a><a href="../../after-first-run.html">Operations</a><a href="../../troubleshooting.html">Troubleshooting</a></nav></header>
 <main id="main"><h1>Read a local plan before answering</h1>
 <p class="lede">The <code>maude-plan-consultation/v1</code> profile lets an external caller inspect one user-created Maude Plan Core draft without modifying the database.</p>
+<p><strong>Release qualification candidate:</strong> public-source reproduction passed. The release tag has not yet been published; this page does not claim family-wide readiness.</p>
 
 <h2>Fixed public inputs</h2>
 <p>This alpha profile was reproduced on Linux x86-64 with Ubuntu 24.04.4 LTS, CPython 3.12.3, pip 24.0 and SQLite 3.45.1. It uses:</p>
 <ul>
 <li>Maude <a href="https://github.com/unpingable/maude/tree/7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6"><code>7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6</code></a> (<code>maude</code> package 2.4.0).</li>
 <li>The reader and setup kit from <a href="https://github.com/unpingable/unpingable-site/tree/013b05d0c5258ee1bc898a51b271e47d49c4f865/constellation/examples"><code>013b05d0c5258ee1bc898a51b271e47d49c4f865</code></a>.</li>
-<li>The adjacent hash-pinned <code>maude-plan-reader-requirements.txt</code>. The setup script verifies both source revisions and installs only this profile's public Python dependencies.</li>
+<li>The example kit's hash-pinned <code>maude-plan-reader-requirements.txt</code>. The setup script verifies the Maude revision and installs only this profile's public Python dependencies; verify the kit separately below.</li>
 </ul>
 <p>Allow 150 MiB in a new directory. Setup requires CPython 3.12, Git and network access to GitHub and PyPI. It reads no provider credential, starts no service and creates no plan.</p>
 
 <h2>Set up, create and inspect</h2>
-<pre><code>git clone https://github.com/unpingable/unpingable-site.git constellation-site
-git -C constellation-site checkout 013b05d0c5258ee1bc898a51b271e47d49c4f865
+<pre><code>git init constellation-site
+git -C constellation-site remote add origin https://github.com/unpingable/unpingable-site.git
+git -C constellation-site sparse-checkout init --no-cone
+git -C constellation-site sparse-checkout set /constellation/examples/
+git -C constellation-site fetch --filter=blob:none --depth=1 origin 013b05d0c5258ee1bc898a51b271e47d49c4f865
+git -C constellation-site checkout --detach FETCH_HEAD
+test "$(git -C constellation-site rev-parse HEAD)" = 013b05d0c5258ee1bc898a51b271e47d49c4f865
 cd constellation-site
 PARENT=$(mktemp -d /tmp/maude-plan-reader.XXXXXX)
 RUN="$PARENT/profile"
@@ -35,6 +41,9 @@ python3 constellation/examples/read_maude_plan.py \
   --maude-plan "$RUN/venv/bin/maude-plan" \
   --store "$STORE" --draft-id user-draft</code></pre>
 <p>The final command emits one compact JSON object. Expect <code>schema</code> to be <code>constellation.maude-plan-inspection/v1</code>, <code>availability</code> to be <code>available</code>, and the requested <code>draft_id</code>. A new draft has <code>check_summary: "never_checked"</code> and <code>last_lock_receipt_id: null</code>; its revision and plan digests are generated values.</p>
+<pre><code>setup caller → Maude CLI new → caller-owned store
+external reader → Maude CLI --read-only inspect → same store
+external reader ← revision and check/lock summary ← Maude</code></pre>
 <pre><code>{"availability":"available","check_summary":"never_checked","draft_id":"user-draft","last_lock_receipt_id":null,"plan_digest":"sha256:…","revision_id":"sha256:…","schema":"constellation.maude-plan-inspection/v1"}</code></pre>
 <p>Keep writers quiescent during inspection. Maude assembles the projection through separate database reads, so a concurrent writer can produce a mixed-time aggregate even in one invocation.</p>
 
@@ -45,16 +54,28 @@ python3 constellation/examples/read_maude_plan.py \
 # expected: refusal; exit 2</code></pre>
 <p>An absent draft or incompatible store is reported by the reader as <code>availability: "unavailable"</code> with <code>reason: "command_refused"</code>; the CLI has no typed absence result, so the adapter does not infer one. If the configured program is missing, the reason is <code>program_unavailable</code>. The reader deliberately exits 0 after emitting either available or unavailable JSON: automation must parse <code>availability</code> and <code>reason</code>, not use its process status as the result.</p>
 <p>Recovery is non-destructive: correct the program or store path, leave the owner database in place, then rerun the reader. It makes no automatic retry and never constructs a replacement response. Preserve an unexpected store and inspect the bounded reason before taking another action.</p>
+<pre><code># Missing owner store: unavailable/command_refused, without creating the path.
+python3 constellation/examples/read_maude_plan.py \
+  --maude-plan "$RUN/venv/bin/maude-plan" \
+  --store "$RUN/absent/plans.sqlite" --draft-id user-draft
+test ! -e "$RUN/absent"
+# Unavailable program: no answer about the plan can be established.
+python3 constellation/examples/read_maude_plan.py \
+  --maude-plan "$RUN/no-program" --store "$STORE" --draft-id user-draft
+# Recovery: inspect the original store using the correct program, not new/check/lock.
+python3 constellation/examples/read_maude_plan.py \
+  --maude-plan "$RUN/venv/bin/maude-plan" --store "$STORE" --draft-id user-draft</code></pre>
+<p>Timeout, oversized output, invalid JSON and incompatible schemas also return unavailable; the caller must not answer as if the read succeeded. These boundary cases have component-test evidence, not simulated success in the public walkthrough. No effect is dispatched in this profile, so unavailable consultation is not an uncertain execution or a settlement result.</p>
 
 <h2>Ownership, lifecycle and limits</h2>
 <p>The user owns the Plan Core database and draft. Maude owns the revision and lifecycle projection schemas. The small reader is an external caller: it validates and reduces the projection but receives no authority to check, lock, compile or execute the plan. Read-only mode preserves database contents through its SQLite connection; it does not promise that SQLite creates no sidecar activity.</p>
 <p>This profile demonstrates recorded local inspection after caller restart. It does not establish external truth, current deployment state, plan validity, authorization, execution, AG or Docket integration, model-assisted authoring, or connected-cache behavior. Cross-store backup, restore, migration and rollback have not been verified.</p>
 
 <h2>Disposable cleanup and support</h2>
-<p>After saving anything you need, remove only the exact temporary directory printed in <code>PARENT</code>. Do not use a broad path or delete a user-owned store:</p>
+<p>After saving anything you need, inspect the exact temporary directory printed in <code>PARENT</code>. If it contains only this disposable exercise, you may remove that directory using your normal file manager. This removes its environment, source checkout, installation reports, workspace and plan database, not the separately cloned example kit. Do not remove retained user records:</p>
 <pre><code>printf '%s\n' "$PARENT"
-# After verifying that exact path is the disposable profile directory:
-rm -r -- "$PARENT"</code></pre>
+git -C "$RUN/source" status --short
+git status --short</code></pre>
 <p>For a minimal report, include the two public revisions above, OS/Python/SQLite versions, the command used, and the reader's JSON with local paths redacted. Do not include credentials or private plan text. Use the <a href="../../troubleshooting.html">support guide</a> or the public <a href="https://github.com/unpingable/maude/issues">Maude issue tracker</a>. Support is best effort with no guaranteed response time.</p>
 <p>See the immutable <a href="manifest.json">release manifest</a>, <a href="qualification.json">sanitized qualification record</a> and <a href="../../release-policy.html">release policy</a>.</p>
 </main><footer>Constellation documentation · plain working edition</footer></body></html>

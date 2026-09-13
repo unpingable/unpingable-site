@@ -6,33 +6,14 @@
 <main id="main"><h1>Integration recipes</h1><p class="lede">Begin with a read-only or disposable local fixture. Move to a connected workflow only when every required source, executable, trust boundary, and recovery path is available.</p>
 <nav class="integration-nav" aria-label="Integration sections"><a href="integration.html#composition-matrix">Composition matrix</a><a href="recipes.html" aria-current="page">Recipes</a><a href="integration.html#external-interfaces">External interfaces</a><a href="integration.html#examples">Examples</a></nav>
 
-<h2 id="recipe-a">A. Create, consult, and inspect without effects</h2><p><span class="badge dev">Candidate: public reproduction pending</span> This credential-free route contains two independent public demonstrations: it creates local Maude Plan Core state, then separately consults an AG-hosted Phosphor deterministic demo corpus. It contacts no model and performs no planned work. It is not a composed Maude-to-AG profile until the exact public reproduction below has been qualified.</p>
-<pre><code>git clone https://github.com/unpingable/maude.git
-cd maude
-python3 -m venv .venv
-.venv/bin/pip install -e '.[dev]'
-mkdir -p /tmp/constellation-plan-example
-.venv/bin/maude-plan --store /tmp/constellation-plan-example/plans.sqlite new \
-  --draft-id integration-example --goal 'inspect a local service plan' --workspace "$PWD"
-.venv/bin/maude-plan --store /tmp/constellation-plan-example/plans.sqlite check integration-example
-.venv/bin/maude-plan --store /tmp/constellation-plan-example/plans.sqlite inspect integration-example
-.venv/bin/maude-plan --store /tmp/constellation-plan-example/plans.sqlite lock integration-example</code></pre>
-<p>These commands create user-owned plan state and return exact revision/check/lock records. A lock binds bytes; it does not authorize or execute the plan. The caller owns the store and may remove <code>/tmp/constellation-plan-example</code> after retaining anything needed. Maude’s optional <a href="https://github.com/unpingable/maude/blob/main/docs/BOUNDED-AUTHORING-WALKTHROUGH.md">design demo</a> is a separate authoring UI with a deterministic corpus; it is not the AG-hosted Phosphor component.</p>
-<h3>Adapt an external read-only caller</h3>
-<p>For a future public-only qualification, use the exact AG source and its pinned Rust toolchain. The commands below are a preparation packet only: they must be run by the qualification owner against a fresh deterministic demo corpus, not substituted with an ambient binary or a Maude store.</p>
-<pre><code>git clone https://github.com/unpingable/constellation-ag.git /tmp/constellation-ag
-git -C /tmp/constellation-ag checkout --detach 32f10101c4a93bad77d00803bad3031dd6847698
-cd /tmp/constellation-ag
-# rust-toolchain.toml pins Rust 1.94.0; verify its locked source before building.
-git rev-parse HEAD
-sha256sum Cargo.lock rust-toolchain.toml
-scripts/run-operator-ui-demo.sh
-# In a second local terminal, from this site checkout:
-python3 constellation/examples/read_phosphor.py \
-  --url http://127.0.0.1:8417/api/v1/campaigns</code></pre>
-<p>The demo script builds the pinned public source, writes a temporary <code>ag.operator-ui.demo-corpus/v1</code> capture, starts a loopback-only UI, and removes the capture at exit. Its plain GET index is a deterministic demo corpus, not current runtime state or a legitimate reliance decision. The Maude plan above is not inserted into this corpus: the two steps demonstrate separate public interfaces.</p>
-<p>The reader permits only the literal loopback campaign-index endpoint, disables environment proxy use, refuses redirects, makes one GET, bounds the body at 4 MiB, and requires <code>ag.operator-ui.campaign-index/v1</code>. It preserves each owner source as <code>available</code> or <code>unavailable</code>, retaining an unavailable source's error kind without collapsing it into a health, freshness, readiness, or authorization verdict. Use semantic detail links returned by Phosphor rather than treating the opaque locator token as campaign identity.</p>
-<dl><dt><code>unavailable</code> source</dt><dd>Preserve the returned error kind, inspect the configured owner and original AG store, then resume read-only consultation after repair. Do not synthesize a value or alter the record.</dd><dt>Unknown schema, oversized body, redirect, or HTTP/transport failure</dt><dd>The reader refuses the index. Record the exact source revision, command, endpoint, and short diagnostic; inspect the selected loopback server and its documented owner records before a separately chosen retry. Do not redirect the reader, replace the response, or use the result as a runtime claim.</dd></dl>
+<h2 id="recipe-a">A. Consult a local plan before answering</h2>
+<p><strong>Profile: <code>maude-plan-consultation/v1</code>.</strong> An external caller asks Maude for the selected draft's recorded revision and check/lock summary. This credential-free profile uses real caller-created local state, not a substituted owner response. It starts no service and does not validate, accept, authorize, or execute the proposed work.</p>
+<p><a href="releases/0.1.0-alpha.1/guide.html">Run the versioned public-source example</a> for exact prerequisites, source pins, setup, inspection, refusal and recovery instructions. The <a href="releases/0.1.0-alpha.1/manifest.json">frozen manifest</a> lists the tested composition; the <a href="releases/0.1.0-alpha.1/qualification.json">qualification record</a> separates clean reproduction from component negative controls. Tag publication is recorded on the guide.</p>
+<pre><code>your caller → bounded reader → Maude CLI --read-only inspect → your plan store
+your caller ← available revision / unavailable reason ← Maude owner projection</code></pre>
+<p>The external boundary is the supplied <a href="examples/read_maude_plan.py">reader</a>, not direct database access or a new SDK. Its ten-second deadline, one-MiB stream limits, schema checks and no-automatic-retry behavior bound the consultation. Inspect <code>availability</code> in its JSON: an unavailable response also exits zero. Keep writers quiescent for a consistent aggregate; record identity does not establish current external conditions or legitimate reliance.</p>
+<h3>Separate inspection demo, outside this profile</h3>
+<p>AG-hosted Phosphor offers an independent deterministic display corpus and <a href="examples/read_phosphor.py">loopback HTTP reader example</a>. Follow the <a href="https://github.com/unpingable/constellation-ag/blob/32f10101c4a93bad77d00803bad3031dd6847698/docs/operator-ui.md">pinned component instructions</a>. It does not read this Maude store. It is not part of the released Maude profile, and its full public-only external-caller qualification remains pending.</p>
 
 <h2 id="recipe-b">B. Governed bounded action</h2><p><span class="badge blocked">Incomplete public recipe</span> The public source exposes AG’s authorization machinery and Docket’s execution-custody machinery, but this site does not yet have a public-only, end-to-end disposable action package with the required standing inputs, exact-work issuance, executor, refusal case, and uncertain-outcome recovery case. The following command is a supporting developer check, not Recipe B completion:</p>
 <pre><code>git clone https://github.com/unpingable/constellation-docket.git
