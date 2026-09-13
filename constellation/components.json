@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-09-12",
+  "as_of": "2026-09-13",
   "components": [
     {
       "availability": "Public source",
@@ -121,6 +121,17 @@
       "role": "Evaluates proposition-specific present support under explicit coverage and policy.",
       "url": null,
       "use": "Use only for named consumer reliance with explicit policy; positive support expires and is not general health."
+    },
+    {
+      "availability": "Optional public source; no daemon, MCP server, endpoint provisioner or binary package.",
+      "id": "porter",
+      "implementation_form": "Python CLI and library with SSH, serial-console and caller-recipe transports",
+      "maturity": "Early usable public implementation with live SSH specimens; exact-SSH and governed worker composition remain development-only.",
+      "name": "Porter",
+      "relationship": "optional execution-transport integration",
+      "role": "Carries a declared command to a declared substrate and retains factual transcripts, observed exit status, artifacts and hashes.",
+      "url": "https://github.com/unpingable/porter",
+      "use": "Use when a workflow needs transport evidence; callers still own selection and Docket owns governed attempt custody, settlement and reconciliation where composed."
     },
     {
       "availability": "Optional public source",
