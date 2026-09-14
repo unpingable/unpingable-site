@@ -240,7 +240,7 @@
     },
     {
       "id": "local-queue-attention",
-      "summary": "Acquire a disposable queue and retain a scoped attention decision",
+      "summary": "Acquire a disposable queue, decide on attention and optionally deliver a local inbox file",
       "capabilities": {
         "required": [
           {
@@ -250,7 +250,7 @@
             ]
           },
           {
-            "capability": "compiled factual predicate admission and exact replay",
+            "capability": "compiled predicate admission, exact replay and bounded notification custody",
             "component_ids": [
               "nq"
             ]
@@ -271,7 +271,7 @@
         "optional": []
       },
       "lost_guarantees": [
-        "No recurring scheduler, maintenance overlay, generation retention, live notification or governed action is supplied.",
+        "No recurring scheduler, maintenance overlay, generation retention, live Slack/Discord delivery, human acknowledgment or governed action is supplied.",
         "Both observation roles use one operator/script; declared source-path independence is not independent administration.",
         "Without support or attention owners, a local read remains possible but this profile cannot proceed."
       ],
@@ -279,15 +279,15 @@
       "public_examples": [
         {
           "implementation_id": "monitor",
-          "source": "https://github.com/unpingable/constellation-nightshift/tree/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations/monitor-predicate-support",
+          "source": "https://github.com/unpingable/constellation-nightshift/tree/39216731bf5124d71c7a3113a198a3c6d1b00962/integrations/monitor-predicate-support",
           "example": "queue-attention.html",
-          "state": "actual public-only Monitor/NQ/Pulse/Nightshift caller; intentional no-network delivery refusal"
+          "state": "actual public-only Monitor/NQ/Pulse/Nightshift caller; opt-in local-file delivery or default no-network webhook refusal"
         }
       ],
       "recipe": "queue-attention.html",
       "refusals": [
         "Changed catalogs and stale primary observations cannot become current support.",
-        "Duplicate delivery returns the existing refusal, not another attempt or future delivery.",
+        "Duplicate delivery returns the existing accepted/refused/unknown state without another file or request; the default refusal is not a future delivery reservation.",
         "Uncertain retained owner state must be inspected before considering another occurrence."
       ]
     }
