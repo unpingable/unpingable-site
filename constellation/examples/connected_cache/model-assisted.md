@@ -1,4 +1,4 @@
-# Model-assisted connected-cache tutorial (candidate)
+# Model-assisted connected-cache tutorial
 
 This page joins two already separate public interfaces:
 
@@ -29,12 +29,12 @@ The retained accepted plan digest is
 `sha256:bae29715069c298263314057a8681e71903d49eb29b7536a25f69671baddd83e`
 and its lock is
 `sha256:d2b6350eeab1fba4fa1265e13c7793a76991d1bf8478c1f267941dc447aca07d`.
-The portable accepted bundle and Plan Core database must be published as
-bounded regular files with their exact SHA-256 values before an outsider can
-reproduce this path. A digest or prose report alone is not a substitute for
-either input.
+The portable accepted bundle and Plan Core database are supplied below with
+exact SHA-256 values. The historical accepted run completed; fresh public-only
+accepted-mode verification remains in progress. This is not yet a released
+integration profile.
 
-Publication candidate locations are:
+Public input locations are:
 
 ```text
 https://unpingable.com/constellation/examples/connected_cache/accepted-plan/manifest.json
@@ -141,10 +141,19 @@ Before starting, record the exact accepted inputs and refuse mutable or
 ambiguous coordinates:
 
 ```sh
-ACCEPTED_BUNDLE=/absolute/caller-owned/accepted-bundle.json
-ACCEPTED_STORE=/absolute/caller-owned/accepted-plan.sqlite
-ACCEPTED_BUNDLE_SHA256=<64-lowercase-hex>
-ACCEPTED_STORE_SHA256=<64-lowercase-hex>
+ACCEPTED_DIR="$INPUT_PARENT/accepted-plan"
+test ! -e "$ACCEPTED_DIR"
+mkdir -m 700 "$ACCEPTED_DIR"
+ACCEPTED_BUNDLE="$ACCEPTED_DIR/accepted-bundle.json"
+ACCEPTED_STORE="$ACCEPTED_DIR/accepted-plan.sqlite"
+ACCEPTED_BUNDLE_SHA256=1fa0f621556484c916da8127083bf42e2a54646954de096a872d39d7d7abb441
+ACCEPTED_STORE_SHA256=a9ceed5a625dcbc8708301b4aaac58c2ef0a4b394127b7cae953316e0503f4de
+curl --fail --silent --show-error --max-time 30 --max-filesize 1048576 \
+  https://unpingable.com/constellation/examples/connected_cache/accepted-plan/accepted-bundle.json \
+  --output "$ACCEPTED_BUNDLE"
+curl --fail --silent --show-error --max-time 30 --max-filesize 67108864 \
+  https://unpingable.com/constellation/examples/connected_cache/accepted-plan/accepted-plan.sqlite \
+  --output "$ACCEPTED_STORE"
 
 test -f "$ACCEPTED_BUNDLE" && test ! -L "$ACCEPTED_BUNDLE"
 test -f "$ACCEPTED_STORE" && test ! -L "$ACCEPTED_STORE"
@@ -153,8 +162,8 @@ printf '%s  %s\n' "$ACCEPTED_BUNDLE_SHA256" "$ACCEPTED_BUNDLE" | sha256sum --che
 printf '%s  %s\n' "$ACCEPTED_STORE_SHA256" "$ACCEPTED_STORE" | sha256sum --check
 ```
 
-The absence of WAL/SHM sidecars is a quiescence requirement for this portable
-input, not proof of human acceptance or permission.
+Keep writers stopped: absence of WAL/SHM sidecars alone does not establish
+quiescence, human acceptance or permission.
 
 ## Invoke accepted mode once
 

@@ -1,5 +1,9 @@
 # Connected-cache public input example
 
+For the real model-produced, separately accepted plan, follow the
+[model-assisted version](model-assisted.md). It reuses this setup and publishes
+the exact accepted inputs; replaying them makes no new provider request.
+
 This helper fills the two closed input documents consumed by Maude's
 `generate_connected_cache_example.py`. It measures caller-selected executable
 bytes; it does not download, build, initialize, authorize, or execute anything.
