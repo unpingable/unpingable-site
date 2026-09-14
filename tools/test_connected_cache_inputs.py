@@ -84,6 +84,14 @@ class ConnectedCacheInputsTest(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "non-symlink"):
                     MODULE.make(args)
 
+    def test_refuses_oversize_regular_file_without_reading_it(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "large"
+            with path.open("wb") as output:
+                output.truncate(MODULE.MAX_FILE_BYTES + 1)
+            with self.assertRaisesRegex(ValueError, "bounded regular file"):
+                MODULE.digest(path)
+
 
 if __name__ == "__main__":
     unittest.main()

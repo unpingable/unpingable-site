@@ -28,17 +28,37 @@ PROGRAMS = {
     "docket": "docket", "pulse": "pulse-nq-load-support",
     "docker": "docker", "openssl": "openssl",
 }
+MAX_FILE_BYTES = 128 * 1024 * 1024
 
 
 def digest(path: Path) -> str:
-    info = path.lstat()
-    if not stat.S_ISREG(info.st_mode) or path.is_symlink():
-        raise ValueError(f"not a regular, non-symlink file: {path}")
-    value = hashlib.sha256()
-    with path.open("rb") as source:
-        for block in iter(lambda: source.read(1024 * 1024), b""):
+    flags = os.O_RDONLY | os.O_CLOEXEC | os.O_NONBLOCK
+    if hasattr(os, "O_NOFOLLOW"):
+        flags |= os.O_NOFOLLOW
+    try:
+        descriptor = os.open(path, flags)
+    except OSError as error:
+        raise ValueError(f"not a regular, non-symlink file: {path}") from error
+    try:
+        before = os.fstat(descriptor)
+        if not stat.S_ISREG(before.st_mode) or before.st_size > MAX_FILE_BYTES:
+            raise ValueError(f"file is not a bounded regular file: {path}")
+        value = hashlib.sha256()
+        total = 0
+        while block := os.read(descriptor, min(1024 * 1024, MAX_FILE_BYTES + 1 - total)):
+            total += len(block)
+            if total > MAX_FILE_BYTES:
+                raise ValueError(f"file exceeds the 128 MiB input limit: {path}")
             value.update(block)
-    return value.hexdigest()
+        after = os.fstat(descriptor)
+        stable = (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns,
+                  before.st_ctime_ns) == (after.st_dev, after.st_ino, after.st_size,
+                                          after.st_mtime_ns, after.st_ctime_ns)
+        if not stable or total != before.st_size:
+            raise ValueError(f"file changed while it was measured: {path}")
+        return value.hexdigest()
+    finally:
+        os.close(descriptor)
 
 
 def write_new(path: Path, value: dict) -> None:
@@ -51,10 +71,13 @@ def write_new(path: Path, value: dict) -> None:
 def source_revision(source: Path) -> str:
     environment = {"PATH": "/usr/bin:/bin", "GIT_OPTIONAL_LOCKS": "0"}
     def git(*arguments: str) -> str:
-        result = subprocess.run(
-            ["/usr/bin/git", "-C", str(source), *arguments], env=environment,
-            capture_output=True, text=True, timeout=8, check=True,
-        )
+        try:
+            result = subprocess.run(
+                ["/usr/bin/git", "-C", str(source), *arguments], env=environment,
+                capture_output=True, text=True, timeout=8, check=True,
+            )
+        except (OSError, subprocess.SubprocessError) as error:
+            raise ValueError("public source checkout could not be verified") from error
         return result.stdout.strip()
     revision = git("rev-parse", "HEAD")
     if git("status", "--porcelain=v1"):
