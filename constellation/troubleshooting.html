@@ -41,7 +41,7 @@
       <dt>A saved-check attention run was interrupted or its final output was lost</dt>
       <dd>Follow the retained-state procedure in the <a href="releases/0.1.0-alpha.2/guide.html">alpha.2 guide</a>. Preserve the existing root and inspect <code>commands.jsonl</code>, the exact Nightshift evaluation and NQ notification custody before considering another action. Missing final output or an unavailable identifier does not establish that no delivery occurred. Do not rerun the create-only generator over retained state or repeat an uncertain local-file write.</dd>
       <dt>You need to inspect an old saved-check result</dt>
-      <dd>Use NQ's <a href="https://github.com/unpingable/constellation-nq/blob/8e475071e88afafab5425dd295b7ff51c3088b0d/docs/HISTORICAL_READS.md">historical-read procedure</a> with the exact archived binary and an external configuration selecting the archived database. Verify its seal before reading. Do not edit the sealed config, rerun the check, or treat the old result as present conditions. This does not provide automated rollover or cross-store lookup.</dd>
+      <dd>Use NQ's <a href="https://github.com/unpingable/constellation-nq/blob/7941131b26ecb499cc7777467ee4d805b483c58d/docs/HISTORICAL_READS.md">historical-read procedure</a> with the exact archived binary and an external configuration selecting the archived database. Verify its seal before reading; older archives retain their original verifier and validation scope. Do not edit the sealed config, rerun the check, or treat the old result as present conditions. This does not provide automated rollover or cross-store lookup.</dd>
     </dl>
 
     <h2>Where to ask</h2>
