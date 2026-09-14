@@ -12,11 +12,11 @@
 <main id="main">
   <h1>Who gets told when work needs attention?</h1>
   <p class="lede">An inspectable record is useful, but it is not a notification. Someone still needs a supported way to receive and act on an alert.</p>
-  <aside class="note"><strong>Migration gap:</strong> Classic NQ implements Slack and Discord webhook delivery. Successor NQ currently has notification outbox and attempt storage, but no delivery worker. Neither Monitor/Pulse nor Phosphor fills that gap. Do not retire an existing notification route solely because diagnostic migration is complete.</aside>
+  <aside class="note"><strong>Experimental route:</strong> Constellation NQ now has a bounded Slack/Discord webhook adapter. Its deterministic transports and Nightshift receipt replay have been exercised locally. No live channel delivery has been sent or verified, so this is not yet a completed notification migration.</aside>
 
   <h2>What exists today</h2>
   <p>Classic NQ selects new, escalated and recurring findings above a configured severity threshold, groups them, and sends them through configured webhook, Slack or Discord channels. Its durable finding-level cooldown suppresses repeated notifications. A recorded notification cycle does not prove delivery: eligibility is consumed even when the send fails. See the <a href="https://github.com/unpingable/nq">deprecated source</a> for historical behavior, not a new installation recommendation.</p>
-  <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> exposes diagnostic and notification-storage capabilities. Storage methods alone do not deliver a message or establish that a human saw it. An installed route and its current recipients must be checked separately from source availability. Live successor Slack/Discord delivery has not been verified here; PagerDuty is not a supported profile.</p>
+  <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> can retain an exact attention intent, replay the matching Nightshift decision where applicable, and make one bounded Slack or Discord webhook request. It records a factual delivery state; it does not establish that a person saw the message. An installed route and its current recipients must be checked separately. PagerDuty is not a supported profile.</p>
 
   <h2>Keep four responsibilities separate</h2>
   <div class="table-wrap"><table><thead><tr><th>Question</th><th>Responsibility</th></tr></thead><tbody>
@@ -26,19 +26,33 @@
     <tr><td>Did someone acknowledge or resolve it?</td><td>The human or destination supplies a separate acknowledgment or resolution record; delivery is not acknowledgment.</td></tr>
   </tbody></table></div>
   <p>None of these records grants execution permission. A sent message, acknowledged alert or resolved incident does not prove that the underlying work succeeded. AG authorization, Docket custody and outcome reconciliation remain separate.</p>
-  <p>For a matching predicate workflow, Nightshift already implements an <a href="https://github.com/unpingable/constellation-nightshift/blob/3cba7cccfd21bc800ed9092d6bbb80bfd763473d/runtime/crates/nightshiftd/src/project_predicate_attention.rs">operator-policy attention decision and exact replay</a>. That is an attention-side contract, not a notifier. The existing NQ notification facet is the intended home for a narrow delivery adapter; its current outbox must first gain explicit pre-contact and unknown-delivery handling.</p>
-  <p><a href="https://github.com/unpingable/porter">Porter</a> can transfer a handoff artifact through its pinned SSH adapter to an already authorized inbox. Deterministic transport checks verify source/archive hashes and endpoint-identity refusal. They do not establish a live transfer, recipient consumption, Slack/Discord delivery or acknowledgment.</p>
+  <p>For a matching predicate workflow, Nightshift implements an <a href="https://github.com/unpingable/constellation-nightshift/blob/d8e03c04847cc0e8d7b8fd57ef0896959e73f89f/runtime/docs/ATTENTION-REPLAY-STDIN.md">operator-policy attention decision and exact replay</a>. NQ uses this bounded replay before it retains delivery custody or contacts a configured endpoint. Replay is an attention-side consistency check: it does not refresh evidence, send a message by itself, or establish that the underlying work succeeded.</p>
 
-  <h2>Manual coverage while delivery is incomplete</h2>
+  <h2>Configure one bounded route</h2>
+  <p>Keep the endpoint in an operator-provisioned environment variable, not in the repository or the route file. The route names that variable; it does not contain its value.</p>
+  <pre><code>[[notification_routes]]
+reference = "operations"
+transport = "slack" # or "discord"
+endpoint_secret_locator = "NQ_OPERATIONS_WEBHOOK_URL"
+timeout_ms = 10000
+max_response_bytes = 32768</code></pre>
+  <p>Run <code>nq --config ./nq.toml config check</code> before submitting a prepared intent. Then use <code>nq --config ./nq.toml notification submit --intent ./intent.json --route operations</code> and <code>nq --config ./nq.toml notification inspect --notification-id ID</code>. Without <code>--enable-network</code>, submission records a refusal and does not resolve or contact the endpoint. A repeat of that event/destination reopens the existing record rather than becoming a future send.</p>
+  <p>The adapter makes one request: no automatic retry, fallback, redirects, or response-body logging. It requires HTTPS and bounds request duration. It does not consume the response body; the configured <code>max_response_bytes</code> value is not a verified bound on header or body transfer. See NQ’s <a href="https://github.com/unpingable/constellation-nq/blob/ad7dd887b52269c6e8c9dd7ffd10829861de4596/docs/NOTIFICATIONS.md">notification guide</a> for the intent contract, Nightshift enrollment requirements, and complete commands.</p>
+
+  <h2>What was qualified, and what was not</h2>
+  <p>Local Nightshift-to-NQ replay exercised receipt consistency without network delivery, including an exact duplicate and changed-receipt refusal. Deterministic Slack/Discord transports exercised the request and retained-outcome path. Upstream inputs in those cases were synthetic. Those checks demonstrate bounded local behavior; they do not show that a configured destination received a message, that a recipient read it, or that recurring monitoring is connected end to end.</p>
+
+  <h2>Manual coverage while live delivery remains unverified</h2>
   <ol>
     <li>Name the operator and the selected workflow's existing inspection entry point. Agree which failed, uncertain or overdue transitions need attention; do not infer an alert policy from an evidence stream.</li>
     <li>Inspect the retained run or attempt through its owner. Preserve unresolved outcomes and reconcile before considering another submission.</li>
     <li>Give the operator a minimal handoff: what happened, what needs attention, and an approved link or local reference to the relevant record. Exclude credentials, private prompts, raw evidence and unrelated campaign records.</li>
     <li>Record acknowledgment separately if one is actually received. A file written to an inbox does not establish that anyone read it.</li>
   </ol>
-  <p>This is a manual operating procedure, not dependable automated notification. The released consultation-only profile does not include notification delivery. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
+  <p>This is a manual operating procedure, not evidence of dependable live notification. The released consultation-only profile does not include notification delivery. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
 
-  <h2>Bounded successor qualification still needed</h2>
-  <p>The narrow delivery adapter must bind a stable event and route identity, suppress duplicate exact submissions, reject changed content under an existing identity, limit attempts and duration, and leave ambiguous delivery unknown without an uncontrolled retry. Delivery errors must be inspectable locally without recursively sending alerts about alerts. Recovery messages need a distinct source transition; they must not rewrite the original attempt.</p>
-  <p>These are remaining acceptance requirements, not implemented interface claims. Routine verification should use deterministic transports. A live test requires separate approval of its exact message and destination; publication or model-provider approval does not authorize contacting a channel or paging people. Broad incident management, escalation trees and PagerDuty integration remain follow-on work.</p>
+  <h2>Failures and recovery</h2>
+  <p>Exact duplicate event/destination submissions converge on one retained record. Changed intent or message content under that identity refuses. <strong>Pending</strong> means no attempt has been claimed; <strong>accepted</strong> means the endpoint returned HTTP 2xx, not that a person saw it; <strong>failed</strong> means a non-success response; and <strong>unknown</strong> includes a claimed attempt with no terminal result. Inspect an existing record before considering another action. Do not invent a new event ID to work around an uncertain earlier attempt.</p>
+  <p>There is no retry daemon, delivery-failure alert loop, human acknowledgment, automatic resolution, escalation tree, or PagerDuty integration. Delivery failures remain inspectable locally, while an operator uses the manual handoff above. A live test needs separate approval of its exact message and destination; publication or model-provider approval does not authorize contacting a channel or paging people.</p>
+  <p>Saved local checks and maintenance declarations are separate, experimental NQ capabilities. They retain a bounded SQLite read and maintenance annotation; they do not create a recurring attention or notification workflow. See <a href="https://github.com/unpingable/constellation-nq/blob/ad7dd887b52269c6e8c9dd7ffd10829861de4596/docs/SAVED_CHECKS.md">Saved checks</a> for their supported scope and recovery procedure.</p>
 </main><footer>Constellation documentation · <a href="integration.html">Integration guide</a></footer></body></html>

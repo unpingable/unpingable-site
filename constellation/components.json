@@ -13,15 +13,15 @@
       "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
     },
     {
-      "availability": "Public source; the release guide pins the qualified runtime revision. No binary package is published.",
+      "availability": "Public source at ad7dd887b52269c6e8c9dd7ffd10829861de4596 includes saved checks, maintenance annotations and bounded Slack/Discord transport. No binary package is published.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview with bounded local-VM qualification; no production or estate-wide qualification.",
+      "maturity": "Developer preview. Local saved checks have public-only reproduction; notification replay has local tests, not verified live delivery or recurring migration.",
       "name": "Constellation NQ",
       "relationship": "core family office",
       "role": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
       "url": "https://github.com/unpingable/constellation-nq",
-      "use": "Use the five documented profiles for scoped diagnostics, including an exact retained cache-attempt result. None establishes general health or permission to act."
+      "use": "Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act."
     },
     {
       "availability": "Public source",
@@ -35,10 +35,10 @@
       "use": "Use when an authorized workflow needs attempt identity and settlement custody."
     },
     {
-      "availability": "Public source",
+      "availability": "Public source at d8e03c04847cc0e8d7b8fd57ef0896959e73f89f includes the separately selected runtime workspace and bounded attention replay.",
       "id": "nightshift",
       "implementation_form": "standalone Rust temporal-observation office",
-      "maturity": "Development evidence exists; no operational-qualification claim.",
+      "maturity": "Development source with tested bounded scheduling and attention replay; no complete operational-workflow claim.",
       "name": "Constellation Nightshift",
       "relationship": "core family office",
       "role": "Tracks currentness, recurrence, and attention over time.",
