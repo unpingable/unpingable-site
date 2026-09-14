@@ -107,16 +107,29 @@ those pins again during preparation. The tested runtime tuple is Docker client
 and server 29.1.3, Compose 5.0.0, project `maude-cache-birthday`, and image
 `python:3.13-alpine@sha256:46ee549c88617e9bc8acb843a326f1a5c0fa5608d7f9703509efe6d53b55f318`.
 
-Maude requires Python 3.11 or later and declares `textual>=1.0.0`,
-`pydantic>=2.6.0`, and `pyyaml>=6.0`. Create a regular copied interpreter and
-install the exact detached Maude checkout (record the resolved package set):
+For this tested profile use CPython 3.12 on Linux x86-64. Maude's general
+minimum is Python 3.11, but these wheel hashes describe the tested target only.
+Create a regular copied interpreter and install its exact public dependencies:
 
 ```bash
 mkdir -m 700 "$INPUT_PARENT"
 python3 -m venv --copies "$VENV"
-"$VENV/bin/python" -m pip install -e "$MAUDE"
+curl --fail --silent --show-error \
+  https://unpingable.com/constellation/examples/connected_cache/requirements-cp312-linux-x86_64.txt \
+  --output "$INPUT_PARENT/runtime-requirements.txt"
+echo "4390f2ab53342d71f1e9b6e01520c4525628c63cd800b26dfd6f09d001542fe9  $INPUT_PARENT/runtime-requirements.txt" | sha256sum --check
+"$VENV/bin/python" -m pip install --require-hashes --no-cache-dir --retries 0 \
+  --index-url https://pypi.org/simple -r "$INPUT_PARENT/runtime-requirements.txt"
+"$VENV/bin/python" -m pip check
+PYTHONPATH="$MAUDE/src" "$VENV/bin/python" -c 'import maude, pydantic, textual, yaml'
 "$VENV/bin/python" -m pip freeze > "$INPUT_PARENT/python-requirements.txt"
 ```
+
+The driver explicitly loads Maude from the pinned source checkout. This profile
+does not require an editable Maude installation or claim to install its desktop
+application. Keep that source available and unchanged alongside the runtime.
+The observed installer was pip 24.0; the requirements file pins runtime wheels,
+not the operating system, Python interpreter or installer.
 
 The role digest is an explicit local synthetic-fixture assertion, not a claim
 that Nightshift published or authenticated a role definition. The public-source
@@ -201,6 +214,23 @@ owner and inspect/reconcile it—do not rerun either occurrence to manufacture a
 new terminal record. Disposable local records may be removed only after that
 inspection and under the caller's own retention policy; the public driver has
 no broad cleanup command.
+
+Interpret each owner's status separately. Nightshift's two cycles can retain
+`awaiting_ag` at their handoff boundary after downstream work has finished;
+inspect AG and Docket for the actual decisions, attempts, outcomes and settlement.
+Owner queries made no logical transitions and preserved database/WAL/SHM bytes
+in the verified run, but NQ/Docket inspection touched SHM modification times.
+"Read-only" does not promise filesystem-metadata invariance or a consistent
+cross-owner backup.
+
+The successful newcomer run was not interrupted. Its existing-root repeat
+invocation refused before any new stage or Docker call. Component tests cover
+timeout/uncertainty recording without retry; they are not an interrupted
+cross-stack execution. If a future terminal is missing, preserve the original
+owner and sidecars, inspect the last started stage and its owning component,
+then inspect the exact Docker project. Report an unresolved outcome as
+indeterminate; do not repeat the action to obtain a cleaner record. No automatic
+cross-owner resume, restoration, migration or rollback is supported by this driver.
 
 The profile deliberately labels Standing as synthetic. The debug identity flag
 is explicit and is not a deployment recommendation. Fresh IDs prevent accidental
