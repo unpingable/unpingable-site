@@ -34,6 +34,8 @@ OWNER_PARENT="$EXAMPLE_WORK/owner"
 RUN="$OWNER_PARENT/run"
 INPUT_HELPER="$EXAMPLE_WORK/make_inputs.py"
 LABEL=my-cache-check
+EXECUTION_ACCOUNT=$(id -un)
+test "$(id -u)" -ne 0
 
 git clone https://github.com/unpingable/maude.git "$MAUDE"
 git -C "$MAUDE" checkout --detach 0d5b6c91102b1088818d0493c687f9f23db7684e
@@ -159,8 +161,12 @@ Then invoke the published Maude caller with the retained files:
   --pulse-launcher-sealer "$PULSE_SOURCE/integrations/pulse-nq-load-support/tools/seal-pulse-support-resolver-launcher.py" \
   --install-manifest "$INPUTS/connected-cache-install.json" \
   --profile "$INPUTS/connected-cache-profile.json" \
-  --execution-account local-example-account --allow-same-identity-in-debug
+  --execution-account "$EXECUTION_ACCOUNT" --allow-same-identity-in-debug
 ```
+
+The execution account must resolve to an existing local account. This debug
+example deliberately uses your current non-root account; the explicit flag
+permits that same identity, but does not create an account or waive its lookup.
 
 Prepare the fresh owner, then execute through the bounded public driver:
 
