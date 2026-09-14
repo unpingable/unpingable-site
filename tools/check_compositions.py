@@ -177,10 +177,13 @@ def _validate_example_source(root: Path, example: object, components: list[dict]
             raise ValueError("external release example has invalid fields")
         component = next((item for item in components
                           if item.get("id") == example.get("component_id")), None)
-        if (component is None or component.get("commit") != example["commit"]
+        # The kit and runtime are independently pinned snapshots of the same
+        # public product. A later example commit does not upgrade the runtime;
+        # qualification must exercise the exact pair recorded by the manifest.
+        if (component is None
                 or not isinstance(component.get("source"), str)
                 or not component["source"].startswith("https://")):
-            raise ValueError("external release example is not bound to a pinned public component")
+            raise ValueError("external release example is not bound to a public component source")
         checkout = verification_checkouts.get(example["component_id"])
         if checkout is None or not checkout.is_absolute() or not checkout.is_dir():
             raise ValueError("external release example requires an explicit verification checkout")

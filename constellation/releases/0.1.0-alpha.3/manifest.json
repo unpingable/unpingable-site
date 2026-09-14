@@ -1,0 +1,283 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.3",
+  "inventory": "../../components.json",
+  "profiles": [
+    {
+      "id": "objective-saved-check-read/v1",
+      "use_case": "Author a local objective and inspect one exact saved-check result with separate outcome, freshness and maintenance states.",
+      "required_capabilities": [
+        "authored-plan-and-criterion-identity",
+        "bounded-source-acquisition",
+        "saved-sqlite-check-and-maintenance-projection",
+        "durable-finite-recurrence",
+        "retained-attention-and-local-inbox-custody",
+        "explicit-application-criterion-mapping",
+        "read-only-objective-assembly"
+      ],
+      "required_components": [
+        "maude",
+        "monitor",
+        "nq",
+        "nightshift",
+        "ag",
+        "phosphor"
+      ],
+      "optional_components": [],
+      "optional_inputs": [
+        "Existing AG campaign and Docket attempt histories may be inspected by the wider interface, but are not supplied or qualified by this profile."
+      ],
+      "synthetic_capabilities": [],
+      "example_inputs": "Caller-created disposable SQLite queue, explicit maintenance declaration, synthetic_agent submitter metadata and empty real campaign directory. Actual component calls, not substituted services. Application enrolls one criterion mapping and prerequisite assertion.",
+      "writer_requirement": "One operator-owned local root; exact program pathnames, plan and enrollment remain quiescent. Source-to-SQLite relationship and prerequisite coverage are caller assertions, not atomic cross-owner facts.",
+      "limitations": [
+        "The saved check intentionally fails; expired evidence changes the assessment to indeterminate, not the retained outcome.",
+        "The unmapped criterion remains unknown; no objective-completion, health, permission or causal inference is supplied.",
+        "No AG authorization, Docket effect, Standing grant, independent reviewer or model provider participates.",
+        "Local-file delivery does not prove human receipt or acknowledgment.",
+        "Finite attended recipe; no installed recurring service or supervisor-loss recovery guarantee.",
+        "Read-only inspection is supported; restoration, migration, rollback and retention rollover are not qualified.",
+        "Full application migration, governed-action B/C recipes, ECAD/design-flow and federation are outside this profile."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "monitor",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+      "component_version": "0.1.0",
+      "source_subdirectory": "integrations/monitor-predicate-support",
+      "entry_point": "monitor-concerns",
+      "cargo_lock_sha256": "6d6fd4abde3927c5ba09873db494168d9c27e12897714267ebcf684e694e2867"
+    },
+    {
+      "id": "nq",
+      "source": "https://github.com/unpingable/constellation-nq.git",
+      "commit": "e259852ed58b8c0bf65a629b3c494afba28d9ce9",
+      "component_version": "0.1.0",
+      "source_subdirectory": ".",
+      "entry_point": "nq",
+      "cargo_lock_sha256": "01b314f67044f6ab85e928e7052b593159f3183ac4e08a989287a6acce35b73a"
+    },
+    {
+      "id": "nightshift",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+      "component_version": "0.1.0",
+      "source_subdirectory": "runtime",
+      "entry_point": "nightshift",
+      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742"
+    },
+    {
+      "id": "maude",
+      "source": "https://github.com/unpingable/maude.git",
+      "commit": "abaac51003b29ba8cefddc41ffbdcd018b732212",
+      "component_version": "2.4.0",
+      "source_subdirectory": ".",
+      "entry_point": "maude-plan"
+    },
+    {
+      "id": "ag",
+      "source": "https://github.com/unpingable/constellation-ag.git",
+      "commit": "deac918c2ad95b8205f293393874adb8eb12fe26",
+      "component_version": "0.1.0",
+      "source_subdirectory": ".",
+      "entry_point": "ag-loopctl (read-side dependency only)",
+      "cargo_lock_sha256": "0e526a04ae4de1be0a6035cc19ed6864f8dd5f9ef8d974f8a0487c0c7ac9f404"
+    },
+    {
+      "id": "phosphor",
+      "source": "https://github.com/unpingable/constellation-ag.git",
+      "commit": "deac918c2ad95b8205f293393874adb8eb12fe26",
+      "source_subdirectory": "crates/ag-operator-ui",
+      "entry_point": "ag-operator-ui",
+      "hosted_by": "ag"
+    }
+  ],
+  "environment": {
+    "platform": "linux-x86_64",
+    "tested_os": "Ubuntu 24.04.4 LTS",
+    "rust": "1.94.0",
+    "cargo": "1.94.0",
+    "toolchain_selection": "rustup +1.94.0",
+    "python": "3.12.3",
+    "python_sqlite": "3.45.1",
+    "build_prerequisites": [
+      "Git",
+      "C compiler/linker",
+      "Cargo.lock dependencies from public registries"
+    ],
+    "build_profile": "debug, jobs2, incremental0, debuginfo0; Rust1.94.0, same-account local exercise",
+    "services": [],
+    "provider_credentials": "none",
+    "container_images": [],
+    "runtime_network": "loopback only; external network disabled",
+    "python_distributions": [
+      {
+        "name": "annotated-types",
+        "version": "0.8.0"
+      },
+      {
+        "name": "hatchling",
+        "version": "1.32.0"
+      },
+      {
+        "name": "linkify-it-py",
+        "version": "2.2.0"
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0"
+      },
+      {
+        "name": "maude",
+        "version": "2.4.0"
+      },
+      {
+        "name": "mdit-py-plugins",
+        "version": "0.6.1"
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pathspec",
+        "version": "1.1.1"
+      },
+      {
+        "name": "pip",
+        "version": "24.0"
+      },
+      {
+        "name": "platformdirs",
+        "version": "4.11.8"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "pydantic",
+        "version": "2.13.5"
+      },
+      {
+        "name": "pydantic_core",
+        "version": "2.46.5"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      },
+      {
+        "name": "rich",
+        "version": "15.0.0"
+      },
+      {
+        "name": "textual",
+        "version": "8.2.8"
+      },
+      {
+        "name": "tomlkit",
+        "version": "0.15.1"
+      },
+      {
+        "name": "trove-classifiers",
+        "version": "2026.6.1.19"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4"
+      }
+    ],
+    "python_build_backend": "hatchling==1.32.0",
+    "python_requirements": {
+      "file": "python-requirements.txt",
+      "sha256": "b431381b9e0f3b258d82680f5c92940996fc4af9902c5d4325dd04a537ee657d",
+      "scope": "Exact public build/runtime wheels; source Maude installed separately without dependency resolution or build isolation."
+    },
+    "temporary_processes": [
+      "One loopback ag-operator-ui per read, terminated and reaped after capture."
+    ]
+  },
+  "contracts": {
+    "nq_config": "nq.config.v1",
+    "saved_check": "nq.saved-check-definition/v1",
+    "maintenance": "nq.maintenance-declaration/v1",
+    "schedule": "nightshift.saved-check-schedule-policy/v1",
+    "runtime": "nightshift.saved-check-runtime-config/v1",
+    "evaluation": "nightshift.saved-check-evaluation/v1",
+    "attention_policy": "nightshift.saved-check-attention-policy/v1",
+    "attention_receipt": "nightshift.saved-check-attention-receipt/v1",
+    "replay_bundle": "nightshift.saved-check-attention-replay-bundle/v1",
+    "notification_intent": "nq.notification_delivery_intent.v1",
+    "maximum_attention_window_seconds": 300,
+    "maximum_canonical_intent_bytes": 32768,
+    "foreground_command_timeout_seconds": 30,
+    "maximum_bytes_per_cli_stream": 1048576,
+    "automatic_retries": 0,
+    "maude_plan": "maude.plan-document/v1",
+    "maude_objective": "maude.objective-source/v1",
+    "objective_detail": "phosphor-ng.objective-detail/v2",
+    "objective_owner": "phosphor-ng.objective-owner-projection/v1",
+    "owner_reader_config": "phosphor-ng.objective-owner-reader-config/v1",
+    "condition": "nq.saved-check-condition/v1",
+    "owner_reader_sha256": "267c3341cc4040904e5d52b48caba7cb136b6a1a8c7c0b678235ba3bca3fb70c",
+    "saved_check_example_sha256": "69dc4ca845e4539359515ea6ec2232344fffaeabe302dad7418c692d66a9e6c3",
+    "monitor_example_sha256": "dd4a1a96ff445ace5491097e09d7c8319ab35e720ff024e0aa4c0c829f472d2b",
+    "example_schema": "constellation.objective-owner-composed-example/v1",
+    "maximum_http_response_bytes": 2097152,
+    "server_diagnostic_bytes_per_stream": 1048576,
+    "retained_file_postcheck_bytes": 67108864,
+    "postcheck_is_allocation_limit": false,
+    "automatic_provider_requests": 0
+  },
+  "example_source": {
+    "source_kind": "public_component",
+    "component_id": "ag",
+    "commit": "24792116bfba06f17700a57dc96153c4b40c37f6",
+    "example": "examples/objective-owner-composed.py",
+    "example_sha256": "e7a02a589e4a9ab4af0a328b7901aa0d3e0ebcb0d8576158e64a20000d7f8098",
+    "guide": "examples/objective-owner-composed.md",
+    "guide_sha256": "cd07d9359424266ab3e0028351a4cb3116150974ee561883bcfc364d181a1cf9"
+  },
+  "documentation": {
+    "guide": "guide.html",
+    "release_policy": "../../release-policy.html"
+  },
+  "qualification": {
+    "record": "qualification.json",
+    "scope": "Exact public-only source/kit reproduction, fresh-to-stale and missing-reference read, read-only retained-state inspection; component failure controls separately identified."
+  },
+  "outside_release": [
+    "AG/Docket governed action",
+    "connected cache B/C recipes",
+    "independent review dispatch",
+    "model-assisted authoring",
+    "live Slack/Discord/PagerDuty",
+    "human acknowledgment",
+    "unattended monitoring",
+    "retention rollover",
+    "general ECAD/design-flow",
+    "federation",
+    "family-wide maturity",
+    "Full application objective-read migration",
+    "Objective-completion verdict",
+    "Independent administration of acquired source",
+    "Supervisor-loss recovery of caller"
+  ]
+}

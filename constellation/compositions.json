@@ -335,6 +335,71 @@
         "Changed enrollment, definition or receipt cannot reuse an accepted identity.",
         "Stale, unavailable or uncertain evidence cannot become a fresh successful check; unknown delivery must be inspected without automatic retry."
       ]
+    },
+    {
+      "id": "objective-saved-check-read",
+      "summary": "Read one exact retained saved check beside a caller-authored objective",
+      "capabilities": {
+        "required": [
+          {
+            "capability": "authored plan and stable criterion identity",
+            "component_ids": [
+              "maude"
+            ]
+          },
+          {
+            "capability": "bounded actual acquisition",
+            "component_ids": [
+              "monitor"
+            ]
+          },
+          {
+            "capability": "retained saved outcome, currentness and maintenance",
+            "component_ids": [
+              "nq"
+            ]
+          },
+          {
+            "capability": "finite scheduled evaluation and attention",
+            "component_ids": [
+              "nightshift"
+            ]
+          },
+          {
+            "capability": "explicit application-owned criterion and prerequisite mapping",
+            "component_ids": [],
+            "provided_by": "deployment"
+          },
+          {
+            "capability": "validated read-only objective assembly",
+            "component_ids": [
+              "phosphor",
+              "ag"
+            ]
+          }
+        ],
+        "optional": []
+      },
+      "lost_guarantees": [
+        "Without the application mapping, authored criteria stay unknown; criterion prose is not an executable predicate.",
+        "Absent AG/Docket histories do not prevent this read, but supply no execution outcome, permission or causal chain.",
+        "No objective-completion verdict, independent source administration, automatic reliance, unattended installation or retention rollover is supplied."
+      ],
+      "maturity": "qualified public-only composition; integration snapshot 0.1.0-alpha.3",
+      "public_examples": [
+        {
+          "implementation_id": "ag",
+          "source": "https://github.com/unpingable/constellation-ag/tree/24792116bfba06f17700a57dc96153c4b40c37f6/examples",
+          "example": "objective-saved-check-read.html",
+          "state": "Exact public kit and runtime exercised by a newcomer, including fresh/stale/missing reads and unchanged retained-state inspection"
+        }
+      ],
+      "recipe": "objective-saved-check-read.html",
+      "refusals": [
+        "Exact plan, criterion, source or evidence mismatch cannot be treated as an assessment.",
+        "Stale evidence remains indeterminate, missing evidence unavailable; neither prompts automatic reacquisition.",
+        "Read-only projection does not authorize work or infer objective achievement from an attempt."
+      ]
     }
   ],
   "inventory": "components.json",

@@ -1,0 +1,139 @@
+{
+  "schema": "constellation.integration-qualification/v1",
+  "suite_version": "0.1.0-alpha.3",
+  "profile": "objective-saved-check-read/v1",
+  "manifest_sha256": "47aff81e248a6392b5e78b32dd1fa68e792f9d003769012e75c7eaf10e65446a",
+  "result": "passed",
+  "verified_date": "2026-09-14",
+  "public_inputs": {
+    "runtime_ag_commit": "deac918c2ad95b8205f293393874adb8eb12fe26",
+    "example_kit_commit": "24792116bfba06f17700a57dc96153c4b40c37f6",
+    "example_sha256": "e7a02a589e4a9ab4af0a328b7901aa0d3e0ebcb0d8576158e64a20000d7f8098",
+    "maude_commit": "abaac51003b29ba8cefddc41ffbdcd018b732212",
+    "nq_commit": "e259852ed58b8c0bf65a629b3c494afba28d9ce9",
+    "nightshift_monitor_commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea"
+  },
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "platform": "linux-x86_64",
+    "rust": "1.94.0",
+    "python": "3.12.3",
+    "python_sqlite": "3.45.1",
+    "runtime_network": "isolated loopback only",
+    "credentials": "none"
+  },
+  "public_reproduction": {
+    "result": "passed",
+    "setup": "Anonymous pinned public sources; fresh isolated AG build and Maude install. NQ/Nightshift public builds reused by exact hash; Monitor reused from earlier public build with byte-identical Cargo/lock/crates in the pinned cut. Final kit fetched from its exact public raw source and hash-checked.",
+    "dependency_install": "Fresh additional isolated installation from the release's 20 hash-pinned public wheels plus pinned Maude source passed pip check and matched all 22 installed distribution versions used by the example.",
+    "actual_workflow": "The final published kit ran from an absent disposable root with only enumerated public programs/sources mounted. No private repository, prior owner responses, home, credentials or external network was available.",
+    "artifact_reuse": "Existing public-built artifacts were reused; this is not a claim of an independent second native compilation or byte-identical builds across environments."
+  },
+  "independent_newcomer": {
+    "reviewer": "Codex gpt-5.6-sol, fresh context initially limited to public guide and linked product sources",
+    "reader_review": "Six concrete setup, recovery and diagnostic findings repaired before final execution.",
+    "actual_workflow": "The newcomer prepared the isolated invocation from public instructions and fixed public-built artifacts. The integration owner repaired supervisor checkpoint/environment/timeout mechanics and launched it. The public product script was unchanged. Actual fresh/stale/missing outputs and subsequent documented owner inspections passed.",
+    "scope": "Root supplied verified public-built prerequisites and approved resource envelopes. The reviewer did not independently rebuild the runtime. No consumer-specific context or private source was supplied.",
+    "repairs": [
+      "Use wrapper-specific retained-state paths and exact successful command identities.",
+      "Retain bounded server stdout/stderr with explicit truncation and incomplete-capture refusal.",
+      "Explain partial-root uncertainty, port selection races and setup capacity.",
+      "Fetch and verify the exact source guide as well as the script.",
+      "Pin public Python wheels separately from product source."
+    ]
+  },
+  "cases": [
+    {
+      "id": "exact-authored-identity",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Maude new/save/lock/objective-read produced an exact plan and two stable criterion identities; the application enrolled only the first."
+    },
+    {
+      "id": "actual-saved-check-chain",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Monitor acquired the disposable queue, Nightshift ran finite slots, NQ retained a failed saved check with maintenance, and one local notification was delivered. No substituted owner response."
+    },
+    {
+      "id": "fresh-then-real-expiry",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Fresh criterion was not_satisfied with failed/fresh/covered evidence. After the actual 120-second interval, the same retained evaluation was indeterminate with failed/stale/overrun evidence. No timestamps were rewritten."
+    },
+    {
+      "id": "missing-reference",
+      "level": "connected-negative-control",
+      "result": "passed",
+      "observed": "A different all-zero evaluation reference against the same NQ store yielded unavailable, no evidence and no prerequisite assertion. The actual evaluation remained retained."
+    },
+    {
+      "id": "unmapped-and-absent-history",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Unmapped criterion remained unknown; occurrences stayed empty. No objective completion, runtime health, authority or causal links were inferred."
+    },
+    {
+      "id": "post-run-owner-inspection",
+      "level": "connected-retained-state",
+      "result": "passed",
+      "observed": "Separate NQ condition/notification and Nightshift evaluation/attention read commands found the retained records. NQ, Nightshift and SQLite sidecar hashes stayed byte-identical; no acquisition or delivery was repeated."
+    },
+    {
+      "id": "server-diagnostics",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Each of three reads retained 107 stderr bytes and zero stdout bytes, complete without capture errors or truncation. All temporary servers were terminated and reaped."
+    },
+    {
+      "id": "bounded-log-failure-controls",
+      "level": "component-negative-control",
+      "result": "passed",
+      "observed": "Nine kit tests include early server exit, streams exceeding the 1 MiB per-stream cap without pipe blockage, and create-only log collision refusal. The stop path for an independently detached pipe holder is source-reviewed, not an injected integration claim."
+    },
+    {
+      "id": "owner-contract-controls",
+      "level": "component-negative-control",
+      "result": "passed",
+      "observed": "18 generic-reader controls and 49 inspector tests cover exact identities, absent/mismatched/stale owner records and read-only boundaries; strict native lint/build passed."
+    },
+    {
+      "id": "mobile-readability",
+      "level": "rendered-browser",
+      "result": "passed",
+      "observed": "The pinned runtime passed desktop1440 and mobile390 read-only layout, keyboard and navigation checks. A later capture-wrapper hash-packaging error is preserved separately and is not reported as producer success."
+    },
+    {
+      "id": "attention-duplicate-and-uncertainty",
+      "level": "reused-qualified-constituent",
+      "result": "passed",
+      "observed": "The exact NQ/Nightshift/Monitor pins and saved-check script match alpha.2. Its connected duplicate/altered-receipt and read-only recovery checks are reused; injected post-create uncertainty remains component-level, not an end-to-end interrupted delivery."
+    }
+  ],
+  "scope": {
+    "established": [
+      "Public-only exact source/kit setup and actual connected read",
+      "Separate retained outcome, actual freshness and maintenance",
+      "Explicit application interpretation and prerequisite coverage",
+      "Read-only owner inspection without store changes",
+      "Useful newcomer invocation and failure diagnostics"
+    ],
+    "not_established": [
+      "Full consumer migration or production deployment",
+      "Objective-completion verdict or trusted reliance",
+      "AG/Docket effects, independent review or permission",
+      "Installed recurring monitoring or live webhooks",
+      "Human acknowledgment",
+      "Supervisor-loss recovery or detached-process control",
+      "Restoration, migration, rollback or retention rollover",
+      "General ECAD/design-flow or federation",
+      "Family-wide maturity"
+    ]
+  },
+  "retained_generic_result_hashes": {
+    "result": "035003c89feb3e229a04963414014a4d7f1a0d38dd2e31a8c4768e043a7cd78d",
+    "fresh": "355e15111a4ae73a4a05a3254385ffbcc64684ae71cd5348852126d5f3dd8e0c",
+    "stale": "430e4d03131c0f174ee0eae2ea9f4cbbbf8b4b6198032ee0cc7f19e571240ba3",
+    "missing": "8e9172aeb76782060fe13ce538766020eecf765d569a3c973e800f5173674202"
+  }
+}

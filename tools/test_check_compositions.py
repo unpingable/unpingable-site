@@ -203,6 +203,18 @@ class Compositions(unittest.TestCase):
             qualification_path.write_text(json.dumps(qualification, sort_keys=True))
             self.assertEqual(validate_releases(root, {"maude": external}), 1)
             with self.assertRaises(ValueError): validate_releases(root)
+            # Keep the tested runtime at the original commit while pinning a
+            # separately published example revision from its exact repository.
+            (external / "runtime/docs/NOTE.md").write_text("example-only addition\n")
+            subprocess.run(["git", "add", "runtime/docs/NOTE.md"], cwd=external, check=True)
+            subprocess.run(["git", "commit", "-m", "example-only successor"], cwd=external, check=True, capture_output=True)
+            example_commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=external, check=True, capture_output=True, text=True).stdout.strip()
+            manifest["example_source"]["commit"] = example_commit
+            self.assertNotEqual(manifest["components"][0]["commit"], example_commit)
+            manifest_path.write_text(json.dumps(manifest, sort_keys=True))
+            qualification["manifest_sha256"] = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+            qualification_path.write_text(json.dumps(qualification, sort_keys=True))
+            self.assertEqual(validate_releases(root, {"maude": external}), 1)
             manifest["example_source"]["example_sha256"] = "0" * 64
             manifest_path.write_text(json.dumps(manifest, sort_keys=True))
             with self.assertRaises(ValueError): validate_releases(root, {"maude": external})

@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read one retained saved check beside an exact authored objective, using the pinned public alpha.3 composition.">
+  <title>Objective saved-check read — Constellation</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/objective-saved-check-read.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+  <main id="main">
+    <h1>Read one saved check beside an authored objective</h1>
+    <p class="lede">Author a disposable plan, run a finite saved check, and inspect its retained result beside the exact criterion you defined. See what changes when the evidence expires or the requested record is missing.</p>
+    <aside class="note"><strong>Integration alpha.3:</strong> <code>objective-saved-check-read/v1</code> passed public-only reproduction and newcomer inspection. Use the <a href="releases/0.1.0-alpha.3/manifest.json">exact manifest</a>, <a href="releases/0.1.0-alpha.3/qualification.json">qualification scope</a> and <a href="releases/0.1.0-alpha.3/guide.html">immutable guide</a>. Component versions remain independent. This is not a governed-action profile or complete application migration.</aside>
+
+    <h2>What happens</h2>
+    <pre><code>Maude new/save/lock → objective-read → exact authored condition IDs
+Nightshift finite schedule → Monitor acquisition → NQ saved evaluation
+exact condition ID + retained NQ evaluation → application-owned reader
+                                          → Phosphor objective-detail/v2
+                                          → fresh, stale and missing-ID reads</code></pre>
+    <p>The caller explicitly maps the first Maude criterion to one NQ saved-check definition and requires factual outcome <code>passed</code>. The disposable queue contains work, so the actual retained outcome is <code>failed</code>. Phosphor preserves that outcome, currentness and maintenance annotation separately. It does not parse criterion prose into a rule.</p>
+    <p>The script identifies its Maude submitter metadata as <code>synthetic_agent</code> and <code>agent_generated</code>. That describes this deterministic example input; it is not an external reviewer, provider call, Standing, authorization or execution identity.</p>
+
+    <h2>Capabilities and boundaries</h2>
+    <p>This use case requires Maude objective authoring/read, Nightshift finite scheduling, Monitor acquisition, NQ saved-check evaluation and retained condition reads, the application-owned reader, and Phosphor objective assembly. Other owners such as AG campaign history or Docket attempt custody are optional inputs to the wider objective view and are not needed here. The example supplies an empty real campaign directory; it does not replace an owner response with a fixture.</p>
+    <p>The reader's mapping and single prerequisite declaration are caller-owned application facts. NQ owns the retained evaluation, not the meaning of the Maude criterion. No result here establishes objective completion, application health, human review, permission, Standing, AG/Docket action, or a new effect.</p>
+
+    <h2>Exact public sources</h2>
+    <p>Use Linux x86-64, Git, curl, a C compiler/linker, Rust/Cargo 1.94.0, and Python 3.12 with <code>venv</code> and SQLite. The runtime and example kit have distinct pins:</p>
+    <ul>
+      <li>AG runtime: <a href="https://github.com/unpingable/constellation-ag/tree/deac918c2ad95b8205f293393874adb8eb12fe26"><code>deac918c2ad95b8205f293393874adb8eb12fe26</code></a>.</li>
+      <li>Example kit source: <a href="https://github.com/unpingable/constellation-ag/tree/24792116bfba06f17700a57dc96153c4b40c37f6"><code>24792116bfba06f17700a57dc96153c4b40c37f6</code></a>. Script SHA-256: <code>e7a02a589e4a9ab4af0a328b7901aa0d3e0ebcb0d8576158e64a20000d7f8098</code>; source guide SHA-256: <code>cd07d9359424266ab3e0028351a4cb3116150974ee561883bcfc364d181a1cf9</code>.</li>
+      <li>Maude: <code>abaac51003b29ba8cefddc41ffbdcd018b732212</code>.</li>
+      <li>NQ: <code>e259852ed58b8c0bf65a629b3c494afba28d9ce9</code>.</li>
+      <li>Nightshift runtime and Monitor: <code>019e6837565ebf5b0ac244cbd7c3edde28e25aea</code>.</li>
+    </ul>
+    <p>The example script is deliberately downloaded from the kit pin; it is not assumed to exist in the runtime checkout.</p>
+    <p>The source guide records development status at its frozen commit. This release records the subsequent public-only qualification; its manifest pins the runtime, kit and public Python wheels separately.</p>
+    <pre><code>SETUP=$(mktemp -d /tmp/objective-saved-check-setup.XXXXXX)
+git clone https://github.com/unpingable/constellation-ag.git "$SETUP/ag"
+git -C "$SETUP/ag" checkout --detach deac918c2ad95b8205f293393874adb8eb12fe26
+git clone https://github.com/unpingable/maude.git "$SETUP/maude"
+git -C "$SETUP/maude" checkout --detach abaac51003b29ba8cefddc41ffbdcd018b732212
+git clone https://github.com/unpingable/constellation-nq.git "$SETUP/nq"
+git -C "$SETUP/nq" checkout --detach e259852ed58b8c0bf65a629b3c494afba28d9ce9
+git clone https://github.com/unpingable/constellation-nightshift.git "$SETUP/nightshift"
+git -C "$SETUP/nightshift" checkout --detach 019e6837565ebf5b0ac244cbd7c3edde28e25aea
+
+curl --fail --location --proto '=https' --proto-redir '=https' \
+  https://raw.githubusercontent.com/unpingable/constellation-ag/24792116bfba06f17700a57dc96153c4b40c37f6/examples/objective-owner-composed.py \
+  --output "$SETUP/objective-owner-composed.py"
+curl --fail --location --proto '=https' --proto-redir '=https' \
+  https://raw.githubusercontent.com/unpingable/constellation-ag/24792116bfba06f17700a57dc96153c4b40c37f6/examples/objective-owner-composed.md \
+  --output "$SETUP/objective-owner-composed.md"
+printf '%s  %s\n' e7a02a589e4a9ab4af0a328b7901aa0d3e0ebcb0d8576158e64a20000d7f8098 \
+  "$SETUP/objective-owner-composed.py" | sha256sum -c -
+printf '%s  %s\n' cd07d9359424266ab3e0028351a4cb3116150974ee561883bcfc364d181a1cf9 \
+  "$SETUP/objective-owner-composed.md" | sha256sum -c -
+chmod 700 "$SETUP/objective-owner-composed.py"
+
+python3 -m venv "$SETUP/maude-venv"
+curl --fail --location --proto '=https' --proto-redir '=https' \
+  https://unpingable.com/constellation/releases/0.1.0-alpha.3/python-requirements.txt \
+  --output "$SETUP/python-requirements.txt"
+printf '%s  %s\n' b431381b9e0f3b258d82680f5c92940996fc4af9902c5d4325dd04a537ee657d \
+  "$SETUP/python-requirements.txt" | sha256sum -c -
+"$SETUP/maude-venv/bin/pip" install --require-hashes --only-binary=:all: -r "$SETUP/python-requirements.txt"
+"$SETUP/maude-venv/bin/pip" install --no-deps --no-build-isolation "$SETUP/maude"
+"$SETUP/maude-venv/bin/pip" check
+export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0
+CARGO_TARGET_DIR="$SETUP/ag-target" cargo +1.94.0 build --locked --manifest-path "$SETUP/ag/Cargo.toml" -p ag-operator-ui -p ag-app --bin ag-operator-ui --bin ag-loopctl
+CARGO_TARGET_DIR="$SETUP/nq-target" cargo +1.94.0 build --locked --manifest-path "$SETUP/nq/Cargo.toml" -p nq-app --bin nq
+CARGO_TARGET_DIR="$SETUP/nightshift-target" cargo +1.94.0 build --locked --manifest-path "$SETUP/nightshift/runtime/Cargo.toml" -p nightshiftd --bin nightshift
+CARGO_TARGET_DIR="$SETUP/monitor-target" cargo +1.94.0 build --locked --manifest-path "$SETUP/nightshift/integrations/monitor-predicate-support/Cargo.toml" --bin monitor-concerns</code></pre>
+    <p>Builds need public dependency access; the finite run needs no external network, provider credential, webhook, pre-existing service or container. The caller starts a temporary loopback Phosphor server for each read, then terminates and reaps it. Confirm both Python paths can import SQLite as shown in the <a href="releases/0.1.0-alpha.2/guide.html">alpha.2 guide</a>. Keep the selected executable pathnames quiescent through the run and record their hashes.</p>
+    <p>Plan build capacity before allocating targets. Recent public debug targets occupied approximately 532 MiB for AG, 570 MiB for NQ, 282 MiB for Nightshift and 376 MiB for Monitor—about 1.8 GiB together, before source trees, registry/toolchain caches and retained run data. Those observations are estimates, not allocation enforcement or a promise about a fresh host. Check free blocks and inodes on the actual destination, account for other active work and preserve the host's required reserve before building.</p>
+
+    <h2>Start the finite example</h2>
+    <p>Choose an absent absolute root whose final name begins <code>objective-owner-composed-</code>, and an unused loopback port. The caller is create-only. This read-only probe checks whether the proposed port can be bound, then closes it without touching an existing process:</p>
+    <pre><code>python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 28456)); s.close()'</code></pre>
+    <p>A successful probe is not a reservation: another process can bind the port before the caller does. If the caller reports the port unavailable, inspect the process you own and choose another unused port; do not terminate or replace an unrelated listener.</p>
+    <pre><code>"$SETUP/objective-owner-composed.py" \
+  --root "$SETUP/objective-owner-composed-demo" \
+  --maude "$SETUP/maude-venv/bin/maude-plan" \
+  --nq "$SETUP/nq-target/debug/nq" \
+  --nightshift "$SETUP/nightshift-target/debug/nightshift" \
+  --monitor "$SETUP/monitor-target/debug/monitor-concerns" \
+  --saved-check-example "$SETUP/nightshift/runtime/examples/saved-check-recurring.py" \
+  --project-example "$SETUP/nightshift/integrations/monitor-predicate-support/examples/local-queue-attention.py" \
+  --reader "$SETUP/ag/examples/phosphor-objective-owner-reader" \
+  --operator-ui "$SETUP/ag-target/debug/ag-operator-ui" \
+  --ag-loopctl "$SETUP/ag-target/debug/ag-loopctl" \
+  --reader-revision deac918c2ad95b8205f293393874adb8eb12fe26 \
+  --port 28456</code></pre>
+    <p>The caller can approach six minutes because it waits through the actual 120-second NQ currentness interval. It bounds product streams and HTTP bodies, uses no automatic retry, terminates and reaps its temporary Phosphor server, and checks measured retained files at the end. Run it attended, or use a durable supervisor and checkpoint that survive loss of the terminal.</p>
+
+    <h2>Expected reads</h2>
+    <ul>
+      <li><strong>Fresh:</strong> first criterion <code>not_satisfied</code>, owner outcome <code>failed</code>, currentness <code>fresh</code>, maintenance <code>covered</code>.</li>
+      <li><strong>Stale:</strong> the same evaluation remains <code>failed</code>, but the criterion is <code>indeterminate</code>, currentness is <code>stale</code>, and maintenance is <code>overrun</code>. Historical attention is not rewritten.</li>
+      <li><strong>Missing evaluation:</strong> an explicitly different all-zero evaluation ID produces <code>unavailable</code>, no owner evidence or record reference, and unavailable prerequisites. This is a real read-only NQ refusal for a wrong caller reference, not a substituted service.</li>
+      <li>The second, unmapped criterion stays <code>unknown</code>; occurrences stay empty; the NQ database bytes stay unchanged across the objective reads.</li>
+    </ul>
+    <pre><code>ROOT="$SETUP/objective-owner-composed-demo"
+python3 -m json.tool "$ROOT/maude-objective.json"
+python3 -m json.tool "$ROOT/fresh-objective.json"
+python3 -m json.tool "$ROOT/stale-objective.json"
+python3 -m json.tool "$ROOT/missing-evaluation-objective.json"
+python3 -m json.tool "$ROOT/result.json"</code></pre>
+
+    <h2>Retain, stop and recover</h2>
+    <p>Keep the exact root, <code>commands.jsonl</code>, plan/store, reader configurations, server identity and terminal records, and the complete saved-check directory. Each Phosphor read also retains <code>&lt;label&gt;-server-stdout.log</code> and <code>&lt;label&gt;-server-stderr.log</code>. Each stream is bounded to 1 MiB; when a server emits more, the retained file is explicitly a prefix and the terminal diagnostic marks it truncated. The matching terminal record reports per-stream byte counts, truncation and completeness plus any bounded error. An incomplete capture refuses rather than becoming a successful objective read. These records improve reconciliation but do not guarantee survival of supervisor loss.</p>
+    <p>Read the transcript as a sequence of labels and lifecycle events. A <code>planned</code> entry proves only that the caller intended a command. A matching <code>started</code> entry adds its process identity. Only the matching <code>terminal</code> entry supplies captured exit status and bounded output. If a started label lacks a terminal entry, first reconcile that exact process and its owner records. Preserve the root as uncertain if neither process nor owner outcome can be established; do not infer failure or rerun the create-only caller.</p>
+    <p>For a completed saved-check producer, extract the exact later evaluation ID from its retained nested transcript, then perform these wrapper-specific read-only inspections:</p>
+    <pre><code>ROOT="$SETUP/objective-owner-composed-demo"
+STATE="$ROOT/nightshift-saved-check-run-objective"
+EVALUATION_ID=$(python3 -c 'import json,sys
+for line in open(sys.argv[1], encoding="utf-8"):
+    record=json.loads(line)
+    if record.get("label")=="nightshift-next-slot" and record.get("exit_code")==0:
+        print(json.loads(record["stdout"])["evaluation_id"]); break
+else: raise SystemExit("no terminal nightshift-next-slot evaluation")' "$STATE/commands.jsonl")
+
+"$SETUP/nightshift-target/debug/nightshift" --store "$STATE/nightshift.sqlite" \
+  saved-check inspect --evaluation-id "$EVALUATION_ID"
+"$SETUP/nightshift-target/debug/nightshift" --store "$STATE/nightshift.sqlite" \
+  saved-check attention-status --policy "$STATE/attention-policy.json" \
+  --evaluation-id "$EVALUATION_ID"
+AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+"$SETUP/nq-target/debug/nq" --config "$STATE/nq.toml" --json \
+  saved-check condition --evaluation-id "$EVALUATION_ID" \
+  --component disposable-queue --kind saved-check --subject queue --at "$AT"
+
+# List retained notification custody when the final notification ID was omitted.
+"$SETUP/nq-target/debug/nq" --config "$STATE/nq.toml" --json \
+  notification inspect</code></pre>
+    <p>The <code>--at</code> value is the actual present read coordinate; never choose an earlier time to make retained evidence appear fresh. These commands inspect existing custody and do not repeat acquisition, evaluation or delivery. If the expected terminal label or evaluation ID is absent, preserve the state and stop instead of inventing an ID.</p>
+    <p>If output is lost, reconcile existing process identity and retained owner records before doing anything new. The missing-ID control does not erase the actual evaluation: inspect the original ID and NQ custody rather than rerunning the producer. Do not rerun this create-only caller over an existing or uncertain root. This guide does not validate supervisor-loss recovery, uncertain execution, interrupted delivery, migration, restoration or retention rollover.</p>
+    <p>After all processes have stopped, and only when no evidence, diagnosis, replay or recovery dependency remains, visually verify and remove the one exact disposable root. Do not use a variable, glob, setup parent or repository path:</p>
+    <pre><code>rm -rf -- /tmp/objective-saved-check-setup.EXACT/objective-owner-composed-demo</code></pre>
+    <p>A successful run can log <code>operator UI request failed: empty request</code> from the caller's TCP readiness probe. Check the subsequent objective JSON and complete capture record before classifying that line as a failed read. The server's <code>-15</code> terminal return code here records its deliberate stop after capture, not the saved-check outcome.</p>
+    <p>For support, report suite <code>0.1.0-alpha.3</code>, profile <code>objective-saved-check-read/v1</code>, the four runtime repository revisions, the separate kit revision and both kit hashes, tool versions, the exact command and a minimal redacted diagnostic excerpt through <a href="troubleshooting.html">Troubleshooting</a>. Do not send credentials, operator-only plan prose, full databases or unrelated retained records. Experimental support is best effort, with no guaranteed response time.</p>
+  </main>
+  <footer>Constellation alpha integration · <a href="saved-check-attention.html">Saved-check lifecycle</a> · <a href="integration.html">Composition boundaries</a></footer>
+</body>
+</html>
