@@ -211,6 +211,15 @@ container and network inventories must be empty. Nightshift can retain
 Docket. Owner queries make no logical transition, although SQLite SHM mtimes
 may change without byte changes.
 
+Read the result diagnostic's claim name, condition effect, and summary
+together. The fixed detector names the failure condition
+`expected_synthetic_cache_result_missing`; therefore `condition:
+explicitly_absent` means the expected result is present, not missing. Confirm
+that the summary says the exact past attempt reported the fixed expected
+result, then require the same artifact ID in the stage 32 `admitted_report`
+provenance. This is receipt-bound testimony about that exact past executor
+attempt, not a post-teardown observation or a claim of current cache health.
+
 The driver's second occurrence is the separately governed teardown. Do not
 delete a workspace to imitate it. If a terminal or finish is missing, preserve
 the original root, database sidecars, manager identity, stage records, input
