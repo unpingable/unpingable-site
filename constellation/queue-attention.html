@@ -4,14 +4,14 @@
 <link rel="canonical" href="https://unpingable.com/constellation/queue-attention.html"></head>
 <body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
 <main id="main"><h1>Read a queue and decide whether it needs attention</h1>
-<p class="lede">Connect an external caller to actual Monitor, NQ, Pulse and Nightshift entry points. Read a disposable SQLite queue, check the evidence, retain the attention decision, and inspect what happened.</p>
+<p class="lede">Read a disposable SQLite queue, check the evidence, decide whether it needs attention, and deliver one local operator-inbox message through actual Monitor, NQ, Pulse and Nightshift entry points.</p>
 <p><strong>Development profile: <code>local-queue-attention/v1</code>.</strong> Public-only reproduction passed on Linux x86-64 without access to private repositories. This profile is not the released Maude-only 0.1.0-alpha.1 profile, a complete recurring monitoring deployment, or permission to change an application.</p>
 <h2>What happens</h2>
 <pre><code>your caller → Monitor → primary SQLite read → NQ admission
 your caller → separate SQLite read → Pulse support → NQ replay
 your caller → Nightshift attention custody → Pulse replay
 your caller → NQ notification custody → Nightshift replay
-your caller ← retained no-network refusal and inspectable records</code></pre>
+your caller ← one retained local inbox file and inspectable records</code></pre>
 <p>The queue contains twenty real rows created for this example. Both observation roles read it in separate processes, but use the same script under one operator. Pulse checks the explicitly configured source relationship and freshness, not independent administration or the truth of an arbitrary producer's claims. NQ uses its existing compiled depth-at-least-eighteen rule; no new interpreter is installed.</p>
 <h2>Required sources and setup</h2>
 <p>Tested with Rust/Cargo 1.94.0, Python 3.12.3, <code>cryptography</code> 41.0.7 and SQLite 3.45.1 on Linux x86-64. You need a C compiler/linker, Git, and public dependency access. The Python package may come from the OS; if absent, install that version in a local virtual environment and use its Python for the final command. The two observation subprocesses require <code>/usr/bin/python3</code> and only its standard library.</p>
@@ -21,12 +21,14 @@ cd "$DEMO_PARENT"
 git clone https://github.com/unpingable/constellation-nightshift.git nightshift
 git -C nightshift checkout --detach fdadf9666da0ca32b534a3dab9aa678b18a99fc3
 git clone https://github.com/unpingable/constellation-nq.git nq
-git -C nq checkout --detach ad7dd887b52269c6e8c9dd7ffd10829861de4596
+git -C nq checkout --detach d0086b8a8df81741c661070c92a86a79bdb73362
+# Select the newer caller without changing the tested runtime checkout.
+git -C nightshift show 39216731bf5124d71c7a3113a198a3c6d1b00962:integrations/monitor-predicate-support/examples/local-queue-attention.py &gt; local-queue-attention.py
 export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0
 cargo build --locked --manifest-path nq/Cargo.toml -p nq-app --bin nq
 cargo build --locked --manifest-path nightshift/runtime/Cargo.toml -p nightshiftd --bin nightshift
 cargo build --locked --manifest-path nightshift/integrations/monitor-predicate-support/Cargo.toml --bins
-python3 nightshift/integrations/monitor-predicate-support/examples/local-queue-attention.py \
+python3 local-queue-attention.py --local-inbox \
   --root "$DEMO_PARENT/queue-attention-run" \
   --monitor "$DEMO_PARENT/nightshift/integrations/monitor-predicate-support/target/debug/monitor-concerns" \
   --pulse "$DEMO_PARENT/nightshift/integrations/monitor-predicate-support/target/debug/pulse-project-predicate-support" \
@@ -34,13 +36,13 @@ python3 nightshift/integrations/monitor-predicate-support/examples/local-queue-a
   --nightshift "$DEMO_PARENT/nightshift/runtime/target/debug/nightshift"</code></pre>
 <p>These paths assume you have not set <code>CARGO_TARGET_DIR</code>; if you use one, select the actual resulting executable paths. The Nightshift revision contains the same runtime source as d8e03c0 and adds the separately built Monitor/Pulse product cut. Its <a href="https://github.com/unpingable/constellation-nightshift/blob/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations/monitor-predicate-support/SOURCE-PROVENANCE.json">source provenance</a> records canonical inputs and exported hashes. Component versions remain independent.</p>
 <h2>What passed and what it establishes</h2>
-<p>Expect <code>"result": "qualified"</code>, <code>"notification_state": "refused"</code> and <code>"network_enabled": false</code>. The actual caller requires NQ admission, Pulse current support, Nightshift attention, exact replay, duplicate convergence, changed-catalog refusal, exclusive stale-input refusal and a reopened attention evaluation that does not refresh evidence.</p>
-<p>The source cut's component tests and actual caller passed. An anonymous public clone then built fresh Monitor/Pulse/Nightshift binaries and ran the caller in a filesystem/network namespace with no private repository or home-directory mounts. NQ was reused read-only from its previously successful anonymous public-source build. Only the public Cargo registry cache and installed public toolchain were reused. No owner response was replaced by a fixture.</p>
-<p>All four components are required for this particular chain. Without Pulse, a local NQ read remains possible but does not provide this qualified support path. Without Nightshift, there is no retained attention decision under this policy. Human-message delivery is outside the verified profile: the intentional refusal does not send a message, and duplicate submission is not a future delivery reservation. See <a href="notifications.html">notification limits</a>.</p>
+<p>Expect <code>"result": "qualified"</code>, <code>"notification_state": "accepted"</code> and <code>"network_enabled": false</code>. One mode-<code>0600</code> JSON message appears under <code>queue-attention-run/local-inbox</code>. A duplicate returns the same delivery identity without writing another file. This means a file was retained and synced, not that a person read it. Remove <code>--local-inbox</code> to exercise the intentionally refused, network-disabled webhook branch instead.</p>
+<p>The actual caller also requires NQ admission, Pulse current support, Nightshift attention, exact replay, duplicate convergence, changed-catalog refusal, exclusive stale-input refusal and a reopened attention evaluation that does not refresh evidence. An anonymous public clone supplied the example and a fresh NQ build; unchanged Monitor/Pulse/Nightshift binaries were reused from their earlier anonymous public build. The local-inbox example passed in a filesystem/network namespace with no private repository or home-directory mounts. Public registry and toolchain caches were reused; no owner response was replaced by a fixture.</p>
+<p>All four components are required for this particular chain. Without Pulse, a local NQ read remains possible but does not provide this qualified support path. Without Nightshift, there is no retained attention decision under this policy. Local-file delivery is verified; live Slack/Discord delivery and human acknowledgment are not. See <a href="notifications.html">notification limits</a>.</p>
 <h2>Inspect, restart and recover</h2>
 <p>Keep <code>queue-attention-run</code>. It contains the actual inventory, source observation, policies, owner receipts, SQLite stores, <code>commands.jsonl</code> and <code>result.json</code>. Read the smaller result first. Each subprocess has a thirty-second and one-MiB-per-stream bound; the caller does not automatically retry.</p>
 <p>The example is create-only, not a resume-everything command. After interruption, inspect the retained command and owner records. Replay an existing attention bundle through <code>nightshift attention replay</code>; inspect an existing notification ID through <code>nq notification inspect</code> with the exact retained configuration. A claimed delivery without a terminal result remains unknown. Do not invent a new event identity to get around uncertainty.</p>
-<p>The <a href="https://github.com/unpingable/constellation-nightshift/blob/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations/monitor-predicate-support/docs/local-queue-attention.md">complete caller and recovery guide</a> gives exact commands and retained-state ownership. Stop all example commands before backing up or removing its exact disposable root; preserve SQLite sidecars with their database. Complete-deployment restoration, migration and rollback are not verified.</p>
+<p>The <a href="https://github.com/unpingable/constellation-nightshift/blob/39216731bf5124d71c7a3113a198a3c6d1b00962/integrations/monitor-predicate-support/docs/local-queue-attention.md">complete caller and recovery guide</a> gives exact commands and retained-state ownership. Keep the inbox files with the delivery database: neither substitutes for the other. Stop all example commands before backing up or removing its exact disposable root; preserve SQLite sidecars with their database. Complete-deployment restoration, migration and rollback are not verified.</p>
 <p>This profile does not provide recurring saved-check scheduling, automatic maintenance overlays, generation retention, objective completion, AG/Docket authorization and execution, or federation. Those missing capabilities are not supplied by the UI or this successful example. B/C and the broader connected integration work remain incomplete.</p>
 <p>For problems, report the two source revisions, environment versions, command and a minimal redacted excerpt through <a href="troubleshooting.html">Troubleshooting</a>. Do not upload the whole state directory or private evidence. Experimental alpha support is best effort with no guaranteed response time.</p>
 </main><footer>Constellation documentation · <a href="integration.html">Composition matrix</a></footer></body></html>
