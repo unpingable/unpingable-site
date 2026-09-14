@@ -167,9 +167,8 @@
             ]
           },
           {
-            "capability": "named cache-support dependency",
+            "capability": "currentness support for the exact NQ host observation",
             "component_ids": [
-              "monitor",
               "pulse"
             ]
           },
@@ -182,23 +181,23 @@
       },
       "id": "connected-cache-c",
       "lost_guarantees": [
-        "No public-only install, recovery, or complete cache tutorial is qualified.",
-        "Required Pulse source is now public; complete successor admission, connected recovery and newcomer qualification remain incomplete."
+        "Public-code local execution and inspection are qualified; clean public-only connected reproduction and newcomer recovery qualification remain open.",
+        "Standing is synthetic. Result admission describes the exact recorded attempt, not the cache's present condition."
       ],
-      "maturity": "not-publicly-runnable",
+      "maturity": "locally-qualified-public-reproduction-pending",
       "public_examples": [
         {
           "example": "recipes.html#recipe-c",
-          "implementation_id": "pulse",
-          "source": "https://github.com/unpingable/constellation-nightshift/tree/ee77d9c97f198abc615840d604ed7bf6d5a35901/integrations/pulse-nq-load-support",
-          "state": "public source; complete connected recipe still unqualified"
+          "implementation_id": "maude",
+          "source": "https://github.com/unpingable/maude/blob/08ca231d96e2451997fd0b1e0fb09d9904ad597e/qualification/synthetic_cache/CONNECTED_SUCCESSOR.md",
+          "state": "public setup, driver and operations guide; local runs passed, public-only connected reproduction pending"
         }
       ],
       "recipe": "recipes.html#recipe-c",
       "refusals": [
         "Do not assemble this path from repository heads or reuse an old occurrence."
       ],
-      "summary": "Connected disposable-cache workflow; blocked from public newcomer use"
+      "summary": "Refresh and remove a disposable cache through separately authorized runs; public newcomer qualification pending"
     },
     {
       "capabilities": {

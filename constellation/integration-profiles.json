@@ -39,11 +39,10 @@
         "docket",
         "nq",
         "phosphor",
-        "monitor",
         "pulse"
       ],
       "id": "connected-cache-c",
-      "status": "not-publicly-runnable",
+      "status": "locally-qualified-public-reproduction-pending",
       "guide": "recipes.html#recipe-c"
     },
     {
