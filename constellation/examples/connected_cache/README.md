@@ -4,6 +4,13 @@ This helper fills the two closed input documents consumed by Maude's
 `generate_connected_cache_example.py`. It measures caller-selected executable
 bytes; it does not download, build, initialize, authorize, or execute anything.
 
+The tested host is Linux x86-64 (Ubuntu 24.04), Python 3.12.3, with Git,
+Rustup, a C compiler/linker, OpenSSL, a user systemd manager and Docker Compose.
+Do not run on a shared production Docker daemon. Reserve space before building;
+the setup also requires 60 GiB free on the owner filesystem and `/data` when
+present. Builds may take several minutes: use your durable build manager and
+retain its source pins and logs if your terminal may disconnect.
+
 Use clean detached public checkouts at the revisions embedded in
 `make_inputs.py`. One copyable source setup is:
 
@@ -52,11 +59,12 @@ The pinned repositories are:
   resolver; and
 - `https://github.com/unpingable/constellation-docket.git` for Docket.
 
-The public 080/081 cohort used Rust 1.94.0. Install/select that exact toolchain
+The verified public-source cohort used Rust 1.94.0. Install/select that exact toolchain
 and use each checkout's locked dependency graph:
 
 ```bash
 rustup toolchain install 1.94.0 --profile minimal
+export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0
 cargo +1.94.0 build --locked --manifest-path "$NQ/Cargo.toml" -p nq-app --bin nq
 cargo +1.94.0 build --locked --manifest-path "$NQ/Cargo.toml" \
   -p nq-host-helper -p nq-synthetic-cache-result-helper
@@ -85,7 +93,7 @@ install -m 0555 "$NIGHTSHIFT/target/debug/nightshift-observation-resolver" \
 install -m 0555 "$AG/target/debug/ag-loopctl" "$PROGRAMS/ag-loopctl"
 install -m 0555 "$AG/target/debug/ag-standing-resolver" "$PROGRAMS/ag-standing-resolver"
 install -m 0555 "$DOCKET/target/debug/docket" "$PROGRAMS/docket"
-install -m 0555 "$PULSE_SOURCE/target/debug/pulse-nq-load-support" \
+install -m 0555 "$PULSE_SOURCE/integrations/pulse-nq-load-support/target/debug/pulse-nq-load-support" \
   "$PROGRAMS/pulse-nq-load-support"
 install -m 0555 "$(command -v docker)" "$PROGRAMS/docker"
 install -m 0555 "$(command -v openssl)" "$PROGRAMS/openssl"
@@ -109,7 +117,7 @@ python3 -m venv --copies "$VENV"
 ```
 
 The role digest is an explicit local synthetic-fixture assertion, not a claim
-that Nightshift published or authenticated a role definition. The public 084
+that Nightshift published or authenticated a role definition. The public-source
 qualification used `sha256:` followed by 64 lowercase `e` characters together
 with role ID `nightshift-role:cache-bootstrap-host` and version `1`. Copy that
 value only when reproducing this same synthetic profile, and record it as
@@ -117,7 +125,10 @@ caller asserted. The later AG profile seal checks internal consistency; it
 does not turn the assertion into external provenance.
 
 ```bash
-install -m 0555 constellation/examples/connected_cache/make_inputs.py "$INPUT_HELPER"
+curl --fail --silent --show-error \
+  https://raw.githubusercontent.com/unpingable/unpingable-site/7386df1c36a13f7fba6208e1896e22e99b8e3b7c/constellation/examples/connected_cache/make_inputs.py \
+  --output "$INPUT_HELPER"
+echo "afb7df5f35ef24bf14128220c52792b94365f6081a6f8ef4fccf2fd8a6ecf862  $INPUT_HELPER" | sha256sum --check
 mkdir -m 700 "$OWNER_PARENT"
 test ! -e "$INPUTS"
 test ! -e "$RUN"
@@ -158,6 +169,7 @@ Prepare the fresh owner, then execute through the bounded public driver:
   --config "$INPUT_PARENT/setup.json"
 
 MANAGER="connected-cache-$LABEL-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+printf '%s\n' "$MANAGER" > "$INPUT_PARENT/manager-unit.txt"
 systemd-run --user --unit="$MANAGER" --collect \
   --property=Type=oneshot --property=TimeoutStartSec=2400 \
   --property=TimeoutStopSec=10 --property=KillMode=control-group \

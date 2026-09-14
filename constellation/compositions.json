@@ -184,13 +184,13 @@
         "Public-code local execution and inspection are qualified; clean public-only connected reproduction and newcomer recovery qualification remain open.",
         "Standing is synthetic. Result admission describes the exact recorded attempt, not the cache's present condition."
       ],
-      "maturity": "locally-qualified-public-reproduction-pending",
+      "maturity": "public-source-qualified-newcomer-pending",
       "public_examples": [
         {
           "example": "recipes.html#recipe-c",
           "implementation_id": "maude",
           "source": "https://github.com/unpingable/maude/blob/08ca231d96e2451997fd0b1e0fb09d9904ad597e/qualification/synthetic_cache/CONNECTED_SUCCESSOR.md",
-          "state": "public setup, driver and operations guide; local runs passed, public-only connected reproduction pending"
+          "state": "public input helper, driver and operations guide; public-source connected run independently accepted, newcomer failure/recovery pending"
         }
       ],
       "recipe": "recipes.html#recipe-c",
