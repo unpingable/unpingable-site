@@ -13,10 +13,10 @@
       "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
     },
     {
-      "availability": "Public source at ad7dd887b52269c6e8c9dd7ffd10829861de4596 includes saved checks, maintenance annotations and bounded Slack/Discord transport. No binary package is published.",
+      "availability": "Public source at e605a56c9b90c92f60c6c5c80b3076c189ee30a4 includes saved checks, maintenance-aware result inspection and bounded Slack/Discord transport. No binary package is published.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview. Local saved checks have public-only reproduction; notification replay has local tests, not verified live delivery or recurring migration.",
+      "maturity": "Developer preview. Saved checks and retained condition views have public-only reproduction; no complete recurring-monitoring migration or verified live notification delivery.",
       "name": "Constellation NQ",
       "relationship": "core family office",
       "role": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
@@ -35,10 +35,10 @@
       "use": "Use when an authorized workflow needs attempt identity and settlement custody."
     },
     {
-      "availability": "Public source at d8e03c04847cc0e8d7b8fd57ef0896959e73f89f includes the separately selected runtime workspace and bounded attention replay.",
+      "availability": "Public source at 8a3d0d5ca28feb05a3c8a20f287edacf43a8d032 includes the separate runtime workspace, bounded attention replay and desired-check selection.",
       "id": "nightshift",
       "implementation_form": "standalone Rust temporal-observation office",
-      "maturity": "Development source with tested bounded scheduling and attention replay; no complete operational-workflow claim.",
+      "maturity": "Development source with tested bounded attention replay and check selection. Selection is not acquisition or a complete recurring workflow.",
       "name": "Constellation Nightshift",
       "relationship": "core family office",
       "role": "Tracks currentness, recurrence, and attention over time.",
