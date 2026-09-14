@@ -64,9 +64,9 @@
         "nq",
         "nightshift"
       ],
-      "status": "qualified-public-reproduction-tag-pending",
+      "status": "released-alpha",
       "guide": "saved-check-attention.html",
-      "release_candidate": {
+      "release": {
         "suite_version": "0.1.0-alpha.2",
         "guide": "releases/0.1.0-alpha.2/guide.html",
         "manifest": "releases/0.1.0-alpha.2/manifest.json"
