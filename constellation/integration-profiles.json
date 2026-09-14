@@ -1,13 +1,18 @@
 {
   "profiles": [
     {
-      "component_ids": ["ag", "phosphor"],
+      "component_ids": [
+        "ag",
+        "phosphor"
+      ],
       "id": "ag-phosphor-demo-a",
       "status": "verified-component-demonstration",
       "guide": "phosphor-reader.html"
     },
     {
-      "component_ids": ["maude"],
+      "component_ids": [
+        "maude"
+      ],
       "id": "maude-plan-consultation/v1",
       "status": "released-alpha",
       "guide": "integration.html#maude-plan-consultation",
@@ -18,16 +23,39 @@
       }
     },
     {
-      "component_ids": ["ag", "docket"],
+      "component_ids": [
+        "ag",
+        "docket"
+      ],
       "id": "governed-action-b",
       "status": "incomplete-public-recipe",
       "guide": "recipes.html#recipe-b"
     },
     {
-      "component_ids": ["maude", "nightshift", "ag", "docket", "nq", "phosphor", "monitor", "pulse"],
+      "component_ids": [
+        "maude",
+        "nightshift",
+        "ag",
+        "docket",
+        "nq",
+        "phosphor",
+        "monitor",
+        "pulse"
+      ],
       "id": "connected-cache-c",
       "status": "not-publicly-runnable",
       "guide": "recipes.html#recipe-c"
+    },
+    {
+      "component_ids": [
+        "monitor",
+        "nq",
+        "pulse",
+        "nightshift"
+      ],
+      "id": "local-queue-attention/v1",
+      "status": "public-only-qualified-development-profile",
+      "guide": "queue-attention.html"
     }
   ],
   "release_status": "candidate",
