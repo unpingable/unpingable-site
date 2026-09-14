@@ -8,18 +8,38 @@ Use clean detached public checkouts at the revisions embedded in
 `make_inputs.py`. One copyable source setup is:
 
 ```bash
-git clone https://github.com/unpingable/maude.git maude
-git -C maude checkout --detach 0d5b6c91102b1088818d0493c687f9f23db7684e
-git clone https://github.com/unpingable/constellation-nq.git nq
-git -C nq checkout --detach d3089a9787a27c50faf1e3f393a88f8e64bd412d
-git clone https://github.com/unpingable/constellation-nightshift.git nightshift
-git -C nightshift checkout --detach 2db475b0bb8be5e3afa7ac6c95e2ab1f73a9ceb4
-git clone https://github.com/unpingable/constellation-nightshift.git pulse-source
-git -C pulse-source checkout --detach d91b214cd22afd5585fcd259d22463d08d606b58
-git clone https://github.com/unpingable/constellation-ag.git ag
-git -C ag checkout --detach 5c8b22b77193798f25298b02758ac3caa3a8fe24
-git clone https://github.com/unpingable/constellation-docket.git docket
-git -C docket checkout --detach c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b
+EXAMPLE_WORK=/absolute/caller-owned/connected-cache-example
+test "${EXAMPLE_WORK#/}" != "$EXAMPLE_WORK"
+test ! -e "$EXAMPLE_WORK"
+mkdir -m 700 "$EXAMPLE_WORK"
+
+MAUDE="$EXAMPLE_WORK/maude"
+NQ="$EXAMPLE_WORK/constellation-nq"
+NIGHTSHIFT="$EXAMPLE_WORK/nightshift-2db475b"
+PULSE_SOURCE="$EXAMPLE_WORK/nightshift-d91b214"
+AG="$EXAMPLE_WORK/constellation-ag"
+DOCKET="$EXAMPLE_WORK/constellation-docket"
+PROGRAMS="$EXAMPLE_WORK/programs"
+VENV="$EXAMPLE_WORK/maude-venv"
+INPUT_PARENT="$EXAMPLE_WORK/records"
+INPUTS="$INPUT_PARENT/inputs"
+OWNER_PARENT="$EXAMPLE_WORK/owner"
+RUN="$OWNER_PARENT/run"
+INPUT_HELPER="$EXAMPLE_WORK/make_inputs.py"
+LABEL=my-cache-check
+
+git clone https://github.com/unpingable/maude.git "$MAUDE"
+git -C "$MAUDE" checkout --detach 0d5b6c91102b1088818d0493c687f9f23db7684e
+git clone https://github.com/unpingable/constellation-nq.git "$NQ"
+git -C "$NQ" checkout --detach d3089a9787a27c50faf1e3f393a88f8e64bd412d
+git clone https://github.com/unpingable/constellation-nightshift.git "$NIGHTSHIFT"
+git -C "$NIGHTSHIFT" checkout --detach 2db475b0bb8be5e3afa7ac6c95e2ab1f73a9ceb4
+git clone https://github.com/unpingable/constellation-nightshift.git "$PULSE_SOURCE"
+git -C "$PULSE_SOURCE" checkout --detach d91b214cd22afd5585fcd259d22463d08d606b58
+git clone https://github.com/unpingable/constellation-ag.git "$AG"
+git -C "$AG" checkout --detach 5c8b22b77193798f25298b02758ac3caa3a8fe24
+git clone https://github.com/unpingable/constellation-docket.git "$DOCKET"
+git -C "$DOCKET" checkout --detach c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b
 ```
 
 The pinned repositories are:
@@ -32,26 +52,45 @@ The pinned repositories are:
   resolver; and
 - `https://github.com/unpingable/constellation-docket.git` for Docket.
 
-With a pinned Rust toolchain capable of building those revisions, use their
-locked dependency graphs. These are the narrow program builds:
+The public 080/081 cohort used Rust 1.94.0. Install/select that exact toolchain
+and use each checkout's locked dependency graph:
 
 ```bash
-cargo build --locked --manifest-path nq/Cargo.toml -p nq-app --bin nq
-cargo build --locked --manifest-path nq/Cargo.toml \
+rustup toolchain install 1.94.0 --profile minimal
+cargo +1.94.0 build --locked --manifest-path "$NQ/Cargo.toml" -p nq-app --bin nq
+cargo +1.94.0 build --locked --manifest-path "$NQ/Cargo.toml" \
   -p nq-host-helper -p nq-synthetic-cache-result-helper
-cargo build --locked --manifest-path nightshift/Cargo.toml -p nightshiftd \
+cargo +1.94.0 build --locked --manifest-path "$NIGHTSHIFT/Cargo.toml" -p nightshiftd \
   --bin nightshift --bin nightshift-observation-resolver
-cargo build --locked --manifest-path ag/Cargo.toml -p ag-app \
+cargo +1.94.0 build --locked --manifest-path "$AG/Cargo.toml" -p ag-app \
   --bin ag-loopctl --bin ag-standing-resolver
-cargo build --locked --manifest-path docket/Cargo.toml -p gwr-local --bin docket
-cargo build --locked \
-  --manifest-path pulse-source/integrations/pulse-nq-load-support/Cargo.toml \
+cargo +1.94.0 build --locked --manifest-path "$DOCKET/Cargo.toml" -p gwr-local --bin docket
+cargo +1.94.0 build --locked \
+  --manifest-path "$PULSE_SOURCE/integrations/pulse-nq-load-support/Cargo.toml" \
   --bin pulse-nq-load-support
 ```
 
-Copy the resulting binaries to a fresh directory under the exact names shown
-by `make_inputs.py --help`/`PROGRAMS`. Copy the selected system `docker` and
-`openssl` executables there as regular files named `docker` and `openssl`.
+Install regular copies under the exact names consumed by the closed Maude
+schema (the program names are defined in `make_inputs.py`, not its `--help`):
+
+```bash
+mkdir -m 700 "$PROGRAMS"
+install -m 0555 "$NQ/target/debug/nq" "$PROGRAMS/nq"
+install -m 0555 "$NQ/target/debug/nq-host-helper" "$PROGRAMS/nq-host-helper"
+install -m 0555 "$NQ/target/debug/nq-synthetic-cache-result-helper" \
+  "$PROGRAMS/nq-synthetic-cache-result-helper"
+install -m 0555 "$NIGHTSHIFT/target/debug/nightshift" "$PROGRAMS/nightshift"
+install -m 0555 "$NIGHTSHIFT/target/debug/nightshift-observation-resolver" \
+  "$PROGRAMS/nightshift-observation-resolver"
+install -m 0555 "$AG/target/debug/ag-loopctl" "$PROGRAMS/ag-loopctl"
+install -m 0555 "$AG/target/debug/ag-standing-resolver" "$PROGRAMS/ag-standing-resolver"
+install -m 0555 "$DOCKET/target/debug/docket" "$PROGRAMS/docket"
+install -m 0555 "$PULSE_SOURCE/target/debug/pulse-nq-load-support" \
+  "$PROGRAMS/pulse-nq-load-support"
+install -m 0555 "$(command -v docker)" "$PROGRAMS/docker"
+install -m 0555 "$(command -v openssl)" "$PROGRAMS/openssl"
+```
+
 Source checkout, successful compilation, and matching filenames alone are
 insufficient: this helper records the exact resulting bytes, and Maude checks
 those pins again during preparation. The tested runtime tuple is Docker client
@@ -63,8 +102,10 @@ Maude requires Python 3.11 or later and declares `textual>=1.0.0`,
 install the exact detached Maude checkout (record the resolved package set):
 
 ```bash
-python3 -m venv --copies /absolute/copied-venv
-/absolute/copied-venv/bin/python -m pip install -e /absolute/maude
+mkdir -m 700 "$INPUT_PARENT"
+python3 -m venv --copies "$VENV"
+"$VENV/bin/python" -m pip install -e "$MAUDE"
+"$VENV/bin/python" -m pip freeze > "$INPUT_PARENT/python-requirements.txt"
 ```
 
 The role digest is an explicit local synthetic-fixture assertion, not a claim
@@ -76,46 +117,53 @@ caller asserted. The later AG profile seal checks internal consistency; it
 does not turn the assertion into external provenance.
 
 ```bash
-python3 constellation/examples/connected_cache/make_inputs.py \
-  --output /absolute/fresh/input-records \
-  --maude-source /absolute/maude \
-  --nq-source /absolute/constellation-nq \
-  --nightshift-source /absolute/nightshift-at-2db475b \
-  --ag-source /absolute/constellation-ag \
-  --docket-source /absolute/constellation-docket \
-  --pulse-source /absolute/nightshift-at-d91b214 \
-  --program-dir /absolute/installed-programs \
-  --python /absolute/copied-venv/bin/python \
-  --pulse-launcher-sealer /absolute/nightshift/integrations/pulse-nq-load-support/tools/seal-pulse-support-resolver-launcher.py \
+install -m 0555 constellation/examples/connected_cache/make_inputs.py "$INPUT_HELPER"
+mkdir -m 700 "$OWNER_PARENT"
+test ! -e "$INPUTS"
+test ! -e "$RUN"
+"$VENV/bin/python" \
+  "$INPUT_HELPER" \
+  --output "$INPUTS" \
+  --maude-source "$MAUDE" \
+  --nq-source "$NQ" \
+  --nightshift-source "$NIGHTSHIFT" \
+  --ag-source "$AG" \
+  --docket-source "$DOCKET" \
+  --pulse-source "$PULSE_SOURCE" \
+  --program-dir "$PROGRAMS" \
+  --python "$VENV/bin/python" \
+  --pulse-launcher-sealer "$PULSE_SOURCE/integrations/pulse-nq-load-support/tools/seal-pulse-support-resolver-launcher.py" \
   --role-digest sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee \
-  --label my-cache-check
+  --label "$LABEL"
 ```
 
 Then invoke the published Maude caller with the retained files:
 
 ```bash
-"$PYTHON" "$MAUDE/qualification/synthetic_cache/generate_connected_cache_example.py" \
-  --output /absolute/records/setup.json \
-  --root /absolute/fresh/run-root \
-  --maude-source "$MAUDE" --program-dir /absolute/installed-programs \
-  --python "$PYTHON" --pulse-launcher-sealer /absolute/sealer.py \
-  --install-manifest /absolute/fresh/input-records/connected-cache-install.json \
-  --profile /absolute/fresh/input-records/connected-cache-profile.json \
+"$VENV/bin/python" "$MAUDE/qualification/synthetic_cache/generate_connected_cache_example.py" \
+  --output "$INPUT_PARENT/setup.json" \
+  --root "$RUN" \
+  --maude-source "$MAUDE" --program-dir "$PROGRAMS" \
+  --python "$VENV/bin/python" \
+  --pulse-launcher-sealer "$PULSE_SOURCE/integrations/pulse-nq-load-support/tools/seal-pulse-support-resolver-launcher.py" \
+  --install-manifest "$INPUTS/connected-cache-install.json" \
+  --profile "$INPUTS/connected-cache-profile.json" \
   --execution-account local-example-account --allow-same-identity-in-debug
 ```
 
 Prepare the fresh owner, then execute through the bounded public driver:
 
 ```bash
-"$PYTHON" "$MAUDE/qualification/synthetic_cache/prepare_connected_cache_run.py" \
-  --config /absolute/records/setup.json
+"$VENV/bin/python" "$MAUDE/qualification/synthetic_cache/prepare_connected_cache_run.py" \
+  --config "$INPUT_PARENT/setup.json"
 
-systemd-run --user --unit=connected-cache-example --collect \
+MANAGER="connected-cache-$LABEL-$(date -u +%Y%m%dT%H%M%SZ)-$$"
+systemd-run --user --unit="$MANAGER" --collect \
   --property=Type=oneshot --property=TimeoutStartSec=2400 \
   --property=TimeoutStopSec=10 --property=KillMode=control-group \
   --property=MemoryMax=2G --property=TasksMax=256 --property=Restart=no \
-  "$PYTHON" "$MAUDE/qualification/synthetic_cache/run_connected_cache.py" \
-  --context /absolute/fresh/run-root/context.json --execute
+  "$VENV/bin/python" "$MAUDE/qualification/synthetic_cache/run_connected_cache.py" \
+  --context "$RUN/context.json" --execute
 ```
 
 The Docker socket gives the driver authority over the host Docker daemon; an
@@ -124,7 +172,9 @@ image is already present and that no containers or networks carry Compose
 project label `maude-cache-birthday` before starting. The driver performs two
 occurrences: qualification, followed by the separately governed teardown.
 
-After terminal completion, follow the exact read-only NQ, AG, Docket, result
+Wait for `systemctl --user show "$MANAGER.service"` to report inactive with no
+main process, then read `$RUN/records/connected-run/terminal.json`. Exit zero is
+necessary but is not acceptance. Follow the exact read-only NQ, AG, Docket, result
 owner, Docker-label, interruption, and retention commands in the pinned
 Maude file `qualification/synthetic_cache/OPERATIONS.md`. Successful teardown
 requires both final label inventories to be empty; do not infer cleanup from an

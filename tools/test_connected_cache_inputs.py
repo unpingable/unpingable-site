@@ -92,6 +92,14 @@ class ConnectedCacheInputsTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "bounded regular file"):
                 MODULE.digest(path)
 
+    def test_recipe_has_no_undefined_runtime_path_placeholders(self):
+        readme = PATH.with_name("README.md").read_text(encoding="utf-8")
+        self.assertNotIn("$PYTHON", readme)
+        self.assertNotIn("/absolute/sealer.py", readme)
+        self.assertNotIn("--unit=connected-cache-example", readme)
+        self.assertIn('MANAGER="connected-cache-$LABEL-', readme)
+        self.assertIn("Rust 1.94.0", readme)
+
 
 if __name__ == "__main__":
     unittest.main()

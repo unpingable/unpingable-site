@@ -81,7 +81,7 @@ def source_revision(source: Path) -> str:
         return result.stdout.strip()
     revision = git("rev-parse", "HEAD")
     if git("status", "--porcelain=v1"):
-        raise ValueError("Maude checkout must be clean")
+        raise ValueError("public source checkout must be clean")
     return revision
 
 
