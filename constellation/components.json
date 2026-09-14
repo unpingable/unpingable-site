@@ -2,14 +2,14 @@
   "as_of": "2026-09-14",
   "components": [
     {
-      "availability": "Public source on main at 183bd514f21c5241e8aea967384e3c921eb53300; no binary package is published.",
+      "availability": "Public source on main at 017a3c16ecd1e98ab8b0efce51c4557e36d37c15; no binary package is published.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
       "maturity": "Component-qualified development source, including bounded V2 continuation; the genuine shared workflow remains unqualified.",
       "name": "Constellation AG",
       "relationship": "core family office",
       "role": "Makes bounded, one-use authorization decisions from current inputs.",
-      "url": "https://github.com/unpingable/constellation-ag/tree/183bd514f21c5241e8aea967384e3c921eb53300",
+      "url": "https://github.com/unpingable/constellation-ag/tree/017a3c16ecd1e98ab8b0efce51c4557e36d37c15",
       "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
     },
     {
@@ -57,14 +57,14 @@
       "use": "Use for source-level Plan Core work; a checked plan grants no permission and runs no work."
     },
     {
-      "availability": "Hosted in public AG source at 183bd514f21c5241e8aea967384e3c921eb53300; no standalone package.",
+      "availability": "Hosted in public AG source at 017a3c16ecd1e98ab8b0efce51c4557e36d37c15; generic NQ condition reader included, no standalone package.",
       "id": "phosphor",
       "implementation_form": "read-only inspector hosted in Constellation AG",
-      "maturity": "Experimental read-only projection; exact owner-linked runs are implemented, while objective assessments and prerequisite assembly remain unknown.",
+      "maturity": "Experimental read-only integration; exact run links and explicitly application-owned condition/prerequisite assessments are implemented. A full deployment migration is not qualified.",
       "name": "Phosphor",
       "relationship": "hosted family capability",
       "role": "Shows authored goals and their linked runs, outcomes, and supporting records.",
-      "url": "https://github.com/unpingable/constellation-ag/blob/183bd514f21c5241e8aea967384e3c921eb53300/docs/objective-read-projection.md",
+      "url": "https://github.com/unpingable/constellation-ag/blob/017a3c16ecd1e98ab8b0efce51c4557e36d37c15/docs/objective-read-projection.md",
       "use": "Inspect exact authored-plan and run relationships without changing owner state. A settled or successful attempt does not establish objective completion."
     },
     {

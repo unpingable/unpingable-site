@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Lifecycle guidance for the public alpha Constellation authoring route.">
+  <meta name="description" content="Lifecycle guidance for the released public alpha Constellation routes.">
   <title>After the first run</title>
   <link rel="stylesheet" href="base.css">
   <link rel="canonical" href="https://unpingable.com/constellation/after-first-run.html">
@@ -16,16 +16,16 @@
   <main id="main">
     <h1>After the first run</h1>
     <p>For operator attention, see <a href="notifications.html">Human notifications and migration limits</a>. A retained record does not imply that anyone has been notified.</p>
-    <p class="lede">For <code>maude-plan-consultation/v1</code>, use the released <a href="releases/0.1.0-alpha.1/guide.html">versioned release guide</a>. It is a qualified Maude-only consultation profile at public Maude <code>7d196e2ab0e78cca46bd34af1ce6e9cbc9bf7fa6</code> and kit <code>013b05d0c5258ee1bc898a51b271e47d49c4f865</code>; it is not an AG/Phosphor, B, or C release.</p>
+    <p class="lede">Use the versioned guide for the profile you actually ran: <a href="releases/0.1.0-alpha.1/guide.html"><code>maude-plan-consultation/v1</code> in alpha.1</a>, or <a href="releases/0.1.0-alpha.2/guide.html"><code>saved-check-attention/v1</code> in alpha.2</a>. They are separate scoped releases; neither qualifies AG/Phosphor, Recipe B, Recipe C, or a full application installation.</p>
 
     <aside class="note" aria-label="Consultation profile boundary"><strong>Consultation profile:</strong> no service, credential, or provider route is involved. Select one existing <code>plans.sqlite</code>, keep writers quiescent while reading an aggregate, and parse the reader JSON: <code>unavailable</code> is an exit-0 result, not a successful available record. No backup/restore, migration, rollback, or mutator retry procedure is qualified for this profile.</aside>
 
     <aside class="note" aria-label="Current boundary"><strong>Current boundary:</strong> Maude's credential-free design demo creates local authoring stores. AG-hosted Phosphor is a separate read-only inspector and is not a Maude external-caller profile. Neither route executes planned work.</aside>
 
-    <aside class="note" aria-label="Docket component boundary"><strong>Docket component capability:</strong> the pinned <a href="https://github.com/unpingable/constellation-docket/blob/fbcacc1dfb95f0f625a72e123f61afa41c1ddccb/docs/governed-runtime/local-execution-standing.md">local permission guide</a> covers one exact prospective permission with a lifetime of at most 300 seconds. Docket retains the observed permission snapshot with custody. Permission revoked at resolution, missing, expired, ambiguous, or mismatched refuses; revocation after successful resolution is non-retroactive for that custody attempt. This does not qualify a shared Integration profile or extend the consultation-only alpha release.</aside>
+    <aside class="note" aria-label="Docket component boundary"><strong>Docket component capability:</strong> the pinned <a href="https://github.com/unpingable/constellation-docket/blob/fbcacc1dfb95f0f625a72e123f61afa41c1ddccb/docs/governed-runtime/local-execution-standing.md">local permission guide</a> covers one exact prospective permission with a lifetime of at most 300 seconds. Docket retains the observed permission snapshot with custody. Permission revoked at resolution, missing, expired, ambiguous, or mismatched refuses; revocation after successful resolution is non-retroactive for that custody attempt. This component capability does not extend either released profile into a governed-effect integration.</aside>
 
     <h2>Saved checks and local attention</h2>
-    <p>The <a href="saved-check-attention.html">saved-check attention guide</a> gives exact pinned setup, retained state locations, inspection and no-blind-retry rules for the public-only finite example. Its create-only generator is not a restart command. Keep NQ and Nightshift stores, configuration, receipt and inbox records together; restoration, rollback and unattended recurring installation are not qualified.</p>
+    <p>The mutable <a href="saved-check-attention.html">saved-check attention guide</a> and released <a href="releases/0.1.0-alpha.2/guide.html">alpha.2 snapshot</a> give exact pinned setup, retained state locations, inspection and no-blind-retry rules for the public-only finite example. Its create-only generator is not a restart command. Keep NQ and Nightshift stores, configuration, receipt and inbox records together; restoration, rollback and unattended recurring installation are not qualified.</p>
 
     <h2>Inspect before you restart</h2>
     <p>For the consultation profile, keep the exact public revision, kit revision, local store location, and selected draft and revision identifiers together. Select the existing store explicitly and use only <code>maude-plan --read-only list</code> or <code>maude-plan --read-only inspect DRAFT_ID</code>. These commands neither initialize a missing store nor authorize work. Their JSON can report <code>unavailable</code> with exit status 0; parse the schema and availability field. Do not retry a mutating command automatically.</p>
