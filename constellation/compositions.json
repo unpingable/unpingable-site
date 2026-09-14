@@ -321,7 +321,7 @@
         "No independent Pulse source support or atomic observation-to-SQLite binding is established; the enrolled source relationship is an operator assumption.",
         "No installed recurring service, retention rollover, human acknowledgment, HTTPS delivery or AG/Docket action path is supplied."
       ],
-      "maturity": "public-only-qualified-development-profile; immutable release pending",
+      "maturity": "qualified public-only composition; integration snapshot 0.1.0-alpha.2",
       "public_examples": [
         {
           "implementation_id": "nightshift",

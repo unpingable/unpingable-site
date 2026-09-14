@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Run one disposable SQLite saved check, retain an attention decision, and deliver one local operator-inbox file.">
-  <title>Saved-check attention — Constellation</title>
-  <link rel="stylesheet" href="base.css">
-  <link rel="canonical" href="https://unpingable.com/constellation/saved-check-attention.html">
+  <title>Saved-check attention · 0.1.0-alpha.2 — Constellation</title>
+  <link rel="stylesheet" href="../../base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/releases/0.1.0-alpha.2/guide.html">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="notifications.html">Notifications</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+  <header><nav aria-label="Main navigation"><strong><a href="../../index.html">Constellation</a></strong><a href="../../integration.html">Integration</a><a href="../../notifications.html">Notifications</a><a href="../../after-first-run.html">Operations</a><a href="../../troubleshooting.html">Troubleshooting</a></nav></header>
   <main id="main">
     <h1>Check one saved SQLite condition and hand attention to a local inbox</h1>
     <p class="lede">This local tutorial collects a disposable SQLite observation, evaluates one saved check, preserves a maintenance annotation, retains an attention decision, and writes one operator-inbox file. It is for understanding the handoffs—not for deploying an application.</p>
-    <aside class="note"><strong>Current evidence:</strong> a public-only reproduction passed on 2026-09-14 using anonymous public clones, fresh Rust 1.94 builds, and the local-inbox option. It exercised this disposable saved-check, attention-replay, local-file custody, and duplicate path only. The <a href="releases/0.1.0-alpha.2/guide.html">0.1.0-alpha.2 snapshot</a> fixes this named composition and its qualification. It is not a full-suite maturity or consumer-migration claim.</aside>
+    <aside class="note"><strong>Integration snapshot 0.1.0-alpha.2:</strong> Profile <code>saved-check-attention/v1</code>; see this snapshot’s <a href="manifest.json">manifest</a> and <a href="qualification.json">qualification</a>. a public-only reproduction passed on 2026-09-14 using anonymous public clones, fresh Rust 1.94 builds, and the local-inbox option. It exercised this disposable saved-check, attention-replay, local-file custody, and duplicate path only. This is one tested composition, not a full-suite maturity claim. Component versions remain independent.</aside>
 
     <h2>What this does</h2>
     <pre><code>disposable SQLite queue
@@ -88,9 +88,17 @@ CARGO_TARGET_DIR="$DEMO_PARENT/monitor-target" cargo +1.94.0 build --locked --ma
     <p>Running the provided tutorial is not an SDK. An adapting caller must supply the exact project enrollment, actual source and saved-check definition, explicit maintenance material where applicable, the selected attention policy, and the configured replay enrollment. It must preserve the separate records above and inspect an existing attempt before considering another submission. This example is a concrete composition boundary, not a general agent-orchestration framework.</p>
     <p>This path does not deploy an application, establish a general recurring-monitoring migration, make a family-wide alpha maturity claim, or supply AG/Docket permission or execution custody. It produces no governed external effect.</p>
 
+    <h2>Lifecycle and changes</h2>
+    <p>This profile starts no daemon. Start the finite example once with a fresh root, keep its foreground supervisor attended, and use the inspection commands above afterward. Interrupting it is not a settlement or safe restart. Configuration and owner state live in the retained root; no credentials are needed. NQ owns <code>nq.db</code> and delivery custody; Nightshift owns <code>nightshift.sqlite</code> and retained recurrence/attention. The caller owns the source SQLite file, <code>commands.jsonl</code>, configurations and local inbox location.</p>
+    <p>Before any version change, compare the new manifest’s exact source pins and contracts. Do not run a new binary against retained state on the assumption that alpha versions migrate automatically. Cross-version migration, rollback and restoration have not been verified. Keep this source cohort available to inspect its records. A new fresh-root run is a separate occurrence, not recovery of an uncertain old one.</p>
+    <p>Uninstalling these tutorial binaries or source checkouts does not remove the retained records. For a completed disposable tutorial, first verify that no process is using its exact root and decide whether its evidence is still needed. Remove only that identified disposable root when its records are no longer needed. Keep any user records or uncertain delivery evidence; do not apply tutorial cleanup to production stores or use blanket cleanup commands.</p>
+    <h2>Verify the release record</h2>
+    <p>The release validator reads this immutable snapshot, not current repository heads. With the site source and the pinned Nightshift checkout available, run:</p>
+    <pre><code>python3 tools/check_compositions.py --component-checkout nightshift=/absolute/path/to/pinned/nightshift</code></pre>
+    <p>The checkout path is a local verification input, never a field in the released manifest. Dependency lockfiles and example hashes are fixed by the source pins. No binary or container artifact is published for this profile.</p>
     <h2>When something breaks</h2>
-    <p>Use the <a href="troubleshooting.html">troubleshooting guide</a> to report the two source revisions, tool versions, command, retained notification/evaluation identifiers, and a minimal redacted diagnostic excerpt. Do not attach credentials, prompts, entire databases, or unrelated retained records. Support is experimental and best effort; while waiting, preserve and inspect the existing custody rather than repeating work blindly.</p>
+    <p>Use the <a href="../../troubleshooting.html">troubleshooting guide</a> to report the two source revisions, tool versions, command, retained notification/evaluation identifiers, and a minimal redacted diagnostic excerpt. Do not attach credentials, prompts, entire databases, or unrelated retained records. Support is experimental and best effort; while waiting, preserve and inspect the existing custody rather than repeating work blindly.</p>
   </main>
-  <footer>Constellation documentation · <a href="integration.html">Integration guide</a> · <a href="notifications.html">Notification limits</a></footer>
+  <footer>Constellation documentation · <a href="../../integration.html">Integration guide</a> · <a href="../../notifications.html">Notification limits</a></footer>
 </body>
 </html>

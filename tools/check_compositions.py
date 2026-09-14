@@ -7,12 +7,14 @@ import hashlib
 from pathlib import Path
 import re
 import subprocess
+import argparse
 
 from check_constellation import local_problem
 
 ROOT = Path(__file__).resolve().parent.parent
 COMPOSITION_FIELDS = {"id", "summary", "capabilities", "lost_guarantees", "maturity", "public_examples", "recipe", "refusals"}
 PIN = re.compile(r"^[0-9a-f]{40}$")
+PRERELEASE = re.compile(r"^[0-9]+\.[0-9]+\.[0-9]+-[0-9a-z]+(?:[.-][0-9a-z]+)*$")
 
 
 def _nonempty_strings(value: object) -> bool:
@@ -88,7 +90,9 @@ def validate_profiles(root: Path = ROOT) -> int:
         (root / "constellation/components.json").read_text())["components"]}
     data = json.loads((root / "constellation/integration-profiles.json").read_text())
     if (data.get("schema") != "constellation.integration-profiles/v1"
-            or data.get("version") != "0.1.0-alpha.1" or data.get("release_status") != "candidate"):
+            or not isinstance(data.get("version"), str)
+            or not PRERELEASE.fullmatch(data["version"])
+            or data.get("release_status") != "candidate"):
         raise ValueError("invalid integration profile header")
     seen = set()
     for profile in data.get("profiles", []):
@@ -106,10 +110,24 @@ def validate_profiles(root: Path = ROOT) -> int:
             if (profile["status"] != expected_status
                     or not isinstance(candidate, dict)
                     or set(candidate) != {"suite_version", "guide", "manifest"}
-                    or candidate["suite_version"] != data["version"]
+                    or not PRERELEASE.fullmatch(candidate.get("suite_version", ""))
                     or not all(isinstance(candidate[field], str) and candidate[field]
                                for field in ("guide", "manifest"))):
                 raise ValueError("invalid release-candidate reference")
+            for field in ("guide", "manifest"):
+                if local_problem(root / "constellation/integration-profiles.json",
+                                 candidate[field], root):
+                    raise ValueError("release-candidate link is invalid")
+            manifest_path = root / "constellation" / candidate["manifest"]
+            try:
+                manifest = json.loads(manifest_path.read_text())
+            except (OSError, json.JSONDecodeError) as error:
+                raise ValueError("release-candidate manifest is unreadable") from error
+            if (manifest.get("schema") != "constellation.integration-release-manifest/v1"
+                    or manifest.get("suite_version") != candidate["suite_version"]
+                    or not any(isinstance(entry, dict) and entry.get("id") == profile["id"]
+                               for entry in manifest.get("profiles", []))):
+                raise ValueError("release-candidate does not match its immutable manifest")
         seen.add(profile["id"])
     return len(seen)
 
@@ -126,13 +144,83 @@ def _git_bytes(root: Path, commit: str, path: str) -> bytes:
     return completed.stdout
 
 
-def validate_releases(root: Path = ROOT) -> int:
+def _git_text(root: Path, *arguments: str) -> str:
+    completed = subprocess.run(["git", *arguments], cwd=root, check=False,
+                               capture_output=True, text=True)
+    if completed.returncode:
+        raise ValueError("release verification checkout is not the required Git source")
+    return completed.stdout.strip()
+
+
+def _normalized_source(value: str) -> str:
+    normalized = value.removesuffix(".git").rstrip("/")
+    github_ssh = re.fullmatch(r"git@(github\.com|github-unpingable):([^/]+/[^/]+)", normalized)
+    if github_ssh:
+        return github_ssh.group(2)
+    github = re.fullmatch(r"https://github\.com/([^/]+/[^/]+)", normalized)
+    return github.group(1) if github else normalized
+
+
+def _git_common_dir(root: Path) -> Path:
+    value = Path(_git_text(root, "rev-parse", "--git-common-dir"))
+    return (root / value).resolve() if not value.is_absolute() else value.resolve()
+
+
+def _validate_example_source(root: Path, example: object, components: list[dict],
+                             source_head: str, verification_checkouts: dict[str, Path]) -> None:
+    if not isinstance(example, dict) or not PIN.fullmatch(example.get("commit", "")):
+        raise ValueError("release example source has invalid pin")
+    external_fields = {"source_kind", "component_id", "commit", "example",
+                       "example_sha256", "guide", "guide_sha256"}
+    if example.get("source_kind") == "public_component":
+        if set(example) != external_fields:
+            raise ValueError("external release example has invalid fields")
+        component = next((item for item in components
+                          if item.get("id") == example.get("component_id")), None)
+        if (component is None or component.get("commit") != example["commit"]
+                or not isinstance(component.get("source"), str)
+                or not component["source"].startswith("https://")):
+            raise ValueError("external release example is not bound to a pinned public component")
+        checkout = verification_checkouts.get(example["component_id"])
+        if checkout is None or not checkout.is_absolute() or not checkout.is_dir():
+            raise ValueError("external release example requires an explicit verification checkout")
+        if _git_text(checkout, "rev-parse", "HEAD") != example["commit"]:
+            raise ValueError("external release example checkout is not at the pinned commit")
+        remote = _git_text(checkout, "remote", "get-url", "origin")
+        if _normalized_source(remote) != _normalized_source(component["source"]):
+            raise ValueError("external release example checkout has the wrong public source identity")
+        if _git_common_dir(checkout) == _git_common_dir(root):
+            raise ValueError("external release example cannot self-pin the site source")
+        for stem in ("example", "guide"):
+            path, expected = example[stem], example[f"{stem}_sha256"]
+            if (not isinstance(path, str) or not path
+                    or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected)
+                    or hashlib.sha256(_git_bytes(checkout, example["commit"], path)).hexdigest() != expected):
+                raise ValueError("external release example hash does not match pinned component source")
+        return
+    legacy_fields = {"repository", "commit", "reader", "reader_sha256", "setup", "setup_sha256",
+                     "requirements", "requirements_sha256"}
+    if (set(example) != legacy_fields or example["commit"] == source_head
+            or not isinstance(example["repository"], str)
+            or not example["repository"].startswith("https://")):
+        raise ValueError("release example source has invalid or circular self pin")
+    for stem in ("reader", "setup", "requirements"):
+        path, expected = example[stem], example[f"{stem}_sha256"]
+        if (not isinstance(path, str) or not path
+                or not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected)
+                or hashlib.sha256(_git_bytes(root, example["commit"], path)).hexdigest() != expected):
+            raise ValueError("release example hash does not match pinned source tree")
+
+
+def validate_releases(root: Path = ROOT, verification_checkouts: dict[str, Path] | None = None) -> int:
     """Validate immutable release records separately from the mutable profile catalog."""
     releases = root / "constellation/releases"
     if not releases.is_dir():
         return 0
     inventory = json.loads((root / "constellation/components.json").read_text())
-    component_ids = {item["id"] for item in inventory["components"]}
+    components = inventory["components"]
+    component_ids = {item["id"] for item in components}
+    verification_checkouts = verification_checkouts or {}
     try:
         source_head = subprocess.run(
             ["git", "rev-parse", "HEAD"], cwd=root, check=True,
@@ -162,16 +250,8 @@ def validate_releases(root: Path = ROOT) -> int:
                     or not isinstance(component.get("source"), str)
                     or not PIN.fullmatch(component.get("commit", ""))):
                 raise ValueError("release component has invalid source pin")
-        example = data.get("example_source")
-        if (not isinstance(example, dict) or not PIN.fullmatch(example.get("commit", ""))
-                or example["commit"] == source_head):
-            raise ValueError("release example source has invalid or circular self pin")
-        for stem in ("reader", "setup", "requirements"):
-            path, digest = example.get(stem), example.get(f"{stem}_sha256")
-            if (not isinstance(path, str) or not path
-                    or not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest)
-                    or hashlib.sha256(_git_bytes(root, example["commit"], path)).hexdigest() != digest):
-                raise ValueError("release example hash does not match pinned source tree")
+        _validate_example_source(root, data.get("example_source"), components,
+                                 source_head, verification_checkouts)
         documentation = data.get("documentation", {})
         qualification = data.get("qualification", {})
         guide = documentation.get("guide") if isinstance(documentation, dict) else None
@@ -191,4 +271,13 @@ def validate_releases(root: Path = ROOT) -> int:
 
 
 if __name__ == "__main__":
-    print(f"Validated {validate()} compositions, {validate_profiles()} profiles and {validate_releases()} releases")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--component-checkout", action="append", default=[], metavar="ID=/ABSOLUTE/PATH")
+    arguments = parser.parse_args()
+    checkouts = {}
+    for binding in arguments.component_checkout:
+        component_id, separator, path = binding.partition("=")
+        if not separator or not component_id or not Path(path).is_absolute() or component_id in checkouts:
+            parser.error("--component-checkout requires one unique ID=/ABSOLUTE/PATH binding")
+        checkouts[component_id] = Path(path)
+    print(f"Validated {validate()} compositions, {validate_profiles()} profiles and {validate_releases(verification_checkouts=checkouts)} releases")

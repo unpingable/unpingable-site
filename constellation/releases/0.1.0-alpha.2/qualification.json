@@ -1,0 +1,108 @@
+{
+  "schema": "constellation.integration-qualification/v1",
+  "suite_version": "0.1.0-alpha.2",
+  "profile": "saved-check-attention/v1",
+  "manifest_sha256": "8194b98a7ca78a4a8850a4da21bfda69fcf9205d31a8eb949ea2633ff8805f4a",
+  "result": "passed",
+  "verified_date": "2026-09-14",
+  "public_inputs": {
+    "nq_commit": "e259852ed58b8c0bf65a629b3c494afba28d9ce9",
+    "nightshift_and_monitor_cut_commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+    "example_sha256": "69dc4ca845e4539359515ea6ec2232344fffaeabe302dad7418c692d66a9e6c3"
+  },
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "platform": "linux-x86_64",
+    "rust": "1.94.0",
+    "python": "3.12.3",
+    "python_sqlite": "3.45.1",
+    "provider_credentials": "none",
+    "runtime_network": "disabled"
+  },
+  "public_reproduction": {
+    "result": "passed",
+    "observed": "Anonymous public source clones; fresh serial NQ and Nightshift builds using locked public dependencies, matching previously public-built Monitor artifact. Actual example runs with no private home, private repository or network access.",
+    "scope": "Public component execution over caller-created disposable data, not substitute component responses.",
+    "monitor_reuse": "Monitor executable reused from public source fdadf9666da0ca32b534a3dab9aa678b18a99fc3 built with Rust 1.94.0. Cargo.toml, Cargo.lock and crate sources are byte-identical at the released cut; the caller uses the separately pinned current Python producer example."
+  },
+  "independent_newcomer": {
+    "reviewer": "Codex gpt-5.6-sol, fresh context limited to public guide and linked product sources",
+    "reader_review": "passed after concrete recovery and interpreter prerequisite repairs",
+    "actual_workflow": "passed: separate fresh disposable root using the exact already-public-built cohort; actual example and subsequent read-only owner inspections",
+    "documentation_repairs": [
+      "Require rustup 1.94.0 and verify both Python interpreter paths with SQLite imports.",
+      "Distinguish foreground bounds from survival of supervisor loss.",
+      "Inspect NQ custody without requiring a returned notification ID; provide exact Nightshift inspection commands.",
+      "Missing ID or partial transcript is not evidence that no delivery occurred."
+    ],
+    "observed": "Original saved result failed, maintenance covered, attention required with authority none, exactly one accepted local delivery. New inspection processes returned the same records and unchanged database hashes. No new delivery during inspection."
+  },
+  "cases": [
+    {
+      "id": "actual-source-and-evaluation",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Monitor read the actual disposable queue and NQ evaluated its installed non_empty definition; original outcome remained failed."
+    },
+    {
+      "id": "maintenance-is-not-success",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Covered maintenance remained separate from the failed original predicate and did not suppress the attention decision."
+    },
+    {
+      "id": "finite-recurrence-and-duplicate",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Exact slot duplicate and removed-source replay returned the same retained record without another acquisition; a later real-clock slot retained a distinct evaluation."
+    },
+    {
+      "id": "attention-and-delivery",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Actual Nightshift decision/status/replay bound the exact NQ evaluation. NQ replayed the retained receipt and created one protected local inbox file."
+    },
+    {
+      "id": "duplicate-and-altered-receipt",
+      "level": "connected",
+      "result": "passed",
+      "observed": "Duplicate delivery reused one custody identity and one file. Altered receipt refused without another file."
+    },
+    {
+      "id": "read-only-recovery",
+      "level": "connected-retained-state",
+      "result": "passed",
+      "observed": "New CLI processes listed the same delivery through both existing NQ configurations, inspected the original failed Nightshift evaluation and exact attention receipt. Both database hashes remained unchanged; no new delivery."
+    },
+    {
+      "id": "post-create-uncertainty",
+      "level": "component-negative-control",
+      "result": "passed",
+      "observed": "NQ's local_inbox_post_create_failure_is_unknown_and_duplicate_does_not_write_again injects a local write/sync failure and retains unknown; duplicate does not write again. This is not an injected cross-component interruption."
+    },
+    {
+      "id": "freshness-and-contract-refusal",
+      "level": "component-negative-control",
+      "result": "passed",
+      "observed": "NQ qualification covers malformed and expired attention windows, fractional duration bounds, changed route/receipt and unavailable producer/inbox duplicate reads. Nightshift covers exact identity conflict, absent read-only store, bounded process timeout and sealed configuration."
+    }
+  ],
+  "scope": {
+    "established": [
+      "real acquisition, saved evaluation and finite scheduled recurrence",
+      "separate maintenance and attention states",
+      "bounded exact replay and local-file custody",
+      "public-only reproducibility and retained-state inspection"
+    ],
+    "not_established": [
+      "full objective-read consumer migration",
+      "AG/Docket authority or external action custody",
+      "human acknowledgment or live webhooks",
+      "continuous monitoring installation",
+      "durable survival of the example supervisor",
+      "end-to-end injected response loss",
+      "retention rollover, restoration, migration or rollback",
+      "other operating systems or architectures"
+    ]
+  }
+}

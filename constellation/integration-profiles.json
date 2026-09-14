@@ -64,11 +64,16 @@
         "nq",
         "nightshift"
       ],
-      "status": "public-only-qualified-development-profile",
-      "guide": "saved-check-attention.html"
+      "status": "qualified-public-reproduction-tag-pending",
+      "guide": "saved-check-attention.html",
+      "release_candidate": {
+        "suite_version": "0.1.0-alpha.2",
+        "guide": "releases/0.1.0-alpha.2/guide.html",
+        "manifest": "releases/0.1.0-alpha.2/manifest.json"
+      }
     }
   ],
   "release_status": "candidate",
   "schema": "constellation.integration-profiles/v1",
-  "version": "0.1.0-alpha.1"
+  "version": "0.1.0-alpha.2"
 }

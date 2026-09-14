@@ -1,0 +1,132 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.2",
+  "inventory": "../../components.json",
+  "profiles": [
+    {
+      "id": "saved-check-attention/v1",
+      "use_case": "An external local caller evaluates a saved SQLite condition twice in finite scheduled slots, retains an attention decision and hands one message to a local operator inbox.",
+      "required_capabilities": [
+        "bounded-source-acquisition",
+        "saved-sqlite-check-and-maintenance-projection",
+        "durable-finite-recurrence",
+        "retained-attention-and-exact-replay",
+        "local-notification-custody"
+      ],
+      "required_components": [
+        "monitor",
+        "nq",
+        "nightshift"
+      ],
+      "optional_components": [],
+      "synthetic_capabilities": [],
+      "example_inputs": "Caller-created disposable SQLite queue with 20 rows and an explicit temporary maintenance declaration. Real component commands and actual source reads; no substituted service or reviewer.",
+      "writer_requirement": "One operator-owned local tutorial root. The enrolled relationship between Monitor observation and NQ SQLite target is an operator assertion, not an atomic cross-process snapshot.",
+      "limitations": [
+        "The saved check intentionally fails; maintenance remains an annotation, not success or suppression.",
+        "A local-file delivery does not prove human receipt, acknowledgment, incident resolution or task success.",
+        "Finite foreground example only; no unattended recurring installation or supervisor-loss guarantee.",
+        "No independent Pulse support or automatic cross-source legitimacy is established.",
+        "Interruption and delivery uncertainty controls are separately component-qualified; the example does not inject an end-to-end interrupted delivery.",
+        "No migration, restore, rollback or retention rollover is qualified."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "monitor",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+      "component_version": "0.1.0",
+      "source_subdirectory": "integrations/monitor-predicate-support",
+      "entry_point": "monitor-concerns",
+      "cargo_lock_sha256": "6d6fd4abde3927c5ba09873db494168d9c27e12897714267ebcf684e694e2867"
+    },
+    {
+      "id": "nq",
+      "source": "https://github.com/unpingable/constellation-nq.git",
+      "commit": "e259852ed58b8c0bf65a629b3c494afba28d9ce9",
+      "component_version": "0.1.0",
+      "source_subdirectory": ".",
+      "entry_point": "nq",
+      "cargo_lock_sha256": "01b314f67044f6ab85e928e7052b593159f3183ac4e08a989287a6acce35b73a"
+    },
+    {
+      "id": "nightshift",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+      "component_version": "0.1.0",
+      "source_subdirectory": "runtime",
+      "entry_point": "nightshift",
+      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742"
+    }
+  ],
+  "environment": {
+    "platform": "linux-x86_64",
+    "tested_os": "Ubuntu 24.04.4 LTS",
+    "rust": "1.94.0",
+    "cargo": "1.94.0",
+    "toolchain_selection": "rustup +1.94.0",
+    "python": "3.12.3",
+    "python_sqlite": "3.45.1",
+    "build_prerequisites": [
+      "Git",
+      "C compiler/linker",
+      "Cargo.lock dependencies from public registries"
+    ],
+    "build_profile": "debug, same-account local exercise; CARGO_BUILD_JOBS=2, CARGO_INCREMENTAL=0, CARGO_PROFILE_DEV_DEBUG=0",
+    "services": [],
+    "provider_credentials": "none",
+    "container_images": [],
+    "runtime_network": "none"
+  },
+  "contracts": {
+    "nq_config": "nq.config.v1",
+    "saved_check": "nq.saved-check-definition/v1",
+    "maintenance": "nq.maintenance-declaration/v1",
+    "schedule": "nightshift.saved-check-schedule-policy/v1",
+    "runtime": "nightshift.saved-check-runtime-config/v1",
+    "evaluation": "nightshift.saved-check-evaluation/v1",
+    "attention_policy": "nightshift.saved-check-attention-policy/v1",
+    "attention_receipt": "nightshift.saved-check-attention-receipt/v1",
+    "replay_bundle": "nightshift.saved-check-attention-replay-bundle/v1",
+    "notification_intent": "nq.notification_delivery_intent.v1",
+    "maximum_attention_window_seconds": 300,
+    "maximum_canonical_intent_bytes": 32768,
+    "foreground_command_timeout_seconds": 30,
+    "maximum_bytes_per_cli_stream": 1048576,
+    "automatic_retries": 0
+  },
+  "example_source": {
+    "source_kind": "public_component",
+    "component_id": "nightshift",
+    "commit": "019e6837565ebf5b0ac244cbd7c3edde28e25aea",
+    "example": "runtime/examples/saved-check-recurring.py",
+    "example_sha256": "69dc4ca845e4539359515ea6ec2232344fffaeabe302dad7418c692d66a9e6c3",
+    "guide": "runtime/docs/SAVED-CHECK-RUN-EXAMPLE.md",
+    "guide_sha256": "1c7213beb6f96387860dcb5c21c5f05cf2959aa6c0f409a633c0fd53a0c2068c"
+  },
+  "documentation": {
+    "guide": "guide.html",
+    "release_policy": "../../release-policy.html"
+  },
+  "qualification": {
+    "record": "qualification.json",
+    "scope": "public-only actual finite saved-check recurrence, maintenance annotation, attention replay, local delivery, exact duplicate and altered-material refusal; read-only retained-state recovery; component uncertainty controls separately labeled"
+  },
+  "outside_release": [
+    "Full objective-read consumer migration",
+    "AG/Docket governed action",
+    "connected cache B/C recipes",
+    "independent review dispatch",
+    "model-assisted authoring",
+    "live Slack/Discord/PagerDuty",
+    "human acknowledgment",
+    "unattended monitoring",
+    "retention rollover",
+    "general ECAD/design-flow",
+    "federation",
+    "family-wide maturity"
+  ]
+}
