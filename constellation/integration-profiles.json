@@ -56,6 +56,16 @@
       "id": "local-queue-attention/v1",
       "status": "public-only-qualified-development-profile",
       "guide": "queue-attention.html"
+    },
+    {
+      "id": "saved-check-attention/v1",
+      "component_ids": [
+        "monitor",
+        "nq",
+        "nightshift"
+      ],
+      "status": "public-only-qualified-development-profile",
+      "guide": "saved-check-attention.html"
     }
   ],
   "release_status": "candidate",

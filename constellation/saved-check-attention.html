@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Run one disposable SQLite saved check, retain an attention decision, and deliver one local operator-inbox file.">
+  <title>Saved-check attention — Constellation</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="canonical" href="https://unpingable.com/constellation/saved-check-attention.html">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="notifications.html">Notifications</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+  <main id="main">
+    <h1>Check one saved SQLite condition and hand attention to a local inbox</h1>
+    <p class="lede">This local tutorial collects a disposable SQLite observation, evaluates one saved check, preserves a maintenance annotation, retains an attention decision, and writes one operator-inbox file. It is for understanding the handoffs—not for deploying an application.</p>
+    <aside class="note"><strong>Current evidence:</strong> a public-only reproduction passed on 2026-09-14 using anonymous public clones, fresh Rust 1.94 builds, and the local-inbox option. It exercised this disposable saved-check, attention-replay, local-file custody, and duplicate path only. It is still not a released full-suite alpha profile.</aside>
+
+    <h2>What this does</h2>
+    <pre><code>disposable SQLite queue
+  → Monitor collects an observation
+  → NQ evaluates one installed saved check and projects maintenance separately
+  → Nightshift retains one attention receipt for that exact evaluation
+  → NQ replays the receipt, retains delivery custody, and writes one local file
+  → you inspect the retained records</code></pre>
+    <p>The owners remain distinct. Monitor owns acquisition. NQ owns the saved-check result, the local read record, maintenance declaration, and notification custody. Nightshift owns the attention decision and its replayable receipt. The local inbox holds a delivery artifact; it does not prove a human saw it.</p>
+
+    <h2>Requirements and exact public revisions</h2>
+    <p>Use Linux x86-64, Git, a C compiler/linker, rustup with the installed Rust/Cargo <code>1.94.0</code> toolchain, Python 3.12, and Python's standard SQLite module. Check <code>cargo +1.94.0 --version</code>, <code>rustc +1.94.0 --version</code>, and <code>python3 --version</code> first. The local producer also uses <code>/usr/bin/python3</code>; that interpreter needs the standard SQLite module. Build debug binaries for this same-account local exercise. No credential, provider key, network webhook, daemon, or container is needed. Production identity isolation is not established by this debug tutorial.</p>
+    <p>The required source revisions are <a href="https://github.com/unpingable/constellation-nq/tree/e259852ed58b8c0bf65a629b3c494afba28d9ce9">Constellation NQ <code>e259852ed58b8c0bf65a629b3c494afba28d9ce9</code></a> and <a href="https://github.com/unpingable/constellation-nightshift/tree/019e6837565ebf5b0ac244cbd7c3edde28e25aea">Constellation Nightshift <code>019e6837565ebf5b0ac244cbd7c3edde28e25aea</code></a>. The Nightshift source cut contains the matching Monitor integration source used below.</p>
+    <pre><code>DEMO_PARENT=$(mktemp -d /tmp/saved-check-attention-setup.XXXXXX)
+cd "$DEMO_PARENT"
+git clone https://github.com/unpingable/constellation-nq.git nq
+git -C nq checkout --detach e259852ed58b8c0bf65a629b3c494afba28d9ce9
+git clone https://github.com/unpingable/constellation-nightshift.git nightshift
+git -C nightshift checkout --detach 019e6837565ebf5b0ac244cbd7c3edde28e25aea
+
+export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0
+CARGO_TARGET_DIR="$DEMO_PARENT/nq-target" cargo +1.94.0 build --locked --manifest-path nq/Cargo.toml -p nq-app --bin nq
+CARGO_TARGET_DIR="$DEMO_PARENT/nightshift-target" cargo +1.94.0 build --locked --manifest-path nightshift/runtime/Cargo.toml -p nightshiftd --bin nightshift
+CARGO_TARGET_DIR="$DEMO_PARENT/monitor-target" cargo +1.94.0 build --locked --manifest-path nightshift/integrations/monitor-predicate-support/Cargo.toml --bin monitor-concerns</code></pre>
+    <p>This named profile needs NQ, the Nightshift runtime, and <code>monitor-concerns</code>. It does <em>not</em> build Pulse. That omission is specific to this saved-check/local-inbox path: it does not make Pulse a universally optional component or establish a plugin, replacement, or drop-in compatibility profile.</p>
+
+    <h2>Run the disposable example</h2>
+    <p>The root must be an absent absolute directory whose name begins <code>nightshift-saved-check-run-</code>. The script is create-only: choose a new root for a new occurrence rather than running it again over uncertain records.</p>
+    <pre><code>python3 nightshift/runtime/examples/saved-check-recurring.py \
+  --attention-inbox \
+  --nightshift "$DEMO_PARENT/nightshift-target/debug/nightshift" \
+  --monitor "$DEMO_PARENT/monitor-target/debug/monitor-concerns" \
+  --nq "$DEMO_PARENT/nq-target/debug/nq" \
+  --project-example "$DEMO_PARENT/nightshift/integrations/monitor-predicate-support/examples/local-queue-attention.py" \
+  --root "$DEMO_PARENT/nightshift-saved-check-run-demo"</code></pre>
+    <p>Expect a final <code>"result": "qualified"</code> record and an attention entry showing a local-file delivery accepted with human receipt not established. That does <strong>not</strong> mean the check succeeded: this example intentionally keeps a nonempty queue, so its saved-check outcome is failed while maintenance remains a separate annotation.</p>
+
+    <h2>Read each record for what it says</h2>
+    <div class="table-wrap"><table><thead><tr><th>Record</th><th>What it establishes</th><th>What it does not establish</th></tr></thead><tbody>
+      <tr><td>Source observation time</td><td>When Monitor observed the disposable queue.</td><td>When Nightshift made an attention decision or whether another source is current.</td></tr>
+      <tr><td>NQ local read attempt</td><td>That NQ made the retained SQLite read for this saved-check evaluation.</td><td>General application health or an ongoing scheduler installation.</td></tr>
+      <tr><td>Maintenance declaration</td><td>Whether the condition was covered, overrun, uncovered, or unavailable at its stated coordinate.</td><td>A changed check result; a covered failure remains failed.</td></tr>
+      <tr><td>Attention decision time</td><td>When Nightshift evaluated its bounded attention policy over that retained material.</td><td>Fresh source evidence or authority to execute work.</td></tr>
+      <tr><td>Notification delivery</td><td>That NQ retained one local-file delivery result.</td><td>Human receipt, acknowledgment, resolution, or task success.</td></tr>
+    </tbody></table></div>
+    <p>The attention receipt binds an exact policy and evaluation. NQ replays that receipt through the configured Nightshift executable before delivery custody. The example's duplicate submission returns the same delivery identity and does not create another file; an altered-receipt negative control refuses before a file is created.</p>
+
+    <h2>Limits and recovery</h2>
+    <p>The canonical delivery intent is limited to 32 KiB. The attention policy permits an event window of at most 300 seconds. While its foreground Python supervisor is running, each example command has a 30-second limit and 1 MiB output limit; it has no automatic retry. Keep this tutorial attended. Those limits and its after-command transcript do not establish survival of supervisor loss. If the supervisor disappears, the in-flight command and its result may be indeterminate. Reconcile existing processes and owner state before considering anything new. Component qualification covers selected uncertain-delivery behavior; this tutorial does not claim a full injected response-loss or interrupted-delivery journey.</p>
+    <p>Keep the disposable root after the command. A successful run contains the NQ database, Nightshift store, attention policy and bundle, configuration files, inbox, and <code>commands.jsonl</code>; an interrupted run may contain only a prefix of those files. The final JSON's <code>attention.receipt_digest</code> identifies Nightshift's decision; <code>attention.notification_id</code> identifies NQ's delivery custody. Neither identifies a human acknowledgment. Inspect an existing delivery with the retained root's notification configuration and notification ID:</p>
+    <pre><code>"$DEMO_PARENT/nq-target/debug/nq" --config "$DEMO_PARENT/nightshift-saved-check-run-demo/notification.toml" --json \
+  notification inspect --notification-id YOUR_RETAINED_NOTIFICATION_ID</code></pre>
+    <p>If final output was lost, list this disposable store's retained delivery records without supplying an ID. This is read-only inspection, not another submission:</p>
+    <pre><code>DEMO_ROOT="$DEMO_PARENT/nightshift-saved-check-run-demo"
+"$DEMO_PARENT/nq-target/debug/nq" --config "$DEMO_ROOT/notification.toml" --json notification inspect</code></pre>
+    <p>If <code>notification.toml</code> is absent but <code>nq.toml</code> exists, use that original configuration for the same read-only inspection: both select the same NQ database. Do not create missing configuration or a new store to make inspection succeed. An unavailable result, missing final ID, or incomplete transcript does not establish that no delivery occurred.</p>
+    <p>For a completed command, <code>commands.jsonl</code> retains its <code>label</code>, arguments, exit code and stdout. The <code>nightshift-run</code> and <code>nightshift-next-slot</code> stdout objects contain <code>evaluation_id</code>. If attention was reached, <code>attention-bundle.json</code> also contains <code>receipt.evaluation_id</code>. Select the exact retained ID; do not substitute the newest timestamp:</p>
+    <pre><code>EVALUATION_ID=YOUR_EXACT_RETAINED_EVALUATION_ID
+"$DEMO_PARENT/nightshift-target/debug/nightshift" --store "$DEMO_ROOT/nightshift.sqlite" \
+  saved-check inspect --evaluation-id "$EVALUATION_ID"
+# Only when the retained attention policy exists:
+"$DEMO_PARENT/nightshift-target/debug/nightshift" --store "$DEMO_ROOT/nightshift.sqlite" \
+  saved-check attention-status --policy "$DEMO_ROOT/attention-policy.json" \
+  --evaluation-id "$EVALUATION_ID"</code></pre>
+    <p>A partially written transcript line or an in-flight command with no retained ID remains unresolved; preserve it for operator investigation instead of inventing an ID or rerunning the generator. Stopping a command does not settle an uncertain delivery. Do not invent a new event identity or repeat an uncertain local-file write. Before copying this disposable state, establish quiescent commands and keep SQLite sidecars with their database. Backup quiescence is the only documented precaution here; restoration, migration, rollback, and a durable recurring installation have not been verified.</p>
+
+    <h2>For external callers</h2>
+    <p>Running the provided tutorial is not an SDK. An adapting caller must supply the exact project enrollment, actual source and saved-check definition, explicit maintenance material where applicable, the selected attention policy, and the configured replay enrollment. It must preserve the separate records above and inspect an existing attempt before considering another submission. This example is a concrete composition boundary, not a general agent-orchestration framework.</p>
+    <p>This path does not deploy an application, establish a general recurring-monitoring migration, make a family-wide alpha maturity claim, or supply AG/Docket permission or execution custody. It produces no governed external effect.</p>
+
+    <h2>When something breaks</h2>
+    <p>Use the <a href="troubleshooting.html">troubleshooting guide</a> to report the two source revisions, tool versions, command, retained notification/evaluation identifiers, and a minimal redacted diagnostic excerpt. Do not attach credentials, prompts, entire databases, or unrelated retained records. Support is experimental and best effort; while waiting, preserve and inspect the existing custody rather than repeating work blindly.</p>
+  </main>
+  <footer>Constellation documentation · <a href="integration.html">Integration guide</a> · <a href="notifications.html">Notification limits</a></footer>
+</body>
+</html>

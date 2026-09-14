@@ -290,6 +290,51 @@
         "Duplicate delivery returns the existing accepted/refused/unknown state without another file or request; the default refusal is not a future delivery reservation.",
         "Uncertain retained owner state must be inspected before considering another occurrence."
       ]
+    },
+    {
+      "id": "saved-check-attention",
+      "summary": "Evaluate a saved SQLite check, retain attention and deliver one local operator-inbox file",
+      "capabilities": {
+        "required": [
+          {
+            "capability": "bounded actual source acquisition",
+            "component_ids": [
+              "monitor"
+            ]
+          },
+          {
+            "capability": "saved-check evaluation, separate maintenance projection and local notification custody",
+            "component_ids": [
+              "nq"
+            ]
+          },
+          {
+            "capability": "durable finite recurrence, attention decision and exact replay",
+            "component_ids": [
+              "nightshift"
+            ]
+          }
+        ],
+        "optional": []
+      },
+      "lost_guarantees": [
+        "No independent Pulse source support or atomic observation-to-SQLite binding is established; the enrolled source relationship is an operator assumption.",
+        "No installed recurring service, retention rollover, human acknowledgment, HTTPS delivery or AG/Docket action path is supplied."
+      ],
+      "maturity": "public-only-qualified-development-profile; immutable release pending",
+      "public_examples": [
+        {
+          "implementation_id": "nightshift",
+          "source": "https://github.com/unpingable/constellation-nightshift/tree/019e6837565ebf5b0ac244cbd7c3edde28e25aea/runtime/examples",
+          "example": "saved-check-attention.html",
+          "state": "Actual Monitor/NQ/Nightshift saved evaluation, recurrence, attention replay and local-file delivery reproduced from public source"
+        }
+      ],
+      "recipe": "saved-check-attention.html",
+      "refusals": [
+        "Changed enrollment, definition or receipt cannot reuse an accepted identity.",
+        "Stale, unavailable or uncertain evidence cannot become a fresh successful check; unknown delivery must be inspected without automatic retry."
+      ]
     }
   ],
   "inventory": "components.json",
