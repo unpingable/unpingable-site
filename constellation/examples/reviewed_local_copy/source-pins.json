@@ -1,0 +1,16 @@
+{
+  "schema": "constellation.reviewed-local-copy-source-pins/v1",
+  "status": "candidate-source-cohort-not-an-installed-qualification",
+  "components": {
+    "maude": {"repository": "https://github.com/unpingable/maude.git", "revision": "0d5b6c91102b1088818d0493c687f9f23db7684e"},
+    "nq": {"repository": "https://github.com/unpingable/constellation-nq.git", "revision": "d3089a9787a27c50faf1e3f393a88f8e64bd412d"},
+    "pulse": {"repository": "https://github.com/unpingable/constellation-nightshift.git", "revision": "d91b214cd22afd5585fcd259d22463d08d606b58", "directory": "integrations/pulse-nq-load-support"},
+    "ag": {"repository": "https://github.com/unpingable/constellation-ag.git", "revision": "4dafc1a774178a9e09e75afc6e22c71052fd3dce"},
+    "docket": {"repository": "https://github.com/unpingable/constellation-docket.git", "revision": "fbcacc1dfb95f0f625a72e123f61afa41c1ddccb"},
+    "nightshift_and_foreman": {"repository": "https://github.com/unpingable/constellation-nightshift.git", "revision": "58639a9bfe8ddf3d6b232aab6dc231dcf82b6769", "directory": "runtime"},
+    "switchyard": {"repository": "https://github.com/unpingable/switchyard-runtime.git", "revision": "1c82e719cf358728d0262ae11138fb13fefe0cae"},
+    "app_server": {"repository": "https://github.com/unpingable/codex.git", "revision": "97b0acd5ce2ccb3c87a763606696c35a450947f6", "directory": "codex-rs", "toolchain": "1.95"}
+  },
+  "installed_identities": "Deployment-specific exact file hashes, interpreter/launcher closure, native genesis and reviewer enrollment are required separately."
+}
+
