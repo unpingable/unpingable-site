@@ -82,7 +82,7 @@
       "availability": "Optional public source",
       "id": "standing",
       "implementation_form": "standalone Rust mandate-custody product",
-      "maturity": "Implemented; broader deployment is not claimed.",
+      "maturity": "Implemented. Workload identity transcript schema v2 is current; v1 identity files fail closed and must be regenerated. Broader deployment is not claimed.",
       "name": "Constellation Standing",
       "relationship": "optional family member",
       "role": "Owns scoped, expiring mandate custody and standing judgments.",
