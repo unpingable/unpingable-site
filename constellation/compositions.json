@@ -181,23 +181,23 @@
       },
       "id": "connected-cache-c",
       "lost_guarantees": [
-        "Public-code local execution and inspection are qualified; clean public-only connected reproduction and newcomer recovery qualification remain open.",
+        "The clean public-only connected reproduction passed, including pre-effect refusals and a bounded post-settlement supervisor-interruption case; general restart/resume and interrupted-effect recovery remain unsupported.",
         "Standing is synthetic. Result admission describes the exact recorded attempt, not the cache's present condition."
       ],
-      "maturity": "public-source-qualified-newcomer-pending",
+      "maturity": "released-alpha-public-only-qualified",
       "public_examples": [
         {
           "example": "recipes.html#recipe-c",
           "implementation_id": "maude",
-          "source": "https://github.com/unpingable/maude/blob/08ca231d96e2451997fd0b1e0fb09d9904ad597e/qualification/synthetic_cache/CONNECTED_SUCCESSOR.md",
-          "state": "public input helper, driver and operations guide; public-source connected run independently accepted, newcomer failure/recovery pending"
+          "source": "https://github.com/unpingable/maude/blob/d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4/qualification/synthetic_cache/CONNECTED_SUCCESSOR.md",
+          "state": "released alpha.4 profile; clean public-only newcomer run, pre-effect refusals, retained inspection and bounded post-settlement interruption evidence passed"
         }
       ],
       "recipe": "recipes.html#recipe-c",
       "refusals": [
         "Do not assemble this path from repository heads or reuse an old occurrence."
       ],
-      "summary": "Refresh and remove a disposable cache through separately authorized runs; public newcomer qualification pending"
+      "summary": "Refresh and remove a disposable cache through separately authorized runs; released as the public-only qualified alpha.4 profile"
     },
     {
       "capabilities": {

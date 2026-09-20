@@ -30,9 +30,12 @@ The retained accepted plan digest is
 and its lock is
 `sha256:d2b6350eeab1fba4fa1265e13c7793a76991d1bf8478c1f267941dc447aca07d`.
 The portable accepted bundle and Plan Core database are supplied below with
-exact SHA-256 values. The historical accepted run completed; fresh public-only
-accepted-mode verification remains in progress. This is not yet a released
-integration profile.
+exact SHA-256 values. The historical accepted run completed, and a separate
+public-only accepted-mode reproduction completed 55 retained stages, two
+successful settlements, exact result admission, a fresh successor observation,
+and final project absence. The accepted fixture is an optional authoring route
+into the released `connected-cache-c` alpha.4 profile; it is not a separate
+provider or family-wide release.
 
 Public input locations are:
 
