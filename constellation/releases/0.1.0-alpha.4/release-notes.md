@@ -3,8 +3,10 @@
 Run the connected-cache C profile on one disposable local Docker host: prepare
 closed public inputs, acquire and evaluate a recorded cache observation, make
 one bounded refresh attempt, inspect the retained result, then make a separate
-bounded teardown attempt. Start with the versioned [guide](guide.html) and
-release [manifest](manifest.json).
+bounded teardown attempt. Start with the versioned
+[guide](https://unpingable.com/constellation/releases/0.1.0-alpha.4/guide.html)
+and release
+[manifest](https://unpingable.com/constellation/releases/0.1.0-alpha.4/manifest.json).
 
 This alpha pins a tested composition, rather than synchronizing component
 versions. It requires public Maude, NQ, Nightshift, AG, Docket and Pulse source
