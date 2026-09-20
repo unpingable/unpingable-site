@@ -2,6 +2,7 @@
 import copy
 import base64
 import importlib.util
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -163,6 +164,26 @@ class CandidateControls(unittest.TestCase):
                 if case == 'enrollment': values[1]['route_enrollment_digest'] = 'sha256:' + '0' * 64
                 if case == 'oversize': values[3]['worker_output'] = 'x' * 32769
                 with self.assertRaises(ValueError): candidate.project(*values, now)
+
+    def test_review_result_shape_matches_the_native_verifier_contract(self):
+        """Each negative control is refused before any custody projection."""
+        cases = {
+            'findings_string': 'not an array',
+            'too_many_findings': [{'code': 'F', 'summary': 'x'}] * 65,
+            'finding_extra_field': [{'code': 'F', 'summary': 'x', 'extra': True}],
+            'finding_missing_summary': [{'code': 'F'}],
+            'invalid_code': [{'code': 'contains a space', 'summary': 'x'}],
+            'empty_summary': [{'code': 'F', 'summary': ''}],
+            'oversize_summary': [{'code': 'F', 'summary': 'x' * 4097}],
+        }
+        for name, findings in cases.items():
+            with self.subTest(name=name):
+                values = fixture()
+                result = json.loads(values[3]['worker_output'])
+                result['findings'] = findings
+                values[3]['worker_output'] = candidate.canonical(result).decode()
+                with self.assertRaisesRegex(ValueError, 'native verifier contract'):
+                    candidate.project(*values, 2000)
 
     def test_exact_json_and_regular_file_boundary(self):
         for value in ({'number': 1.5}, {'number': 2**53}, {'nonascii-\u2603': True}):

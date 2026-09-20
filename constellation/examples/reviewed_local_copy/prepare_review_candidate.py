@@ -13,11 +13,15 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import stat
 import time
 
 MAX_BYTES = 16 * 1024 * 1024
 MAX_SAFE_INTEGER = 2**53 - 1
+RESULT_FIELDS = {'schema', 'binding_id', 'verdict', 'findings'}
+FINDING_FIELDS = {'code', 'summary'}
+TOKEN = re.compile(r'[A-Za-z0-9._:/-]{1,512}\Z')
 
 
 def canonical(value):
@@ -68,6 +72,29 @@ def read(path):
     return json.loads(raw, object_pairs_hook=pairs), raw
 
 
+def validate_review_result(result, binding_id):
+    """Apply the native review-verifier result contract before projection.
+
+The native verifier remains the custody authority.  This is only a matching
+fail-closed shape check so an impossible candidate is not projected.
+"""
+    if not isinstance(result, dict) or set(result) != RESULT_FIELDS:
+        raise ValueError('review result fields do not match the native verifier contract')
+    if (result['schema'] != 'switchyard.shared-source-review/v1' or
+            result['binding_id'] != binding_id or result['verdict'] not in {'accepted', 'rejected'}):
+        raise ValueError('review result does not match the native verifier contract')
+    findings = result['findings']
+    if not isinstance(findings, list) or len(findings) > 64:
+        raise ValueError('review findings do not match the native verifier contract')
+    for finding in findings:
+        if not isinstance(finding, dict) or set(finding) != FINDING_FIELDS:
+            raise ValueError('review finding fields do not match the native verifier contract')
+        if not isinstance(finding['code'], str) or TOKEN.fullmatch(finding['code']) is None:
+            raise ValueError('review finding code does not match the native verifier contract')
+        if not isinstance(finding['summary'], str) or not 1 <= len(finding['summary'].encode('utf-8')) <= 4096:
+            raise ValueError('review finding summary does not match the native verifier contract')
+
+
 def project(binding, requirement, config, provider, disposition, now_ms):
     """A supplied-export candidate is not a native custody verification result."""
     if (binding.get('schema') != 'maude.governed-plan-binding/v1' or
@@ -86,10 +113,10 @@ def project(binding, requirement, config, provider, disposition, now_ms):
     result_raw = raw.encode('utf-8')
     if len(result_raw) > 32768: raise ValueError('reviewer output exceeds this example bound')
     result = json.loads(result_raw, object_pairs_hook=pairs)
-    if (set(result) != {'schema', 'binding_id', 'verdict', 'findings'} or
-            result['schema'] != 'switchyard.shared-source-review/v1' or
-            result['binding_id'] != binding['binding_id'] or result['verdict'] != 'accepted' or
-            canonical(result) != result_raw):
+    if canonical(result) != result_raw:
+        raise ValueError('review is not an exact canonical accepted result for this binding')
+    validate_review_result(result, binding['binding_id'])
+    if result['verdict'] != 'accepted':
         raise ValueError('review is not an exact canonical accepted result for this binding')
     ended, age = provider.get('ended_at_unix_ms'), requirement.get('max_age_ms')
     if type(ended) is not int or type(age) is not int or not 0 < age <= 300000:
@@ -153,4 +180,3 @@ def main(argv=None):
 
 
 if __name__ == '__main__': main()
-
