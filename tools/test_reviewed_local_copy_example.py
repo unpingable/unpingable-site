@@ -316,6 +316,8 @@ class CandidateControls(unittest.TestCase):
                     'reviewed_plan_binding': {'binding_sha256': candidate.digest(raw), 'binding_base64': base64.b64encode(raw).decode()}}
                 documents = {'binding': binding, 'runtime_profile': {'schema': 'ag.governed-loop.runtime-profile/v2'},
                     'executor_config': {'executor_plan_base64': encoded, 'state_root': str(executor_state)},
+                    'provider_requirement': {'schema': 'nightshift.foreman-execution-availability-requirement/v1',
+                        'run_id': 'fixture-review-run', 'admitted_at': '2026-09-20T00:00:00Z'},
                     'review_requirement': requirement, 'review_verifier_config': review_config, 'cycle_request': cycle}
                 for key in action.INPUTS:
                     (root / (key + '.json')).write_bytes(candidate.canonical(documents.get(key, {})))
@@ -334,9 +336,12 @@ class CandidateControls(unittest.TestCase):
                     'recursive_worker_swarms_forbidden': True, 'selected_model_ordinal': 0,
                     'request_digest': 'fixture-request', 'work_attempt_id': 'fixture-attempt'}
                 steps = []
+                case_owner = self
                 class FixtureCaller(action.Caller):
                     def call(self, name, argv, stdin=None, timeout=30, parsed=True):
                         self.phase = name; steps.append(name)
+                        if name == 'review-admit':
+                            case_owner.assertEqual(argv[argv.index('--evaluated-at') + 1], '2026-09-20T00:00:00Z')
                         self.write(name + '.started.json', {'qualification': 'SUBSTITUTED_TRANSPORT_ONLY'})
                         if name == failure: raise ValueError('fixture response loss/refusal')
                         self.write(name + '.finished.json', {'exit_code': 0})

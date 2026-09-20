@@ -199,7 +199,14 @@ class Caller:
         meta = admitted['current']['state']['proposal_recorded']['meta']
         require(meta['key'] == {'campaign': binding['campaign'], 'occurrence': binding['occurrence']} and meta['expected_work'] == binding['work'], 'native work/occurrence differs')
         self.freshness('before-review', 230000)
-        command = [p['foreman'], 'provider-admit', '--db', paths['foreman_database'], '--evaluated-at', stamp(now())]
+        provider_requirement = read(i['provider_requirement'])[0]
+        require(provider_requirement.get('schema') == 'nightshift.foreman-execution-availability-requirement/v1' and
+            provider_requirement.get('run_id') == r['run_id'] and isinstance(provider_requirement.get('admitted_at'), str),
+            'execution availability requirement identity differs')
+        # Foreman binds the admission transition to the owner's exact admitted_at
+        # value. Wall-clock time here would describe a different run requirement.
+        command = [p['foreman'], 'provider-admit', '--db', paths['foreman_database'],
+            '--evaluated-at', provider_requirement['admitted_at']]
         for key in ('packet', 'admission', 'profile', 'policy', 'requirement'):
             command += ['--' + key, i['provider_requirement' if key == 'requirement' else key]]
         self.call('review-admit', command)
