@@ -294,7 +294,7 @@ class CandidateControls(unittest.TestCase):
 
     def test_whole_caller_transport_schedule_only_no_native_authority(self):
         """All stage returns below are labeled substitutions, not live owners."""
-        for failure in (None, 'nightshift-admission', 'provider-run', 'native-review-verification',
+        for failure in (None, 'review-only', 'nightshift-admission', 'provider-run', 'native-review-verification',
                 'permission-preflight', 'operator-grant', 'finite-run'):
             with self.subTest(failure=failure), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary); output = root / 'output'; output.mkdir()
@@ -362,7 +362,9 @@ class CandidateControls(unittest.TestCase):
                         'current': {'state': {'settled_observation_required': {'settlement': {'outcome': 'success'}}}}}
                 instance = FixtureCaller(config, output)
                 with patch.object(action, 'pinned'), patch.object(action.subprocess, 'Popen', side_effect=AssertionError('fixture launched a child')):
-                    if failure:
+                    if failure == 'review-only':
+                        result = instance.execute(review_only=True)
+                    elif failure:
                         with self.assertRaises(ValueError): instance.execute()
                     else: instance.execute()
                 self.assertLessEqual(steps.count('provider-run'), 1)
@@ -370,7 +372,13 @@ class CandidateControls(unittest.TestCase):
                 if 'operator-grant' in steps: self.assertLess(steps.index('permission-preflight'), steps.index('operator-grant'))
                 if failure in ('nightshift-admission', 'provider-run', 'native-review-verification', 'permission-preflight'):
                     self.assertNotIn('operator-grant', steps)
-                if failure:
+                if failure == 'review-only':
+                    self.assertEqual(result['schema'], 'constellation.review-only-result/v1')
+                    self.assertEqual({key: result[key] for key in ('grants','spends','docket_attempts','executor_calls','effects')},
+                        {'grants':0,'spends':0,'docket_attempts':0,'executor_calls':0,'effects':0})
+                    for forbidden in ('record-review','require-standing','before-permission','permission-preflight','operator-grant','finite-run'):
+                        self.assertNotIn(forbidden, steps)
+                elif failure:
                     self.assertFalse((output / (failure + '.finished.json')).exists())
 
 

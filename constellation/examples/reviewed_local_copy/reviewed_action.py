@@ -174,7 +174,7 @@ class Caller:
         self.write(name + '-reserve.json', {'original_observation_remaining_ms': observation['fresh_until_unix_ms'] - checked,
             'pulse_remaining_ms': expiry['tick'] - at['tick'], 'minimum_ms': minimum, 'timestamps_changed': False})
 
-    def execute(self):
+    def execute(self, *, review_only=False):
         p, i, paths, r = self.program, self.inputs, self.paths, self.config['review']
         binding = read(i['binding'])[0]
         profile = read(i['runtime_profile'])[0]
@@ -238,7 +238,14 @@ class Caller:
         candidates = project(binding, read(i['review_requirement'])[0], read(i['review_verifier_config'])[0], provider, evidence['disposition'], now())
         for name, value in candidates.items(): self.write(name, value)
         verification = self.call('native-review-verification', [p['review_verifier'], '--config', i['review_verifier_config']], canonical(candidates['verification-request.json']), timeout=60)
-        require(verification.get('accepted') is True and verification.get('binding_id') == binding['binding_id'], 'native review verifier refused')
+        require(verification.get('binding_id') == binding['binding_id'], 'native review verifier binding differs')
+        if review_only:
+            return {'schema': 'constellation.review-only-result/v1', 'binding_id': binding['binding_id'],
+                'verification': verification, 'candidate_review': 'record-review-input.json',
+                'provider_calls': 1, 'grants': 0, 'spends': 0, 'docket_attempts': 0,
+                'executor_calls': 0, 'effects': 0,
+                'next_action': 'Human/operator acceptance is a separate transition; this result grants no authority.'}
+        require(verification.get('accepted') is True, 'native review verifier refused')
         review_id = self.ag('record-review', 'record-review', '--input', self.output / 'record-review-input.json')
         self.ag('require-standing', 'require-standing')
         issued = now(); expires = min(issued + 60000, candidates['record-review-input.json']['review']['expires_at_unix_ms'])
@@ -305,6 +312,8 @@ def main(argv=None):
     parser.add_argument('--output', type=Path, required=True)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument('--execute', action='store_true')
+    modes.add_argument('--review-only', action='store_true',
+        help='perform and retain bounded independent review, then stop before acceptance, grants, Docket, or effects')
     modes.add_argument('--inspect', action='store_true')
     modes.add_argument('--preflight-only', action='store_true')
     modes.add_argument('--recover-run', type=Path, metavar='ORIGINAL_OUTPUT',
@@ -314,10 +323,10 @@ def main(argv=None):
     if args.preflight_only:
         print('Exact local caller pins checked; no native invocation, provider or authority.'); return
     require(args.output.is_absolute(), 'absolute fresh output required')
-    if args.execute or args.recover_run:
+    if args.execute or args.review_only or args.recover_run:
         require(bool(os.environ.get('INVOCATION_ID')), 'execution/recovery requires an operator-admitted durable service manager')
     owner_lock = None
-    if args.execute or args.recover_run:
+    if args.execute or args.review_only or args.recover_run:
         lock_path = Path(config['paths']['ag_database']).parent / 'reviewed-action-caller.lock'
         owner_lock = os.open(lock_path, os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
         fcntl.flock(owner_lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -325,7 +334,8 @@ def main(argv=None):
     caller = Caller(config, args.output)
     caller.write('checkpoint.json', {'config': str(args.config), 'config_sha256': config_digest,
         'host': socket.gethostname(), 'manager_invocation': os.environ.get('INVOCATION_ID'),
-        'mode': 'execute' if args.execute else 'recover-run' if args.recover_run else 'inspect', 'provider_limit': 1 if args.execute else 0,
+        'mode': 'execute' if args.execute else 'review-only' if args.review_only else 'recover-run' if args.recover_run else 'inspect',
+        'provider_limit': 1 if args.execute or args.review_only else 0,
         'next_action': 'Inspect original started/finished records and native owners; never restart this caller to recover.'})
     try:
         if args.recover_run:
@@ -341,7 +351,7 @@ def main(argv=None):
             result = caller.ag('same-run-recovery', 'run', '--run-input', original / 'run-input-v2.json')
             caller.inspect('after-recovery')
         else:
-            result = caller.execute() if args.execute else caller.inspect('read-only')
+            result = caller.execute(review_only=args.review_only) if args.execute or args.review_only else caller.inspect('read-only')
         caller.write('terminal.json', {'exit_code': 0, 'result': result,
             'claim': 'Native result retained for independent inspection; no blanket success or recovery qualification.'})
     except Exception as error:
@@ -353,4 +363,3 @@ def main(argv=None):
 
 
 if __name__ == '__main__': main()
-

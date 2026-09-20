@@ -240,6 +240,26 @@ creation. It neither rewrites mismatching native pins nor invokes native program
 admission/currentness qualification. Help and malformed CLI arguments launch no
 child. A failed enrollment output remains evidence; use a fresh output identity.
 
+## Retain review before accepting or executing
+
+The review transition has its own supported stop. It performs native admission,
+provider preflight, at most one provider request, Foreman evidence derivation and
+custody, and the independent native verifier. It retains the candidate
+`record-review-input.json`, then stops:
+
+```sh
+python3.12 reviewed_action.py --config /absolute/deployment/caller.json \
+  --output /absolute/deployment/review-001 --review-only
+```
+
+The terminal `constellation.review-only-result/v1` reports the verifier's actual
+accepted or rejected result and zero grants, spends, Docket attempts, executor
+calls, and effects. Even an accepted result is only a candidate for later human
+or operator acceptance. This mode cannot record the review into AG, create a
+standing mandate, create a Docket grant, invoke the finite runner, or copy a file.
+Response loss remains attached to this one original provider request; inspect and
+reconcile its retained owner rather than repeating it.
+
 ## Admit one execution, then reconcile the original
 
 Only after operator review of the installed closure, currentness budget, storage
@@ -332,4 +352,3 @@ That distinct qualification needs an explicit deterministic cut at the executor'
 post-file-fsync/pre-success-record boundary. A reserved attempt then reconciles
 as indeterminate and never repeats the copy. Do not relabel terminal replay or
 post-success response loss as this earlier interruption case.
-
