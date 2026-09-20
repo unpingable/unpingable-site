@@ -9,10 +9,14 @@ observation, make a model request, authorize work, create a permission, or
 run Docker.
 
 Use an absent, caller-owned output directory and clean detached source
-checkouts at the revisions in `../manifest.json`. The helper refuses a dirty or
-wrong source checkout, symlink program inputs, changing inputs, invalid labels,
-or a non-`sha256:` role digest. Keep the resulting input documents, exact source
-revisions, executable hashes, and the manager record for later inspection.
+checkouts at the revisions in `../manifest.json`. The synthetic runtime fixture
+root used by the Maude driver must be a fresh path below `/tmp`. Keep the
+durable manager/control record and retained owner custody outside `/tmp` before
+starting it: `/tmp` is a fixture location, not durable evidence storage. The
+helper refuses a dirty or wrong source checkout, symlink program inputs,
+changing inputs, invalid labels, or a non-`sha256:` role digest. Keep the
+resulting input documents, exact source revisions, executable hashes, and the
+manager record for later inspection.
 
 The synthetic role digest and the development same-identity flag accepted by
 the Maude preparation step are explicit fixture assertions. They do not prove

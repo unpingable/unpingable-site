@@ -42,8 +42,13 @@
         "pulse"
       ],
       "id": "connected-cache-c",
-      "status": "release-candidate-verification-pending",
-      "guide": "releases/0.1.0-alpha.4/guide.html"
+      "status": "released-alpha",
+      "guide": "releases/0.1.0-alpha.4/guide.html",
+      "release": {
+        "suite_version": "0.1.0-alpha.4",
+        "guide": "releases/0.1.0-alpha.4/guide.html",
+        "manifest": "releases/0.1.0-alpha.4/manifest.json"
+      }
     },
     {
       "component_ids": [
@@ -92,5 +97,5 @@
   ],
   "release_status": "candidate",
   "schema": "constellation.integration-profiles/v1",
-  "version": "0.1.0-alpha.3"
+  "version": "0.1.0-alpha.4"
 }

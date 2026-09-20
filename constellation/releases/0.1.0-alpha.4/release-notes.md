@@ -13,6 +13,12 @@ cuts at the exact revisions in the manifest, Rust 1.94, CPython 3.12, Docker
 credential requirement. All source acquisition and native builds are caller
 work; the finite runtime uses the selected local Docker daemon.
 
+The synthetic runtime fixture root is deliberately required to be a fresh path
+below `/tmp`. Put the durable manager/control record and retained custody
+outside `/tmp` before launch. This separation was exercised by the release
+newcomer case; `/tmp` remains unsuitable for evidence that must survive the
+fixture lifecycle.
+
 The profile uses synthetic authoring, synthetic Standing inputs and a
 caller-asserted role reference. Those inputs are intentionally visible and do
 not establish external provenance, current cache condition, general permission,
@@ -24,6 +30,14 @@ scoped: it verified two already-settled occurrences and retained reconciliation
 records after the supervising process stopped. It does **not** establish a
 general resume facility, interrupted-action recovery, or a reason to repeat an
 uncertain occurrence.
+
+The release recovery record includes two pre-effect refusals: one stopped when
+the NQ helper detected an unsafe ancestor for its runtime root, and one stopped
+when synthetic evidence was placed outside `/tmp`. Neither created a governed
+attempt. The corrected clean-public-only newcomer case then completed 53
+retained stages, two settlements, exact NQ result/successor admission, and
+separate teardown; its copied existing-root invocation refused before a later
+stage or Docker call. There were no provider calls or automatic retries.
 
 This release excludes general ECAD/design-flow readiness, federation, a public
 multi-tenant service, live human notification delivery, a physical cache target,

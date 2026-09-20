@@ -2,8 +2,8 @@
   "schema": "constellation.integration-qualification/v1",
   "suite_version": "0.1.0-alpha.4",
   "profile": "connected-cache-c",
-  "manifest_sha256": "398ec8378b7b82f571b4a66d30373d2f844ce514dbb9c6cbe691d991af644bc6",
-  "result": "qualified-pending-release-newcomer-verification",
+  "manifest_sha256": "18927844ad4fea94b8e71e18c3d2feecc89f8a5eb31641968431b55a864b6206",
+  "result": "passed",
   "verified_date": "2026-09-20",
   "public_inputs": {
     "maude_commit": "d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4",
@@ -41,16 +41,29 @@
       "id": "release-local-helper-static-check",
       "level": "release-input",
       "result": "passed",
-      "observed": "The release-local helper parses under CPython and pins the alpha.4 Maude source revision plus the exact C component cohort. It has not yet been exercised from a clean public-only alpha.4 release snapshot."
+      "observed": "The release-local helper parses under CPython and pins the alpha.4 Maude source revision plus the exact C component cohort. Its closed inputs were exercised by the final clean public-only newcomer case."
+    },
+    {
+      "id": "newcomer-091-unsafe-ancestor-refusal",
+      "level": "public-only-pre-effect-recovery",
+      "result": "passed",
+      "observed": "The first clean newcomer recovery case refused at NQ initialization because the helper runtime ancestor did not meet the installed pathname-protection requirement. It created no governed attempt or downstream effect."
+    },
+    {
+      "id": "newcomer-092-fixture-root-refusal",
+      "level": "public-only-pre-effect-recovery",
+      "result": "passed",
+      "observed": "The second recovery case refused at plan compilation because synthetic evidence was outside /tmp. It created no governed attempt or downstream effect. The profile now states the required /tmp fixture-root boundary separately from durable custody."
+    },
+    {
+      "id": "newcomer-093-clean-public-only-composition",
+      "level": "connected-public-only-newcomer",
+      "result": "passed",
+      "observed": "The final clean public-only case reached verified_local_composition with exit 0 and 53 finished stages. AG retained two spends, two attempts and two settlements with no refusals; Docket retained two settled attempts and two Standing uses; NQ admitted the exact result and fresh successor; and the disposable Docker project had no remaining containers or networks. The copied existing-root negative invocation exited 1 before any stage 054 record or Docker call. No provider call, automatic retry or fallback occurred."
     }
   ],
-  "pending_required_case": {
-    "id": "alpha4-clean-public-only-newcomer",
-    "why": "The release-local helper and immutable release snapshot must be exercised from public-only prerequisites before the suite tag is created.",
-    "required_observations": ["exact public source and helper hashes", "two bounded settlements", "exact-result inspection", "fresh successor observation", "separate teardown", "uncertain-existing-root refusal and retained inspection"]
-  },
   "scope": {
-    "established": ["Exact C source cohort and component contracts", "Earlier public-source connected execution", "Scoped post-settlement interruption reconciliation", "Static release-helper revision and syntax check"],
-    "not_established": ["Final alpha.4 clean public-only newcomer execution", "General supervisor resume", "Interrupted-effect recovery", "Production Standing or cache target", "Live human delivery", "General campaign runner", "Federation or ECAD/design-flow readiness"]
+    "established": ["Exact C source cohort and component contracts", "Clean public-only alpha.4 newcomer execution", "Two bounded governed occurrences with exact retained inspection", "Fresh successor observation and separate teardown", "Pre-effect recovery refusals for unsafe ancestor and invalid fixture root", "Existing-root refusal before a new stage or Docker call", "Scoped post-settlement interruption reconciliation"],
+    "not_established": ["General supervisor resume", "Interrupted-effect recovery", "Production Standing or cache target", "Live human delivery", "General campaign runner", "Federation or ECAD/design-flow readiness"]
   }
 }
