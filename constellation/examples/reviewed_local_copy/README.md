@@ -226,6 +226,19 @@ the retained native receipt's `evidence_id`, `received_at.clock_id` and
 `expiry_tick_ms`; copy those values unchanged. It is a comparison input, not a
 replacement for Pulse's signed evidence, receiver receipt or boot clock.
 
+The sealed Foreman work item must preserve the review verifier's manifest
+convention. With `brief_manifest_pointer` equal to `["acceptance_tests", "0"]`,
+`acceptance_tests[0]` is the compact canonical
+`switchyard.shared-review-manifest/v1` string. Put the public technical material
+at index 1 and its reviewer instruction at index 2 (and have the instruction
+refer to `acceptance_tests[1]`). `compose_review_acceptance_tests` in
+`prepare_review_candidate.py` builds this ordering from the exact binding bytes
+and enrolled verifier configuration. Moving the pointer alone cannot repair a
+work item that contains no manifest. Static caller preflight checks the frozen
+packet, and the executing caller checks the actual Foreman brief, against the
+enrolled binding before provider invocation; the native verifier still
+performs the authoritative custody verification after completion.
+
 ```sh
 python3.12 enroll_caller.py --layout /absolute/deployment/layout.json \
   --output /absolute/deployment/caller.json

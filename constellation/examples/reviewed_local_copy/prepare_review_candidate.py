@@ -21,6 +21,7 @@ MAX_BYTES = 16 * 1024 * 1024
 MAX_SAFE_INTEGER = 2**53 - 1
 RESULT_FIELDS = {'schema', 'binding_id', 'verdict', 'findings'}
 FINDING_FIELDS = {'code', 'summary'}
+MANIFEST_FIELDS = {'schema', 'binding_id', 'binding_bytes_base64', 'author_principal'}
 TOKEN = re.compile(r'[A-Za-z0-9._:/-]{1,512}\Z')
 
 
@@ -70,6 +71,97 @@ def read(path):
     stable = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns, value.st_ctime_ns)
     if len(raw) > MAX_BYTES or stable(before) != stable(after): raise ValueError('input changed during read')
     return json.loads(raw, object_pairs_hook=pairs), raw
+
+
+def compose_review_acceptance_tests(binding, binding_raw, config, technical_material, instruction):
+    """Place the verifier manifest before reviewer-facing material.
+
+    The installed verifier resolves its configured pointer against the canonical
+    work item.  This helper owns that small composition convention; it does not
+    seal a Foreman packet, contact a provider, or change verifier behavior.
+    """
+    if (not isinstance(binding, dict) or binding.get('schema') != 'maude.governed-plan-binding/v1' or
+            not isinstance(binding.get('binding_id'), str)):
+        raise ValueError('exact reviewed local-copy binding required')
+    if canonical(binding) != binding_raw:
+        raise ValueError('binding bytes must be exact canonical JSON')
+    if (not isinstance(config, dict) or config.get('schema') != 'switchyard.shared-review-verifier-config/v1' or
+            config.get('brief_manifest_pointer') != ['acceptance_tests', '0'] or
+            config.get('brief_contract') != 'switchyard.shared-review-manifest/v1' or
+            not isinstance(config.get('author_principal'), str) or not config['author_principal']):
+        raise ValueError('review verifier manifest enrollment differs')
+    if not isinstance(technical_material, dict):
+        raise ValueError('technical review material must be a JSON object')
+    if not isinstance(instruction, str) or not instruction:
+        raise ValueError('review instruction must be nonempty text')
+    manifest = {'schema': config['brief_contract'], 'binding_id': binding['binding_id'],
+        'binding_bytes_base64': base64.b64encode(binding_raw).decode('ascii'),
+        'author_principal': config['author_principal']}
+    return [canonical(manifest).decode('utf-8'), canonical(technical_material).decode('utf-8'), instruction]
+
+
+def verify_review_brief_manifest(brief, config, binding, binding_raw):
+    """Fail closed on a brief that the enrolled native manifest extractor rejects.
+
+    Native Switchyard remains the custody verifier after provider completion.
+    This matching pre-provider check covers only the frozen brief composition and
+    exact enrolled binding bytes, so a misplaced manifest cannot spend a request.
+    """
+    try:
+        basis = json.loads(brief, object_pairs_hook=pairs)
+        if canonical(basis) != brief:
+            raise ValueError('worker brief is not canonical JSON')
+        work_item = json.loads(basis['work_item']['canonical_json'].encode('utf-8'), object_pairs_hook=pairs)
+        if canonical(work_item).decode('utf-8') != basis['work_item']['canonical_json']:
+            raise ValueError('work item is not canonical JSON')
+    except (KeyError, TypeError, AttributeError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError('worker brief lacks a canonical work item') from exc
+    value = work_item
+    pointer = config.get('brief_manifest_pointer')
+    if not isinstance(pointer, list) or not pointer:
+        raise ValueError('review manifest pointer missing')
+    for component in pointer:
+        if isinstance(value, dict) and component in value:
+            value = value[component]
+        elif (isinstance(value, list) and isinstance(component, str) and
+                re.fullmatch(r'0|[1-9][0-9]*', component) and int(component) < len(value)):
+            value = value[int(component)]
+        else:
+            raise ValueError('review manifest pointer missing')
+    if not isinstance(value, str):
+        raise ValueError('review manifest must be a canonical JSON string')
+    try:
+        manifest = json.loads(value.encode('utf-8'), object_pairs_hook=pairs)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise ValueError('invalid review manifest JSON') from exc
+    if canonical(manifest).decode('utf-8') != value or not isinstance(manifest, dict) or set(manifest) != MANIFEST_FIELDS:
+        raise ValueError('review manifest is not the closed canonical contract')
+    if (manifest['schema'] != config.get('brief_contract') or
+            manifest['author_principal'] != config.get('author_principal') or
+            manifest['binding_id'] != binding.get('binding_id')):
+        raise ValueError('review manifest enrollment or binding differs')
+    try:
+        decoded = base64.b64decode(manifest['binding_bytes_base64'], validate=True)
+    except (TypeError, ValueError) as exc:
+        raise ValueError('review manifest binding encoding differs') from exc
+    if (base64.b64encode(decoded).decode('ascii') != manifest['binding_bytes_base64'] or
+            decoded != binding_raw or canonical(binding) != binding_raw):
+        raise ValueError('review manifest does not carry the exact enrolled binding bytes')
+    return manifest
+
+
+def verify_review_packet_manifest(packet, work_item_id, config, binding, binding_raw):
+    """Check the exact frozen packet work item using the brief extraction path."""
+    if not isinstance(packet, dict) or packet.get('schema') != 'nightshift.orientation-packet/v1':
+        raise ValueError('review packet schema differs')
+    items = packet.get('work_items')
+    if not isinstance(items, list):
+        raise ValueError('review packet work items missing')
+    matches = [item for item in items if isinstance(item, dict) and item.get('id') == work_item_id]
+    if len(matches) != 1:
+        raise ValueError('exact review work item is not unique')
+    brief = canonical({'work_item': {'canonical_json': canonical(matches[0]).decode('utf-8')}})
+    return verify_review_brief_manifest(brief, config, binding, binding_raw)
 
 
 def validate_review_result(result, binding_id):

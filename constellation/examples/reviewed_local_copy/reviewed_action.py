@@ -20,7 +20,8 @@ import stat
 import subprocess
 import time
 
-from prepare_review_candidate import canonical, digest, project, read
+from prepare_review_candidate import (canonical, digest, project, read,
+    verify_review_brief_manifest, verify_review_packet_manifest)
 from prepare_finite_run import prepare
 
 PROGRAMS = {'ag', 'nightshift', 'foreman', 'provider', 'review_verifier', 'docket', 'pulse', 'app_server'}
@@ -88,6 +89,9 @@ def configuration(path):
     require(all(review['route'][key] == backend[key] for key in ('codex_source_head', 'provider', 'model')) and
         review['route']['app_server_executable_sha256'] == backend['executable_sha256'], 'reviewer route differs from approved backend')
     require(profile['docket']['state_directory'] == config['paths']['docket_state'], 'Docket owner root differs')
+    binding, binding_raw = read(Path(inputs['binding']))
+    verify_review_packet_manifest(read(Path(inputs['packet']))[0], config['review']['work_item'],
+        review, binding, binding_raw)
     return config, digest(raw)
 
 
@@ -176,7 +180,7 @@ class Caller:
 
     def execute(self, *, review_only=False):
         p, i, paths, r = self.program, self.inputs, self.paths, self.config['review']
-        binding = read(i['binding'])[0]
+        binding, binding_raw = read(i['binding'])
         profile = read(i['runtime_profile'])[0]
         require(profile.get('schema') == 'ag.governed-loop.runtime-profile/v2', 'native shared-admission V2 profile required')
         require(binding['compiler_contract'] == 'maude.reviewed-local-copy/v1', 'only reviewed local-copy supported')
@@ -217,6 +221,7 @@ class Caller:
         self.write('request.json', prepared['worker_start_request']); self.write('dispatch.json', prepared['dispatch'])
         brief = self.call('review-brief', [p['foreman'], 'brief', '--db', paths['foreman_database'], '--run-id', r['run_id'], '--work-item', r['work_item']], parsed=False)
         self.write('brief.json', brief)
+        verify_review_brief_manifest(brief, read(i['review_verifier_config'])[0], binding, binding_raw)
         request = prepared['worker_start_request']
         require(request['timeout_seconds'] == 120 and request['maximum_output_bytes'] == 32768, 'request bounds differ')
         require(request.get('semantic_retry') is False and request.get('approval_response_authorized') is False and

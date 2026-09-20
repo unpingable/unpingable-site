@@ -31,7 +31,9 @@ def fixture():
         'campaign': 'local-fixture-campaign', 'occurrence': 'local-fixture-occurrence',
         'compiler_contract': 'maude.reviewed-local-copy/v1'}
     config = {'schema': 'switchyard.shared-review-verifier-config/v1', 'reviewer_id': 'fixture-reviewer',
-        'author_principal': 'fixture-author', 'nightshift_run_id': 'fixture-review-run'}
+        'author_principal': 'fixture-author', 'nightshift_run_id': 'fixture-review-run',
+        'brief_contract': 'switchyard.shared-review-manifest/v1',
+        'brief_manifest_pointer': ['acceptance_tests', '0']}
     requirement = {'schema': 'ag.governed-loop.review-requirement/v1', 'reviewer_id': config['reviewer_id'],
         'route_enrollment_digest': candidate.digest(candidate.canonical(config)),
         'compiler_contract': binding['compiler_contract'], 'max_age_ms': 300000}
@@ -53,7 +55,73 @@ def fixture():
     return [binding, requirement, config, provider, disposition]
 
 
+def native_binding_fixture():
+    artifacts = {}
+    for name in ('plan_document', 'lock_receipt', 'compiler_inputs', 'compiled_handoff',
+            'compilation_receipt', 'executor_plan'):
+        raw = candidate.canonical({'fixture': name})
+        artifacts[name] = {'sha256': candidate.digest(raw), 'byte_length': len(raw),
+            'bytes_base64': base64.b64encode(raw).decode('ascii')}
+    unsigned = {'schema': 'maude.governed-plan-binding/v1',
+        'campaign': 'sha256:' + '1' * 64, 'occurrence': '11111111-1111-4111-8111-111111111111',
+        'subject': 'sha256:' + '2' * 64, 'scope': 'sha256:' + '3' * 64,
+        'work_schema': 'maude.reviewed-local-copy/v1', 'work': 'sha256:' + '4' * 64,
+        'compiler_contract': 'maude.reviewed-local-copy/v1',
+        'plan_document_digest': artifacts['plan_document']['sha256'],
+        'lock_id': 'sha256:' + '5' * 64, 'compilation_id': 'sha256:' + '6' * 64,
+        'artifacts': artifacts}
+    binding = {**unsigned, 'binding_id': candidate.digest(
+        b'maude.governed-plan-binding/v1\0' + candidate.canonical(unsigned))}
+    return binding, candidate.canonical(binding)
+
+
+def review_brief(binding, binding_raw, config, technical=None, instruction=None):
+    tests = candidate.compose_review_acceptance_tests(binding, binding_raw, config,
+        technical or {'schema': 'constellation.public-technical-review/v1', 'fact': 'preserved'},
+        instruction or 'Review the public technical material in acceptance_tests[1].')
+    work_item = {'id': 'shared-source-review', 'acceptance_tests': tests}
+    return candidate.canonical({'schema': 'nightshift.worker-brief-basis/v2',
+        'work_item': {'contract': 'nightshift.orientation-packet/v1#work-item',
+            'canonical_json': candidate.canonical(work_item).decode('utf-8')}})
+
+
 class CandidateControls(unittest.TestCase):
+    def test_manifest_first_composition_preserves_material_and_instruction(self):
+        binding, binding_raw = native_binding_fixture()
+        config = fixture()[2]
+        technical = {'schema': 'constellation.public-technical-review/v1', 'body': ['exact', 'public']}
+        instruction = 'Review exact public material in acceptance_tests[1]; return only the closed result.'
+        brief = review_brief(binding, binding_raw, config, technical, instruction)
+        manifest = candidate.verify_review_brief_manifest(brief, config, binding, binding_raw)
+        item = json.loads(json.loads(brief)['work_item']['canonical_json'])
+        self.assertEqual(json.loads(item['acceptance_tests'][1]), technical)
+        self.assertEqual(item['acceptance_tests'][2], instruction)
+        self.assertEqual(manifest['binding_id'], binding['binding_id'])
+        packet = {'schema': 'nightshift.orientation-packet/v1', 'work_items': [item]}
+        self.assertEqual(candidate.verify_review_packet_manifest(packet, 'shared-source-review',
+            config, binding, binding_raw), manifest)
+        legacy = dict(item); legacy['acceptance_tests'] = [item['acceptance_tests'][1], instruction]
+        bad = candidate.canonical({'work_item': {'canonical_json': candidate.canonical(legacy).decode()}})
+        with self.assertRaisesRegex(ValueError, 'manifest'):
+            candidate.verify_review_brief_manifest(bad, config, binding, binding_raw)
+        packet['work_items'] = [legacy]
+        with self.assertRaisesRegex(ValueError, 'manifest'):
+            candidate.verify_review_packet_manifest(packet, 'shared-source-review',
+                config, binding, binding_raw)
+
+    def test_generated_brief_satisfies_native_switchyard_extract_manifest(self):
+        """Runs against whichever pinned installed/source Switchyard is on PYTHONPATH."""
+        try:
+            from switchyard import review_verifier
+        except ModuleNotFoundError:
+            self.skipTest('install or select the pinned Switchyard package for the native extractor check')
+        binding, binding_raw = native_binding_fixture()
+        config = fixture()[2]
+        manifest, extracted = review_verifier.extract_manifest(
+            review_brief(binding, binding_raw, config), config)
+        self.assertEqual(extracted, binding_raw)
+        self.assertEqual(manifest['binding_id'], binding['binding_id'])
+
     def test_public_python_closure_requirement_set_covers_declared_format_extra(self):
         required = {entry.split('==', 1)[0] for entry in python_closure.WHEEL_REQUIREMENTS}
         self.assertEqual(len(required), len(python_closure.WHEEL_REQUIREMENTS))
@@ -315,7 +383,7 @@ class CandidateControls(unittest.TestCase):
 
     def test_whole_caller_transport_schedule_only_no_native_authority(self):
         """All stage returns below are labeled substitutions, not live owners."""
-        for failure in (None, 'review-only', 'nightshift-admission', 'provider-run', 'native-review-verification',
+        for failure in (None, 'review-only', 'nightshift-admission', 'review-brief-contract', 'provider-run', 'native-review-verification',
                 'permission-preflight', 'operator-grant', 'finite-run'):
             with self.subTest(failure=failure), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary); output = root / 'output'; output.mkdir()
@@ -372,7 +440,12 @@ class CandidateControls(unittest.TestCase):
                             'replay': {'ag_spends': 0, 'docket_attempts': 0, 'settlements': 0}}
                         if name == 'admitted-inspect': return {'current': {'state': {'proposal_recorded': {'meta': meta}}}}
                         if name == 'review-prepare': return {'worker_start_request': request, 'dispatch': provider['dispatch_record']}
-                        if name == 'review-brief': return b'{}'
+                        if name == 'review-brief':
+                            if failure == 'review-brief-contract':
+                                return candidate.canonical({'work_item': {'canonical_json': candidate.canonical(
+                                    {'acceptance_tests': [candidate.canonical({'technical': True}).decode()]}
+                                ).decode()}})
+                            return review_brief(binding, candidate.canonical(binding), review_config)
                         if name == 'review-local-preflight': return {'provider_contact': False, 'request_digest': 'fixture-request'}
                         if name == 'provider-run': return provider
                         if name == 'derive-review-evidence': return {'graph_validation': 'VALIDATED', 'observation': {}, 'disposition': disposition}
@@ -396,8 +469,10 @@ class CandidateControls(unittest.TestCase):
                 self.assertLessEqual(steps.count('provider-run'), 1)
                 if 'provider-run' in steps: self.assertLess(steps.index('nightshift-admission'), steps.index('provider-run'))
                 if 'operator-grant' in steps: self.assertLess(steps.index('permission-preflight'), steps.index('operator-grant'))
-                if failure in ('nightshift-admission', 'provider-run', 'native-review-verification', 'permission-preflight'):
+                if failure in ('nightshift-admission', 'review-brief-contract', 'provider-run', 'native-review-verification', 'permission-preflight'):
                     self.assertNotIn('operator-grant', steps)
+                if failure == 'review-brief-contract':
+                    self.assertNotIn('provider-run', steps)
                 if failure == 'review-only':
                     self.assertEqual(result['schema'], 'constellation.review-only-result/v1')
                     self.assertEqual({key: result[key] for key in ('grants','spends','docket_attempts','executor_calls','effects')},
