@@ -205,7 +205,7 @@ class CandidateControls(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'transport'): finite.prepare(*args, 'sha256:' + '7' * 64, 3000)
 
     def test_help_and_missing_cli_arguments_never_launch_a_child(self):
-        for argv in (['--help'], [], ['--execute']):
+        for argv in (['--help'], [], ['--execute'], ['--review-only']):
             with self.subTest(argv=argv), patch.object(action.subprocess, 'Popen', side_effect=AssertionError('unexpected child')):
                 with self.assertRaises(SystemExit): action.main(argv)
 
