@@ -1,0 +1,31 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.4",
+  "inventory": "../../components.json",
+  "profiles": [{
+    "id": "connected-cache-c",
+    "use_case": "Prepare a synthetic disposable cache plan, govern one refresh and a separately authorized teardown, then inspect retained records without repeating either occurrence.",
+    "required_capabilities": ["closed-plan-authoring-and-locking", "exact-source-and-program-pinning", "bounded-observation-and-currentness", "one-use-authorization-and-execution-custody", "retained-result-admission-and-inspection", "separate-governed-teardown"],
+    "required_components": ["maude", "nq", "nightshift", "ag", "docket", "pulse"],
+    "optional_components": [],
+    "synthetic_capabilities": ["Authoring, Standing inputs and the role digest are explicit local synthetic fixtures.", "The cache target is a disposable Docker project and not a physical cache or production workload."],
+    "example_inputs": "Caller-owned clean public source checkouts, exact regular-file executables, copied CPython environment, selected Docker/OpenSSL programs, fresh local records and the published synthetic cache plan.",
+    "writer_requirement": "One operator-owned disposable Docker host and fresh absent run root. The selected Docker daemon remains a deployment trust boundary. Existing or uncertain roots must be inspected, not reused.",
+    "limitations": ["This is a finite attended local profile, not an installed service or general campaign runner.", "A recorded result and settlement do not establish the cache condition later or authorize another effect.", "The only supervisor-loss evidence is a scoped post-settlement interruption case; general resume and uncertain-action recovery are not established.", "No production Standing service, independent reviewer, live human notification, external provider, federation or ECAD/design-flow workflow is included."]
+  }],
+  "components": [
+    {"id":"maude","source":"https://github.com/unpingable/maude.git","commit":"d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4","source_subdirectory":".","entry_point":"qualification/synthetic_cache/run_connected_cache.py"},
+    {"id":"nq","source":"https://github.com/unpingable/constellation-nq.git","commit":"d3089a9787a27c50faf1e3f393a88f8e64bd412d","source_subdirectory":".","entry_point":"nq; nq-host-helper; nq-synthetic-cache-result-helper"},
+    {"id":"nightshift","source":"https://github.com/unpingable/constellation-nightshift.git","commit":"2db475b0bb8be5e3afa7ac6c95e2ab1f73a9ceb4","source_subdirectory":".","entry_point":"nightshift; nightshift-observation-resolver"},
+    {"id":"ag","source":"https://github.com/unpingable/constellation-ag.git","commit":"5c8b22b77193798f25298b02758ac3caa3a8fe24","source_subdirectory":".","entry_point":"ag-loopctl; ag-standing-resolver"},
+    {"id":"docket","source":"https://github.com/unpingable/constellation-docket.git","commit":"c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b","source_subdirectory":".","entry_point":"docket"},
+    {"id":"pulse","source":"https://github.com/unpingable/constellation-nightshift.git","commit":"d91b214cd22afd5585fcd259d22463d08d606b58","source_subdirectory":"integrations/pulse-nq-load-support","entry_point":"pulse-nq-load-support"}
+  ],
+  "environment": {"platform":"linux-x86_64","tested_os":"Ubuntu 24.04.4 LTS","rust":"1.94.0","cargo":"1.94.0","python":"3.12.3","docker_client_server":"29.1.3","docker_compose":"5.0.0","container_images":["python:3.13-alpine@sha256:46ee549c88617e9bc8acb843a326f1a5c0fa5608d7f9703509efe6d53b55f318"],"provider_credentials":"none required for deterministic replay","python_requirements":{"file":"python-requirements.txt","sha256":"4390f2ab53342d71f1e9b6e01520c4525628c63cd800b26dfd6f09d001542fe9"},"build_prerequisites":["Git","Rustup","C compiler/linker","Docker Compose","OpenSSL","systemd user manager"],"automatic_retries":0},
+  "contracts": {"profile":"maude.connected-cache-example-profile/v1","install":"maude.connected-cache-example-install/v1","exact_result_replay":"nq.local-successor exact-result replay","provider_requests":0,"fresh_observation_required_before_successor":true,"teardown_requires_separate_authority":true},
+  "example_source": {"source_kind":"public_component","component_id":"maude","commit":"d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4","example":"qualification/synthetic_cache/run_connected_cache.py","example_sha256":"f87c08b45f63ff80a2896daf886dd2d95b8134a938dd22a6c38eca762c1a21e5","guide":"qualification/synthetic_cache/CONNECTED_SUCCESSOR.md","guide_sha256":"4600d7e2b21248c9fd0ba021314d7332aca2a1d5a00930012cd1c993b3ee29b3"},
+  "documentation":{"guide":"guide.html","release_policy":"../../release-policy.html"},
+  "qualification":{"record":"qualification.json","scope":"public-source connected cache qualification with separate exact-result inspection and scoped post-settlement supervisor interruption"},
+  "outside_release":["general campaign execution","general supervisor resume","uncertain-effect retry","production cache targets","live human notification","independent review dispatch","federation","ECAD/design-flow readiness","family-wide maturity"]
+}

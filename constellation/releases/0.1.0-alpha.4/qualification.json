@@ -1,0 +1,56 @@
+{
+  "schema": "constellation.integration-qualification/v1",
+  "suite_version": "0.1.0-alpha.4",
+  "profile": "connected-cache-c",
+  "manifest_sha256": "398ec8378b7b82f571b4a66d30373d2f844ce514dbb9c6cbe691d991af644bc6",
+  "result": "qualified-pending-release-newcomer-verification",
+  "verified_date": "2026-09-20",
+  "public_inputs": {
+    "maude_commit": "d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4",
+    "nq_commit": "d3089a9787a27c50faf1e3f393a88f8e64bd412d",
+    "nightshift_commit": "2db475b0bb8be5e3afa7ac6c95e2ab1f73a9ceb4",
+    "ag_commit": "5c8b22b77193798f25298b02758ac3caa3a8fe24",
+    "docket_commit": "c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b",
+    "pulse_commit": "d91b214cd22afd5585fcd259d22463d08d606b58",
+    "driver_sha256": "f87c08b45f63ff80a2896daf886dd2d95b8134a938dd22a6c38eca762c1a21e5",
+    "release_input_helper_sha256": "3a74dbf5375555778ed8df2752edb192d933d4951a906db936f5cdf85a992e76"
+  },
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS",
+    "platform": "linux-x86_64",
+    "rust": "1.94.0",
+    "python": "3.12.3",
+    "docker_client_server": "29.1.3",
+    "docker_compose": "5.0.0",
+    "provider_credentials": "none for deterministic replay"
+  },
+  "cases": [
+    {
+      "id": "c088-public-source-connected-run",
+      "level": "connected-public-source",
+      "result": "passed",
+      "observed": "A fresh public-source cohort completed 55 retained stages, two Docket settlements, exact NQ result admission, a fresh successor observation and separate teardown. This evidence predates the release-local alpha.4 input helper and does not itself qualify that helper."
+    },
+    {
+      "id": "c090-post-settlement-supervisor-interruption",
+      "level": "connected-scoped-interruption",
+      "result": "passed",
+      "observed": "After both settlements, an observer stopped the original supervisor. Retained owner records showed 53 completed stages and intentional absence of later driver terminal stages. This is post-settlement reconciliation evidence only; it does not establish general resume, retry or interrupted-effect recovery."
+    },
+    {
+      "id": "release-local-helper-static-check",
+      "level": "release-input",
+      "result": "passed",
+      "observed": "The release-local helper parses under CPython and pins the alpha.4 Maude source revision plus the exact C component cohort. It has not yet been exercised from a clean public-only alpha.4 release snapshot."
+    }
+  ],
+  "pending_required_case": {
+    "id": "alpha4-clean-public-only-newcomer",
+    "why": "The release-local helper and immutable release snapshot must be exercised from public-only prerequisites before the suite tag is created.",
+    "required_observations": ["exact public source and helper hashes", "two bounded settlements", "exact-result inspection", "fresh successor observation", "separate teardown", "uncertain-existing-root refusal and retained inspection"]
+  },
+  "scope": {
+    "established": ["Exact C source cohort and component contracts", "Earlier public-source connected execution", "Scoped post-settlement interruption reconciliation", "Static release-helper revision and syntax check"],
+    "not_established": ["Final alpha.4 clean public-only newcomer execution", "General supervisor resume", "Interrupted-effect recovery", "Production Standing or cache target", "Live human delivery", "General campaign runner", "Federation or ECAD/design-flow readiness"]
+  }
+}

@@ -42,8 +42,8 @@
         "pulse"
       ],
       "id": "connected-cache-c",
-      "status": "public-source-newcomer-verified-release-pending",
-      "guide": "recipes.html#recipe-c"
+      "status": "release-candidate-verification-pending",
+      "guide": "releases/0.1.0-alpha.4/guide.html"
     },
     {
       "component_ids": [
