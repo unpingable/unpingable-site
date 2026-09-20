@@ -39,8 +39,8 @@
         <dl>
           <dt>Relationship</dt><dd>core family office</dd>
           <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
-          <dt>Maturity</dt><dd>Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. Recurring deployment, retention migration and live Slack/Discord delivery remain unverified.</dd>
-          <dt>Available now</dt><dd>Public source at e259852ed58b8c0bf65a629b3c494afba28d9ce9 includes sealed local configuration, saved-check attention replay and delivery custody. No binary package is published.</dd>
+          <dt>Maturity</dt><dd>Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. A separately qualified source-level path covers local-successor replay and operator-controlled archive/rollover; recurring installation, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
+          <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks and alpha.4 local-successor result replay. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.</dd>
           <dt>When to use it</dt><dd>Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act.</dd>
         </dl>
       </article>

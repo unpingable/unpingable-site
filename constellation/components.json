@@ -13,10 +13,10 @@
       "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
     },
     {
-      "availability": "Public source at e259852ed58b8c0bf65a629b3c494afba28d9ce9 includes sealed local configuration, saved-check attention replay and delivery custody. No binary package is published.",
+      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks and alpha.4 local-successor result replay. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. Recurring deployment, retention migration and live Slack/Discord delivery remain unverified.",
+      "maturity": "Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. A separately qualified source-level path covers local-successor replay and operator-controlled archive/rollover; recurring installation, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.",
       "name": "Constellation NQ",
       "relationship": "core family office",
       "role": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
