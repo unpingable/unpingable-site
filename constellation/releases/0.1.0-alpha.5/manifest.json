@@ -1,0 +1,131 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.5",
+  "inventory": "../../components.json",
+  "profiles": [
+    {
+      "id": "installed-saved-check/v1",
+      "use_case": "Exercise one installed-cadence saved-check tick against a disposable local queue, retain exact evaluation and local-delivery custody, and verify same-slot replay, overlap refusal, and missed-slot no-catch-up behavior.",
+      "required_capabilities": [
+        "bounded-source-acquisition",
+        "saved-sqlite-check-and-maintenance-projection",
+        "installed-cadence-tick-composition",
+        "restart-safe-same-slot-replay",
+        "local-notification-custody",
+        "retained-owner-record-inspection"
+      ],
+      "required_components": [
+        "monitor",
+        "nq",
+        "nightshift"
+      ],
+      "optional_components": [],
+      "synthetic_capabilities": [
+        "The queue and maintenance declaration are disposable local example inputs.",
+        "The example invokes the installed-cadence tick directly and does not activate systemd."
+      ],
+      "example_inputs": "A caller-created 20-row SQLite queue, exact regular-file component executables, one fresh absent saved-check-demo-* root, and credential-free local-file notification custody.",
+      "writer_requirement": "One operator-owned local example root. Preserve its NQ and Nightshift stores, tick summaries, configurations, command transcript, and inbox together while an outcome is uncertain.",
+      "limitations": [
+        "The example is a finite direct invocation, not a service installer and not evidence of systemd activation.",
+        "Local-file acceptance does not establish human receipt or acknowledgment, and live Slack or Discord delivery is outside the profile.",
+        "Response loss after NQ acceptance is not exercised; inspect the exact retained NQ notification and Nightshift evaluation before considering another invocation.",
+        "The example establishes same-slot replay and bounded pre-effect refusals, not general supervisor recovery or unattended operation.",
+        "Migration, restore, rollback, and retention rollover are not established."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "monitor",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+      "component_version": "0.1.0",
+      "source_subdirectory": "integrations/monitor-predicate-support",
+      "entry_point": "monitor-concerns",
+      "cargo_lock_sha256": "6d6fd4abde3927c5ba09873db494168d9c27e12897714267ebcf684e694e2867"
+    },
+    {
+      "id": "nq",
+      "source": "https://github.com/unpingable/constellation-nq.git",
+      "commit": "9d00030ba8777fbd80286c340a72797cbf74315d",
+      "component_version": "0.1.0",
+      "source_subdirectory": ".",
+      "entry_point": "nq",
+      "cargo_lock_sha256": "01b314f67044f6ab85e928e7052b593159f3183ac4e08a989287a6acce35b73a"
+    },
+    {
+      "id": "nightshift",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+      "component_version": "0.1.0",
+      "source_subdirectory": "runtime",
+      "entry_point": "nightshift; deploy/systemd/nightshift-saved-check-tick",
+      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742"
+    }
+  ],
+  "environment": {
+    "platform": "linux-x86_64",
+    "candidate_os": "Ubuntu 24.04.4 LTS",
+    "rust": "1.94.0",
+    "cargo": "1.94.0",
+    "toolchain_selection": "rustup +1.94.0",
+    "python": "3.12.3",
+    "python_sqlite": "3.45.1",
+    "build_prerequisites": [
+      "Git",
+      "C compiler/linker",
+      "Cargo.lock dependencies from public registries"
+    ],
+    "build_profile": "release",
+    "services": [],
+    "provider_credentials": "none",
+    "container_images": [],
+    "runtime_network": "none",
+    "automatic_retries": 0
+  },
+  "contracts": {
+    "installed_profile": "nightshift.saved-check-installed-profile/v1",
+    "installed_tick": "nightshift.saved-check-installed-tick/v1",
+    "installed_result": "nightshift.saved-check-installed-result/v1",
+    "saved_check": "nq.saved-check-definition/v1",
+    "maintenance": "nq.maintenance-declaration/v1",
+    "schedule": "nightshift.saved-check-schedule-policy/v1",
+    "runtime": "nightshift.saved-check-runtime-config/v1",
+    "evaluation": "nightshift.saved-check-evaluation/v1",
+    "attention_policy": "nightshift.saved-check-attention-policy/v1",
+    "notification_intent": "nq.notification_delivery_intent.v1",
+    "maximum_command_timeout_seconds": 60,
+    "maximum_bytes_per_cli_stream": 2097152,
+    "automatic_retries": 0,
+    "catch_up": false
+  },
+  "example_source": {
+    "source_kind": "public_component",
+    "component_id": "monitor",
+    "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+    "example": "examples/saved-check-installed-local.py",
+    "example_sha256": "a926fff3ad2d4fb1198af9bdba0ee6cf2934e4204ce01a8aca8a0a7ec7a11db3",
+    "guide": "deploy/systemd/SAVED_CHECK.md",
+    "guide_sha256": "8cdc0b6fc4d94a9e7bc5711fd969d6e44108703fde60031bd5f4452c7893e839"
+  },
+  "documentation": {
+    "guide": "guide.html",
+    "release_policy": "../../release-policy.html"
+  },
+  "qualification": {
+    "record": "qualification.json",
+    "scope": "pending public-only anonymous-clone reproduction of the exact installed saved-check local example and retained-state inspection"
+  },
+  "outside_release": [
+    "systemd activation and the system installation boundary",
+    "response loss after NQ acceptance",
+    "live Slack or Discord delivery",
+    "human receipt or acknowledgment",
+    "migration, restore, rollback, or retention rollover",
+    "general supervisor recovery or unattended service operation",
+    "AG/Docket governed action",
+    "family-wide maturity"
+  ]
+}

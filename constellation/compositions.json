@@ -336,6 +336,53 @@
       ]
     },
     {
+      "id": "installed-saved-check",
+      "summary": "Run one installed-cadence saved-check tick with restart-safe same-slot replay and local notification custody",
+      "capabilities": {
+        "required": [
+          {
+            "capability": "bounded actual source acquisition",
+            "component_ids": [
+              "monitor"
+            ]
+          },
+          {
+            "capability": "saved-check evaluation, maintenance projection and local notification custody",
+            "component_ids": [
+              "nq"
+            ]
+          },
+          {
+            "capability": "installed-cadence slot selection, exact replay, overlap exclusion and retained attention",
+            "component_ids": [
+              "nightshift"
+            ]
+          }
+        ],
+        "optional": []
+      },
+      "lost_guarantees": [
+        "The disposable example invokes one tick directly and does not establish systemd activation or the system installation boundary.",
+        "Response loss after NQ acceptance, live Slack/Discord delivery and human acknowledgment are not established.",
+        "Migration, restore, rollback, retention rollover and general unattended recovery are not established."
+      ],
+      "maturity": "alpha.5 release candidate; public-only anonymous-clone reproduction pending",
+      "public_examples": [
+        {
+          "implementation_id": "nightshift",
+          "source": "https://github.com/unpingable/constellation-nightshift/tree/e54acd83af9827bb60d543b157a833d7aa849f5e/examples",
+          "example": "releases/0.1.0-alpha.5/guide.html",
+          "state": "Exact local candidate source and hashes prepared; public-only anonymous-clone execution not yet passed"
+        }
+      ],
+      "recipe": "releases/0.1.0-alpha.5/guide.html",
+      "refusals": [
+        "An existing example root refuses before component resolution; it is not a restart target.",
+        "An overlapping tick exits with a retained refusal and launches no component.",
+        "A missed slot does not catch up, and an indeterminate retained tick is not permission to repeat acquisition or delivery."
+      ]
+    },
+    {
       "id": "objective-saved-check-read",
       "summary": "Read one exact retained saved check beside a caller-authored objective",
       "capabilities": {

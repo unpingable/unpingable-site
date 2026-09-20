@@ -77,6 +77,16 @@
       }
     },
     {
+      "id": "installed-saved-check/v1",
+      "component_ids": [
+        "monitor",
+        "nq",
+        "nightshift"
+      ],
+      "status": "release-candidate-public-reproduction-pending",
+      "guide": "releases/0.1.0-alpha.5/guide.html"
+    },
+    {
       "id": "objective-saved-check-read/v1",
       "component_ids": [
         "maude",
@@ -97,5 +107,5 @@
   ],
   "release_status": "candidate",
   "schema": "constellation.integration-profiles/v1",
-  "version": "0.1.0-alpha.4"
+  "version": "0.1.0-alpha.5"
 }
