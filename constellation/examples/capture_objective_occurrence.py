@@ -11,6 +11,7 @@ or authority for another action.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import stat
@@ -23,7 +24,9 @@ from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_ope
 
 
 MAX_BYTES = 2_097_152
+MAX_CHECKER_BYTES = 2_097_152
 OBJECTIVE_PATH = re.compile(r"/api/v1/objectives/[0-9a-f]{64}")
+DIGEST = re.compile(r"sha256:[0-9a-f]{64}")
 
 
 class RedirectRefused(HTTPRedirectHandler):
@@ -97,13 +100,61 @@ def write_new_regular(path: Path, raw: bytes) -> None:
         raise
 
 
-def checked_program(path: Path) -> Path:
+def _read_descriptor(descriptor: int, limit: int) -> bytes:
+    parts = []
+    remaining = limit + 1
+    while remaining:
+        part = os.read(descriptor, min(65_536, remaining))
+        if not part:
+            break
+        parts.append(part)
+        remaining -= len(part)
+    value = b"".join(parts)
+    if len(value) > limit:
+        raise ValueError("checker exceeds bounded size")
+    return value
+
+
+def sealed_checker(path: Path, expected_digest: str) -> int:
+    """Return an executable descriptor containing exactly the checked bytes.
+
+    The public checker is selected by content digest, not by a pathname that a
+    concurrent writer could replace after validation.  The returned descriptor
+    is passed directly to the child via ``/proc/self/fd``.
+    """
     if not path.is_absolute() or path.is_symlink():
         raise ValueError("--checker must be an absolute final-non-symlink path")
-    status = path.stat()
-    if not stat.S_ISREG(status.st_mode) or not (status.st_mode & stat.S_IXUSR):
-        raise ValueError("--checker must be an executable regular file")
-    return path
+    if not DIGEST.fullmatch(expected_digest):
+        raise ValueError("--checker-sha256 must be sha256: followed by 64 lowercase hex digits")
+    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    try:
+        status = os.fstat(descriptor)
+        if not stat.S_ISREG(status.st_mode) or not (status.st_mode & stat.S_IXUSR):
+            raise ValueError("--checker must be an executable regular file")
+        raw = _read_descriptor(descriptor, MAX_CHECKER_BYTES)
+    finally:
+        os.close(descriptor)
+    actual_digest = "sha256:" + hashlib.sha256(raw).hexdigest()
+    if actual_digest != expected_digest:
+        raise ValueError("--checker-sha256 does not match checker bytes")
+    sealed = os.memfd_create("constellation-objective-occurrence-check", os.MFD_CLOEXEC)
+    try:
+        offset = 0
+        while offset < len(raw):
+            offset += os.write(sealed, raw[offset:])
+        os.fchmod(sealed, 0o700)
+        os.lseek(sealed, 0, os.SEEK_SET)
+        return sealed
+    except BaseException:
+        os.close(sealed)
+        raise
+
+
+def run_sealed_checker(descriptor: int, input_path: Path, args: argparse.Namespace) -> subprocess.CompletedProcess[str]:
+    command = [f"/proc/self/fd/{descriptor}", "--input", str(input_path)]
+    for name in ("plan_digest", "campaign_id", "occurrence_id", "proposal_id", "exact_work_id", "issuance_id"):
+        command.extend(("--" + name.replace("_", "-"), getattr(args, name)))
+    return subprocess.run(command, check=False, capture_output=True, text=True, timeout=20, pass_fds=(descriptor,))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -111,16 +162,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--url", required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--checker", type=Path, required=True)
+    parser.add_argument("--checker-sha256", required=True)
     for name in ("plan-digest", "campaign-id", "occurrence-id", "proposal-id", "exact-work-id", "issuance-id"):
         parser.add_argument("--" + name, required=True)
     args = parser.parse_args(argv)
+    descriptor = None
     try:
+        descriptor = sealed_checker(args.checker, args.checker_sha256)
         raw = fetch(checked_url(args.url))
         write_new_regular(args.output, raw)
-        command = [str(checked_program(args.checker)), "--input", str(args.output)]
-        for name in ("plan_digest", "campaign_id", "occurrence_id", "proposal_id", "exact_work_id", "issuance_id"):
-            command.extend(("--" + name.replace("_", "-"), getattr(args, name)))
-        completed = subprocess.run(command, check=False, capture_output=True, text=True, timeout=20)
+        completed = run_sealed_checker(descriptor, args.output, args)
         if completed.returncode != 0:
             raise RuntimeError("occurrence checker refused the retained response: " + completed.stderr.strip())
         sys.stdout.write(completed.stdout)
@@ -129,6 +180,9 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(
             f"objective occurrence not accepted: {error}. Preserve any retained response and inspect its owner records before another capture."
         ) from error
+    finally:
+        if descriptor is not None:
+            os.close(descriptor)
 
 
 if __name__ == "__main__":

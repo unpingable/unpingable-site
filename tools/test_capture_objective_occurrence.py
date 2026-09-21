@@ -1,6 +1,8 @@
 """Fixture-scoped qualification for the read-only objective occurrence wrapper."""
 import importlib.util
+import hashlib
 import json
+import os
 import subprocess
 import tempfile
 import unittest
@@ -48,6 +50,10 @@ def fixture():
     }
 
 
+def checker_args(expected):
+    return type("CheckerArgs", (), expected)()
+
+
 class Response:
     status = 200
     def __init__(self, body): self.body = body
@@ -68,18 +74,51 @@ class CaptureObjectiveOccurrenceTests(unittest.TestCase):
         output.write_bytes(source); output.chmod(0o700)
         return output
 
+    def seal(self, checker: Path) -> int:
+        return MODULE.sealed_checker(
+            checker, "sha256:" + hashlib.sha256(checker.read_bytes()).hexdigest()
+        )
+
     def test_captures_nonempty_fixture_and_invokes_exact_public_checker(self):
         expected, document = fixture()
         body = json.dumps(document, separators=(",", ":")).encode("ascii")
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory); output = root / "objective.json"
+            checker = self.checker(root)
             arguments = ["--url", "http://127.0.0.1:8417/api/v1/objectives/" + "a" * 64,
-                         "--output", str(output), "--checker", str(self.checker(root))]
+                         "--output", str(output), "--checker", str(checker),
+                         "--checker-sha256", "sha256:" + hashlib.sha256(checker.read_bytes()).hexdigest()]
             for name, value in expected.items(): arguments.extend(("--" + name.replace("_", "-"), value))
             with patch.object(MODULE, "build_opener", return_value=Opener(body)):
                 self.assertEqual(MODULE.main(arguments), 0)
             self.assertEqual(output.read_bytes(), body)
             self.assertTrue(output.stat().st_size)
+
+    def test_refuses_wrong_digest_before_fetch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            checker = self.checker(Path(directory))
+            with self.assertRaisesRegex(ValueError, "does not match"):
+                MODULE.sealed_checker(checker, "sha256:" + "0" * 64)
+
+    def test_sealed_checker_survives_pathname_replacement_and_content_mutation(self):
+        expected, document = fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); checker = self.checker(root)
+            descriptor = self.seal(checker)
+            try:
+                replacement = root / "replacement"
+                checker.rename(replacement)
+                checker.write_text("#!/bin/sh\nexit 99\n", encoding="ascii")
+                checker.chmod(0o700)
+                input_path = root / "objective.json"
+                input_path.write_text(json.dumps(document), encoding="ascii")
+                args = checker_args(expected)
+                completed = MODULE.run_sealed_checker(descriptor, input_path, args)
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                result = json.loads(completed.stdout)
+                self.assertEqual(result["objective_completion"], "not_determined")
+            finally:
+                os.close(descriptor)
 
     def test_refuses_non_loopback_and_existing_output(self):
         with self.assertRaisesRegex(ValueError, "loopback"):
