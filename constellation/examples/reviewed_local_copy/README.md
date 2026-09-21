@@ -361,13 +361,13 @@ without forwarding that completed response. Docket/AG must reconcile the same
 attempt and receipt; no new grant, issuance or copy is allowed.
 
 This wrapper cannot establish interruption **before** the success journal commit.
-Maude revision `d532efd8663f5b5d7f7da736a5efc7978ac9528c` supplies a distinct
+Maude revision `c1fce17a529c4f73d23012b22b7f1a2a3ee666a7` supplies a distinct
 closed artifact for that qualification boundary:
 
 ```sh
 python3.12 tools/build_reviewed_local_copy_validator.py \
   --role executor-interruption-qualification \
-  --source-revision d532efd8663f5b5d7f7da736a5efc7978ac9528c \
+  --source-revision c1fce17a529c4f73d23012b22b7f1a2a3ee666a7 \
   --output /absolute/existing-directory/reviewed-copy-interruption.pyz \
   --manifest /absolute/existing-directory/reviewed-copy-interruption.json
 ```

@@ -11,7 +11,7 @@ released deployment.
 - `prepare_public_python_closure.py`, its durable manager wrapper, and
   `requirements-public.lock`. The lock has 17 binary-wheel entries and is the
   hash-checked closure for Switchyard `1c82e719cf358728d0262ae11138fb13fefe0cae`.
-- The public Maude source pin `0d5b6c91102b1088818d0493c687f9f23db7684e`.
+- The public Maude source pin `c1fce17a529c4f73d23012b22b7f1a2a3ee666a7`.
 - Deterministic local controls, including the response-withheld transport
   fixture.
 
@@ -45,7 +45,7 @@ the root review owner alone admits the later review.
 it runs an already enrolled executor once, retains its local collector record,
 withholds the completed response, and requires same-attempt native
 reconciliation. It is not a substitution for the earlier interruption between
-file fsync and durable success journal commit. Maude `d532efd` now supplies a
+file fsync and durable success journal commit. Maude `c1fce17` now supplies a
 separately built and pinned `executor-interruption-qualification` artifact for
 that deterministic cut. The artifact exits 75 only after result and directory
 fsync and before the success record; its read-only reconciliation remains

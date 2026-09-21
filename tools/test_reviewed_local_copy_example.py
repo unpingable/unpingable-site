@@ -128,7 +128,7 @@ class CandidateControls(unittest.TestCase):
         self.assertTrue({'jsonschema', 'attrs', 'pyrsistent', 'fqdn', 'idna', 'isoduration',
             'jsonpointer', 'rfc3339-validator', 'rfc3987', 'types-python-dateutil', 'uri-template', 'webcolors'} <= required)
         self.assertEqual(python_closure.SWITCHYARD_REVISION, '1c82e719cf358728d0262ae11138fb13fefe0cae')
-        self.assertEqual(python_closure.MAUDE_REVISION, '0d5b6c91102b1088818d0493c687f9f23db7684e')
+        self.assertEqual(python_closure.MAUDE_REVISION, 'c1fce17a529c4f73d23012b22b7f1a2a3ee666a7')
         self.assertEqual(python_closure.PUBLIC_LOCK.read_text().splitlines(), sorted(python_closure.PUBLIC_LOCK.read_text().splitlines()))
         self.assertEqual(len(python_closure.PUBLIC_LOCK.read_text().splitlines()), len(required))
 

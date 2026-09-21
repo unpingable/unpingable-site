@@ -21,7 +21,7 @@ import tempfile
 
 
 SWITCHYARD_REVISION = '1c82e719cf358728d0262ae11138fb13fefe0cae'
-MAUDE_REVISION = '0d5b6c91102b1088818d0493c687f9f23db7684e'
+MAUDE_REVISION = 'c1fce17a529c4f73d23012b22b7f1a2a3ee666a7'
 ALLOCATION_LIMIT = 512 * 1024 * 1024
 # jsonschema 4.10.3's declared ``format`` extra, plus the exact build tools.
 WHEEL_REQUIREMENTS = (
@@ -156,4 +156,3 @@ def main(argv=None):
 
 if __name__ == '__main__':
     main()
-

@@ -2,7 +2,7 @@
   "schema": "constellation.reviewed-local-copy-source-pins/v1",
   "status": "candidate-source-cohort-not-an-installed-qualification",
   "components": {
-    "maude": {"repository": "https://github.com/unpingable/maude.git", "revision": "0d5b6c91102b1088818d0493c687f9f23db7684e"},
+    "maude": {"repository": "https://github.com/unpingable/maude.git", "revision": "c1fce17a529c4f73d23012b22b7f1a2a3ee666a7"},
     "nq": {"repository": "https://github.com/unpingable/constellation-nq.git", "revision": "d3089a9787a27c50faf1e3f393a88f8e64bd412d"},
     "pulse": {"repository": "https://github.com/unpingable/constellation-nightshift.git", "revision": "d91b214cd22afd5585fcd259d22463d08d606b58", "directory": "integrations/pulse-nq-load-support"},
     "ag": {"repository": "https://github.com/unpingable/constellation-ag.git", "revision": "4dafc1a774178a9e09e75afc6e22c71052fd3dce"},
@@ -13,4 +13,3 @@
   },
   "installed_identities": "Deployment-specific exact file hashes, interpreter/launcher closure, native genesis and reviewer enrollment are required separately."
 }
-

@@ -29,7 +29,7 @@ test "$(df --output=iavail "$(dirname "$owner")" | tail -n1)" -ge 10000
 test "$(df --output=iavail "$(dirname "$records")" | tail -n1)" -ge 10000
 test "$(git -C "$switchyard" rev-parse HEAD)" = 1c82e719cf358728d0262ae11138fb13fefe0cae
 test -z "$(git -C "$switchyard" status --porcelain)"
-test "$(git -C "$maude" rev-parse HEAD)" = 0d5b6c91102b1088818d0493c687f9f23db7684e
+test "$(git -C "$maude" rev-parse HEAD)" = c1fce17a529c4f73d23012b22b7f1a2a3ee666a7
 test -z "$(git -C "$maude" status --porcelain)"
 
 exec 9>"$lock"
@@ -47,10 +47,9 @@ trap finish EXIT
 trap 'exit 129' HUP
 trap 'exit 130' INT
 trap 'exit 143' TERM
-printf '{"unit":"%s","host":"%s","invocation_id":"%s","cwd":"%s","producer":"%s","owner":"%s","sources":{"switchyard":"1c82e719cf358728d0262ae11138fb13fefe0cae","maude":"0d5b6c91102b1088818d0493c687f9f23db7684e"},"allocation_limit_bytes":536870912,"memory_limit_bytes":1073741824,"tasks_limit":64,"timeout_seconds":600,"restart":"no","network_transition":"bounded public wheel download only","next":"inspect original unit, manager log, and owner stages without restarting"}\n' \
+printf '{"unit":"%s","host":"%s","invocation_id":"%s","cwd":"%s","producer":"%s","owner":"%s","sources":{"switchyard":"1c82e719cf358728d0262ae11138fb13fefe0cae","maude":"c1fce17a529c4f73d23012b22b7f1a2a3ee666a7"},"allocation_limit_bytes":536870912,"memory_limit_bytes":1073741824,"tasks_limit":64,"timeout_seconds":600,"restart":"no","network_transition":"bounded public wheel download only","next":"inspect original unit, manager log, and owner stages without restarting"}\n' \
   "$unit" "$(hostname)" "$INVOCATION_ID" "$PWD" "$producer" "$owner" >"$records/checkpoint.json"
 sha256sum "$0" "$producer" "$pins" "$python" >"$records/inputs.sha256"
 sync -f "$records/checkpoint.json"
 "$python" -B "$producer" --owner "$owner" --switchyard "$switchyard" --maude "$maude" --python "$python" --unit "$unit"
 du -s -B1 "$records" "$owner" >"$records/allocation-final.txt"
-
