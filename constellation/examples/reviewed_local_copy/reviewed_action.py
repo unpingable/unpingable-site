@@ -27,7 +27,8 @@ from prepare_finite_run import prepare
 PROGRAMS = {'ag', 'nightshift', 'foreman', 'provider', 'review_verifier', 'docket', 'pulse', 'app_server'}
 INPUTS = {'binding', 'cycle_request', 'nightshift_config', 'runtime_profile', 'review_requirement',
     'review_verifier_config', 'executor_config', 'backend', 'packet', 'admission', 'profile',
-    'policy', 'provider_requirement', 'source_provenance', 'pulse_query', 'pulse_retention'}
+    'policy', 'provider_requirement', 'source_provenance', 'pulse_query', 'pulse_retention',
+    'docket_standing_config'}
 PATHS = {'ag_database', 'foreman_database', 'switchyard_database', 'docket_state', 'ag_mandates'}
 
 
@@ -57,6 +58,14 @@ def pinned(entry, maximum):
     return str(path)
 
 
+def require_docket_standing(value, operator, state_directory):
+    require(value == {
+        'schema': 'docket.governed-loop.local-standing-resolver-config/v1',
+        'operator': operator,
+        'state_database': str(Path(state_directory) / 'state.sqlite'),
+    }, 'Docket local-standing operator/state differs from the caller')
+
+
 def configuration(path):
     config, raw = read(path)
     require(set(config) == {'schema', 'programs', 'inputs', 'paths', 'review', 'operator'}, 'closed example config required')
@@ -70,8 +79,11 @@ def configuration(path):
     for value in config['paths'].values(): require(Path(value).is_absolute(), 'absolute mutable owner path required')
     require(isinstance(config['operator'], str) and config['operator'], 'operator identity required')
     inputs = {key: value['path'] for key, value in config['inputs'].items()}
-    values = {key: read(Path(inputs[key]))[0] for key in ('runtime_profile', 'nightshift_config', 'review_verifier_config', 'backend')}
-    profile, ns, review, backend = (values[key] for key in ('runtime_profile', 'nightshift_config', 'review_verifier_config', 'backend'))
+    values = {key: read(Path(inputs[key]))[0] for key in ('runtime_profile', 'nightshift_config',
+        'review_verifier_config', 'backend', 'docket_standing_config')}
+    profile, ns, review, backend, docket_standing = (values[key] for key in
+        ('runtime_profile', 'nightshift_config', 'review_verifier_config', 'backend',
+         'docket_standing_config'))
     require(profile.get('schema') == 'ag.governed-loop.runtime-profile/v2', 'protected V2 genesis required')
     for key in ('review_requirement', 'review_verifier_config'):
         require(profile['shared_admission'][key] == {'path': inputs[key], 'identity': config['inputs'][key]['sha256']}, 'genesis shared input differs: ' + key)
@@ -89,6 +101,7 @@ def configuration(path):
     require(all(review['route'][key] == backend[key] for key in ('codex_source_head', 'provider', 'model')) and
         review['route']['app_server_executable_sha256'] == backend['executable_sha256'], 'reviewer route differs from approved backend')
     require(profile['docket']['state_directory'] == config['paths']['docket_state'], 'Docket owner root differs')
+    require_docket_standing(docket_standing, config['operator'], config['paths']['docket_state'])
     binding, binding_raw = read(Path(inputs['binding']))
     verify_review_packet_manifest(read(Path(inputs['packet']))[0], config['review']['work_item'],
         review, binding, binding_raw)

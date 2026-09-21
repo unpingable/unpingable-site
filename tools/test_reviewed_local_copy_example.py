@@ -87,6 +87,15 @@ def review_brief(binding, binding_raw, config, technical=None, instruction=None)
 
 
 class CandidateControls(unittest.TestCase):
+    def test_docket_standing_operator_and_state_are_one_enrolled_identity(self):
+        root = Path('/logical/docket-state')
+        value = {'schema': 'docket.governed-loop.local-standing-resolver-config/v1',
+            'operator': 'fixture-operator', 'state_database': str(root / 'state.sqlite')}
+        action.require_docket_standing(value, 'fixture-operator', root)
+        wrong = dict(value); wrong['operator'] = 'alternate-operator'
+        with self.assertRaisesRegex(ValueError, 'operator/state differs'):
+            action.require_docket_standing(wrong, 'fixture-operator', root)
+
     def test_retained_review_continuation_binds_exact_candidate_without_provider_dispatch(self):
         values = fixture()
         projected = candidate.project(*values, 2000)
@@ -460,6 +469,8 @@ class CandidateControls(unittest.TestCase):
                     'reviewed_plan_binding': {'binding_sha256': candidate.digest(raw), 'binding_base64': base64.b64encode(raw).decode()}}
                 documents = {'binding': binding, 'runtime_profile': {'schema': 'ag.governed-loop.runtime-profile/v2'},
                     'executor_config': {'executor_plan_base64': encoded, 'state_root': str(executor_state)},
+                    'docket_standing_config': {'schema': 'docket.governed-loop.local-standing-resolver-config/v1',
+                        'operator': 'fixture-operator', 'state_database': str(docket / 'state.sqlite')},
                     'provider_requirement': {'schema': 'nightshift.foreman-execution-availability-requirement/v1',
                         'run_id': 'fixture-review-run', 'admitted_at': '2026-09-20T00:00:00Z'},
                     'review_requirement': requirement, 'review_verifier_config': review_config, 'cycle_request': cycle}

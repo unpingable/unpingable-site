@@ -214,12 +214,19 @@ and `operator`. All file locators are absolute and deployment-owned.
 - `inputs`: paths for `binding`, `cycle_request`, `nightshift_config`,
   `runtime_profile`, `review_requirement`, `review_verifier_config`,
   `executor_config`, `backend`, `packet`, `admission`, `profile`, `policy`,
-  `provider_requirement`, `source_provenance`, `pulse_query`, `pulse_retention`.
+  `provider_requirement`, `source_provenance`, `pulse_query`, `pulse_retention`,
+  `docket_standing_config`.
   Here `profile` is the Foreman provider profile, not the AG runtime profile.
 - `paths`: native mutable locators `ag_database`, `foreman_database`,
   `switchyard_database`, `docket_state`, `ag_mandates`.
 - `review`: fresh native `run_id`, `work_item`, `dispatch_id`, `adapter_process`,
   `app_server_session_identity`; `operator` is the admitted local operator identity.
+
+`docket_standing_config` is the pinned Docket local-standing resolver
+configuration. Its operator must equal the caller's `operator`, and its state
+database must be `docket_state/state.sqlite`. Enrollment refuses a mismatch
+before review, authority, or execution; a grant owned under another operator
+identity cannot satisfy Docket's permission boundary.
 
 `pulse_query` is the native closed resolver query. `pulse_retention` projects only
 the retained native receipt's `evidence_id`, `received_at.clock_id` and
