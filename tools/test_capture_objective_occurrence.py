@@ -15,8 +15,12 @@ ROOT = Path(__file__).parents[1]
 PATH = ROOT / "constellation/examples/capture_objective_occurrence.py"
 SPEC = importlib.util.spec_from_file_location("capture_objective_occurrence", PATH)
 MODULE = importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(MODULE)
-AG_ROOT = Path("/data/git/constellation/constellation-ag")
 AG_REVISION = "31fde40df33d4e454a660cb27442b60f16054a65"
+AG_SOURCE = os.environ.get("CONSTELLATION_AG_SOURCE")
+FIXTURE_CHECKER = b"""#!/usr/bin/env python3
+import json
+print(json.dumps({"objective_completion":"not_determined"},separators=(",",":")))
+"""
 
 
 def source(value=None, *, unavailable=False):
@@ -71,7 +75,19 @@ class Opener:
 class CaptureObjectiveOccurrenceTests(unittest.TestCase):
     def checker(self, root: Path) -> Path:
         output = root / "phosphor-objective-occurrence-check"
-        source = subprocess.run(["git", "-C", str(AG_ROOT), "show", f"{AG_REVISION}:examples/phosphor-objective-occurrence-check"], check=True, capture_output=True).stdout
+        output.write_bytes(FIXTURE_CHECKER); output.chmod(0o700)
+        return output
+
+    def exact_public_checker(self, root: Path) -> Path:
+        if AG_SOURCE is None:
+            self.skipTest("set CONSTELLATION_AG_SOURCE to run the exact public checker case")
+        source_root = Path(AG_SOURCE)
+        output = root / "phosphor-objective-occurrence-check"
+        source = subprocess.run(
+            ["git", "-C", str(source_root), "show", f"{AG_REVISION}:examples/phosphor-objective-occurrence-check"],
+            check=True,
+            capture_output=True,
+        ).stdout
         output.write_bytes(source); output.chmod(0o700)
         return output
 
@@ -136,6 +152,26 @@ class CaptureObjectiveOccurrenceTests(unittest.TestCase):
             output = Path(directory) / "exists.json"; output.write_bytes(b"existing")
             with self.assertRaisesRegex(ValueError, "already exists"):
                 MODULE.write_new_regular(output, b"new")
+
+    def test_exact_public_checker_when_source_is_selected(self):
+        expected, document = fixture()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            checker = self.exact_public_checker(root)
+            descriptor = self.seal(checker)
+            try:
+                input_path = root / "objective.json"
+                input_path.write_text(json.dumps(document), encoding="ascii")
+                completed = MODULE.run_sealed_checker(
+                    descriptor, input_path, checker_args(expected)
+                )
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                self.assertEqual(
+                    json.loads(completed.stdout)["objective_completion"],
+                    "not_determined",
+                )
+            finally:
+                os.close(descriptor)
 
 
 if __name__ == "__main__":
