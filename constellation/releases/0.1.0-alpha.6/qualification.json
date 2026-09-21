@@ -1,0 +1,90 @@
+{
+  "schema": "constellation.integration-qualification/v1",
+  "suite_version": "0.1.0-alpha.6",
+  "profile": "reviewed-local-copy/v1",
+  "manifest_sha256": "28532829760b452a350c28ccbf9ba58484c5ecc1524d10fdeb41b6bf3d19daa5",
+  "result": "candidate_pending_public_clone_reproduction",
+  "verified_date": "2026-09-21",
+  "actual_governed_occurrence": {
+    "result": "passed",
+    "occurrence_id": "b0040000-0000-4000-8000-000000000004",
+    "review_request_id": "public-reviewed-copy-b004-review040-request-001",
+    "provider_requests": 1,
+    "automatic_retries": 0,
+    "operator_acceptance": "exact_candidate_digest",
+    "ag_spends": 1,
+    "docket_attempts": 1,
+    "docket_settlements": 1,
+    "executor_calls": 1,
+    "settlement_outcome": "success",
+    "effect_sha256": "b21a096a536b1da35cbe7c2b3cc1c516e5b23351537fbcd7cb3ee1f1e310ea48",
+    "terminal_state": "settled_observation_required"
+  },
+  "cases": [
+    {
+      "id": "review040-exact-governed-local-copy",
+      "result": "passed",
+      "observed": [
+        "actual NQ observation and Pulse currentness support",
+        "exact Maude plan compilation and Nightshift admission",
+        "one bounded independent provider review retained and verified by Switchyard",
+        "explicit operator acceptance of the exact candidate digest",
+        "AG review/standing checks and one exact-work authorization spend",
+        "one operator-owned Docket permission grant and one custody attempt",
+        "one Maude exclusive-create executor call and one successful settlement",
+        "later read-only observation of the exact 38-byte result",
+        "terminal fresh-observation requirement before continuation"
+      ]
+    },
+    {
+      "id": "docket-standing-operator-mismatch",
+      "result": "passed",
+      "observed": [
+        "mismatched operator/configuration refused before provider review, authority, Docket attempt, or effect"
+      ]
+    },
+    {
+      "id": "post-sync-pre-success-record-uncertainty",
+      "result": "passed_targeted_component_qualification",
+      "observed": [
+        "Docket retained one indeterminate attempt after the deterministic transition cut",
+        "same-attempt reconciliation did not dispatch another execution or consume another grant"
+      ]
+    },
+    {
+      "id": "retained-success-response-loss",
+      "result": "passed_targeted_component_qualification",
+      "observed": [
+        "reconciliation used the original successful attempt and receipt",
+        "no second grant, issuance, or copy was produced"
+      ]
+    },
+    {
+      "id": "alpha6-public-only-newcomer-evidence-reproduction",
+      "result": "pending_prepublication",
+      "observed": []
+    }
+  ],
+  "scope": {
+    "established": [
+      "One actual provider-reviewed, explicitly accepted, one-use governed local effect through the named pinned composition",
+      "Pre-authority operator mismatch refusal",
+      "Same-attempt handling for the named uncertainty and response-loss boundaries",
+      "Exact read-only objective projection with objective completion left unknown and no continuation authority"
+    ],
+    "not_established": [
+      "A second public newcomer provider call or physical effect",
+      "Present result state after the retained observation",
+      "A fresh NQ postcondition judgment",
+      "Production deployment, live human notification, arbitrary executors or routes, or general campaign execution",
+      "Migration or rollback across changed runtime contracts"
+    ]
+  },
+  "historical_review_outcomes": {
+    "review009": "indeterminate; cost unknown",
+    "review010": "indeterminate after retained-event loss; cost unknown",
+    "review011": "admission indeterminate after retained-event loss; cost unknown",
+    "review012": "retained rejected response, but owner outcome remains indeterminate; cost unknown",
+    "review040": "accepted; observed usage retained; exact cost not observable"
+  }
+}

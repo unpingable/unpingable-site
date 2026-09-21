@@ -74,13 +74,39 @@
       "capabilities": {
         "optional": [
           {
-            "capability": "diagnostic disposition from retained evidence",
+            "capability": "read-only objective projection and public evidence verification",
             "component_ids": [
-              "nq"
+              "phosphor",
+              "ag"
             ]
           }
         ],
         "required": [
+          {
+            "capability": "exact plan compilation, validation, and effect-specific exclusive-create executor",
+            "component_ids": [
+              "maude"
+            ]
+          },
+          {
+            "capability": "bounded evidence acquisition and currentness support",
+            "component_ids": [
+              "nq",
+              "pulse"
+            ]
+          },
+          {
+            "capability": "durable occurrence admission and review preparation",
+            "component_ids": [
+              "nightshift"
+            ]
+          },
+          {
+            "capability": "bounded independent provider review and retained verification",
+            "component_ids": [
+              "switchyard-runtime"
+            ]
+          },
           {
             "capability": "exact-work one-use authorization",
             "component_ids": [
@@ -94,36 +120,35 @@
             ]
           },
           {
-            "capability": "deployment-supplied standing input",
-            "component_ids": [],
-            "provided_by": "deployment"
-          },
-          {
-            "capability": "effect-specific executor",
-            "component_ids": [],
-            "provided_by": "deployment"
+            "capability": "operator-owned exact local permission",
+            "component_ids": [
+              "docket"
+            ]
           }
         ]
       },
       "id": "governed-action-b",
       "lost_guarantees": [
-        "The public Docket conformance fixture is not a public end-to-end action package.",
-        "A successful prior attempt does not authorize a new effect."
+        "The qualified occurrence is one exact local-copy profile, not a general executor or provider framework.",
+        "Public newcomer verification inspects frozen evidence and does not repeat the paid review or effect.",
+        "Settlement success does not establish objective completion or present state; a successful prior attempt does not authorize another effect."
       ],
-      "maturity": "incomplete-public-recipe-supporting-fixture-only",
+      "maturity": "released alpha.6 profile; one actual governed effect and public-only immutable-evidence reproduction qualified",
       "public_examples": [
         {
-          "example": "recipes.html#recipe-b",
-          "implementation_id": "docket",
-          "source": "https://github.com/unpingable/constellation-docket/tree/c49ad8d0f26fb2a13b9dbafdde84d7abfe1f867b",
-          "state": "executor transport conformance check"
+          "example": "releases/0.1.0-alpha.6/guide.html",
+          "implementation_id": "ag",
+          "source": "https://github.com/unpingable/constellation-ag/tree/e0f30de668234935cdbc4b0bd04f5dc13838411d",
+          "state": "released alpha.6 governed-action evidence and exact public occurrence checker"
         }
       ],
-      "recipe": "recipes.html#recipe-b",
+      "recipe": "releases/0.1.0-alpha.6/guide.html",
       "refusals": [
-        "An unavailable standing input, refusal before execution, and uncertain outcome recovery are required for completion but not packaged publicly."
+        "A mismatched operator/configuration refuses before review or authority.",
+        "Changed review, plan, work, issuance, or projection identities refuse exact correspondence.",
+        "An uncertain retained attempt must be reconciled under its original identity without redispatch."
       ],
-      "summary": "Governed bounded action; public recipe remains incomplete"
+      "summary": "Review, explicitly accept, authorize once, execute, settle, and inspect one bounded local-copy action"
     },
     {
       "capabilities": {

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Verify the qualified Constellation reviewed local-copy workflow from public source and frozen evidence.">
+<title>Constellation 0.1.0-alpha.6 — reviewed local copy</title><link rel="stylesheet" href="../../base.css"><link rel="canonical" href="https://unpingable.com/constellation/releases/0.1.0-alpha.6/guide.html"></head>
+<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="../../index.html">Constellation</a></strong><a href="../../integration.html">Integration</a><a href="../../recipes.html">Recipes</a><a href="../../start.html">Start</a></nav></header>
+<main id="main">
+<p class="eyebrow">Integration release 0.1.0-alpha.6</p>
+<h1>One reviewed action, authorized once</h1>
+<p class="lede">The user wanted one bounded result: create an absent local <code>result.txt</code> containing 38 reviewed bytes. The qualified occurrence acquired evidence, retained an independent review, required explicit operator acceptance, spent one exact authorization, executed once under Docket custody, settled successfully, and then required fresh observation before any continuation.</p>
+
+<aside class="note"><strong>Two scopes:</strong> the governed action happened once in the retained qualification environment. The credential-free newcomer procedure below verifies the immutable public evidence and its identity checks. It does not contact a model provider, grant authority, or repeat the file effect.</aside>
+
+<h2>What happened</h2>
+<ol class="steps">
+<li><strong>Observe:</strong> NQ admitted one bounded host observation; Pulse supplied currentness support for that exact observation.</li>
+<li><strong>Propose:</strong> Maude compiled the exact local-copy plan and Nightshift admitted the occurrence.</li>
+<li><strong>Review:</strong> Switchyard retained one bounded OpenAI review. The enrolled verifier accepted its exact result.</li>
+<li><strong>Accept and judge:</strong> an operator accepted the exact candidate digest. AG checked the accepted review and standing; provider completion alone did neither.</li>
+<li><strong>Authorize once:</strong> AG issued and spent authority for the exact work. Docket resolved one operator-owned local permission snapshot.</li>
+<li><strong>Execute under custody:</strong> Docket dispatched Maude's authority-neutral exclusive-create executor and retained one attempt.</li>
+<li><strong>Settle and inspect:</strong> Docket settled the attempt as successful. A later no-follow read observed the exact 38-byte regular file.</li>
+<li><strong>Stop:</strong> AG ended at <code>settled_observation_required</code>. Another action needs fresh observation, judgment, and authority.</li>
+</ol>
+
+<h2>Verify from public-only inputs</h2>
+<p>These commands clone the immutable release and the exact public checker revision into a fresh directory. They verify every released evidence digest, reproduce the objective/occurrence check, and confirm that a mismatched plan identity refuses.</p>
+<pre><code>SETUP=$(mktemp -d /tmp/constellation-alpha6.XXXXXX)
+cd "$SETUP"
+git clone https://github.com/unpingable/unpingable-site.git site
+git -C site checkout --detach constellation-v0.1.0-alpha.6
+git clone https://github.com/unpingable/constellation-ag.git ag
+git -C ag checkout --detach e0f30de668234935cdbc4b0bd04f5dc13838411d
+python3 site/constellation/releases/0.1.0-alpha.6/verify-evidence.py \
+  --ag-checkout "$SETUP/ag"</code></pre>
+<p>Expected output is one compact <code>constellation.recipe-b-public-evidence-check/v1</code> object with <code>result: passed</code>, <code>projection_correspondence: exact</code>, <code>objective_completion: not_determined</code>, <code>authority_for_another_action: none</code>, and <code>mismatched_plan_digest: refused</code>.</p>
+
+<h2>Inspect progressively</h2>
+<ul>
+<li><a href="evidence/reviewed-action.json">Readable action summary</a>: review, proposal, authorization, attempt, settlement, effect digest, claims, and nonclaims.</li>
+<li><a href="evidence/post-observation.json">Post-effect observation</a>: what the later local read established at one time.</li>
+<li><a href="evidence/objective-check.json">Objective check</a>: exact cross-owner identity match and deliberately unknown objective completion.</li>
+<li><a href="evidence/objective.json">Full Phosphor objective projection</a>: detailed public record for drill-down.</li>
+<li><a href="manifest.json">Release manifest</a>: exact runtime and evidence-reader source pins.</li>
+<li><a href="qualification.json">Qualification record</a>: successful, refusal, uncertainty, response-loss, and newcomer scopes.</li>
+</ul>
+
+<h2>Refusal, uncertainty, and recovery</h2>
+<p>The successful occurrence is not the only evidence used for this profile. A mismatched Docket-standing operator refuses before review or authority. The pinned Maude/Docket qualification retains an indeterminate attempt at a deterministic post-sync/pre-success-record transition and reconciles that same attempt without another execution. A retained-success response-loss case likewise reconciles the original successful attempt rather than creating another grant or copy. These are targeted qualification cases, not additional provider-reviewed occurrences.</p>
+<p>If an installed run loses a response, preserve its AG, Docket, executor, review, and manager records together. Inspect the original identities before doing anything else. Do not submit a replacement occurrence merely because the caller lacks a terminal response.</p>
+
+<h2>Run it yourself versus adapt it</h2>
+<p>The commands above are the supported public newcomer path for this release: read and verify the qualified occurrence. Adapting an external caller to perform a new effect additionally requires its own enrolled reviewer route, current evidence, exact standing inputs, operator-owned Docket grant, executor closure, durable state, and authority. The candidate glue is documented in <a href="../../examples/reviewed_local_copy/README.md">the reviewed local-copy integration example</a>; it is not a secretless one-command installer and does not grant the reader authority to contact a provider or perform work.</p>
+
+<h2>Lifecycle and retention</h2>
+<p>The public evidence reader starts no services and creates no state beyond its temporary clones. For an operational installation, preserve Plan Core, NQ, Nightshift/Foreman, Switchyard, AG, Docket, executor journals, manager checkpoints, configuration identities, and exact source/artifact pins as one recovery set. Stop writers before a consistent backup. Restart only the original durable owner; inspect before considering another submission. State migration, restore across changed component revisions, and rollback are not qualified by alpha.6.</p>
+<p>Live Slack, Discord, or PagerDuty delivery was not performed. Deterministic/local notification adapters are documented separately; message delivery or acknowledgment would not establish execution success or authority.</p>
+</main><footer>Constellation alpha integration release · <a href="../../integration.html">Integration</a> · <a href="../../troubleshooting.html">Troubleshooting</a></footer></body></html>

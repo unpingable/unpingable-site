@@ -1,0 +1,214 @@
+{
+  "schema": "constellation.integration-release-manifest/v1",
+  "manifest_schema_version": 1,
+  "suite_version": "0.1.0-alpha.6",
+  "inventory": "../../components.json",
+  "profiles": [
+    {
+      "id": "reviewed-local-copy/v1",
+      "use_case": "Review, explicitly accept, authorize once, execute, settle, and inspect one exclusive local creation of a bounded text file.",
+      "required_capabilities": [
+        "exact plan compilation and validation",
+        "retained evidence acquisition and currentness support",
+        "durable occurrence admission and independent review custody",
+        "exact-work judgment and one-use authorization",
+        "bounded local permission resolution",
+        "attempt custody, authority-neutral execution, settlement, and reconciliation"
+      ],
+      "required_components": [
+        "maude",
+        "nq",
+        "pulse",
+        "nightshift",
+        "ag",
+        "docket",
+        "switchyard-runtime"
+      ],
+      "optional_components": [
+        "phosphor"
+      ],
+      "verified_environment": "One disposable Linux x86_64 local installation; provider-backed independent review followed by explicit operator acceptance and one local file effect.",
+      "limitations": [
+        "The frozen successful occurrence is the qualified governed action. The public newcomer procedure verifies its released evidence and exact projection; it does not repeat the paid review or effect.",
+        "The Docket-local permission store is an operator-owned profile with a maximum 300-second lifetime and snapshot-currentness for one custody attempt; it is not Standing or a general authority service.",
+        "The retained precompiled-cycle lineage is distinct from supervised Maude authoring-session custody.",
+        "Settlement success does not establish objective completion or present external state.",
+        "Live Slack, Discord, and PagerDuty delivery and human acknowledgment are outside this profile.",
+        "Other executors, provider routes, platforms, production deployments, and federation are unsupported by this release."
+      ]
+    },
+    {
+      "id": "reviewed-local-copy-evidence-read/v1",
+      "use_case": "Reproduce the read-only validation of the frozen successful occurrence using public source and released evidence.",
+      "required_capabilities": [
+        "exact released evidence digests",
+        "read-only objective occurrence validation",
+        "mismatched-identity refusal"
+      ],
+      "required_components": [
+        "ag"
+      ],
+      "optional_components": [],
+      "limitations": [
+        "This is consultation and inspection of retained evidence, not another execution.",
+        "The occurrence remains settled_observation_required and grants no continuation authority."
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "maude",
+      "source": "https://github.com/unpingable/maude.git",
+      "commit": "d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4",
+      "role": "plan compilation, validator, and authority-neutral exclusive-create executor"
+    },
+    {
+      "id": "nq",
+      "source": "https://github.com/unpingable/constellation-nq.git",
+      "commit": "d3089a9787a27c50faf1e3f393a88f8e64bd412d",
+      "role": "bounded host observation admission"
+    },
+    {
+      "id": "pulse",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "d91b214cd22afd5585fcd259d22463d08d606b58",
+      "source_subdirectory": "integrations/pulse-nq-load-support",
+      "role": "independent currentness support for the exact NQ observation"
+    },
+    {
+      "id": "nightshift",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "9e592cbe581c24b3973677ef3938bccac4feea49",
+      "source_subdirectory": "runtime",
+      "role": "durable occurrence admission"
+    },
+    {
+      "id": "ag",
+      "source": "https://github.com/unpingable/constellation-ag.git",
+      "commit": "4dafc1a774178a9e09e75afc6e22c71052fd3dce",
+      "role": "review/standing judgment, exact-work authorization, finite continuation owner"
+    },
+    {
+      "id": "docket",
+      "source": "https://github.com/unpingable/constellation-docket.git",
+      "commit": "fbcacc1dfb95f0f625a72e123f61afa41c1ddccb",
+      "role": "operator-owned local permission snapshot, attempt custody, dispatch, settlement, and reconciliation"
+    },
+    {
+      "id": "switchyard-runtime",
+      "source": "https://github.com/unpingable/switchyard-runtime.git",
+      "commit": "1c82e719cf358728d0262ae11138fb13fefe0cae",
+      "role": "bounded provider-call custody and retained independent-review verification"
+    },
+    {
+      "id": "phosphor",
+      "source": "https://github.com/unpingable/constellation-ag.git",
+      "commit": "e0f30de668234935cdbc4b0bd04f5dc13838411d",
+      "role": "read-only objective occurrence projection and public evidence checker"
+    }
+  ],
+  "runtime_dependencies": [
+    {
+      "id": "foreman",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "58639a9bfe8ddf3d6b232aab6dc231dcf82b6769",
+      "source_subdirectory": "runtime",
+      "role": "review preparation and result custody; hosted within the Nightshift product"
+    },
+    {
+      "id": "app-server",
+      "source": "https://github.com/unpingable/codex.git",
+      "commit": "97b0acd5ce2ccb3c87a763606696c35a450947f6",
+      "source_subdirectory": "codex-rs",
+      "role": "enrolled bounded OpenAI review transport; not a Constellation family component"
+    },
+    {
+      "id": "switchyard-review-contract",
+      "canonical_source_commit": "4bae252fbc64d702555cb6e314cb6009ae8990cd",
+      "export_commit": "612acdbdea1109a58ec8162d0fc9e3bc5c88f57b",
+      "role": "canonical review contract and reproducible public runtime export"
+    }
+  ],
+  "evidence_generation_sources": [
+    {
+      "id": "ag-objective-reader",
+      "source": "https://github.com/unpingable/constellation-ag.git",
+      "commit": "e0f30de668234935cdbc4b0bd04f5dc13838411d"
+    },
+    {
+      "id": "nightshift-lineage-reader",
+      "source": "https://github.com/unpingable/constellation-nightshift.git",
+      "commit": "e7c35db3ad6ce7cd53e280e6be118b042d89f63b"
+    }
+  ],
+  "environment": {
+    "platform": "linux-x86_64",
+    "python": "3.12",
+    "rust": "component lockfiles and pinned toolchains; App Server uses 1.95",
+    "provider_route": "OpenAI gpt-5.6-terra through the enrolled bounded App Server route",
+    "provider_requests_in_qualified_occurrence": 1,
+    "automatic_retries": 0,
+    "public_evidence_verification_provider_credentials": "none"
+  },
+  "contracts": {
+    "plan_binding": "maude.governed-plan-binding/v1",
+    "executor_plan": "maude.reviewed-local-copy.docket-executor-plan/v1",
+    "nightshift_cycle": "nightshift.canonical_cycle_request.v1",
+    "shared_review_manifest": "switchyard.shared-review-manifest/v1",
+    "shared_review": "switchyard.shared-source-review/v1",
+    "ag_run_status": "ag.governed-loop.run-status/v1",
+    "docket_executor_transport": "gwr.executor-transport.v1",
+    "objective_projection": "phosphor-ng.objective-detail/v1",
+    "public_evidence_check": "constellation.recipe-b-public-evidence-check/v1"
+  },
+  "evidence": {
+    "reviewed_action": {
+      "path": "evidence/reviewed-action.json",
+      "sha256": "622ef60f1cdf364a0c793f4b1e20d837ba50d49eb6a2946a2b85db3fa7197cf2"
+    },
+    "post_observation": {
+      "path": "evidence/post-observation.json",
+      "sha256": "e475da3a037a028c4160787f67717deaab9c64ecc77df121207bd48fc59e9e10"
+    },
+    "objective_projection": {
+      "path": "evidence/objective.json",
+      "sha256": "03496495b2d673fb4a3c58e234cb32c44e9b7d9395cccfc5a21e0804b149f1fb"
+    },
+    "objective_check": {
+      "path": "evidence/objective-check.json",
+      "sha256": "63716876a4e8136b3698559a52c0bd2973c3e4969e9b083c5408e354331c4f51"
+    },
+    "verifier": {
+      "path": "verify-evidence.py",
+      "sha256": "9240046e93f938b1a22775f04d3644dfb64b7751539dad49cdeeb88ce3bf9ede"
+    }
+  },
+  "example_source": {
+    "source_kind": "public_component",
+    "component_id": "phosphor",
+    "commit": "e0f30de668234935cdbc4b0bd04f5dc13838411d",
+    "example": "examples/phosphor-objective-occurrence-check",
+    "example_sha256": "ecbec4430504795db68740d57499d8738d57e9018be570dea827224fda1fe7fe",
+    "guide": "examples/objective-occurrence-read.md",
+    "guide_sha256": "86dc37a70d9c6a364296146be0ae6476752e657585d7a11e0e1e56162ba12793"
+  },
+  "documentation": {
+    "guide": "guide.html",
+    "release_policy": "../../release-policy.html",
+    "recipe": "../../recipes.html#recipe-b"
+  },
+  "qualification": {
+    "record": "qualification.json",
+    "scope": "one actual provider-reviewed governed local effect plus clean public-only verification of its immutable released evidence"
+  },
+  "outside_release": [
+    "production deployment",
+    "ATProto application binding and legacy NQ retirement",
+    "live human notification delivery",
+    "arbitrary executor or provider integration",
+    "general campaign running",
+    "federation",
+    "ECAD/design-flow readiness",
+    "family-wide maturity"
+  ]
+}

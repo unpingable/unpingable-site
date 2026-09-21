@@ -1,0 +1,55 @@
+{
+  "schema": "constellation.reviewed-action-evidence/v1",
+  "suite_version": "0.1.0-alpha.6",
+  "profile": "reviewed-local-copy/v1",
+  "result": "qualified",
+  "campaign_id": "sha256:1725b2a0a10f5fc6c95150820ef94ba09421b60814688db879f14e1f7dd01142",
+  "occurrence_id": "b0040000-0000-4000-8000-000000000004",
+  "proposal_id": "sha256:0313f71d68535cbd465987009a87cafbd4835275bb4d66192f86ef214f3149e0",
+  "exact_work_id": "sha256:0ab2a9e8c3686102dbd9ab483ae843127424e4d99ffc57d754f2f4df53252036",
+  "review": {
+    "request_id": "public-reviewed-copy-b004-review040-request-001",
+    "material_sha256": "sha256:bc496482ca0ec2657b15d66e56dd3e9f48f3eeb405e4b918d9f9a188a063c2d2",
+    "provider_run_sha256": "sha256:4ca2762aa2b219261e5eb35a9350bbea97059a9c31fe3c188862f98c0a6eb686",
+    "reviewer_binding": "sha256:f8dc4b8dda7481697ffd6efbeffc71b4140cb86607c4aca13ec7ad2bfaae9f21",
+    "verifier_evidence": "sha256:ad492c9fe512bbdface1b4d96e9a4f4e6480255b6338c5ea0187e83eed1632f5",
+    "verdict": "accepted",
+    "provider": "OpenAI",
+    "model": "gpt-5.6-terra",
+    "usage": {
+      "input_tokens": 110051,
+      "output_tokens": 314,
+      "reasoning_output_tokens": 115,
+      "cost": "not_observable"
+    }
+  },
+  "custody": {
+    "issuance_id": "sha256:2f33d498a0753457402c2afe99ec05da25dd9c425a0f53adddc01fed640013d9",
+    "ag_spend_id": "sha256:cdb7cc21e4593f3a7f9627a8a7a2aee9a446bce986fcc1b43da6e7a5fbc2e1d4",
+    "docket_attempt_id": "sha256:64e585ea62b8b9b9ca2c89c69a143e3bd0c592924326266202c1cffcb7777bb0",
+    "docket_settlement_id": "sha256:e0e6e304754168c09ab0d4135e564776e33fc4e6c8d860827658157912ed2374",
+    "settlement_outcome": "success",
+    "ag_terminal_state": "settled_observation_required"
+  },
+  "effect": {
+    "kind": "exclusive_regular_file_create",
+    "relative_destination": "result.txt",
+    "byte_length": 38,
+    "sha256": "sha256:b21a096a536b1da35cbe7c2b3cc1c516e5b23351537fbcd7cb3ee1f1e310ea48"
+  },
+  "claims": {
+    "established": [
+      "The exact reviewed local-copy work was accepted by the enrolled reviewer and explicitly accepted by the operator.",
+      "AG spent one exact-work authorization, Docket retained one attempt and one successful settlement, and the executor created the 38-byte result once.",
+      "A later read-only observation found the exact accepted bytes at its observation time.",
+      "The final AG state requires fresh observation and judgment before any continuation."
+    ],
+    "not_established": [
+      "The result is unchanged after the retained observation.",
+      "The objective is complete now.",
+      "A fresh NQ postcondition judgment exists.",
+      "Another effect is permitted or authorized.",
+      "A newcomer repeated the paid review or physical effect."
+    ]
+  }
+}
