@@ -273,11 +273,29 @@ standing mandate, create a Docket grant, invoke the finite runner, or copy a fil
 Response loss remains attached to this one original provider request; inspect and
 reconcile its retained owner rather than repeating it.
 
+After inspecting a retained candidate, the operator can continue the same
+occurrence without another provider request:
+
+```sh
+python3.12 continue_reviewed_action.py \
+  --config /absolute/deployment/caller.json \
+  --retained-review /absolute/deployment/review-001 \
+  --accept-candidate-sha256 sha256:REPLACE_WITH_EXACT_RECORD_REVIEW_INPUT_DIGEST \
+  --output /absolute/deployment/continuation-001 \
+  --accept-and-execute
+```
+
+This is an explicit operator transition, not a generated human attestation. It
+re-runs native review verification, binds the named candidate digest into its
+checkpoint, and advances the existing AG occurrence. An absent, expired,
+changed, or mismatched candidate refuses. Its `--preflight-only` mode performs
+only static pin checking and reports zero provider calls and no authority.
+
 ## Admit one execution, then reconcile the original
 
-Only after operator review of the installed closure, currentness budget, storage
-reserve, provider allowance and bounded physical operation should a durable
-manager invoke:
+For a single uninterrupted operator-admitted chain, only after operator review
+of the installed closure, currentness budget, storage reserve, provider
+allowance and bounded physical operation should a durable manager invoke:
 
 ```sh
 python3.12 reviewed_action.py --config /absolute/deployment/caller.json \

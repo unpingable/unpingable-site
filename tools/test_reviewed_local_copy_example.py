@@ -23,6 +23,7 @@ import prepare_plan
 import prepare_owner
 import seal_admission
 import prepare_public_python_closure as python_closure
+import continue_reviewed_action as continuation
 
 
 def fixture():
@@ -86,6 +87,60 @@ def review_brief(binding, binding_raw, config, technical=None, instruction=None)
 
 
 class CandidateControls(unittest.TestCase):
+    def test_retained_review_continuation_binds_exact_candidate_without_provider_dispatch(self):
+        values = fixture()
+        projected = candidate.project(*values, 2000)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            records = {
+                'terminal.json': {'exit_code': 0, 'result': {
+                    'schema': 'constellation.review-only-result/v1',
+                    'provider_calls': 1, 'grants': 0, 'spends': 0,
+                    'docket_attempts': 0, 'executor_calls': 0, 'effects': 0,
+                    'binding_id': projected['record-review-input.json']['binding_id'],
+                    'verification': {
+                        'accepted': True,
+                        'binding_id': projected['record-review-input.json']['binding_id'],
+                    }}},
+                'record-review-input.json': projected['record-review-input.json'],
+                'verification-request.json': projected['verification-request.json'],
+                'permission-preflight-input.json': projected['permission-preflight-input.json'],
+                'provider-run.json': values[3],
+                'disposition.json': values[4],
+            }
+            for name, value in records.items():
+                (root / name).write_bytes(candidate.canonical(value))
+            expected = candidate.digest((root / 'record-review-input.json').read_bytes())
+            retained = continuation.retained_candidate({}, root, expected)
+            self.assertEqual(retained['pins']['record_review_input'], expected)
+            original = retained['raw']['record_review_input']
+            (root / 'record-review-input.json').write_bytes(candidate.canonical({'substituted': True}))
+            owned = root / 'owned'; owned.mkdir()
+            class Writer:
+                output = owned
+                @staticmethod
+                def write(name, raw):
+                    (owned / name).write_bytes(raw)
+            materialized = continuation.materialize_candidate(Writer(), retained)
+            self.assertEqual(materialized['record_review_input'].read_bytes(), original)
+            self.assertNotEqual(materialized['record_review_input'].read_bytes(),
+                                (root / 'record-review-input.json').read_bytes())
+            with self.assertRaisesRegex(ValueError, 'exact review candidate'):
+                continuation.retained_candidate({}, root, 'sha256:' + '0' * 64)
+        source = (EXAMPLE / 'continue_reviewed_action.py').read_text()
+        self.assertNotIn('programs["provider"]', source)
+        self.assertNotIn('review-admit', source)
+        self.assertNotIn('review-prepare', source)
+
+    def test_continuation_requires_successful_native_settlement(self):
+        success = {'current': {'state': {'settled_observation_required': {
+            'settlement': {'outcome': 'success'}}}}}
+        continuation.require_successful_settlement(success)
+        failed = copy.deepcopy(success)
+        failed['current']['state']['settled_observation_required']['settlement']['outcome'] = 'failure'
+        with self.assertRaisesRegex(ValueError, 'not successful'):
+            continuation.require_successful_settlement(failed)
+
     def test_manifest_first_composition_preserves_material_and_instruction(self):
         binding, binding_raw = native_binding_fixture()
         config = fixture()[2]
