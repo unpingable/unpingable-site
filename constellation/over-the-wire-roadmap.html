@@ -31,7 +31,7 @@
 
     <aside class="note"><strong>Scope:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> remains immutable and single-host-qualified. “Committed” below means the next profile’s documented scope and order; it is not authorization to implement, deploy, contact a provider, or operate a production system.</aside>
 
-    <nav class="integration-nav" aria-label="Roadmap sections"><a href="#baseline">Released baseline</a><a href="#progression">Progression</a><a href="#distributed-custody">Distributed custody</a><a href="#qualification">Qualification</a><a href="#decisions">Open decisions</a><a href="#release">Promotion criteria</a></nav>
+    <nav class="integration-nav" aria-label="Roadmap sections"><a href="#baseline">Released baseline</a><a href="#progression">Progression</a><a href="#distributed-custody">Distributed custody</a><a href="#qualification">Qualification</a><a href="#otel-otlp">OpenTelemetry / OTLP</a><a href="#decisions">Open decisions</a><a href="#release">Promotion criteria</a></nav>
 
     <h2 id="baseline">What exists now</h2>
     <p>The current release qualifies one disposable Linux installation. Its <a href="releases/0.1.0-alpha.6/manifest.json">manifest</a> explicitly excludes production deployment, arbitrary executor/provider integration, and federation.</p>
@@ -113,6 +113,45 @@ lost response ──→ inspect/reconcile the same occurrence
       <li><strong>Add remote evidence ingress:</strong> NQ owns evidence disposition; Pulse owns proposition-specific present support; acquisition stays near the observed system. Standing may supply entitlement-to-assert semantics only through an explicit consumer binding; it does not automatically become a network authority service.</li>
       <li><strong>Consider claim federation:</strong> only after single-governor distributed custody and evidence ingress have operational evidence. The receiving AG remains the local judgment and authority owner.</li>
     </ol>
+
+    <h2 id="otel-otlp">OpenTelemetry / OTLP convergence</h2>
+    <aside class="note"><strong>ROADMAP / NOT CURRENT CAMPAIGN:</strong> begin with a source-backed instrumentation survey and one bounded custody experiment. This section does not authorize implementation, dependency changes, a collector deployment, or broad telemetry migration.</aside>
+    <p>Use OpenTelemetry as the preferred commodity observability substrate across the operational family where it fits. Use standard OTel APIs and semantic conventions for ordinary traces, metrics, and logs, and prefer OTLP for telemetry interchange/export. Preserve every component's authority, custody, admissibility, expiry, coverage, refusal, and judgment semantics above that substrate. OTLP carriage does not make telemetry authoritative state.</p>
+    <p>Two related tracks stay distinct. A service may emit ordinary operational telemetry directly to an enrolled collector; it does not pass through Monitor or Pulse merely to report a trace. Monitor/Pulse has a separate possible role: carrying exact OTLP bytes as a governed observation payload with additional evidence semantics.</p>
+
+    <h3>A. Constellation instrumentation survey</h3>
+    <p>AG and NQ already depend on Rust <code>tracing</code> and <code>tracing-subscriber</code>, but current use is limited to a small number of startup and service call paths. That is an implementation foothold, not a shared observability profile.</p>
+    <ul class="steps">
+      <li>Inventory existing tracing, structured logging, metrics, correlation fields, exporters, and bespoke telemetry code in AG, NQ, Docket, Nightshift, Monitor/Pulse, Continuity, and adjacent operational services.</li>
+      <li>Establish which paths are current runtime dependencies. Historical fixtures and retired compatibility surfaces do not become migration obligations.</li>
+      <li>Propose a minimal shared convention for <code>service.name</code>, operation names, stable occurrence/attempt correlation fields, durations, outcomes, and resource attributes. Authority artifacts and private evidence must not be copied wholesale into telemetry attributes.</li>
+      <li>Prefer maintained OTel bridges/exporters over another Constellation telemetry protocol. Start by instrumenting existing <code>tracing</code> call paths rather than introducing a new service or framework.</li>
+      <li>Identify the bespoke naming, encoding, transport, and scraping code that a qualified standard path could delete. Do not promise deletion before a current consumer and equivalent behavior are established.</li>
+    </ul>
+    <p><strong>Completion evidence:</strong> one component-by-component inventory tied to current revisions, a proposed convention with disclosure and cardinality bounds, one deterministic local exporter exercise, and an explicit keep/replace/delete disposition for each active bespoke path. No fleet-wide migration follows automatically.</p>
+
+    <h3>B. Monitor/Pulse <code>EvidenceEnvelope&lt;OTLP&gt;</code> experiment</h3>
+    <p><code>EvidenceEnvelope&lt;OTLP&gt;</code> is shorthand for using Monitor's existing <code>ObservationCustodyEnvelopeV1</code>; it is not a proposal for a new generic envelope framework. Source inspection found that the envelope already retains opaque <code>payload_hex</code>, a byte-exact <code>payload_digest</code> under <code>transport.observation-payload.v1</code>, observation kind, source/session identities, sequence, and qualification bindings. Pulse separately retains subject/observer incarnations, policy generation, coverage, validity, judgment, and consumer-relative reliance semantics. The currently <a href="https://github.com/unpingable/constellation-nightshift/tree/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations">published Monitor/Pulse surface</a> remains narrower source cuts; a future experiment must publish the exact implementation it qualifies.</p>
+    <ul class="steps">
+      <li>Add one bounded OTLP metrics payload variant to the existing custody envelope and change no evaluator or judgment vocabulary merely to accommodate it.</li>
+      <li>Retain the exact received protobuf bytes. Bind admission/custody to their existing transport digest; never derive byte identity from protobuf reserialization.</li>
+      <li>Keep transport identity and semantic identity separate. The exact-byte digest answers which bytes arrived; an explicitly versioned semantic projection may support equivalence or deduplication. Neither substitutes for the other.</li>
+      <li>After ordinary Monitor verification and admission, unwrap the retained bytes and demonstrate that a stock OTel consumer accepts those same bytes unchanged.</li>
+      <li>Measure the minimal payload against the current 640-byte decoded custody limit and 1232-byte canary datagram limit before proposing any production transport or changing a bound. A size refusal is a useful result, not permission to broaden the envelope.</li>
+      <li>Record coverage, expiry/currentness, source and subject incarnations, policy generation, sequences, judgment, custody, and qualification outside the OTLP payload. Remote evidence remains evidence and grants no action authority.</li>
+    </ul>
+    <p><strong>Completion evidence:</strong> a frozen OTLP metrics fixture; received-byte and transport-digest identity; admitted and rejected cases; exact size measurements; an unchanged-byte stock-consumer read; and confirmation that Pulse's existing coverage, freshness, reliance, refusal, and authority-free posture remain intact.</p>
+
+    <h3>Scope decision and non-goals</h3>
+    <p>Monitor's current normative scope excludes generic observability ingestion and OpenTelemetry compatibility. Before Track B begins, an explicit bounded decision must establish that one opaque OTLP payload experiment does not turn Monitor into an OTel-compatible monitoring product. This roadmap records the question; it does not amend that scope boundary.</p>
+    <ul class="steps">
+      <li>Do not replace Pulse's judgment vocabulary, <code>CoverageDescriptorV1</code>, expiry/currentness, consumer-relative reliance, qualification, or custody with OTel concepts.</li>
+      <li>Do not route every component's ordinary logs, metrics, or traces through Monitor/Pulse.</li>
+      <li>Do not turn Monitor into a generic Prometheus/OTel backend, long-term telemetry store, or collector fleet.</li>
+      <li>Do not introduce Kubernetes or a large observability platform to demonstrate the protocol.</li>
+      <li>Do not treat collector acceptance, export success, a trace correlation, or an OTLP semantic convention as evidence admission, execution success, or authority.</li>
+    </ul>
+    <p>The survey and bounded experiment may proceed independently of the numbered distribution milestones once separately authorized. A broad migration waits for their results and is neither required for <code>distributed-custody/v1</code> nor implied by this roadmap.</p>
 
     <h2 id="decisions">Open-decision register</h2>
     <p>These decisions are prerequisites for implementation. The roadmap deliberately does not decide them by implication.</p>
