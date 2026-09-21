@@ -3,7 +3,7 @@
   "suite_version": "0.1.0-alpha.6",
   "profile": "reviewed-local-copy/v1",
   "manifest_sha256": "28532829760b452a350c28ccbf9ba58484c5ecc1524d10fdeb41b6bf3d19daa5",
-  "result": "candidate_pending_public_clone_reproduction",
+  "result": "qualified_actual_action_and_public_evidence_reproduction",
   "verified_date": "2026-09-21",
   "actual_governed_occurrence": {
     "result": "passed",
@@ -61,8 +61,21 @@
     },
     {
       "id": "alpha6-public-only-newcomer-evidence-reproduction",
-      "result": "pending_prepublication",
-      "observed": []
+      "result": "passed",
+      "execution_identity": "c156a8ee8d1948e7a1a341391d0e36d5",
+      "candidate_site_commit": "6412d2f267fae7092b03a9e9cdb964c0ffc1261e",
+      "ag_checker_commit": "e0f30de668234935cdbc4b0bd04f5dc13838411d",
+      "result_sha256": "810ebbd65280167638fb5719b32c17cf21b6f5782776cec61285388e43f4640b",
+      "terminal_sha256": "039cd4c03e9b8dedc3d7cd111b60d6268cf8f2861275a8df66bea6ee7e35a561",
+      "observed": [
+        "fresh anonymous HTTPS clone of the public candidate branch and detached checkout of its exact commit",
+        "fresh anonymous HTTPS clone and detached checkout of the exact public AG evidence-reader commit",
+        "all four released evidence digests and the released verifier digest matched",
+        "the public checker reproduced exact campaign, occurrence, proposal, work, plan, and issuance correspondence",
+        "objective completion remained not_determined and continuation authority remained none",
+        "a mismatched plan digest refused",
+        "zero provider calls, authority artifacts, or effects"
+      ]
     }
   ],
   "scope": {
