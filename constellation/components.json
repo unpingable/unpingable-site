@@ -101,25 +101,25 @@
       "use": "Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it."
     },
     {
-      "availability": "Public source-only acquisition/support cut at Nightshift fdadf9666da0ca32b534a3dab9aa678b18a99fc3; no binary package is published.",
+      "availability": "Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.",
       "id": "monitor",
       "implementation_form": "standalone Rust project-concern acquisition workspace hosting Pulse",
       "maturity": "Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.",
       "name": "Constellation Monitor",
       "relationship": "optional family member",
       "role": "Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.",
-      "url": "https://github.com/unpingable/constellation-nightshift/tree/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations/monitor-predicate-support",
+      "url": "https://github.com/unpingable/constellation-monitor",
       "use": "Use monitor-concerns to acquire an explicitly selected project's observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits."
     },
     {
-      "availability": "Public host-load and predicate-support source cuts at Nightshift fdadf9666da0ca32b534a3dab9aa678b18a99fc3; no binary package is published.",
+      "availability": "Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.",
       "id": "pulse",
-      "implementation_form": "Rust support adapters distributed as source cuts from the Monitor-hosted implementation",
+      "implementation_form": "Rust subsystem and support adapters hosted within Constellation Monitor",
       "maturity": "Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.",
       "name": "Pulse",
       "relationship": "hosted optional family capability",
       "role": "Evaluates proposition-specific present support under explicit coverage and policy.",
-      "url": "https://github.com/unpingable/constellation-nightshift/tree/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations",
+      "url": "https://github.com/unpingable/constellation-monitor",
       "use": "Select the adapter matching the named evidence profile and explicit source policy. Positive support expires and is not general health, action permission or delivery."
     },
     {

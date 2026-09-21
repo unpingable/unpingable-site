@@ -31,7 +31,7 @@
 
     <aside class="note"><strong>Scope:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> remains immutable and single-host-qualified. “Committed” below means the next profile’s documented scope and order; it is not authorization to implement, deploy, contact a provider, or operate a production system.</aside>
 
-    <nav class="integration-nav" aria-label="Roadmap sections"><a href="#baseline">Released baseline</a><a href="#progression">Progression</a><a href="#distributed-custody">Distributed custody</a><a href="#qualification">Qualification</a><a href="#otel-otlp">OpenTelemetry / OTLP</a><a href="#decisions">Open decisions</a><a href="#release">Promotion criteria</a></nav>
+    <nav class="integration-nav" aria-label="Roadmap sections"><a href="#baseline">Released baseline</a><a href="#progression">Progression</a><a href="#distributed-custody">Distributed custody</a><a href="#execution-locality">Execution locality</a><a href="#qualification">Qualification</a><a href="#otel-otlp">OpenTelemetry / OTLP</a><a href="#decisions">Open decisions</a><a href="#release">Promotion criteria</a></nav>
 
     <h2 id="baseline">What exists now</h2>
     <p>The current release qualifies one disposable Linux installation. Its <a href="releases/0.1.0-alpha.6/manifest.json">manifest</a> explicitly excludes production deployment, arbitrary executor/provider integration, and federation.</p>
@@ -65,9 +65,22 @@ lost response ──→ inspect/reconcile the same occurrence
                   never submit replacement work</code></pre>
     <p>SSH may install software, enroll identities, and place configuration under an operator's deployment procedure. It is not the runtime execution protocol, does not carry a generic remote shell command as governed work, and cannot stand in for Docket custody.</p>
 
+    <h3 id="execution-locality">Execution locality</h3>
+    <p>An <strong>execution locality</strong> is an enrolled executor placement near the systems it may affect. Its network position, routing access, installed adapters, trust domain, and current operational reachability are qualification properties—not authority. The governing invariant is <strong>reachability does not confer authority</strong>.</p>
+    <p>This deliberately borrows the useful operational position of an install gateway or bastion without inheriting an ambient-authority model. It does not introduce a mandatory Constellation Gateway component, make arbitrary remote shell access a supported primitive, or require AG to have direct access to the effect network. The first proving composition below binds this concept to closed, versioned action adapters rather than a general command channel.</p>
+    <ul class="steps">
+      <li>Standing or another named evidence source may assert qualified locality properties. Those assertions remain evidence with explicit provenance, scope, and freshness.</li>
+      <li>AG evaluates the admitted locality claims and other inputs, then issues narrowly scoped, audience-bound, one-use authority for exact work.</li>
+      <li>Docket retains custody beside the effect-local executor and reconciles the same occurrence and attempt after response loss.</li>
+      <li>The executor performs only an enrolled, versioned capability such as <code>deploy.service/v2</code>, <code>restart.unit/v1</code>, or <code>inspect.release/v1</code>. Enrollment and credential possession do not authorize its use.</li>
+      <li>NQ, Monitor/Pulse, and Phosphor may observe evidence, currentness, health claims, custody, and settlement. None may infer or grant authority from reachability.</li>
+    </ul>
+
     <h3>Required identities and contracts</h3>
     <ul class="steps">
       <li>Versioned realm/trust-domain, issuer, audience, Docket, executor, and stable occurrence identities. Realm naming does not itself create cross-realm trust.</li>
+      <li>A logical execution-locality identity and trust domain, bound to the exact Docket, executor implementation, enrolled capability versions, intended audience, and permitted resource scope.</li>
+      <li>A bounded placement/reachability qualification with named source, observation time, freshness policy, and explicit missing/stale/indeterminate outcomes. It is an input to judgment, never an authority artifact.</li>
       <li>An exact authorization envelope binding the occurrence, sealed work and body digests, subject, scope, issuer, audience, Docket, expiry/not-before bounds, nonce, protocol version, and applicable evidence/review identities.</li>
       <li>Signed Docket acceptance, custody, inspection, reconciliation, and settlement records. A transport acknowledgment is not custody; custody is not settlement; settlement is not necessarily success.</li>
       <li>Versioned execute, inspect, reconcile, custody, settlement, and uncertain-outcome state machines that terminate wire objects at the adapter boundary while preserving Docket's existing executor semantics. The executor stays authority-neutral and local.</li>
@@ -77,6 +90,7 @@ lost response ──→ inspect/reconcile the same occurrence
       <li>Enrollment, rotation, revocation, recovery, and key-compromise procedures. Old in-flight occurrences need an explicit rule during rotation; a new key must not create a replacement occurrence.</li>
       <li>Deadlines, cancellation requests, authorization expiry, not-before checks, and clock-skew policy. Cancellation after acceptance is a state transition to reconcile, not proof that mechanics stopped.</li>
       <li>Durable replay and deduplication state across service and host restarts, atomically related to Docket acceptance. Capacity exhaustion fails closed rather than evicting an unexpired record.</li>
+      <li>Typed refusal before mechanics for the wrong locality, wrong executor implementation, unsupported capability version, expired locality qualification, mismatched audience, or resource outside the enrolled scope.</li>
       <li>Backup, quiescence, restore, migration, rollback, observability, and notification procedures. Restore must preserve terminal occurrence and executor-marker knowledge.</li>
       <li>A public installation/operator guide and a versioned compatibility manifest containing exact component commits, contract versions, runtime requirements, configuration identities, qualification evidence, and limitations.</li>
     </ul>
@@ -87,6 +101,7 @@ lost response ──→ inspect/reconcile the same occurrence
     <h3>First proving composition</h3>
     <p>Use two independently restartable, non-production hosts or local VMs and a small closed vocabulary of reversible actions: pinned service deployment, restart, backup verification, projection rebuild, rollback, and cache invalidation. Each action needs its own sealed plan, preconditions, executor implementation, qualified observation, and reconciliation evidence; there is no arbitrary-command escape hatch.</p>
     <p>The protocol remains application-neutral. No ATProto-specific repository, schema, maintenance declaration, or deployment assumption is part of <code>distributed-custody/v1</code>. Selection and binding of a concrete proving deployment are separate operator decisions.</p>
+    <p>If an ATProto proving deployment is selected separately, <code>phlogiston.app</code> names the actual software, demonstration, visualization, and operator surface; <code>phlogiston.social</code> names the ATProto identity, public social surface, and protocol-facing experiments. Neither identity is part of the shared custody protocol or evidence that production binding is complete.</p>
     <p>The custody milestone may begin with evidence already admitted on the governance host and must say so. It does not claim general remote NQ/Pulse ingress until milestone 3 qualifies that boundary.</p>
 
     <h2 id="qualification">Required qualification cases</h2>
@@ -131,7 +146,7 @@ lost response ──→ inspect/reconcile the same occurrence
     <p><strong>Completion evidence:</strong> one component-by-component inventory tied to current revisions, a proposed convention with disclosure and cardinality bounds, one deterministic local exporter exercise, and an explicit keep/replace/delete disposition for each active bespoke path. No fleet-wide migration follows automatically.</p>
 
     <h3>B. Monitor/Pulse <code>EvidenceEnvelope&lt;OTLP&gt;</code> experiment</h3>
-    <p><code>EvidenceEnvelope&lt;OTLP&gt;</code> is shorthand for using Monitor's existing <code>ObservationCustodyEnvelopeV1</code>; it is not a proposal for a new generic envelope framework. Source inspection found that the envelope already retains opaque <code>payload_hex</code>, a byte-exact <code>payload_digest</code> under <code>transport.observation-payload.v1</code>, observation kind, source/session identities, sequence, and qualification bindings. Pulse separately retains subject/observer incarnations, policy generation, coverage, validity, judgment, and consumer-relative reliance semantics. The currently <a href="https://github.com/unpingable/constellation-nightshift/tree/fdadf9666da0ca32b534a3dab9aa678b18a99fc3/integrations">published Monitor/Pulse surface</a> remains narrower source cuts; a future experiment must publish the exact implementation it qualifies.</p>
+    <p><code>EvidenceEnvelope&lt;OTLP&gt;</code> is shorthand for using Monitor's existing <code>ObservationCustodyEnvelopeV1</code>; it is not a proposal for a new generic envelope framework. Source inspection found that the envelope already retains opaque <code>payload_hex</code>, a byte-exact <code>payload_digest</code> under <code>transport.observation-payload.v1</code>, observation kind, source/session identities, sequence, and qualification bindings. Pulse separately retains subject/observer incarnations, policy generation, coverage, validity, judgment, and consumer-relative reliance semantics. The canonical <a href="https://github.com/unpingable/constellation-monitor">Monitor repository</a> publishes the current implementation and hosted Pulse subsystem. Older Nightshift source cuts remain pinned compatibility exports for immutable released profiles; they are not the canonical development source.</p>
     <ul class="steps">
       <li>Add one bounded OTLP metrics payload variant to the existing custody envelope and change no evaluator or judgment vocabulary merely to accommodate it.</li>
       <li>Retain the exact received protobuf bytes. Bind admission/custody to their existing transport digest; never derive byte identity from protobuf reserialization.</li>
@@ -167,6 +182,11 @@ lost response ──→ inspect/reconcile the same occurrence
         <tr><td>DC-07</td><td>Restore, migration, rollback, and key/state recovery support matrix.</td><td>Terminal attempts and deduplication survive supported restoration; unsupported version transitions are refused and documented.</td></tr>
         <tr><td>DC-08</td><td>Which notifications are required for supported operation.</td><td>Delivery remains separate from evidence, settlement, and authority; ambiguous delivery cannot cause recursive alerting or effect retry.</td></tr>
         <tr><td>DC-09</td><td>Exact first action adapters and proving environment.</td><td>Closed reversible actions, disposable non-production targets, no application-specific semantics in the protocol, and no generic remote command runner.</td></tr>
+        <tr><td>DC-10</td><td>Execution-locality enrollment, stable identity, relocation, and failover.</td><td>A moved or replacement executor cannot inherit an occurrence implicitly; locality change and executor succession cannot create duplicate effects.</td></tr>
+        <tr><td>DC-11</td><td>Evidence and freshness for routing, placement, reachability, and trust-domain claims.</td><td>Operator attestation, mechanical measurement, or a composed rule must be named explicitly; stale or indeterminate topology never becomes permission.</td></tr>
+        <tr><td>DC-12</td><td>Capability-schema discovery, version negotiation, and executor implementation succession.</td><td>Only enrolled versions are executable; negotiation cannot silently widen work, audience, resources, or adapter behavior.</td></tr>
+        <tr><td>DC-13</td><td>Locality key/credential custody, emergency isolation, and revocation.</td><td>Credential possession and network access remain separate from authority; isolation and revocation have explicit in-flight occurrence and reconciliation rules.</td></tr>
+        <tr><td>DC-14</td><td>Locality behavior under partition and response loss.</td><td>Recovery inspects the same Docket occurrence and attempt; it never authorizes a replacement effect because a response disappeared.</td></tr>
       </tbody>
     </table></div>
 
@@ -183,6 +203,11 @@ lost response ──→ inspect/reconcile the same occurrence
       <li>Treating TCP, HTTP, TLS, SSH, MCP, or a valid signature as semantic compatibility or permission.</li>
       <li>Moving an authority-neutral executor away from Docket before the Docket boundary is qualified.</li>
       <li>Using SSH, Porter, a remote shell, or a generic command service as the runtime custody protocol.</li>
+      <li>Introducing a universal gateway or god-box, or describing an execution locality as one.</li>
+      <li>Requiring AG to have direct effect-network access.</li>
+      <li>Offering “SSH, but governed” as an arbitrary-shell capability.</li>
+      <li>Deriving authority automatically from topology, reachability, executor enrollment, or possession of credentials.</li>
+      <li>Introducing authority federation through execution-locality enrollment.</li>
       <li>Making Standing a network service, identity provider, or universal authority service by default.</li>
       <li>Embedding ATProto or another consumer's production migration in the shared protocol.</li>
       <li>Federated authority, shared multi-writer budgets, general campaign execution, or arbitrary plugin/executor substitution.</li>
@@ -199,7 +224,7 @@ lost response ──→ inspect/reconcile the same occurrence
       <li>All remaining unsupported behavior is explicit. Component tests, loopback demonstrations, transport success, or one favorable run cannot substitute for the two-host qualification evidence.</li>
     </ol>
 
-    <p><strong>Smallest coherent implementation tranche:</strong> freeze DC-01 through DC-06, publish the common transcript and conformance corpus, and implement only AG→Docket acceptance/inspect/reconcile for one sealed local-copy-style executor while keeping Docket and that executor together. Qualify deliberate response loss and restart before adding more action adapters or remote evidence ingress.</p>
+    <p><strong>Smallest coherent implementation tranche:</strong> freeze DC-01 through DC-06 plus the minimum DC-10 through DC-14 execution-locality decisions, publish the common transcript and conformance corpus, and implement only AG→Docket acceptance/inspect/reconcile for one sealed local-copy-style executor while keeping Docket and that executor together. Bind the logical locality, trust domain, exact executor and capability version, audience, resource scope, and fresh placement qualification. Qualify the wrong-locality refusals, deliberate response loss, and restart before adding more action adapters or remote evidence ingress.</p>
   </main>
   <footer>Constellation documentation · planning record · <a href="integration.html">Integration</a> · <a href="understand.html">Architecture</a></footer>
 </body>
