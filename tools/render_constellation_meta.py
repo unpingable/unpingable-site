@@ -89,6 +89,11 @@ PAGES = {
         "A deferred research direction for improving governed campaign processes without moving their authority boundaries.",
         BASE + "governed-improvement.html",
     ),
+    "over-the-wire-roadmap.html": (
+        "Constellation over-the-wire roadmap",
+        "The canonical post-alpha.6 roadmap from Constellation's qualified single-host composition to supported over-the-wire operation.",
+        BASE + "over-the-wire-roadmap.html",
+    ),
 }
 
 NAVIGATION = (
