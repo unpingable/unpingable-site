@@ -36,7 +36,21 @@ class LocalLinks(unittest.TestCase):
             self.assertEqual(route_source_problems(root), [])
             (root / "constellation.html").write_text("obsolete sibling")
             self.assertEqual(route_source_problems(root), [
-                "constellation.html: shadows the canonical /constellation/ directory"
+                "constellation.html: shadows the constellation/ directory"
+            ])
+
+    def test_other_basename_collisions_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            front = root / "constellation" / "index.html"
+            front.parent.mkdir()
+            front.write_text('''<title>Front</title>
+                <link rel="canonical" href="https://unpingable.com/constellation/">
+                <nav><a href="start.html">Start</a></nav><h1>Front door</h1>''')
+            (root / "docs").mkdir()
+            (root / "docs.html").write_text("shadow")
+            self.assertEqual(route_source_problems(root), [
+                "docs.html: shadows the docs/ directory"
             ])
 
 

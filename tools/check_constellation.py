@@ -7,6 +7,7 @@ import hashlib
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
+from urllib.error import HTTPError
 from urllib.parse import unquote, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 import xml.etree.ElementTree as ET
@@ -96,12 +97,15 @@ def local_problem(page: Path, href: str, root: Path = ROOT) -> str | None:
 
 
 def route_source_problems(root: Path = ROOT) -> list[str]:
-    """Reject the file that makes Pages serve /constellation as a sibling page."""
+    """Reject public file/directory basename collisions and validate the front door."""
     problems = []
-    shadow = root / "constellation.html"
+    for html_path in sorted(root.rglob("*.html")):
+        directory = html_path.with_suffix("")
+        if directory.is_dir():
+            problems.append(
+                f"{html_path.relative_to(root)}: shadows the {directory.relative_to(root)}/ directory"
+            )
     front = root / "constellation" / "index.html"
-    if shadow.exists():
-        problems.append("constellation.html: shadows the canonical /constellation/ directory")
     if not front.is_file():
         problems.append("constellation/index.html: canonical front door is missing")
         return problems
@@ -123,27 +127,51 @@ class RedirectRecorder(HTTPRedirectHandler):
         return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+def fetch_route(url: str, method: str, follow: bool):
+    recorder = RedirectRecorder()
+    opener = build_opener(recorder if follow else NoRedirect())
+    request = Request(url, method=method,
+                      headers={"User-Agent": "Constellation-route-check/1"})
+    try:
+        with opener.open(request, timeout=20) as response:
+            return response.status, response.geturl(), response.read(), recorder.redirects
+    except HTTPError as error:
+        return error.code, error.geturl(), error.read(), recorder.redirects
+
+
 def check_live_routes(base_url: str, root: Path = ROOT) -> list[str]:
-    """Compare both public route forms with the exact canonical front door."""
+    """Compare all public route forms and request modes with the front door."""
     failures = []
     expected_bytes = (root / "constellation" / "index.html").read_bytes()
     expected_hash = hashlib.sha256(expected_bytes).hexdigest()
     expected = Page(expected_bytes.decode())
     canonical = "https://unpingable.com/constellation/"
-    for route in ("/constellation", "/constellation/"):
-        recorder = RedirectRecorder()
-        opener = build_opener(recorder)
+    for route in ("/constellation", "/constellation/", "/constellation/index.html"):
         requested = base_url.rstrip("/") + route
-        try:
-            request = Request(requested, headers={"User-Agent": "Constellation-route-check/1"})
-            with opener.open(request, timeout=20) as response:
-                body = response.read()
-                status = response.status
-                final_url = response.geturl()
-        except Exception as error:
-            failures.append(f"{requested}: {type(error).__name__}: {error}")
+        observations = {}
+        for method in ("HEAD", "GET"):
+            for follow in (False, True):
+                label = f"{method} {'follow' if follow else 'no-follow'}"
+                try:
+                    observations[(method, follow)] = fetch_route(requested, method, follow)
+                except Exception as error:
+                    failures.append(f"{requested}: {label}: {type(error).__name__}: {error}")
+                    continue
+                status, final_url, body, redirects = observations[(method, follow)]
+                chain = " -> ".join(str(item[0]) for item in redirects)
+                chain = f"{chain} -> {status}" if chain else str(status)
+                print(f"ROUTE {method} {route} {'follow' if follow else 'no-follow'} "
+                      f"status={chain} final={final_url}")
+        if ("GET", True) not in observations:
             continue
+        status, final_url, body, redirects = observations[("GET", True)]
         actual = Page(body.decode())
+        robots = actual.meta_value("name", "robots")
         checks = {
             "final status": status == 200,
             "canonical URL": actual.canonicals == [canonical],
@@ -151,17 +179,27 @@ def check_live_routes(base_url: str, root: Path = ROOT) -> list[str]:
             "H1": actual.h1.strip() == expected.h1.strip(),
             "navigation": actual.nav_links == expected.nav_links,
             "rendered bytes": hashlib.sha256(body).hexdigest() == expected_hash,
+            "robots metadata": robots == expected.meta_value("name", "robots"),
         }
-        if route.endswith("/"):
+        if route == "/constellation/":
             checks["rendered destination"] = final_url == canonical
-        elif recorder.redirects:
+        elif route == "/constellation" and redirects:
             checks["redirect destination"] = final_url == canonical
+        for method in ("HEAD", "GET"):
+            followed = observations.get((method, True))
+            if followed:
+                checks[f"{method} followed status"] = followed[0] == 200
+            direct = observations.get((method, False))
+            if direct:
+                allowed = {200} if route != "/constellation" else {200, 301, 302, 307, 308}
+                checks[f"{method} direct status"] = direct[0] in allowed
         for label, passed in checks.items():
             if not passed:
                 failures.append(f"{requested}: {label} mismatch")
-        chain = " -> ".join(str(item[0]) for item in recorder.redirects)
-        chain = f"{chain} -> {status}" if chain else str(status)
-        print(f"ROUTE {route} {chain} final={final_url} sha256={hashlib.sha256(body).hexdigest()}")
+        nav = ", ".join(href for href, _ in actual.nav_links)
+        print(f"PAGE {route} title={actual.title.strip()!r} h1={actual.h1.strip()!r} "
+              f"canonical={actual.canonicals!r} robots={robots!r} nav=[{nav}] "
+              f"sha256={hashlib.sha256(body).hexdigest()}")
     return failures
 
 
