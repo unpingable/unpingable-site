@@ -379,7 +379,12 @@ after the result file and containing directory are synced but before the success
 record is written. Its `plan-id` and `reconcile` paths do not select the cut.
 The retained executor record therefore remains reserved; same-attempt
 reconciliation reports indeterminate and a repeated `execute` does not repeat
-the copy. Component tests establish that local boundary. Recipe B still needs a
-fresh Docket-owned occurrence binding this exact program digest before the
-cross-component case is complete. Do not relabel terminal replay or
-post-success response loss as this earlier interruption case.
+the copy. Component tests establish that local boundary. A bounded local
+Docket/Maude qualification at Docket `fbcacc1` and Maude `c1fce17` also bound
+the measured program through one 240-second operator-owned Docket grant. Docket
+retained one indeterminate custody attempt after exit 75 and reconciled that
+same attempt without another execution, result mutation, grant, or standing
+use. Its ephemeral qualification signer was not AG judgment. Recipe B still
+needs a fresh accepted review, AG-owned issuance, and public-only reproduction.
+Do not relabel terminal replay or post-success response loss as this earlier
+interruption case.

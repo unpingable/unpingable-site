@@ -50,4 +50,8 @@ separately built and pinned `executor-interruption-qualification` artifact for
 that deterministic cut. The artifact exits 75 only after result and directory
 fsync and before the success record; its read-only reconciliation remains
 indeterminate and it must never repeat the copy. These component checks do not
-establish the still-required Docket-owned composed occurrence.
+establish a reviewed AG-owned occurrence. A bounded Docket/Maude qualification
+did exercise the measured program with one real Docket-local grant, one
+indeterminate custody attempt and same-attempt reconciliation without another
+execution. Its ephemeral signer was transport qualification, not AG judgment;
+the reviewed shared occurrence and public-only reproduction remain required.
