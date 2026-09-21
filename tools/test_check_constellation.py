@@ -2,14 +2,17 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from check_constellation import Page, local_problem
+from check_constellation import Page, local_problem, route_source_problems
 
 
 class LocalLinks(unittest.TestCase):
     def test_parser_collects_navigation_assets_and_anchors(self):
-        page = Page('<a href="start.html#demo">Start</a><img src="shot.png"><h2 id="demo">Demo</h2>')
+        page = Page('<title>Front</title><h1>Heading</h1><nav><a href="start.html#demo">Start here</a></nav><img src="shot.png"><h2 id="demo">Demo</h2>')
         self.assertEqual(page.links, ["start.html#demo", "shot.png"])
         self.assertEqual(page.ids, {"demo"})
+        self.assertEqual(page.title, "Front")
+        self.assertEqual(page.h1, "Heading")
+        self.assertEqual(page.nav_links, [("start.html#demo", "Start here")])
 
     def test_destination_and_anchor_checks(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -21,6 +24,20 @@ class LocalLinks(unittest.TestCase):
             self.assertEqual(local_problem(page, "absent.html", root), "missing local destination")
             self.assertEqual(local_problem(page, "../outside", root), "link leaves the site tree")
             self.assertIsNone(local_problem(page, "https://example.com/", root))
+
+    def test_extensionless_shadow_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            front = root / "constellation" / "index.html"
+            front.parent.mkdir()
+            front.write_text('''<title>Front</title>
+                <link rel="canonical" href="https://unpingable.com/constellation/">
+                <nav><a href="start.html">Start</a></nav><h1>Front door</h1>''')
+            self.assertEqual(route_source_problems(root), [])
+            (root / "constellation.html").write_text("obsolete sibling")
+            self.assertEqual(route_source_problems(root), [
+                "constellation.html: shadows the canonical /constellation/ directory"
+            ])
 
 
 if __name__ == "__main__":

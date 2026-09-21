@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
 from urllib.parse import unquote, urlsplit
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -20,6 +21,11 @@ class Page(HTMLParser):
         self.ids: set[str] = set()
         self.title = ""
         self._in_title = False
+        self.h1 = ""
+        self._in_h1 = False
+        self._nav_depth = 0
+        self._nav_link: list[str] | None = None
+        self.nav_links: list[tuple[str, str]] = []
         self.meta: list[dict[str, str | None]] = []
         self.canonicals: list[str] = []
         self.feed(text)
@@ -28,6 +34,12 @@ class Page(HTMLParser):
         values = dict(attrs)
         if tag == "title":
             self._in_title = True
+        if tag == "h1":
+            self._in_h1 = True
+        if tag == "nav":
+            self._nav_depth += 1
+        if tag == "a" and self._nav_depth:
+            self._nav_link = [values.get("href") or "", ""]
         if tag == "meta":
             self.meta.append(values)
         if tag == "link" and values.get("rel") == "canonical" and values.get("href"):
@@ -41,10 +53,22 @@ class Page(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag == "title":
             self._in_title = False
+        if tag == "h1":
+            self._in_h1 = False
+        if tag == "a" and self._nav_link is not None:
+            href, label = self._nav_link
+            self.nav_links.append((href, " ".join(label.split())))
+            self._nav_link = None
+        if tag == "nav" and self._nav_depth:
+            self._nav_depth -= 1
 
     def handle_data(self, data: str) -> None:
         if self._in_title:
             self.title += data
+        if self._in_h1:
+            self.h1 += data
+        if self._nav_link is not None:
+            self._nav_link[1] += data
 
     def meta_value(self, field: str, value: str) -> str | None:
         for attrs in self.meta:
@@ -71,16 +95,91 @@ def local_problem(page: Path, href: str, root: Path = ROOT) -> str | None:
     return None
 
 
+def route_source_problems(root: Path = ROOT) -> list[str]:
+    """Reject the file that makes Pages serve /constellation as a sibling page."""
+    problems = []
+    shadow = root / "constellation.html"
+    front = root / "constellation" / "index.html"
+    if shadow.exists():
+        problems.append("constellation.html: shadows the canonical /constellation/ directory")
+    if not front.is_file():
+        problems.append("constellation/index.html: canonical front door is missing")
+        return problems
+    page = Page(front.read_text())
+    if page.canonicals != ["https://unpingable.com/constellation/"]:
+        problems.append("constellation/index.html: canonical route is not /constellation/")
+    if not page.title.strip() or not page.h1.strip() or not page.nav_links:
+        problems.append("constellation/index.html: title, H1, or navigation is missing")
+    return problems
+
+
+class RedirectRecorder(HTTPRedirectHandler):
+    def __init__(self) -> None:
+        super().__init__()
+        self.redirects: list[tuple[int, str, str]] = []
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        self.redirects.append((code, req.full_url, newurl))
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+def check_live_routes(base_url: str, root: Path = ROOT) -> list[str]:
+    """Compare both public route forms with the exact canonical front door."""
+    failures = []
+    expected_bytes = (root / "constellation" / "index.html").read_bytes()
+    expected_hash = hashlib.sha256(expected_bytes).hexdigest()
+    expected = Page(expected_bytes.decode())
+    canonical = "https://unpingable.com/constellation/"
+    for route in ("/constellation", "/constellation/"):
+        recorder = RedirectRecorder()
+        opener = build_opener(recorder)
+        requested = base_url.rstrip("/") + route
+        try:
+            request = Request(requested, headers={"User-Agent": "Constellation-route-check/1"})
+            with opener.open(request, timeout=20) as response:
+                body = response.read()
+                status = response.status
+                final_url = response.geturl()
+        except Exception as error:
+            failures.append(f"{requested}: {type(error).__name__}: {error}")
+            continue
+        actual = Page(body.decode())
+        checks = {
+            "final status": status == 200,
+            "canonical URL": actual.canonicals == [canonical],
+            "title": actual.title.strip() == expected.title.strip(),
+            "H1": actual.h1.strip() == expected.h1.strip(),
+            "navigation": actual.nav_links == expected.nav_links,
+            "rendered bytes": hashlib.sha256(body).hexdigest() == expected_hash,
+        }
+        if route.endswith("/"):
+            checks["rendered destination"] = final_url == canonical
+        elif recorder.redirects:
+            checks["redirect destination"] = final_url == canonical
+        for label, passed in checks.items():
+            if not passed:
+                failures.append(f"{requested}: {label} mismatch")
+        chain = " -> ".join(str(item[0]) for item in recorder.redirects)
+        chain = f"{chain} -> {status}" if chain else str(status)
+        print(f"ROUTE {route} {chain} final={final_url} sha256={hashlib.sha256(body).hexdigest()}")
+    return failures
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--external", action="store_true",
                         help="also request public HTTPS destinations anonymously")
+    parser.add_argument("--live-routes", action="store_true",
+                        help="verify /constellation and /constellation/ against the published front door")
+    parser.add_argument("--base-url", default="https://unpingable.com",
+                        help="origin used by --live-routes")
     args = parser.parse_args()
     failures = []
     external: set[str] = set()
     checked = 0
     pages = sorted((ROOT / "constellation").rglob("*.html"))
-    pages += [ROOT / name for name in ("index.html", "about.html", "constellation.html")]
+    failures.extend(route_source_problems())
+    pages += [ROOT / name for name in ("index.html", "about.html")]
     for path in pages:
         parsed = Page(path.read_text())
         for href in parsed.links:
@@ -100,7 +199,7 @@ def main() -> int:
             failures.append(f"{relative}: missing description")
         if not immutable_release and len(parsed.canonicals) != 1:
             failures.append(f"{relative}: expected one canonical URL")
-        if not immutable_release and path.name != "constellation.html":
+        if not immutable_release:
             for field, value in (("property", "og:title"),
                                  ("property", "og:description"),
                                  ("property", "og:url"),
@@ -131,6 +230,8 @@ def main() -> int:
                     print(f"HTTP {response.status} {url}")
             except Exception as error:
                 failures.append(f"{url}: {type(error).__name__}: {error}")
+    if args.live_routes:
+        failures.extend(check_live_routes(args.base_url))
     for failure in failures:
         print(failure, file=sys.stderr)
     print(f"Checked {checked} references; {len(failures)} failures")
