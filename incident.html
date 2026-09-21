@@ -102,9 +102,9 @@
       padding: 0.9rem 1.1rem;
       margin: 1rem 0 1.2rem;
     }
-    .timeline .row { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.6rem; padding: 0.1rem 0; }
+    .timeline .row { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.6rem; padding: 0.1rem 0; }
     .timeline .t { color: var(--accent); }
-    .timeline .ev { color: var(--fg); }
+    .timeline .ev { color: var(--fg); min-width: 0; overflow-wrap: anywhere; }
     .strip {
       font-family: var(--mono);
       font-size: 0.82rem;
@@ -135,9 +135,9 @@
       padding: 0.85rem 1rem;
       margin: 1rem 0;
     }
-    .receipt-fields .row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 0.15rem 0.8rem; line-height: 1.5; }
+    .receipt-fields .row { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 0.15rem 0.8rem; line-height: 1.5; }
     .receipt-fields .k { color: var(--fg-ghost); }
-    .receipt-fields .v { color: var(--fg); }
+    .receipt-fields .v { color: var(--fg); min-width: 0; overflow-wrap: anywhere; }
     .receipt-fields .v.hot { color: var(--accent); font-weight: 600; }
     details { margin: 0.6rem 0 1rem; border: 1px solid var(--border-faint); padding: 0.4rem 0.9rem; }
     details summary { font-family: var(--mono); font-size: 0.82rem; color: var(--fg-muted); cursor: pointer; padding: 0.3rem 0; }
