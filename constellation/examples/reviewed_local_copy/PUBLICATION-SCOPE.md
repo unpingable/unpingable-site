@@ -45,7 +45,9 @@ the root review owner alone admits the later review.
 it runs an already enrolled executor once, retains its local collector record,
 withholds the completed response, and requires same-attempt native
 reconciliation. It is not a substitution for the earlier interruption between
-file fsync and durable success journal commit. That pre-journal qualification
-requires its own deterministic cut and may resolve only as indeterminate; it
-must never repeat the copy.
-
+file fsync and durable success journal commit. Maude `d532efd` now supplies a
+separately built and pinned `executor-interruption-qualification` artifact for
+that deterministic cut. The artifact exits 75 only after result and directory
+fsync and before the success record; its read-only reconciliation remains
+indeterminate and it must never repeat the copy. These component checks do not
+establish the still-required Docket-owned composed occurrence.

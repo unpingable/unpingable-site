@@ -361,7 +361,25 @@ without forwarding that completed response. Docket/AG must reconcile the same
 attempt and receipt; no new grant, issuance or copy is allowed.
 
 This wrapper cannot establish interruption **before** the success journal commit.
-That distinct qualification needs an explicit deterministic cut at the executor's
-post-file-fsync/pre-success-record boundary. A reserved attempt then reconciles
-as indeterminate and never repeats the copy. Do not relabel terminal replay or
+Maude revision `d532efd8663f5b5d7f7da736a5efc7978ac9528c` supplies a distinct
+closed artifact for that qualification boundary:
+
+```sh
+python3.12 tools/build_reviewed_local_copy_validator.py \
+  --role executor-interruption-qualification \
+  --source-revision d532efd8663f5b5d7f7da736a5efc7978ac9528c \
+  --output /absolute/existing-directory/reviewed-copy-interruption.pyz \
+  --manifest /absolute/existing-directory/reviewed-copy-interruption.json
+```
+
+Build it from that exact clean Maude revision into two absent file paths beneath
+an existing operator-selected directory, then enroll the resulting artifact
+as a separate executor program. Its `execute` path terminates with status 75
+after the result file and containing directory are synced but before the success
+record is written. Its `plan-id` and `reconcile` paths do not select the cut.
+The retained executor record therefore remains reserved; same-attempt
+reconciliation reports indeterminate and a repeated `execute` does not repeat
+the copy. Component tests establish that local boundary. Recipe B still needs a
+fresh Docket-owned occurrence binding this exact program digest before the
+cross-component case is complete. Do not relabel terminal replay or
 post-success response loss as this earlier interruption case.
