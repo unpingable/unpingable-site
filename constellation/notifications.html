@@ -1,14 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Human notifications — Constellation">
+  <meta property="og:description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta property="og:url" content="https://unpingable.com/constellation/notifications.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Human notifications — Constellation">
+  <meta name="twitter:description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <title>Human notifications — Constellation</title>
-  <meta name="description" content="What Constellation currently provides for human attention, and what notification migration still needs.">
-  <link rel="stylesheet" href="base.css">
   <link rel="canonical" href="https://unpingable.com/constellation/notifications.html">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body><a class="skip" href="#main">Skip to content</a>
-<header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+<header><nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
 <main id="main">
   <h1>Who gets told when work needs attention?</h1>
   <p class="lede">An inspectable record is useful, but it is not a notification. Someone still needs a supported way to receive and act on an alert.</p>
@@ -53,7 +65,7 @@ max_response_bytes = 32768</code></pre>
     <li>Give the operator a minimal handoff: what happened, what needs attention, and an approved link or local reference to the relevant record. Exclude credentials, private prompts, raw evidence and unrelated campaign records.</li>
     <li>Record acknowledgment separately if one is actually received. A file written to an inbox does not establish that anyone read it.</li>
   </ol>
-  <p>This is a manual operating procedure, not evidence of dependable live notification. The released consultation-only profile does not include notification delivery. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
+  <p>This is a manual operating procedure, not evidence of dependable live notification. The current alpha.6 governed-action profile does not include notification delivery, and the earlier notification exercises do not establish a live destination. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
 
   <h2>Failures and recovery</h2>
   <p>Exact duplicate event/destination submissions converge on one retained record. Changed intent or message content under that identity refuses. <strong>Pending</strong> means no attempt has been claimed. For HTTPS, <strong>accepted</strong> means HTTP 2xx and <strong>failed</strong> means a non-success response. For a local file, accepted means exclusive creation plus file/directory sync; failed means creation failed before writing. Neither establishes human receipt. <strong>Unknown</strong> includes post-create uncertainty or a claimed attempt without a terminal result. Inspect before considering another action; do not invent a new event ID to work around uncertainty.</p>

@@ -3,15 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Public source and scope for Constellation components.">
+  <meta name="description" content="Verified public source, responsibilities, maturity and availability for Constellation components.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Constellation components">
+  <meta property="og:description" content="Verified public source, responsibilities, maturity and availability for Constellation components.">
+  <meta property="og:url" content="https://unpingable.com/constellation/components.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellation components">
+  <meta name="twitter:description" content="Verified public source, responsibilities, maturity and availability for Constellation components.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <title>Constellation components</title>
-  <link rel="stylesheet" href="base.css">
   <link rel="canonical" href="https://unpingable.com/constellation/components.html">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html" aria-current="page">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html" aria-current="page">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
   </header>
   <!-- COMPONENTS:BEGIN generated from components.json by tools/render_constellation.py -->
     <main id="main">
@@ -23,14 +34,14 @@
         <p>Resuming a workflow with explicit retained-memory records? Read the <a href="https://github.com/unpingable/constellation-continuity/blob/main/docs/SESSION-LIFECYCLE-HOWTO.md">Continuity lifecycle guide</a> and <a href="https://github.com/unpingable/spine/blob/main/HOWTO.md">Spine's declared-source guide</a>. Those guides do not select work, infer currentness, or authorize action.</p>
       </section>
       <article id="ag">
-        <h2><a href="https://github.com/unpingable/constellation-ag/tree/31fde40df33d4e454a660cb27442b60f16054a65">Constellation AG</a></h2>
+        <h2><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h2>
         <p>Makes bounded, one-use authorization decisions from current inputs.</p>
         <dl>
           <dt>Relationship</dt><dd>core family office</dd>
           <dt>Implementation</dt><dd>standalone Rust authorization office</dd>
-          <dt>Maturity</dt><dd>Component-qualified development source, including bounded V2 continuation; the genuine shared workflow remains unqualified.</dd>
-          <dt>Available now</dt><dd>Public source on main at 31fde40df33d4e454a660cb27442b60f16054a65; no binary package is published.</dd>
-          <dt>When to use it</dt><dd>Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow.</dd>
+          <dt>Maturity</dt><dd>Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.</dd>
+          <dt>Available now</dt><dd>Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.</dd>
+          <dt>When to use it</dt><dd>Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example.</dd>
         </dl>
       </article>
       <article id="nq">
@@ -39,8 +50,8 @@
         <dl>
           <dt>Relationship</dt><dd>core family office</dd>
           <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
-          <dt>Maturity</dt><dd>Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. A separately qualified source-level path covers local-successor replay and operator-controlled archive/rollover; recurring installation, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
-          <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks and alpha.4 local-successor result replay. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.</dd>
+          <dt>Maturity</dt><dd>Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
+          <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.</dd>
           <dt>When to use it</dt><dd>Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act.</dd>
         </dl>
       </article>
@@ -50,8 +61,8 @@
         <dl>
           <dt>Relationship</dt><dd>core family office</dd>
           <dt>Implementation</dt><dd>standalone Rust execution-custody product</dd>
-          <dt>Maturity</dt><dd>Supported executor contracts and an operationally reusable Git-effect vertical; not production-hardened.</dd>
-          <dt>Available now</dt><dd>Public source</dd>
+          <dt>Maturity</dt><dd>Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.</dd>
+          <dt>Available now</dt><dd>Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.</dd>
           <dt>When to use it</dt><dd>Use when an authorized workflow needs attempt identity and settlement custody.</dd>
         </dl>
       </article>
@@ -61,8 +72,8 @@
         <dl>
           <dt>Relationship</dt><dd>core family office</dd>
           <dt>Implementation</dt><dd>standalone Rust temporal-observation office</dd>
-          <dt>Maturity</dt><dd>Development source. Public-only saved-check recurrence, maintenance-aware attention, replay and local delivery are exercised. No unattended recurring installation or complete consumer migration is claimed.</dd>
-          <dt>Available now</dt><dd>Public source at 019e6837565ebf5b0ac244cbd7c3edde28e25aea includes the runtime workspace, bounded saved-check owner and attention CLI, plus the Monitor/Pulse source distribution.</dd>
+          <dt>Maturity</dt><dd>Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.</dd>
+          <dt>Available now</dt><dd>Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.</dd>
           <dt>When to use it</dt><dd>Use when a workflow needs temporal observation rather than authorization or execution.</dd>
         </dl>
       </article>
@@ -72,19 +83,19 @@
         <dl>
           <dt>Relationship</dt><dd>core operator surface</dd>
           <dt>Implementation</dt><dd>standalone Python authoring and supervision product</dd>
-          <dt>Maturity</dt><dd>Public source includes deterministic Plan Core authoring and the optional enrolled provider route; the connected cache runtime remains in progress.</dd>
-          <dt>Available now</dt><dd>Public source includes the exact authored-goal reader and CLI framing adapter at abaac51003b29ba8cefddc41ffbdcd018b732212; release snapshots retain their own pins.</dd>
+          <dt>Maturity</dt><dd>Public source includes deterministic Plan Core authoring, an optional enrolled provider route, the qualified alpha.4 connected-cache workflow, and the alpha.6 local-copy validator/executor. ECAD/design-flow remains pre-alpha.</dd>
+          <dt>Available now</dt><dd>Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.</dd>
           <dt>When to use it</dt><dd>Use for source-level Plan Core work; a checked plan grants no permission and runs no work.</dd>
         </dl>
       </article>
       <article id="phosphor">
-        <h2><a href="https://github.com/unpingable/constellation-ag/blob/31fde40df33d4e454a660cb27442b60f16054a65/docs/objective-read-projection.md">Phosphor</a></h2>
+        <h2><a href="https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/objective-read-projection.md">Phosphor</a></h2>
         <p>Shows authored goals and their linked runs, outcomes, and supporting records.</p>
         <dl>
           <dt>Relationship</dt><dd>hosted family capability</dd>
           <dt>Implementation</dt><dd>read-only inspector hosted in Constellation AG</dd>
-          <dt>Maturity</dt><dd>Experimental read-only integration; exact run links and explicitly application-owned condition/prerequisite assessments are implemented. A full deployment migration is not qualified.</dd>
-          <dt>Available now</dt><dd>Hosted in public AG source at 31fde40df33d4e454a660cb27442b60f16054a65; generic NQ condition and exact occurrence-link readers are included, with no standalone package.</dd>
+          <dt>Maturity</dt><dd>Experimental read-only integration. Alpha.6 qualifies one actual non-empty occurrence projection and public identity check; objective completion remains undetermined and ATProto production migration is not qualified.</dd>
+          <dt>Available now</dt><dd>Hosted in public AG source. Alpha.6 pins evidence reader e0f30de668234935cdbc4b0bd04f5dc13838411d and publishes one non-empty objective projection; there is no standalone package.</dd>
           <dt>When to use it</dt><dd>Inspect exact authored-plan and run relationships without changing owner state. A settled or successful attempt does not establish objective completion.</dd>
         </dl>
       </article>
@@ -160,7 +171,7 @@
         <dl>
           <dt>Relationship</dt><dd>shared provider integration</dd>
           <dt>Implementation</dt><dd>reviewed source-only provider-runtime distribution</dd>
-          <dt>Maturity</dt><dd>Bounded provider path with cancellation and deadline checks; one live scope-bound Maude proposal and diff verified. No human acceptance or downstream execution is implied.</dd>
+          <dt>Maturity</dt><dd>Bounded provider path with cancellation and deadline checks. It retained the independent review used by alpha.6; review completion alone did not accept the plan, grant authority or execute work.</dd>
           <dt>Available now</dt><dd>Optional public source</dd>
           <dt>When to use it</dt><dd>Use only where a documented integration selects it; it is not a new governance office.</dd>
         </dl>

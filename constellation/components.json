@@ -1,22 +1,22 @@
 {
-  "as_of": "2026-09-20",
+  "as_of": "2026-09-21",
   "components": [
     {
-      "availability": "Public source on main at 31fde40df33d4e454a660cb27442b60f16054a65; no binary package is published.",
+      "availability": "Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
-      "maturity": "Component-qualified development source, including bounded V2 continuation; the genuine shared workflow remains unqualified.",
+      "maturity": "Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.",
       "name": "Constellation AG",
       "relationship": "core family office",
       "role": "Makes bounded, one-use authorization decisions from current inputs.",
-      "url": "https://github.com/unpingable/constellation-ag/tree/31fde40df33d4e454a660cb27442b60f16054a65",
-      "use": "Use for the documented exact-work authorization boundary; component qualification does not establish an end-to-end workflow."
+      "url": "https://github.com/unpingable/constellation-ag",
+      "use": "Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example."
     },
     {
-      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks and alpha.4 local-successor result replay. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.",
+      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview. Public-only examples cover saved checks, maintenance annotations, receipt replay and local-inbox delivery. A separately qualified source-level path covers local-successor replay and operator-controlled archive/rollover; recurring installation, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.",
+      "maturity": "Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.",
       "name": "Constellation NQ",
       "relationship": "core family office",
       "role": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
@@ -24,10 +24,10 @@
       "use": "Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act."
     },
     {
-      "availability": "Public source",
+      "availability": "Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.",
       "id": "docket",
       "implementation_form": "standalone Rust execution-custody product",
-      "maturity": "Supported executor contracts and an operationally reusable Git-effect vertical; not production-hardened.",
+      "maturity": "Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.",
       "name": "Constellation Docket",
       "relationship": "core family office",
       "role": "Keeps custody of a bounded execution attempt and records its outcome.",
@@ -35,10 +35,10 @@
       "use": "Use when an authorized workflow needs attempt identity and settlement custody."
     },
     {
-      "availability": "Public source at 019e6837565ebf5b0ac244cbd7c3edde28e25aea includes the runtime workspace, bounded saved-check owner and attention CLI, plus the Monitor/Pulse source distribution.",
+      "availability": "Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.",
       "id": "nightshift",
       "implementation_form": "standalone Rust temporal-observation office",
-      "maturity": "Development source. Public-only saved-check recurrence, maintenance-aware attention, replay and local delivery are exercised. No unattended recurring installation or complete consumer migration is claimed.",
+      "maturity": "Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.",
       "name": "Constellation Nightshift",
       "relationship": "core family office",
       "role": "Tracks currentness, recurrence, and attention over time.",
@@ -46,10 +46,10 @@
       "use": "Use when a workflow needs temporal observation rather than authorization or execution."
     },
     {
-      "availability": "Public source includes the exact authored-goal reader and CLI framing adapter at abaac51003b29ba8cefddc41ffbdcd018b732212; release snapshots retain their own pins.",
+      "availability": "Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.",
       "id": "maude",
       "implementation_form": "standalone Python authoring and supervision product",
-      "maturity": "Public source includes deterministic Plan Core authoring and the optional enrolled provider route; the connected cache runtime remains in progress.",
+      "maturity": "Public source includes deterministic Plan Core authoring, an optional enrolled provider route, the qualified alpha.4 connected-cache workflow, and the alpha.6 local-copy validator/executor. ECAD/design-flow remains pre-alpha.",
       "name": "Maude",
       "relationship": "core operator surface",
       "role": "Authors, checks, compares, and locks pre-governed plans.",
@@ -57,14 +57,14 @@
       "use": "Use for source-level Plan Core work; a checked plan grants no permission and runs no work."
     },
     {
-      "availability": "Hosted in public AG source at 31fde40df33d4e454a660cb27442b60f16054a65; generic NQ condition and exact occurrence-link readers are included, with no standalone package.",
+      "availability": "Hosted in public AG source. Alpha.6 pins evidence reader e0f30de668234935cdbc4b0bd04f5dc13838411d and publishes one non-empty objective projection; there is no standalone package.",
       "id": "phosphor",
       "implementation_form": "read-only inspector hosted in Constellation AG",
-      "maturity": "Experimental read-only integration; exact run links and explicitly application-owned condition/prerequisite assessments are implemented. A full deployment migration is not qualified.",
+      "maturity": "Experimental read-only integration. Alpha.6 qualifies one actual non-empty occurrence projection and public identity check; objective completion remains undetermined and ATProto production migration is not qualified.",
       "name": "Phosphor",
       "relationship": "hosted family capability",
       "role": "Shows authored goals and their linked runs, outcomes, and supporting records.",
-      "url": "https://github.com/unpingable/constellation-ag/blob/31fde40df33d4e454a660cb27442b60f16054a65/docs/objective-read-projection.md",
+      "url": "https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/objective-read-projection.md",
       "use": "Inspect exact authored-plan and run relationships without changing owner state. A settled or successful attempt does not establish objective completion."
     },
     {
@@ -137,7 +137,7 @@
       "availability": "Optional public source",
       "id": "switchyard-runtime",
       "implementation_form": "reviewed source-only provider-runtime distribution",
-      "maturity": "Bounded provider path with cancellation and deadline checks; one live scope-bound Maude proposal and diff verified. No human acceptance or downstream execution is implied.",
+      "maturity": "Bounded provider path with cancellation and deadline checks. It retained the independent review used by alpha.6; review completion alone did not accept the plan, grant authority or execute work.",
       "name": "Switchyard Runtime",
       "relationship": "shared provider integration",
       "role": "Provides a reviewed source-only provider-runtime distribution for an enrolled integration.",

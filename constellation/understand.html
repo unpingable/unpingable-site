@@ -3,15 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Understand the responsibilities and trust boundaries in Constellation.">
+  <meta name="description" content="Understand Constellation&#x27;s observation, judgment, authority, execution-custody and reconciliation boundaries.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="How Constellation works">
+  <meta property="og:description" content="Understand Constellation&#x27;s observation, judgment, authority, execution-custody and reconciliation boundaries.">
+  <meta property="og:url" content="https://unpingable.com/constellation/understand.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Constellation works">
+  <meta name="twitter:description" content="Understand Constellation&#x27;s observation, judgment, authority, execution-custody and reconciliation boundaries.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <title>How Constellation works</title>
-  <link rel="stylesheet" href="base.css">
   <link rel="canonical" href="https://unpingable.com/constellation/understand.html">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html" aria-current="page">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
   </header>
   <main id="main">
     <h1>Different jobs, explicit handoffs</h1>
@@ -24,7 +35,7 @@
     <p>Constellation AG checks current observations, the applicable mandate and policy, and the exact requested work. If the work is allowed, it records a one-use permission for that run. The contracts call the current mandate support <em>standing</em>; it is an input to the decision, not permission by itself.</p>
     <h3>Docket: keep custody of the attempt</h3>
     <p>Docket carries an authorized unit of work through its execution boundary and records the attempt and outcome. The executor and deployment environment still need their own carefully configured permission boundaries.</p>
-    <p>Docket's <a href="https://github.com/unpingable/constellation-docket/blob/fbcacc1dfb95f0f625a72e123f61afa41c1ddccb/docs/governed-runtime/local-execution-standing.md">local execution-standing guide</a> documents a component-level option for one exact run with a permission lifetime of no more than 300 seconds. Docket retains the permission snapshot it observed with that attempt's custody. Permission that is already revoked when Docket resolves it refuses; a later revocation does not rewrite a custody attempt that resolved successfully. Absent, expired, ambiguous, or mismatched permission state also refuses. This component surface is not yet a qualified shared profile, and the existing alpha path remains consultation-only.</p>
+    <p>Docket's <a href="https://github.com/unpingable/constellation-docket/blob/fbcacc1dfb95f0f625a72e123f61afa41c1ddccb/docs/governed-runtime/local-execution-standing.md">local execution-standing guide</a> documents a bounded option for one exact run with a permission lifetime of no more than 300 seconds. Docket retains the permission snapshot it observed with that attempt's custody. Permission that is already revoked when Docket resolves it refuses; a later revocation does not rewrite a custody attempt that resolved successfully. Absent, expired, ambiguous, or mismatched permission state also refuses. Alpha.6 qualifies this surface only inside the named <code>reviewed-local-copy/v1</code> composition; it is not Standing or a general authority service.</p>
     <h3>Nightshift: establish what needs attention now</h3>
     <p>Nightshift relates evidence over time. It can distinguish a current observation from an old one, and an observed condition from a missing answer. It does not turn old evidence into a fresh fact.</p>
     <h3>Phosphor: inspect without changing</h3>

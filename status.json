@@ -1,133 +1,99 @@
 {
-  "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py to regenerate the ledger block in index.html. Every row must cite public evidence; the verified field is the date the cited evidence was written or the check was run, never today’s date by default.",
+  "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py. Current rows describe public releases; historical rows remain explicitly marked as history.",
   "generated_note": "Rendered into index.html by tools/render_status.py. Do not hand-edit the ledger block.",
-  "as_of": "2026-07-29",
+  "as_of": "2026-09-21",
   "objects": [
     {
-      "id": "four-office-vertical",
-      "name": "Four-office governed vertical",
+      "id": "alpha6-reviewed-local-copy",
+      "name": "Constellation 0.1.0-alpha.6 — reviewed local copy",
       "kind": "composition",
-      "status": "exercised once; receipts not public",
-      "claim": "Four separately-owned offices carried one bounded Git change from proposal to evaluated testimony without any office absorbing another’s jurisdiction, and without code changes in any office.",
-      "verified": "2026-07-26",
-      "verified_by": "the four offices’ own dated status statements, and the pilot declaration document — itself the governed effect the pilot executed",
+      "status": "qualified immutable integration release",
+      "claim": "One exact local-copy plan was independently reviewed, explicitly accepted, authorized once, executed under Docket custody, settled successfully, and followed by a read-only observation. An anonymous public-clone reproduction verified the retained evidence without repeating the provider call or effect.",
+      "verified": "2026-09-20",
+      "verified_by": "the immutable alpha.6 manifest, qualification record, walkthrough, and anonymous public-clone verification",
       "evidence": [
-        {"label": "Nightshift · FOUR_OFFICE_PILOT_01.md", "url": "https://github.com/unpingable/nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md"},
-        {"label": "Docket · vertical-01.md", "url": "https://github.com/unpingable/docket/blob/main/docs/vertical-01.md"},
-        {"label": "NQ · status", "url": "https://github.com/unpingable/nq#status-2026-07-26"},
-        {"label": "AG ng · status", "url": "https://github.com/unpingable/ag_ng#status-2026-07-26"}
+        {"label": "alpha.6 walkthrough", "url": "constellation/releases/0.1.0-alpha.6/guide.html"},
+        {"label": "manifest", "url": "constellation/releases/0.1.0-alpha.6/manifest.json"},
+        {"label": "qualification", "url": "constellation/releases/0.1.0-alpha.6/qualification.json"}
       ],
-      "promotion": "A public, reproducible pair of artifacts — one admitted scenario and one refused scenario — that a stranger can obtain without private custody. Today the pilot’s identifiers, digests and verdicts exist only in a private campaign record; the public surface is the declaration and the offices’ own status statements."
+      "promotion": "This release is immutable. Operational burn-in, live notification delivery, cross-version restore, migration, rollback, and production consumer adoption require separate evidence."
     },
     {
       "id": "docket",
-      "name": "Docket (governed work runtime)",
+      "name": "Constellation Docket",
       "kind": "artifact",
-      "status": "working runtime, audited baseline; not production-hardened",
-      "claim": "Exactly one effect class is admitted — the atomic Git target-ref transition. A proposal outside it refuses with a typed refusal before any standing is issued, any reservation created, any dispatch identity minted, or any provider runs.",
-      "verified": "2026-07-25",
-      "verified_by": "the gwr-greenfield-v0.1 freeze: 125 tests, four gates exiting 0 in both debug and release profiles",
-      "evidence": [
-        {"label": "repository", "url": "https://github.com/unpingable/docket"},
-        {"label": "effect-classes.md", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md"},
-        {"label": "trust-model.md", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/trust-model.md"},
-        {"label": "known gaps", "url": "https://github.com/unpingable/docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md"}
-      ],
-      "promotion": "Three trust-model premises are load-bearing assumptions rather than enforced guarantees: exclusive broker custody of the governed ref, same-UID trust of the provider and broker binaries, and monotone clock readings. Operator-ready packaging does not exist; there is a source-install path, not a published-package promise."
+      "status": "public source; exercised in alpha.6",
+      "claim": "Takes custody of one authorized attempt, dispatches an authority-neutral executor, and records settlement and reconciliation. Alpha.6 exercised its bounded local permission snapshot and local-copy executor path.",
+      "verified": "2026-09-20",
+      "verified_by": "the alpha.6 manifest and qualification record at the exact pinned public revision",
+      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-docket"}, {"label": "alpha.6 walkthrough", "url": "constellation/releases/0.1.0-alpha.6/guide.html"}],
+      "promotion": "The profile is narrow; it does not establish production hardening or arbitrary executor compatibility."
     },
     {
-      "id": "ag-ng",
-      "name": "AG ng (authority office)",
+      "id": "constellation-ag",
+      "name": "Constellation AG",
       "kind": "artifact",
-      "status": "exercised by the vertical; explicitly not production deployable",
-      "claim": "Decides whether exact prepared work may receive authority, and burns one-use decision authority. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration.",
-      "verified": "2026-07-26",
-      "verified_by": "its issuance path authorized both the three-office vertical (2026-07-25) and the four-office pilot (2026-07-26)",
-      "evidence": [
-        {"label": "repository", "url": "https://github.com/unpingable/ag_ng"}
-      ],
-      "promotion": "Its own production-deployability checklist closes. The issuance surface is a library face exercised by harness, and the decision-burn ledger is in-memory per process."
+      "status": "public source; exercised in alpha.6",
+      "claim": "Checks whether exact automated work is admissible and grants bounded one-use authority for one specific run. It does not execute work or infer permission from a provider response.",
+      "verified": "2026-09-20",
+      "verified_by": "the alpha.6 one-use authorization and public evidence-reader checks",
+      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-ag"}, {"label": "components", "url": "constellation/components.html#ag"}],
+      "promotion": "No family-wide or production maturity is claimed."
     },
     {
-      "id": "nq",
-      "name": "NQ (testimony, claims, reliance)",
+      "id": "constellation-nq",
+      "name": "Constellation NQ",
       "kind": "artifact",
-      "status": "operational, pre-1.0",
-      "claim": "Pulls bounded evidence, keeps loss of observability visible rather than silently healthy, and emits testimony and typed refusals — never actions. A clean receipt approves no merge, deployment, restart, or incident closure.",
-      "verified": "2026-07-26",
-      "verified_by": "its own dated status statement and compatibility policy",
-      "evidence": [
-        {"label": "repository", "url": "https://github.com/unpingable/nq"},
-        {"label": "claim custody boundary", "url": "https://github.com/unpingable/nq/blob/main/docs/architecture/CLAIM_CUSTODY.md"}
-      ],
-      "promotion": "Consumer identity is configured, not authenticated. NQ stays pre-1.0; the office designation is a jurisdiction statement, not a stability promise."
+      "status": "public source; bounded released profiles",
+      "claim": "Evaluates retained evidence under named profiles and keeps missing, stale, unavailable, or uncertain results visible. Its results do not authorize an effect.",
+      "verified": "2026-09-20",
+      "verified_by": "alpha.2 through alpha.6 profiles and the separately documented archive-read procedure",
+      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-nq"}, {"label": "components", "url": "constellation/components.html#nq"}],
+      "promotion": "Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified."
     },
     {
-      "id": "nightshift",
-      "name": "Night Shift (proposal and read-only orchestration)",
+      "id": "constellation-nightshift",
+      "name": "Constellation Nightshift",
       "kind": "artifact",
-      "status": "part of the exercised vertical; not operator-ready",
-      "claim": "Proposes bounded intent behind a gate-enforced no-actuation boundary. Its proposals bind intent only — never file lists, content bytes, or authority.",
-      "verified": "2026-07-26",
-      "verified_by": "its own dated status statement; the four-office pilot ran against this repository as its target",
-      "evidence": [
-        {"label": "repository", "url": "https://github.com/unpingable/nightshift"}
-      ],
-      "promotion": "File-granular proposals are a library face, and the deployment files are reference scaffolding rather than a packaged service."
-    },
-    {
-      "id": "stale-yes",
-      "name": "The stale-yes refusal",
-      "kind": "exhibit",
-      "status": "runs; re-verified against current code",
-      "claim": "A permission valid when checked refuses at exercise time because the gap between observation and exercise exceeded its bound on a named monotonic basis — and no capacity is spent.",
-      "verified": "2026-07-29",
-      "verified_by": "./demo/refused-spend.sh run against an editable install of the tree at agent_gov 485e557 — exit 0, integrity tripwire green. Not a cold clone.",
-      "evidence": [
-        {"label": "the descent", "url": "demo.html"},
-        {"label": "the incident write-up", "url": "incident.html"},
-        {"label": "agent_governor", "url": "https://github.com/unpingable/agent_governor"}
-      ],
-      "promotion": "Re-verify from a genuinely cold clone, and pin the captured output rather than the receipt id. The id is a function of the receipt schema: it moved from dda5a1e5… to 3f8b93c1… when schema fields were added, while the behaviour it attests did not change."
+      "status": "public source; recurrence and alpha.6 occurrence paths exercised",
+      "claim": "Owns temporal observation, recurrence, and task proposal without acquiring authorization or execution custody.",
+      "verified": "2026-09-20",
+      "verified_by": "alpha.5 installed-cadence qualification and the alpha.6 occurrence/review path",
+      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-nightshift"}, {"label": "components", "url": "constellation/components.html#nightshift"}],
+      "promotion": "No complete production recurring installation or consumer migration is claimed."
     },
     {
       "id": "agent-governor",
       "name": "agent_governor (classic Python)",
       "kind": "artifact",
-      "status": "legacy / historical, maintained",
-      "claim": "Still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports; no authority, policy decision, credential, or capability crosses that wire.",
-      "verified": "2026-07-26",
-      "verified_by": "its own disposition banner",
-      "evidence": [
-        {"label": "repository", "url": "https://github.com/unpingable/agent_governor"}
-      ],
-      "promotion": "Not applicable. New authority work lives in AG ng, with no wire compatibility between the two, and none implied."
+      "status": "deprecated predecessor",
+      "claim": "Preserved for historical records and migration context. New authorization work uses Constellation AG; the two products are not presented as wire-compatible.",
+      "verified": "2026-09-21",
+      "verified_by": "the public repository deprecation notice and canonical successor documentation",
+      "evidence": [{"label": "deprecated repository", "url": "https://github.com/unpingable/agent_governor"}, {"label": "successor", "url": "https://github.com/unpingable/constellation-ag"}],
+      "promotion": "None. Do not use this predecessor as the current installation path."
     },
     {
-      "id": "declared-deny",
-      "name": "The declared-deny probe",
+      "id": "four-office-vertical",
+      "name": "Four-office governed vertical",
       "kind": "exhibit",
-      "status": "lab specimen; no live testimony",
-      "claim": "A firewall’s declared deny rule and an observed path are held apart and never merged into one story. The frozen probe exercises its witness path against real pfSense substrate in a controlled lab.",
-      "verified": "2026-06-27",
-      "verified_by": "a self-built pfSense CE lab with a controlled deny rule, a benign subject, a passing control probe, and captured teardown",
-      "evidence": [
-        {"label": "NQ specimen", "url": "https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md"}
-      ],
-      "promotion": "The probe has never caught a real firewall failing to enforce a real block. It has shown it would notice. Promotion needs live testimony from a real estate; the lab supplies compatibility evidence, not deployment evidence."
+      "status": "historical 2026-07 composition",
+      "claim": "An earlier pilot separated proposal, authorization, execution custody, and evidence evaluation. It remains research history, not the current installation guide.",
+      "verified": "2026-07-26",
+      "verified_by": "dated public office records from the historical pilot",
+      "evidence": [{"label": "current documentation", "url": "constellation/"}],
+      "promotion": "Superseded as the public starting point by the immutable alpha.6 walkthrough."
     },
     {
       "id": "design-layer",
-      "name": "The authored design layer",
+      "name": "ECAD / design-flow work",
       "kind": "proposition",
-      "status": "named, not ratified — nothing built",
-      "claim": "The tools operate over a system someone composed on purpose. That composition is currently unwritten: it lives in doctrine and in the operator’s head, and every tool re-derives it by hand.",
+      "status": "pre-alpha research direction",
+      "claim": "Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.",
       "verified": null,
-      "verified_by": "Nothing to verify. There is no implementation, no schema, and no wire format.",
-      "evidence": [
-        {"label": "the proposition, in full", "url": "#propositions"}
-      ],
-      "promotion": "A forcing case that a hand-derived composition demonstrably cannot serve, plus a ratified revision format that at least two tools can consume. The filing is a handle for review, not authorization to build."
+      "verified_by": "No general ECAD/design-flow release has been qualified.",
+      "evidence": [{"label": "current boundaries", "url": "constellation/#limits"}],
+      "promotion": "A separately scoped, reproducible public profile; alpha.6 does not provide one."
     }
   ]
 }

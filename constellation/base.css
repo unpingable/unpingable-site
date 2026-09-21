@@ -38,11 +38,19 @@ h2 { margin-top: 2.5rem; line-height: 1.2; }
 h3 { margin-top: 1.7rem; }
 p, li { max-width: 68ch; }
 .lede { font-size: 1.2rem; }
+.eyebrow { color: var(--muted); font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
 .note { padding: 1rem; border-left: .3rem solid var(--rule); background: var(--soft); }
+.release-cta { margin-block: 2rem 3rem; padding: 1.25rem; border: 1px solid var(--rule); border-left: .35rem solid var(--link); background: var(--soft); }
+.release-cta h2 { margin-top: .25rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .7rem 1rem; align-items: center; margin-top: 1.25rem; }
+.actions a { font-weight: 650; }
+.actions .primary { display: inline-block; padding: .6rem .85rem; color: var(--page); background: var(--link); border-radius: .2rem; text-decoration: none; }
+.actions .primary:focus-visible { outline-color: var(--text); }
 .status { color: var(--muted); }
 .steps { padding-left: 1.25rem; }
 .steps li { margin-block: .75rem; }
 code { overflow-wrap: anywhere; }
+dd { overflow-wrap: anywhere; }
 pre { overflow-x: auto; padding: 1rem; background: var(--soft); border: 1px solid var(--rule); }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .94rem; }

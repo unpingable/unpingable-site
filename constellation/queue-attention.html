@@ -1,8 +1,24 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Read a queue and retain an attention decision · Constellation</title><link rel="stylesheet" href="base.css">
-<link rel="canonical" href="https://unpingable.com/constellation/queue-attention.html"></head>
-<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Run the bounded public Monitor, NQ, Pulse and Nightshift queue-attention example and inspect its limits.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Read a queue and retain attention — Constellation">
+  <meta property="og:description" content="Run the bounded public Monitor, NQ, Pulse and Nightshift queue-attention example and inspect its limits.">
+  <meta property="og:url" content="https://unpingable.com/constellation/queue-attention.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Read a queue and retain attention — Constellation">
+  <meta name="twitter:description" content="Run the bounded public Monitor, NQ, Pulse and Nightshift queue-attention example and inspect its limits.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Read a queue and retain attention — Constellation</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/queue-attention.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav></header>
 <main id="main"><h1>Read a queue and decide whether it needs attention</h1>
 <p class="lede">Read a disposable SQLite queue, check the evidence, decide whether it needs attention, and deliver one local operator-inbox message through actual Monitor, NQ, Pulse and Nightshift entry points.</p>
 <p><strong>Development profile: <code>local-queue-attention/v1</code>.</strong> Public-only reproduction passed on Linux x86-64 without access to private repositories. This profile is not the released Maude-only 0.1.0-alpha.1 profile, a complete recurring monitoring deployment, or permission to change an application.</p>

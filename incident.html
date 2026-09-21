@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The incident &mdash; unpingable</title>
   <meta name="description" content="A credential valid at check, expired at action. The check-then-act race condition that custody catches and the conventional stack doesn't, written for ops, SRE, and platform readers.">
+  <link rel="canonical" href="https://unpingable.com/incident.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="The incident — unpingable">
@@ -241,7 +242,7 @@ python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e 
 ./demo/opa-contrast.sh     # the same incident, OPA&rsquo;s view
 ./demo/interrogate.sh      # walk the receipt chain</pre>
   <p class="muted">The demo&rsquo;s exit code is the claim: 0 only if the refusal happened for the right reason and spent nothing. The receipt id is deterministic under a given schema version; today that is <code>3f8b93c1&hellip;</code>, the one cited above.</p>
-  <p class="muted" style="font-size: 0.92rem;"><code>agent_governor</code> was dispositioned <strong>legacy / historical, maintained</strong> on 2026-07-26. It still runs, and this refusal still means what it says; new authority work lives in <a href="https://github.com/unpingable/ag_ng">AG&nbsp;ng</a> and governed execution in <a href="https://github.com/unpingable/docket">Docket</a>. See the <a href="index.html#ledger">status ledger</a>.</p>
+  <p class="muted" style="font-size: 0.92rem;"><code>agent_governor</code> is the deprecated classic predecessor. It still runs, and this historical refusal still means what it says; new authority work lives in <a href="https://github.com/unpingable/constellation-ag">Constellation AG</a> and governed execution in <a href="https://github.com/unpingable/constellation-docket">Constellation Docket</a>. See the <a href="constellation/">current Constellation documentation</a>.</p>
 
   <h2>Where this is the wrong tool</h2>
   <p>If your incidents are cheap to diagnose after the fact, or your inputs are attested by construction, or the credential&rsquo;s blast radius is small, the conventional stack is cheaper and you should use it. Custody trades steady runtime cost for fewer catastrophic incident-time costs &mdash; the same bet as TLS or structured logging. <a href="limits.html">Limits</a> spells out the rest.</p>

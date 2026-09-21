@@ -24,8 +24,14 @@
     },
     {
       "component_ids": [
+        "maude",
+        "nq",
+        "pulse",
+        "nightshift",
         "ag",
-        "docket"
+        "docket",
+        "switchyard-runtime",
+        "phosphor"
       ],
       "id": "reviewed-local-copy/v1",
       "status": "released-alpha",
@@ -115,7 +121,7 @@
       }
     }
   ],
-  "release_status": "candidate",
+  "release_status": "released",
   "schema": "constellation.integration-profiles/v1",
   "version": "0.1.0-alpha.6"
 }

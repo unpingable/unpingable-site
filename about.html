@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About &mdash; unpingable</title>
   <meta name="description" content="What this lab is, why it exists, and where different readers should enter. Evidence custody: deciding whether claims may become operational premises in automated systems.">
+  <link rel="canonical" href="https://unpingable.com/about.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="About — unpingable">
@@ -141,11 +142,11 @@
   <h2>Where to start</h2>
   <p>Different readers want different doors.</p>
   <ul class="entry">
-    <li><span class="who">Operations / SRE</span><span class="path">The <a href="incident.html">incident write-up</a> &mdash; check-then-act race condition, naive auth vs custody, in postmortem form. Then <a href="https://github.com/unpingable/nq">nq</a> for the observation layer.</span></li>
-    <li><span class="who">AI agents</span><span class="path"><a href="https://github.com/unpingable/ag_ng">ag_ng</a> and <a href="https://github.com/unpingable/docket">docket</a> for the current authority and execution split; <a href="https://github.com/unpingable/wicket">wicket</a> for intent preflight. <a href="https://github.com/unpingable/agent_governor">agent_governor</a> is the legacy Python kernel and still the most runnable demonstration.</span></li>
-    <li><span class="who">Composition</span><span class="path">The <a href="index.html#exhibit">four-office vertical</a> &mdash; one bounded change across four separately-owned systems, and the claim it declined to mint at the end.</span></li>
+    <li><span class="who">Operations / SRE</span><span class="path">Start with the <a href="incident.html">incident write-up</a> for the check-then-act failure, then use <a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> for current diagnostic and evidence-admission paths.</span></li>
+    <li><span class="who">AI agents</span><span class="path">Start with the <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a>: one reviewed plan, one-use authorization, Docket-custodied local effect, reconciliation, and a fresh read-only observation. Then use the <a href="constellation/components.html">component map</a> and <a href="constellation/integration.html">integration guide</a> to choose only the parts your use case needs.</span></li>
+    <li><span class="who">Composition</span><span class="path">The <a href="constellation/">Constellation front door</a> explains the current integration release, the actual qualified workflow, and its boundaries. The older four-office vertical below remains a dated historical exhibit.</span></li>
     <li><span class="who">Formal methods</span><span class="path">The <a href="https://unpingable.github.io/lean/">Lean proof reader&rsquo;s portal</a>, where class boundaries of refusals are machine-checked.</span></li>
-    <li><span class="who">AT Protocol</span><span class="path">The labelwatch / driftwatch / receipts tooling, catalogued on <a href="constellation.html">components</a>. Treat it as a field lab where custody ideas meet a live network, not as a peer of the core stack.</span></li>
+    <li><span class="who">AT Protocol</span><span class="path">ATProto has received an exact shared-interface handback. Its campaign still owns production binding, migration, notification routes, rollback, and legacy-NQ retirement; those are not completed by alpha.6.</span></li>
     <li><span class="who">Cold reader</span><span class="path">Start with the <a href="incident.html">incident</a> if you read postmortems; the <a href="demo.html">descent</a> if you want the artifact-rich version. Both are the same event.</span></li>
   </ul>
 

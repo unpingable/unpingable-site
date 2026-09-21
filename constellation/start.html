@@ -3,24 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Current public source and honest prerequisites for exploring Constellation.">
-  <title>Start with Constellation source</title>
-  <link rel="stylesheet" href="base.css">
+  <meta name="description" content="Start with the verified alpha.6 walkthrough, public component source and earlier scoped Constellation tutorials.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Start with Constellation">
+  <meta property="og:description" content="Start with the verified alpha.6 walkthrough, public component source and earlier scoped Constellation tutorials.">
+  <meta property="og:url" content="https://unpingable.com/constellation/start.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Start with Constellation">
+  <meta name="twitter:description" content="Start with the verified alpha.6 walkthrough, public component source and earlier scoped Constellation tutorials.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Start with Constellation</title>
   <link rel="canonical" href="https://unpingable.com/constellation/start.html">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html" aria-current="page">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html" aria-current="page">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
   </header>
   <main id="main">
     <h1>Start with what is available now</h1>
-    <p class="lede">Public source is available for reading contracts, building individual components and running scoped tests. Six narrow public-only releases have newcomer guides: Maude plan consultation in alpha.1, finite saved-check attention in alpha.2, <a href="releases/0.1.0-alpha.3/guide.html">objective saved-check reading in alpha.3</a>, the <a href="releases/0.1.0-alpha.4/guide.html">connected disposable cache in alpha.4</a>, the <a href="releases/0.1.0-alpha.5/guide.html">installed saved-check in alpha.5</a>, and the <a href="releases/0.1.0-alpha.6/guide.html">reviewed local-copy action in alpha.6</a>.</p>
+    <p class="lede">Start with the <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6 reviewed-action walkthrough</a>. It documents one actual governed effect and a separate credential-free newcomer check from anonymous public clones. Earlier releases remain available for their narrower consultation, saved-check, objective-read, connected-cache and installed-cadence profiles.</p>
 
     <h2>Public source</h2>
     <p>Use the <a href="components.html">component map</a> for current source links and scope. A public repository is source availability, not an installed service or a hosted offering.</p>
     <ul class="steps">
-      <li><strong>Constellation AG</strong> — authorization and the read-only Phosphor inspector: <a href="https://github.com/unpingable/constellation-ag/tree/deac918c2ad95b8205f293393874adb8eb12fe26">public source on main</a>. Its V2 finite continuation is component-qualified; the genuine shared workflow remains unqualified.</li>
+      <li><strong>Constellation AG</strong> — authorization and the read-only Phosphor inspector: <a href="https://github.com/unpingable/constellation-ag">public source</a>. Alpha.6 pins authorization runtime <code>4dafc1a774178a9e09e75afc6e22c71052fd3dce</code> and evidence reader <code>e0f30de668234935cdbc4b0bd04f5dc13838411d</code>.</li>
       <li><strong>Constellation Docket</strong> — custody and settlement for bounded attempts: <a href="https://github.com/unpingable/constellation-docket">public source</a>.</li>
       <li><strong>Constellation Nightshift</strong> — currentness and attention over time: <a href="https://github.com/unpingable/constellation-nightshift">public source</a>.</li>
       <li><strong>Constellation NQ</strong> — bounded diagnostic evaluation, saved SQLite checks, maintenance projection and local notification custody. The released <a href="releases/0.1.0-alpha.2/guide.html">saved-check profile</a> pins public NQ source <code>e259852ed58b8c0bf65a629b3c494afba28d9ce9</code>. The repository's <a href="https://github.com/unpingable/constellation-nq/blob/main/docs/PUBLIC_RELEASE.md">public release guide</a> documents other component-qualified cuts. These are source-only, with no binary package, and component cuts are not interchangeable by version string.</li>
@@ -30,7 +41,7 @@
     <p>Do not install <a href="https://github.com/unpingable/nq"><code>unpingable/nq</code></a> for this path: it is the deprecated classic predecessor. The supported successor source is explicitly <a href="https://github.com/unpingable/constellation-nq"><code>unpingable/constellation-nq</code></a>; the repositories are not drop-in compatible.</p>
 
     <h2>Build the App Server source prerequisite</h2>
-    <p>The experimental CLI-backed review path now has a public source-build prerequisite. This is <strong>not</strong> a download, provider setup, or a completed reviewed-action tutorial. Start from the public <a href="https://github.com/unpingable/codex">Codex source repository</a> and detach the exact commit <code>97b0acd5ce2ccb3c87a763606696c35a450947f6</code>; the branch name is only a locator.</p>
+    <p>The alpha.6 review path used a public source-build prerequisite. This is <strong>not</strong> a binary download, provider setup, or authority to repeat the qualified action. Start from the public <a href="https://github.com/unpingable/codex">Codex source repository</a> and detach the exact commit <code>97b0acd5ce2ccb3c87a763606696c35a450947f6</code>; the branch name is only a locator.</p>
     <pre><code>git clone https://github.com/unpingable/codex.git codex-public
 cd codex-public
 git checkout --detach 97b0acd5ce2ccb3c87a763606696c35a450947f6
@@ -50,12 +61,12 @@ CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 \
       <li>For a finite saved SQLite check, maintenance annotation, retained attention decision and one local-inbox file, follow the released <a href="releases/0.1.0-alpha.2/guide.html"><code>saved-check-attention/v1</code> guide</a>. Its exact public Monitor, NQ and Nightshift revisions are fixed by the release manifest. It is attended and create-only, not an installed recurring monitor.</li>
       <li>For the direct local example of an installed-cadence tick, use the pinned <a href="releases/0.1.0-alpha.5/guide.html"><code>installed-saved-check/v1</code> alpha.5 guide</a>. Clean public-only anonymous-clone reproduction and retained-state inspection passed. The single-user fixture uses NQ's explicit debug-only same-UID helper exception; it does not establish systemd activation, post-acceptance response-loss behavior, remote notification delivery or human acknowledgment.</li>
       <li>For one independently reviewed, explicitly accepted governed action, use the pinned <a href="releases/0.1.0-alpha.6/guide.html"><code>reviewed-local-copy/v1</code> alpha.6 guide</a>. Its public newcomer path verifies immutable evidence and refusal behavior without credentials, another provider request, or another effect.</li>
-      <li>For inspection, follow <a href="https://github.com/unpingable/constellation-ag/blob/deac918c2ad95b8205f293393874adb8eb12fe26/docs/operator-ui.md">Constellation AG's Phosphor guide</a>. Run <code>scripts/run-operator-ui-demo.sh</code>, then open <code>http://127.0.0.1:8417/phosphor-ng</code>. The page identifies its deterministic demo corpus. Phosphor can show joined records but cannot accept a plan, grant authority, rerun work, or settle an occurrence.</li>
+      <li>For inspection, follow <a href="https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/operator-ui.md">Constellation AG's Phosphor guide</a>. Run <code>scripts/run-operator-ui-demo.sh</code>, then open <code>http://127.0.0.1:8417/phosphor-ng</code>. The page identifies its deterministic demo corpus. Phosphor can show joined records but cannot accept a plan, grant authority, rerun work, or settle an occurrence.</li>
       <li>Build or test only the component whose documented prerequisites you have. Do not infer compatibility between repository heads or between classic and successor components.</li>
     </ol>
 
-    <h2>Two different tutorial routes</h2>
-    <p><strong>Deterministic, credential-free route:</strong> Maude's local fixture path and Phosphor's deterministic demo require no model-provider credential and do not contact a model. They author/check sample plan material or render read-only fixture state; they do not execute the connected cache workload.</p>
+    <h2>Credential-free and model-assisted routes</h2>
+    <p><strong>Deterministic, credential-free route:</strong> the alpha.6 public evidence check, Maude's local fixture path and Phosphor's deterministic demo require no model-provider credential. The alpha.6 check verifies a retained governed occurrence; it does not repeat the paid review or effect. The other two routes author/check sample material or render read-only fixture state.</p>
     <p><strong>Optional provider-assisted authoring route:</strong> the <a href="https://github.com/unpingable/maude/blob/main/docs/OPENROUTER-AUTHORING.md">OpenRouter authoring guide</a> pins the verified Maude runtime and <a href="https://github.com/unpingable/switchyard-runtime/tree/9ce03b158589ca4c73907b48cd9632762b2c15a2">Switchyard Runtime source</a>. One live scope-bound proposal and diff has been verified. This optional route needs caller-owned provider enrollment, credential and budget; it does not accept a draft or authorize downstream work, and is not part of the credential-free path.</p>
 
     <h2>Synthetic-cache runtime status</h2>

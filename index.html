@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>unpingable</title>
-  <meta name="description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
+  <title>unpingable — Constellation and governed automated work</title>
+  <meta name="description" content="Constellation and related research on keeping the transition from evidence to authorized automated effects visible, bounded, and capable of refusal.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
-  <meta property="og:title" content="unpingable — systems forget how they know">
-  <meta property="og:description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
+  <meta property="og:title" content="unpingable — Constellation and governed automated work">
+  <meta property="og:description" content="Start with the verified Constellation 0.1.0-alpha.6 reviewed-action walkthrough.">
   <meta property="og:url" content="https://unpingable.com/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="unpingable — systems forget how they know">
-  <meta name="twitter:description" content="A green check becomes permission. Its reasons change; the permission survives. Systems and proofs for keeping that transition visible — and capable of refusal.">
+  <meta name="twitter:title" content="unpingable — Constellation and governed automated work">
+  <meta name="twitter:description" content="Start with the verified Constellation 0.1.0-alpha.6 reviewed-action walkthrough.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <link rel="canonical" href="https://unpingable.com/">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
   <style>
@@ -624,6 +625,12 @@
     <p class="promise">Unpingable builds systems that keep those transitions visible &mdash; and capable of refusal.</p>
 
     <div class="ground">
+      <p><strong>Current public system:</strong> <a href="constellation/">Constellation</a> is a governance and execution-custody layer for automated work. Integration release <code>0.1.0-alpha.6</code> records one real reviewed, explicitly accepted, authorized-once and Docket-custodied effect.</p>
+      <p class="turn"><a href="constellation/releases/0.1.0-alpha.6/guide.html">Read and reproduce the alpha.6 walkthrough from public source&nbsp;&rarr;</a></p>
+      <p class="prov-line">The public reproduction verifies retained evidence and refusal behavior without repeating the provider call, authority spend, or effect. Production deployment, live human notification, migration, restore and rollback remain unqualified.</p>
+    </div>
+
+    <div class="ground">
       <p>A CI check goes green at 09:00. A deploy spends that green at 11:00. Nothing between them re-asks whether it still holds. The check was honest &mdash; but the permission it turned into outlived the observation it came from, and nothing in the path is built to notice.</p>
       <p class="turn">Here is a system refusing exactly that, eleven seconds late against a ten-second bound:</p>
       <pre>  standing       verified      <span class="hot">&larr; the credential WAS valid</span>
@@ -637,7 +644,7 @@
 
     <p class="definition">An independent research and engineering program on preserving evidence <a href="glossary.html#custody">custody</a> as systems move from observation to action over time &mdash; formal models, executable systems, and bounded compositions. The same failure appears across operations, AI agents, distributed systems, formal verification, and governance; operations is merely where the questions were learned.</p>
 
-    <p class="notthis"><b>Not</b> an AI-governance platform. <b>Not</b> one integrated product suite. <b>Not</b> a generic agent framework. <b>Not</b> a collection of unrelated repositories &mdash; and <b>not</b> a claim that every artifact composes with every other. The components are independently useful. Compositions are earned one at a time, and each one is dated.</p>
+    <p class="notthis"><b>Not</b> an all-or-nothing AI platform. <b>Not</b> a generic agent framework. <b>Not</b> a claim that every artifact composes with every other. Components remain independently useful; supported compositions are named, pinned and qualified one at a time.</p>
 
     <div class="contract">
       <p><span class="ck">contract</span>Automation may propose work &mdash; runbooks, scripts, Terraform plans, AI agents. Gates decide whether the proposal is admissible. Operators decide whether governed output is promoted.</p>
@@ -649,11 +656,14 @@
       <h3>Doors</h3>
       <div class="route"><span class="who">Run it yourself</span><span class="path">The refusal above in full &mdash; premises, clocks, and the theorem that licenses it: <a href="demo.html">the descent</a>, or <a href="incident.html">the same event written as a postmortem</a>.</span></div>
       <div class="route"><span class="who">Understand the argument</span><span class="path">The <a href="#transitions">transitions under study</a>, then <a href="about.html">about</a> for why the program is shaped this way.</span></div>
-      <div class="route"><span class="who">Inspect the systems</span><span class="path">Every component, its role, and its maturity &mdash; <a href="constellation.html">components</a>.</span></div>
+      <div class="route"><span class="who">Try Constellation</span><span class="path">Start with the current <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a>, then choose a smaller composition if that is all you need.</span></div>
+      <div class="route"><span class="who">Inspect the systems</span><span class="path">Every current component, its role, and its maturity &mdash; <a href="constellation/components.html">components</a>.</span></div>
       <div class="route"><span class="who">Check the receipts</span><span class="path">What is actually earned, object by object and dated &mdash; the <a href="#ledger">status ledger</a>, and the <a href="limits.html">limits and non-claims</a>.</span></div>
     </div>
 
     <nav>
+      <a href="constellation/">Constellation</a>
+      <a href="constellation/releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a>
       <a href="#transitions">Transitions</a>
       <a href="#exhibit">Exhibit</a>
       <a href="#ledger">Evidence</a>
@@ -667,6 +677,10 @@
 
   <main>
 
+    <aside class="ground" aria-label="Historical material notice">
+      <p><strong>Current status lives in the <a href="constellation/">Constellation documentation</a>.</strong> The dated exhibits and ledger below preserve earlier research history. Names such as AG ng, classic NQ and <code>agent_governor</code> identify the historical implementations used by those exhibits; they are not current installation recommendations.</p>
+    </aside>
+
     <!-- ══════════ ADOPTION ══════════ -->
     <section id="adoption">
       <span class="mode">How this enters an existing system</span>
@@ -675,9 +689,9 @@
 
       <div class="key">
         <div class="key-row"><span class="k">pre-effect gate</span><span class="v">Re-check, immediately before the effect, whether the evidence or standing that justified it is still usable. Shown by <a href="#run-it">the stale-yes refusal</a>: checked valid, refused at exercise, nothing spent.</span></div>
-        <div class="key-row"><span class="k">receipt boundary</span><span class="v">Wrap an existing executor so the premises, the decision, the exact attempted effect, the outcome, and any residual obligation survive together. Shown by <a href="demo.html">the refusal receipt</a>, and by Docket&rsquo;s settlement in <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">vertical-01.md</a>, where residual obligations travelled undischarged and were recorded as such rather than dropped.</span></div>
-        <div class="key-row"><span class="k">read-only evaluator</span><span class="v">Observe an existing system, classify what its evidence establishes, and emit testimony or a typed refusal &mdash; with no actuation authority to inherit. Shown by <a href="https://github.com/unpingable/nq" target="_blank" rel="noopener">NQ</a> and its <a href="#status-declared-deny">declared-deny probe</a> (a lab specimen, not live testimony).</span></div>
-        <div class="key-row"><span class="k">governed effect adapter</span><span class="v">Admit one exact <a href="glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; and refuse everything else before any standing is issued, leaving unrelated actions and infrastructure untouched. Shown by <a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a>; the admitted class is defined in <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md" target="_blank" rel="noopener">effect-classes.md</a>.</span></div>
+        <div class="key-row"><span class="k">receipt boundary</span><span class="v">Wrap an existing executor so the premises, decision, exact attempted effect and outcome survive together. The current example is the <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 Docket-custodied action</a>; the older Git vertical remains a historical exhibit.</span></div>
+        <div class="key-row"><span class="k">read-only evaluator</span><span class="v">Observe an existing system and classify what its evidence establishes, with no action authority to inherit. Current diagnostic source lives in <a href="https://github.com/unpingable/constellation-nq" target="_blank" rel="noopener">Constellation NQ</a>; the declared-deny probe below is a classic-NQ historical specimen.</span></div>
+        <div class="key-row"><span class="k">governed effect custody</span><span class="v">Carry one exact authorized attempt through execution and reconciliation while preserving uncertainty and refusing blind repetition. See <a href="https://github.com/unpingable/constellation-docket" target="_blank" rel="noopener">Constellation Docket</a> and the current alpha.6 walkthrough.</span></div>
       </div>
 
       <p class="fine">These are the shapes the existing artifacts and exhibits actually demonstrate &mdash; different artifacts support different ones, and no artifact supports them all. The unit of adoption is not &ldquo;the enterprise.&rdquo; It is one consequential transition, one bounded claim, or one admitted effect class.</p>
@@ -839,7 +853,7 @@
     gap=11s  vs bound=10s  &rarr; over by 1s
     gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host
   &rarr; refused. No capacity spent (effect_count=0).</pre>
-      <p class="fine"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29 against an editable install of <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a> at <code>485e557</code>. Exit 0; the demo&rsquo;s integrity tripwire fails loudly if it passes for the wrong reason. Not a cold clone &mdash; see the <a href="#status-stale-yes">ledger row</a>.</p>
+      <p class="fine"><span class="prov captured">captured run</span> &nbsp;Excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29 against an editable install of the now-deprecated <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a> at <code>485e557</code>. Exit 0; the demo&rsquo;s integrity tripwire fails loudly if it passes for the wrong reason. This is a historical exhibit, not the current installation path; see the <a href="constellation/">Constellation front door</a>.</p>
       <p class="cta"><a href="demo.html">Descend into the receipt: premises, clocks, and the theorem that licenses the refusal&nbsp;&rarr;</a></p>
     </section>
 
@@ -876,125 +890,112 @@
 
     <!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->
     <div class="ledger">
-      <div class="ledger-row" id="status-four-office-vertical">
+      <div class="ledger-row" id="status-alpha6-reviewed-local-copy">
         <div class="ledger-head">
-          <span class="ledger-name">Four-office governed vertical</span>
+          <span class="ledger-name">Constellation 0.1.0-alpha.6 — reviewed local copy</span>
           <span class="kind composition">composition</span>
-          <span class="ledger-status">exercised once; receipts not public</span>
+          <span class="ledger-status">qualified immutable integration release</span>
         </div>
-        <p class="ledger-claim">Four separately-owned offices carried one bounded Git change from proposal to evaluated testimony without any office absorbing another’s jurisdiction, and without code changes in any office.</p>
+        <p class="ledger-claim">One exact local-copy plan was independently reviewed, explicitly accepted, authorized once, executed under Docket custody, settled successfully, and followed by a read-only observation. An anonymous public-clone reproduction verified the retained evidence without repeating the provider call or effect.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-26</dt><dd>the four offices’ own dated status statements, and the pilot declaration document — itself the governed effect the pilot executed</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md" target="_blank" rel="noopener">Nightshift · FOUR_OFFICE_PILOT_01.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/vertical-01.md" target="_blank" rel="noopener">Docket · vertical-01.md</a> &middot; <a href="https://github.com/unpingable/nq#status-2026-07-26" target="_blank" rel="noopener">NQ · status</a> &middot; <a href="https://github.com/unpingable/ag_ng#status-2026-07-26" target="_blank" rel="noopener">AG ng · status</a></dd>
-          <dt>promotion</dt><dd>A public, reproducible pair of artifacts — one admitted scenario and one refused scenario — that a stranger can obtain without private custody. Today the pilot’s identifiers, digests and verdicts exist only in a private campaign record; the public surface is the declaration and the offices’ own status statements.</dd>
+          <dt>verified 2026-09-20</dt><dd>the immutable alpha.6 manifest, qualification record, walkthrough, and anonymous public-clone verification</dd>
+          <dt>evidence</dt><dd><a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a> &middot; <a href="constellation/releases/0.1.0-alpha.6/manifest.json">manifest</a> &middot; <a href="constellation/releases/0.1.0-alpha.6/qualification.json">qualification</a></dd>
+          <dt>promotion</dt><dd>This release is immutable. Operational burn-in, live notification delivery, cross-version restore, migration, rollback, and production consumer adoption require separate evidence.</dd>
         </dl>
       </div>
       <div class="ledger-row" id="status-docket">
         <div class="ledger-head">
-          <span class="ledger-name">Docket (governed work runtime)</span>
+          <span class="ledger-name">Constellation Docket</span>
           <span class="kind artifact">artifact</span>
-          <span class="ledger-status">working runtime, audited baseline; not production-hardened</span>
+          <span class="ledger-status">public source; exercised in alpha.6</span>
         </div>
-        <p class="ledger-claim">Exactly one effect class is admitted — the atomic Git target-ref transition. A proposal outside it refuses with a typed refusal before any standing is issued, any reservation created, any dispatch identity minted, or any provider runs.</p>
+        <p class="ledger-claim">Takes custody of one authorized attempt, dispatches an authority-neutral executor, and records settlement and reconciliation. Alpha.6 exercised its bounded local permission snapshot and local-copy executor path.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-25</dt><dd>the gwr-greenfield-v0.1 freeze: 125 tests, four gates exiting 0 in both debug and release profiles</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/docket" target="_blank" rel="noopener">repository</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/effect-classes.md" target="_blank" rel="noopener">effect-classes.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/trust-model.md" target="_blank" rel="noopener">trust-model.md</a> &middot; <a href="https://github.com/unpingable/docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md" target="_blank" rel="noopener">known gaps</a></dd>
-          <dt>promotion</dt><dd>Three trust-model premises are load-bearing assumptions rather than enforced guarantees: exclusive broker custody of the governed ref, same-UID trust of the provider and broker binaries, and monotone clock readings. Operator-ready packaging does not exist; there is a source-install path, not a published-package promise.</dd>
+          <dt>verified 2026-09-20</dt><dd>the alpha.6 manifest and qualification record at the exact pinned public revision</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-docket" target="_blank" rel="noopener">repository</a> &middot; <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a></dd>
+          <dt>promotion</dt><dd>The profile is narrow; it does not establish production hardening or arbitrary executor compatibility.</dd>
         </dl>
       </div>
-      <div class="ledger-row" id="status-ag-ng">
+      <div class="ledger-row" id="status-constellation-ag">
         <div class="ledger-head">
-          <span class="ledger-name">AG ng (authority office)</span>
+          <span class="ledger-name">Constellation AG</span>
           <span class="kind artifact">artifact</span>
-          <span class="ledger-status">exercised by the vertical; explicitly not production deployable</span>
+          <span class="ledger-status">public source; exercised in alpha.6</span>
         </div>
-        <p class="ledger-claim">Decides whether exact prepared work may receive authority, and burns one-use decision authority. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration.</p>
+        <p class="ledger-claim">Checks whether exact automated work is admissible and grants bounded one-use authority for one specific run. It does not execute work or infer permission from a provider response.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-26</dt><dd>its issuance path authorized both the three-office vertical (2026-07-25) and the four-office pilot (2026-07-26)</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">repository</a></dd>
-          <dt>promotion</dt><dd>Its own production-deployability checklist closes. The issuance surface is a library face exercised by harness, and the decision-burn ledger is in-memory per process.</dd>
+          <dt>verified 2026-09-20</dt><dd>the alpha.6 one-use authorization and public evidence-reader checks</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">repository</a> &middot; <a href="constellation/components.html#ag">components</a></dd>
+          <dt>promotion</dt><dd>No family-wide or production maturity is claimed.</dd>
         </dl>
       </div>
-      <div class="ledger-row" id="status-nq">
+      <div class="ledger-row" id="status-constellation-nq">
         <div class="ledger-head">
-          <span class="ledger-name">NQ (testimony, claims, reliance)</span>
+          <span class="ledger-name">Constellation NQ</span>
           <span class="kind artifact">artifact</span>
-          <span class="ledger-status">operational, pre-1.0</span>
+          <span class="ledger-status">public source; bounded released profiles</span>
         </div>
-        <p class="ledger-claim">Pulls bounded evidence, keeps loss of observability visible rather than silently healthy, and emits testimony and typed refusals — never actions. A clean receipt approves no merge, deployment, restart, or incident closure.</p>
+        <p class="ledger-claim">Evaluates retained evidence under named profiles and keeps missing, stale, unavailable, or uncertain results visible. Its results do not authorize an effect.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-26</dt><dd>its own dated status statement and compatibility policy</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nq" target="_blank" rel="noopener">repository</a> &middot; <a href="https://github.com/unpingable/nq/blob/main/docs/architecture/CLAIM_CUSTODY.md" target="_blank" rel="noopener">claim custody boundary</a></dd>
-          <dt>promotion</dt><dd>Consumer identity is configured, not authenticated. NQ stays pre-1.0; the office designation is a jurisdiction statement, not a stability promise.</dd>
+          <dt>verified 2026-09-20</dt><dd>alpha.2 through alpha.6 profiles and the separately documented archive-read procedure</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nq" target="_blank" rel="noopener">repository</a> &middot; <a href="constellation/components.html#nq">components</a></dd>
+          <dt>promotion</dt><dd>Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified.</dd>
         </dl>
       </div>
-      <div class="ledger-row" id="status-nightshift">
+      <div class="ledger-row" id="status-constellation-nightshift">
         <div class="ledger-head">
-          <span class="ledger-name">Night Shift (proposal and read-only orchestration)</span>
+          <span class="ledger-name">Constellation Nightshift</span>
           <span class="kind artifact">artifact</span>
-          <span class="ledger-status">part of the exercised vertical; not operator-ready</span>
+          <span class="ledger-status">public source; recurrence and alpha.6 occurrence paths exercised</span>
         </div>
-        <p class="ledger-claim">Proposes bounded intent behind a gate-enforced no-actuation boundary. Its proposals bind intent only — never file lists, content bytes, or authority.</p>
+        <p class="ledger-claim">Owns temporal observation, recurrence, and task proposal without acquiring authorization or execution custody.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-26</dt><dd>its own dated status statement; the four-office pilot ran against this repository as its target</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">repository</a></dd>
-          <dt>promotion</dt><dd>File-granular proposals are a library face, and the deployment files are reference scaffolding rather than a packaged service.</dd>
+          <dt>verified 2026-09-20</dt><dd>alpha.5 installed-cadence qualification and the alpha.6 occurrence/review path</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nightshift" target="_blank" rel="noopener">repository</a> &middot; <a href="constellation/components.html#nightshift">components</a></dd>
+          <dt>promotion</dt><dd>No complete production recurring installation or consumer migration is claimed.</dd>
         </dl>
       </div>
       <div class="ledger-row" id="status-agent-governor">
         <div class="ledger-head">
           <span class="ledger-name">agent_governor (classic Python)</span>
           <span class="kind artifact">artifact</span>
-          <span class="ledger-status">legacy / historical, maintained</span>
+          <span class="ledger-status">deprecated predecessor</span>
         </div>
-        <p class="ledger-claim">Still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports; no authority, policy decision, credential, or capability crosses that wire.</p>
+        <p class="ledger-claim">Preserved for historical records and migration context. New authorization work uses Constellation AG; the two products are not presented as wire-compatible.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-26</dt><dd>its own disposition banner</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">repository</a></dd>
-          <dt>promotion</dt><dd>Not applicable. New authority work lives in AG ng, with no wire compatibility between the two, and none implied.</dd>
+          <dt>verified 2026-09-21</dt><dd>the public repository deprecation notice and canonical successor documentation</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">deprecated repository</a> &middot; <a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">successor</a></dd>
+          <dt>promotion</dt><dd>None. Do not use this predecessor as the current installation path.</dd>
         </dl>
       </div>
-      <div class="ledger-row" id="status-stale-yes">
+      <div class="ledger-row" id="status-four-office-vertical">
         <div class="ledger-head">
-          <span class="ledger-name">The stale-yes refusal</span>
+          <span class="ledger-name">Four-office governed vertical</span>
           <span class="kind exhibit">exhibit</span>
-          <span class="ledger-status">runs; re-verified against current code</span>
+          <span class="ledger-status">historical 2026-07 composition</span>
         </div>
-        <p class="ledger-claim">A permission valid when checked refuses at exercise time because the gap between observation and exercise exceeded its bound on a named monotonic basis — and no capacity is spent.</p>
+        <p class="ledger-claim">An earlier pilot separated proposal, authorization, execution custody, and evidence evaluation. It remains research history, not the current installation guide.</p>
         <dl class="ledger-meta">
-          <dt>verified 2026-07-29</dt><dd>./demo/refused-spend.sh run against an editable install of the tree at agent_gov 485e557 — exit 0, integrity tripwire green. Not a cold clone.</dd>
-          <dt>evidence</dt><dd><a href="demo.html">the descent</a> &middot; <a href="incident.html">the incident write-up</a> &middot; <a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">agent_governor</a></dd>
-          <dt>promotion</dt><dd>Re-verify from a genuinely cold clone, and pin the captured output rather than the receipt id. The id is a function of the receipt schema: it moved from dda5a1e5… to 3f8b93c1… when schema fields were added, while the behaviour it attests did not change.</dd>
-        </dl>
-      </div>
-      <div class="ledger-row" id="status-declared-deny">
-        <div class="ledger-head">
-          <span class="ledger-name">The declared-deny probe</span>
-          <span class="kind exhibit">exhibit</span>
-          <span class="ledger-status">lab specimen; no live testimony</span>
-        </div>
-        <p class="ledger-claim">A firewall’s declared deny rule and an observed path are held apart and never merged into one story. The frozen probe exercises its witness path against real pfSense substrate in a controlled lab.</p>
-        <dl class="ledger-meta">
-          <dt>verified 2026-06-27</dt><dd>a self-built pfSense CE lab with a controlled deny rule, a benign subject, a passing control probe, and captured teardown</dd>
-          <dt>evidence</dt><dd><a href="https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md" target="_blank" rel="noopener">NQ specimen</a></dd>
-          <dt>promotion</dt><dd>The probe has never caught a real firewall failing to enforce a real block. It has shown it would notice. Promotion needs live testimony from a real estate; the lab supplies compatibility evidence, not deployment evidence.</dd>
+          <dt>verified 2026-07-26</dt><dd>dated public office records from the historical pilot</dd>
+          <dt>evidence</dt><dd><a href="constellation/">current documentation</a></dd>
+          <dt>promotion</dt><dd>Superseded as the public starting point by the immutable alpha.6 walkthrough.</dd>
         </dl>
       </div>
       <div class="ledger-row" id="status-design-layer">
         <div class="ledger-head">
-          <span class="ledger-name">The authored design layer</span>
+          <span class="ledger-name">ECAD / design-flow work</span>
           <span class="kind proposition">proposition</span>
-          <span class="ledger-status">named, not ratified — nothing built</span>
+          <span class="ledger-status">pre-alpha research direction</span>
         </div>
-        <p class="ledger-claim">The tools operate over a system someone composed on purpose. That composition is currently unwritten: it lives in doctrine and in the operator’s head, and every tool re-derives it by hand.</p>
+        <p class="ledger-claim">Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.</p>
         <dl class="ledger-meta">
-          <dt>not verifiable — nothing built</dt><dd>Nothing to verify. There is no implementation, no schema, and no wire format.</dd>
-          <dt>evidence</dt><dd><a href="#propositions">the proposition, in full</a></dd>
-          <dt>promotion</dt><dd>A forcing case that a hand-derived composition demonstrably cannot serve, plus a ratified revision format that at least two tools can consume. The filing is a handle for review, not authorization to build.</dd>
+          <dt>not verifiable — nothing built</dt><dd>No general ECAD/design-flow release has been qualified.</dd>
+          <dt>evidence</dt><dd><a href="constellation/#limits">current boundaries</a></dd>
+          <dt>promotion</dt><dd>A separately scoped, reproducible public profile; alpha.6 does not provide one.</dd>
         </dl>
       </div>
     </div>
-    <p class="ledger-asof">Ledger as of 2026-07-29. Generated from
+    <p class="ledger-asof">Ledger as of 2026-09-21. Generated from
       <a href="status.json">status.json</a> by <code>tools/render_status.py</code> in the
       <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
       it is a dated statement, not a live panel. A row moves only by an explicit
@@ -1007,9 +1008,9 @@
     <section id="artifacts">
       <hr class="section-rule">
       <span class="mode">Artifacts</span>
-      <h2>Implemented systems <span class="kind artifact">artifact</span></h2>
-      <p>Small, self-hosted, independently useful. Python and Rust libraries and CLIs you run yourself &mdash; no SaaS, no hosted control plane, no shared datastore. Each states what it handles and, more usefully, what it refuses.</p>
-      <p class="fine">The four offices below are the ones the current composition exercises. The full catalogue &mdash; operator surfaces, memory, proof artifacts, field labs, and the parked list &mdash; lives on <a href="constellation.html">components</a>.</p>
+      <h2>Historical artifact snapshot <span class="kind artifact">artifact</span></h2>
+      <p>This section records the systems as presented by the July 2026 four-office exhibit. It is retained evidence, not a current product catalog.</p>
+      <p class="fine">The cards below preserve the names and maturity statements from the historical four-office exhibit. They are not current installation guidance. The canonical <a href="constellation/components.html">component map</a> and <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a> describe what is public now.</p>
 
       <div class="artifact-card">
         <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span><span class="status">pre-1.0</span></div>
@@ -1200,7 +1201,7 @@
       <a href="about.html">About</a>
       <a href="limits.html">Limits</a>
       <a href="glossary.html">Glossary</a>
-      <a href="constellation.html">Components</a>
+      <a href="constellation/components.html">Components</a>
       <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
       <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
       <a href="https://www.linkedin.com/in/james-beck/" target="_blank" rel="noopener">LinkedIn</a>

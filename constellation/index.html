@@ -3,42 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Constellation composes tools for planning, authorizing, running, and reviewing automated work.">
-  <title>Constellation</title>
-  <link rel="stylesheet" href="base.css">
+  <meta name="description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Constellation — governance and execution custody">
+  <meta property="og:description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta property="og:url" content="https://unpingable.com/constellation/">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellation — governance and execution custody">
+  <meta name="twitter:description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Constellation — governance and execution custody</title>
   <link rel="canonical" href="https://unpingable.com/constellation/">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Start with the source</a></nav>
+    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
   </header>
   <main id="main">
-    <h1>Automated work you can plan, bound, and review</h1>
-    <p class="lede">Constellation helps you turn an intention into a plan, control which changes are allowed, and inspect what actually happened. Planning work, granting permission, executing it, and checking the result remain separate jobs.</p>
-    <p>Operations is the first proving ground, not the limit of the project. The ECAD/design-flow work explores how to design, decompose and review work upstream; it remains pre-alpha.</p>
+    <p class="eyebrow">Current integration release · 0.1.0-alpha.6</p>
+    <h1>Governance and execution custody for automated work</h1>
+    <p class="lede">Constellation separates observation, proposal, judgment, one-use authorization, execution custody, and reconciliation. Automated work can produce a real effect without giving one component ambient authority over the whole process.</p>
 
-    <h2>A small example</h2>
-    <p>Suppose you want to test a disposable local HTTP service with two caches. You describe the components, checks, and teardown in a plan. This exact journey is now available as the pinned <a href="releases/0.1.0-alpha.4/guide.html">connected-cache alpha.4 profile</a>.</p>
+    <section class="release-cta" aria-labelledby="try-alpha6">
+      <div>
+        <p class="eyebrow">Try what shipped</p>
+        <h2 id="try-alpha6">Follow one real reviewed action</h2>
+        <p>In the alpha.6 qualification, a user asked for one 38-byte local file. The exact plan was independently reviewed and explicitly accepted, AG authorized it once, Docket kept custody of the attempt, an authority-neutral executor created it once, and the result settled successfully.</p>
+        <p>A clean newcomer check then cloned the immutable public release anonymously and reproduced its evidence and refusal checks without contacting the provider, granting authority, or repeating the effect.</p>
+      </div>
+      <p class="actions"><a class="primary" href="releases/0.1.0-alpha.6/guide.html">Read and verify the alpha.6 walkthrough</a><a href="https://github.com/unpingable/unpingable-site/releases/tag/constellation-v0.1.0-alpha.6">View the immutable GitHub release</a></p>
+    </section>
+
+    <h2>Why use it?</h2>
+    <p>An agent or workflow can propose work without authorizing it. A provider response can inform a review without accepting a plan. Permission can name one exact occurrence without becoming an open-ended credential. Docket can record an uncertain attempt and reconcile that same attempt instead of blindly repeating it.</p>
+    <p>The governing cycle is deliberately finite: <strong>effect → fresh observation → fresh judgment → fresh authority</strong>. A successful or settled run does not authorize the next one.</p>
+
+    <h2>What happened in alpha.6?</h2>
     <ol class="steps">
-      <li><strong>Maude prepares the plan.</strong> You review its meaning and lock the exact revision. This does not run or authorize anything.</li>
-      <li><strong>Nightshift records current conditions and the proposal.</strong> Evidence from an earlier run is not automatically current evidence.</li>
-      <li><strong>Constellation AG decides whether this run may proceed.</strong> Permission applies only to this exact work and can be used once.</li>
-      <li><strong>Docket keeps custody of the attempt.</strong> It records the execution outcome without deciding that the work is acceptable.</li>
-      <li><strong>A fresh observation checks the result.</strong> Teardown is separate work with its own permission, not an automatic consequence of success.</li>
-      <li><strong>Phosphor lets you inspect the record.</strong> You can read what was requested, allowed, attempted, observed, and settled. Phosphor does not change the run.</li>
+      <li><strong>Observe.</strong> NQ admitted bounded evidence; Pulse supported its currentness.</li>
+      <li><strong>Propose.</strong> Maude compiled the exact plan; Nightshift admitted the occurrence.</li>
+      <li><strong>Review and accept.</strong> Switchyard retained one bounded independent review, followed by explicit acceptance of the exact candidate.</li>
+      <li><strong>Authorize once.</strong> AG judged and spent authority for that exact work.</li>
+      <li><strong>Execute under custody.</strong> Docket resolved one bounded local permission snapshot and dispatched the authority-neutral executor once.</li>
+      <li><strong>Settle and inspect.</strong> Docket reconciled a successful settlement; a later read observed the exact file bytes.</li>
+      <li><strong>Stop.</strong> The workflow ended at <code>settled_observation_required</code>. Nothing in the release grants continuation authority.</li>
     </ol>
-    <aside class="note" aria-label="Example status"><strong>What is exercisable today:</strong> Maude's released, credential-free Plan Core consultation can read and inspect an exact local plan store. The released <a href="releases/0.1.0-alpha.2/guide.html"><code>saved-check-attention/v1</code> guide</a> connects public Monitor, NQ and Nightshift source in one finite local saved-check and local-inbox exercise. The <a href="releases/0.1.0-alpha.3/guide.html">objective saved-check reader in alpha.3</a> adds exact Maude criteria, application-owned interpretation and Phosphor inspection of fresh, stale and missing records. The <a href="releases/0.1.0-alpha.4/guide.html">connected-cache profile in alpha.4</a> runs the disposable Docker journey through actual NQ, Pulse, Maude, Nightshift, AG and Docket, with synthetic authoring and Standing stated explicitly. The <a href="releases/0.1.0-alpha.5/guide.html">installed saved-check alpha.5 profile</a> pins a direct local cadence-tick example. The <a href="releases/0.1.0-alpha.6/guide.html">reviewed local-copy alpha.6 profile</a> records one actual provider-reviewed, explicitly accepted, one-use governed effect plus a credential-free public evidence check. <strong>What remains incomplete:</strong> a full application migration, verified systemd activation, production operation of these compositions, and live human-notification delivery.</aside>
 
-    <h2>What the family separates</h2>
-    <p><strong>Execution outcome</strong> says whether the work succeeded, failed, or remains uncertain according to the available evidence. <strong>Settlement</strong> records the attempt's result in the owning runtime. A settled record does not mean the work succeeded, and it does not grant permission for another run.</p>
-    <p><strong>Attention</strong> means a known condition needs review. <strong>Unknown</strong> means the available observation cannot establish the answer. Unknown is not a softer word for failure.</p>
-    <aside class="note" aria-label="Outcome, settlement, and attention example">
-      <strong>A concrete read-only example:</strong> immediately after Docket accepts an attempt, custody exists but its execution outcome is still unknown. Later, an executor-backed settlement may record success or failure. Nightshift derives attention/currentness separately; Docket acceptance or settlement alone does not establish that value. Phosphor displays these owner records together without deriving one from another or granting permission to retry.
-    </aside>
+    <h2>Which components do I need?</h2>
+    <p>The released <code>reviewed-local-copy/v1</code> composition requires Maude, NQ, Pulse, Nightshift/Foreman, Switchyard Runtime, Constellation AG, and Constellation Docket. Phosphor is the optional read-only inspection surface. Other use cases need smaller or different profiles; Constellation is not an all-or-nothing platform.</p>
+    <p><a href="components.html">See what each component provides</a> or <a href="integration.html">choose the smallest supported composition</a>.</p>
 
-    <h2>Choose your next step</h2>
-    <p><a href="understand.html">Understand the responsibilities and trust boundaries</a>, <a href="integration.html">compare supported compositions</a>, <a href="releases/0.1.0-alpha.6/guide.html">inspect the released reviewed-action occurrence</a>, <a href="releases/0.1.0-alpha.4/guide.html">run the connected-cache profile</a>, or <a href="start.html">inspect the source and current tutorial prerequisites</a>.</p>
+    <h2 id="limits">What remains alpha or unqualified?</h2>
+    <ul class="steps">
+      <li>Alpha.6 qualifies one named Linux local-copy composition, not arbitrary executors, providers, or production deployments.</li>
+      <li>Live Slack, Discord, and PagerDuty delivery—and human acknowledgment—were not verified. Deterministic adapters and local inbox delivery are narrower evidence.</li>
+      <li>Cross-version restore, migration, and rollback remain unqualified.</li>
+      <li>Operational burn-in is a separate, bounded post-release phase; it does not change the immutable alpha.6 result.</li>
+      <li>ATProto received an exact shared handback. Its application binding, production deployment, migration, notifications, rollback, and legacy-NQ retirement remain ATProto-owned work.</li>
+      <li>ECAD/design-flow remains pre-alpha. Operations is the first proving ground, not the permanent boundary of the project.</li>
+    </ul>
+
+    <h2>Go deeper</h2>
+    <p><a href="understand.html">Understand the boundaries</a>, <a href="recipes.html">compare runnable recipes</a>, <a href="after-first-run.html">operate and recover a released profile</a>, or <a href="start.html">inspect public source and earlier tutorials</a>.</p>
   </main>
   <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
 </body>
