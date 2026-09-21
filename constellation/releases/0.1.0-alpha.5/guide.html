@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Exercise the pinned installed saved-check cadence against a disposable local queue.">
-  <title>Installed saved-check · 0.1.0-alpha.5 candidate — Constellation</title>
+  <title>Installed saved-check · 0.1.0-alpha.5 — Constellation</title>
   <link rel="stylesheet" href="../../base.css">
   <link rel="canonical" href="https://unpingable.com/constellation/releases/0.1.0-alpha.5/guide.html">
 </head>
@@ -13,8 +13,8 @@
   <header><nav aria-label="Main navigation"><strong><a href="../../index.html">Constellation</a></strong><a href="../../integration.html">Integration</a><a href="../../notifications.html">Notifications</a><a href="../../after-first-run.html">Operations</a><a href="../../troubleshooting.html">Troubleshooting</a></nav></header>
   <main id="main">
     <h1>Exercise one installed-cadence saved check locally</h1>
-    <p class="lede">This candidate profile creates a disposable queue, acquires it through Monitor, evaluates its installed NQ saved check, runs one Nightshift cadence tick, writes one local-inbox record, and inspects the exact retained owner records. It invokes the tick directly; it does not install a service.</p>
-    <aside class="note"><strong>Qualification pending:</strong> profile <code>installed-saved-check/v1</code> is prepared for integration candidate <code>0.1.0-alpha.5</code>. Its <a href="manifest.json">manifest</a> and <a href="qualification.json">qualification record</a> pin the exact material, but a clean public-only anonymous-clone reproduction has not yet passed. Do not treat this candidate as a released or qualified profile.</aside>
+    <p class="lede">This released alpha profile creates a disposable queue, acquires it through Monitor, evaluates its installed NQ saved check, runs one Nightshift cadence tick, writes one local-inbox record, and inspects the exact retained owner records. It invokes the tick directly; it does not install a service.</p>
+    <aside class="note"><strong>Qualified alpha.5 profile:</strong> <code>installed-saved-check/v1</code> passed a clean public-only anonymous-clone reproduction with retained-state inspection. Its <a href="manifest.json">manifest</a> and <a href="qualification.json">qualification record</a> pin the exact material and evidence scope. This remains a direct, disposable local fixture; it is not an installed service or a governed-action profile.</aside>
 
     <h2>What participates</h2>
     <pre><code>disposable 20-row SQLite queue
@@ -25,18 +25,18 @@
   → exact replay and read-only owner inspection</code></pre>
     <p>Monitor owns acquisition. NQ owns the saved-check result, maintenance projection, and notification custody. Nightshift owns recurrence identity, evaluation, attention, and the retained tick summary. The timer is only a wake source in an actual installation; this example supplies an explicit coordinate directly.</p>
 
-    <h2>Exact candidate sources and requirements</h2>
+    <h2>Exact released sources and requirements</h2>
     <p>Use Linux x86-64, Git, a C compiler/linker, rustup with Rust/Cargo <code>1.94.0</code>, and Python 3.12 with its standard SQLite module. Runtime needs no network, provider credential, webhook, daemon, or container. Dependency acquisition for the builds requires public registry access.</p>
-    <p>The required NQ source is <a href="https://github.com/unpingable/constellation-nq/tree/9d00030ba8777fbd80286c340a72797cbf74315d">commit <code>9d00030ba8777fbd80286c340a72797cbf74315d</code></a>. Nightshift and Monitor are pinned to <code>e54acd83af9827bb60d543b157a833d7aa849f5e</code>, a locally verified candidate based directly on public <a href="https://github.com/unpingable/constellation-nightshift/tree/ef7877f81d56706663e31ddfa4e05bb89aab5443"><code>ef7877f81d56706663e31ddfa4e05bb89aab5443</code></a>. Anonymous public retrieval of the exact candidate is not yet established. If this checkout fails, stop: substituting a branch head or the public predecessor does not reproduce alpha.5.</p>
+    <p>The required NQ source is <a href="https://github.com/unpingable/constellation-nq/tree/9d00030ba8777fbd80286c340a72797cbf74315d">commit <code>9d00030ba8777fbd80286c340a72797cbf74315d</code></a>. Nightshift and Monitor are pinned to public commit <a href="https://github.com/unpingable/constellation-nightshift/tree/d9a0976fad133311c3f8cd5fc780f035714c17c7"><code>d9a0976fad133311c3f8cd5fc780f035714c17c7</code></a>. This fixes the attention-clock precision used by the local example. If either detached checkout fails, stop: substituting a branch head or another commit does not reproduce alpha.5.</p>
     <pre><code>SETUP=$(mktemp -d /tmp/installed-saved-check-setup.XXXXXX)
 cd "$SETUP"
 git clone https://github.com/unpingable/constellation-nq.git nq
 git -C nq checkout --detach 9d00030ba8777fbd80286c340a72797cbf74315d
 git clone https://github.com/unpingable/constellation-nightshift.git nightshift
-git -C nightshift checkout --detach e54acd83af9827bb60d543b157a833d7aa849f5e
+git -C nightshift checkout --detach d9a0976fad133311c3f8cd5fc780f035714c17c7
 
 export CARGO_BUILD_JOBS=2 CARGO_INCREMENTAL=0
-CARGO_TARGET_DIR="$SETUP/nq-target" cargo +1.94.0 build --release --locked \
+CARGO_TARGET_DIR="$SETUP/nq-target" cargo +1.94.0 build --locked \
   --manifest-path "$SETUP/nq/Cargo.toml" -p nq-app --bin nq
 CARGO_TARGET_DIR="$SETUP/nightshift-target" cargo +1.94.0 build --release --locked \
   --manifest-path "$SETUP/nightshift/runtime/Cargo.toml" -p nightshiftd --bin nightshift
@@ -51,10 +51,11 @@ test ! -e "$DEMO_ROOT"
 python3 "$SETUP/nightshift/examples/saved-check-installed-local.py" \
   --root "$DEMO_ROOT" \
   --nightshift "$SETUP/nightshift-target/release/nightshift" \
-  --nq "$SETUP/nq-target/release/nq" \
+  --nq "$SETUP/nq-target/debug/nq" \
   --monitor "$SETUP/monitor-target/release/monitor-concerns" \
   --tick "$SETUP/nightshift/deploy/systemd/nightshift-saved-check-tick"</code></pre>
-    <p>A complete run prints a <code>nightshift.saved-check-public-example-result/v1</code> object. Its expected retained facts include a terminal Nightshift evaluation, exactly one accepted NQ local delivery, exact same-slot replay without a second file, overlap refusal without owner-record change, and missed-slot no-catch-up without owner-record change. These are required qualification observations, not current claims of a passed public reproduction.</p>
+    <p>This single-user exercise intentionally uses NQ's explicit <strong>debug-only same-UID helper exception</strong>. It lets a newcomer run the disposable local fixture without creating another operating-system account. It is not a supported installed identity boundary: an installed NQ release build requires a distinct enrolled helper account. Nightshift and Monitor remain locked release builds.</p>
+    <p>A complete run prints a <code>nightshift.saved-check-public-example-result/v1</code> object. The alpha.5 qualification observed a terminal Nightshift evaluation, exactly one accepted NQ local delivery, same-slot replay without a second file, overlap refusal without owner-record change, missed-slot no-catch-up without owner-record change, and fresh-process read-only inspection. These remain retained facts of that run, not claims about current queue conditions.</p>
 
     <h2>Inspect before another invocation</h2>
     <p>Keep the example root whenever output is missing or an outcome is uncertain. The final summary names the exact evaluation and notification IDs. If it is absent, inspect <code>commands.jsonl</code>, <code>state/ticks/</code>, the Nightshift store, the NQ store, and the local inbox together; do not infer that no delivery occurred merely because the caller lost its response.</p>
@@ -65,28 +66,28 @@ NOTIFICATION_ID=YOUR_EXACT_RETAINED_NOTIFICATION
 "$SETUP/nightshift-target/release/nightshift" --store "$DEMO_ROOT/nightshift.sqlite" \
   saved-check attention-status --policy "$DEMO_ROOT/attention.json" \
   --evaluation-id "$EVALUATION_ID"
-"$SETUP/nq-target/release/nq" --config "$DEMO_ROOT/notification.toml" --json \
+"$SETUP/nq-target/debug/nq" --config "$DEMO_ROOT/notification.toml" --json \
   notification inspect --notification-id "$NOTIFICATION_ID"</code></pre>
     <p>An <code>acquisition_started</code> or <code>nq_started</code> tick summary is indeterminate, not permission to repeat the source operation. Stopping a process does not settle it. Preserve the original records and reconcile their exact identities before considering a distinct occurrence.</p>
 
-    <h2>What this candidate does not establish</h2>
+    <h2>What this release does not establish</h2>
     <p>The local example does not inject response loss after NQ has accepted delivery. It does not activate systemd, exercise the system <code>nightshift</code> account, install into <code>/etc</code> or <code>/usr/local</code>, validate calendar-timer wakes, or establish the system service's namespace and filesystem isolation. The component source includes reference units and installation guidance, but those remain a target-environment deployment check.</p>
     <p>Only credential-free local-file delivery participates. Live Slack and Discord delivery, human receipt or acknowledgment, AG/Docket authorization, and downstream work are not established. Neither are migration, restore, rollback, retention rollover, cross-version state compatibility, general supervisor recovery, or unattended recurring operation.</p>
 
     <h2>Retain, stop, and clean up deliberately</h2>
     <p>This direct example leaves no installed timer or daemon. Preserve <code>nightshift.sqlite</code>, <code>nq.sqlite</code> and SQLite sidecars, <code>state/ticks/</code>, configurations, <code>commands.jsonl</code>, inspection JSON, and the inbox as one record set. Remove only the exact disposable root after all component processes are quiescent and the records have no remaining evidence, replay, diagnosis, or recovery purpose.</p>
-    <p>For an actual installation, follow the pinned Nightshift <a href="https://github.com/unpingable/constellation-nightshift/blob/e54acd83af9827bb60d543b157a833d7aa849f5e/deploy/systemd/SAVED_CHECK.md">installed saved-check guide</a>, but do not describe activation as alpha.5-qualified. Before any version change, retain the original source cohort and records; no migration or rollback procedure is promised.</p>
+    <p>For an actual installation, follow the pinned Nightshift <a href="https://github.com/unpingable/constellation-nightshift/blob/d9a0976fad133311c3f8cd5fc780f035714c17c7/deploy/systemd/SAVED_CHECK.md">installed saved-check guide</a>, including its distinct enrolled-helper requirement, but do not describe activation as alpha.5-qualified. Before any version change, retain the original source cohort and records; no migration or rollback procedure is promised.</p>
 
-    <h2>Verify the candidate record</h2>
-    <p>The validator checks every immutable release snapshot, so supply distinct exact checkouts for the earlier externally pinned examples as well as the alpha.5 candidate. Bind the alpha.5 checkout under <code>monitor</code>, the manifest component that anchors this example source:</p>
+    <h2>Verify the release record</h2>
+    <p>The validator checks every immutable release snapshot, so supply distinct exact checkouts for the earlier externally pinned examples as well as alpha.5. Bind the alpha.5 checkout under <code>monitor</code>, the manifest component that anchors this example source:</p>
     <pre><code>python3 tools/check_compositions.py \
   --component-checkout nightshift=/absolute/path/to/nightshift-at-019e6837565ebf5b0ac244cbd7c3edde28e25aea \
   --component-checkout ag=/absolute/path/to/ag-at-24792116bfba06f17700a57dc96153c4b40c37f6 \
   --component-checkout maude=/absolute/path/to/maude-at-d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 \
-  --component-checkout monitor=/absolute/path/to/nightshift-at-e54acd83af9827bb60d543b157a833d7aa849f5e
+  --component-checkout monitor=/absolute/path/to/nightshift-at-d9a0976fad133311c3f8cd5fc780f035714c17c7
 python3 tools/check_constellation.py</code></pre>
-    <p>These checks verify document structure, manifest bindings, and source hashes. They do not substitute for the pending anonymous-clone execution. See the <a href="release-notes.md">release notes</a>, <a href="../../after-first-run.html">operations guidance</a>, and <a href="../../troubleshooting.html">troubleshooting route</a>.</p>
+    <p>These checks verify document structure, manifest bindings, and source hashes. The separate qualification record retains the completed anonymous-clone execution scope. See the <a href="release-notes.md">release notes</a>, <a href="../../after-first-run.html">operations guidance</a>, and <a href="../../troubleshooting.html">troubleshooting route</a>.</p>
   </main>
-  <footer>Constellation alpha integration candidate · <a href="../../integration.html">Integration</a> · <a href="../../notifications.html">Notification limits</a></footer>
+  <footer>Constellation alpha integration release · <a href="../../integration.html">Integration</a> · <a href="../../notifications.html">Notification limits</a></footer>
 </body>
 </html>

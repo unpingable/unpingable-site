@@ -23,12 +23,14 @@
       "optional_components": [],
       "synthetic_capabilities": [
         "The queue and maintenance declaration are disposable local example inputs.",
-        "The example invokes the installed-cadence tick directly and does not activate systemd."
+        "The example invokes the installed-cadence tick directly and does not activate systemd.",
+        "NQ runs in debug mode under its explicit same-UID helper exception; this is a single-user local substitution fixture, not the installed release identity boundary."
       ],
       "example_inputs": "A caller-created 20-row SQLite queue, exact regular-file component executables, one fresh absent saved-check-demo-* root, and credential-free local-file notification custody.",
       "writer_requirement": "One operator-owned local example root. Preserve its NQ and Nightshift stores, tick summaries, configurations, command transcript, and inbox together while an outcome is uncertain.",
       "limitations": [
         "The example is a finite direct invocation, not a service installer and not evidence of systemd activation.",
+        "NQ is deliberately a debug build under its same-UID helper exception. Installed release builds require a distinct enrolled helper account; Nightshift and Monitor remain release builds.",
         "Local-file acceptance does not establish human receipt or acknowledgment, and live Slack or Discord delivery is outside the profile.",
         "Response loss after NQ acceptance is not exercised; inspect the exact retained NQ notification and Nightshift evaluation before considering another invocation.",
         "The example establishes same-slot replay and bounded pre-effect refusals, not general supervisor recovery or unattended operation.",
@@ -40,7 +42,7 @@
     {
       "id": "monitor",
       "source": "https://github.com/unpingable/constellation-nightshift.git",
-      "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+      "commit": "d9a0976fad133311c3f8cd5fc780f035714c17c7",
       "component_version": "0.1.0",
       "source_subdirectory": "integrations/monitor-predicate-support",
       "entry_point": "monitor-concerns",
@@ -58,7 +60,7 @@
     {
       "id": "nightshift",
       "source": "https://github.com/unpingable/constellation-nightshift.git",
-      "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+      "commit": "d9a0976fad133311c3f8cd5fc780f035714c17c7",
       "component_version": "0.1.0",
       "source_subdirectory": "runtime",
       "entry_point": "nightshift; deploy/systemd/nightshift-saved-check-tick",
@@ -78,7 +80,7 @@
       "C compiler/linker",
       "Cargo.lock dependencies from public registries"
     ],
-    "build_profile": "release",
+    "build_profile": "NQ debug with explicit debug-only same-UID helper exception; Nightshift and Monitor release",
     "services": [],
     "provider_credentials": "none",
     "container_images": [],
@@ -104,11 +106,11 @@
   "example_source": {
     "source_kind": "public_component",
     "component_id": "monitor",
-    "commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
+    "commit": "d9a0976fad133311c3f8cd5fc780f035714c17c7",
     "example": "examples/saved-check-installed-local.py",
-    "example_sha256": "a926fff3ad2d4fb1198af9bdba0ee6cf2934e4204ce01a8aca8a0a7ec7a11db3",
+    "example_sha256": "f492de3f1c770625b49a1ec664cda99740c633fa6395819b602bad37bbde5396",
     "guide": "deploy/systemd/SAVED_CHECK.md",
-    "guide_sha256": "8cdc0b6fc4d94a9e7bc5711fd969d6e44108703fde60031bd5f4452c7893e839"
+    "guide_sha256": "dd5bea3560cb481177a5e1fb58c1bc6dd0f2d45c5d2e0934ca78ee63c2adae54"
   },
   "documentation": {
     "guide": "guide.html",
@@ -116,7 +118,7 @@
   },
   "qualification": {
     "record": "qualification.json",
-    "scope": "pending public-only anonymous-clone reproduction of the exact installed saved-check local example and retained-state inspection"
+    "scope": "qualified public-only anonymous-clone reproduction of the exact installed saved-check local example and retained-state inspection, within the documented debug-helper fixture limits"
   },
   "outside_release": [
     "systemd activation and the system installation boundary",

@@ -2,44 +2,44 @@
   "schema": "constellation.integration-qualification/v1",
   "suite_version": "0.1.0-alpha.5",
   "profile": "installed-saved-check/v1",
-  "manifest_sha256": "fe7ad655d6ef09d530d5a5b67a73fe158120a0c3b41e4ec69e457aec2c6887fe",
-  "result": "pending-public-only-anonymous-clone-reproduction",
-  "verified_date": null,
+  "manifest_sha256": "761a883bae70e7047ddb95bfe1b27b9305946aed9cae4f686864de50a48fb3df",
+  "result": "qualified_public_newcomer_retained",
+  "verified_date": "2026-09-20",
   "public_inputs": {
     "nq_commit": "9d00030ba8777fbd80286c340a72797cbf74315d",
-    "nightshift_and_monitor_commit": "e54acd83af9827bb60d543b157a833d7aa849f5e",
-    "nightshift_public_base_commit": "ef7877f81d56706663e31ddfa4e05bb89aab5443",
-    "example_sha256": "a926fff3ad2d4fb1198af9bdba0ee6cf2934e4204ce01a8aca8a0a7ec7a11db3",
-    "guide_sha256": "8cdc0b6fc4d94a9e7bc5711fd969d6e44108703fde60031bd5f4452c7893e839",
-    "tick_sha256": "6d05e3a1661e4169cd92e6575831e30f547e202d86afb361e29b573f2269c02e"
+    "nightshift_and_monitor_commit": "d9a0976fad133311c3f8cd5fc780f035714c17c7",
+    "example_sha256": "f492de3f1c770625b49a1ec664cda99740c633fa6395819b602bad37bbde5396",
+    "guide_sha256": "dd5bea3560cb481177a5e1fb58c1bc6dd0f2d45c5d2e0934ca78ee63c2adae54",
+    "tick_sha256": "30c76b870449083a697d257895a30a49ba5df4e7b72e8bc14191850566303873"
   },
   "source_status": {
-    "nq": "named as current public main for this candidate",
-    "nightshift_public_base": "public predecessor containing the installed-cadence profile",
-    "nightshift_candidate": "verified in the local source repository; anonymous public retrieval is not yet established"
+    "nq": "exact public commit cloned anonymously for the qualification case",
+    "nightshift_and_monitor": "exact public commit cloned anonymously for the qualification case"
   },
-  "cases": [],
-  "pending_required_case": {
-    "id": "alpha5-clean-public-only-anonymous-clone-reproduction",
-    "why": "The exact Nightshift/Monitor candidate commit and example must be obtainable from anonymous public clones and exercised with the exact public NQ commit before qualification can pass.",
-    "required_observations": [
-      "anonymous clone and detached checkout of both exact source commits",
-      "locked release builds of NQ, Nightshift, and Monitor",
-      "one actual due tick over the disposable queue and maintenance declaration",
-      "one terminal Nightshift evaluation and exactly one accepted NQ local-file delivery",
-      "same-slot exact replay without a second delivery",
-      "overlap refusal and missed-slot no-catch-up without owner-record change",
-      "read-only inspection of the exact evaluation, attention receipt, and notification custody"
-    ]
-  },
+  "cases": [
+    {
+      "id": "alpha5-clean-public-only-anonymous-clone-reproduction-002",
+      "result": "passed",
+      "execution_identity": "418affb2b6ce4b709dc86e41ffcc22e2",
+      "result_summary_sha256": "9a8bcd1828069dcc34afb545c5b7ce2c1504c1861f0ef7627159eed563bb18fa",
+      "observed": [
+        "anonymous clone and detached checkout of both exact public source commits",
+        "locked NQ debug build using the explicit debug-only same-UID helper fixture, and locked Nightshift and Monitor release builds",
+        "one actual due tick over the disposable queue and maintenance declaration",
+        "one terminal Nightshift evaluation and exactly one accepted NQ local-file delivery",
+        "same-slot replay without a second delivery, overlap refusal, and missed-slot no-catch-up without owner-record change",
+        "fresh-process read-only inspection of the exact retained records, with NQ store bytes unchanged and one inbox file",
+        "no provider route, retry, systemd activation, or live remote notification"
+      ]
+    }
+  ],
   "scope": {
     "established": [
-      "Exact local candidate source identity and public predecessor relationship",
-      "Exact example, component lockfile, tick, and source-guide digests",
-      "Candidate documentation and release-record validation"
+      "Exact public source identity, component lockfiles, and source file digests",
+      "Candidate documentation and release-record validation",
+      "Clean public-only anonymous-clone reproduction with retained-state inspection"
     ],
     "not_established": [
-      "Public-only anonymous-clone reproduction",
       "Response-loss behavior after NQ acceptance",
       "Systemd activation or system installation",
       "Live Slack or Discord delivery",

@@ -363,16 +363,17 @@
       },
       "lost_guarantees": [
         "The disposable example invokes one tick directly and does not establish systemd activation or the system installation boundary.",
+        "NQ uses an explicit debug-only same-UID helper exception in this single-user local fixture; installed release builds require a distinct enrolled helper account.",
         "Response loss after NQ acceptance, live Slack/Discord delivery and human acknowledgment are not established.",
         "Migration, restore, rollback, retention rollover and general unattended recovery are not established."
       ],
-      "maturity": "alpha.5 release candidate; public-only anonymous-clone reproduction pending",
+      "maturity": "released alpha.5 profile; public-only anonymous-clone reproduction and retained-state inspection passed within the documented local-fixture limits",
       "public_examples": [
         {
           "implementation_id": "nightshift",
-          "source": "https://github.com/unpingable/constellation-nightshift/tree/e54acd83af9827bb60d543b157a833d7aa849f5e/examples",
+          "source": "https://github.com/unpingable/constellation-nightshift/tree/d9a0976fad133311c3f8cd5fc780f035714c17c7/examples",
           "example": "releases/0.1.0-alpha.5/guide.html",
-          "state": "Exact local candidate source and hashes prepared; public-only anonymous-clone execution not yet passed"
+          "state": "Released alpha.5 profile; clean public-only anonymous-clone execution and retained-state inspection passed within documented limits"
         }
       ],
       "recipe": "releases/0.1.0-alpha.5/guide.html",

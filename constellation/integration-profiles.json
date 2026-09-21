@@ -83,8 +83,13 @@
         "nq",
         "nightshift"
       ],
-      "status": "release-candidate-public-reproduction-pending",
-      "guide": "releases/0.1.0-alpha.5/guide.html"
+      "status": "released-alpha",
+      "guide": "releases/0.1.0-alpha.5/guide.html",
+      "release": {
+        "suite_version": "0.1.0-alpha.5",
+        "guide": "releases/0.1.0-alpha.5/guide.html",
+        "manifest": "releases/0.1.0-alpha.5/manifest.json"
+      }
     },
     {
       "id": "objective-saved-check-read/v1",
