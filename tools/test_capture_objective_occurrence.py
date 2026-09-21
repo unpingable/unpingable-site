@@ -1,5 +1,6 @@
 """Fixture-scoped qualification for the read-only objective occurrence wrapper."""
 import importlib.util
+import fcntl
 import hashlib
 import json
 import os
@@ -106,6 +107,14 @@ class CaptureObjectiveOccurrenceTests(unittest.TestCase):
             root = Path(directory); checker = self.checker(root)
             descriptor = self.seal(checker)
             try:
+                seals = fcntl.fcntl(descriptor, fcntl.F_GET_SEALS)
+                self.assertEqual(
+                    seals,
+                    fcntl.F_SEAL_WRITE
+                    | fcntl.F_SEAL_GROW
+                    | fcntl.F_SEAL_SHRINK
+                    | fcntl.F_SEAL_SEAL,
+                )
                 replacement = root / "replacement"
                 checker.rename(replacement)
                 checker.write_text("#!/bin/sh\nexit 99\n", encoding="ascii")

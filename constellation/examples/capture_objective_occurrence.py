@@ -11,6 +11,7 @@ or authority for another action.
 from __future__ import annotations
 
 import argparse
+import fcntl
 import hashlib
 import os
 import re
@@ -137,12 +138,23 @@ def sealed_checker(path: Path, expected_digest: str) -> int:
     actual_digest = "sha256:" + hashlib.sha256(raw).hexdigest()
     if actual_digest != expected_digest:
         raise ValueError("--checker-sha256 does not match checker bytes")
-    sealed = os.memfd_create("constellation-objective-occurrence-check", os.MFD_CLOEXEC)
+    sealed = os.memfd_create(
+        "constellation-objective-occurrence-check",
+        os.MFD_CLOEXEC | os.MFD_ALLOW_SEALING,
+    )
     try:
         offset = 0
         while offset < len(raw):
             offset += os.write(sealed, raw[offset:])
         os.fchmod(sealed, 0o700)
+        fcntl.fcntl(
+            sealed,
+            fcntl.F_ADD_SEALS,
+            fcntl.F_SEAL_WRITE
+            | fcntl.F_SEAL_GROW
+            | fcntl.F_SEAL_SHRINK
+            | fcntl.F_SEAL_SEAL,
+        )
         os.lseek(sealed, 0, os.SEEK_SET)
         return sealed
     except BaseException:
