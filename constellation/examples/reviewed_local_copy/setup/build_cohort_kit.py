@@ -7,6 +7,15 @@ reviewed_local_copy caller glue, `setup/` (this driver and its helpers) and a
 `BUILD-INFO.json` that binds every file's sha256 to the site commit. It is
 deterministic: sorted entries, root:root, fixed mtime, gzip mtime 0. The
 builder refuses a dirty kit directory, so the recorded commit is exact.
+
+Two things differ from the checkout, both by rule:
+
+- the released driver has the build commit stamped into its one
+  `KIT_SOURCE_COMMIT = None` line, so it can refuse a manifest that names
+  another kit commit (a source checkout stays unstamped and refuses to
+  install);
+- `README.md` is not in the kit. It is the published page that states the
+  kit's and the manifest's digests, which a file inside the kit cannot do.
 """
 from __future__ import annotations
 
@@ -23,7 +32,15 @@ HERE = Path(__file__).resolve().parent
 KIT = HERE.parent
 MTIME = 1700000000
 EXCLUDE_DIRS = {'__pycache__'}
-EXCLUDE_FILES = {'build_cohort_kit.py'}
+EXCLUDE_FILES = {'build_cohort_kit.py', 'README.md'}
+STAMP_LINE = b'\nKIT_SOURCE_COMMIT = None\n'
+DRIVER = 'setup/constellation_cohort.py'
+
+
+def stamp(driver: bytes, commit: str) -> bytes:
+    if driver.count(STAMP_LINE) != 1:
+        raise SystemExit(f'{DRIVER} must hold exactly one unstamped KIT_SOURCE_COMMIT line')
+    return driver.replace(STAMP_LINE, f"\nKIT_SOURCE_COMMIT = '{commit}'\n".encode())
 
 
 def git(*args: str) -> str:
@@ -54,6 +71,7 @@ def main() -> int:
     version = driver.DRIVER_VERSION
     top = f'cohort-kit-{version}'
     files = {str(path.relative_to(KIT)): path.read_bytes() for path in kit_files()}
+    files[DRIVER] = stamp(files[DRIVER], commit)
     info = {'schema': 'constellation.cohort-kit-build-info/v1', 'component': 'cohort-kit', 'version': version,
             'source_commit': commit, 'source_repository': 'https://github.com/unpingable/unpingable-site',
             'source_path': 'constellation/examples/reviewed_local_copy', 'debug_assertions': False,
