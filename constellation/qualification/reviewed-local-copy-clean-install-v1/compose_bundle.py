@@ -34,8 +34,8 @@ COHORT = {
            'b03b8f06363ca73464c14b2131be8ac7b7bf8c38c9521fd594882d1cd15fac19'),
     'docket': ('artifacts/docket/docket-0.1.0-linux-amd64.tar.gz', '0.1.0', '3093def030a5151d2e7b956eafb73d0c16f8c735',
                '6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b'),
-    'switchyard': ('artifacts/switchyard/switchyard-0.2.0-612acdbdea11.tar.gz', '0.2.0',
-                   '612acdbdea1109a58ec8162d0fc9e3bc5c88f57b', '3ac1fa5e5978940526daf43de1c79bcc32eab8405c14fc2c69c35ad037aafae2'),
+    'switchyard': ('artifacts/switchyard/switchyard-0.2.0-1c82e719cf35.tar.gz', '0.2.0',
+                   '1c82e719cf358728d0262ae11138fb13fefe0cae', 'be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1'),
     'app-server': ('artifacts/app-server/codex-app-server-97b0acd5ce2c-linux-amd64.tar.gz', '0.0.0',
                    '97b0acd5ce2ccb3c87a763606696c35a450947f6', '9999bd8e75607071e1e43d9829fea253593f95323dff3a6e690b9d52433e2cd9'),
 }
