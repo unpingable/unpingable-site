@@ -563,8 +563,9 @@ users:
             installs[cohort] = self.driver(f"install --cohort {cohort} --manifest {BUNDLE}/cohort-manifest.json "
                                            f"--artifacts {BUNDLE}", timeout=900)
         identities = self.guest_json(f"sudo cat /opt/constellation/cohorts/qual-a/installed.json")
+        # An identity's "component" is the executable's own name; select AG by its install root.
         ag = {pathlib.PurePosixPath(path).name: v["sha256"] for path, v in identities.get("identities", {}).items()
-              if v.get("component") == "ag"}
+              if "/cohorts/qual-a/ag/" in path}
         ok = (status_v == 0 and verify.get("qualified_cohort") == "alpha-exit-rc"
               and all(ag.get(name, "").removeprefix("sha256:") == digest for name, digest in AG_ENROLLED.items())
               and all(status == 0 and value.get("result") == "installed" for status, value in installs.values()))
