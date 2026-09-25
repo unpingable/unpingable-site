@@ -139,7 +139,6 @@ NAVIGATION = (
     ("limits.html", "Limits", "limits.html"),
     ("components.html", "Components", "components.html"),
     ("start.html", "Guides and source", "start.html"),
-    ("absd.html", "ABSD", "absd.html"),
 )
 FOOTER_LINKS = (
     ("../index.html", "unpingable"),
@@ -152,7 +151,7 @@ FOOTER_LINKS = (
 FOOTER = (
     '<footer class="site-footer"><ul class="links">'
     + "".join(f'<li><a href="{href}">{label}</a></li>' for href, label in FOOTER_LINKS)
-    + '</ul><p class="coda">Constellation documentation · plain working edition</p></footer>'
+    + '</ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer>'
 )
 
 
