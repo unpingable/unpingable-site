@@ -3,110 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>unpingable — Constellation and governed automated work</title>
-  <meta name="description" content="Constellation and related research on keeping the transition from evidence to authorized automated effects visible, bounded, and capable of refusal.">
+  <title>unpingable — James Beck</title>
+  <meta name="description" content="Research and working software by James Beck on evidence, authority and action in automated systems: independent verification of what agents and pipelines report, Constellation, and the Δt papers.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
-  <meta property="og:title" content="unpingable — Constellation and governed automated work">
-  <meta property="og:description" content="Start with the verified Constellation 0.1.0-alpha.6 reviewed-action walkthrough.">
+  <meta property="og:title" content="unpingable — James Beck">
+  <meta property="og:description" content="Research and working software on evidence, authority and action in automated systems.">
   <meta property="og:url" content="https://unpingable.com/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="unpingable — Constellation and governed automated work">
-  <meta name="twitter:description" content="Start with the verified Constellation 0.1.0-alpha.6 reviewed-action walkthrough.">
+  <meta name="twitter:title" content="unpingable — James Beck">
+  <meta name="twitter:description" content="Research and working software on evidence, authority and action in automated systems.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="canonical" href="https://unpingable.com/">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
+  <link rel="stylesheet" href="assets/house.css">
   <style>
-    :root {
-      --bg: #f5f4ef;
-      --bg-inset: #efeee8;
-      --fg: #1a1a1a;
-      --fg-muted: #555350;
-      --fg-faint: #8a8680;
-      --fg-ghost: #b0aca5;
-      --border: #d0cdc6;
-      --border-faint: #e0ddd6;
-      --accent: #a0422a;
-      --accent-hover: #7d3320;
-      --accent-faint: rgba(160, 66, 42, 0.06);
-      --pass: #4a6b3a;
-      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #141311;
-        --bg-inset: #1a1917;
-        --fg: #ccc8c0;
-        --fg-muted: #8a8680;
-        --fg-faint: #5e5b55;
-        --fg-ghost: #3e3c38;
-        --border: #2a2825;
-        --border-faint: #222120;
-        --accent: #c4603e;
-        --accent-hover: #d87a56;
-        --accent-faint: rgba(196, 96, 62, 0.06);
-        --pass: #7a9a6a;
-      }
-    }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--serif);
-      background: var(--bg);
-      color: var(--fg);
-      font-size: 17px;
-      line-height: 1.65;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 4rem 2rem 3rem;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { color: var(--accent-hover); text-decoration: underline; }
-
-    /* ── HEADER ── */
-    header {
-      margin-bottom: 3rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid var(--border);
-    }
-
-    header h1 {
+    /* Home page intro */
+    .intro h1 { font-size: 2.1rem; margin-bottom: var(--s4); }
+    .cascade {
       font-family: var(--mono);
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.1rem;
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--fg-muted);
+      border-left: 2px solid var(--accent);
+      padding-left: var(--s4);
+      margin-bottom: var(--s5);
     }
+    .cascade span { display: block; }
+    .cascade span:last-child { color: var(--fg); }
 
-    header .author {
+    /* Research list */
+    .research-group h3 { margin-top: var(--s5); }
+    .paper-list { list-style: none; padding: 0; border-top: 1px solid var(--border-faint); }
+    .paper-list li { margin: 0; padding: var(--s2) 0; border-bottom: 1px solid var(--border-faint); }
+    .paper-list .paper-title { display: block; font-size: 0.98rem; line-height: 1.4; color: var(--fg); text-decoration-color: var(--border); }
+    .paper-list .paper-title:hover { color: var(--accent); text-decoration-color: currentColor; }
+    .paper-list li.foundational .paper-title { font-weight: 600; }
+    .paper-list .paper-meta { font-family: var(--mono); font-size: 0.76rem; color: var(--fg-faint); }
+    .paper-list .paper-meta a { color: var(--fg-faint); }
+    .paper-list .paper-meta a:hover { color: var(--accent); }
+
+    /* ── Constellation lab notebook (moving to /constellation/) ── */
+    .notebook-intro { margin-bottom: var(--s6); }
+    .notebook .notebook-intro h2 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      margin: var(--s6) 0 var(--s3);
+      padding-top: var(--s5);
+      border-top: 2px solid var(--border);
+    }
+    .notebook nav.notebook-nav {
       font-family: var(--mono);
       font-size: 0.85rem;
-      color: var(--fg-faint);
-      letter-spacing: 0.02em;
-      margin-bottom: 1.6rem;
+      display: flex;
+      gap: var(--s1) var(--s5);
+      flex-wrap: wrap;
+      padding: var(--s3) 0;
+      border-block: 1px solid var(--border-faint);
+      margin-bottom: var(--s6);
+    }
+    .notebook nav.notebook-nav a { color: var(--fg-muted); text-decoration: none; white-space: nowrap; }
+    .notebook nav.notebook-nav a:hover { color: var(--accent); }
+    .notebook section { margin-bottom: 3.25rem; }
+
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 1.4rem;
     }
 
-    .lead {
-      font-size: 1.62rem;
-      line-height: 1.25;
+    .mode {
+      font-family: var(--mono);
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: -0.015em;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    .notebook section h2 {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+      font-family: var(--mono);
+      font-size: 1.02rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      color: var(--fg);
+      margin-bottom: 0.7rem;
+    }
+
+    .notebook section > p {
+      color: var(--fg-muted);
+      font-size: 0.98rem;
       margin-bottom: 1rem;
     }
+
+    .notebook section h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      font-style: italic;
+      margin: 1.9rem 0 0.55rem;
+      color: var(--fg);
+    }
+
 
     .cascade {
       font-family: var(--mono);
@@ -119,22 +125,6 @@
     }
     .cascade span { display: block; }
     .cascade span:last-child { color: var(--fg); }
-
-    .promise {
-      font-size: 1.18rem;
-      line-height: 1.45;
-      color: var(--fg);
-      max-width: 34em;
-      margin-bottom: 1.5rem;
-    }
-
-    .definition {
-      font-size: 1rem;
-      color: var(--fg-muted);
-      max-width: 36em;
-      margin-bottom: 1rem;
-    }
-
     /* ── GROUNDING: the idea, concretely, before any vocabulary ── */
     .ground {
       border: 1px solid var(--border-faint);
@@ -145,7 +135,7 @@
     }
     .ground p { font-size: 1rem; line-height: 1.55; color: var(--fg-muted); margin: 0; }
     .ground p.turn { margin-top: 0.75rem; color: var(--fg); }
-    .ground pre { margin: 0.65rem 0 0.55rem; background: var(--bg); font-size: 0.78rem; }
+    .notebook .ground pre { margin: 0.65rem 0 0.55rem; background: var(--bg); font-size: 0.78rem; }
     .ground .prov-line {
       font-family: var(--mono);
       font-size: 0.76rem;
@@ -214,70 +204,6 @@
     }
     .route .path { font-size: 0.92rem; color: var(--fg-muted); line-height: 1.5; }
     .route .path a { font-family: var(--mono); font-size: 0.86rem; }
-
-    header nav {
-      font-family: var(--mono);
-      font-size: 0.88rem;
-      display: flex;
-      gap: 1.35rem;
-      flex-wrap: wrap;
-      padding-top: 0.9rem;
-      border-top: 1px solid var(--border-faint);
-    }
-    header nav a { color: var(--fg-muted); }
-    header nav a:hover { color: var(--accent); text-decoration: none; }
-
-    /* ── SECTIONS ── */
-    section { margin-bottom: 3.25rem; }
-
-    .section-rule {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin-bottom: 1.4rem;
-    }
-
-    .mode {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    section h2 {
-      font-family: var(--mono);
-      font-size: 1.02rem;
-      font-weight: 600;
-      letter-spacing: -0.005em;
-      color: var(--fg);
-      margin-bottom: 0.7rem;
-    }
-
-    section > p {
-      color: var(--fg-muted);
-      font-size: 0.98rem;
-      margin-bottom: 1rem;
-    }
-
-    section h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      font-style: italic;
-      margin: 1.9rem 0 0.55rem;
-      color: var(--fg);
-    }
-
-    .fine {
-      font-family: var(--mono);
-      font-size: 0.79rem;
-      line-height: 1.6;
-      color: var(--fg-faint);
-      letter-spacing: 0.01em;
-    }
-
     /* ── BADGES: kind + provenance + status ── */
     .kind, .prov, .status {
       font-family: var(--mono);
@@ -338,7 +264,7 @@
     .diagram .edge-num {
       font-family: var(--mono);
       font-size: 10px;
-      fill: var(--fg-ghost);
+      fill: var(--fg-faint);
       text-anchor: middle;
       pointer-events: none;
     }
@@ -377,7 +303,7 @@
       border-top: 1px solid var(--border-faint);
       margin-top: 0.75rem;
     }
-    .diagram .caption .cap-owner { color: var(--fg-ghost); display: block; margin-top: 0.25rem; }
+    .diagram .caption .cap-owner { color: var(--fg-faint); display: block; margin-top: 0.25rem; }
     .diagram .caption .cap-owner b { color: var(--fg-muted); font-weight: 600; }
 
     /* ── CONTINUITY QUESTIONS ── */
@@ -402,7 +328,7 @@
       align-items: baseline;
     }
     .seq-row + .seq-row { border-top: 1px solid var(--border-faint); }
-    .seq-row .n { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-ghost); }
+    .seq-row .n { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-faint); }
     .seq-row .office { font-family: var(--mono); font-size: 0.86rem; font-weight: 600; color: var(--fg); }
     .seq-row .does { font-size: 0.91rem; color: var(--fg-muted); line-height: 1.5; }
     .seq-row .does em { color: var(--fg-faint); font-style: normal; display: block; font-size: 0.86rem; margin-top: 0.1rem; }
@@ -477,7 +403,7 @@
     .ledger-status { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-faint); letter-spacing: 0.01em; }
     .ledger-claim { font-size: 0.94rem; color: var(--fg-muted); line-height: 1.5; margin-bottom: 0.4rem; }
     .ledger-meta { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0.15rem 0.8rem; }
-    .ledger-meta dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-ghost); letter-spacing: 0.02em; padding-top: 0.12rem; }
+    .ledger-meta dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-faint); letter-spacing: 0.02em; padding-top: 0.12rem; }
     .ledger-meta dd { font-size: 0.87rem; color: var(--fg-muted); line-height: 1.5; }
     .ledger-meta dd a { font-family: var(--mono); font-size: 0.8rem; }
     .ledger-asof { font-family: var(--mono); font-size: 0.76rem; color: var(--fg-faint); line-height: 1.6; }
@@ -488,7 +414,7 @@
     .artifact-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.25rem; }
     .artifact-head .name { font-family: var(--mono); font-weight: 600; font-size: 0.93rem; }
     .artifact-card dl { display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.1rem 0.6rem; }
-    .artifact-card dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-ghost); letter-spacing: 0.03em; padding-top: 0.15rem; }
+    .artifact-card dt { font-family: var(--mono); font-size: 0.74rem; color: var(--fg-faint); letter-spacing: 0.03em; padding-top: 0.15rem; }
     .artifact-card dd { font-size: 0.89rem; line-height: 1.45; color: var(--fg-muted); }
     .artifact-card dd code { font-family: var(--mono); font-size: 0.82rem; color: var(--fg); }
 
@@ -503,17 +429,6 @@
     }
     .cta a:hover { color: var(--bg); background: var(--accent); text-decoration: none; }
 
-    pre {
-      font-family: var(--mono);
-      font-size: 0.76rem;
-      line-height: 1.5;
-      background: var(--bg-inset);
-      border: 1px solid var(--border-faint);
-      padding: 0.85rem 1rem;
-      overflow-x: auto;
-      margin: 0.7rem 0 0.9rem;
-      color: var(--fg-muted);
-    }
     pre .hot { color: var(--accent); font-weight: 600; }
 
     /* ── LIFECYCLE (proposition) ── */
@@ -522,7 +437,7 @@
     .lc-row + .lc-row { border-top: 1px solid var(--border-faint); }
     .lc-row .lc-stage { font-family: var(--mono); font-size: 0.86rem; font-weight: 600; color: var(--fg); flex: 1; }
     .lc-row.pending .lc-stage { color: var(--fg-faint); font-weight: 500; }
-    .lc-row .lc-by { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-ghost); text-align: right; letter-spacing: 0.02em; }
+    .lc-row .lc-by { font-family: var(--mono); font-size: 0.75rem; color: var(--fg-faint); text-align: right; letter-spacing: 0.02em; }
     .lc-split {
       padding: 0.3rem 1rem;
       border-top: 1px dashed var(--border);
@@ -534,59 +449,7 @@
       color: var(--accent);
     }
 
-    /* ── RESEARCH ── */
-    .research-group { margin-bottom: 1.6rem; }
-    .research-group h3 { margin: 1.2rem 0 0.4rem; }
-    .paper-list { list-style: none; }
-    .paper-list li { padding: 0.45rem 0; display: flex; flex-direction: column; gap: 0.1rem; }
-    .paper-list li + li { border-top: 1px solid var(--border-faint); }
-    .paper-list .paper-title { font-size: 0.93rem; font-weight: 500; line-height: 1.4; }
-    .paper-list .paper-meta { font-family: var(--mono); color: var(--fg-ghost); font-size: 0.74rem; letter-spacing: 0.02em; }
-    .paper-list .paper-meta a { color: var(--fg-ghost); }
-    .paper-list .paper-meta a:hover { color: var(--accent); }
-    .paper-list .start-here {
-      font-family: var(--mono);
-      font-size: 0.67rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 0.02rem 0.3rem;
-      margin-right: 0.45rem;
-    }
-    .paper-list li.foundational .paper-title { font-weight: 600; }
-    .research-links {
-      margin-top: 1rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--border-faint);
-      font-family: var(--mono);
-      font-size: 0.92rem;
-      display: flex;
-      gap: 1.5rem;
-    }
-    .research-links a { color: var(--fg-faint); }
-    .research-links a:hover { color: var(--accent); }
-
-    /* ── FOOTER ── */
-    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px solid var(--border); }
-    footer .links {
-      font-family: var(--mono);
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 0.75rem;
-      font-size: 0.92rem;
-    }
-    footer .links a { color: var(--fg-faint); }
-    footer .links a:hover { color: var(--accent); }
-    footer .coda { font-style: italic; font-size: 0.85rem; color: var(--fg-ghost); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      body { padding: 2.5rem 1.25rem 2rem; }
-      header h1 { font-size: 1.3rem; }
-      .lead { font-size: 1.35rem; }
-      .promise { font-size: 1.05rem; }
+    @media (max-width: 40rem) {
       .route { flex-direction: column; gap: 0.1rem; }
       .route .who { width: auto; }
       .key-row, .ev-row, .ledger-meta { grid-template-columns: 1fr; gap: 0.1rem; }
@@ -612,17 +475,164 @@
 </head>
 <body>
 
-  <header>
-    <h1>unpingable</h1>
-    <p class="author">James Beck</p>
+  <a class="skip" href="#main">Skip to content</a>
 
-    <p class="lead">Systems forget how they know.</p>
-    <p class="cascade">
-      <span>An observation becomes a claim.</span>
-      <span>A claim becomes a permission.</span>
-      <span>Permission survives after its reasons have changed.</span>
-    </p>
-    <p class="promise">Unpingable builds systems that keep those transitions visible &mdash; and capable of refusal.</p>
+  <header class="site-header">
+    <a class="site-name" href="./">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="constellation/">Constellation</a>
+      <a href="#research">Research</a>
+      <a href="about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <section class="intro" aria-labelledby="intro-title">
+      <p class="eyebrow">James Beck</p>
+      <h1 id="intro-title">Systems forget how they know.</h1>
+      <p class="cascade">
+        <span>An observation becomes a claim.</span>
+        <span>A claim becomes a permission.</span>
+        <span>Permission survives after its reasons have changed.</span>
+      </p>
+      <p class="lede">Unpingable is research and working software on keeping those transitions visible, and capable of refusal.</p>
+      <p>The questions come from 26 years in operations and reliability, where &ldquo;the command returned&rdquo; and &ldquo;the intended thing happened&rdquo; are different facts. They apply just as much to CI pipelines, deploy systems and AI coding agents that report their own success: a report of completion from the worker is not evidence that the intended state exists.</p>
+    </section>
+
+    <section id="work" aria-labelledby="work-title">
+      <h2 id="work-title">Current work</h2>
+      <ul class="doors">
+        <li><a href="constellation/">Constellation</a><span>An experimental system for separating work from the evidence, authority and acceptance used to decide whether that work succeeded. The main current project. Alpha; not production-ready.</span></li>
+        <li><a href="constellation/absd.html">ABSD</a><span>A small experimental x86-64 operating system, built partly to test the same ideas below the application layer.</span></li>
+        <li><a href="#research">Papers</a><span>Formal and semi-formal work on timing, verification lag and stability in hierarchical systems, mostly the &Delta;t series.</span></li>
+        <li><a href="https://unpingable.github.io/lean/">Lean proofs</a><span>Selected claims from the &Delta;t series, machine-checked in Lean&nbsp;4. They prove the boundaries of refusal classes, not that any deployed system is safe.</span></li>
+        <li><a href="https://neutral.zone">Writing</a><span>Essays and notes, kept on a separate site.</span></li>
+      </ul>
+    </section>
+
+    <section id="research" aria-labelledby="research-title">
+      <h2 id="research-title">Research</h2>
+      <p>The papers name the failure classes; the artifacts carry the response. The &Delta;t series is scaffolding for the check-versus-action logic in <a href="https://github.com/unpingable/standing">standing</a> and the admissibility kernels. Some of this work is theoretical only; not everything here has an instantiation, and the papers are not evidence that anything is deployed.</p>
+      <p>Selected papers below &mdash; full list in the <a href="https://github.com/unpingable/papers">papers repo</a>. Selected claims from the &Delta;t series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html">limits</a>.</p>
+
+      <div class="research-group">
+        <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
+        <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541">doi:10.5281/zenodo.17857541</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17859323">Detecting Temporal Debt in Language Models and Software Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17859323">doi:10.5281/zenodo.17859323</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849278">Temporal Closure Requirements for Synthetic Coherence</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849278">doi:10.5281/zenodo.17849278</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18039926">You Need More Than Just Attention: Invariant Requirements for Temporal Coherence in AI Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18039926">doi:10.5281/zenodo.18039926</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18236164">The Temporal Attack Surface: A &Delta;t Framework for Asynchronous Security Systems</a>
+            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18236164">doi:10.5281/zenodo.18236164</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18235696">Temporal Asymmetry in Censorship Systems</a>
+            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18235696">doi:10.5281/zenodo.18235696</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18717619">The Gain Geometry of Temporal Mismatch: Shear, Leverage, and Capture in Multi-Timescale Systems</a>
+            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18717619">doi:10.5281/zenodo.18717619</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="research-group">
+        <h3>Systems &amp; Institutional Dynamics</h3>
+        <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726789">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789">doi:10.5281/zenodo.17726789</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241">doi:10.5281/zenodo.17849241</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726890">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a>
+            <div class="paper-meta">Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726890">doi:10.5281/zenodo.17726890</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18019050">Capacity-Constrained Stability: A Control-Theoretic Framework for Institutional Resilience</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18019050">doi:10.5281/zenodo.18019050</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>
+            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18686130">doi:10.5281/zenodo.18686130</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="research-group">
+        <h3>Alignment &amp; Reward Dynamics</h3>
+        <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17791873">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873">doi:10.5281/zenodo.17791873</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17803844">Eigenstructure Collapse in Social Media Platforms</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17803844">doi:10.5281/zenodo.17803844</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18071264">Representational Invariance and the Observer Problem in Language Model Alignment</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18071264">doi:10.5281/zenodo.18071264</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="research-group">
+        <h3>Governance &amp; Epistemic Architecture</h3>
+        <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18145347">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347">doi:10.5281/zenodo.18145347</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18841815">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a>
+            <div class="paper-meta">Mar 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18841815">doi:10.5281/zenodo.18841815</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <p class="fine"><a href="https://github.com/unpingable/papers">All papers on GitHub</a> &middot; <a href="https://orcid.org/0009-0009-5524-767X">ORCID</a></p>
+    </section>
+
+    <section id="earlier" aria-labelledby="earlier-title">
+      <h2 id="earlier-title">Earlier demonstrations</h2>
+      <p>Before Constellation, the same question was worked through on a smaller Python predecessor, <code>agent_governor</code>, now deprecated. These pages still run and still say something true, but they describe historical implementations, not current recommendations.</p>
+      <ul class="doors">
+        <li><a href="demo.html">A stale yes</a><span>A credential that was valid when checked, used one second after it expired, and refused with a receipt. Captured 2026-07-29.</span></li>
+        <li><a href="incident.html">The incident</a><span>The same event written as a postmortem.</span></li>
+        <li><a href="glossary.html">Glossary</a><span>The vocabulary used across the older pages.</span></li>
+        <li><a href="limits.html">Limits</a><span>What the older demonstrations and receipts do and do not show.</span></li>
+      </ul>
+    </section>
+
+    <!-- NOTEBOOK:BEGIN  Constellation material from the former front page.
+         Moving to /constellation/ pages; delete this block once each part below
+         has a new home (see the lane C handoff list). Kept unchanged meanwhile. -->
+    <div class="notebook" id="notebook">
+      <section class="notebook-intro" aria-labelledby="notebook-title">
+        <h2 id="notebook-title">Constellation lab notebook</h2>
+        <div class="callout quiet">
+          <p>Until September 2026 the material below was the front page of this site: the dated status ledger, the exhibits and the design notes behind Constellation. It is moving to the <a href="constellation/">Constellation pages</a> and stays here, unchanged, until it has a new home. Current status lives there, not here.</p>
+        </div>
+      </section>
 
     <div class="ground">
       <p><strong>Current public system:</strong> <a href="constellation/">Constellation</a> is a governance and execution-custody layer for automated work. Integration release <code>0.1.0-alpha.6</code> records one real reviewed, explicitly accepted, authorized-once and Docket-custodied effect.</p>
@@ -661,7 +671,7 @@
       <div class="route"><span class="who">Check the receipts</span><span class="path">What is actually earned, object by object and dated &mdash; the <a href="#ledger">status ledger</a>, and the <a href="limits.html">limits and non-claims</a>.</span></div>
     </div>
 
-    <nav>
+    <nav class="notebook-nav" aria-label="Notebook contents">
       <a href="constellation/">Constellation</a>
       <a href="constellation/releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a>
       <a href="#transitions">Transitions</a>
@@ -673,9 +683,7 @@
       <a href="limits.html">Limits</a>
       <a href="glossary.html">Glossary</a>
     </nav>
-  </header>
 
-  <main>
 
     <aside class="ground" aria-label="Historical material notice">
       <p><strong>Current status lives in the <a href="constellation/">Constellation documentation</a>.</strong> The dated exhibits and ledger below preserve earlier research history. Names such as AG ng, classic NQ and <code>agent_governor</code> identify the historical implementations used by those exhibits; they are not current installation recommendations.</p>
@@ -1088,125 +1096,21 @@
       <p class="fine" style="margin-top:1.4rem;"><strong>Status of the proposition:</strong> named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. The firewall probe is one rule at a time, with none of the design layer above it: evidence that the comparison may be worth generalizing, not evidence that it exists. Nothing above the line in the diagram is built.</p>
     </section>
 
-    <!-- ══════════ RESEARCH ══════════ -->
-    <section id="research">
-      <hr class="section-rule">
-      <span class="mode">Thesis &mdash; formal work</span>
-      <h2>Research</h2>
-      <p>The papers name the failure classes; the artifacts carry the response. The &Delta;t series is scaffolding for the check-versus-action logic in <a href="https://github.com/unpingable/standing" target="_blank" rel="noopener">standing</a> and the admissibility kernels. Some of this work is theoretical only; not everything here has an instantiation, and the papers are not evidence that anything is deployed.</p>
-      <p class="fine">Selected papers below &mdash; full list in the <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">papers repo</a>. Selected claims from the &Delta;t series are machine-audited in Lean: <a href="https://github.com/unpingable/lean" target="_blank" rel="noopener">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/" target="_blank" rel="noopener">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html">limits</a>.</p>
-
-      <div class="research-group">
-        <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
-        <ul class="paper-list">
-          <li class="foundational">
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>
-            <div class="paper-meta"><span class="start-here">start here</span>Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541" target="_blank" rel="noopener">doi:10.5281/zenodo.17857541</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17859323" target="_blank" rel="noopener">Detecting Temporal Debt in Language Models and Software Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17859323" target="_blank" rel="noopener">doi:10.5281/zenodo.17859323</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849278" target="_blank" rel="noopener">Temporal Closure Requirements for Synthetic Coherence</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849278" target="_blank" rel="noopener">doi:10.5281/zenodo.17849278</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18039926" target="_blank" rel="noopener">You Need More Than Just Attention: Invariant Requirements for Temporal Coherence in AI Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18039926" target="_blank" rel="noopener">doi:10.5281/zenodo.18039926</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18236164" target="_blank" rel="noopener">The Temporal Attack Surface: A &Delta;t Framework for Asynchronous Security Systems</a>
-            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18236164" target="_blank" rel="noopener">doi:10.5281/zenodo.18236164</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18235696" target="_blank" rel="noopener">Temporal Asymmetry in Censorship Systems</a>
-            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18235696" target="_blank" rel="noopener">doi:10.5281/zenodo.18235696</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18717619" target="_blank" rel="noopener">The Gain Geometry of Temporal Mismatch: Shear, Leverage, and Capture in Multi-Timescale Systems</a>
-            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18717619" target="_blank" rel="noopener">doi:10.5281/zenodo.18717619</a></div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="research-group">
-        <h3>Systems &amp; Institutional Dynamics</h3>
-        <ul class="paper-list">
-          <li class="foundational">
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a>
-            <div class="paper-meta"><span class="start-here">start here</span>Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789" target="_blank" rel="noopener">doi:10.5281/zenodo.17726789</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241" target="_blank" rel="noopener">doi:10.5281/zenodo.17849241</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726890" target="_blank" rel="noopener">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a>
-            <div class="paper-meta">Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726890" target="_blank" rel="noopener">doi:10.5281/zenodo.17726890</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18019050" target="_blank" rel="noopener">Capacity-Constrained Stability: A Control-Theoretic Framework for Institutional Resilience</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18019050" target="_blank" rel="noopener">doi:10.5281/zenodo.18019050</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18686130" target="_blank" rel="noopener">Cybernetic Fault Domains: When Commitment Outruns Verification</a>
-            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18686130" target="_blank" rel="noopener">doi:10.5281/zenodo.18686130</a></div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="research-group">
-        <h3>Alignment &amp; Reward Dynamics</h3>
-        <ul class="paper-list">
-          <li class="foundational">
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17791873" target="_blank" rel="noopener">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a>
-            <div class="paper-meta"><span class="start-here">start here</span>Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873" target="_blank" rel="noopener">doi:10.5281/zenodo.17791873</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17803844" target="_blank" rel="noopener">Eigenstructure Collapse in Social Media Platforms</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17803844" target="_blank" rel="noopener">doi:10.5281/zenodo.17803844</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18071264" target="_blank" rel="noopener">Representational Invariance and the Observer Problem in Language Model Alignment</a>
-            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18071264" target="_blank" rel="noopener">doi:10.5281/zenodo.18071264</a></div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="research-group">
-        <h3>Governance &amp; Epistemic Architecture</h3>
-        <ul class="paper-list">
-          <li class="foundational">
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18145347" target="_blank" rel="noopener">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a>
-            <div class="paper-meta"><span class="start-here">start here</span>Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347" target="_blank" rel="noopener">doi:10.5281/zenodo.18145347</a></div>
-          </li>
-          <li>
-            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18841815" target="_blank" rel="noopener">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a>
-            <div class="paper-meta">Mar 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18841815" target="_blank" rel="noopener">doi:10.5281/zenodo.18841815</a></div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="research-links">
-        <a href="https://github.com/unpingable/papers" target="_blank" rel="noopener">Papers repo</a>
-        <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
-      </div>
-    </section>
+    </div>
+    <!-- NOTEBOOK:END -->
 
   </main>
 
-  <footer>
-    <div class="links">
-      <a href="about.html">About</a>
-      <a href="limits.html">Limits</a>
-      <a href="glossary.html">Glossary</a>
-      <a href="constellation/components.html">Components</a>
-      <a href="https://github.com/unpingable" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://orcid.org/0009-0009-5524-767X" target="_blank" rel="noopener">ORCID</a>
-      <a href="https://www.linkedin.com/in/james-beck/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://neutral.zone" target="_blank" rel="noopener">Writing</a>
-    </div>
+  <footer class="site-footer">
+    <ul class="links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="constellation/">Constellation</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="https://github.com/unpingable">GitHub</a></li>
+      <li><a href="https://orcid.org/0009-0009-5524-767X">ORCID</a></li>
+      <li><a href="https://www.linkedin.com/in/james-beck/">LinkedIn</a></li>
+      <li><a href="https://neutral.zone">Writing</a></li>
+    </ul>
     <p class="coda">This is a lab notebook, not an oracle.</p>
   </footer>
 
