@@ -3,73 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta name="description" content="Constellation is an experimental system that separates automated and AI agent work from the evidence, authority and acceptance used to decide whether that work succeeded.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
-  <meta property="og:title" content="Constellation — governance and execution custody">
-  <meta property="og:description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta property="og:title" content="Constellation — independent evidence for automated work">
+  <meta property="og:description" content="Constellation is an experimental system that separates automated and AI agent work from the evidence, authority and acceptance used to decide whether that work succeeded.">
   <meta property="og:url" content="https://unpingable.com/constellation/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:alt" content="Constellation — governed automated work">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Constellation — governance and execution custody">
-  <meta name="twitter:description" content="Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.">
+  <meta name="twitter:title" content="Constellation — independent evidence for automated work">
+  <meta name="twitter:description" content="Constellation is an experimental system that separates automated and AI agent work from the evidence, authority and acceptance used to decide whether that work succeeded.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
-  <title>Constellation — governance and execution custody</title>
+  <title>Constellation — independent evidence for automated work</title>
   <link rel="canonical" href="https://unpingable.com/constellation/">
   <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
+    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
   </header>
   <main id="main">
-    <p class="eyebrow">Current integration release · 0.1.0-alpha.6</p>
-    <h1>Governance and execution custody for automated work</h1>
-    <p class="lede">Constellation separates observation, proposal, judgment, one-use authorization, execution custody, and reconciliation. Automated work can produce a real effect without giving one component ambient authority over the whole process.</p>
-
-    <section class="release-cta" aria-labelledby="try-alpha6">
-      <div>
-        <p class="eyebrow">Try what shipped</p>
-        <h2 id="try-alpha6">Follow one real reviewed action</h2>
-        <p>In the alpha.6 qualification, a user asked for one 38-byte local file. The exact plan was independently reviewed and explicitly accepted, AG authorized it once, Docket kept custody of the attempt, an authority-neutral executor created it once, and the result settled successfully.</p>
-        <p>A clean newcomer check then cloned the immutable public release anonymously and reproduced its evidence and refusal checks without contacting the provider, granting authority, or repeating the effect.</p>
-      </div>
-      <p class="actions"><a class="primary" href="releases/0.1.0-alpha.6/guide.html">Read and verify the alpha.6 walkthrough</a><a href="https://github.com/unpingable/unpingable-site/releases/tag/constellation-v0.1.0-alpha.6">View the immutable GitHub release</a></p>
+    <section aria-labelledby="hero">
+      <p class="eyebrow">Constellation · experimental</p>
+      <h1 id="hero">Systems forget how they know.</h1>
+      <p class="lede">A command that exited zero, a green check, an agent that says &ldquo;done&rdquo;: each is evidence from one moment and one participant. None of them proves that the intended state is true now.</p>
+      <p>A CI check goes green at 09:00. At 11:00 a deploy relies on that green. Nothing in between asked whether it still held. The check was honest; the deploy treated a two-hour-old observation as a current fact.</p>
+      <p>AI coding agents make this sharper. When an agent reports that a task is done, that is a report from the worker, not evidence that the intended change exists.</p>
     </section>
 
-    <h2>Why use it?</h2>
-    <p>An agent or workflow can propose work without authorizing it. A provider response can inform a review without accepting a plan. Permission can name one exact occurrence without becoming an open-ended credential. Docket can record an uncertain attempt and reconcile that same attempt instead of blindly repeating it.</p>
-    <p>The governing cycle is deliberately finite: <strong>effect → fresh observation → fresh judgment → fresh authority</strong>. A successful or settled run does not authorize the next one.</p>
+    <!-- DEMO SLOT BEGIN: current-stack demo, owned by lane A of the public-surface tranche.
+         Contract (see LANE-B-REPORT.md): replace everything between DEMO SLOT BEGIN and
+         DEMO SLOT END. Keep section id="demo" and an h2. Six English steps, in order:
+         effect attempted; outcome ambiguous; agent says success; system records INDETERMINATE;
+         independent evidence arrives; final settlement. Machine identifiers go in <details>
+         or behind a link, never in the step text. Then: one cold-clone command block, the
+         short terminal transcript or capture, and a link to the demo's repository README.
+         Do not put the legacy agent_governor demo here. -->
+    <section id="demo" aria-labelledby="demo-heading">
+      <h2 id="demo-heading">The demo</h2>
+      <p class="note"><strong>Placeholder.</strong> A small public demonstration built on the current components is being prepared for this spot: a requested external effect whose result times out or is lost, a worker that claims success, and a system that records the outcome as unknown until independent evidence settles it. It is not published yet.</p>
+      <p>Until then, the reproducible example is the <a href="releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a>: one reviewed, explicitly accepted local file change, with evidence you can re-check from public source.</p>
+    </section>
+    <!-- DEMO SLOT END -->
 
-    <h2>What happened in alpha.6?</h2>
-    <ol class="steps">
-      <li><strong>Observe.</strong> NQ admitted bounded evidence; Pulse supported its currentness.</li>
-      <li><strong>Propose.</strong> Maude compiled the exact plan; Nightshift admitted the occurrence.</li>
-      <li><strong>Review and accept.</strong> Switchyard retained one bounded independent review, followed by explicit acceptance of the exact candidate.</li>
-      <li><strong>Authorize once.</strong> AG judged and spent authority for that exact work.</li>
-      <li><strong>Execute under custody.</strong> Docket resolved one bounded local permission snapshot and dispatched the authority-neutral executor once.</li>
-      <li><strong>Settle and inspect.</strong> Docket reconciled a successful settlement; a later read observed the exact file bytes.</li>
-      <li><strong>Stop.</strong> The workflow ended at <code>settled_observation_required</code>. Nothing in the release grants continuation authority.</li>
-    </ol>
+    <section id="what" aria-labelledby="what-heading">
+      <h2 id="what-heading">What this is</h2>
+      <p>Constellation is an experimental system for separating work from the evidence, authority and acceptance used to decide whether that work succeeded. A worker, whether a script or an AI agent, may propose and perform work. Separate programs decide whether that exact work may run, keep a record of each attempt, observe the result independently, and report &ldquo;unknown&rdquo; when the evidence does not settle the question. The programs remain independently useful, and combinations of them are named, pinned and tested one at a time.</p>
+      <p><a href="understand.html">How it works</a> &middot; <a href="components.html">Components</a></p>
+    </section>
 
-    <h2>Which components do I need?</h2>
-    <p>Constellation is compositional, not all-or-nothing. Choose the smallest supported profile for the effect you need. The alpha.6 <code>reviewed-local-copy/v1</code> example deliberately exercises the complete governed-action path, so it uses Maude, NQ, Pulse, Nightshift/Foreman, Switchyard Runtime, Constellation AG, and Constellation Docket. Phosphor is an optional read-only inspection surface.</p>
-    <p><a href="components.html">See what each component provides</a> or <a href="integration.html">choose the smallest supported composition</a>.</p>
+    <section id="related-work" aria-labelledby="related-heading">
+      <h2 id="related-heading">Related work</h2>
+      <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation explores the harder distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately.</p>
+      <p>See Li et al., &ldquo;<a href="https://arxiv.org/abs/2609.29921">Who Holds the Pen? Let Specifications, Not Agents, Sign Off</a>&rdquo;, arXiv:2609.29921 (2026). This is independent convergence and evidence for the discipline, not validation of Constellation&rsquo;s specific architecture. A <a href="https://github.com/unpingable/papers/blob/main/working/agent-governance-field-state.md#addendum-2026-09-25--specharness-specificationstate-authority-in-single-runtime-harnesses">longer literature note</a> compares the two.</p>
+      <p>From this project: &ldquo;<a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>&rdquo; and &ldquo;<a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>&rdquo;. The full catalogue is on the <a href="research.html">research</a> page.</p>
+    </section>
 
-    <h2 id="limits">What remains alpha or unqualified?</h2>
-    <ul class="steps">
-      <li>Alpha.6 qualifies one named Linux local-copy composition, not arbitrary executors, providers, or production deployments.</li>
-      <li>Live Slack, Discord, and PagerDuty delivery—and human acknowledgment—were not verified. Deterministic adapters and local inbox delivery are narrower evidence.</li>
-      <li>Cross-version restore, migration, and rollback remain unqualified.</li>
-      <li>Operational burn-in is a separate, bounded post-release phase; it does not change the immutable alpha.6 result.</li>
-      <li>ATProto received an exact shared handback. Its application binding, production deployment, migration, notifications, rollback, and legacy-NQ retirement remain ATProto-owned work.</li>
-      <li>ECAD/design-flow remains pre-alpha. Operations is the first proving ground, not the permanent boundary of the project.</li>
-    </ul>
+    <section id="status" aria-labelledby="limits">
+      <h2 id="limits">Status and limits</h2>
+      <p>Constellation is experimental, and real composed workloads run on it. The <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> release records one reviewed, explicitly accepted file change that was authorized once, executed once and then checked by a separate read; anyone can re-verify that evidence from public source. On 2026-09-25 a packaged release candidate installed cleanly from its artifacts in a fresh virtual machine and passed its end-to-end and refusal checks. Those packages are not public yet, and nothing has been released beyond alpha.6 and a package for one of its components. It is not production-ready.</p>
+      <p><a href="status.html">Current status</a> &middot; <a href="limits.html">Limits</a></p>
+    </section>
 
-    <h2>Go deeper</h2>
-    <p><a href="understand.html">Understand the boundaries</a>, <a href="recipes.html">compare runnable recipes</a>, <a href="after-first-run.html">operate and recover a released profile</a>, or <a href="start.html">inspect public source and earlier tutorials</a>.</p>
+    <section id="who" aria-labelledby="who-heading">
+      <h2 id="who-heading">Who built it</h2>
+      <p>Built by James Beck after 26 years working in operations and reliability, where &ldquo;the command returned&rdquo; and &ldquo;the intended thing happened&rdquo; are very different facts. <a href="../about.html">More about the work</a>.</p>
+    </section>
+
+    <section id="doors" aria-labelledby="doors-heading">
+      <h2 id="doors-heading">Where to go next</h2>
+      <ul class="steps">
+        <li><a href="#demo">Run the demo</a></li>
+        <li><a href="understand.html">How it works</a></li>
+        <li><a href="status.html">Current status</a></li>
+        <li><a href="start.html">Source and guides</a></li>
+        <li><a href="research.html">Research</a></li>
+        <li><a href="absd.html">ABSD</a> &mdash; a small experimental operating system being built partly to pressure-test these semantics below the application layer.</li>
+      </ul>
+    </section>
   </main>
   <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
 </body>
