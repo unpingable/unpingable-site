@@ -1,32 +1,100 @@
 # Reviewed local copy: the `reviewed-local-copy/v1` cohort kit
 
-This kit sets up one operation on one Debian 12 host: copy selected UTF-8 text
-(at most 64 KiB) to a previously absent `result.txt` in an exclusive scratch
-directory, after one bounded review and one explicit operator acceptance. It has
-no arbitrary command field, notification requirement, scheduler, replacement
-authority store or alternative provider route.
+This kit sets up one operation on one Debian 12 host. After one bounded review
+and one explicit operator acceptance, it writes one fixed line of UTF-8 text
+to a file that must not exist yet:
+
+- the text is `Constellation cohort <id> reviewed copy.` and a newline, so
+  its length depends on the cohort id (43 bytes for `qual-a`);
+- the destination is `/var/lib/constellation/cohorts/<id>/scratch/result.txt`.
+
+`init` fixes both, from the cohort id, when it compiles the cohort's plan. The
+operator does not choose the text, a source file or the destination. The plan
+format allows up to 64 KiB of text in an exclusive scratch directory; this
+driver always uses its one fixed line. The kit has no arbitrary command field,
+notification requirement, scheduler, replacement authority store or
+alternative provider route.
 
 **Status.** This is candidate material, not a released or generally installable
-suite. An earlier kit (0.2.0, with AG `e20c23a`) was qualified in one clean
-Debian 12 VM (`cohort-clean-install/run-002`: 21 PASS, 0 FAIL, 0 not
-exercised), installing only from the cohort artifacts and using the
-qualification-only fixture review. This kit (0.3.0) repins AG to `58122ce` and
-ships the evidence verifier. It is the kit that `cohort-clean-install/run-003`
-exercises; a kit cannot carry its own qualification result, so that result is
-recorded with the campaign, not here. These runs do not establish:
+suite. Kit 0.4.0 fixes the findings of the lane H hostile review and the lane H
+newcomer run against kit 0.3.0 (see "What 0.4.0 changed"). Its qualification
+runs are recorded with the campaign, not here, because a README cannot carry
+its own result. These runs do not establish:
 
 - a real-provider review (the real route has not been exercised);
 - more than one occurrence per cohort;
 - the driver's `upgrade`, `verify-retained` and `upgrade-status` commands as a
   newcomer path. They retire a settled cohort into a new one and were
-  qualified separately (upgrade-continuity runs); this README does not cover
-  them;
-- a public download of the cohort bundle. Run-002 and run-003 used bundles
+  qualified separately; this README does not cover them;
+- a public download of the cohort bundle. The qualification bundles were
   composed by the qualification harness; this README describes the path those
   bundles took.
 
-A newcomer run from these instructions is still pending. Treat anything this
-README does not state as unsupported.
+Treat anything this README does not state as unsupported.
+
+## Published digests: check these before running any kit code
+
+The bundle carries a `SHA256SUMS`, but it sits next to the files it describes,
+so it only proves the files agree with each other. Whoever hands you a bundle
+can regenerate it. The anchor is these values, published with this page:
+
+| File | sha256 |
+|---|---|
+| `cohort-manifest.json` | `PENDING-MANIFEST-SHA256` |
+| `cohort-kit-0.4.0.tar.gz` | `PENDING-KIT-SHA256` |
+
+The kit was built from site commit `PENDING-KIT-COMMIT`. Rebuilding it from
+that commit with `setup/build_cohort_kit.py` gives the same bytes.
+
+**This anchor is only as good as the page you read it on.** Read it from the
+site repository or its published page over an authenticated channel, not from
+a copy that came with the bundle. The kit does not contain this README, for
+exactly this reason: a file inside the kit cannot state the kit's digest.
+
+Step 1 below compares the two files with these values using `sha256sum` alone.
+Only then does any kit code run. From there, the manifest pins every other
+artifact by digest, and the driver refuses a kit that differs in any byte from
+the one the manifest names (see "What `verify-manifest` and `install` check").
+
+## Words used here
+
+The components, each a separate release pinned below:
+
+- **NQ** (`nq-ng`): the host observation service. It reports whether the host
+  is under load.
+- **Pulse**: signs NQ's observation as time-limited support evidence.
+- **Maude**: the plan. It compiles the copy into a sealed plan and ships the
+  executor that writes `result.txt`.
+- **Nightshift**: admits the plan to AG with the current observation.
+  **Foreman** (part of Nightshift) prepares and holds the one review request.
+- **Switchyard** and the **App Server** (a pinned Codex app-server build):
+  send the review request to the model provider and verify the answer.
+- **AG**: the authority gate. It records the review, decides, and issues a
+  signed, time-limited permission.
+- **Docket**: custody of the effect. It checks AG's permission and standing,
+  runs the Maude executor once, and records the settlement.
+
+The terms:
+
+- **cohort**: one install plus one setup, named by `<id>`. It runs one
+  operation once.
+- **occurrence**: that one run of the operation.
+- **binding** (`binding_id`): the digest that ties the sealed plan to this
+  occurrence.
+- **candidate**: the retained, verified review waiting for the operator
+  (`record-review-input.json`), named by its sha256.
+- **genesis**: the first record of the cohort's AG store. It pins the programs
+  and inputs AG will trust.
+- **issuance**: AG's signed permission for this one effect, with a not-after
+  time. **spend**: AG using it, once.
+- **standing**: Docket's short-lived grant that someone may execute now.
+- **custody**, **attempt**, **settlement**: Docket holding the effect, running
+  it once, and recording how it ended.
+- **program counter**: AG's current step. `settled_observation_required` means
+  the effect settled, and a fresh observation would be needed for anything
+  further. The operator has nothing to do there.
+- **fixture**: the loopback stand-in for the provider, used for qualification
+  only.
 
 ## Host requirements
 
@@ -37,26 +105,28 @@ The driver checks these and refuses (`host.*`) when one is missing:
   Every kit command runs as `/usr/bin/python3.11 -I -S`. **Do not use
   `python3.12`**, `/usr/bin/python3` (a symlink) or a virtual environment;
 - `/usr/bin/openssl` with Ed25519;
-- `systemd-run`, `setpriv`, `dpkg` and `useradd` on the system path;
-- root for `install`, `init`, `review`, `accept`, and for `status` and `evidence`
-  once the cohort is initialized;
+- `systemd-run`, `setpriv`, `dpkg`, `dpkg-deb`, `dpkg-query` and `useradd` on
+  root's path (`/usr/sbin:/usr/bin:/sbin:/bin`; `useradd` is in `/usr/sbin`, so
+  a normal account's `which` may not find it);
+- root for every command except `verify-manifest` and `upgrade-status`;
 - at least 2 GiB and 10000 inodes free under `/opt` (install) and `/var/lib`
   (review).
 
-Run-002 also relied on `memfd_create`, `libssl3` and `liblzma5`, which the Debian
-12 genericcloud image provides. It used 2 vCPU and 4 GiB of memory.
+The qualification guests also relied on `memfd_create`, `libssl3` and
+`liblzma5`, which the Debian 12 genericcloud image provides. They used 2 vCPU
+and 4 GiB of memory.
 
 The review also requires NQ to report the host load condition as
 `explicitly_absent`. On a busy host the review refuses `observation.condition`
-before any provider request.
+before any provider request, and the cohort is spent.
 
 ## Cohort manifest pins
 
 The driver sets up only the cohort `alpha-exit-rc` of profile
 `reviewed-local-copy/v1`. The manifest (`constellation.cohort-manifest/v1`) must
-name exactly these components. Compatibility means equality: version, source
-commit **and** artifact digest must all match. There are no ranges and no
-"newer is fine"; any other value refuses `pin.incompatible`.
+name exactly these components. For the eight component rows, compatibility is
+equality of version, source commit **and** artifact digest; there are no
+ranges and no "newer is fine", and any other value refuses `pin.incompatible`.
 
 | Component | Version | Source commit | Artifact | sha256 |
 |---|---|---|---|---|
@@ -68,13 +138,11 @@ commit **and** artifact digest must all match. There are no ranges and no
 | docket | 0.1.0 | `3093def030a5151d2e7b956eafb73d0c16f8c735` | `docket-0.1.0-linux-amd64.tar.gz` | `6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b` |
 | switchyard | 0.2.0 | `1c82e719cf358728d0262ae11138fb13fefe0cae` | `switchyard-0.2.0-1c82e719cf35.tar.gz` | `be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1` |
 | app-server | 0.0.0 | `97b0acd5ce2ccb3c87a763606696c35a450947f6` | `codex-app-server-97b0acd5ce2c-linux-amd64.tar.gz` | `9999bd8e75607071e1e43d9829fea253593f95323dff3a6e690b9d52433e2cd9` |
-| cohort-kit | 0.3.0 | the site commit in the kit's own `BUILD-INFO.json` | `cohort-kit-0.3.0.tar.gz` | the digest your manifest names (see below) |
+| cohort-kit | 0.4.0 | `PENDING-KIT-COMMIT` (see "Published digests") | `cohort-kit-0.4.0.tar.gz` | `PENDING-KIT-SHA256` |
 
-The kit cannot print its own commit or digest, because both change with every
-file in it, including this README. The manifest you were given names them, and
-`install` checks that they agree with the kit (below). Run-002's manifest
-(`822afd2b…`) named the earlier kit 0.2.0 and AG `e20c23a`; this driver refuses
-it.
+The driver cannot hold the kit row itself, because the kit's commit contains
+the driver. The kit row is instead bound as described below, and the whole
+manifest is anchored by the published manifest digest.
 
 AG `58122ce` enrolls new executables: `ag-loopctl` sha256 `af5fe488…` and
 `ag-standing-resolver` sha256 `7a42b5ea…`. The driver measures the installed
@@ -82,70 +150,118 @@ bytes when it seals the runtime profile, reseals the standing launcher over the
 resolver and writes `ag_loopctl` into the Nightshift cycle config, so nothing is
 copied by hand.
 
-Beyond the table, `install` checks:
+### What `verify-manifest` and `install` check
 
-- **The kit pins itself.** The manifest's cohort-kit commit must equal the kit's
-  `BUILD-INFO.json`, every kit file must match its recorded digest, and the
-  installed driver must be byte-equal to the driver you are running. The kit row
-  is self-describing, so a kit built from any other commit has a different
-  digest and needs its own manifest entry.
+- **Every artifact is read once.** The driver hashes each artifact's bytes and
+  then parses, extracts or installs exactly those bytes, never the pathname
+  again. A file swapped after it was located refuses `artifact.changed`.
+- **Every extracted file is checked** against the member it came from, and the
+  extracted tree must hold nothing else (`artifact.extracted_mismatch`). Where
+  the component publishes digests, they must agree too
+  (`artifact.receipt_mismatch`): the `SHA256SUMS` inside AG, Docket and Maude
+  (which must list every other file), the binaries in Nightshift's and Pulse's
+  `BUILD-INFO.json`, and the App Server's `build-info.json`.
+- **The kit is bound to the driver you are running.** The manifest names the
+  kit tarball's digest and commit. The driver reads that tarball and refuses:
+  - any member its `BUILD-INFO.json` does not list, and any link or special
+    member (`kit.unlisted_member`, `artifact.unsafe_member`);
+  - a listed file that is missing or has another digest;
+  - a placeholder commit such as 40 zeros, a `BUILD-INFO.json` commit other
+    than the manifest's, or a manifest commit other than the one stamped into
+    the running driver when the kit was built (`pin.kit_commit`);
+  - a tarball whose driver differs from the running driver
+    (`kit.driver_differs`). A driver run from a source checkout has no stamped
+    commit and refuses `kit.unreleased_driver`.
+
+  This proves the running driver is the one inside the kit the manifest names.
+  It cannot prove the manifest itself is genuine: that is step 1's job.
+- **NQ.** If `nq-ng` is not installed, the driver installs it with `dpkg` from
+  a private root-only copy of the verified bytes. If it is already installed,
+  the driver compares every file, link and conffile in the pinned package with
+  the installed one, and parses the `dpkg --verify` output line by line (dpkg
+  can report a changed file and still exit 0). Any difference, another
+  version, or a half-installed package refuses `nq.installed_mismatch` before
+  anything is written. The same comparison runs after a fresh install.
 - **Switchyard** must report `installed_closure_matches_provenance: true` and
   canonical revision `299609cda100ccf8701d5619ac78499f8bddd303`.
 - **The App Server** is identified by its `build-info.json` `executable_sha256`,
   because the binary cannot report its own commit.
 - Every other executable must report the pinned version and commit through
-  `--build-info`, and must be a release build.
+  `--build-info`, and must be a release build. `--build-info` is an identity
+  report, not an integrity check: integrity comes from the pinned digests
+  above.
 
 ## Newcomer path
 
-`<bundle>` is the directory holding `cohort-manifest.json`, `SHA256SUMS` and the
-nine artifacts. `<kit>` is where you extract the cohort kit. `<id>` is a fresh
-cohort id: 3 to 40 lowercase letters, digits and hyphens.
+`<bundle>` is the directory holding `cohort-manifest.json`, `SHA256SUMS`, the
+nine artifacts and `qualification-only/`. `<id>` is a fresh cohort id: 3 to 40
+lowercase letters, digits and hyphens. The steps extract the kit to
+`/opt/constellation/kit` as root, so that nothing an unprivileged account can
+change runs as root.
 
-Each command prints one JSON object. A refusal exits 2 and prints
+Each command prints one JSON object on one line (`status --pretty` indents it).
+A refusal exits 2 and prints
 `{"code":…,"command":…,"detail":…,"result":"refused"}`. The step's record
 directory holds `*.started.json`, `*.stdout`, `*.stderr` and `*.finished.json` for
 every child it ran, with its exact argv, exit status and output.
 
-### 1. Check the bundle and extract only the kit
+### 1. Check the bundle against the published digests, then extract the kit
+
+No kit code runs in this step. Compare the two files with the values in
+"Published digests" (copy them from the page, not from the bundle):
 
 ```sh
-cd <bundle> && sha256sum --check --strict SHA256SUMS
-mkdir <kit>
-tar -xzf <bundle>/cohort-kit-0.3.0.tar.gz -C <kit> --no-same-owner
-DRIVER="/usr/bin/python3.11 -I -S <kit>/cohort-kit-0.3.0/setup/constellation_cohort.py"
-$DRIVER --version        # constellation-cohort 0.3.0
+cd <bundle>
+sha256sum --check --strict <<'EOF'
+PENDING-MANIFEST-SHA256  cohort-manifest.json
+PENDING-KIT-SHA256  cohort-kit-0.4.0.tar.gz
+EOF
+```
+
+Both lines must say `OK`. If either fails, stop: the bundle is not the
+published one. Then, optionally, `sha256sum --check --strict SHA256SUMS` checks
+the other files for transport damage (the driver checks them by digest in step
+2 either way).
+
+```sh
+sudo mkdir -p -m 0755 /opt/constellation/kit
+sudo tar -xzf <bundle>/cohort-kit-0.4.0.tar.gz -C /opt/constellation/kit --no-same-owner
+DRIVER="/usr/bin/python3.11 -I -S /opt/constellation/kit/cohort-kit-0.4.0/setup/constellation_cohort.py"
+$DRIVER --version        # constellation-cohort 0.4.0
 ```
 
 Optionally, run the kit's unit tests, for the driver and for the evidence
 verifier:
 
 ```sh
-/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.3.0/setup/test_constellation_cohort.py -v
-/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.3.0/setup/test_verify_cohort_evidence.py -v
+/usr/bin/python3.11 -I -S -B /opt/constellation/kit/cohort-kit-0.4.0/setup/test_constellation_cohort.py -v
+/usr/bin/python3.11 -I -S -B /opt/constellation/kit/cohort-kit-0.4.0/setup/test_verify_cohort_evidence.py -v
 ```
 
 ### 2. Verify the manifest and install
 
 ```sh
-sudo $DRIVER verify-manifest --manifest <bundle>/cohort-manifest.json --artifacts <bundle>
+$DRIVER verify-manifest --manifest <bundle>/cohort-manifest.json --artifacts <bundle>
 sudo $DRIVER install --cohort <id> --manifest <bundle>/cohort-manifest.json --artifacts <bundle>
 ```
 
-`verify-manifest` writes nothing, and it does not need root. It prints
-`"qualified_cohort":"alpha-exit-rc"`. `install` checks everything again, installs
-the NQ package (or verifies an identical installed one with `dpkg --verify`) and
-extracts each other artifact under `/opt/constellation/cohorts/<id>/`. It then
-checks the build info of all 18 executables and writes `installed.json`
-create-once. A wrong digest, missing artifact or unsafe tar member refuses before
-anything is written.
+`verify-manifest` needs no root and writes nothing. It prints
+`"qualified_cohort":"alpha-exit-rc"` and the kit it bound
+(`"running_driver_is_the_kit_driver":true`). `install` checks everything again
+before its first write, then installs the NQ package (or checks an installed
+one, above) and extracts each other artifact under
+`/opt/constellation/cohorts/<id>/`. It then checks the build info of all 18
+executables and writes `installed.json` create-once. A refusal before the
+first write leaves the host unchanged.
 
 ### 3. Initialize the cohort
 
-For the fixture route (qualification only; see below):
+For the fixture route (qualification only; see "Review routes"). The port is
+any free TCP port from 1024 to 65535 on 127.0.0.1; the qualification runs used
+18431:
 
 ```sh
-sudo $DRIVER init --cohort <id> --review-route fixture-review --fixture-port <port>
+sudo $DRIVER init --cohort <id> --review-route fixture-review --fixture-port 18431
 ```
 
 For the real provider route:
@@ -161,15 +277,42 @@ does the following:
 2. It creates the synthetic identities and keys, including a fresh Ed25519 AG
    issuer key. No operator secret is involved.
 3. It creates a cohort-owned codex home.
-4. It compiles and validates the Maude plan and prepares the AG, Docket and
-   Nightshift ports.
+4. It compiles and validates the Maude plan, which fixes the text and the
+   destination above, and prepares the AG, Docket and Nightshift ports.
 5. It writes a per-cohort NQ config at `/etc/nq/cohort-<id>.toml` (root:nq 0640)
    with its store at `/var/lib/nq/cohort-<id>/`. It then runs `nq init` and
    admits the one watcher in NQ's capability-bearing unit.
 
 It takes no observation, makes no provider request and creates no effect.
 
-### 4. Review
+### 4. Fixture route only: start the loopback fixture
+
+Skip this step on the real route. The fixture stands in for the provider. It
+is qualification-only tooling, not part of the product, and it ships in the
+bundle under `qualification-only/`. Run it as your normal (unprivileged)
+account, in the background, on the port you gave `init`:
+
+```sh
+FIXTURE=$HOME/cohort-fixture
+mkdir -p "$FIXTURE"
+tar -xzf <bundle>/qualification-only/fixture-review-tooling-7b04e8d8cf99.tar.gz -C "$FIXTURE" --no-same-owner
+nohup /usr/bin/python3.11 -I "$FIXTURE"/fixture-review-tooling/fixture_responses_endpoint.py \
+  --port 18431 --mode accepted --log "$FIXTURE"/requests.jsonl --ready-file "$FIXTURE"/ready.json \
+  > "$FIXTURE"/fixture.out 2>&1 &
+for i in $(seq 50); do [ -s "$FIXTURE"/ready.json ] && break; sleep 0.1; done; cat "$FIXTURE"/ready.json
+```
+
+It is ready when `ready.json` exists; it holds
+`{"bind":"127.0.0.1","mode":"accepted","model":"gpt-5.6-terra","port":18431}`.
+It binds 127.0.0.1 only. `requests.jsonl` logs each request it answers. If
+nothing listens on the port, `review` refuses `fixture.unreachable` before
+claiming the review. Stop it after `review` (step 5) with
+`pkill -f fixture_responses_endpoint.py`. The tarball's other files
+(`run-fixture-review.sh`, `make_fixture_review_inputs.py`,
+`check_fixture_review.py`) are component qualification tools; this path does
+not use them.
+
+### 5. Review
 
 ```sh
 sudo $DRIVER review --cohort <id>                          # fixture route
@@ -184,31 +327,47 @@ bounded tasks and memory, and an explicit environment. It:
 3. seals, verifies and initializes the AG genesis (genesis happens here, not in
    `init`, because it pins facts that exist only after the observation);
 4. runs Nightshift admission and Foreman custody;
-5. sends **exactly one** bounded provider request;
+5. makes exactly one bounded **review request** (one model turn that
+   generates the review). The pinned App Server first sends one
+   **non-generating warm-up** on the same connection (see "Provider requests");
 6. runs the independent native review verifier.
 
-It stops before acceptance, with 0 grants and 0 effects, and prints
-`candidate_sha256`. `review` is a create-once claim: a second `review` on the
-same cohort refuses `review.exists`.
+It stops before acceptance, with 0 grants and 0 effects. It prints the
+candidate digest and an `acceptance` block (step 6). `review` is a
+create-once claim: a second `review` on the same cohort refuses
+`review.exists`.
 
-The provider request must start while both the observation and the Pulse
-support have at least 230000 ms left. In run-002 it started about 11 s after the
-observation, and the whole review took 14.4 s.
+The review request must start while both the observation and the Pulse
+support have at least 230000 ms left. In the qualification runs it started
+5 to 11 s after the observation, and the whole review took 9 to 15 s.
 
-### 5. Read the candidate, then accept it
+### 6. Read what acceptance will do, then accept within 5 minutes
+
+**You have 5 minutes from the review to accept.** The review expires 300 s
+after it was made (`acceptance.deadline.accept_before`), and the continuation
+then needs about 10 s. Leave yourself at least 30 s. After the deadline the
+cohort cannot execute: `accept` refuses `review.expired` and records nothing,
+and the only way on is a fresh cohort id.
 
 ```sh
-sudo $DRIVER status --cohort <id>
+sudo $DRIVER status --cohort <id> --pretty
 ```
 
-`status` is strictly read-only. It shows:
+`status` is strictly read-only. Its `acceptance` block is what you are
+judging:
 
-- the review verdict, the counters (all still 0) and the review body;
-- `review.candidate_sha256`;
-- the path of the candidate, which is
-  `/var/lib/constellation/cohorts/<id>/review/review-001/record-review-input.json`.
+- `will_write`: the destination `path`, the size in `bytes`, and the `text`
+  itself, decoded. `bound_by_plan: true` means it is exactly what the sealed
+  plan binds;
+- `review`: the verdict, the reviewer id, the route and the reviewer's
+  findings. On the fixture route the verdict is scripted, and `note` says so;
+- `deadline`: `accept_before` (UTC), `seconds_remaining` and `expired`;
+- `candidate_sha256` and a ready `accept_command`.
 
-Read the candidate. Then accept it by naming that exact digest:
+The raw candidate is
+`/var/lib/constellation/cohorts/<id>/review/review-001/record-review-input.json`;
+the `acceptance` block decodes it for you. If you agree that this text should
+be written to that path, accept it by naming that exact digest:
 
 ```sh
 sudo $DRIVER accept --cohort <id> --candidate-sha256 sha256:<64 hex from status>
@@ -218,34 +377,42 @@ Acceptance is the operator's own step, and the driver has no auto-accept
 option. Accept runs one durable unit that records the review in AG, creates a
 Docket standing grant of at most 60 s, and runs AG's finite runner. The Maude
 executor then creates `result.txt` once. The continuation makes no provider
-request.
+request. Its output repeats what was accepted (`accepted`) and what was
+written (`result_file`).
 
 - If the digest is wrong, accept refuses `accept.candidate_mismatch` and records
-  nothing. The retained candidate stays acceptable.
+  nothing. The retained candidate stays acceptable until its deadline.
 - A second `accept` refuses `accept.exists`.
 - The result reports `human_attestation: false`. The acceptance is an operator
   transition, not a signed human attestation.
 
-### 6. Inspect
+### 7. Inspect
 
 ```sh
-sudo $DRIVER status --cohort <id>
+sudo $DRIVER status --cohort <id> --pretty
 ```
 
 After a successful accept, `status` shows:
 
 - AG at `settled_observation_required` with settlement outcome `success`;
-- replay counts of 1 spend, 1 Docket attempt and 1 settlement;
+- `counters`: the current counts from AG's native replay (1 spend, 1 Docket
+  attempt and 1 settlement) and 1 result file. `review.counters_at_review` is
+  the snapshot taken when the review finished, all 0, and it stays that way;
 - `result_file` with the exact bytes, sha256, `matches_plan: true`, and a
   scratch directory that holds only `result.txt`.
 
-### 7. Export and verify evidence
+`result.txt` is owned by `constellation`, mode 0600, in a 0700 directory, so
+reading it needs `sudo`.
+
+### 8. Export and verify evidence
 
 ```sh
-sudo $DRIVER evidence --cohort <id> --output /absolute/fresh/directory
+sudo $DRIVER evidence --cohort <id> --output /var/tmp/<id>-evidence
 ```
 
-The output directory must not exist yet. It receives:
+The output directory must be absolute and must not exist yet. It is created
+root-owned with mode 0700, so copying it off the host needs `sudo`. It
+receives:
 
 - the driver and caller records, and the plan, owner, deployment, observation
   and port inputs;
@@ -264,8 +431,8 @@ Then check the export independently with the kit's own verifier,
 `verify-evidence.py`:
 
 ```sh
-sudo /usr/bin/python3.11 -I -S <kit>/cohort-kit-0.3.0/setup/verify_cohort_evidence.py \
-  --evidence /absolute/fresh/directory
+sudo /usr/bin/python3.11 -I -S /opt/constellation/kit/cohort-kit-0.4.0/setup/verify_cohort_evidence.py \
+  --evidence /var/tmp/<id>-evidence
 ```
 
 It ships in the kit tarball, so its digest is in the kit's `BUILD-INFO.json`
@@ -294,31 +461,21 @@ cannot run against a cohort export. Its objective leg needs a Maude
 
 The `fixture-review` route qualifies install, wiring, custody, authority and
 effect. It does **not** qualify review independence. Its reviewer id is
-`fixture-deterministic-reviewer-not-independent`.
+`fixture-deterministic-reviewer-not-independent`, and its verdict is scripted.
 
 - `init` writes the codex home `codex-home-fixture-review/` with a loopback
   `openai_base_url` and a generated dummy key
   (`fixture-not-a-credential-<hex>`). No credential is involved.
-- The fixture is not a manifest component and not part of the product. Run-002
-  shipped it in the bundle under
+- The fixture is not a manifest component and not part of the product. It is
   `qualification-only/fixture-review-tooling-7b04e8d8cf99.tar.gz` (sha256
-  `168c4e57a7cb3d431ee2f9cb3b546c0d51f97a4781313522fa28f42b39964b8a`) and
-  started it before `review`:
-
-  ```sh
-  tar -xzf <bundle>/qualification-only/fixture-review-tooling-7b04e8d8cf99.tar.gz -C <fixture-dir> --no-same-owner
-  /usr/bin/python3.11 -I <fixture-dir>/fixture-review-tooling/fixture_responses_endpoint.py \
-    --port <port> --mode accepted --log <fixture-dir>/requests.jsonl --ready-file <fixture-dir>/ready.json
-  ```
-
-  It binds 127.0.0.1 only. The port must equal `init --fixture-port`. If nothing
-  is listening, `review` refuses `fixture.unreachable`.
+  `168c4e57a7cb3d431ee2f9cb3b546c0d51f97a4781313522fa28f42b39964b8a`), started
+  as in step 4.
 
 ### Real provider: the operator's acceptance step
 
 A real-provider review is the operator's acceptance step for this cohort. It has
-not been run. Nothing in run-002 exercised it, and the API-key credential form
-below has not been tried against the real provider.
+not been run, and the API-key credential form below has not been tried against
+the real provider.
 
 - `init --review-route real` creates
   `/var/lib/constellation/cohorts/<id>/codex-home-real/` (constellation, 0700),
@@ -344,82 +501,140 @@ below has not been tried against the real provider.
   and never copy it into evidence, a bundle, logs or an issue. The `evidence`
   export does not include the codex home.
 - `review` then needs `--paid-request-allowed`. Without it, the review refuses
-  `review.paid_request` before any request. The flag allows exactly one billable
-  request.
+  `review.paid_request` before any request.
+
+### Provider requests: one review request and one warm-up
+
+The review makes one generating request, but that is not the only message the
+App Server sends to the provider. The pinned App Server (Codex `97b0acd`)
+opens a Responses WebSocket and, when its session starts, sends a
+`response.create` with `generate: false` before the review turn
+(`codex-rs/core/src/session_startup_prewarm.rs`, and `prewarm_websocket` in
+`codex-rs/core/src/client.rs`). That warm-up carries the session's base
+instructions and tool definitions but no review input, and it asks for no
+output. The built-in `openai` provider enables WebSockets, so the real route
+sends it too. The fixture logs it as a request with `"warmup":true`, next to
+the one review request.
+
+Whether the provider bills a `generate: false` request, for example for its
+input tokens, has not been verified. Until it is, count the real route as one
+billable review request plus one warm-up of unknown cost. The driver does not
+change this behaviour. It belongs to the App Server and its route (owner: lane
+E), and it is recorded as a beta item.
+
+## Trust boundary: the operator's host account
+
+Governance in this kit protects the effect against the review agent and the
+worker processes. It does **not** protect against someone who controls the
+`constellation` account (or root) on the operator's host. That account holds
+the AG issuer key, the AG and Docket stores and the scratch directory, and it
+runs Docket, which runs the Maude executor as a child process. Anyone who can
+act as that account can run the executor directly with the sealed plan and
+write `result.txt` without an AG issuance or Docket custody, or simply write
+the file. The hostile review demonstrated this (its finding F4).
+
+This is a property of the local deployment, not a gap the driver can close on
+its own. Docket's executor transport starts the executor as its own child,
+under its own account (Docket `3093def`, `invoke_json_with_deadline` in
+`crates/gwr-local/src/governed_loop.rs`), so any wrapper Docket can start, the
+same account can start. A separate effect account would need the executor to
+verify a Docket- or AG-signed token, or the governance keys and stores to live
+under accounts the operator's account cannot reach. Both are component
+changes, recorded as beta items. Treat the host account as trusted.
 
 ## Limitations found by the closure lanes
 
 - **One cohort, one occurrence.** `init`, `review` and `accept` are create-once
   for each cohort. The driver has no retry, re-review or second-occurrence
-  command. A refused review, an expired issuance or a lost unit all need a new
-  cohort id, with a fresh `install` and `init`, or a new disposable host. The
-  driver also has no recovery command. After a lost unit, inspect with `status`
-  and the record directory, and do not rerun the step.
-- **Expired issuance.** AG's v2 issuance carries a signed not-after. A spend that
-  misses it is refused `issuance_not_current` and never reaches Docket. The
-  occurrence cannot be revived, so use a new cohort.
-- **NQ DEFECT-2: the verified-replica read path.** NQ 0.2.0 has no documented
-  read path for an account other than `nq`. The `constellation` account cannot
-  run `nq diagnostics qualify` on NQ's store (`/etc/nq` is 0750 root:nq and
-  `/var/lib/nq` is 0700). The driver works around this during `review`:
-  1. As `nq`, it takes a verified `nq backup`.
-  2. It restores the backup with `nq restore` into
-     `/var/lib/constellation/cohorts/<id>/observation/nq-replica/`.
-  3. It enrolls that replica in Nightshift.
-  4. It refuses `observation.replica` unless the replica's `qualify` output is
-     byte-identical to the live store's.
-
-  This is a named, open NQ defect. The workaround is accepted for this cohort
-  only.
+  command. A refused review, an expired review or issuance, or a lost unit all
+  need a new cohort id, with a fresh `install` and `init`, or a new disposable
+  host. The driver also has no recovery command. After a lost unit, inspect
+  with `status` and the record directory, and do not rerun the step.
+- **Expired review or issuance.** `accept` refuses an expired review
+  (`review.expired`) without recording anything. AG's v2 issuance carries a
+  signed not-after, and a spend that misses it is refused
+  `issuance_not_current` and never reaches Docket. Neither can be revived, so
+  use a new cohort.
+- **The local trust boundary** above: the `constellation` account can produce
+  the effect directly.
+- **The warm-up request** above: the real route sends one non-generating
+  warm-up before the review request, and its cost is unverified.
+- **NQ's read path for the cohort account.** NQ 0.2.0 has no documented read
+  path for an account other than `nq`, so the `constellation` account cannot
+  read NQ's store directly. During `review` the driver has `nq` take a verified
+  backup, restores it into
+  `/var/lib/constellation/cohorts/<id>/observation/nq-replica/`, and refuses
+  `observation.replica` unless the copy's `qualify` output is byte-identical to
+  the live store's. This is an open NQ defect (DEFECT-2), accepted for this
+  cohort only.
 - **Docket local-mode refusal names.** With the shipped local standing
-  resolver, standing refusals do not use the D4 name
-  `governed-execution-standing-absent`. Docket's `accept` reports them as local
-  resolver refusals, and they fail closed before custody:
-  - `process-refused:refused/error: local-standing-absent` (absent standing);
-  - `…local-standing-future` (future-dated standing);
-  - `…local-standing-ambiguous` (duplicate grants);
-  - `…local-standing-operator-enrollment-mismatch` (operator mismatch).
-
-  These local-mode names are the documented surface, and no mapping is applied.
-- **Evidence verification.** As described in step 7, the published alpha.6
-  `verify-evidence.py` cannot run against a cohort export, so use the kit's
-  `setup/verify_cohort_evidence.py`.
-- **AG read-only exit 3.** AG `58122ce`'s read-only commands (`inspect`,
-  `status`, `replay`, `history` and the rest) verify the store against public
-  material only and never open the issuer private key. When an enrolled file
-  is absent they still verify everything else, print their normal JSON, name
-  the absent files on stderr (`enrolled file unavailable: {…}`) and exit 3.
-  The driver never treats exit 3 as success: for a live cohort `status` and
-  `evidence` refuse `ag.enrolled_file_unavailable` naming the files.
+  resolver, a standing refusal reads
+  `process-refused:refused/error: local-standing-absent` (or `-future`,
+  `-ambiguous`, `-operator-enrollment-mismatch`). These fail closed before
+  custody.
+- **AG read-only exit 3.** AG's read-only commands (`inspect`, `status`,
+  `replay`, `history` and the rest) exit 3 when a file their genesis enrolls
+  is absent, after verifying everything else. The driver never treats that as
+  success: `status` and `evidence` refuse `ag.enrolled_file_unavailable`,
+  naming the files.
 - **Supervised Maude sessions are unsupported in this release.** This means the
   classic RPC, the TUI and agent_governor. The Maude artifact also does not
   ship the plan CLI or `public-nq-host-bootstrap.py`.
 - **Stale-review diagnostics.** A review that does not match the cohort's
   binding is refused (`review.refused`) by the caller's own check, before the
   native verifier runs. It writes no candidate. The caller's terminal names phase
-  `record-review-custody` instead of the projection step that refused.
+  `record-review-custody` instead of the projection step that refused. Read
+  `review/review-001/terminal.json` first.
 
 ### Refusal codes you may meet
 
 | Code | Meaning |
 |---|---|
 | `pin.incompatible` | A manifest value differs from `alpha-exit-rc`; the detail names the field |
+| `pin.kit_commit` | The kit commit is a placeholder, or differs from the commit stamped into the driver you are running |
+| `kit.unlisted_member`, `kit.missing_member`, `kit.member_digest` | The kit tarball holds a file its `BUILD-INFO.json` does not list, lacks one it lists, or has one with another digest |
+| `kit.driver_differs`, `kit.unreleased_driver` | You are not running the driver from the kit the manifest names; extract it from the checked tarball (step 1) |
 | `artifact.missing`, `artifact.ambiguous` | No file, or more than one file, in `--artifacts` carries a pinned digest |
+| `artifact.changed` | An artifact changed between being located and being read; nothing was used |
+| `artifact.unsafe_member`, `artifact.extracted_mismatch`, `artifact.receipt_mismatch` | A tar member is unsafe, an extracted file differs from its member, or a component's own digests disagree |
+| `nq.installed_mismatch`, `nq.package` | The installed `nq-ng` differs from the pinned package (the detail names the files), or the package is not the pinned one |
 | `build_info.*` | An installed executable does not report its pinned identity |
-| `host.unsupported`, `host.missing_tool`, `host.not_root`, `host.storage` | Host requirement not met |
+| `host.unsupported`, `host.missing_tool`, `host.not_root`, `host.storage`, `host.permission` | Host requirement not met; `host.not_root` means run it with `sudo` |
 | `cohort.exists` | Install or init was already done for this id; use a fresh id |
 | `cohort.not_installed`, `cohort.not_initialized` | A step ran out of order |
 | `fixture.port`, `fixture.unreachable` | The fixture port is missing, was given for the real route, or nothing is listening |
 | `review.paid_request` | The real route needs `--paid-request-allowed` |
 | `observation.condition` | NQ did not report the host load condition as `explicitly_absent` |
 | `observation.replica` | The NQ replica's qualification differs from the live store's (DEFECT-2 path) |
-| `review.refused` | The caller or the native verifier refused the review; no candidate was written |
+| `review.refused` | The caller or the native verifier refused the review; no candidate was written. Start with `review/review-001/terminal.json` |
 | `review.exists`, `accept.exists` | The create-once step already ran for this cohort |
 | `review.not_ready` | No retained, passing review to accept |
+| `review.expired` | The review's 5 minutes passed before `accept`; nothing was recorded; use a fresh cohort |
 | `accept.candidate`, `accept.candidate_mismatch` | The digest is malformed, or is not the retained candidate |
 | `accept.refused` | The continuation refused; see its records |
 | `evidence.output` | The output path is not absolute, or already exists |
 | `ag.enrolled_file_unavailable` | AG's read-only check exited 3: a file its genesis profile enrolls is absent; the detail names it |
+
+## What 0.4.0 changed
+
+Kit 0.3.0 (`85ab6d2c…`, manifest `874943a9…`) is superseded, and this driver
+refuses its manifest. The changes answer the lane H hostile review and
+newcomer run:
+
+- the published digests, and a step 1 that runs no kit code; the README is no
+  longer inside the kit;
+- the exhaustive kit binding with a stamped commit, and kit modules appended
+  after the standard library;
+- artifacts hashed and used from the same bytes, with every extracted file
+  checked;
+- an installed `nq-ng` compared file by file with the pinned package;
+- `status` and `accept` show the text, destination, size, review findings and
+  deadline; `accept` refuses an expired review; `status` separates the
+  review-time counters from the current ones; `status` as a non-root account
+  refuses `host.not_root` instead of failing with a traceback;
+- `--help` documents every option and lists no internal command;
+- this README: the fixture step, the words list, the trust boundary and the
+  warm-up request.
 
 ## What the driver runs underneath
 
@@ -460,17 +675,20 @@ caller refuses a V1 genesis.
 
 | File | Role in the cohort |
 |---|---|
-| `setup/constellation_cohort.py` | The setup driver (stdlib only, `/usr/bin/python3.11 -I -S`) |
+| `setup/constellation_cohort.py` | The setup driver (stdlib only, `/usr/bin/python3.11 -I -S`); the released copy has its kit commit stamped in |
 | `setup/test_constellation_cohort.py` | The driver's unit tests |
 | `setup/cohort_plan_inputs.py` | Builds the plan inputs with Maude's constructors from `maude-plan.pyz` |
 | `setup/prepare_review_inputs.py` | Drafts and seals the five Foreman inputs with `nightshift-foreman provider-seal-inputs` |
 | `setup/verify_cohort_evidence.py`, `setup/test_verify_cohort_evidence.py` | The independent evidence verifier (step 7) and its unit tests |
 | `prepare_plan.py`, `prepare_local_ports.py`, `prepare_owner.py`, `prepare_finite_run.py`, `seal_admission.py`, `enroll_caller.py`, `prepare_review_candidate.py` | Plan, port, owner, admission, caller-enrollment and finite-run preparation, run by the driver directly or through the caller modules |
-| `reviewed_action.py`, `continue_reviewed_action.py` | The caller: `--preflight-only` and `--review-only` in the review unit, and `--accept-and-execute` in the accept unit. The caller's `--execute`, `--inspect` and `--recover-run` modes are not wrapped by the driver and were not exercised in run-002 |
+| `reviewed_action.py`, `continue_reviewed_action.py` | The caller: `--preflight-only` and `--review-only` in the review unit, and `--accept-and-execute` in the accept unit. The caller's `--execute`, `--inspect` and `--recover-run` modes are not wrapped by the driver and were not exercised |
 
 The driver runs every kit module as
-`/usr/bin/python3.11 -I -S -c 'import sys; sys.path[:0]=[…]; import M; M.main(sys.argv[1:])'`.
+`/usr/bin/python3.11 -I -S -c 'import sys; sys.path.extend([…]); import M; M.main(sys.argv[1:])'`.
 On 3.11, `-I` implies `-P`, so the kit directories go on the path explicitly.
+They are appended after the standard library, so a kit file named like a
+standard module (for example `setup/json.py`) can never shadow it, and no kit
+module is named like one.
 The hand-run B004-era procedure has been retired. It invoked each of these
 scripts with `python3.12`, from source builds, with a caller layout written by
 hand. Running the scripts by hand is not a supported newcomer path. Their `--help`
@@ -495,8 +713,8 @@ None of them is a cohort pin.
   `tools/test_reviewed_local_copy_example.py` controls also predate the driver.
 - **`drop_success_response.py`** and Maude `c1fce17`'s
   `executor-interruption-qualification` artifact are component qualification
-  fixtures for response loss and interruption. Run-002 did not exercise them,
-  and the cohort does not enroll them.
+  fixtures for response loss and interruption. The cohort runs do not
+  exercise them, and the cohort does not enroll them.
 
 See [PUBLICATION-SCOPE.md](PUBLICATION-SCOPE.md) for what may and may not be
 published from this directory.

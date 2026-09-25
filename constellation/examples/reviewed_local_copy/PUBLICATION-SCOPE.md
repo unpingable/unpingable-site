@@ -10,8 +10,11 @@ released deployment.
 - The cohort setup driver and its helpers in `setup/`. The driver accepts only
   the `reviewed-local-copy/v1` cohort `alpha-exit-rc` that it pins, and it runs
   under `/usr/bin/python3.11 -I -S` on Debian 12. The component pins are the
-  cohort manifest's, listed in [README.md](README.md). They are not the pins in
-  `source-pins.json`.
+  cohort manifest's, listed in the site's `README.md` for this directory. They
+  are not the pins in `source-pins.json`.
+- `README.md` is published with the site but is not in the cohort-kit tarball:
+  it states the published digests of the kit and the manifest, which a file
+  inside the kit cannot do.
 - Retired pre-cohort material, kept for its history and not part of the cohort
   path:
   - `source-pins.json`, the pre-cohort source revisions, including Maude
