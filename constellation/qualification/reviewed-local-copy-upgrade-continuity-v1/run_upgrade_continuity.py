@@ -51,7 +51,7 @@ HARNESS_FILES = ("run_upgrade_continuity.py", "compose_cohort_b.py", "guest/g3_g
 DEFAULT_OUTPUT_ROOT = pathlib.Path("/data/git/.campaign-artifacts/alpha-exit-closure-20260925/upgrade-continuity")
 DEFAULT_STATE = pathlib.Path.home() / ".local/state/alpha-exit-g3-upgrade-continuity"
 # Bundle A must be the qualified alpha-exit-rc bundle of cohort-clean-install/run-003.
-RUN_003_MANIFEST = "PENDING"
+RUN_003_MANIFEST = "874943a91d43a101176f5331822fd816c46251f51f83d0976777b50f89c8194c"
 AG_PIN = {"package_version": "0.1.0", "source_commit": "58122cec1ca8de35a1d146bf7987f8e69f49a040",
           "artifact_sha256": "sha256:bc53b836d7207493bbe35f0b380475641603caf3aedea6e8bcd3c9c0dea6ab5c"}
 GH = base.GUEST_HOME
