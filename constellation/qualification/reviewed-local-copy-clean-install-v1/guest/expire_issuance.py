@@ -46,7 +46,7 @@ def main() -> int:
     report = {'schema': 'constellation.qualification.expired-issuance/v1', 'cohort': args.cohort,
               'operator': 'SYNTHETIC OPERATOR (harness)'}
     output = state / 'runs' / 'continuation-bounded-001'
-    code = (f"import sys; sys.path[:0]=[{str(kit / 'setup')!r}, {str(kit)!r}]; import continue_reviewed_action as c; "
+    code = (f"import sys; sys.path.extend([{str(kit / 'setup')!r}, {str(kit)!r}]); import continue_reviewed_action as c; "
             "original = c.prepare\n"
             "import json\n"
             "def bounded(*a):\n    value = original(*a); value['max_steps'] = 2\n"

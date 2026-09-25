@@ -47,7 +47,7 @@ def main() -> int:
     for name in ('--kit-setup', '--cohort', '--ag'):
         parser.add_argument(name, required=True)
     args = parser.parse_args()
-    sys.path.insert(0, args.kit_setup)
+    sys.path.append(args.kit_setup)  # after the standard library
     import constellation_cohort as cc  # noqa: PLC0415
     live = cc.STATE_ROOT / args.cohort
     account = cc.pwd.getpwnam(cc.COHORT_ACCOUNT)
