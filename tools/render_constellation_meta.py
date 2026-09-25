@@ -29,10 +29,10 @@ PAGES = {
         "What Constellation has and has not shown: qualified scope, one-off results, private evidence, production readiness, and where evidence does not generalize.",
         BASE + "limits.html",
     ),
-    "research.html": (
-        "Research behind Constellation",
-        "Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.",
-        BASE + "research.html",
+    "directions.html": (
+        "Constellation research directions",
+        "The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.",
+        BASE + "directions.html",
     ),
     "absd.html": (
         "ABSD — a small experimental operating system",
@@ -121,15 +121,37 @@ PAGES = {
     ),
 }
 
+RESEARCH = "../index.html#research"
+SITE_HEADER = f'''<header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="{RESEARCH}">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>'''
 NAVIGATION = (
-    ("index.html", "Constellation", "index.html"),
+    ("index.html", "Overview", "index.html"),
     ("understand.html", "How it works", "understand.html"),
     ("status.html", "Status", "status.html"),
     ("limits.html", "Limits", "limits.html"),
     ("components.html", "Components", "components.html"),
     ("start.html", "Guides and source", "start.html"),
-    ("research.html", "Research", "research.html"),
     ("absd.html", "ABSD", "absd.html"),
+)
+FOOTER_LINKS = (
+    ("../index.html", "unpingable"),
+    ("status.html", "Status"),
+    ("limits.html", "Limits"),
+    ("archive.html", "Archive"),
+    (RESEARCH, "Research"),
+    ("https://github.com/unpingable", "GitHub"),
+)
+FOOTER = (
+    '<footer class="site-footer"><ul class="links">'
+    + "".join(f'<li><a href="{href}">{label}</a></li>' for href, label in FOOTER_LINKS)
+    + '</ul><p class="coda">Constellation documentation · plain working edition</p></footer>'
 )
 
 
@@ -168,19 +190,26 @@ def update(path: Path, rendered: str) -> str:
     links = []
     for current_page, label, href in NAVIGATION:
         current = ' aria-current="page"' if current_page == relative else ""
-        strong = relative == "index.html" and current_page == "index.html"
-        link = f'<a href="{href}"{current}>{label}</a>'
-        links.append(f"<strong>{link}</strong>" if strong else link)
-    navigation = '<nav aria-label="Main navigation">' + "".join(links) + "</nav>"
+        links.append(f'<a href="{href}"{current}>{label}</a>')
+    navigation = (
+        '<nav class="section-nav" aria-label="Main navigation">\n    '
+        + "".join(links)
+        + "\n  </nav>"
+    )
+    # The page frame: the shared site header, then the Constellation section
+    # navigation. Older pages carried the section links inside a plain header.
     updated, count = re.subn(
-        r'<nav aria-label="Main navigation">.*?</nav>',
-        navigation,
+        r'<header\b[^>]*>.*?</header>(\s*<nav class="section-nav" aria-label="Main navigation">.*?</nav>)?',
+        lambda _: SITE_HEADER + "\n  " + navigation,
         updated,
         count=1,
         flags=re.DOTALL,
     )
     if count != 1:
-        raise ValueError(f"{path}: expected one main navigation")
+        raise ValueError(f"{path}: expected one page header")
+    updated, count = re.subn(r"<footer\b.*?</footer>", lambda _: FOOTER, updated, count=1, flags=re.DOTALL)
+    if count != 1:
+        raise ValueError(f"{path}: expected one footer")
     return updated
 
 
