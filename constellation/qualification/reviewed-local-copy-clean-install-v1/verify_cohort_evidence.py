@@ -15,6 +15,8 @@ digest to refuse. This does the same for a cohort bundle written by
 - Docket's standing snapshot joins custody;
 - exactly one spend, one Docket attempt and one settlement, outcome success;
 - result.txt holds exactly the plan's reviewed bytes;
+- the issuance identity recomputes under AG's digest law, and its Ed25519
+  signature verifies (openssl) by a key the bundle's Docket trust names;
 - the same checks with a substituted plan digest refuse.
 
 Prints one JSON line and exits 0 only when every check passes.
@@ -26,7 +28,12 @@ import base64
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import sys
+import tempfile
+
+SIGNATURE_PREFIX = b'ag-ng\x00governed-loop-issuance-signature\x00v1\x00'
+SPKI_ED25519 = bytes.fromhex('302a300506032b6570032100')
 
 
 def load(root: Path, name: str):
@@ -40,6 +47,42 @@ def sums(root: Path) -> list[str]:
         if hashlib.sha256((root / name).read_bytes()).hexdigest() != digest:
             bad.append(name)
     return bad
+
+
+def jcs(value) -> bytes:
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+
+
+def ag_digest(domain: str, payload: bytes) -> str:
+    digest = hashlib.sha256(b'ag-ng\x00digest\x00v1\x00')
+    digest.update(len(domain).to_bytes(16, 'big') + domain.encode() + len(payload).to_bytes(16, 'big') + payload)
+    return 'sha256:' + digest.hexdigest()
+
+
+def b64url(value: str) -> bytes:
+    return base64.urlsafe_b64decode(value + '=' * (-len(value) % 4))
+
+
+def issuance_checks(root: Path) -> dict:
+    """AG issuance identity and signature, independent of the driver."""
+    record = load(root, 'native/docket-inspect.json').get('record') or {}
+    issuance, authentication = record.get('issuance', {}), record.get('authentication', {})
+    basis = {name: issuance.get(name) for name in ('key', 'mandate', 'observation', 'program', 'proposal', 'scope',
+                                                   'spend', 'standing_resolution', 'subject', 'work', 'work_schema',
+                                                   'not_after_unix_ms')}
+    identity = ag_digest('ag.governed-loop.issuance/v2', jcs(basis)) == issuance.get('issuance')
+    trusted = any(entry.get('issuer_principal') == authentication.get('issuer_principal')
+                  and entry.get('key_id') == authentication.get('signer_key_id')
+                  and entry.get('public_key') == authentication.get('signer_public_key')
+                  for entry in load(root, 'state/ports/docket-trust.json').get('issuers', []))
+    with tempfile.TemporaryDirectory() as tmp:
+        work = Path(tmp)
+        (work / 'k.der').write_bytes(SPKI_ED25519 + b64url(authentication.get('signer_public_key', '')))
+        (work / 'm').write_bytes(SIGNATURE_PREFIX + jcs(issuance))
+        (work / 's').write_bytes(b64url(authentication.get('signature', '')))
+        done = subprocess.run(['openssl', 'pkeyutl', '-verify', '-pubin', '-inkey', str(work / 'k.der'), '-keyform', 'DER',
+                               '-rawin', '-in', str(work / 'm'), '-sigfile', str(work / 's')], capture_output=True, check=False)
+    return {'issuance_identity': identity, 'issuance_signature': trusted and done.returncode == 0}
 
 
 def joins(root: Path, plan_digest_override: str | None = None) -> dict:
@@ -95,7 +138,7 @@ def main() -> int:
     args = parser.parse_args()
     root = args.evidence.resolve()
     bad = sums(root)
-    checks = joins(root)
+    checks = {**joins(root), **issuance_checks(root)}
     refused = not all(joins(root, 'sha256:' + '0' * 64).values())
     passed = not bad and all(checks.values()) and refused
     binding = load(root, 'state/plan/binding.json')
