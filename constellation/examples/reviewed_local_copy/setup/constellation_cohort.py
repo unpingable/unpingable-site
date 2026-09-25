@@ -62,7 +62,7 @@ import tarfile
 import time
 import uuid
 
-DRIVER_VERSION = '0.3.0'
+DRIVER_VERSION = '0.3.0-qual.g3b'  # QUALIFICATION-ONLY
 MANIFEST_SCHEMA = 'constellation.cohort-manifest/v1'
 PROFILE = 'reviewed-local-copy/v1'
 RECORD_SCHEMA = 'constellation.cohort-driver-record/v1'
@@ -121,7 +121,11 @@ COMPONENTS = {
 # BUILD-INFO.json and the kit's driver bytes must equal this running driver.
 QUALIFIED_COHORTS = {
     PROFILE: {
-        'alpha-exit-rc': {
+        # QUALIFICATION-ONLY (lane G3, alpha-exit closure 2026-09-25): cohort B
+        # of the A -> B upgrade experiment. Docket is a version-bumped rebuild
+        # from a local qual commit; every other component is alpha-exit-rc's.
+        # Never a release; this driver release qualifies only this cohort.
+        'g3-qual-b': {
             'nq': {'package_version': '0.2.0', 'source_commit': 'dbe29d81ba84061b08fec285f1218ec2145c65bc',
                    'artifact_sha256': 'sha256:9e953e88d1f79cffd03e97b530199459b5e45ead55ea4ba7d5066e0851008d7b'},
             'maude': {'package_version': '0.1.0', 'source_commit': '75d4dc1df1934cfc797c48c528d314804938eaae',
@@ -132,8 +136,8 @@ QUALIFIED_COHORTS = {
                            'artifact_sha256': 'sha256:cffbea38c4718c480fd9c0b5c41c28331d52132205a3e16f2fda2e572467a254'},
             'ag': {'package_version': '0.1.0', 'source_commit': 'e20c23a35f836d9f3913b62fbd3cb2621a866321',
                    'artifact_sha256': 'sha256:b03b8f06363ca73464c14b2131be8ac7b7bf8c38c9521fd594882d1cd15fac19'},
-            'docket': {'package_version': '0.1.0', 'source_commit': '3093def030a5151d2e7b956eafb73d0c16f8c735',
-                       'artifact_sha256': 'sha256:6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b'},
+            'docket': {'package_version': '0.1.1-qual.g3b', 'source_commit': '7fe11f0618cac1959138a0c985154bee1d7c7226',
+                       'artifact_sha256': 'sha256:246ff3f4cff8ca81fa7c63bee919ee815cf47a9ee788d1eb8dc7d347f9f61600'},
             'switchyard': {'package_version': '0.2.0', 'source_commit': '1c82e719cf358728d0262ae11138fb13fefe0cae',
                            'artifact_sha256': 'sha256:be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1'},
             'app-server': {'package_version': '0.0.0', 'source_commit': '97b0acd5ce2ccb3c87a763606696c35a450947f6',
