@@ -130,8 +130,8 @@ QUALIFIED_COHORTS = {
                       'artifact_sha256': 'sha256:51e85b97f44504240044f3b666d6fb3602270939102676e65798f4cecd405c61'},
             'nightshift': {'package_version': '0.1.0', 'source_commit': '30c89fe17723a7b9d77b19fd650aadb0a784748d',
                            'artifact_sha256': 'sha256:cffbea38c4718c480fd9c0b5c41c28331d52132205a3e16f2fda2e572467a254'},
-            'ag': {'package_version': '0.1.0', 'source_commit': 'e20c23a35f836d9f3913b62fbd3cb2621a866321',
-                   'artifact_sha256': 'sha256:b03b8f06363ca73464c14b2131be8ac7b7bf8c38c9521fd594882d1cd15fac19'},
+            'ag': {'package_version': '0.1.0', 'source_commit': '58122cec1ca8de35a1d146bf7987f8e69f49a040',
+                   'artifact_sha256': 'sha256:bc53b836d7207493bbe35f0b380475641603caf3aedea6e8bcd3c9c0dea6ab5c'},
             'docket': {'package_version': '0.1.0', 'source_commit': '3093def030a5151d2e7b956eafb73d0c16f8c735',
                        'artifact_sha256': 'sha256:6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b'},
             'switchyard': {'package_version': '0.2.0', 'source_commit': '1c82e719cf358728d0262ae11138fb13fefe0cae',
@@ -1337,6 +1337,49 @@ def _accept_unit(args, records_dir: Path) -> dict:
 
 # ------------------------------------------------------------------ status
 
+# AG's read-only commands (inspect, status, replay, history, refusals, ...)
+# verify against public material only (AG 58122ce). Exit 3 means "verified
+# except the enrolled files named on stderr", which is never a success here.
+AG_UNAVAILABLE_EXIT = 3
+AG_UNAVAILABLE_PREFIX = 'enrolled file unavailable: '
+AG_UNAVAILABLE_SCHEMA = 'ag.governed-loop.read-only-verification/v1'
+
+
+def ag_read_only_outcome(returncode: int, stdout: bytes, stderr: bytes) -> dict:
+    """Classify one AG read-only command.
+
+    `verified` (exit 0, JSON on stdout); `verified_except_unavailable` (exit
+    3 with AG's typed report naming the absent enrolled files: everything
+    else verified, but the command did not verify the whole genesis
+    profile); otherwise `refused`. Only `verified` may count as a pass.
+    """
+    outcome = {'exit': returncode, 'status': 'refused', 'json': None, 'unavailable': None}
+    if returncode not in (0, AG_UNAVAILABLE_EXIT):
+        return outcome
+    try:
+        outcome['json'] = json.loads(stdout)
+    except ValueError:
+        outcome['json'] = None
+        return outcome
+    if returncode == 0:
+        outcome['status'] = 'verified'
+        return outcome
+    reports = [line[len(AG_UNAVAILABLE_PREFIX):] for line in stderr.decode(errors='replace').splitlines()
+               if line.startswith(AG_UNAVAILABLE_PREFIX)]
+    try:
+        report = json.loads(reports[-1]) if len(reports) == 1 else None
+    except ValueError:
+        report = None
+    if (not isinstance(report, dict) or report.get('schema') != AG_UNAVAILABLE_SCHEMA
+            or report.get('status') != 'enrolled-file-unavailable' or not isinstance(report.get('unavailable'), list)
+            or not report['unavailable']):
+        return outcome
+    outcome['status'] = 'verified_except_unavailable'
+    outcome['unavailable'] = [{key: entry.get(key) for key in ('role', 'path', 'identity')}
+                              for entry in report['unavailable'] if isinstance(entry, dict)]
+    return outcome
+
+
 def native_read(programs: Programs, paths: dict) -> dict:
     """Read-only native inspection as the cohort account."""
     def run(argv):
@@ -1345,11 +1388,22 @@ def native_read(programs: Programs, paths: dict) -> dict:
         if done.returncode != 0:
             raise Refusal('child.failed', f'{argv[1]}: {done.stderr.decode(errors="replace")[-400:]}')
         return json.loads(done.stdout)
+
+    def run_ag(argv):
+        done = subprocess.run(as_user(COHORT_ACCOUNT, [str(a) for a in argv]), stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE, env={'PATH': SYSTEM_PATH, 'LANG': 'C.UTF-8'}, timeout=60, check=False)
+        outcome = ag_read_only_outcome(done.returncode, done.stdout, done.stderr)
+        if outcome['status'] == 'verified_except_unavailable':
+            # A live cohort has every enrolled file; an absent one is a fault.
+            raise Refusal('ag.enrolled_file_unavailable', json.dumps(outcome['unavailable'], sort_keys=True))
+        if outcome['status'] != 'verified':
+            raise Refusal('child.failed', f'{argv[1]}: {done.stderr.decode(errors="replace")[-400:]}')
+        return outcome['json']
     result = {}
     database = paths['deployment'] / 'ag.sqlite'
     if not database.exists():
         return {'ag': 'absent'}
-    inspected = run([programs.ag, 'inspect', '--database', database])
+    inspected = run_ag([programs.ag, 'inspect', '--database', database])
     result['ag_inspect'] = inspected
     state = inspected['current']['state']
     variant = next(iter(state))  # one tagged variant; never a fixed path
@@ -1709,9 +1763,13 @@ def restored_view(source_state: Path, cohort: str, stage: Path, argv: list[str])
     state path, in a private mount namespace that ends with the process.
 
     AG verifies a campaign store only against its genesis-bound runtime
-    profile, whose files (including the issuer key) are pinned by absolute
-    path. The view restores those locators without writing to them and
-    without making the retired state live in the host's namespace.
+    profile, whose files are pinned by absolute path. The view restores those
+    locators without writing to them and without making the retired state
+    live in the host's namespace. AG's read-only commands never open the
+    issuer private key (AG 58122ce), so the view need not contain it. The
+    store itself is never read from the view: AG opens its database
+    read-write even for read-only commands, so callers pass a private
+    writable copy outside the view.
     """
     script = ('set -eu; mount --bind "$1" "$2"; mount -t tmpfs -o mode=0755,size=1m,nosuid,nodev,noexec '
               'constellation-restored-view "$3"; mkdir -m 0700 "$3/$4"; mount --bind "$2" "$3/$4"; '
@@ -1800,10 +1858,19 @@ def verify_evidence(directory: Path, cohort: str, programs: 'Programs', source_s
             stage = make_dir(scratch / 'view-stage', 0o700)
             argv = restored_view(source_state, cohort, stage, as_user(COHORT_ACCOUNT, [programs.ag, 'inspect',
                                                                                           '--database', database]))
-            inspected = run_read(argv, 'ag-inspect-restored-view')
-            checks['ag_reinspection'] = inspected['json'] == ag_export
-            observed['ag'] = {'inspect_exit': inspected['exit'], 'program': str(programs.ag), 'view_source': str(source_state),
-                              'stderr': inspected['stderr_tail']}
+            done = subprocess.run([str(a) for a in argv], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                  env={'PATH': SYSTEM_PATH, 'LANG': 'C.UTF-8'}, timeout=120, check=False)
+            outcome = ag_read_only_outcome(done.returncode, done.stdout, done.stderr)
+            # Exit 3 (an enrolled file absent from the view) is recorded with
+            # the files AG names, and is never a pass.
+            checks['ag_reinspection'] = outcome['status'] == 'verified' and outcome['json'] == ag_export
+            observed['ag'] = {'inspect_exit': done.returncode, 'outcome': outcome['status'],
+                              'unavailable': outcome['unavailable'],
+                              'state_digest_matches': (outcome['json'] or {}).get('current', {}).get('state_digest')
+                              == ag_export['current'].get('state_digest'),
+                              'program': str(programs.ag), 'view_source': str(source_state),
+                              'database': 'a private writable copy (AG opens its store read-write even to read)',
+                              'stderr': done.stderr.decode(errors='replace')[-600:]}
         elif require_ag:
             checks['ag_reinspection'] = False
             observed['ag'] = {'unavailable': 'the retired state that AG verification needs is absent'}

@@ -188,6 +188,9 @@ class CohortPins(unittest.TestCase):
         self.assertEqual(pins['nightshift']['source_commit'], pins['pulse']['source_commit'])
         self.assertNotEqual(pins['nightshift']['artifact_sha256'], pins['pulse']['artifact_sha256'])
         self.assertTrue(pins['nq']['artifact_sha256'].startswith('sha256:9e953e88'))
+        # AG revision 2: keyless read-only verification (G3 D-1 fixed).
+        self.assertEqual(pins['ag']['source_commit'], '58122cec1ca8de35a1d146bf7987f8e69f49a040')
+        self.assertTrue(pins['ag']['artifact_sha256'].startswith('sha256:bc53b836'))
         for name, pin in pins.items():
             if name != 'cohort-kit':
                 self.assertRegex(pin['source_commit'], cc.COMMIT)
@@ -802,6 +805,56 @@ class patched:
     def __exit__(self, *exc):
         for name, value in self.saved.items():
             setattr(self.module, name, value)
+
+
+UNAVAILABLE = {'schema': 'ag.governed-loop.read-only-verification/v1', 'status': 'enrolled-file-unavailable',
+               'unavailable': [{'identity': 'sha256:' + '1' * 64, 'path': '/opt/x/validator.pyz',
+                                'role': 'shared_admission.plan_validator'}]}
+INSPECTED = {'current': {'state': {'settled_observation_required': {}}, 'state_digest': 'sha256:' + '2' * 64}}
+
+
+class AgReadOnly(unittest.TestCase):
+    """AG 58122ce read-only exits: 0 verified, 3 verified except named files."""
+
+    def outcome(self, code, stdout=INSPECTED, stderr=b''):
+        out = stdout if isinstance(stdout, bytes) else json.dumps(stdout).encode()
+        return cc.ag_read_only_outcome(code, out, stderr)
+
+    def report(self, value=UNAVAILABLE):
+        return b'warning: other line\n' + cc.AG_UNAVAILABLE_PREFIX.encode() + json.dumps(value).encode() + b'\n'
+
+    def test_exit_zero_is_verified(self):
+        value = self.outcome(0)
+        self.assertEqual((value['status'], value['json'], value['unavailable']), ('verified', INSPECTED, None))
+
+    def test_exit_three_names_the_files_and_is_not_verified(self):
+        value = self.outcome(3, stderr=self.report())
+        self.assertEqual(value['status'], 'verified_except_unavailable')
+        self.assertEqual(value['unavailable'], UNAVAILABLE['unavailable'])
+        self.assertEqual(value['json'], INSPECTED)
+
+    def test_exit_three_without_a_typed_report_is_refused(self):
+        for stderr in (b'', b'enrolled file unavailable: not json\n',
+                       self.report(dict(UNAVAILABLE, schema='other')), self.report(dict(UNAVAILABLE, unavailable=[]))):
+            self.assertEqual(self.outcome(3, stderr=stderr)['status'], 'refused', stderr)
+        self.assertEqual(self.outcome(3, stdout=b'', stderr=self.report())['status'], 'refused')
+
+    def test_other_exits_are_refused(self):
+        for code in (1, 2, 4, -9):
+            self.assertEqual(self.outcome(code, stderr=self.report())['status'], 'refused')
+        self.assertEqual(self.outcome(0, stdout=b'not json')['status'], 'refused')
+
+    def test_status_refuses_a_live_cohort_with_an_unavailable_enrolled_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            deployment = Path(tmp)
+            (deployment / 'ag.sqlite').write_bytes(b'')
+            programs = type('P', (), {'ag': Path('/opt/ag-loopctl'), 'docket': Path('/opt/docket')})()
+            done = __import__('subprocess').CompletedProcess([], 3, json.dumps(INSPECTED).encode(), self.report())
+            with patched(cc.subprocess, run=lambda *a, **k: done):
+                with self.assertRaises(cc.Refusal) as caught:
+                    cc.native_read(programs, {'deployment': deployment, 'ports': deployment})
+        self.assertEqual(caught.exception.code, 'ag.enrolled_file_unavailable')
+        self.assertIn('shared_admission.plan_validator', caught.exception.detail)
 
 
 class UpgradeJournal(unittest.TestCase):
