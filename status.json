@@ -33,12 +33,12 @@
       "id": "indeterminate-effect-demo",
       "name": "Indeterminate-effect demo (refund with a lost reply)",
       "kind": "exhibit",
-      "status": "cold-clone qualified; source branch not merged",
+      "status": "cold-clone qualified; tagged public exhibit, not a Docket release",
       "claim": "An agent reports a refund done after the reply was lost. Docket, built from source, records the attempt as indeterminate, sends nothing twice, and settles success or failure only on a separate observer's read of the provider's ledger. A second run with the request lost ends in failure under the same agent claim. Docket is real; the authorization signer (a stand-in reproducing AG's published test vector), the payment provider, the faulty network link and the agent are local stand-ins. Everything runs on one host under one clock.",
       "verified": "2026-09-25",
-      "verified_by": "run-003: an anonymous HTTPS clone of the demo branch into a fresh Debian 12 virtual machine, with the network cut off for the build and the run; the demo exited 0 and its independent check passed 53 of 53 checks.",
-      "evidence": [{"label": "demo source (unmerged branch)", "url": "https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect"}, {"label": "transcript", "url": "constellation/demo/indeterminate-effect-transcript.txt"}, {"label": "check output", "url": "constellation/demo/indeterminate-effect-check.txt"}, {"label": "recording", "url": "constellation/demo/indeterminate-effect.cast"}],
-      "promotion": "The branch must be merged before the demo counts as part of Docket. Independence holds because this demo's worker delegates reconcile to the observer; Docket does not pin that configuration, so it is not a general guarantee. Using AG itself, a remote provider, or several observers would each need separate evidence."
+      "verified_by": "run-003: an anonymous HTTPS clone of the demo source into a fresh Debian 12 virtual machine, with the network cut off for the build and the run; the demo exited 0 and its independent check passed 53 of 53 checks. The exhibit tag demo/indeterminate-effect-20260925 (eeb0534) carries the same demo code; only the README changed.",
+      "evidence": [{"label": "demo source (tag demo/indeterminate-effect-20260925)", "url": "https://github.com/unpingable/constellation-docket/tree/demo/indeterminate-effect-20260925/examples/indeterminate-effect"}, {"label": "transcript", "url": "constellation/demo/indeterminate-effect-transcript.txt"}, {"label": "check output", "url": "constellation/demo/indeterminate-effect-check.txt"}, {"label": "recording", "url": "constellation/demo/indeterminate-effect.cast"}],
+      "promotion": "The tag is a qualified public exhibit, not a Docket release or cohort promotion; the demo counts as part of Docket only once it is merged there. Independence holds because this demo's worker delegates reconcile to the observer; Docket does not pin that configuration, so it is not a general guarantee. Using AG itself, a remote provider, or several observers would each need separate evidence."
     },
     {
       "id": "docket",
