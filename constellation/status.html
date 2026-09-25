@@ -33,7 +33,7 @@
     </nav>
   </header>
   <nav class="section-nav" aria-label="Main navigation">
-    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html" aria-current="page">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html" aria-current="page">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a>
   </nav>
   <main id="main">
     <h1>Status</h1>
@@ -45,10 +45,25 @@
         <li><strong>Released integration profile:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6, <code>reviewed-local-copy/v1</code></a>. One exact plan to create a local file was independently reviewed, explicitly accepted, authorized once, executed once and settled, then checked by a separate read. Anyone can re-verify the retained evidence from public source without repeating the effect.</li>
         <li><strong>Runnable demo:</strong> the <a href="index.html#demo">indeterminate-effect demo</a> passed a cold-clone run in a fresh virtual machine on 2026-09-25. The custody service is real and built from source; the other parts are local stand-ins. Its source branch is not merged. See the <a href="#status-indeterminate-effect-demo">ledger row</a>.</li>
         <li><strong>Released component package:</strong> <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">NQ 0.2.0</a>, a Debian package and tarball for NQ alone.</li>
-        <li><strong>Release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25. The artifacts are not public.</li>
+        <li><strong>Release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25, and a clean-room newcomer run succeeded the same day. A hostile review then found defects that are being fixed and must be re-verified before promotion. The artifacts are not public.</li>
         <li><strong>Earlier profiles:</strong> alpha.1 through alpha.5 remain available for narrower consultation, saved-check, objective-read, connected-cache and installed-cadence paths; see <a href="start.html">guides and source</a>.</li>
         <li><strong>Not production-ready.</strong> The boundaries are on the <a href="limits.html">limits</a> page.</li>
       </ul>
+    </section>
+
+    <section id="names" aria-labelledby="names-heading">
+      <h2 id="names-heading">Names used on this page</h2>
+      <p>Each name is one small program; the <a href="components.html">components</a> page has the details. The words <em>composition</em>, <em>profile</em>, <em>exhibit</em> and <em>promotion</em> are defined <a href="#labels">below</a>.</p>
+      <dl class="pairs">
+        <dt><a href="components.html#ag">AG</a></dt><dd>Decides whether one exact piece of work may run, and grants permission for that one run.</dd>
+        <dt><a href="components.html#docket">Docket</a></dt><dd>Keeps custody of an authorized attempt: sends it once, records the outcome, and reconciles an uncertain one by reading rather than repeating.</dd>
+        <dt><a href="components.html#nq">NQ</a></dt><dd>Evaluates a narrowly defined question from recorded evidence, or refuses when the evidence is missing or stale.</dd>
+        <dt><a href="components.html#maude">Maude</a></dt><dd>Writes and checks the exact plan of work before anyone authorizes it.</dd>
+        <dt><a href="components.html#nightshift">Nightshift</a></dt><dd>Tracks work and conditions over time and proposes the next task.</dd>
+        <dt><a href="components.html#pulse">Pulse</a></dt><dd>Checks whether current evidence still supports one specific statement.</dd>
+        <dt><a href="components.html#switchyard-runtime">Switchyard</a></dt><dd>Runs bounded requests to a model provider, used here for the independent review of a plan.</dd>
+        <dt>App Server</dt><dd>The agent runtime, built from public Codex source, that Switchyard drives for that review; see <a href="start.html">guides and source</a>.</dd>
+      </dl>
     </section>
 
     <section id="ledger" aria-labelledby="ledger-heading">
@@ -73,7 +88,7 @@
         <dl class="pairs">
           <dt>verified 2026-09-25</dt><dd>clean-install run-003: 23 pass, 0 fail, 0 not exercised, adding a check that the evidence verifier shipped in the setup kit gives the same result inside the virtual machine as outside it, and a replay of the settled evidence without the issuer&#x27;s private key. A separate upgrade-continuity run (run-002: 22 pass, 0 fail, 0 not exercised) upgraded that install to a second, test-only build and re-verified the first build&#x27;s retained evidence, byte for byte. Both run records are retained privately; the harness source is public on an unmerged branch.</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/unpingable-site/tree/76f8289aaf41f9fa531526f79986eb31e9e025fb/constellation/qualification/reviewed-local-copy-clean-install-v1" target="_blank" rel="noopener">clean-install harness source</a> &middot; <a href="https://github.com/unpingable/unpingable-site/tree/76f8289aaf41f9fa531526f79986eb31e9e025fb/constellation/qualification/reviewed-local-copy-upgrade-continuity-v1" target="_blank" rel="noopener">upgrade-continuity harness source</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">the released alpha.6 profile it packages</a></dd>
-          <dt>promotion</dt><dd>This is not a release. The packaged artifacts are not public, and the clean-room newcomer run and hostile review have not taken place. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package.</dd>
+          <dt>promotion</dt><dd>This is not a release. The packaged artifacts are not public. A clean-room newcomer run succeeded on 2026-09-25; a hostile review the same day found that an altered setup kit passes the kit pin check, and that the packaged executor can be run directly without an AG issuance or Docket custody. Those findings are under repair and must be re-verified before promotion. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-docket">
@@ -186,6 +201,14 @@
         <dt>exhibit</dt><dd>A behaviour you can presently inspect or run.</dd>
         <dt>proposition</dt><dd>Candidate architecture under investigation. Named, not ratified, and usually not built.</dd>
       </dl>
+      <h3>Other terms</h3>
+      <dl class="pairs">
+        <dt>profile</dt><dd>One named, pinned composition with a released guide, such as <code>reviewed-local-copy/v1</code>. An integration release qualifies a named profile.</dd>
+        <dt>promotion</dt><dd>Strengthening a row&rsquo;s claim, for example from release candidate to release. It happens only by an explicit editorial decision once the stated condition is met.</dd>
+        <dt>settlement</dt><dd>The final recorded outcome of an attempt: success or failure, with the evidence it rests on.</dd>
+        <dt>reconcile</dt><dd>Finding out what happened to an uncertain attempt by reading evidence, never by repeating the attempt.</dd>
+        <dt>alpha-exit</dt><dd>The work of getting from the alpha integration releases to a first packaged release.</dd>
+      </dl>
       <h3>Four kinds of thing shown</h3>
       <dl class="pairs">
         <dt>schematic</dt><dd>A designed explanatory diagram or normalized trace. It teaches the shape of the system. It is not output.</dd>
@@ -196,6 +219,6 @@
       <p>Where a distinction is not yet earned, this site says so rather than smoothing it. Synthetic fixtures appear only where they are identified as synthetic and used to demonstrate conditional behaviour &mdash; never as testimony about a real estate. Terms of art are defined in the <a href="../glossary.html">glossary</a>.</p>
     </section>
   </main>
-  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer>
 </body>
 </html>
