@@ -41,6 +41,7 @@
     <p>Per-object claims, verification dates and promotion conditions are in the <a href="status.html#ledger">status ledger</a>. Where this page and the ledger disagree, the ledger is newer.</p>
 
     <h2 id="qualified">What is qualified, and what is not</h2>
+    <p id="epochs">Alpha 1, which ended with the released 0.1.0-alpha.6, proved the semantics: a real composed occurrence, its authority, custody and currentness boundaries, recovery, receipts and refusals. Alpha 2 proves that the same thing can be packaged, installed, reproduced and upgraded as one coherent set of versions by someone outside the development environment. Beta will mean an operator can actually live in it, with an operator-facing workflow, coherent status and refusal surfaces, and real setup, upgrade and diagnosis; nothing here claims that yet. The Alpha 2 release candidate is qualified but not accepted and not released.</p>
     <ul class="steps">
       <li>Alpha.6 qualifies one named Linux local-copy composition, not arbitrary executors, providers, or production deployments.</li>
       <li>The qualified release is single-host. The <a href="over-the-wire-roadmap.html">over-the-wire roadmap</a> defines the contracts, failure cases, ownership and evidence required before a network-separated composition is called supported.</li>
@@ -55,7 +56,7 @@
     <h2 id="once">What has been shown only once</h2>
     <ul class="steps">
       <li><strong>The alpha.6 governed effect.</strong> One exact plan created one small local file, once. The public reproduction verifies retained evidence and refusal behavior without repeating the provider call, authority spend, or effect.</li>
-      <li><strong>The alpha-exit clean install (2026-09-25).</strong> The current candidate bundle has one recorded clean-install run, which passed from packaged artifacts in a fresh virtual machine, and one recorded upgrade-continuity run. In both, a local fixture stood in for the model provider's review, and the test harness, not a person, performed the acceptance. A clean-room newcomer run succeeded. A hostile review found a blocker in the kit pin check; it is fixed, and a later clean install (run-004) refused the review&rsquo;s attack kits. See the <a href="status.html#status-alpha-exit-rc-clean-install">ledger row</a>.</li>
+      <li><strong>The Alpha 2 clean install (2026-09-25).</strong> The Alpha 2 release candidate bundle has one recorded clean-install run, which passed from packaged artifacts in a fresh virtual machine, and one recorded upgrade-continuity run. In both, a local fixture stood in for the model provider's review, and the test harness, not a person, performed the acceptance. A clean-room newcomer run succeeded. A hostile review found a blocker in the kit pin check; it is fixed, and a later clean install (run-004) refused the review&rsquo;s attack kits. See the <a href="status.html#status-alpha-exit-rc-clean-install">ledger row</a>.</li>
       <li><strong>The four-office governed vertical (2026-07-26).</strong> It ran once, against one repository and one effect class. See <a href="archive.html#four-office">the archived exhibit</a>.</li>
     </ul>
 
