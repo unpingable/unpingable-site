@@ -22,226 +22,367 @@
 <body>
   <a class="skip" href="#main">Skip to content</a>
   <header>
-    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="releases/0.1.0-alpha.6/guide.html">Alpha.6 walkthrough</a><a href="components.html" aria-current="page">Components</a><a href="integration.html">Integration</a><a href="recipes.html">Recipes</a><a href="after-first-run.html">Operations</a><a href="start.html">Source and tutorials</a><a href="troubleshooting.html">Troubleshooting</a></nav>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html" aria-current="page">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
   </header>
   <!-- COMPONENTS:BEGIN generated from components.json by tools/render_constellation.py -->
     <main id="main">
       <h1>Components</h1>
-      <p class="lede">A public source map, not a claim that every component is installed, live, or needed for every workflow.</p>
+      <p class="lede">The Constellation map in boring nouns: what each component does, what it will not do, and how mature it is.</p>
+      <p>This is a public source map, not a claim that every component is installed, live, or needed for every workflow. Constellation is compositional; choose the smallest supported composition on the <a href="integration.html">integration</a> page. Dated claims are on the <a href="status.html">status</a> page.</p>
+      <h2 id="core">Core components</h2>
+      <p>The components exercised together in the alpha.6 governed-action profile.</p>
+      <article id="ag">
+        <h3><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h3>
+        <p>Decides whether one exact piece of automated work may run, and grants permission for that one run.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Refuses authority that is already spent or no longer current. Does not execute work or treat a provider response as permission.</dd>
+          <dt>Maturity</dt><dd>Development source</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Makes bounded, one-use authorization decisions from current inputs.</dd>
+            <dt>Relationship</dt><dd>core family office</dd>
+            <dt>Implementation</dt><dd>standalone Rust authorization office</dd>
+            <dt>Maturity in full</dt><dd>Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.</dd>
+            <dt>Available now</dt><dd>Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.</dd>
+            <dt>When to use it</dt><dd>Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="nq">
+        <h3><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a></h3>
+        <p>Evaluates a narrowly defined question from recorded evidence.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Returns a typed refusal when required evidence is missing, stale or cannot be evaluated. Its results never authorize an effect.</dd>
+          <dt>Maturity</dt><dd>Developer preview</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Derives bounded diagnostic dispositions or typed refusals from retained evidence.</dd>
+            <dt>Relationship</dt><dd>core family office</dd>
+            <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
+            <dt>Maturity in full</dt><dd>Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
+            <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. NQ 0.2.0 is also published as a component package (a Debian package and a tarball) for NQ alone: https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0.</dd>
+            <dt>When to use it</dt><dd>Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="docket">
+        <h3><a href="https://github.com/unpingable/constellation-docket">Constellation Docket</a></h3>
+        <p>Keeps custody of one authorized execution attempt: dispatches it, records the outcome and reconciles it.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Refuses to execute without matching, current permission. An uncertain attempt is recorded as indeterminate and reconciled, not blindly repeated.</dd>
+          <dt>Maturity</dt><dd>Exercised in alpha.6; not production-hardened</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Keeps custody of a bounded execution attempt and records its outcome.</dd>
+            <dt>Relationship</dt><dd>core family office</dd>
+            <dt>Implementation</dt><dd>standalone Rust execution-custody product</dd>
+            <dt>Maturity in full</dt><dd>Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.</dd>
+            <dt>Available now</dt><dd>Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.</dd>
+            <dt>When to use it</dt><dd>Use when an authorized workflow needs attempt identity and settlement custody.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="nightshift">
+        <h3><a href="https://github.com/unpingable/constellation-nightshift">Constellation Nightshift</a></h3>
+        <p>Tracks recurring work and changing conditions over time, and proposes the next bounded task.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Does not authorize or execute work, and does not turn old evidence into a fresh fact.</dd>
+          <dt>Maturity</dt><dd>Development source</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Tracks currentness, recurrence, and attention over time.</dd>
+            <dt>Relationship</dt><dd>core family office</dd>
+            <dt>Implementation</dt><dd>standalone Rust temporal-observation office</dd>
+            <dt>Maturity in full</dt><dd>Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.</dd>
+            <dt>Available now</dt><dd>Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.</dd>
+            <dt>When to use it</dt><dd>Use when a workflow needs temporal observation rather than authorization or execution.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="maude">
+        <h3><a href="https://github.com/unpingable/maude">Maude</a></h3>
+        <p>Authors, checks, compares and locks automation plans before they are submitted for authorization.</p>
+        <dl>
+          <dt>Boundary</dt><dd>A checked plan grants no permission and runs no work.</dd>
+          <dt>Maturity</dt><dd>Exercised in alpha.4 and alpha.6; design-flow work pre-alpha</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Authors, checks, compares, and locks pre-governed plans.</dd>
+            <dt>Relationship</dt><dd>core operator surface</dd>
+            <dt>Implementation</dt><dd>standalone Python authoring and supervision product</dd>
+            <dt>Maturity in full</dt><dd>Public source includes deterministic Plan Core authoring, an optional enrolled provider route, the qualified alpha.4 connected-cache workflow, and the alpha.6 local-copy validator/executor. ECAD/design-flow remains pre-alpha.</dd>
+            <dt>Available now</dt><dd>Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.</dd>
+            <dt>When to use it</dt><dd>Use for source-level Plan Core work; a checked plan grants no permission and runs no work.</dd>
+          </dl>
+        </details>
+      </article>
+      <h2 id="optional">Optional and supporting components</h2>
+      <p>Each is usable on its own; none is required for every workflow.</p>
+      <article id="phosphor">
+        <h3><a href="https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/objective-read-projection.md">Phosphor</a></h3>
+        <p>Shows authored goals with their linked runs, outcomes and supporting records.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Read-only: cannot accept a plan, grant authority, rerun work or settle an occurrence.</dd>
+          <dt>Maturity</dt><dd>Experimental</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Shows authored goals and their linked runs, outcomes, and supporting records.</dd>
+            <dt>Relationship</dt><dd>hosted family capability</dd>
+            <dt>Implementation</dt><dd>read-only inspector hosted in Constellation AG</dd>
+            <dt>Maturity in full</dt><dd>Experimental read-only integration. Alpha.6 qualifies one actual non-empty occurrence projection and public identity check; objective completion remains undetermined and ATProto production migration is not qualified.</dd>
+            <dt>Available now</dt><dd>Hosted in public AG source. Alpha.6 pins evidence reader e0f30de668234935cdbc4b0bd04f5dc13838411d and publishes one non-empty objective projection; there is no standalone package.</dd>
+            <dt>When to use it</dt><dd>Inspect exact authored-plan and run relationships without changing owner state. A settled or successful attempt does not establish objective completion.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="continuity">
+        <h3><a href="https://github.com/unpingable/constellation-continuity">Constellation Continuity</a></h3>
+        <p>Stores versioned memories and records when they may be relied on across sessions.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Its records do not select work, infer currentness or authorize action.</dd>
+          <dt>Maturity</dt><dd>Supported in one vertical; broader doctrine candidate</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Provides receipted persistence custody for workflows that explicitly rely on retained memory.</dd>
+            <dt>Relationship</dt><dd>optional family member</dd>
+            <dt>Implementation</dt><dd>standalone Python persistence-custody office</dd>
+            <dt>Maturity in full</dt><dd>Supported in a continuity-aware vertical; broader trajectory doctrine remains candidate.</dd>
+            <dt>Available now</dt><dd>Optional public source</dd>
+            <dt>When to use it</dt><dd>Use only when a workflow needs explicit persisted-memory lifecycle records.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="standing">
+        <h3><a href="https://github.com/unpingable/constellation-standing">Constellation Standing</a></h3>
+        <p>Tracks scoped, expiring mandates and checks whether they still apply to proposed work.</p>
+        <dl>
+          <dt>Boundary</dt><dd>A mandate is an input to an authorization decision, not permission by itself.</dd>
+          <dt>Maturity</dt><dd>Implemented; broader deployment not claimed</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Owns scoped, expiring mandate custody and standing judgments.</dd>
+            <dt>Relationship</dt><dd>optional family member</dd>
+            <dt>Implementation</dt><dd>standalone Rust mandate-custody product</dd>
+            <dt>Maturity in full</dt><dd>Implemented. Workload identity transcript schema v2 is current; v1 identity files fail closed and must be regenerated. Broader deployment is not claimed.</dd>
+            <dt>Available now</dt><dd>Optional public source</dd>
+            <dt>When to use it</dt><dd>Use when a workflow requires an independently custodied mandate lifecycle.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="linear-accountant">
+        <h3><a href="https://github.com/unpingable/constellation-linear-accountant">Constellation Linear Accountant</a></h3>
+        <p>Tracks finite resource allowances and prevents double spending.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Accounts for capacity only; it does not authorize action.</dd>
+          <dt>Maturity</dt><dd>Frozen v0 reference</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Accounts for conserved finite capacity separately from action permission.</dd>
+            <dt>Relationship</dt><dd>optional reference component</dd>
+            <dt>Implementation</dt><dd>standalone Rust library and thin transport binary</dd>
+            <dt>Maturity in full</dt><dd>Frozen v0 reference component with a machine-checked arithmetic core; a scalar spend/residual-viability bridge is formalized, but no cross-stack reserve controller is implemented.</dd>
+            <dt>Available now</dt><dd>Optional public source</dd>
+            <dt>When to use it</dt><dd>Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="monitor">
+        <h3><a href="https://github.com/unpingable/constellation-monitor">Constellation Monitor</a></h3>
+        <p>Collects bounded observations about an explicitly selected project.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Does not establish diagnostic truth or permission to act.</dd>
+          <dt>Maturity</dt><dd>Experimental</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.</dd>
+            <dt>Relationship</dt><dd>optional family member</dd>
+            <dt>Implementation</dt><dd>standalone Rust project-concern acquisition workspace hosting Pulse</dd>
+            <dt>Maturity in full</dt><dd>Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.</dd>
+            <dt>Available now</dt><dd>Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.</dd>
+            <dt>When to use it</dt><dd>Use monitor-concerns to acquire an explicitly selected project&#x27;s observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="pulse">
+        <h3><a href="https://github.com/unpingable/constellation-monitor">Pulse</a></h3>
+        <p>Checks whether current evidence still supports one specific statement.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Support expires. It is not general health, permission to act, or delivery.</dd>
+          <dt>Maturity</dt><dd>Component checks passed; live delivery unqualified</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Evaluates proposition-specific present support under explicit coverage and policy.</dd>
+            <dt>Relationship</dt><dd>hosted optional family capability</dd>
+            <dt>Implementation</dt><dd>Rust subsystem and support adapters hosted within Constellation Monitor</dd>
+            <dt>Maturity in full</dt><dd>Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.</dd>
+            <dt>Available now</dt><dd>Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.</dd>
+            <dt>When to use it</dt><dd>Select the adapter matching the named evidence profile and explicit source policy. Positive support expires and is not general health, action permission or delivery.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="porter">
+        <h3><a href="https://github.com/unpingable/porter">Porter</a></h3>
+        <p>Runs declared commands over SSH or serial connections and records output, exit status, artifacts and hashes.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Transport only: it does not choose what to run, and it does not own attempt custody or settlement.</dd>
+          <dt>Maturity</dt><dd>Early usable</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Carries a declared command to a declared substrate and retains factual transcripts, observed exit status, artifacts and hashes.</dd>
+            <dt>Relationship</dt><dd>optional execution-transport integration</dd>
+            <dt>Implementation</dt><dd>Python CLI and library with SSH, serial-console and caller-recipe transports</dd>
+            <dt>Maturity in full</dt><dd>Early usable public implementation with live SSH specimens; exact-SSH and governed worker composition remain development-only.</dd>
+            <dt>Available now</dt><dd>Optional public source; no daemon, MCP server, endpoint provisioner or binary package.</dd>
+            <dt>When to use it</dt><dd>Use when a workflow needs transport evidence; callers still own selection and Docket owns governed attempt custody, settlement and reconciliation where composed.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="switchyard-runtime">
+        <h3><a href="https://github.com/unpingable/switchyard-runtime">Switchyard Runtime</a></h3>
+        <p>Runs bounded model-provider requests with cancellation, deadlines and retained records.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Completing a review does not accept a plan, grant authority or execute work.</dd>
+          <dt>Maturity</dt><dd>Exercised in alpha.6</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Provides a reviewed source-only provider-runtime distribution for an enrolled integration.</dd>
+            <dt>Relationship</dt><dd>shared provider integration</dd>
+            <dt>Implementation</dt><dd>reviewed source-only provider-runtime distribution</dd>
+            <dt>Maturity in full</dt><dd>Bounded provider path with cancellation and deadline checks. It retained the independent review used by alpha.6; review completion alone did not accept the plan, grant authority or execute work.</dd>
+            <dt>Available now</dt><dd>Optional public source</dd>
+            <dt>When to use it</dt><dd>Use only where a documented integration selects it; it is not a new governance office.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="wicket">
+        <h3><a href="https://github.com/unpingable/wicket">Wicket</a></h3>
+        <p>Checks a proposed change against supplied evidence and rules before execution.</p>
+        <dl>
+          <dt>Boundary</dt><dd>A preflight answer does not replace an owning authorization decision.</dd>
+          <dt>Maturity</dt><dd>Public; relation to AG unratified</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Performs stateless admissibility preflight for supplied basis, precedence, and standing.</dd>
+            <dt>Relationship</dt><dd>optional integration or reference</dd>
+            <dt>Implementation</dt><dd>standalone Rust admissibility-preflight library and CLI</dd>
+            <dt>Maturity in full</dt><dd>Public, live with a historical consumer; its relation to AG remains unratified.</dd>
+            <dt>Available now</dt><dd>Optional public source</dd>
+            <dt>When to use it</dt><dd>Use for standalone or legacy preflight, not as a replacement for an owning authorization office.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="spine">
+        <h3><a href="https://github.com/unpingable/spine">Spine</a></h3>
+        <p>Builds readable indexes of selected sources and compares editions.</p>
+        <dl>
+          <dt>Boundary</dt><dd>An index does not establish current truth or permission to act.</dd>
+          <dt>Maturity</dt><dd>Implemented; locally tested</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Builds readable indexes and compares editions of explicitly selected sources without changing their semantic state.</dd>
+            <dt>Relationship</dt><dd>optional read-plane integration</dd>
+            <dt>Implementation</dt><dd>Python CLI and library for explicit-source indexes and editions</dd>
+            <dt>Maturity in full</dt><dd>Implemented and locally tested. Continuity input is an export fixture, not a live store connection; no automatic session orientation.</dd>
+            <dt>Available now</dt><dd>Public source; CLI build, render, edition create and edition compare. No native MCP server.</dd>
+            <dt>When to use it</dt><dd>Use to find and compare selected source material. An index does not establish current truth or permission to act.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="claimdocs">
+        <h3><a href="https://github.com/unpingable/claimdocs">claimdocs</a></h3>
+        <p>Checks architecture claim records and their evidence references, and generates documentation.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Resolving evidence is not judging it adequate; reports grant no authority.</dd>
+          <dt>Maturity</dt><dd>Implemented</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Checks claim structure, resolves cited evidence, reports freshness and renders documentation.</dd>
+            <dt>Relationship</dt><dd>optional architectural evidence documentation engine</dd>
+            <dt>Implementation</dt><dd>Python CLI used by architectural claim specimens</dd>
+            <dt>Maturity in full</dt><dd>Implemented scoped engine. Evidence resolution and freshness are not judgments that the evidence adequately supports a claim.</dd>
+            <dt>Available now</dt><dd>Public source; CLI lint, verify-basis, report and render. Global options precede the command; render writes documentation.</dd>
+            <dt>When to use it</dt><dd>Use to maintain evidence-backed architecture documentation. Human review remains responsible for adequacy; reports grant no authority.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="verifier">
+        <h3><a href="https://github.com/unpingable/verifier">Verifier</a></h3>
+        <p>Checks caller-defined facts and rules with the Z3 solver.</p>
+        <dl>
+          <dt>Boundary</dt><dd>A passing check is not real-system correctness or permission. Solver unsat and unknown are not yet distinguished.</dd>
+          <dt>Maturity</dt><dd>Implemented</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Checks a caller-encoded proposal, facts and rules. The caller supplies the model, assumptions and input truth.</dd>
+            <dt>Relationship</dt><dd>optional encoded-claim checking integration</dd>
+            <dt>Implementation</dt><dd>Python library, CLI and stdio MCP server backed by Z3</dd>
+            <dt>Maturity in full</dt><dd>Implemented finite checking surface. Solver unsat and unknown currently collapse into failed rules; no distinct solver-timeout or translation-failure verdict.</dd>
+            <dt>Available now</dt><dd>Public source; install z3-verifier from the repository. CLI verifier-check; stdio server verifier-mcp exposes verify.</dd>
+            <dt>When to use it</dt><dd>I need to formalize/check a claim: begin with Verifier&#x27;s supported input model and inspect the JSON verdict. A passing check is not real-system correctness or permission; formalization is optional.</dd>
+          </dl>
+        </details>
+      </article>
+      <h2 id="design">Design only</h2>
+      <p>Named and documented, not implemented.</p>
+      <article id="axolotl">
+        <h3>Axolotl</h3>
+        <p>Explores bounded ambiguity interrogation and intent preparation upstream of authorization.</p>
+        <dl>
+          <dt>Boundary</dt><dd>Not implemented; not a workflow prerequisite.</dd>
+          <dt>Maturity</dt><dd>Design only</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl>
+            <dt>Precise role</dt><dd>Explores bounded ambiguity interrogation and intent preparation upstream of authorization.</dd>
+            <dt>Relationship</dt><dd>design-stage upstream capability</dd>
+            <dt>Implementation</dt><dd>design and roadmap only</dd>
+            <dt>Maturity in full</dt><dd>Pre-alpha design; explicitly not implemented.</dd>
+            <dt>Available now</dt><dd>No public source or implementation is available.</dd>
+            <dt>When to use it</dt><dd>Treat as roadmap context, not an installable component or a current workflow prerequisite.</dd>
+          </dl>
+        </details>
+      </article>
+      <p>Historical and classic-lineage entries (<a href="archive.html#classic-lineage">Governor Atlas</a>) are on the <a href="archive.html">archive</a> page.</p>
       <section class="note" aria-label="Task-oriented source navigation">
         <h2>Choose a source for the task</h2>
         <p>Need to formalize or check a supplied claim? Read the <a href="https://github.com/unpingable/verifier/blob/main/HOWTO.md">Verifier HOWTO</a>. It is an optional bounded check of supplied input, not authority.</p>
         <p>Resuming a workflow with explicit retained-memory records? Read the <a href="https://github.com/unpingable/constellation-continuity/blob/main/docs/SESSION-LIFECYCLE-HOWTO.md">Continuity lifecycle guide</a> and <a href="https://github.com/unpingable/spine/blob/main/HOWTO.md">Spine's declared-source guide</a>. Those guides do not select work, infer currentness, or authorize action.</p>
       </section>
-      <article id="ag">
-        <h2><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h2>
-        <p>Makes bounded, one-use authorization decisions from current inputs.</p>
-        <dl>
-          <dt>Relationship</dt><dd>core family office</dd>
-          <dt>Implementation</dt><dd>standalone Rust authorization office</dd>
-          <dt>Maturity</dt><dd>Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.</dd>
-          <dt>Available now</dt><dd>Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.</dd>
-          <dt>When to use it</dt><dd>Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example.</dd>
-        </dl>
-      </article>
-      <article id="nq">
-        <h2><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a></h2>
-        <p>Derives bounded diagnostic dispositions or typed refusals from retained evidence.</p>
-        <dl>
-          <dt>Relationship</dt><dd>core family office</dd>
-          <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
-          <dt>Maturity</dt><dd>Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
-          <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. No binary package is published.</dd>
-          <dt>When to use it</dt><dd>Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act.</dd>
-        </dl>
-      </article>
-      <article id="docket">
-        <h2><a href="https://github.com/unpingable/constellation-docket">Constellation Docket</a></h2>
-        <p>Keeps custody of a bounded execution attempt and records its outcome.</p>
-        <dl>
-          <dt>Relationship</dt><dd>core family office</dd>
-          <dt>Implementation</dt><dd>standalone Rust execution-custody product</dd>
-          <dt>Maturity</dt><dd>Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.</dd>
-          <dt>Available now</dt><dd>Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.</dd>
-          <dt>When to use it</dt><dd>Use when an authorized workflow needs attempt identity and settlement custody.</dd>
-        </dl>
-      </article>
-      <article id="nightshift">
-        <h2><a href="https://github.com/unpingable/constellation-nightshift">Constellation Nightshift</a></h2>
-        <p>Tracks currentness, recurrence, and attention over time.</p>
-        <dl>
-          <dt>Relationship</dt><dd>core family office</dd>
-          <dt>Implementation</dt><dd>standalone Rust temporal-observation office</dd>
-          <dt>Maturity</dt><dd>Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.</dd>
-          <dt>Available now</dt><dd>Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.</dd>
-          <dt>When to use it</dt><dd>Use when a workflow needs temporal observation rather than authorization or execution.</dd>
-        </dl>
-      </article>
-      <article id="maude">
-        <h2><a href="https://github.com/unpingable/maude">Maude</a></h2>
-        <p>Authors, checks, compares, and locks pre-governed plans.</p>
-        <dl>
-          <dt>Relationship</dt><dd>core operator surface</dd>
-          <dt>Implementation</dt><dd>standalone Python authoring and supervision product</dd>
-          <dt>Maturity</dt><dd>Public source includes deterministic Plan Core authoring, an optional enrolled provider route, the qualified alpha.4 connected-cache workflow, and the alpha.6 local-copy validator/executor. ECAD/design-flow remains pre-alpha.</dd>
-          <dt>Available now</dt><dd>Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.</dd>
-          <dt>When to use it</dt><dd>Use for source-level Plan Core work; a checked plan grants no permission and runs no work.</dd>
-        </dl>
-      </article>
-      <article id="phosphor">
-        <h2><a href="https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/objective-read-projection.md">Phosphor</a></h2>
-        <p>Shows authored goals and their linked runs, outcomes, and supporting records.</p>
-        <dl>
-          <dt>Relationship</dt><dd>hosted family capability</dd>
-          <dt>Implementation</dt><dd>read-only inspector hosted in Constellation AG</dd>
-          <dt>Maturity</dt><dd>Experimental read-only integration. Alpha.6 qualifies one actual non-empty occurrence projection and public identity check; objective completion remains undetermined and ATProto production migration is not qualified.</dd>
-          <dt>Available now</dt><dd>Hosted in public AG source. Alpha.6 pins evidence reader e0f30de668234935cdbc4b0bd04f5dc13838411d and publishes one non-empty objective projection; there is no standalone package.</dd>
-          <dt>When to use it</dt><dd>Inspect exact authored-plan and run relationships without changing owner state. A settled or successful attempt does not establish objective completion.</dd>
-        </dl>
-      </article>
-      <article id="continuity">
-        <h2><a href="https://github.com/unpingable/constellation-continuity">Constellation Continuity</a></h2>
-        <p>Provides receipted persistence custody for workflows that explicitly rely on retained memory.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional family member</dd>
-          <dt>Implementation</dt><dd>standalone Python persistence-custody office</dd>
-          <dt>Maturity</dt><dd>Supported in a continuity-aware vertical; broader trajectory doctrine remains candidate.</dd>
-          <dt>Available now</dt><dd>Optional public source</dd>
-          <dt>When to use it</dt><dd>Use only when a workflow needs explicit persisted-memory lifecycle records.</dd>
-        </dl>
-      </article>
-      <article id="standing">
-        <h2><a href="https://github.com/unpingable/constellation-standing">Constellation Standing</a></h2>
-        <p>Owns scoped, expiring mandate custody and standing judgments.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional family member</dd>
-          <dt>Implementation</dt><dd>standalone Rust mandate-custody product</dd>
-          <dt>Maturity</dt><dd>Implemented. Workload identity transcript schema v2 is current; v1 identity files fail closed and must be regenerated. Broader deployment is not claimed.</dd>
-          <dt>Available now</dt><dd>Optional public source</dd>
-          <dt>When to use it</dt><dd>Use when a workflow requires an independently custodied mandate lifecycle.</dd>
-        </dl>
-      </article>
-      <article id="linear-accountant">
-        <h2><a href="https://github.com/unpingable/constellation-linear-accountant">Constellation Linear Accountant</a></h2>
-        <p>Accounts for conserved finite capacity separately from action permission.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional reference component</dd>
-          <dt>Implementation</dt><dd>standalone Rust library and thin transport binary</dd>
-          <dt>Maturity</dt><dd>Frozen v0 reference component with a machine-checked arithmetic core; a scalar spend/residual-viability bridge is formalized, but no cross-stack reserve controller is implemented.</dd>
-          <dt>Available now</dt><dd>Optional public source</dd>
-          <dt>When to use it</dt><dd>Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it.</dd>
-        </dl>
-      </article>
-      <article id="monitor">
-        <h2><a href="https://github.com/unpingable/constellation-monitor">Constellation Monitor</a></h2>
-        <p>Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional family member</dd>
-          <dt>Implementation</dt><dd>standalone Rust project-concern acquisition workspace hosting Pulse</dd>
-          <dt>Maturity</dt><dd>Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.</dd>
-          <dt>Available now</dt><dd>Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.</dd>
-          <dt>When to use it</dt><dd>Use monitor-concerns to acquire an explicitly selected project&#x27;s observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits.</dd>
-        </dl>
-      </article>
-      <article id="pulse">
-        <h2><a href="https://github.com/unpingable/constellation-monitor">Pulse</a></h2>
-        <p>Evaluates proposition-specific present support under explicit coverage and policy.</p>
-        <dl>
-          <dt>Relationship</dt><dd>hosted optional family capability</dd>
-          <dt>Implementation</dt><dd>Rust subsystem and support adapters hosted within Constellation Monitor</dd>
-          <dt>Maturity</dt><dd>Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.</dd>
-          <dt>Available now</dt><dd>Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.</dd>
-          <dt>When to use it</dt><dd>Select the adapter matching the named evidence profile and explicit source policy. Positive support expires and is not general health, action permission or delivery.</dd>
-        </dl>
-      </article>
-      <article id="porter">
-        <h2><a href="https://github.com/unpingable/porter">Porter</a></h2>
-        <p>Carries a declared command to a declared substrate and retains factual transcripts, observed exit status, artifacts and hashes.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional execution-transport integration</dd>
-          <dt>Implementation</dt><dd>Python CLI and library with SSH, serial-console and caller-recipe transports</dd>
-          <dt>Maturity</dt><dd>Early usable public implementation with live SSH specimens; exact-SSH and governed worker composition remain development-only.</dd>
-          <dt>Available now</dt><dd>Optional public source; no daemon, MCP server, endpoint provisioner or binary package.</dd>
-          <dt>When to use it</dt><dd>Use when a workflow needs transport evidence; callers still own selection and Docket owns governed attempt custody, settlement and reconciliation where composed.</dd>
-        </dl>
-      </article>
-      <article id="switchyard-runtime">
-        <h2><a href="https://github.com/unpingable/switchyard-runtime">Switchyard Runtime</a></h2>
-        <p>Provides a reviewed source-only provider-runtime distribution for an enrolled integration.</p>
-        <dl>
-          <dt>Relationship</dt><dd>shared provider integration</dd>
-          <dt>Implementation</dt><dd>reviewed source-only provider-runtime distribution</dd>
-          <dt>Maturity</dt><dd>Bounded provider path with cancellation and deadline checks. It retained the independent review used by alpha.6; review completion alone did not accept the plan, grant authority or execute work.</dd>
-          <dt>Available now</dt><dd>Optional public source</dd>
-          <dt>When to use it</dt><dd>Use only where a documented integration selects it; it is not a new governance office.</dd>
-        </dl>
-      </article>
-      <article id="wicket">
-        <h2><a href="https://github.com/unpingable/wicket">Wicket</a></h2>
-        <p>Performs stateless admissibility preflight for supplied basis, precedence, and standing.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional integration or reference</dd>
-          <dt>Implementation</dt><dd>standalone Rust admissibility-preflight library and CLI</dd>
-          <dt>Maturity</dt><dd>Public, live with a historical consumer; its relation to AG remains unratified.</dd>
-          <dt>Available now</dt><dd>Optional public source</dd>
-          <dt>When to use it</dt><dd>Use for standalone or legacy preflight, not as a replacement for an owning authorization office.</dd>
-        </dl>
-      </article>
-      <article id="spine">
-        <h2><a href="https://github.com/unpingable/spine">Spine</a></h2>
-        <p>Builds readable indexes and compares editions of explicitly selected sources without changing their semantic state.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional read-plane integration</dd>
-          <dt>Implementation</dt><dd>Python CLI and library for explicit-source indexes and editions</dd>
-          <dt>Maturity</dt><dd>Implemented and locally tested. Continuity input is an export fixture, not a live store connection; no automatic session orientation.</dd>
-          <dt>Available now</dt><dd>Public source; CLI build, render, edition create and edition compare. No native MCP server.</dd>
-          <dt>When to use it</dt><dd>Use to find and compare selected source material. An index does not establish current truth or permission to act.</dd>
-        </dl>
-      </article>
-      <article id="governor-atlas">
-        <h2><a href="https://github.com/unpingable/governor-atlas">Governor Atlas</a></h2>
-        <p>Records architectural relationships and their cited support, separating wired, specified and candidate claims.</p>
-        <dl>
-          <dt>Relationship</dt><dd>classic-lineage architectural claim specimen</dd>
-          <dt>Implementation</dt><dd>claim graph, evidence references and generated documentation using claimdocs</dd>
-          <dt>Maturity</dt><dd>Implemented classic Agent Governor specimen; not a complete map of current Constellation or its deployment.</dd>
-          <dt>Available now</dt><dd>Public source and generated readout; use the separate claimdocs CLI to lint or report.</dd>
-          <dt>When to use it</dt><dd>Use to inspect a recorded architectural claim and its basis. A recorded claim does not establish current runtime behavior.</dd>
-        </dl>
-      </article>
-      <article id="claimdocs">
-        <h2><a href="https://github.com/unpingable/claimdocs">claimdocs</a></h2>
-        <p>Checks claim structure, resolves cited evidence, reports freshness and renders documentation.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional architectural evidence documentation engine</dd>
-          <dt>Implementation</dt><dd>Python CLI used by architectural claim specimens</dd>
-          <dt>Maturity</dt><dd>Implemented scoped engine. Evidence resolution and freshness are not judgments that the evidence adequately supports a claim.</dd>
-          <dt>Available now</dt><dd>Public source; CLI lint, verify-basis, report and render. Global options precede the command; render writes documentation.</dd>
-          <dt>When to use it</dt><dd>Use to maintain evidence-backed architecture documentation. Human review remains responsible for adequacy; reports grant no authority.</dd>
-        </dl>
-      </article>
-      <article id="verifier">
-        <h2><a href="https://github.com/unpingable/verifier">Verifier</a></h2>
-        <p>Checks a caller-encoded proposal, facts and rules. The caller supplies the model, assumptions and input truth.</p>
-        <dl>
-          <dt>Relationship</dt><dd>optional encoded-claim checking integration</dd>
-          <dt>Implementation</dt><dd>Python library, CLI and stdio MCP server backed by Z3</dd>
-          <dt>Maturity</dt><dd>Implemented finite checking surface. Solver unsat and unknown currently collapse into failed rules; no distinct solver-timeout or translation-failure verdict.</dd>
-          <dt>Available now</dt><dd>Public source; install z3-verifier from the repository. CLI verifier-check; stdio server verifier-mcp exposes verify.</dd>
-          <dt>When to use it</dt><dd>I need to formalize/check a claim: begin with Verifier&#x27;s supported input model and inspect the JSON verdict. A passing check is not real-system correctness or permission; formalization is optional.</dd>
-        </dl>
-      </article>
-      <article id="axolotl">
-        <h2>Axolotl</h2>
-        <p>Explores bounded ambiguity interrogation and intent preparation upstream of authorization.</p>
-        <dl>
-          <dt>Relationship</dt><dd>design-stage upstream capability</dd>
-          <dt>Implementation</dt><dd>design and roadmap only</dd>
-          <dt>Maturity</dt><dd>Pre-alpha design; explicitly not implemented.</dd>
-          <dt>Available now</dt><dd>No public source or implementation is available.</dd>
-          <dt>When to use it</dt><dd>Treat as roadmap context, not an installable component or a current workflow prerequisite.</dd>
-        </dl>
-      </article>
     </main>
     <!-- COMPONENTS:END -->
   <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
