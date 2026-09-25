@@ -20,58 +20,8 @@
   <meta name="twitter:description" content="Glossary for the unpingable custody stack: project vocabulary (custody, claim, premise, permission, expiry, gap, boundary, receipt, refusal class, admissibility, wicket, witnessed) and the surrounding distinctions (authorization, authority, policy, attestation, preflight, kernel).">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <style>@font-face{font-family:"Geist Mono";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/GeistMono-Variable.woff2") format("woff2")}</style>
+  <link rel="stylesheet" href="assets/house.css">
   <style>
-    :root {
-      --bg: #f5f4ef;
-      --bg-inset: #efeee8;
-      --fg: #1a1a1a;
-      --fg-muted: #555350;
-      --fg-faint: #8a8680;
-      --fg-ghost: #b0aca5;
-      --border: #d0cdc6;
-      --border-faint: #e0ddd6;
-      --accent: #a0422a;
-      --accent-hover: #7d3320;
-      --mono: "Geist Mono", ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
-      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #141311;
-        --bg-inset: #1a1917;
-        --fg: #ccc8c0;
-        --fg-muted: #8a8680;
-        --fg-faint: #5e5b55;
-        --fg-ghost: #3e3c38;
-        --border: #2a2825;
-        --border-faint: #222120;
-        --accent: #c4603e;
-        --accent-hover: #d87a56;
-      }
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--serif);
-      background: var(--bg);
-      color: var(--fg);
-      font-size: 17px;
-      line-height: 1.65;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 2rem 3rem;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--accent); }
-    a:hover { color: var(--accent-hover); }
-    .crumb { font-family: var(--mono); font-size: 0.85rem; margin-bottom: 2rem; }
-    .crumb a { color: var(--fg-faint); text-decoration: none; }
-    .crumb a:hover { color: var(--accent); }
-    h1 { font-size: 1.8rem; line-height: 1.2; margin-bottom: 0.5rem; }
-    p { margin-bottom: 0.9rem; }
-    .muted { color: var(--fg-muted); }
-    code { font-family: var(--mono); font-size: 0.85em; }
-
     dl.glossary { margin: 2rem 0 1rem; }
     dl.glossary dt {
       font-family: var(--mono);
@@ -89,7 +39,7 @@
       margin-top: 0;
     }
     dl.glossary dt a.anchor {
-      color: var(--fg-ghost);
+      color: var(--fg-faint);
       text-decoration: none;
       font-weight: 400;
       margin-left: 0.4rem;
@@ -122,21 +72,23 @@
     }
     .index-strip a { color: var(--fg-muted); text-decoration: none; margin-right: 0.6rem; }
     .index-strip a:hover { color: var(--accent); }
-
-    footer {
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 2px solid var(--border);
-      font-family: var(--mono);
-      font-size: 0.9rem;
-    }
-    footer a { margin-right: 1.5rem; }
   </style>
 </head>
 <body>
 
-  <p class="crumb"><a href="index.html">&larr; unpingable</a></p>
+  <a class="skip" href="#main">Skip to content</a>
 
+  <header class="site-header">
+    <a class="site-name" href="index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="constellation/">Constellation</a>
+      <a href="index.html#research">Research</a>
+      <a href="about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+
+  <main id="main">
   <h1>Glossary</h1>
   <p class="muted">What the project vocabulary means, in one place. The prose elsewhere uses these terms; this page is where they&rsquo;re defined. Where receipt identifiers and prose words diverge (prose <em>permission</em>, receipt field <code>standing</code>), the entry notes both.</p>
 
@@ -277,13 +229,20 @@
 
   <p class="muted" style="font-size: 0.92rem; margin-top: 2rem;">Notes on choices: this glossary preserves the project&rsquo;s vocabulary where the ordinary alternative would launder a technical invariant (<em>custody</em>, <em>premise</em>, <em>refusal class</em>) and aligns prose with ordinary wording where it doesn&rsquo;t (<em>permission</em>, <em>expiry</em>, <em>boundary</em>). Receipt identifiers and Lean theorems keep their original names; this page is the bridge.</p>
 
-  <footer>
-    <a href="index.html">hub</a>
-    <a href="about.html">about</a>
-    <a href="incident.html">incident</a>
-    <a href="demo.html">demo</a>
-    <a href="limits.html">limits</a>
-    <a href="https://github.com/unpingable">github</a>
+  </main>
+
+  <footer class="site-footer">
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="constellation/">Constellation</a></li>
+      <li><a href="index.html#research">Research</a></li>
+      <li><a href="demo.html">A stale yes</a></li>
+      <li><a href="incident.html">Incident</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="limits.html">Limits</a></li>
+      <li><a href="https://github.com/unpingable">GitHub</a></li>
+    </ul>
   </footer>
 
 </body>
