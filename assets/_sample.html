@@ -1,0 +1,42 @@
+<!doctype html>
+<!-- Reference page for the house style: the shared frame and every block class.
+     Underscore prefix keeps it out of the Pages build. Not linked from the site. -->
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>House style sample</title><meta name="robots" content="noindex"><link rel="stylesheet" href="house.css"></head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="../constellation/" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html" aria-current="page">Overview</a><a href="demo.html">Run the demo</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="research.html">Research</a><a href="absd.html">ABSD</a>
+  </nav>
+  <main id="main">
+    <p class="eyebrow">Experimental · alpha</p>
+    <h1>Systems forget how they know.</h1>
+    <p class="lede">A green check, a returned command or an agent saying “done” is evidence from one moment and one participant.</p>
+    <figure class="capture">
+<pre class="terminal"><span class="prompt">./demo/run.sh</span>
+<span class="out">dispatch      sent       attempt a-17</span>
+<span class="out">executor      timeout    no acknowledgement</span>
+agent         claims     success
+disposition   <span class="hot">INDETERMINATE</span>
+observation   file present, sha256 matches
+disposition   <span class="ok">SETTLED</span></pre>
+      <figcaption>Captured 2026-09-25 from a cold clone. Raw receipts below.</figcaption>
+    </figure>
+    <div class="callout"><span class="label">Limit</span><p>Not production-ready. One composition, qualified once.</p></div>
+    <h2>Status</h2>
+    <dl class="pairs"><dt>Docket</dt><dd>Tracks attempts. Refuses to re-execute an indeterminate attempt. <span class="badge accent">alpha</span></dd><dt>NQ</dt><dd>Evaluates a narrowly defined question. <span class="badge dashed">preview</span></dd></dl>
+    <ul class="doors"><li><a href="#">Run the demo</a><span>Clone and run in about two minutes.</span></li><li><a href="#">Status</a><span>Dated ledger.</span></li></ul>
+    <div class="table-wrap"><table><thead><tr><th>Component</th><th>Role</th><th>Maturity</th></tr></thead><tbody><tr><td>Docket</td><td>Execution custody</td><td>Alpha</td></tr></tbody></table></div>
+    <details><summary>Raw receipt</summary><pre>{"attempt":"a-17","outcome":"indeterminate"}</pre></details>
+    <p><a class="button" href="#">Run the demo</a></p>
+  </main>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">This is a lab notebook, not an oracle.</p></footer>
+</body></html>
