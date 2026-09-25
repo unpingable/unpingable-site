@@ -21,6 +21,9 @@ from contextlib import redirect_stdout
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import constellation_cohort as cc  # noqa: E402
 
+# The qualified cohort this driver release ships.
+SHIPPED = 'alpha-exit-rc'
+
 
 def commit(seed):
     return hashlib.sha1(seed.encode()).hexdigest()
@@ -55,7 +58,7 @@ def qualified_for(value):
 
 def shipped_manifest(kit_commit=None, kit_digest=None, kit_version=None):
     """A manifest naming exactly the shipped qualified cohort."""
-    pins = cc.QUALIFIED_COHORTS[cc.PROFILE]['alpha-exit-rc']
+    pins = cc.QUALIFIED_COHORTS[cc.PROFILE][SHIPPED]
     components = []
     for name, pin in sorted(pins.items()):
         entry = {'component': name, **pin}
@@ -159,11 +162,11 @@ class CohortPins(unittest.TestCase):
 
     def test_shipped_table_refuses_other_commits(self):
         detail = self.refuses(None)
-        self.assertIn('alpha-exit-rc', detail)
+        self.assertIn(SHIPPED, detail)
 
     def test_shipped_cohort_matches_with_any_kit_commit_but_its_own_version(self):
         manifest = cc.load_manifest(raw(shipped_manifest()))
-        self.assertEqual(cc.check_cohort_pins(manifest), 'alpha-exit-rc')
+        self.assertEqual(cc.check_cohort_pins(manifest), SHIPPED)
         with self.assertRaises(cc.Refusal) as caught:
             cc.check_cohort_pins(cc.load_manifest(raw(shipped_manifest(kit_version='0.1.0'))))
         self.assertIn('cohort-kit.package_version', caught.exception.detail)
@@ -179,7 +182,7 @@ class CohortPins(unittest.TestCase):
         self.assertIn('docket.artifact_sha256', caught.exception.detail)
 
     def test_shipped_table_binds_the_lane_reports(self):
-        pins = cc.QUALIFIED_COHORTS[cc.PROFILE]['alpha-exit-rc']
+        pins = cc.QUALIFIED_COHORTS[cc.PROFILE][SHIPPED]
         self.assertEqual(set(pins), set(cc.COMPONENTS))
         self.assertEqual(pins['maude']['source_commit'], '75d4dc1df1934cfc797c48c528d314804938eaae')
         self.assertEqual(pins['nightshift']['source_commit'], pins['pulse']['source_commit'])

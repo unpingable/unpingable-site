@@ -721,6 +721,9 @@ class Programs:
         self.app_server = roots['app-server'] / 'bin/codex-app-server'
         self.app_server_info = roots['app-server'] / 'build-info.json'
         self.maude_commit = record['identities'][str(self.validator)]['source_commit']
+        # The codex head the route pins is the installed app-server's own
+        # recorded commit, never a constant from one qualified cohort.
+        self.app_server_commit = record['identities'][str(self.app_server)]['source_commit']
 
     def sha(self, path: Path) -> str:
         entry = self.identities.get(str(path))
@@ -851,7 +854,7 @@ def reviewer_config(ids: dict, paths: dict, programs: Programs, app_server_sha: 
         'nightshift_foreman_program': str(programs.foreman), 'nightshift_foreman_sha256': programs.sha(programs.foreman),
         'nightshift_run_id': ids['run_id'], 'brief_manifest_pointer': ['acceptance_tests', '0'],
         'brief_contract': 'switchyard.shared-review-manifest/v1',
-        'route': {'codex_source_head': QUALIFIED_COHORTS[PROFILE]['alpha-exit-rc']['app-server']['source_commit'],
+        'route': {'codex_source_head': programs.app_server_commit,
                   'app_server_executable_sha256': app_server_sha, 'provider': PROVIDER, 'model': MODEL,
                   'adapter_id': 'switchyard.codex-app-server', 'adapter_version': '2.0.0',
                   'adapter_protocol': 'switchyard.codex-app-server/v2'},
@@ -1185,7 +1188,7 @@ def _review_after_observation(args, records, paths, programs, ids, invocation, a
     records.mark('foreman-inputs')
     backend = {'schema': 'switchyard.provider-backend/v1', 'executable': str(programs.app_server),
                'executable_sha256': programs.sha(programs.app_server), 'executable_shape': 'standalone-app-server',
-               'codex_source_head': QUALIFIED_COHORTS[PROFILE]['alpha-exit-rc']['app-server']['source_commit'],
+               'codex_source_head': programs.app_server_commit,
                'codex_home': ids['codex_home'], 'provider': PROVIDER, 'model': MODEL}
     write_new(deployment / 'backend.json', canonical(backend), 0o600, COHORT_ACCOUNT)
     inputs = deployment / 'foreman-inputs'
