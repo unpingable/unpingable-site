@@ -121,7 +121,7 @@ PAGES = {
     ),
 }
 
-RESEARCH = "../index.html#research"
+RESEARCH = "../research.html"
 SITE_HEADER = f'''<header class="site-header">
     <a class="site-name" href="../index.html">unpingable</a>
     <nav class="site-nav" aria-label="Site">
