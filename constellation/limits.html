@@ -55,7 +55,7 @@
     <h2 id="once">What has been shown only once</h2>
     <ul class="steps">
       <li><strong>The alpha.6 governed effect.</strong> One exact plan created one small local file, once. The public reproduction verifies retained evidence and refusal behavior without repeating the provider call, authority spend, or effect.</li>
-      <li><strong>The alpha-exit clean install (2026-09-25).</strong> The current candidate bundle has one recorded clean-install run, which passed from packaged artifacts in a fresh virtual machine, and one recorded upgrade-continuity run. In both, a local fixture stood in for the model provider's review, and the test harness, not a person, performed the acceptance. A clean-room newcomer run succeeded; a hostile review found a blocker in the kit pin check and a direct path to the executor, both under repair. See the <a href="status.html#status-alpha-exit-rc-clean-install">ledger row</a>.</li>
+      <li><strong>The alpha-exit clean install (2026-09-25).</strong> The current candidate bundle has one recorded clean-install run, which passed from packaged artifacts in a fresh virtual machine, and one recorded upgrade-continuity run. In both, a local fixture stood in for the model provider's review, and the test harness, not a person, performed the acceptance. A clean-room newcomer run succeeded. A hostile review found a blocker in the kit pin check; it is fixed, and a later clean install (run-004) refused the review&rsquo;s attack kits. See the <a href="status.html#status-alpha-exit-rc-clean-install">ledger row</a>.</li>
       <li><strong>The four-office governed vertical (2026-07-26).</strong> It ran once, against one repository and one effect class. See <a href="archive.html#four-office">the archived exhibit</a>.</li>
     </ul>
 
@@ -69,6 +69,10 @@
     <h2 id="production">What is not production-ready</h2>
     <p>Everything. Constellation is alpha, solo development, and nothing here is deployed at scale; this page will say so until that changes. Each component states its own maturity on the <a href="components.html">components</a> page, and none claims production deployment.</p>
     <p>The contracts describe how responsibilities are divided; deployment must actually preserve that division. Service identities, filesystem access, executor configuration, database access, operator privileges, and access to a container daemon or its socket can bypass a software workflow if they are too broad. Constellation does not make those deployment privileges safe merely by recording a well-formed plan.</p>
+
+    <h2 id="trust-boundary">The local trust boundary</h2>
+    <p>On a single host, the governance protects against the worker and the agent, not against whoever controls the operator&rsquo;s own host account. In the release candidate that account can run the packaged executor directly, without an authorization or custody, and it also holds the authorizing key and the working directory. Closing that gap needs component changes (a separate account for effects, or an executor that checks a signed token) and is an open item for a beta. The ledger row records it.</p>
+    <p>The paid review route also sends one non-generating warm-up request besides the review itself, from the pinned App Server. Whether the provider bills that warm-up is not verified; it is another beta item.</p>
 
     <h2 id="generalize">Where evidence does not generalize</h2>
     <ul class="steps">
