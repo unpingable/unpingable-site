@@ -7,15 +7,23 @@ no arbitrary command field, notification requirement, scheduler, replacement
 authority store or alternative provider route.
 
 **Status.** This is candidate material, not a released or generally installable
-suite. The setup driver in `setup/` was qualified in one clean Debian 12 VM
-(`cohort-clean-install/run-002`: 21 PASS, 0 FAIL, 0 not exercised), installing
-only from the cohort artifacts and using the qualification-only fixture review.
-That run does not establish:
+suite. An earlier kit (0.2.0, with AG `e20c23a`) was qualified in one clean
+Debian 12 VM (`cohort-clean-install/run-002`: 21 PASS, 0 FAIL, 0 not
+exercised), installing only from the cohort artifacts and using the
+qualification-only fixture review. This kit (0.3.0) repins AG to `58122ce` and
+ships the evidence verifier. It is the kit that `cohort-clean-install/run-003`
+exercises; a kit cannot carry its own qualification result, so that result is
+recorded with the campaign, not here. These runs do not establish:
 
 - a real-provider review (the real route has not been exercised);
-- a supported upgrade path, or more than one occurrence per cohort;
-- a public download of the cohort bundle. Run-002 used a bundle composed by the
-  qualification harness; this README describes the path that bundle took.
+- more than one occurrence per cohort;
+- the driver's `upgrade`, `verify-retained` and `upgrade-status` commands as a
+  newcomer path. They retire a settled cohort into a new one and were
+  qualified separately (upgrade-continuity runs); this README does not cover
+  them;
+- a public download of the cohort bundle. Run-002 and run-003 used bundles
+  composed by the qualification harness; this README describes the path those
+  bundles took.
 
 A newcomer run from these instructions is still pending. Treat anything this
 README does not state as unsupported.
@@ -56,24 +64,31 @@ commit **and** artifact digest must all match. There are no ranges and no
 | maude | 0.1.0 | `75d4dc1df1934cfc797c48c528d314804938eaae` | `maude-reviewed-local-copy-0.1.0.tar.gz` | `f88b5823f6a7bc6ff1c9645daff6312eec5234559bb735d25db589e1904f7357` |
 | nightshift | 0.1.0 | `30c89fe17723a7b9d77b19fd650aadb0a784748d` | `nightshift-0.1.0-30c89fe-linux-amd64.tar.gz` | `cffbea38c4718c480fd9c0b5c41c28331d52132205a3e16f2fda2e572467a254` |
 | pulse | 0.1.0 | `30c89fe17723a7b9d77b19fd650aadb0a784748d` | `pulse-nq-load-support-0.1.0-30c89fe-linux-amd64.tar.gz` | `51e85b97f44504240044f3b666d6fb3602270939102676e65798f4cecd405c61` |
-| ag | 0.1.0 | `e20c23a35f836d9f3913b62fbd3cb2621a866321` | `ag-0.1.0-linux-amd64.tar.gz` | `b03b8f06363ca73464c14b2131be8ac7b7bf8c38c9521fd594882d1cd15fac19` |
+| ag | 0.1.0 | `58122cec1ca8de35a1d146bf7987f8e69f49a040` | `ag-0.1.0-linux-amd64.tar.gz` | `bc53b836d7207493bbe35f0b380475641603caf3aedea6e8bcd3c9c0dea6ab5c` |
 | docket | 0.1.0 | `3093def030a5151d2e7b956eafb73d0c16f8c735` | `docket-0.1.0-linux-amd64.tar.gz` | `6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b` |
 | switchyard | 0.2.0 | `1c82e719cf358728d0262ae11138fb13fefe0cae` | `switchyard-0.2.0-1c82e719cf35.tar.gz` | `be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1` |
 | app-server | 0.0.0 | `97b0acd5ce2ccb3c87a763606696c35a450947f6` | `codex-app-server-97b0acd5ce2c-linux-amd64.tar.gz` | `9999bd8e75607071e1e43d9829fea253593f95323dff3a6e690b9d52433e2cd9` |
-| cohort-kit | 0.2.0 | `e34d92f6d5fc3c49436b33508ab8146289cbd207` (this site repository) | `cohort-kit-0.2.0.tar.gz` | `283334f6668128a5f17f3fab4f751f69c8ba99b17d761ae004856a02e09832a6` |
+| cohort-kit | 0.3.0 | the site commit in the kit's own `BUILD-INFO.json` | `cohort-kit-0.3.0.tar.gz` | the digest your manifest names (see below) |
 
-Run-002's manifest has sha256 `822afd2b6c0efd31fb16e1f56e07ff4fb21edbd3624e587d6b43759f02c31b0b`
-and its bundle `SHA256SUMS` has sha256
-`621581ad7e96aac57d6a939bdee150ef245668f8e915923c218441522b8bfc9a`.
+The kit cannot print its own commit or digest, because both change with every
+file in it, including this README. The manifest you were given names them, and
+`install` checks that they agree with the kit (below). Run-002's manifest
+(`822afd2b…`) named the earlier kit 0.2.0 and AG `e20c23a`; this driver refuses
+it.
+
+AG `58122ce` enrolls new executables: `ag-loopctl` sha256 `af5fe488…` and
+`ag-standing-resolver` sha256 `7a42b5ea…`. The driver measures the installed
+bytes when it seals the runtime profile, reseals the standing launcher over the
+resolver and writes `ag_loopctl` into the Nightshift cycle config, so nothing is
+copied by hand.
 
 Beyond the table, `install` checks:
 
 - **The kit pins itself.** The manifest's cohort-kit commit must equal the kit's
   `BUILD-INFO.json`, every kit file must match its recorded digest, and the
   installed driver must be byte-equal to the driver you are running. The kit row
-  above is the build run-002 used. This README was corrected after that build,
-  so a kit built from a later commit has a different digest and needs its own
-  manifest entry.
+  is self-describing, so a kit built from any other commit has a different
+  digest and needs its own manifest entry.
 - **Switchyard** must report `installed_closure_matches_provenance: true` and
   canonical revision `299609cda100ccf8701d5619ac78499f8bddd303`.
 - **The App Server** is identified by its `build-info.json` `executable_sha256`,
@@ -97,15 +112,17 @@ every child it ran, with its exact argv, exit status and output.
 ```sh
 cd <bundle> && sha256sum --check --strict SHA256SUMS
 mkdir <kit>
-tar -xzf <bundle>/cohort-kit-0.2.0.tar.gz -C <kit> --no-same-owner
-DRIVER="/usr/bin/python3.11 -I -S <kit>/cohort-kit-0.2.0/setup/constellation_cohort.py"
-$DRIVER --version        # constellation-cohort 0.2.0
+tar -xzf <bundle>/cohort-kit-0.3.0.tar.gz -C <kit> --no-same-owner
+DRIVER="/usr/bin/python3.11 -I -S <kit>/cohort-kit-0.3.0/setup/constellation_cohort.py"
+$DRIVER --version        # constellation-cohort 0.3.0
 ```
 
-Optionally, run the kit's unit tests as run-002 did:
+Optionally, run the kit's unit tests, for the driver and for the evidence
+verifier:
 
 ```sh
-/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.2.0/setup/test_constellation_cohort.py -v
+/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.3.0/setup/test_constellation_cohort.py -v
+/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.3.0/setup/test_verify_cohort_evidence.py -v
 ```
 
 ### 2. Verify the manifest and install
@@ -242,25 +259,30 @@ join checks that the binding, occurrence, accepted candidate, v2 issuance
 (`not_after` later than the spend), AG and Docket custody, attempt, settlement
 and standing snapshot all agree, with exactly one spend, attempt and settlement.
 
-Then check the export independently with `verify_cohort_evidence.py`, not the
-published alpha.6 `verify-evidence.py`:
+Then check the export independently with the kit's own verifier,
+`setup/verify_cohort_evidence.py`, not the published alpha.6
+`verify-evidence.py`:
 
 ```sh
-sudo /usr/bin/python3.11 -I -S verify_cohort_evidence.py --evidence /absolute/fresh/directory
+sudo /usr/bin/python3.11 -I -S <kit>/cohort-kit-0.3.0/setup/verify_cohort_evidence.py \
+  --evidence /absolute/fresh/directory
 ```
 
-The script is in this repository at
-`constellation/qualification/reviewed-local-copy-clean-install-v1/verify_cohort_evidence.py`.
-It is **not** inside the cohort-kit tarball, so fetch it from the same site
-commit as the kit. It does not trust `JOIN.json`. It does four things:
+It ships in the kit tarball, so its digest is in the kit's `BUILD-INFO.json`
+and it needs nothing else from the site repository. It imports nothing from the
+driver, runs no component binary and uses no network. It does not trust
+`JOIN.json`. It:
 
-- rechecks every `SHA256SUMS` digest;
+- rechecks every `SHA256SUMS` digest, and fails on a missing listed file;
 - recomputes the joins itself;
+- recomputes the AG issuance identity and verifies its Ed25519 signature with
+  `/usr/bin/openssl` against the key the exported Docket trust names;
 - checks that `result.txt` holds exactly the plan's reviewed bytes;
 - requires the same checks to refuse when a different plan digest is
   substituted.
 
-It prints one JSON line and exits 0 only when `"result":"passed"`.
+It prints one JSON line and exits 0 only when `"result":"passed"`. A malformed
+or incomplete export fails with exit 1 and names the reason.
 
 The published alpha.6 `constellation/releases/0.1.0-alpha.6/verify-evidence.py`
 cannot run against a cohort export. Its objective leg needs a Maude
@@ -360,8 +382,15 @@ below has not been tried against the real provider.
 
   These local-mode names are the documented surface, and no mapping is applied.
 - **Evidence verification.** As described in step 7, the published alpha.6
-  `verify-evidence.py` cannot run against a cohort export, so use
-  `verify_cohort_evidence.py`.
+  `verify-evidence.py` cannot run against a cohort export, so use the kit's
+  `setup/verify_cohort_evidence.py`.
+- **AG read-only exit 3.** AG `58122ce`'s read-only commands (`inspect`,
+  `status`, `replay`, `history` and the rest) verify the store against public
+  material only and never open the issuer private key. When an enrolled file
+  is absent they still verify everything else, print their normal JSON, name
+  the absent files on stderr (`enrolled file unavailable: {…}`) and exit 3.
+  The driver never treats exit 3 as success: for a live cohort `status` and
+  `evidence` refuse `ag.enrolled_file_unavailable` naming the files.
 - **Supervised Maude sessions are unsupported in this release.** This means the
   classic RPC, the TUI and agent_governor. The Maude artifact also does not
   ship the plan CLI or `public-nq-host-bootstrap.py`.
@@ -390,6 +419,7 @@ below has not been tried against the real provider.
 | `accept.candidate`, `accept.candidate_mismatch` | The digest is malformed, or is not the retained candidate |
 | `accept.refused` | The continuation refused; see its records |
 | `evidence.output` | The output path is not absolute, or already exists |
+| `ag.enrolled_file_unavailable` | AG's read-only check exited 3: a file its genesis profile enrolls is absent; the detail names it |
 
 ## What the driver runs underneath
 
@@ -434,6 +464,7 @@ caller refuses a V1 genesis.
 | `setup/test_constellation_cohort.py` | The driver's unit tests |
 | `setup/cohort_plan_inputs.py` | Builds the plan inputs with Maude's constructors from `maude-plan.pyz` |
 | `setup/prepare_review_inputs.py` | Drafts and seals the five Foreman inputs with `nightshift-foreman provider-seal-inputs` |
+| `setup/verify_cohort_evidence.py`, `setup/test_verify_cohort_evidence.py` | The independent evidence verifier (step 7) and its unit tests |
 | `prepare_plan.py`, `prepare_local_ports.py`, `prepare_owner.py`, `prepare_finite_run.py`, `seal_admission.py`, `enroll_caller.py`, `prepare_review_candidate.py` | Plan, port, owner, admission, caller-enrollment and finite-run preparation, run by the driver directly or through the caller modules |
 | `reviewed_action.py`, `continue_reviewed_action.py` | The caller: `--preflight-only` and `--review-only` in the review unit, and `--accept-and-execute` in the accept unit. The caller's `--execute`, `--inspect` and `--recover-run` modes are not wrapped by the driver and were not exercised in run-002 |
 
@@ -457,7 +488,8 @@ None of them is a cohort pin.
   that NQ and Pulse pair is not interchangeable with the cohort's.
 - **`run_public_python_closure_001.sh`, `prepare_public_python_closure.py` and
   `requirements-public.lock`** build a Switchyard Python closure from source.
-  They default to `/usr/bin/python3.12`, which Debian 12 does not ship. The
+  They are marked retired and have no default interpreter (their earlier
+  `python3.12` default is gone; Debian 12 does not ship it). The
   cohort does not use them: the Switchyard artifact ships its installed closure,
   and `install` checks it against its provenance. The site repository's
   `tools/test_reviewed_local_copy_example.py` controls also predate the driver.

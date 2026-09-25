@@ -19,14 +19,16 @@ released deployment.
   - `prepare_public_python_closure.py`, its durable manager wrapper and
     `requirements-public.lock`. The lock has 17 binary-wheel entries and is the
     hash-checked closure for Switchyard
-    `1c82e719cf358728d0262ae11138fb13fefe0cae`. The wrapper defaults to
-    `python3.12`, which Debian 12 does not ship.
+    `1c82e719cf358728d0262ae11138fb13fefe0cae`. Both scripts are marked
+    retired and require an explicit `--python`; their earlier `python3.12`
+    default is gone.
 - Deterministic local controls, including the response-withheld transport
   fixture.
 
-The loopback review fixture and `verify_cohort_evidence.py` are
-qualification-only tooling. Neither is part of this directory or of the
-cohort-kit tarball.
+The evidence verifier `setup/verify_cohort_evidence.py` and its tests are
+product material: they ship in the cohort-kit tarball. The loopback review
+fixture is qualification-only tooling and is not part of this directory or of
+the cohort-kit tarball.
 
 Do not publish deployment-owned mutable stores, native observation records,
 manager logs, credential references, private keys, review outputs, or a copy
