@@ -7,13 +7,26 @@ released deployment.
 ## Included product material
 
 - The closed caller wiring and input validators in this directory.
-- `source-pins.json`, which fixes the public source cohort.
-- `prepare_public_python_closure.py`, its durable manager wrapper, and
-  `requirements-public.lock`. The lock has 17 binary-wheel entries and is the
-  hash-checked closure for Switchyard `1c82e719cf358728d0262ae11138fb13fefe0cae`.
-- The public Maude source pin `c1fce17a529c4f73d23012b22b7f1a2a3ee666a7`.
+- The cohort setup driver and its helpers in `setup/`. The driver accepts only
+  the `reviewed-local-copy/v1` cohort `alpha-exit-rc` that it pins, and it runs
+  under `/usr/bin/python3.11 -I -S` on Debian 12. The component pins are the
+  cohort manifest's, listed in [README.md](README.md). They are not the pins in
+  `source-pins.json`.
+- Retired pre-cohort material, kept for its history and not part of the cohort
+  path:
+  - `source-pins.json`, the pre-cohort source revisions, including Maude
+    `c1fce17a529c4f73d23012b22b7f1a2a3ee666a7`;
+  - `prepare_public_python_closure.py`, its durable manager wrapper and
+    `requirements-public.lock`. The lock has 17 binary-wheel entries and is the
+    hash-checked closure for Switchyard
+    `1c82e719cf358728d0262ae11138fb13fefe0cae`. The wrapper defaults to
+    `python3.12`, which Debian 12 does not ship.
 - Deterministic local controls, including the response-withheld transport
   fixture.
+
+The loopback review fixture and `verify_cohort_evidence.py` are
+qualification-only tooling. Neither is part of this directory or of the
+cohort-kit tarball.
 
 Do not publish deployment-owned mutable stores, native observation records,
 manager logs, credential references, private keys, review outputs, or a copy
@@ -33,7 +46,7 @@ and the enrolled program hashes. This package supplies only the fixed contract:
 | Review | Foreman bounded 120-second, 32768-byte request; Switchyard installed `provider-runner` and `review-verifier`; no semantic retry or approval response |
 | Permission | AG V2 `shared_admission` rechecks the stored binding and accepted review before protected decision and consumption |
 | Effect | Docket standing grant is bounded by the original review expiry; Maude executor creates the exclusive result once |
-| Closure | `requirements-public.lock` must be installed offline with `--require-hashes`, without system site packages, followed by `pip check` and the two installed help paths |
+| Closure | The installed Switchyard artifact must report `installed_closure_matches_provenance: true` and canonical revision `299609c`; every other executable must report its pinned version and commit |
 
 No placeholder in this static material may be supplied to a review command.
 The occurrence owner must prepare and seal the complete fresh packet first;
