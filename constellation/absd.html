@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ABSD is a small x86-64 operating system for stateful, recoverable workloads, with a Rust userspace, a crash- and power-loss-tested filesystem and real Constellation components, run under QEMU.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="ABSD — a small experimental operating system">
+  <meta property="og:description" content="ABSD is a small x86-64 operating system for stateful, recoverable workloads, with a Rust userspace, a crash- and power-loss-tested filesystem and real Constellation components, run under QEMU.">
+  <meta property="og:url" content="https://unpingable.com/constellation/absd.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ABSD — a small experimental operating system">
+  <meta name="twitter:description" content="ABSD is a small x86-64 operating system for stateful, recoverable workloads, with a Rust userspace, a crash- and power-loss-tested filesystem and real Constellation components, run under QEMU.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>ABSD — a small experimental operating system</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/absd.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html" aria-current="page">ABSD</a></nav>
+  </header>
+  <main id="main">
+    <p class="eyebrow">Experimental · source not yet public</p>
+    <h1>ABSD</h1>
+    <p class="lede">A small x86-64 operating system for stateful, recoverable workloads.</p>
+    <p>ABSD is being built partly to test Constellation&rsquo;s semantics below the application layer: what a process, a crash, a write and a recovery have to mean for evidence to survive them. It is operating-system research, not part of any Constellation release, and it currently runs only under QEMU.</p>
+
+    <h2 id="runs">What it runs</h2>
+    <ul class="steps">
+      <li><strong>Kernel.</strong> A small <code>no_std</code> Rust kernel for x86-64, booted by GRUB through Multiboot2.</li>
+      <li><strong>Rust userspace with process isolation.</strong> Statically linked Rust programs run in ring 3, each in its own address space. Kernel objects (the console, child processes, versioned values called cells, and pipes) are reached only through per-process handles with narrowable rights; stale, guessed or wrong-kind handles fail. A process that faults is reported as faulted without stopping the kernel, and every page, handle and process slot it held is reclaimed.</li>
+      <li><strong>A standard-library target.</strong> An experimental Rust <code>std</code> target lets ordinary Rust programs and their dependencies build for ABSD.</li>
+      <li><strong>Storage.</strong> The kernel exports one block device (ATA, or an NVMe namespace) with read, write and flush. Everything above that is userspace: a region layout, an append-only journal, a two-slot generation protocol, and a small filesystem library.</li>
+      <li><strong>SQLite in WAL mode.</strong> The filesystem exists because Constellation AG&rsquo;s real SQLite authority store needs one. That store runs on ABSD in WAL mode, with full sync, through a native SQLite VFS; the carried patch only swaps its Unix imports for a platform layer and changes no store logic, schema or SQL.</li>
+      <li><strong>Real Constellation components.</strong> Besides the AG store, ABSD runs Pulse&rsquo;s replay evaluator, whose report matches the hosted build byte for byte and whose output agrees with it on all 18 retained traces, and Pulse&rsquo;s historical journal. Nightshift&rsquo;s resolver, holding a read-only handle to the disk, answers five requests byte-identically to the Linux build; the kernel refuses its write attempt.</li>
+    </ul>
+
+    <h2 id="qualification">How it is tested</h2>
+    <ul class="steps">
+      <li><strong>Deterministic boots.</strong> The test suite boots QEMU and requires exact serial milestones and exit status. One boot sends thousands of random system calls from ring 3 and requires the kernel to survive and reclaim everything.</li>
+      <li><strong>Crashes.</strong> Machine stops at named write points, and worker processes killed mid-operation, across journal appends, generation activation and every sampled filesystem write of an AG admission and of the SQLite checkpoint on close. After each boot, independent host-side readers parse the disk image and check the guest&rsquo;s recovery; for the AG store the host&rsquo;s own SQLite recovers the database and recomputes the authority digest.</li>
+      <li><strong>Power loss.</strong> Under a stated device law &mdash; writes not covered by a completed flush may be lost or reordered, and each aligned 512-byte or 4 KiB unit is written atomically &mdash; about 1.6 million enumerated or sampled outcomes on the host and 66 cuts inside the guest. In every one, the filesystem mounted exactly one committed state and the AG store recovered either its prior or its new authority. Removing a required flush makes the test fail.</li>
+      <li><strong>Refusal over repair.</strong> A torn journal is not appendable until an operator truncates it. A damaged filesystem superblock is refused, not rolled back: that costs availability, never correctness.</li>
+    </ul>
+
+    <h2 id="limits">Limits</h2>
+    <ul class="steps">
+      <li>QEMU only. A bootable image for a physical laptop has been prepared and tested under QEMU&rsquo;s BIOS and UEFI firmware, but ABSD has not booted on physical hardware.</li>
+      <li>One CPU. No networking. Programs are embedded in the kernel build; there is no execution from the filesystem and no dynamic linking.</li>
+      <li>One writer process holds the filesystem at a time; there is no filesystem server. The on-disk format is experimental, with no compatibility promise.</li>
+      <li>The power-loss result does not cover media that tear a sector unit, media corruption, or whether a particular drive honours its flush command.</li>
+      <li>The source is private. The facts on this page come from the project&rsquo;s own documentation and test records as of 2026-09-25 and cannot be checked from here yet.</li>
+    </ul>
+
+    <p><a href="index.html">Back to Constellation</a> &middot; <a href="status.html">Status</a> &middot; <a href="limits.html">Limits</a></p>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>
