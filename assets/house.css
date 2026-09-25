@@ -438,11 +438,11 @@ dl.pairs dd { color: var(--fg-muted); font-size: 0.95rem; line-height: 1.5; }
   padding: var(--s2) 0;
   border-bottom: 1px solid var(--border-faint);
 }
-.doors li > a:first-child {
+.doors li > :first-child {
   font-family: var(--mono);
   font-size: 0.9rem;
 }
-.doors li > span { color: var(--fg-muted); font-size: 0.95rem; line-height: 1.5; }
+.doors li > :last-child { color: var(--fg-muted); font-size: 0.95rem; line-height: 1.5; }
 
 /* ── Badges ── */
 
