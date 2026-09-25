@@ -33,7 +33,7 @@
     </nav>
   </header>
   <nav class="section-nav" aria-label="Main navigation">
-    <a href="index.html" aria-current="page">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+    <a href="index.html" aria-current="page">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a>
   </nav>
   <main id="main">
     <section aria-labelledby="hero">
@@ -42,15 +42,16 @@
       <p class="lede">A command that exited zero, a green check, an agent that says &ldquo;done&rdquo;: each is evidence from one moment and one participant. None of them proves that the intended state is true now.</p>
       <p>A CI check goes green at 09:00. At 11:00 a deploy relies on that green. Nothing in between asked whether it still held. The check was honest; the deploy treated a two-hour-old observation as a current fact.</p>
       <p>AI coding agents make this sharper. When an agent reports that a task is done, that is a report from the worker, not evidence that the intended change exists.</p>
+      <p><strong>Constellation</strong> is an experimental set of small programs that keep that report apart from the record of what actually happened: when the outcome of a change is uncertain, it stays &ldquo;unknown&rdquo; until evidence from outside the worker settles it.</p>
     </section>
 
     <!-- DEMO SLOT BEGIN: current-stack demo from lane A (constellation-docket
          campaign/public-demo-20260925 at 5b06ca4; code and run-003 at 9ebdc5e). -->
     <section id="demo" aria-labelledby="demo-heading">
       <h2 id="demo-heading">The demo: when nobody knows whether it happened</h2>
-      <p>An agent asks a payment provider to refund $40.00. The request goes out and the reply never comes back. The agent reports &ldquo;Done.&rdquo; The service that keeps custody of the attempt records the refund as <strong>unknown</strong>: not success, not failure. It does not send the request again. It settles only when a separate read of the provider&rsquo;s own records says what happened.</p>
-      <p>The custody service is real and built from source. The authorizing service, the payment provider, the network fault and the agent are small local stand-ins.</p>
-      <p>The two usual rules both fail here. &ldquo;A network error means failure&rdquo; is wrong in this run, where the refund had already applied. &ldquo;Retry with the idempotency key&rdquo; answers the question with a second write under an authorization that was only good for one; finding out should be a read.</p>
+      <p>An agent asks a payment provider to refund $40.00. The request goes out and the reply never comes back. The agent reports &ldquo;Done.&rdquo; The service that keeps custody of the attempt (it is called Docket) records the refund as <strong>unknown</strong>: not success, not failure. It does not send the request again. It settles only when a separate read of the provider&rsquo;s own records says what happened.</p>
+      <p>The custody service is real and built from source. The authorizing service, the payment provider, the network fault and the agent are small local stand-ins. The agent is deliberately simple: a script that says &ldquo;done&rdquo; whenever its command exits 0, which is exactly the kind of report the system must not take on trust.</p>
+      <p>Two usual rules fail here. &ldquo;A network error means failure&rdquo; is wrong in this run, because the refund had already applied. An idempotency key would make a retry safe at a provider that honours it, but the system still does not know whether the first request applied until something reads the provider&rsquo;s records, and the authorization here covers one attempt at one refund; so the system records &ldquo;unknown&rdquo; and finds out by reading.</p>
 
       <ol class="steps">
         <li><strong>Effect attempted.</strong> An agent is asked to refund $40.00 for order 1042. The refund must apply at the provider within eight seconds or not at all. A signed authorization for exactly this refund is handed to the system, which sends it once.</li>
@@ -61,7 +62,7 @@
         <li><strong>Final settlement.</strong> Only now is the refund recorded as a success, citing the observer&rsquo;s document as evidence and keeping the earlier &ldquo;unknown&rdquo; entry.</li>
       </ol>
 
-      <p><strong>Same message, opposite truth.</strong> The demo then refunds $25.00 for order 1043 with the same agent and the same &ldquo;Done.&rdquo; This time the request itself is lost on the way. The system again records it as unknown. The first lookup finds no refund, but the request could still arrive before its deadline, so the answer stays unknown. After the deadline the provider can never apply it, and the system records a failure.</p>
+      <p><strong>Same message, opposite truth.</strong> The demo then refunds $25.00 for order 1043 with the same agent and the same &ldquo;Done.&rdquo; This time the request itself is lost on the way. The system again records it as unknown. The first lookup finds no refund, but the request could still arrive before its deadline, so the answer stays unknown. After the deadline the provider can never apply it, and the system records a failure. That verdict is possible only because this stand-in provider guarantees that a request applies before its deadline or never, and answers a read-only lookup by exact request. Without such a guarantee the attempt would stay unknown, which is the honest answer.</p>
       <div class="table-wrap" tabindex="0">
         <table>
           <thead><tr><th scope="col">Run</th><th scope="col">Agent said</th><th scope="col">System at first</th><th scope="col">System at the end</th><th scope="col">Provider&rsquo;s ledger</th></tr></thead>
@@ -91,6 +92,7 @@ what the provider's own records show, not what the agent said.</span></pre>
 <span class="prompt"></span>cd constellation-docket
 <span class="prompt"></span>./examples/indeterminate-effect/run.sh</pre>
       <p>Source: <a href="https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect"><code>examples/indeterminate-effect</code></a> on the <code>campaign/public-demo-20260925</code> branch, which is not yet merged. Its dated claim is in the <a href="status.html#status-indeterminate-effect-demo">status ledger</a>.</p>
+      <p><strong>Use your own executor:</strong> the worker is a separate program that speaks Docket&rsquo;s <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/governed-runtime/executor-transport-v1.md">executor contract</a> (<code>plan-id</code>, <code>execute</code>, <code>reconcile</code>). Its <code>reconcile</code> step must only read, and the independence of that read is up to the executor you write.</p>
 
       <details>
         <summary>What is running, what is a stand-in, and the identifiers</summary>
@@ -137,20 +139,20 @@ what the provider's own records show, not what the agent said.</span></pre>
 
     <section id="what" aria-labelledby="what-heading">
       <h2 id="what-heading">What this is</h2>
-      <p>Constellation is an experimental system for separating work from the evidence, authority and acceptance used to decide whether that work succeeded. A worker, whether a script or an AI agent, may propose and perform work. Separate programs decide whether that exact work may run, keep a record of each attempt, observe the result independently, and report &ldquo;unknown&rdquo; when the evidence does not settle the question. The programs remain independently useful, and combinations of them are named, pinned and tested one at a time.</p>
+      <p>Constellation is an experimental system that keeps a worker apart from the decisions about its work: whether that exact work may run, and whether it actually happened. A worker, whether a script or an AI agent, may propose and perform work. Separate programs decide whether it may run, keep a record of each attempt, observe the result apart from the worker&rsquo;s own report, and report &ldquo;unknown&rdquo; when the evidence does not settle the question. Approval and authorization only decide whether work may be attempted; whether it succeeded is decided by evidence. The programs remain independently useful, and combinations of them are named, pinned and tested one at a time.</p>
       <p><a href="understand.html">How it works</a> &middot; <a href="components.html">Components</a></p>
     </section>
 
     <section id="related-work" aria-labelledby="related-heading">
       <h2 id="related-heading">Related work</h2>
-      <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation explores the harder distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately.</p>
+      <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation is designed for the distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately. That case is a design target and a roadmap: the qualified release and the demo above run on one host.</p>
       <p>See Haiqing Li, Xin Ma, Yinhao Wu, Wenliang Zhong, Feng Jiang, Thao M. Dang, Xiao Hu, Hehuan Ma, Yuzhi Guo and Junzhou Huang, &ldquo;Who Holds the Pen? Let Specifications, Not Agents, Sign Off&rdquo;, <a href="https://arxiv.org/abs/2609.29921">arXiv:2609.29921</a> (2026). This is independent convergence and evidence for the discipline, not validation of Constellation&rsquo;s specific architecture. A <a href="https://github.com/unpingable/papers/blob/main/working/agent-governance-field-state.md#addendum-2026-09-25--specharness-specificationstate-authority-in-single-runtime-harnesses">longer literature note</a> compares the two.</p>
       <p>From this project: &ldquo;<a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>&rdquo; and &ldquo;<a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>&rdquo;. The full catalogue is on the <a href="../research.html">research</a> page, and the questions behind the software are on <a href="directions.html">research directions</a>.</p>
     </section>
 
     <section id="status" aria-labelledby="limits">
       <h2 id="limits">Status and limits</h2>
-      <p>Constellation is experimental, and real composed workloads run on it. The <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> release records one reviewed, explicitly accepted file change that was authorized once, executed once and then checked by a separate read; anyone can re-verify that evidence from public source. On 2026-09-25 a packaged release candidate installed cleanly from its artifacts in a fresh virtual machine and passed its end-to-end and refusal checks. Those packages are not public yet, and nothing has been released beyond alpha.6 and a package for one of its components. The demo above runs from public source on a branch that is not yet merged. It is not production-ready.</p>
+      <p>Constellation is experimental. Its real components have been composed and run end to end, once per qualified profile. The <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> release records one reviewed, explicitly accepted file change that was authorized once, executed once and then checked by a separate read; anyone can re-verify that evidence from public source. On 2026-09-25 a packaged release candidate installed cleanly from its artifacts in a fresh virtual machine and passed its end-to-end and refusal checks. A hostile review of the same candidate found defects that are being fixed before it can be released. Those packages are not public yet, and nothing has been released beyond alpha.6 and a package for one of its components. The demo above runs from public source on a branch that is not yet merged. It is not production-ready.</p>
       <p><a href="status.html">Current status</a> &middot; <a href="limits.html">Limits</a></p>
     </section>
 
@@ -171,6 +173,6 @@ what the provider's own records show, not what the agent said.</span></pre>
       </ul>
     </section>
   </main>
-  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer>
 </body>
 </html>
