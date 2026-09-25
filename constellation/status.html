@@ -43,6 +43,7 @@
       <h2 id="summary">Summary as of 2026-09-25</h2>
       <ul class="steps">
         <li><strong>Released integration profile:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6, <code>reviewed-local-copy/v1</code></a>. One exact plan to create a local file was independently reviewed, explicitly accepted, authorized once, executed once and settled, then checked by a separate read. Anyone can re-verify the retained evidence from public source without repeating the effect.</li>
+        <li><strong>Runnable demo:</strong> the <a href="index.html#demo">indeterminate-effect demo</a> passed a cold-clone run in a fresh virtual machine on 2026-09-25. The custody service is real and built from source; the other parts are local stand-ins. Its source branch is not merged. See the <a href="#status-indeterminate-effect-demo">ledger row</a>.</li>
         <li><strong>Released component package:</strong> <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">NQ 0.2.0</a>, a Debian package and tarball for NQ alone.</li>
         <li><strong>Release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25. The artifacts are not public.</li>
         <li><strong>Earlier profiles:</strong> alpha.1 through alpha.5 remain available for narrower consultation, saved-check, objective-read, connected-cache and installed-cadence paths; see <a href="start.html">guides and source</a>.</li>
@@ -133,6 +134,16 @@
           <dt>verified 2026-09-21</dt><dd>the public repository deprecation notice and canonical successor documentation</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">deprecated repository</a> &middot; <a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">successor</a></dd>
           <dt>promotion</dt><dd>None. Do not use this predecessor as the current installation path.</dd>
+        </dl>
+      </article>
+      <article class="ledger-row" id="status-indeterminate-effect-demo">
+        <h3>Indeterminate-effect demo (refund with a lost reply)</h3>
+        <p><span class="badge">exhibit</span> <span class="badge">cold-clone qualified; source branch not merged</span></p>
+        <p>An agent reports a refund done after the reply was lost. Docket, built from source, records the attempt as indeterminate, sends nothing twice, and settles success or failure only on a separate observer&#x27;s read of the provider&#x27;s ledger. A second run with the request lost ends in failure under the same agent claim. Docket is real; the authorization signer (a stand-in reproducing AG&#x27;s published test vector), the payment provider, the faulty network link and the agent are local stand-ins. Everything runs on one host under one clock.</p>
+        <dl class="pairs">
+          <dt>verified 2026-09-25</dt><dd>run-003: an anonymous HTTPS clone of the demo branch into a fresh Debian 12 virtual machine, with the network cut off for the build and the run; the demo exited 0 and its independent check passed 53 of 53 checks.</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect" target="_blank" rel="noopener">demo source (unmerged branch)</a> &middot; <a href="demo/indeterminate-effect-transcript.txt">transcript</a> &middot; <a href="demo/indeterminate-effect-check.txt">check output</a> &middot; <a href="demo/indeterminate-effect.cast">recording</a></dd>
+          <dt>promotion</dt><dd>The branch must be merged before the demo counts as part of Docket. Independence holds because this demo&#x27;s worker delegates reconcile to the observer; Docket does not pin that configuration, so it is not a general guarantee. Using AG itself, a remote provider, or several observers would each need separate evidence.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-four-office-vertical">

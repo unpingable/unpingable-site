@@ -30,6 +30,17 @@
       "promotion": "This is not a release. The packaged artifacts are not public, and the clean-room newcomer run and hostile review have not taken place. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package."
     },
     {
+      "id": "indeterminate-effect-demo",
+      "name": "Indeterminate-effect demo (refund with a lost reply)",
+      "kind": "exhibit",
+      "status": "cold-clone qualified; source branch not merged",
+      "claim": "An agent reports a refund done after the reply was lost. Docket, built from source, records the attempt as indeterminate, sends nothing twice, and settles success or failure only on a separate observer's read of the provider's ledger. A second run with the request lost ends in failure under the same agent claim. Docket is real; the authorization signer (a stand-in reproducing AG's published test vector), the payment provider, the faulty network link and the agent are local stand-ins. Everything runs on one host under one clock.",
+      "verified": "2026-09-25",
+      "verified_by": "run-003: an anonymous HTTPS clone of the demo branch into a fresh Debian 12 virtual machine, with the network cut off for the build and the run; the demo exited 0 and its independent check passed 53 of 53 checks.",
+      "evidence": [{"label": "demo source (unmerged branch)", "url": "https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect"}, {"label": "transcript", "url": "constellation/demo/indeterminate-effect-transcript.txt"}, {"label": "check output", "url": "constellation/demo/indeterminate-effect-check.txt"}, {"label": "recording", "url": "constellation/demo/indeterminate-effect.cast"}],
+      "promotion": "The branch must be merged before the demo counts as part of Docket. Independence holds because this demo's worker delegates reconcile to the observer; Docket does not pin that configuration, so it is not a general guarantee. Using AG itself, a remote provider, or several observers would each need separate evidence."
+    },
+    {
       "id": "docket",
       "name": "Constellation Docket",
       "kind": "artifact",
