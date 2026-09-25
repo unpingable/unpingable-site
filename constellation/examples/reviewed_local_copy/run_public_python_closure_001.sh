@@ -1,5 +1,9 @@
 #!/bin/bash
-# Root-admitted durable envelope for the isolated public Python closure.
+# RETIRED pre-cohort tooling; not part of the reviewed-local-copy/v1 cohort path.
+# Root-admitted durable envelope for the isolated public Python closure. It has
+# no default interpreter: the retired python3.12 default is gone, and Debian 12
+# does not ship python3.12. Pass --python explicitly. The cohort does not run
+# this: the Switchyard artifact ships its installed closure.
 set -euo pipefail
 umask 077
 export PATH=/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1
@@ -7,15 +11,15 @@ export PATH=/usr/bin:/bin PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1
 readonly here="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 readonly producer="$here/prepare_public_python_closure.py"
 readonly pins="$here/source-pins.json"
-usage() { echo "usage: $0 --unit UNIT --owner ABSOLUTE_OWNER --records ABSOLUTE_RECORDS --switchyard ABSOLUTE_SOURCE --maude ABSOLUTE_SOURCE [--python ABSOLUTE_PYTHON]" >&2; exit 2; }
-unit= owner= records= switchyard= maude= python=/usr/bin/python3.12
+usage() { echo "usage: $0 --unit UNIT --owner ABSOLUTE_OWNER --records ABSOLUTE_RECORDS --switchyard ABSOLUTE_SOURCE --maude ABSOLUTE_SOURCE --python ABSOLUTE_PYTHON (retired pre-cohort tooling)" >&2; exit 2; }
+unit= owner= records= switchyard= maude= python=
 while (($#)); do
     case "$1" in
         --unit|--owner|--records|--switchyard|--maude|--python) test $# -ge 2 || usage; key=${1#--}; printf -v "$key" '%s' "$2"; shift 2 ;;
         *) usage ;;
     esac
 done
-test -n "$unit" -a -n "$owner" -a -n "$records" -a -n "$switchyard" -a -n "$maude"
+test -n "$unit" -a -n "$owner" -a -n "$records" -a -n "$switchyard" -a -n "$maude" -a -n "$python" || usage
 case "$owner:$records:$switchyard:$maude:$python" in /*:/*:/*:/*:/*) ;; *) usage ;; esac
 readonly unit owner records switchyard maude python
 readonly lock="$records.owner.lock"

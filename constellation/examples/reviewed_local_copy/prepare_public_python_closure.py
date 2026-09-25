@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Build the bounded, isolated public Python closure for reviewed local-copy.
+"""RETIRED pre-cohort tooling; not part of the reviewed-local-copy/v1 cohort path.
+
+Build the bounded, isolated public Python closure for reviewed local-copy.
+The cohort does not run this: the Switchyard artifact ships its installed
+closure. There is no default interpreter (the retired python3.12 default is
+gone; Debian 12 does not ship python3.12), so --python is required.
 
 The one permitted network transition is the explicit wheel download.  It is
 followed by a generated, hash-pinned lock and every installation is offline.
@@ -148,7 +153,7 @@ assert not any('dist-packages' in item for item in sys.path if item and not item
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--owner', required=True); parser.add_argument('--switchyard', required=True)
-    parser.add_argument('--maude', required=True); parser.add_argument('--python', default='/usr/bin/python3.12')
+    parser.add_argument('--maude', required=True); parser.add_argument('--python', required=True, help='absolute interpreter (retired tooling; no default)')
     parser.add_argument('--unit', default='constellation-reviewed-copy-python-001.service')
     args = parser.parse_args(argv)
     build(args)
