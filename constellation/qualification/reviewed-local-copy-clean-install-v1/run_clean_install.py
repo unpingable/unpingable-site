@@ -5,27 +5,24 @@ QUALIFICATION-ONLY HARNESS. Nothing here is part of the product path. It boots
 one disposable Debian 12 guest from a verified read-only base image (qcow2
 overlay, cloud-init seed, user networking with restrict=on and one SSH
 hostfwd on 127.0.0.1, qemu -sandbox on), copies in only the release bundle
-(cohort manifest, artifacts, SHA256SUMS) and the harness's own guest scripts,
-and runs the newcomer steps with the cohort setup driver from the bundle's
-cohort-kit artifact:
+(cohort manifest, artifacts, SHA256SUMS, and the qualification-only fixture
+tooling) and the harness's guest scripts, and runs the documented newcomer
+steps with the driver extracted from the bundle's cohort-kit artifact:
 
-    install -> init (fixture-review) -> review -> SYNTHETIC OPERATOR accept
-    -> status -> evidence
+    verify-manifest -> install -> init (fixture-review) -> review -> status
+    -> SYNTHETIC OPERATOR accept -> status -> evidence
 
-plus refusal cases. The acceptance step is performed by this harness as a
-labelled synthetic operator (case W-03), never by the driver: the driver has
-no automatic-acceptance option. The fixture-review route qualifies install,
-wiring, custody, authority and effect; never review independence. The real
-provider route is an operator-run qualification and is refused here.
+plus refusal cases, each on its own cohort where it consumes an occurrence.
+The acceptance step is performed by this harness as a labelled synthetic
+operator (case W-03), never by the driver: the driver has no automatic
+acceptance. The fixture-review route qualifies install, wiring, custody,
+authority and effect; never review independence. The real provider route is
+an operator-run qualification and is not exercised here.
 
 Every case ends PASS, FAIL or NOT_EXERCISED with the observed output; nothing
-is relabelled. Cases that need component artifacts not yet published are
-NOT_EXERCISED with the pending lane named. Modelled on NQ
+is relabelled. A case that cannot run because an earlier case failed is
+NOT_EXERCISED and names what blocked it. Modelled on NQ
 qualification/release-closure-v1/run_acceptance.py.
-
-Phase-1 mode (`--phase1-kit-dir`): with no release bundle yet, copy the driver
-and its unit tests from a kit directory as a labelled stand-in, and run only
-the host-facts, unit-test and fail-closed cases.
 """
 
 from __future__ import annotations
@@ -41,13 +38,15 @@ import shutil
 import socket
 import subprocess
 import sys
+import tarfile
 import time
 import traceback
 from typing import Any
 
 HERE = pathlib.Path(__file__).resolve().parent
-GUEST_SCRIPTS = ("probe.sh",)
-HARNESS_FILES = ("run_clean_install.py", *(f"guest/{name}" for name in GUEST_SCRIPTS))
+GUEST_SCRIPTS = ("probe.sh", "expire_issuance.py")
+HARNESS_FILES = ("run_clean_install.py", "compose_bundle.py", "verify_cohort_evidence.py",
+                 *(f"guest/{name}" for name in GUEST_SCRIPTS))
 IMAGE_NAME = "debian-12-genericcloud-amd64-20260903-2590.qcow2"
 DEFAULT_IMAGE = pathlib.Path(
     "/data/git/.campaign-artifacts/constellation-operator-beta-composed-m2-run-002/input"
@@ -58,50 +57,42 @@ GUEST_USER = "cohortqual"
 GUEST_HOME = f"/home/{GUEST_USER}"
 KIT = f"{GUEST_HOME}/kit"
 BUNDLE = f"{GUEST_HOME}/bundle"
-DRIVER = f"/usr/bin/python3 -I {KIT}/constellation_cohort.py"
-COHORT = "qual-a"
-FIXTURE_PORT = 23459  # guest loopback only; not forwarded
+FIXTURE = f"{GUEST_HOME}/fixture"
+EVIDENCE = "/root/cohort-evidence"
+# Cohorts: A is the newcomer path; B the stale fixture review; C the expired issuance.
+COHORTS = {"A": ("qual-a", 18431, "accepted"), "B": ("qual-b", 18432, "stale"), "C": ("qual-c", 18433, "accepted")}
 
 CASES = (
     ("P-01", "preflight: tools, KVM, base image SHA-512, free port, bundle SHA256SUMS"),
-    ("I-01", "boot: fresh Debian 12 guest from the verified image"),
+    ("I-01", "boot a fresh Debian 12 guest; copy the bundle; sha256sum --check; extract only the cohort kit"),
     ("I-02", "host facts the driver depends on (python3.11, openssl Ed25519, systemd-run, setpriv)"),
-    ("I-03", "driver unit tests under the guest's /usr/bin/python3"),
-    ("I-04", "install: cohort manifest verified, artifacts installed, build info matches every pin"),
-    ("I-05", "init fixture-review: account, synthetic identities and keys, config, plan, AG genesis"),
-    ("F-01", "fixture review endpoint (lane E artifact) listening on guest loopback only"),
-    ("W-01", "review: one durable unit, fresh observation, one bounded fixture review, stops before acceptance"),
-    ("W-02", "status: retained candidate digest and zero grants, spends, attempts, effects"),
+    ("I-03", "driver unit tests from the extracted kit under the guest's python3.11 -I -S"),
+    ("N-01", "a manifest naming a wrong artifact digest refuses (verify-manifest and install), writing nothing"),
+    ("N-02", "an artifact whose bytes differ from the manifest digest refuses, writing nothing"),
+    ("N-03", "a manifest naming another source commit refuses (pin.incompatible)"),
+    ("N-04", "install refuses as a non-root account"),
+    ("I-04", "verify-manifest and install: every pin, artifact digest and build info checked"),
+    ("I-05", "init fixture-review: account, synthetic identities and keys, codex home, plan, ports, NQ watcher"),
+    ("N-05", "re-running init on the existing cohort refuses and changes nothing"),
+    ("F-01", "loopback fixture endpoint (qualification-only tooling) on guest 127.0.0.1"),
+    ("W-01", "review: one durable unit, fresh observation, AG genesis, one bounded fixture review, stops before acceptance"),
+    ("W-02", "status: retained candidate digest; zero grants, spends, attempts, effects"),
     ("W-03", "SYNTHETIC OPERATOR acceptance of the exact candidate digest (harness step, labelled)"),
-    ("W-04", "status after execution: settled, exact result.txt bytes, one effect"),
-    ("W-05", "evidence: bundle written and joins verified"),
-    ("N-01", "verify-manifest refuses a manifest whose pins are not a qualified cohort, writing nothing"),
-    ("N-02", "install refuses as a non-root account"),
-    ("N-03", "install refuses an artifact whose bytes differ from the manifest digest"),
-    ("N-04", "install refuses a debug build or a build-info commit mismatch"),
-    ("N-05", "a second init of the same cohort refuses"),
-    ("N-06", "accept with a digest other than the retained candidate refuses with no grant or effect"),
-    ("N-07", "fixture-review stale review (currentness exceeded) refuses without permission"),
+    ("W-04", "status after execution: settled success, result.txt written once with the reviewed bytes"),
+    ("W-05", "evidence: bundle exported; driver join complete; independent verifier (alpha.6 shape) passes on the host"),
+    ("N-06", "accept naming a digest other than the retained candidate refuses with no grant or effect"),
+    ("N-07", "a second execute attempt refuses: driver accept, the kit continuation and AG re-run; one effect"),
+    ("N-08", "stale fixture review (cohort B) refuses at native review verification; no candidate, no authority"),
+    ("N-09", "expired issuance (cohort C) is never presented: AG refuses dispatch; no Docket record, no effect"),
 )
-PENDING = {
-    "I-04": "pending: release artifacts from lanes A, B, C, D, E and NQ-P",
-    "I-05": "pending: lanes A (ag-loopctl, standing sealer), B (docket), C (maude-plan.pyz), NQ-P (account model)",
-    "F-01": "pending: lane E loopback fixture artifact",
-    "W-01": "pending: I-05 and F-01",
-    "W-02": "pending: W-01",
-    "W-03": "pending: W-02",
-    "W-04": "pending: W-03",
-    "W-05": "pending: W-04 and the lane A/B evidence join verifier",
-    "N-03": "pending: needs a qualified cohort entry in the driver (pins are PENDING, so N-01 refuses first)",
-    "N-04": "pending: release artifacts",
-    "N-05": "pending: I-05",
-    "N-06": "pending: W-02",
-    "N-07": "pending: F-01 scripted stale mode",
-}
 
 
 class Refusal(Exception):
-    """A precondition or harness invariant that stops the run."""
+    """A precondition or harness invariant that stops the case."""
+
+
+class Blocked(Exception):
+    """The case cannot run because an earlier case did not produce its input."""
 
 
 def utc_now() -> str:
@@ -116,8 +107,10 @@ def file_digest(path: pathlib.Path, algorithm: str = "sha256") -> str:
     return digest.hexdigest()
 
 
-def run(command: list[str], *, check: bool = True, timeout: float | None = 600) -> subprocess.CompletedProcess[bytes]:
-    completed = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=timeout, check=False)
+def run(command: list[str], *, check: bool = True, timeout: float | None = 600,
+        stdin: bytes | None = None) -> subprocess.CompletedProcess[bytes]:
+    completed = subprocess.run(command, input=stdin, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               timeout=timeout, check=False)
     if check and completed.returncode != 0:
         raise Refusal(f"command failed ({completed.returncode}): {shlex.join(command)}\n"
                       f"{completed.stderr.decode(errors='replace')[-2000:]}")
@@ -166,8 +159,10 @@ class Harness:
         self.results = {cid: {"id": cid, "title": title, "outcome": "NOT_EXERCISED", "reason": "not reached"}
                         for cid, title in CASES}
         self.current: str | None = None
+        self.case_started = 0.0
         self.guest: Guest | None = None
         self.identity: dict[str, Any] = {}
+        self.facts: dict[str, Any] = {}
         self.host_log = None
 
     # ---------------------------------------------------------------- records
@@ -191,7 +186,6 @@ class Harness:
             "review_route": "fixture-review",
             "review_route_claim": "install, wiring, custody, authority and effect; never review independence",
             "operator_acceptance": "synthetic operator performed by this harness (case W-03); not a human attestation",
-            "mode": "phase1-kit-stand-in" if self.args.phase1_kit_dir else "release-bundle",
             "harness": self.identity.get("harness"),
             "invocation": sys.argv,
             "started_at": self.started,
@@ -201,6 +195,7 @@ class Harness:
             "guest": {"name": self.guest.name, "ssh_port": self.guest.port, "qemu_command": self.guest.command}
             if self.guest else None,
             "guest_facts": self.identity.get("guest_facts"),
+            "facts": self.facts,
             "summary": {o: sum(1 for r in self.results.values() if r["outcome"] == o)
                         for o in ("PASS", "FAIL", "NOT_EXERCISED")},
             "cases": [self.results[cid] for cid, _ in CASES],
@@ -211,6 +206,7 @@ class Harness:
 
     def begin(self, cid: str) -> None:
         self.current = cid
+        self.case_started = time.monotonic()
         self.log(f"== {cid} {dict(CASES)[cid]}")
         self.append_case(f"# {cid} {dict(CASES)[cid]}\n# started {utc_now()}\n")
 
@@ -218,7 +214,8 @@ class Harness:
         assert self.current is not None
         entry = self.results[self.current]
         entry.pop("reason", None)
-        entry.update({"outcome": outcome, "recorded_at": utc_now(), "log": f"cases/{self.current}.log", **fields})
+        entry.update({"outcome": outcome, "recorded_at": utc_now(), "log": f"cases/{self.current}.log",
+                      "elapsed_s": round(time.monotonic() - self.case_started, 1), **fields})
         self.append_case(f"# outcome {outcome} {json.dumps(fields, default=str)}\n")
         self.log(f"   -> {outcome}")
         self.current = None
@@ -228,6 +225,8 @@ class Harness:
         self.begin(cid)
         try:
             function(*args)
+        except Blocked as error:
+            self.record("NOT_EXERCISED", reason=f"blocked: {error}")
         except Refusal as error:
             self.record("FAIL", error=str(error), note="harness refusal during the case")
         except Exception as error:  # noqa: BLE001 - record, never hide
@@ -236,12 +235,13 @@ class Harness:
         if self.current is not None:
             self.record("FAIL", error="case ended without recording an outcome")
 
-    def skip(self, cid: str, reason: str) -> None:
-        self.results[cid].update({"outcome": "NOT_EXERCISED", "reason": reason, "recorded_at": utc_now()})
-        self.write_results()
+    def passed(self, *cids: str) -> None:
+        missing = [cid for cid in cids if self.results[cid]["outcome"] != "PASS"]
+        if missing:
+            raise Blocked(", ".join(f"{cid} is {self.results[cid]['outcome']}" for cid in missing))
 
     # --------------------------------------------------------------- guest io
-    def ssh(self, command: str, *, check: bool = False, timeout: float = 600) -> subprocess.CompletedProcess[bytes]:
+    def ssh(self, command: str, *, check: bool = False, timeout: float = 900) -> subprocess.CompletedProcess[bytes]:
         assert self.guest is not None
         started = time.monotonic()
         try:
@@ -259,12 +259,25 @@ class Harness:
         assert self.guest is not None
         run(self.guest.scp_base() + [str(s) for s in sources] + [f"{GUEST_USER}@127.0.0.1:{destination}"])
 
-    def driver_json(self, arguments: str, *, root: bool) -> tuple[int, dict[str, Any]]:
-        done = self.ssh(("sudo " if root else "") + f"{DRIVER} {arguments}")
+    def driver(self, arguments: str, *, root: bool = True, timeout: float = 900) -> tuple[int, dict[str, Any]]:
+        """The newcomer's command: python3.11 -I -S <kit>/setup/constellation_cohort.py ..."""
+        started = time.monotonic()
+        done = self.ssh(("sudo " if root else "") + f"{self.facts['driver']} {arguments}", timeout=timeout)
         try:
-            return done.returncode, json.loads(done.stdout)
+            value = json.loads(done.stdout)
         except ValueError:
             raise Refusal(f"driver output is not one JSON object: {text(done.stdout)[-500:]}") from None
+        self.facts.setdefault("driver_calls", []).append(
+            {"arguments": arguments.split(" --")[0], "exit": done.returncode, "elapsed_s": round(time.monotonic() - started, 2),
+             "result": value.get("result"), "code": value.get("code")})
+        return done.returncode, value
+
+    def guest_json(self, command: str) -> Any:
+        return json.loads(self.ssh(command, check=True).stdout)
+
+    def writes_snapshot(self) -> str:
+        return text(self.ssh("sudo find /opt/constellation /var/lib/constellation /etc/nq /var/lib/nq -maxdepth 3 "
+                             "2>/dev/null | sort | sha256sum", check=True).stdout).split()[0]
 
     # --------------------------------------------------------------- preflight
     def describe_harness(self) -> dict[str, Any]:
@@ -309,22 +322,18 @@ class Harness:
         if os.access(image, os.W_OK):
             raise Refusal("base image must not be writable")
         self.identity["image"] = {"path": str(image), "sha512": actual}
-        if self.args.bundle_dir is not None:
-            bundle = self.args.bundle_dir
-            checked = subprocess.run(["sha256sum", "--check", "--strict", "SHA256SUMS"], cwd=bundle,
-                                     capture_output=True, text=True, check=False)
-            if checked.returncode != 0:
-                raise Refusal(f"bundle SHA256SUMS do not verify on the host: {checked.stdout}{checked.stderr}")
-            names = [line.split("  ", 1)[1] for line in (bundle / "SHA256SUMS").read_text().splitlines() if line]
-            if "cohort-manifest.json" not in names:
-                raise Refusal("bundle has no cohort-manifest.json listed in SHA256SUMS")
-            self.identity["bundle"] = {"directory": str(bundle),
-                                       "sha256sums_sha256": file_digest(bundle / "SHA256SUMS"), "files": names}
-        else:
-            kit = self.args.phase1_kit_dir
-            self.identity["bundle"] = {"mode": "phase1-kit-stand-in", "directory": str(kit),
-                                       "files": {name: file_digest(kit / name) for name in
-                                                 ("constellation_cohort.py", "test_constellation_cohort.py")}}
+        bundle = self.args.bundle_dir
+        checked = subprocess.run(["sha256sum", "--check", "--strict", "SHA256SUMS"], cwd=bundle,
+                                 capture_output=True, text=True, check=False)
+        if checked.returncode != 0:
+            raise Refusal(f"bundle SHA256SUMS do not verify on the host: {checked.stdout}{checked.stderr}")
+        names = [line.split("  ", 1)[1] for line in (bundle / "SHA256SUMS").read_text().splitlines() if line]
+        if "cohort-manifest.json" not in names:
+            raise Refusal("bundle has no cohort-manifest.json listed in SHA256SUMS")
+        manifest = json.loads((bundle / "cohort-manifest.json").read_text())
+        self.identity["bundle"] = {"directory": str(bundle), "sha256sums_sha256": file_digest(bundle / "SHA256SUMS"),
+                                   "manifest_sha256": "sha256:" + file_digest(bundle / "cohort-manifest.json"),
+                                   "manifest": manifest, "files": names}
         self.record("PASS", image_sha512=actual, bundle=self.identity["bundle"])
 
     # ------------------------------------------------------------------ guest
@@ -354,10 +363,9 @@ users:
 """)
         run(["xorriso", "-as", "mkisofs", "-quiet", "-output", str(root / "seed.iso"), "-volid", "cidata",
              "-joliet", "-rock", str(root / "user-data"), str(root / "meta-data")])
-        # The genericcloud root is about 3 GB; grow the overlay so cloud-init's
-        # growpart leaves room for the cohort artifacts and stores.
+        # The genericcloud root is about 3 GB; grow the overlay for three cohorts.
         run(["qemu-img", "create", "-q", "-f", "qcow2", "-b", str(self.args.image), "-F", "qcow2",
-             str(root / "overlay.qcow2"), "12G"])
+             str(root / "overlay.qcow2"), "16G"])
         self.guest = guest
         return guest
 
@@ -366,7 +374,7 @@ users:
         guest.command = [
             "qemu-system-x86_64", "-name", f"{guest.name},process={guest.name}",
             "-no-user-config", "-nodefaults", "-accel", "kvm", "-machine", "q35", "-cpu", "host",
-            "-smp", "2", "-m", "3072", "-display", "none", "-monitor", "none",
+            "-smp", str(self.args.vcpus), "-m", str(self.args.memory_mib), "-display", "none", "-monitor", "none",
             "-serial", f"file:{root / 'serial.log'}", "-pidfile", str(root / "qemu.pid"),
             "-drive", f"if=virtio,file={root / 'overlay.qcow2'},format=qcow2,cache=none,aio=threads",
             "-drive", f"if=virtio,file={root / 'seed.iso'},format=raw,readonly=on",
@@ -402,11 +410,12 @@ users:
                 guest.process.wait(timeout=30)
             except subprocess.TimeoutExpired:
                 guest.process.kill()
+                guest.process.wait(timeout=30)
         if (guest.root / "serial.log").exists():
             shutil.copy2(guest.root / "serial.log", self.out / "evidence" / "a-serial.log")
         (guest.root / "overlay.qcow2").unlink(missing_ok=True)
 
-    # ------------------------------------------------------------------ cases
+    # ------------------------------------------------------------------ install
     def case_i01(self) -> None:
         guest = self.prepare_guest()
         self.start_guest(guest)
@@ -415,20 +424,26 @@ users:
         release = self.ssh('. /etc/os-release; printf "%s:%s" "$ID" "$VERSION_ID"', check=True).stdout
         if release != b"debian:12":
             raise Refusal(f"not Debian 12: {release!r}")
-        self.ssh(f"mkdir -p {GUEST_HOME}/bin {KIT} {BUNDLE}", check=True)
+        self.ssh(f"mkdir -p {GUEST_HOME}/bin {KIT} {BUNDLE}/qualification-only {FIXTURE}", check=True)
         self.scp_to([HERE / "guest" / name for name in GUEST_SCRIPTS], f"{GUEST_HOME}/bin/")
-        if self.args.phase1_kit_dir is not None:
-            # LABELLED STAND-IN: in phase 1 the driver comes from the kit source
-            # directory, not from a cohort-kit release artifact.
-            kit = self.args.phase1_kit_dir
-            self.scp_to([kit / "constellation_cohort.py", kit / "test_constellation_cohort.py"], f"{KIT}/")
-        else:
-            bundle = self.args.bundle_dir
-            self.scp_to(sorted(p for p in bundle.iterdir() if p.is_file()), f"{BUNDLE}/")
-            self.ssh(f"cd {BUNDLE} && sha256sum --check --strict SHA256SUMS", check=True)
-            raise Refusal("release-bundle mode: extracting the cohort-kit artifact is pending (lane F phase 2)")
-        self.ssh(f"chmod 0755 {GUEST_HOME}/bin/*.sh", check=True)
-        self.record("PASS", os=release.decode())
+        bundle = self.args.bundle_dir
+        self.scp_to(sorted(p for p in bundle.iterdir() if p.is_file()), f"{BUNDLE}/")
+        self.scp_to(sorted((bundle / "qualification-only").iterdir()), f"{BUNDLE}/qualification-only/")
+        # Newcomer step 1: check the bundle, then extract only the cohort kit.
+        self.ssh(f"cd {BUNDLE} && sha256sum --check --strict SHA256SUMS", check=True)
+        kit = [p.name for p in bundle.iterdir() if p.name.startswith("cohort-kit-") and p.name.endswith(".tar.gz")]
+        if len(kit) != 1:
+            raise Refusal("bundle must hold exactly one cohort-kit tarball")
+        self.ssh(f"tar -xzf {BUNDLE}/{kit[0]} -C {KIT} --no-same-owner", check=True)
+        top = kit[0].removesuffix(".tar.gz")
+        self.facts["kit_root"] = f"{KIT}/{top}"
+        self.facts["driver"] = f"/usr/bin/python3.11 -I -S {KIT}/{top}/setup/constellation_cohort.py"
+        version = self.ssh(f"{self.facts['driver']} --version", check=True).stdout.strip()
+        fixture = sorted((bundle / "qualification-only").iterdir())[0].name
+        self.ssh(f"tar -xzf {BUNDLE}/qualification-only/{fixture} -C {FIXTURE} --no-same-owner", check=True)
+        self.ssh(f"chmod 0755 {GUEST_HOME}/bin/*", check=True)
+        self.record("PASS", os=release.decode(), driver_version=text(version), kit=kit[0],
+                    fixture_tooling=fixture, note="fixture tooling is a qualification-only dependency")
 
     def case_i02(self) -> None:
         done = self.ssh(f"{GUEST_HOME}/bin/probe.sh", check=True)
@@ -444,59 +459,306 @@ users:
             ("setpriv", facts["tools"]["setpriv"]),
             ("memfd_create", facts["memfd_create"]),
         ) if not ok]
-        if missing:
-            self.record("FAIL", missing=missing, facts=facts)
-        else:
-            self.record("PASS", facts=facts)
+        self.record("FAIL" if missing else "PASS", missing=missing, facts=facts)
 
     def case_i03(self) -> None:
-        # -I implies -P on 3.11, so run the test file as a script; it puts its
-        # own directory on sys.path explicitly.
-        done = self.ssh(f"/usr/bin/python3 -I -B {KIT}/test_constellation_cohort.py -v 2>&1")
+        done = self.ssh(f"/usr/bin/python3.11 -I -S -B {self.facts['kit_root']}/setup/test_constellation_cohort.py -v 2>&1")
         tail = text(done.stdout).strip().splitlines()[-3:]
-        if done.returncode == 0 and any(line.startswith("OK") for line in tail):
-            self.record("PASS", summary=tail)
-        else:
-            self.record("FAIL", exit=done.returncode, summary=tail)
+        ok = done.returncode == 0 and any(line.startswith("OK") for line in tail)
+        self.record("PASS" if ok else "FAIL", summary=tail)
+
+    # -------------------------------------------------------- manifest refusals
+    def variant_manifest(self, name: str, component: str, field: str, value: str) -> str:
+        path = f"{GUEST_HOME}/{name}.json"
+        code = ("import json,sys; m=json.load(open(sys.argv[1])); "
+                "[e.update({sys.argv[3]: sys.argv[4]}) for e in m['components'] if e['component']==sys.argv[2]]; "
+                "open(sys.argv[5],'w').write(json.dumps(m))")
+        self.ssh(f"/usr/bin/python3.11 -I -S -c {shlex.quote(code)} {BUNDLE}/cohort-manifest.json {component} "
+                 f"{field} {shlex.quote(value)} {path}", check=True)
+        return path
+
+    def refuses_without_writes(self, manifest: str, artifacts: str, expected: str, fragment: str) -> dict:
+        before = self.writes_snapshot()
+        status_v, verify = self.driver(f"verify-manifest --manifest {manifest} --artifacts {artifacts}")
+        status_i, install = self.driver(f"install --cohort qual-refused --manifest {manifest} --artifacts {artifacts}")
+        after = self.writes_snapshot()
+        ok = (status_v == 2 and verify.get("code") == expected and fragment in verify.get("detail", "")
+              and status_i == 2 and install.get("code") == expected and before == after)
+        return {"ok": ok, "verify": verify, "install": install, "writes_unchanged": before == after}
 
     def case_n01(self) -> None:
-        # A syntactically valid manifest whose pins are not a qualified cohort.
-        self.ssh(f"mkdir -p {GUEST_HOME}/n01/artifacts", check=True)
-        make = ("import json,hashlib,sys; sys.path.insert(0,'" + KIT + "'); import constellation_cohort as c; "
-                "print(json.dumps({'schema':c.MANIFEST_SCHEMA,'profile':c.PROFILE,'components':["
-                "{'component':n,'package_version':'0.0.0','source_commit':hashlib.sha1(n.encode()).hexdigest(),"
-                "'artifact_sha256':'sha256:'+hashlib.sha256(n.encode()).hexdigest()} for n in sorted(c.COMPONENTS)]}))")
-        self.ssh(f"/usr/bin/python3 -I -c {shlex.quote(make)} > {GUEST_HOME}/n01/manifest.json", check=True)
-        before = self.ssh("sudo find /opt /var/lib -maxdepth 2 -name 'constellation*' | sort", check=True).stdout
-        status, result = self.driver_json(
-            f"verify-manifest --manifest {GUEST_HOME}/n01/manifest.json --artifacts {GUEST_HOME}/n01/artifacts", root=True)
-        status_i, result_i = self.driver_json(
-            f"install --cohort {COHORT} --manifest {GUEST_HOME}/n01/manifest.json --artifacts {GUEST_HOME}/n01/artifacts",
-            root=True)
-        after = self.ssh("sudo find /opt /var/lib -maxdepth 2 -name 'constellation*' | sort", check=True).stdout
-        ok = (status == 2 and result.get("code") == "pin.incompatible" and status_i == 2
-              and result_i.get("code") == "pin.incompatible" and before == after)
-        self.record("PASS" if ok else "FAIL", verify=result, install=result_i,
-                    writes_before=text(before), writes_after=text(after))
+        wrong = "sha256:" + hashlib.sha256(b"some other docket build").hexdigest()
+        manifest = self.variant_manifest("n01-manifest", "docket", "artifact_sha256", wrong)
+        result = self.refuses_without_writes(manifest, BUNDLE, "pin.incompatible", "docket.artifact_sha256")
+        self.record("PASS" if result.pop("ok") else "FAIL", **result)
 
     def case_n02(self) -> None:
-        status, result = self.driver_json(
-            f"install --cohort {COHORT} --manifest {GUEST_HOME}/n01/manifest.json --artifacts {GUEST_HOME}/n01/artifacts",
-            root=False)
+        # Same manifest, one artifact's bytes changed: no file carries the digest.
+        self.ssh(f"mkdir -p {GUEST_HOME}/n02 && cp {BUNDLE}/*.deb {BUNDLE}/*.tar.gz {GUEST_HOME}/n02/ && "
+                 f"printf x >> {GUEST_HOME}/n02/docket-0.1.0-linux-amd64.tar.gz", check=True)
+        result = self.refuses_without_writes(f"{BUNDLE}/cohort-manifest.json", f"{GUEST_HOME}/n02",
+                                             "artifact.missing", "docket")
+        self.ssh(f"rm -rf {GUEST_HOME}/n02", check=True)
+        self.record("PASS" if result.pop("ok") else "FAIL", **result)
+
+    def case_n03(self) -> None:
+        # A descendant or other commit is a different pin (no ranges).
+        manifest = self.variant_manifest("n03-manifest", "maude", "source_commit",
+                                         "c1fce17a529c4f73d23012b22b7f1a2a3ee666a7")
+        result = self.refuses_without_writes(manifest, BUNDLE, "pin.incompatible", "maude.source_commit")
+        self.record("PASS" if result.pop("ok") else "FAIL", **result)
+
+    def case_n04(self) -> None:
+        status, result = self.driver(f"install --cohort qual-a --manifest {BUNDLE}/cohort-manifest.json "
+                                     f"--artifacts {BUNDLE}", root=False)
         ok = status == 2 and result.get("code") == "host.not_root"
         self.record("PASS" if ok else "FAIL", result=result)
+
+    # ---------------------------------------------------------------- newcomer
+    def case_i04(self) -> None:
+        status_v, verify = self.driver(f"verify-manifest --manifest {BUNDLE}/cohort-manifest.json --artifacts {BUNDLE}")
+        installs = {}
+        for label, (cohort, _, _) in COHORTS.items():
+            installs[cohort] = self.driver(f"install --cohort {cohort} --manifest {BUNDLE}/cohort-manifest.json "
+                                           f"--artifacts {BUNDLE}", timeout=900)
+        identities = self.guest_json(f"sudo cat /opt/constellation/cohorts/qual-a/installed.json")
+        ok = (status_v == 0 and verify.get("qualified_cohort") == "alpha-exit-rc"
+              and all(status == 0 and value.get("result") == "installed" for status, value in installs.values()))
+        self.record("PASS" if ok else "FAIL", verify=verify, install={k: v[1] for k, v in installs.items()},
+                    executables={path: {k: v[k] for k in ("component", "sha256", "version", "source_commit")}
+                                 for path, v in identities.get("identities", {}).items()})
+
+    def init(self, cohort: str, port: int) -> tuple[int, dict]:
+        return self.driver(f"init --cohort {cohort} --review-route fixture-review --fixture-port {port}")
+
+    def case_i05(self) -> None:
+        self.passed("I-04")
+        inits = {cohort: self.init(cohort, port) for cohort, port, _ in COHORTS.values()}
+        ok = all(status == 0 and value.get("result") == "initialized" for status, value in inits.values())
+        self.facts["bindings"] = {cohort: value.get("binding_id") for cohort, (_, value) in inits.items()}
+        self.record("PASS" if ok else "FAIL", init={k: v[1] for k, v in inits.items()})
+
+    def case_n05(self) -> None:
+        self.passed("I-05")
+        cohort, port, _ = COHORTS["A"]
+        before = text(self.ssh(f"sudo find /var/lib/constellation/cohorts/{cohort} /etc/nq -printf '%p %s %T@\\n' | "
+                               "sort | sha256sum", check=True).stdout)
+        status, result = self.init(cohort, port)
+        after = text(self.ssh(f"sudo find /var/lib/constellation/cohorts/{cohort} /etc/nq -printf '%p %s %T@\\n' | "
+                              "sort | sha256sum", check=True).stdout)
+        ok = status == 2 and result.get("code") == "cohort.exists" and before == after
+        self.record("PASS" if ok else "FAIL", result=result, state_unchanged=before == after)
+
+    def start_fixture(self, label: str) -> dict:
+        cohort, port, mode = COHORTS[label]
+        extra = ""
+        if mode == "stale":
+            stale = self.facts.get("bindings", {}).get(COHORTS["A"][0])
+            extra = f" --stale-binding-id {stale}"
+        self.ssh(f"cd {FIXTURE} && (setsid nohup /usr/bin/python3.11 -I {FIXTURE}/fixture-review-tooling/"
+                 f"fixture_responses_endpoint.py --port {port} --mode {mode}{extra} --log {FIXTURE}/{cohort}-requests.jsonl "
+                 f"--ready-file {FIXTURE}/{cohort}-ready.json > {FIXTURE}/{cohort}.out 2>&1 &); "
+                 f"for i in $(seq 50); do [ -s {FIXTURE}/{cohort}-ready.json ] && break; sleep 0.1; done", check=True)
+        return self.guest_json(f"cat {FIXTURE}/{cohort}-ready.json")
+
+    def fixture_requests(self, cohort: str) -> list:
+        done = self.ssh(f"cat {FIXTURE}/{cohort}-requests.jsonl 2>/dev/null || true", check=True)
+        return [json.loads(line) for line in text(done.stdout).splitlines() if line.strip()]
+
+    def case_f01(self) -> None:
+        self.passed("I-05")
+        ready = {label: self.start_fixture(label) for label in COHORTS}
+        listening = text(self.ssh("ss -Htln", check=True).stdout)
+        ok = all(value["bind"] == "127.0.0.1" and f"127.0.0.1:{value['port']}" in listening for value in ready.values())
+        exposed = [line for line in listening.splitlines() if any(f":{port} " in line + " " for _, port, _ in COHORTS.values())
+                   and "127.0.0.1" not in line]
+        self.record("PASS" if ok and not exposed else "FAIL", ready=ready, non_loopback=exposed,
+                    note="qualification-only tooling; the product has no fixture")
+
+    def review(self, label: str) -> tuple[int, dict]:
+        cohort = COHORTS[label][0]
+        return self.driver(f"review --cohort {cohort}", timeout=900)
+
+    def unit_records(self, cohort: str, step: str) -> str:
+        return text(self.ssh(f"sudo sh -c 'ls -d /var/lib/constellation/cohorts/{cohort}/driver/*-{step}/*-unit'",
+                             check=True).stdout).strip()
+
+    def optional_json(self, path: str) -> Any:
+        done = self.ssh(f"sudo cat {path}")
+        return json.loads(done.stdout) if done.returncode == 0 and done.stdout.strip() else None
+
+    def review_facts(self, cohort: str, label: str) -> dict:
+        """Timings and caller terminal of one review, whether it passed or refused."""
+        unit = self.unit_records(cohort, "review")
+        timings = self.optional_json(f"{unit}/review-timings.json")
+        (self.out / "evidence" / f"{cohort}-review-timings.json").write_text(json.dumps(timings, indent=1) + "\n")
+        terminal = self.optional_json(f"/var/lib/constellation/cohorts/{cohort}/review/review-001/terminal.json")
+        unit_result = self.optional_json(f"{unit.rsplit('/', 1)[0]}/unit-result.json")
+        return {"timings": timings, "caller_terminal": terminal, "unit_result": unit_result,
+                "fixture_requests": len([r for r in self.fixture_requests(cohort)
+                                         if r.get("kind") in ("responses_ws", "responses_sse")])}
+
+    def case_w01(self) -> None:
+        self.passed("I-05", "F-01")
+        status, result = self.review("A")
+        cohort = COHORTS["A"][0]
+        facts = self.review_facts(cohort, "A")
+        self.facts["review_timings"] = facts["timings"]
+        ok = (status == 0 and result.get("result") == "reviewed" and result.get("verdict_accepted") is True
+              and result.get("provider_calls") == 1 and result.get("grants") == 0 and result.get("effects") == 0)
+        self.facts["candidate_sha256"] = result.get("candidate_sha256")
+        self.record("PASS" if ok else "FAIL", result=result, **facts)
+
+    def status(self, cohort: str) -> dict:
+        status, value = self.driver(f"status --cohort {cohort}")
+        if status != 0:
+            raise Refusal(f"status refused: {value}")
+        value.pop("identities", None)
+        return value
+
+    def case_w02(self) -> None:
+        self.passed("W-01")
+        value = self.status(COHORTS["A"][0])
+        review = value.get("review", {})
+        ok = (review.get("candidate_sha256") == self.facts["candidate_sha256"]
+              and all(review.get(key) == 0 for key in ("grants", "spends", "docket_attempts", "executor_calls", "effects"))
+              and value["native"].get("program_counter") == "proposal_recorded"
+              and value["result_file"].get("present") is False)
+        self.record("PASS" if ok else "FAIL", status=value)
+
+    def case_w03(self) -> None:
+        self.passed("W-02")
+        # SYNTHETIC OPERATOR: the harness reads the candidate digest printed by
+        # status and names it. Not a human attestation.
+        candidate = self.status(COHORTS["A"][0])["review"]["candidate_sha256"]
+        status, result = self.driver(f"accept --cohort {COHORTS['A'][0]} --candidate-sha256 {candidate}", timeout=900)
+        ok = (status == 0 and result.get("result") == "accepted_and_executed" and result.get("human_attestation") is False
+              and result.get("provider_calls_in_continuation") == 0)
+        self.record("PASS" if ok else "FAIL", operator="SYNTHETIC OPERATOR (harness)", candidate_sha256=candidate,
+                    result=result)
+
+    def case_w04(self) -> None:
+        self.passed("W-03")
+        value = self.status(COHORTS["A"][0])
+        native, result = value["native"], value["result_file"]
+        self.facts["result_file_after_accept"] = {k: result.get(k) for k in ("sha256", "bytes", "scratch_entries")}
+        self.facts["result_file_stat_after_accept"] = text(self.ssh(
+            f"sudo stat -c '%i %s %Y %a %U' {result['path']}", check=True).stdout).strip()
+        ok = (native.get("program_counter") == "settled_observation_required" and native.get("settlement_outcome") == "success"
+              and native.get("replay", {}).get("ag_spends") == 1 and native.get("replay", {}).get("docket_attempts") == 1
+              and native.get("replay", {}).get("settlements") == 1 and result.get("matches_plan") is True
+              and result.get("scratch_entries") == ["result.txt"])
+        self.record("PASS" if ok else "FAIL", native={k: v for k, v in native.items() if k != "docket_inspect"},
+                    result_file=result)
+
+    def case_w05(self) -> None:
+        self.passed("W-04")
+        status, result = self.driver(f"evidence --cohort {COHORTS['A'][0]} --output {EVIDENCE}")
+        if status != 0:
+            raise Refusal(f"evidence refused: {result}")
+        archive = self.ssh(f"sudo tar -C {EVIDENCE} -czf - .", check=True).stdout
+        target = self.out / "evidence" / "qual-a-evidence"
+        target.mkdir()
+        with tarfile.open(fileobj=__import__("io").BytesIO(archive), mode="r:gz") as tar:
+            tar.extractall(target, filter="data")
+        verifier = run([sys.executable, str(HERE / "verify_cohort_evidence.py"), "--evidence", str(target)], check=False)
+        (self.out / "evidence" / "qual-a-verifier.json").write_bytes(verifier.stdout)
+        verified = json.loads(verifier.stdout) if verifier.returncode == 0 else {"stderr": text(verifier.stderr)[-2000:]}
+        ok = status == 0 and result.get("join_complete") is True and verifier.returncode == 0 \
+            and verified.get("result") == "passed"
+        self.record("PASS" if ok else "FAIL", evidence=result, verifier=verified)
+
+    # ------------------------------------------------------------ workflow refusals
+    def case_n06(self) -> None:
+        self.passed("W-02")
+        wrong = "sha256:" + hashlib.sha256(b"not the retained candidate").hexdigest()
+        cohort = COHORTS["A"][0]
+        status, result = self.driver(f"accept --cohort {cohort} --candidate-sha256 {wrong}")
+        claimed = self.ssh(f"sudo test -e /var/lib/constellation/cohorts/{cohort}/driver/accept.claimed.json").returncode == 0
+        grants = self.ssh(f"sudo test -e /var/lib/constellation/cohorts/{cohort}/ports/ag-mandates.json").returncode == 0
+        ok = status == 2 and result.get("code") == "accept.candidate_mismatch" and not claimed and not grants
+        self.record("PASS" if ok else "FAIL", result=result, accept_claimed=claimed, mandate_written=grants,
+                    note="run before W-03 so the retained candidate stays unaccepted")
+
+    def case_n07(self) -> None:
+        self.passed("W-04")
+        cohort = COHORTS["A"][0]
+        candidate = self.facts["candidate_sha256"]
+        state = f"/var/lib/constellation/cohorts/{cohort}"
+        status, driver = self.driver(f"accept --cohort {cohort} --candidate-sha256 {candidate}")
+        # The kit continuation directly, as the cohort account in a durable unit.
+        kit = self.guest_json(f"sudo cat /opt/constellation/cohorts/{cohort}/installed.json")["roots"]["cohort-kit"]
+        code = (f"import sys; sys.path[:0]=[{kit + '/setup'!r}, {kit!r}]; import continue_reviewed_action as c; "
+                f"c.main(sys.argv[1:])")
+        continued = self.ssh(
+            f"sudo systemd-run --wait --pipe --collect --quiet --uid=constellation --gid=constellation "
+            f"--setenv=PATH=/usr/bin:/bin --setenv=LANG=C.UTF-8 -- /usr/bin/python3.11 -I -S -c {shlex.quote(code)} "
+            f"--config {state}/deployment/caller.json --retained-review {state}/review/review-001 "
+            f"--accept-candidate-sha256 {candidate} --output {state}/runs/continuation-002 --accept-and-execute", timeout=300)
+        rerun = self.ssh(f"sudo setpriv --reuid=constellation --regid=constellation --init-groups "
+                         f"/opt/constellation/cohorts/{cohort}/ag/ag-0.1.0/bin/ag-loopctl run --database "
+                         f"{state}/deployment/ag.sqlite --run-input {state}/runs/continuation-001/run-input-v2.json", timeout=120)
+        value = self.status(cohort)
+        stat_after = text(self.ssh(f"sudo stat -c '%i %s %Y %a %U' {value['result_file']['path']}", check=True).stdout).strip()
+        replay = value["native"].get("replay", {})
+        ok = (status == 2 and driver.get("code") == "accept.exists" and continued.returncode != 0
+              and replay.get("ag_spends") == 1 and replay.get("docket_attempts") == 1 and replay.get("settlements") == 1
+              and stat_after == self.facts.get("result_file_stat_after_accept")
+              and value["result_file"].get("scratch_entries") == ["result.txt"])
+        self.record("PASS" if ok else "FAIL", driver_accept=driver, continuation_exit=continued.returncode,
+                    continuation_stderr=text(continued.stderr)[-800:], ag_rerun_exit=rerun.returncode,
+                    ag_rerun=text(rerun.stdout)[-800:], replay=replay, result_stat_before=self.facts.get(
+                        "result_file_stat_after_accept"), result_stat_after=stat_after)
+
+    def case_n08(self) -> None:
+        self.passed("I-05", "F-01")
+        cohort = COHORTS["B"][0]
+        status, result = self.review("B")
+        facts = self.review_facts(cohort, "B")
+        value = self.status(cohort)
+        phase = (facts["caller_terminal"] or {}).get("phase")
+        observed = {"result": result, **facts, "native": value.get("native")}
+        if phase != "native-review-verification" and facts["fixture_requests"] == 0:
+            self.append_case("\n# observed " + json.dumps(observed, default=str) + "\n")
+            raise Blocked(f"the review refused before the fixture answered ({result.get('code')}: "
+                          f"{result.get('detail', '')[:400]}), so staleness was not exercised")
+        ok = (status == 2 and result.get("code") == "review.refused" and phase == "native-review-verification"
+              and value["native"].get("replay", {}).get("ag_spends") == 0 and value["result_file"].get("present") is False)
+        self.record("PASS" if ok else "FAIL", **observed)
+
+    def case_n09(self) -> None:
+        self.passed("I-05", "F-01")
+        cohort = COHORTS["C"][0]
+        status, result = self.review("C")
+        if status != 0:
+            raise Blocked(f"cohort C review refused ({result.get('code')}: {result.get('detail', '')[:300]}); "
+                          "no candidate to accept")
+        candidate = result["candidate_sha256"]
+        done = self.ssh(f"sudo /usr/bin/python3.11 -I -S {GUEST_HOME}/bin/expire_issuance.py --cohort {cohort} "
+                        f"--candidate-sha256 {candidate}", timeout=600)
+        report = json.loads(done.stdout) if done.returncode == 0 else {"stderr": text(done.stderr)[-2000:]}
+        value = self.status(cohort)
+        replay = value["native"].get("replay", {})
+        ok = (done.returncode == 0 and report.get("first_run", {}).get("reason") == "step_bound_exhausted"
+              and report.get("second_run_refused") is True and replay.get("ag_spends") == 1
+              and replay.get("docket_attempts") == 0 and report.get("docket_records") == 0
+              and value["result_file"].get("present") is False)
+        self.record("PASS" if ok else "FAIL", report=report, replay=replay, result_file=value["result_file"])
 
     # ------------------------------------------------------------------- main
     def execute_all(self) -> None:
         self.run_case("I-01", self.case_i01)
         if self.results["I-01"]["outcome"] != "PASS":
             raise Refusal("guest did not boot")
-        self.run_case("I-02", self.case_i02)
-        self.run_case("I-03", self.case_i03)
-        self.run_case("N-01", self.case_n01)
-        self.run_case("N-02", self.case_n02)
-        for cid, reason in PENDING.items():
-            self.skip(cid, reason)
+        for cid, function in (("I-02", self.case_i02), ("I-03", self.case_i03), ("N-01", self.case_n01),
+                              ("N-02", self.case_n02), ("N-03", self.case_n03), ("N-04", self.case_n04),
+                              ("I-04", self.case_i04), ("I-05", self.case_i05), ("N-05", self.case_n05),
+                              ("F-01", self.case_f01), ("W-01", self.case_w01), ("W-02", self.case_w02),
+                              ("N-06", self.case_n06), ("W-03", self.case_w03), ("W-04", self.case_w04),
+                              ("N-07", self.case_n07), ("W-05", self.case_w05), ("N-08", self.case_n08),
+                              ("N-09", self.case_n09)):
+            self.run_case(cid, function)
+        self.ssh("pkill -f fixture_responses_endpoint.py || true")
 
     def main(self) -> int:
         try:
@@ -530,16 +792,15 @@ users:
 
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    source = p.add_mutually_exclusive_group(required=True)
-    source.add_argument("--bundle-dir", type=pathlib.Path,
-                        help="release bundle: cohort-manifest.json, artifacts, SHA256SUMS")
-    source.add_argument("--phase1-kit-dir", type=pathlib.Path,
-                        help="phase 1 only: kit directory holding the driver and its tests (labelled stand-in)")
+    p.add_argument("--bundle-dir", type=pathlib.Path, required=True,
+                   help="release bundle from compose_bundle.py: cohort-manifest.json, artifacts, SHA256SUMS")
     p.add_argument("--output-root", type=pathlib.Path, default=DEFAULT_OUTPUT_ROOT)
-    p.add_argument("--output-name", default="clean-install-001")
+    p.add_argument("--output-name", required=True, help="run-NNN")
     p.add_argument("--state-dir", type=pathlib.Path, default=DEFAULT_STATE)
     p.add_argument("--image", type=pathlib.Path, default=DEFAULT_IMAGE)
     p.add_argument("--ssh-port", type=int, default=23451, help="cohort lane range 23451-23459")
+    p.add_argument("--vcpus", type=int, default=2)
+    p.add_argument("--memory-mib", type=int, default=4096)
     p.add_argument("--keep-guest", action="store_true", help="debugging only: leave the guest running")
     return p
 
