@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research — unpingable</title>
+  <meta name="description" content="Papers by James Beck on timing, verification and reliability in automated and hierarchical systems, AI systems, and institutions: the Δt series, Cybernetic Fault Domains and related work.">
+  <link rel="canonical" href="https://unpingable.com/research.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Research — unpingable">
+  <meta property="og:description" content="Papers on timing, verification and reliability in automated and hierarchical systems, and the broader work built on the same models.">
+  <meta property="og:url" content="https://unpingable.com/research.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Research — unpingable">
+  <meta name="twitter:description" content="Papers on timing, verification and reliability in automated and hierarchical systems, and the broader work built on the same models.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <link rel="stylesheet" href="assets/house.css">
+  <style>
+    .paper-list { list-style: none; padding: 0; border-top: 1px solid var(--border-faint); }
+    .paper-list li { margin: 0; padding: var(--s2) 0; border-bottom: 1px solid var(--border-faint); }
+    .paper-list .paper-title { display: block; font-size: 0.98rem; line-height: 1.4; color: var(--fg); text-decoration-color: var(--border); }
+    .paper-list .paper-title:hover { color: var(--accent); text-decoration-color: currentColor; }
+    .paper-list li.foundational .paper-title { font-weight: 600; }
+    .paper-list .paper-meta { font-family: var(--mono); font-size: 0.76rem; color: var(--fg-faint); }
+    .paper-list .paper-meta a { color: var(--fg-faint); }
+    .paper-list .paper-meta a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="site-name" href="index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="constellation/">Constellation</a>
+      <a href="research.html" aria-current="page">Research</a>
+      <a href="about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <h1>Research</h1>
+    <p class="lede">Papers on how long evidence stays true, and what happens when systems act faster than they can check it.</p>
+    <p>The papers name the failure classes; the software carries the response. The &Delta;t series is the scaffolding for the check-versus-action logic in <a href="https://github.com/unpingable/constellation-standing">standing</a> and the admission checks in <a href="constellation/">Constellation</a>. Some of this work is theoretical only: not everything here has an implementation, and the papers are not evidence that anything is deployed.</p>
+    <p>Selected claims from the &Delta;t series are machine-checked in Lean&nbsp;4: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove the boundaries of refusal classes, not that any deployed system is safe.</p>
+    <p class="fine">Engineering and reliability work first, then the broader work. Every paper is listed. Sources and drafts: <a href="https://github.com/unpingable/papers">github.com/unpingable/papers</a> &middot; <a href="https://orcid.org/0009-0009-5524-767X">ORCID</a></p>
+
+    <section class="research-group" id="reliability" aria-labelledby="reliability-title">
+      <h2 id="reliability-title">Timing, verification and reliability</h2>
+      <p class="muted">How long a check stays true, what happens when systems act faster than they can verify, and where that turns into faults.</p>
+      <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541">doi:10.5281/zenodo.17857541</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>
+            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18686130">doi:10.5281/zenodo.18686130</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17859323">Detecting Temporal Debt in Language Models and Software Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17859323">doi:10.5281/zenodo.17859323</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18236164">The Temporal Attack Surface: A &Delta;t Framework for Asynchronous Security Systems</a>
+            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18236164">doi:10.5281/zenodo.18236164</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849241">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241">doi:10.5281/zenodo.17849241</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18717619">The Gain Geometry of Temporal Mismatch: Shear, Leverage, and Capture in Multi-Timescale Systems</a>
+            <div class="paper-meta">Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18717619">doi:10.5281/zenodo.18717619</a></div>
+          </li>
+      </ul>
+    </section>
+    <section class="research-group" id="ai-systems" aria-labelledby="ai-systems-title">
+      <h2 id="ai-systems-title">AI systems and governed reasoning</h2>
+      <p class="muted">The same timing and feedback questions applied to language models, reward, alignment and reasoning under explicit authority.</p>
+      <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17791873">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873">doi:10.5281/zenodo.17791873</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17849278">Temporal Closure Requirements for Synthetic Coherence</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849278">doi:10.5281/zenodo.17849278</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18039926">You Need More Than Just Attention: Invariant Requirements for Temporal Coherence in AI Systems</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18039926">doi:10.5281/zenodo.18039926</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18071264">Representational Invariance and the Observer Problem in Language Model Alignment</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18071264">doi:10.5281/zenodo.18071264</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18145347">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a>
+            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347">doi:10.5281/zenodo.18145347</a></div>
+          </li>
+      </ul>
+    </section>
+    <section class="research-group" id="institutions" aria-labelledby="institutions-title">
+      <h2 id="institutions-title">Institutions, media and society</h2>
+      <p class="muted">Broader work using the same models on organisations, censorship, social media and propaganda.</p>
+      <ul class="paper-list">
+          <li class="foundational">
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726789">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a>
+            <div class="paper-meta"><span class="badge accent">start here</span> Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789">doi:10.5281/zenodo.17726789</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17726890">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a>
+            <div class="paper-meta">Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726890">doi:10.5281/zenodo.17726890</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18019050">Capacity-Constrained Stability: A Control-Theoretic Framework for Institutional Resilience</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18019050">doi:10.5281/zenodo.18019050</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18235696">Temporal Asymmetry in Censorship Systems</a>
+            <div class="paper-meta">Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18235696">doi:10.5281/zenodo.18235696</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.17803844">Eigenstructure Collapse in Social Media Platforms</a>
+            <div class="paper-meta">Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17803844">doi:10.5281/zenodo.17803844</a></div>
+          </li>
+          <li>
+            <a class="paper-title" href="https://doi.org/10.5281/zenodo.18841815">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a>
+            <div class="paper-meta">Mar 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18841815">doi:10.5281/zenodo.18841815</a></div>
+          </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="constellation/">Constellation</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="https://github.com/unpingable">GitHub</a></li>
+      <li><a href="https://orcid.org/0009-0009-5524-767X">ORCID</a></li>
+      <li><a href="https://neutral.zone">Writing</a></li>
+    </ul>
+    <p class="coda">This is a lab notebook, not an oracle.</p>
+  </footer>
+
+</body>
+</html>
