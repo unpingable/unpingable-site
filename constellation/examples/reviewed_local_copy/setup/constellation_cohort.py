@@ -7,38 +7,45 @@ cluster manager, a configuration language or a control plane. It runs the
 public caller glue in this kit and the components' own commands, in a fixed
 order, with fixed paths, and stops at the first refusal.
 
-Newcomer steps:
+Newcomer steps (the README numbers them the same way):
 
-  1. verify-manifest  check the cohort manifest and artifacts; writes nothing
-  2. install          (root) verify again, install artifacts, check build info
+  1. (no kit code) sha256sum the manifest and kit tarball against the digests
+                      published with the README, then extract the kit
+  2. verify-manifest  check the manifest, artifacts and the kit binding;
+     install          (root) verify again, install from the verified bytes
   3. init             (root) account, synthetic identities and keys, codex
                       home, plan, ports, NQ store and watcher admission; no
                       observation, provider or effect
-  4. review           (root) one durable unit: fresh NQ observation, Pulse
+  4. (fixture route)  start the loopback fixture
+  5. review           (root) one durable unit: fresh NQ observation, Pulse
                       support, AG genesis, admission and one bounded review;
                       stops before acceptance
-  5. status           read-only native inspection; prints the candidate digest
-  6. accept           (root) the operator names the exact candidate digest;
-                      one durable unit records the review and executes once
-  7. evidence         read-only bundle of records, store backups and joins
+  6. status           (root) read-only: what acceptance would write, the
+                      review, the deadline; accept (root) names the exact
+                      candidate digest; one durable unit executes once
+  7. status           (root) settled state and result.txt
+  8. evidence         (root) read-only bundle of records, store backups and
+                      joins; then the kit's independent verifier
 
 Upgrading is re-initialization into a new cohort id with retained evidence
 (there is no in-place upgrade):
 
-  8. upgrade          (root, successor's driver) verify the predecessor's
+  a. upgrade          (root, successor's driver) verify the predecessor's
                       evidence export with the successor's installed tools,
                       retain it read-only, quarantine the predecessor's state
                       and leave a tombstone; then init the successor
-  9. verify-retained  read-only re-verification of retained evidence
- 10. upgrade-status   read-only journal listing; names interrupted attempts
+  b. verify-retained  read-only re-verification of retained evidence
+  c. upgrade-status   read-only journal listing; names interrupted attempts
 
 Every run writes create-once started/finished records. A refusal has a stable
 code and never leaves a half-written file presented as complete. Nothing is
 retried, and nothing is overwritten: a second run of a step against the same
 cohort refuses. Use a new cohort id or a new disposable host.
 
-Run it as `python3.11 -I -S constellation_cohort.py ...` (Debian 12). Python
-3.11 standard library only. No network.
+Run it as `/usr/bin/python3.11 -I -S constellation_cohort.py ...` (Debian 12).
+Python 3.11 standard library only. No network. Check the cohort manifest and
+the kit tarball against the digests published with the README before you run
+any kit code: this driver verifies the bundle, but it cannot vouch for itself.
 """
 from __future__ import annotations
 
@@ -46,6 +53,7 @@ import argparse
 import base64
 import datetime as dt
 import hashlib
+import io
 import json
 import os
 from pathlib import Path, PurePosixPath
@@ -62,7 +70,11 @@ import tarfile
 import time
 import uuid
 
-DRIVER_VERSION = '0.3.0'
+DRIVER_VERSION = '0.4.0'
+# The site commit this driver was released from. build_cohort_kit.py stamps it
+# into the released copy (and only there); a source checkout leaves it None
+# and refuses to verify or install a cohort (`kit.unreleased_driver`).
+KIT_SOURCE_COMMIT = None
 MANIFEST_SCHEMA = 'constellation.cohort-manifest/v1'
 PROFILE = 'reviewed-local-copy/v1'
 RECORD_SCHEMA = 'constellation.cohort-driver-record/v1'
@@ -83,6 +95,8 @@ MODEL = 'gpt-5.6-terra'
 PROVIDER = 'openai'
 
 COMMIT = re.compile(r'[0-9a-f]{40}\Z')
+# A commit made of one repeated digit (for example 40 zeros) is a placeholder.
+PLACEHOLDER_COMMIT = re.compile(r'([0-9a-f])\1{39}\Z')
 DIGEST = re.compile(r'sha256:[0-9a-f]{64}\Z')
 VERSION = re.compile(r'[0-9A-Za-z][0-9A-Za-z.+~_-]{0,63}\Z')
 COHORT_ID = re.compile(r'[a-z0-9][a-z0-9-]{2,39}\Z')
@@ -93,7 +107,7 @@ SELF = 'SELF'
 # Member paths are relative to the extracted artifact root. Runners: `elf`
 # and `script` are run with --build-info; `pyz` under python3.11 -I -S;
 # `receipt` is bound by the artifact's build-info.json (the codex fork cannot
-# report its commit); `kit` is this driver's own release (see check_kit).
+# report its commit); `kit` is this driver's own release (see check_kit_archive).
 COMPONENTS = {
     'nq': {'kind': 'deb', 'executables': {
         '/usr/bin/nq': 'elf', '/usr/lib/nq/helpers/nq-host-helper': 'elf'}},
@@ -116,9 +130,15 @@ COMPONENTS = {
 # required component to the exact package version, source commit and artifact
 # digest that were qualified together. Compatibility is equality with one
 # entry: no ranges, no "newer is fine", no partial match, no other artifact.
-# The cohort kit cannot name its own commit (the commit contains this table),
-# so its entry is SELF: the manifest's kit commit must equal the kit's
-# BUILD-INFO.json and the kit's driver bytes must equal this running driver.
+# The cohort kit cannot name its own commit or digest (the commit contains
+# this table), so its entry is SELF, bound by check_kit_archive(): the
+# manifest names the kit tarball's digest and commit; the driver reads that
+# tarball once, refuses any member its BUILD-INFO.json does not list, any
+# placeholder commit, any commit other than the one stamped into this running
+# driver, and any tarball whose driver bytes differ from this running driver.
+# What anchors the manifest itself is outside the bundle: the operator checks
+# the manifest and kit digests against the published values before running
+# any kit code (README, step 1).
 QUALIFIED_COHORTS = {
     PROFILE: {
         'alpha-exit-rc': {
@@ -308,7 +328,7 @@ def check_cohort_pins(manifest: dict, qualified: dict | None = None) -> str:
 
     Compatibility is exact equality with one qualified cohort, component by
     component, in version, commit and artifact digest. A SELF pin (the kit)
-    is checked against the kit artifact itself by check_kit().
+    is checked against the kit artifact itself by check_kit_archive().
     """
     table = (QUALIFIED_COHORTS if qualified is None else qualified).get(manifest['profile'], {})
     mismatches = {}
@@ -330,7 +350,12 @@ def check_cohort_pins(manifest: dict, qualified: dict | None = None) -> str:
 
 
 def locate_artifacts(manifest: dict, directory: Path) -> dict:
-    """Map each component to the single regular file in `directory` with its digest."""
+    """Map each component to the single regular file in `directory` with its digest.
+
+    Locating only names the file. Its bytes are used through load_artifact(),
+    which reads the file once and re-checks the digest of exactly the bytes
+    that are then parsed, extracted or installed.
+    """
     if not directory.is_dir():
         raise Refusal('artifact.directory', str(directory))
     by_digest = {}
@@ -353,30 +378,70 @@ def locate_artifacts(manifest: dict, directory: Path) -> dict:
     return located
 
 
-def tar_members(archive: Path) -> list:
+ARTIFACT_LIMIT = 512 * 1024 * 1024
+
+
+def load_artifact(path: Path, expected: str, limit: int = ARTIFACT_LIMIT) -> bytes:
+    """Read an artifact once, through one descriptor, and check those bytes.
+
+    Everything later (member checks, extraction, the NQ package) uses the
+    returned bytes, never the pathname again, so a file swapped after it was
+    located is refused here and a swap after this read changes nothing.
+    """
+    try:
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    except OSError as error:
+        raise Refusal('artifact.changed', f'{path.name}: {error}') from None
+    with os.fdopen(fd, 'rb') as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):
+            raise Refusal('artifact.not_regular', str(path))
+        raw = stream.read(limit + 1)
+    if len(raw) > limit:
+        raise Refusal('artifact.size', str(path))
+    if digest_bytes(raw) != expected:
+        raise Refusal('artifact.changed', f'{path.name} no longer has {expected}; nothing was used')
+    return raw
+
+
+def open_tar(source: bytes | Path) -> tarfile.TarFile:
+    if isinstance(source, bytes):
+        return tarfile.open(fileobj=io.BytesIO(source), mode='r:gz')
+    return tarfile.open(source, 'r:gz')
+
+
+def tar_members(source: bytes | Path, label: str | None = None) -> list:
     """Check every member: regular files and directories only, no escapes."""
+    label = label or (source.name if isinstance(source, Path) else 'artifact')
     members = []
-    with tarfile.open(archive, 'r:gz') as tar:
+    seen = set()
+    with open_tar(source) as tar:
         for member in tar.getmembers():
             name = PurePosixPath(member.name)
             if name.is_absolute() or '..' in name.parts or not name.parts:
-                raise Refusal('artifact.unsafe_member', f'{archive.name}: {member.name}')
+                raise Refusal('artifact.unsafe_member', f'{label}: {member.name}')
             if not (member.isfile() or member.isdir()):
-                raise Refusal('artifact.unsafe_member', f'{archive.name}: {member.name} is not a file or directory')
+                raise Refusal('artifact.unsafe_member', f'{label}: {member.name} is not a file or directory')
             if member.mode & (stat.S_ISUID | stat.S_ISGID | stat.S_IWOTH | stat.S_IWGRP):
-                raise Refusal('artifact.unsafe_mode', f'{archive.name}: {member.name} {oct(member.mode)}')
+                raise Refusal('artifact.unsafe_mode', f'{label}: {member.name} {oct(member.mode)}')
+            if str(name) in seen:
+                raise Refusal('artifact.unsafe_member', f'{label}: {member.name} appears twice')
+            seen.add(str(name))
             members.append(member)
     return members
 
 
-def safe_extract(archive: Path, destination: Path) -> list[str]:
-    """Extract a release tarball. Python 3.11.2 has no tarfile data filter."""
-    members = tar_members(archive)
+def safe_extract(source: bytes | Path, destination: Path, digests: dict | None = None) -> list[str]:
+    """Extract a release tarball. Python 3.11.2 has no tarfile data filter.
+
+    `digests`, when given, receives the sha256 of every regular member as it
+    was read from `source`, so the extracted tree can be checked afterwards.
+    """
+    members = tar_members(source)
     try:
         make_dir(destination, 0o755)
     except FileExistsError:
         raise Refusal('artifact.destination_exists', str(destination)) from None
-    with tarfile.open(archive, 'r:gz') as tar:
+    with open_tar(source) as tar:
         for member in members:
             target = destination.joinpath(*PurePosixPath(member.name).parts)
             if member.isdir():
@@ -384,15 +449,79 @@ def safe_extract(archive: Path, destination: Path) -> list[str]:
                 os.chmod(target, 0o755)
                 continue
             target.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
-            source = tar.extractfile(member)
+            source_stream = tar.extractfile(member)
             mode = 0o755 if member.mode & 0o111 else 0o644
+            hasher = hashlib.sha256()
             fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, mode)
             with os.fdopen(fd, 'wb') as out:
-                shutil.copyfileobj(source, out)
+                while chunk := source_stream.read(1 << 20):
+                    hasher.update(chunk)
+                    out.write(chunk)
                 out.flush()
                 os.fchmod(out.fileno(), mode)
                 os.fsync(out.fileno())
+            if digests is not None:
+                digests[str(PurePosixPath(member.name))] = 'sha256:' + hasher.hexdigest()
     return sorted(member.name for member in members if member.isfile())
+
+
+def verify_extracted(destination: Path, digests: dict) -> None:
+    """Every extracted file equals the member read from the verified bytes.
+
+    Exhaustive: a file that is missing, changed, added, linked or special
+    after extraction refuses `artifact.extracted_mismatch`.
+    """
+    present = {}
+    for path in sorted(destination.rglob('*')):
+        relative = str(path.relative_to(destination))
+        if path.is_symlink() or not (path.is_file() or path.is_dir()):
+            raise Refusal('artifact.extracted_mismatch', f'{relative} is a link or special file')
+        if path.is_file():
+            present[relative] = sha256_file(path)
+    if present != digests:
+        changed = sorted(name for name in set(present) | set(digests) if present.get(name) != digests.get(name))
+        raise Refusal('artifact.extracted_mismatch', ', '.join(changed[:10]))
+
+
+def check_component_receipt(name: str, root: Path, digests: dict) -> str:
+    """Cross-check extracted files with the digests the component publishes.
+
+    `digests` is relative to the artifact root. AG, Docket and Maude ship a
+    SHA256SUMS that must list every other file; Nightshift and Pulse list
+    their binaries in BUILD-INFO.json; the kit lists its files in
+    BUILD-INFO.json (checked by check_kit_archive); the App Server binds its
+    ELF in build-info.json (check_receipt_identity); Switchyard reports
+    `installed_closure_matches_provenance` itself at --build-info.
+    """
+    sums = root / 'SHA256SUMS'
+    if sums.is_file():
+        listed = {}
+        for line in read_bytes(sums).decode().splitlines():
+            value, separator, relative = line.partition('  ')
+            if not separator or not HEX64.fullmatch(value) or relative in listed:
+                raise Refusal('artifact.receipt_mismatch', f'{name}: malformed SHA256SUMS line {line[:120]!r}')
+            listed[relative] = 'sha256:' + value
+        expected = {key: value for key, value in digests.items() if key != 'SHA256SUMS'}
+        if listed != expected:
+            changed = sorted(k for k in set(listed) | set(expected) if listed.get(k) != expected.get(k))
+            raise Refusal('artifact.receipt_mismatch', f'{name} SHA256SUMS: {", ".join(changed[:10])}')
+        return 'SHA256SUMS'
+    info_path = root / 'BUILD-INFO.json'
+    if name in ('nightshift', 'pulse') and info_path.is_file():
+        binaries = read_json(info_path).get('binaries')
+        if not isinstance(binaries, dict) or not binaries:
+            raise Refusal('artifact.receipt_mismatch', f'{name}: BUILD-INFO.json lists no binaries')
+        for entry in binaries.values():
+            if digests.get(entry.get('path')) != 'sha256:' + str(entry.get('sha256')):
+                raise Refusal('artifact.receipt_mismatch', f'{name}: {entry.get("path")} differs from BUILD-INFO.json')
+        return 'BUILD-INFO.json binaries'
+    if name == 'cohort-kit':
+        return 'BUILD-INFO.json files (check_kit_archive)'
+    if name == 'app-server':
+        return 'build-info.json executable_sha256 (check_receipt_identity)'
+    if name == 'switchyard':
+        return 'installed_closure_matches_provenance (--build-info)'
+    raise Refusal('artifact.receipt_mismatch', f'{name}: no component receipt to check')
 
 
 def artifact_root(extracted: Path) -> Path:
@@ -449,20 +578,73 @@ def check_receipt_identity(component: str, root: Path, relative: str, pin: dict)
     return observed
 
 
-def check_kit(root: Path, pin: dict) -> dict:
-    """The cohort kit is this driver's own release (SELF pin)."""
-    info = read_json(root / 'BUILD-INFO.json')
-    observed = check_build_info('cohort-kit', 'BUILD-INFO.json', info, pin)
-    files = info.get('files')
-    if not isinstance(files, dict) or not files:
-        raise Refusal('build_info.format', 'cohort-kit BUILD-INFO.json lacks files')
-    for relative, expected in sorted(files.items()):
-        if sha256_file(root / relative) != expected:
-            raise Refusal('build_info.executable_digest', f'cohort-kit {relative}')
-    running = sha256_file(Path(__file__).resolve())
-    if files.get('setup/constellation_cohort.py') != running:
-        raise Refusal('build_info.executable_digest', 'the installed kit driver differs from the running driver')
-    return observed
+# The bytes of this running driver, read once when it starts.
+RUNNING_DRIVER = Path(__file__).resolve().read_bytes()
+KIT_DRIVER = 'setup/constellation_cohort.py'
+
+
+def check_kit_archive(raw: bytes, pin: dict, running: bytes | None = None,
+                      stamped: str | None | bool = False) -> dict:
+    """Bind the cohort kit tarball (already digest-checked) to this driver.
+
+    Refuses unless: the tarball holds exactly one `cohort-kit-<version>/`
+    tree whose every file is listed in its BUILD-INFO.json with that digest
+    (nothing unlisted, nothing missing, no link or special member); the
+    BUILD-INFO commit equals the manifest's and is not a placeholder; the
+    commit stamped into this running driver at release equals it too; and
+    the tarball's driver is byte-equal to this running driver. The manifest
+    that names the tarball's digest is anchored out of band (README step 1).
+    """
+    running = RUNNING_DRIVER if running is None else running
+    stamped = KIT_SOURCE_COMMIT if stamped is False else stamped
+    if not isinstance(pin.get('source_commit'), str) or not COMMIT.fullmatch(pin['source_commit']) \
+            or PLACEHOLDER_COMMIT.fullmatch(pin['source_commit']):
+        raise Refusal('pin.kit_commit', f'cohort-kit commit {pin.get("source_commit")!r} is a placeholder')
+    if stamped is None:
+        raise Refusal('kit.unreleased_driver', 'this driver is not a released kit copy (no stamped commit); '
+                                               'run the driver from the verified cohort-kit tarball')
+    if stamped != pin['source_commit']:
+        raise Refusal('pin.kit_commit', f'the manifest names kit commit {pin["source_commit"]}, '
+                                        f'but this driver was released from {stamped}')
+    members = tar_members(raw, 'cohort-kit')
+    top = f'cohort-kit-{pin["package_version"]}'
+    by_name = {str(PurePosixPath(member.name)): member for member in members}
+    with open_tar(raw) as tar:
+        def member_bytes(relative: str) -> bytes:
+            member = by_name.get(f'{top}/{relative}')
+            if member is None or not member.isfile():
+                raise Refusal('kit.missing_member', relative)
+            return tar.extractfile(member).read()
+        try:
+            info = json.loads(member_bytes('BUILD-INFO.json'))
+        except ValueError as error:
+            raise Refusal('build_info.format', f'cohort-kit BUILD-INFO.json: {error}') from None
+        if not isinstance(info, dict):
+            raise Refusal('build_info.format', 'cohort-kit BUILD-INFO.json is not an object')
+        observed = check_build_info('cohort-kit', 'BUILD-INFO.json', info, pin)
+        files = info.get('files')
+        if not isinstance(files, dict) or not files or KIT_DRIVER not in files:
+            raise Refusal('build_info.format', 'cohort-kit BUILD-INFO.json lacks files')
+        allowed_dirs = {top}
+        for relative in files:
+            parts = PurePosixPath(relative).parts
+            if not parts or PurePosixPath(relative).is_absolute() or '..' in parts or relative == 'BUILD-INFO.json':
+                raise Refusal('build_info.format', f'cohort-kit BUILD-INFO.json names {relative!r}')
+            for depth in range(1, len(parts)):
+                allowed_dirs.add('/'.join((top, *parts[:depth])))
+        allowed_files = {f'{top}/BUILD-INFO.json'} | {f'{top}/{relative}' for relative in files}
+        unlisted = sorted(name for name, member in by_name.items()
+                          if (member.isfile() and name not in allowed_files) or (member.isdir() and name not in allowed_dirs))
+        if unlisted:
+            raise Refusal('kit.unlisted_member', 'the kit tarball holds files its BUILD-INFO.json does not list: '
+                                                 + ', '.join(unlisted[:10]))
+        for relative, expected in sorted(files.items()):
+            if digest_bytes(member_bytes(relative)) != expected:
+                raise Refusal('kit.member_digest', f'cohort-kit {relative} differs from BUILD-INFO.json')
+        if member_bytes(KIT_DRIVER) != running:
+            raise Refusal('kit.driver_differs', 'the kit tarball\'s driver is not the driver you are running; '
+                                                'run the driver extracted from this verified tarball')
+    return {**observed, 'files': len(files), 'stamped_commit': stamped}
 
 
 # ------------------------------------------------------------------- records
@@ -543,10 +725,13 @@ def nq_unit(argv: list[str]) -> list[str]:
 def kit_module(paths: list[Path], module: str, args: list) -> list[str]:
     """Run one kit module's main() under python3.11 -I -S with an explicit path.
 
-    -I implies -P on 3.11, so a script's own directory is not importable; the
-    kit's helpers import each other, so their directories go first explicitly.
+    -I implies -P on 3.11, so a script's own directory is not importable, and
+    -S drops site-packages. The kit's helpers import each other, so their
+    directories are appended after the standard library: a kit (or archive)
+    file named like a standard module (say setup/json.py) can never shadow it.
+    No kit module name is a standard module name (unit-tested).
     """
-    code = (f'import sys; sys.path[:0]={[str(p) for p in paths]!r}; import {module}; '
+    code = (f'import sys; sys.path.extend({[str(p) for p in paths]!r}); import {module}; '
             f'{module}.main(sys.argv[1:])')
     return [str(PYTHON), '-I', '-S', '-c', code, *[str(a) for a in args]]
 
@@ -571,7 +756,7 @@ def require_host(facts: dict) -> None:
         raise Refusal('host.missing_tool', 'python3.11 and openssl are required')
     if facts['euid'] != 0:
         raise Refusal('host.not_root', 'install, init, review and accept run as root')
-    for tool in ('systemd-run', 'setpriv', 'dpkg', 'useradd'):
+    for tool in ('systemd-run', 'setpriv', 'dpkg', 'dpkg-deb', 'dpkg-query', 'useradd'):
         if shutil.which(tool, path=SYSTEM_PATH) is None:
             raise Refusal('host.missing_tool', tool)
 
@@ -621,26 +806,177 @@ def read_manifest(path: Path) -> dict:
 
 # ------------------------------------------------------------------ install
 
+def check_artifact_bytes(name: str, raw: bytes, pin: dict) -> dict:
+    """Read-only checks of one verified artifact's bytes, before any write."""
+    kind = COMPONENTS[name]['kind']
+    if kind == 'deb':
+        contents = deb_contents(raw)
+        if contents['package'] != NQ_PACKAGE or contents['version'] != pin['package_version']:
+            raise Refusal('nq.package', f'the NQ artifact is {contents["package"]} {contents["version"]}, '
+                                        f'not {NQ_PACKAGE} {pin["package_version"]}')
+        return {'nq': contents}
+    tar_members(raw, name)
+    if name == 'cohort-kit':
+        return {'kit': check_kit_archive(raw, pin)}
+    return {}
+
+
 def cmd_verify_manifest(args) -> dict:
     manifest = read_manifest(args.manifest)
     cohort = check_cohort_pins(manifest)
     located = locate_artifacts(manifest, args.artifacts)
-    for name, path in located.items():
-        if COMPONENTS[name]['kind'] == 'tar':
-            tar_members(path)
+    checked = {}
+    for name, path in sorted(located.items()):
+        pin = manifest['components'][name]
+        checked[name] = check_artifact_bytes(name, load_artifact(path, pin['artifact_sha256']), pin)
+    kit = checked['cohort-kit']['kit']
     return {'result': 'verified', 'qualified_cohort': cohort, 'manifest_sha256': manifest['manifest_sha256'],
-            'artifacts': {name: path.name for name, path in located.items()}, 'writes': 0}
+            'artifacts': {name: path.name for name, path in located.items()},
+            'kit': {'source_commit': kit['source_commit'], 'files': kit['files'],
+                    'artifact_sha256': manifest['components']['cohort-kit']['artifact_sha256'],
+                    'running_driver_is_the_kit_driver': True},
+            'writes': 0}
 
 
-def install_nq(records: Records, artifact: Path) -> None:
-    """Install the NQ package, or accept the identical already-installed one."""
-    status = subprocess.run(['dpkg-query', '-W', '-f=${Status} ${Version}', 'nq-ng'], stdout=subprocess.PIPE,
-                            stderr=subprocess.DEVNULL, env={'PATH': SYSTEM_PATH}, check=False)
-    if status.returncode == 0 and status.stdout.startswith(b'install ok installed'):
-        records.write('nq-package-already-installed.json', {'dpkg_status': status.stdout.decode()})
-        records.call('dpkg-verify-nq', ['dpkg', '--verify', 'nq-ng'], timeout=120)
-        return
-    records.call('dpkg-install-nq', ['dpkg', '--install', artifact], timeout=300)
+NQ_PACKAGE = 'nq-ng'
+
+
+def deb_contents(raw: bytes) -> dict:
+    """Control fields and every data member of the NQ package, from its verified bytes.
+
+    dpkg-deb reads the bytes on standard input (the package is zstd
+    compressed, which Python 3.11 cannot read), so no pathname is reopened.
+    """
+    def dpkg_deb(option: str) -> bytes:
+        try:
+            done = subprocess.run(['/usr/bin/dpkg-deb', option, '/dev/stdin'], input=raw, stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, env={'PATH': SYSTEM_PATH, 'LANG': 'C.UTF-8'}, timeout=300,
+                                  check=False)
+        except OSError as error:
+            raise Refusal('host.missing_tool', f'dpkg-deb: {error}') from None
+        if done.returncode != 0:
+            raise Refusal('nq.package', f'dpkg-deb {option}: {done.stderr.decode(errors="replace")[-300:]}')
+        return done.stdout
+    control, conffiles = {}, []
+    with tarfile.open(fileobj=io.BytesIO(dpkg_deb('--ctrl-tarfile')), mode='r:') as tar:
+        for member in tar.getmembers():
+            name = PurePosixPath(member.name).name
+            if member.isfile() and name == 'control':
+                for line in tar.extractfile(member).read().decode().splitlines():
+                    key, separator, value = line.partition(':')
+                    if separator and not line.startswith((' ', '\t')):
+                        control[key.strip()] = value.strip()
+            elif member.isfile() and name == 'conffiles':
+                conffiles = [line.strip() for line in tar.extractfile(member).read().decode().splitlines() if line.strip()]
+    files = {}
+    with tarfile.open(fileobj=io.BytesIO(dpkg_deb('--fsys-tarfile')), mode='r:') as tar:
+        for member in tar.getmembers():
+            relative = PurePosixPath(member.name)
+            if relative.is_absolute() or '..' in relative.parts:
+                raise Refusal('nq.package', f'unsafe package member {member.name}')
+            path = '/' + '/'.join(part for part in relative.parts if part != '.')
+            if member.isfile():
+                files[path] = {'type': 'file', 'sha256': digest_bytes(tar.extractfile(member).read())}
+            elif member.islnk():
+                target = '/' + '/'.join(part for part in PurePosixPath(member.linkname).parts if part != '.')
+                files[path] = dict(files[target])
+            elif member.issym():
+                files[path] = {'type': 'symlink', 'target': member.linkname}
+            elif member.isdir():
+                files[path] = {'type': 'dir'}
+            else:
+                raise Refusal('nq.package', f'package member {member.name} is a special file')
+    files.pop('/', None)
+    for conffile in conffiles:
+        if files.get(conffile, {}).get('type') != 'file':
+            raise Refusal('nq.package', f'conffile {conffile} is not a regular file in the package')
+    return {'package': control.get('Package'), 'version': control.get('Version'),
+            'architecture': control.get('Architecture'), 'conffiles': conffiles, 'files': files,
+            'regular_files': sum(1 for entry in files.values() if entry['type'] == 'file')}
+
+
+def installed_package_mismatches(contents: dict, root: Path = Path('/')) -> list[str]:
+    """Compare every file, link and conffile of the package with the host.
+
+    Every regular file (conffiles included) must be a regular file with the
+    package's digest; every link must point where the package says; every
+    directory must exist. The result lists what differs.
+    """
+    mismatches = []
+    for path, entry in sorted(contents['files'].items()):
+        target = root / path.lstrip('/')
+        try:
+            mode = os.lstat(target).st_mode
+        except FileNotFoundError:
+            mismatches.append(f'{path}: missing')
+            continue
+        if entry['type'] == 'file':
+            if not stat.S_ISREG(mode):
+                mismatches.append(f'{path}: not a regular file')
+            elif sha256_file(target) != entry['sha256']:
+                mismatches.append(f'{path}: digest differs from the package' +
+                                  (' (conffile)' if path in contents['conffiles'] else ''))
+        elif entry['type'] == 'symlink':
+            if not stat.S_ISLNK(mode) or os.readlink(target) != entry['target']:
+                mismatches.append(f'{path}: link differs from the package')
+        elif not (stat.S_ISDIR(mode) or (stat.S_ISLNK(mode) and target.is_dir())):
+            mismatches.append(f'{path}: not a directory')
+    return mismatches
+
+
+def installed_nq_state() -> dict | None:
+    """dpkg's record of nq-ng, or None when it is not installed at all."""
+    done = subprocess.run(['dpkg-query', '-W', '-f=${Status}\t${Version}\t${Architecture}', NQ_PACKAGE],
+                          stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, env={'PATH': SYSTEM_PATH}, check=False)
+    if done.returncode != 0 or not done.stdout.strip():
+        return None
+    status, version, architecture = (done.stdout.decode().split('\t') + ['', ''])[:3]
+    if status.endswith(' not-installed') or status.endswith(' config-files'):
+        return None
+    return {'status': status, 'version': version, 'architecture': architecture}
+
+
+def dpkg_verify_lines(stdout: bytes) -> list[str]:
+    """dpkg --verify prints one line per changed file and may still exit 0."""
+    return [line for line in stdout.decode(errors='replace').splitlines() if line.strip()]
+
+
+def check_installed_nq(contents: dict, state: dict | None, root: Path = Path('/')) -> dict:
+    """Refuse an installed nq-ng unless every file equals the pinned package."""
+    if state is None:
+        raise Refusal('nq.not_installed', f'{NQ_PACKAGE} is not installed')
+    if state['status'] != 'install ok installed' or state['version'] != contents['version'] \
+            or state['architecture'] != contents['architecture']:
+        raise Refusal('nq.installed_mismatch', f'installed {NQ_PACKAGE} is {state}, not {contents["version"]} '
+                                               f'{contents["architecture"]} installed')
+    mismatches = installed_package_mismatches(contents, root)
+    verify = subprocess.run(['dpkg', '--verify', NQ_PACKAGE], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                            env={'PATH': SYSTEM_PATH, 'LANG': 'C'}, timeout=120, check=False)
+    reported = dpkg_verify_lines(verify.stdout)
+    if verify.returncode != 0:
+        reported.append(f'dpkg --verify exited {verify.returncode}')
+    if mismatches or reported:
+        raise Refusal('nq.installed_mismatch', f'the installed {NQ_PACKAGE} differs from the pinned package: '
+                      + '; '.join((mismatches + reported)[:10]))
+    return {'dpkg': state, 'files_compared': len(contents['files']), 'regular_files': contents['regular_files'],
+            'conffiles': contents['conffiles'], 'dpkg_verify_lines': 0}
+
+
+def install_nq(records: Records, raw: bytes, contents: dict, pre_state: dict | None, workdir: Path) -> dict:
+    """Install the pinned NQ package from its verified bytes, or accept an
+    installed nq-ng only when every one of its files equals that package."""
+    if pre_state is not None:
+        result = check_installed_nq(contents, pre_state)
+        records.write('nq-package-already-installed.json', result)
+        return {'nq_package': 'already_installed_and_equal', **result}
+    make_dir(workdir, 0o700)
+    copy = write_new(workdir / 'nq-ng.deb', raw, 0o600)
+    if sha256_file(copy) != digest_bytes(raw):
+        raise Refusal('artifact.changed', f'{copy} differs from the verified package bytes')
+    records.call('dpkg-install-nq', ['dpkg', '--install', copy], timeout=300)
+    result = check_installed_nq(contents, installed_nq_state())
+    records.write('nq-package-installed.json', result)
+    return {'nq_package': 'installed_from_verified_copy', **result}
 
 
 def cmd_install(args) -> dict:
@@ -649,9 +985,17 @@ def cmd_install(args) -> dict:
     manifest = read_manifest(args.manifest)
     qualified = check_cohort_pins(manifest)
     located = locate_artifacts(manifest, args.artifacts)
-    for name, path in located.items():
-        if COMPONENTS[name]['kind'] == 'tar':
-            tar_members(path)
+    # Every read-only check runs before the first write: artifact bytes
+    # (each read once and digest-checked), tar members, the kit binding, the
+    # NQ package contents and any already-installed nq-ng.
+    checked = {}
+    for name, path in sorted(located.items()):
+        pin = manifest['components'][name]
+        checked[name] = check_artifact_bytes(name, load_artifact(path, pin['artifact_sha256']), pin)
+    nq_contents = checked['nq']['nq']
+    nq_state = installed_nq_state()
+    if nq_state is not None:
+        check_installed_nq(nq_contents, nq_state)
     paths = cohort_paths(args.cohort)
     if paths['install'].exists() or paths['state'].exists() or paths['nq_config'].exists():
         raise Refusal('cohort.exists', f'{args.cohort} already has install or state; use a fresh cohort id')
@@ -663,23 +1007,36 @@ def cmd_install(args) -> dict:
     records = Records(paths['install'] / 'install-records', 'install')
     records.write('host.json', facts)
     records.write('manifest.json', manifest)
-    identities, roots = {}, {}
+    identities, roots, receipts = {}, {}, {}
+    nq_result = None
     for name, artifact in sorted(located.items()):
         pin = manifest['components'][name]
+        # The bytes installed are the bytes just re-read and re-checked.
+        raw = load_artifact(artifact, pin['artifact_sha256'])
         if COMPONENTS[name]['kind'] == 'deb':
-            install_nq(records, artifact)
+            nq_result = install_nq(records, raw, nq_contents, nq_state, paths['install'] / 'nq-package')
             root = Path('/')
+            receipts[name] = 'every package file compared with the installed file; dpkg --verify output parsed'
         else:
-            members = safe_extract(artifact, paths['install'] / name)
-            records.write(f'members-{name}.json', members)
+            if name == 'cohort-kit':
+                check_kit_archive(raw, pin)
+            digests = {}
+            safe_extract(raw, paths['install'] / name, digests)
+            del raw
+            verify_extracted(paths['install'] / name, digests)
             root = artifact_root(paths['install'] / name)
+            relative = {key.split('/', 1)[1]: value for key, value in digests.items() if '/' in key}
+            receipts[name] = check_component_receipt(name, root, relative)
+            records.write(f'extracted-{name}.json', {'artifact_sha256': pin['artifact_sha256'], 'files': digests,
+                                                    'receipt': receipts[name]})
         roots[name] = str(root)
-        for relative, runner in sorted(COMPONENTS[name]['executables'].items()):
-            program = root / relative.lstrip('/')
+        for relative_name, runner in sorted(COMPONENTS[name]['executables'].items()):
+            program = root / relative_name.lstrip('/')
             if runner == 'receipt':
-                observed = check_receipt_identity(name, root, relative, pin)
+                observed = check_receipt_identity(name, root, relative_name, pin)
             elif runner == 'kit':
-                observed = check_kit(root, pin)
+                kit = checked['cohort-kit']['kit']
+                observed = {key: kit[key] for key in ('component', 'version', 'source_commit')}
             else:
                 argv = {'elf': [program], 'script': [program], 'pyz': [PYTHON, '-I', '-S', program]}[runner]
                 done = records.call(f'build-info-{name}-{program.name}', argv + ['--build-info'], timeout=30)
@@ -694,10 +1051,11 @@ def cmd_install(args) -> dict:
     records.write('installed-identities.json', identities)
     record = {'schema': 'constellation.cohort-install/v1', 'cohort': args.cohort, 'qualified_cohort': qualified,
               'manifest_sha256': manifest['manifest_sha256'], 'roots': roots, 'identities': identities,
-              'records': str(records.run)}
+              'receipts': receipts, 'nq_package': nq_result['nq_package'], 'records': str(records.run)}
     write_new(paths['install'] / 'installed.json', canonical(record) + b'\n', 0o644)
     return {'result': 'installed', 'cohort': args.cohort, 'qualified_cohort': qualified,
-            'install_root': str(paths['install']), 'executables': len(identities), 'records': str(records.run)}
+            'install_root': str(paths['install']), 'executables': len(identities),
+            'nq_package': nq_result['nq_package'], 'records': str(records.run)}
 
 
 class Programs:
@@ -1047,7 +1405,11 @@ def cmd_review(args) -> dict:
     driver = Path(__file__).resolve()
     result = run_unit(records, args.cohort, 'review', [str(PYTHON), '-I', '-S', str(driver), '_review-unit',
                                                        '--cohort', args.cohort, '--records', str(records.run)])
-    return {**result, 'records': str(records.run)}
+    view = acceptance_view(paths, args.cohort)
+    return {**result, 'acceptance': view, 'records': str(records.run),
+            'next': f'Read acceptance.will_write and acceptance.review, then accept before '
+                    f'{view["deadline"]["accept_before"]} ({view["deadline"]["seconds_remaining"]} s from now) '
+                    f'with acceptance.accept_command, or let it expire.'}
 
 
 def _review_unit(args, records_dir: Path) -> dict:
@@ -1287,6 +1649,66 @@ def retained_candidate(paths: dict) -> tuple[str, dict]:
     return sha256_file(paths['review_output'] / 'record-review-input.json'), terminal
 
 
+# A retained review is acceptable for 300 s after it was reviewed (AG binds
+# the review's expiry); the continuation then needs about 10 s.
+ACCEPT_MARGIN_SECONDS = 30
+
+
+def utc_from_ms(value: int) -> str:
+    stamp = dt.datetime.fromtimestamp(value / 1000, dt.timezone.utc)
+    return stamp.isoformat(timespec='seconds').replace('+00:00', 'Z')
+
+
+def acceptance_view(paths: dict, cohort: str) -> dict:
+    """What accepting the retained candidate would do, in readable form.
+
+    The text, its destination and its size come from the sealed plan that
+    `init` compiled for this cohort; the operator does not choose them. The
+    review verdict and findings come from the retained candidate. Nothing
+    here is a new judgment: it decodes what the digest the operator names
+    already binds.
+    """
+    ids = read_json(paths['records'] / 'identities.json')
+    executor = read_json(paths['plan'] / 'executor-config.json')
+    plan = json.loads(base64.b64decode(executor['executor_plan_base64'], validate=True))
+    text = base64.b64decode(ids['reviewed_text_base64'], validate=True)
+    candidate_path = paths['review_output'] / 'record-review-input.json'
+    candidate_raw = read_bytes(candidate_path)
+    candidate = json.loads(candidate_raw)
+    review = candidate['review']
+    try:
+        result = json.loads(base64.b64decode(candidate['artifacts']['result_bytes_base64'], validate=True))
+    except (KeyError, ValueError):
+        result = {}
+    expires = review['expires_at_unix_ms']
+    remaining_ms = expires - now_ms()
+    accepted = (paths['records'] / 'accept.claimed.json').exists()
+    view = {
+        'will_write': {'path': str(Path(plan['scratch_root']) / 'result.txt'), 'bytes': len(text),
+                       'text': text.decode('utf-8', errors='replace'), 'sha256': digest_bytes(text),
+                       'bound_by_plan': digest_bytes(text) == plan['reviewed_text_digest']
+                       and len(text) == plan['reviewed_text_byte_length'],
+                       'source': 'fixed by init for this cohort; the operator does not choose the text or the path'},
+        'review': {'verdict': review.get('verdict'), 'reviewer_id': review.get('reviewer_id'),
+                   'route': ids.get('review_route'),
+                   'findings': [finding.get('summary') for finding in result.get('findings', [])
+                                if isinstance(finding, dict)],
+                   'reviewed_at': utc_from_ms(review['reviewed_at_unix_ms'])},
+        'candidate_sha256': digest_bytes(candidate_raw),
+        'deadline': {'accept_before': utc_from_ms(expires), 'accept_before_unix_ms': expires,
+                     'seconds_remaining': max(0, remaining_ms // 1000), 'expired': remaining_ms <= 0,
+                     'rule': f'accept within 300 s of the review, with at least {ACCEPT_MARGIN_SECONDS} s to spare; '
+                             'after the deadline the cohort cannot execute and needs a fresh cohort id'},
+        'accepted': accepted,
+    }
+    if ids.get('review_route') == 'fixture-review':
+        view['review']['note'] = 'fixture route: the verdict is scripted, not an independent review'
+    if not accepted:
+        view['accept_command'] = (f'sudo /usr/bin/python3.11 -I -S {Path(__file__).resolve()} accept --cohort {cohort} '
+                                  f'--candidate-sha256 {view["candidate_sha256"]}')
+    return view
+
+
 def cmd_accept(args) -> dict:
     if not DIGEST.fullmatch(args.candidate_sha256 or ''):
         raise Refusal('accept.candidate', 'name the exact record-review-input digest as sha256:<64 hex>')
@@ -1299,14 +1721,22 @@ def cmd_accept(args) -> dict:
     candidate, _ = retained_candidate(paths)
     if args.candidate_sha256 != candidate:
         raise Refusal('accept.candidate_mismatch', 'the named digest is not the retained candidate; nothing was recorded')
-    claim(paths, 'accept', {'at': utc_now(), 'candidate_sha256': args.candidate_sha256})
+    view = acceptance_view(paths, args.cohort)
+    if view['deadline']['expired']:
+        raise Refusal('review.expired', f'the review expired at {view["deadline"]["accept_before"]}; nothing was '
+                                        'recorded. This cohort cannot execute: use a fresh cohort id')
+    claim(paths, 'accept', {'at': utc_now(), 'candidate_sha256': args.candidate_sha256,
+                            'will_write': view['will_write'], 'seconds_remaining': view['deadline']['seconds_remaining']})
     records = Records(paths['records'], 'accept')
     records.write('host.json', facts)
     driver = Path(__file__).resolve()
     result = run_unit(records, args.cohort, 'accept', [str(PYTHON), '-I', '-S', str(driver), '_accept-unit',
                                                        '--cohort', args.cohort, '--records', str(records.run),
                                                        '--candidate-sha256', args.candidate_sha256])
-    return {**result, 'records': str(records.run)}
+    written = result_file(paths)
+    return {**result, 'accepted': {key: view['will_write'][key] for key in ('path', 'bytes', 'text', 'sha256')},
+            'result_file': {key: written.get(key) for key in ('present', 'bytes', 'sha256', 'matches_plan')},
+            'records': str(records.run)}
 
 
 def _accept_unit(args, records_dir: Path) -> dict:
@@ -1438,26 +1868,31 @@ def result_file(paths: dict) -> dict:
 
 def cmd_status(args) -> dict:
     paths = cohort_paths(args.cohort)
+    # The cohort state is 0700 constellation; refuse before touching it.
+    if os.geteuid() != 0:
+        raise Refusal('host.not_root', 'status reads the cohort account\'s private state; run it with sudo')
     if not paths['install'].is_dir():
         raise Refusal('cohort.not_installed', args.cohort)
     status = {'result': 'status', 'cohort': args.cohort, 'installed': True,
               'initialized': (paths['records'] / 'init.finished.json').is_file() if paths['state'].exists() else False}
     if not status['initialized']:
+        status['next'] = 'Run init.'
         return status
-    if os.geteuid() != 0:
-        raise Refusal('host.not_root', 'status reads the cohort account\'s private state')
     programs = Programs(args.cohort)
     status['identities'] = read_json(paths['records'] / 'identities.json')
     review_terminal = paths['review_output'] / 'terminal.json'
+    passed_review = False
     if review_terminal.is_file():
         terminal = read_json(review_terminal)
         review = {'exit_code': terminal.get('exit_code'), 'phase': terminal.get('phase'), 'reason': terminal.get('reason')}
         if terminal.get('exit_code') == 0:
+            passed_review = True
             result = terminal['result']
             review.update(binding_id=result['binding_id'], verification=result['verification'],
-                          provider_calls=result['provider_calls'], grants=result['grants'], spends=result['spends'],
-                          docket_attempts=result['docket_attempts'], executor_calls=result['executor_calls'],
-                          effects=result['effects'],
+                          provider_calls=result['provider_calls'],
+                          # Frozen when the review finished; the current counts are in `counters`.
+                          counters_at_review={key: result[key] for key in ('grants', 'spends', 'docket_attempts',
+                                                                           'executor_calls', 'effects')},
                           candidate=str(paths['review_output'] / 'record-review-input.json'),
                           candidate_sha256=sha256_file(paths['review_output'] / 'record-review-input.json'),
                           candidate_review=read_json(paths['review_output'] / 'record-review-input.json')['review'])
@@ -1471,6 +1906,8 @@ def cmd_status(args) -> dict:
                                                                'human_attestation', 'provider_calls_in_continuation')}
     else:
         status['accept'] = 'not_started' if not (paths['records'] / 'accept.claimed.json').exists() else 'no_retained_terminal'
+    if passed_review:
+        status['acceptance'] = acceptance_view(paths, args.cohort)
     native = native_read(programs, paths)
     status['native'] = {key: value for key, value in native.items() if key != 'ag_inspect'}
     if 'ag_inspect' in native:
@@ -1480,7 +1917,33 @@ def cmd_status(args) -> dict:
         if isinstance(value, dict) and 'settlement' in value:
             status['native']['settlement_outcome'] = value['settlement'].get('outcome')
     status['result_file'] = result_file(paths)
+    replay = status['native'].get('replay') or {}
+    # Current counts, from AG's native replay and the scratch directory.
+    status['counters'] = {'ag_spends': replay.get('ag_spends', 0), 'docket_attempts': replay.get('docket_attempts', 0),
+                          'settlements': replay.get('settlements', 0),
+                          'result_files': 1 if status['result_file'].get('present') else 0,
+                          'source': 'AG native replay now (review.counters_at_review is the review-time snapshot)'}
+    status['next'] = status_next(status)
     return status
+
+
+def status_next(status: dict) -> str:
+    review, acceptance = status.get('review'), status.get('acceptance') or {}
+    if review == 'not_started':
+        return 'Start the fixture (fixture route) and run review.'
+    if not isinstance(review, dict):
+        return 'The review did not leave a terminal record; inspect the driver records. Use a fresh cohort id.'
+    if review.get('exit_code') != 0:
+        return 'The review refused; no candidate exists. Use a fresh cohort id.'
+    if status.get('accept') == 'not_started':
+        deadline = acceptance.get('deadline', {})
+        if deadline.get('expired'):
+            return 'The review expired before acceptance; nothing can execute. Use a fresh cohort id.'
+        return (f'Read acceptance.will_write and acceptance.review. Accept before {deadline.get("accept_before")} '
+                f'({deadline.get("seconds_remaining")} s left) with acceptance.accept_command, or let it expire.')
+    if status['result_file'].get('matches_plan'):
+        return 'Settled. Export the evidence and verify it.'
+    return 'Accepted but not settled with the reviewed bytes; inspect accept and native.'
 
 
 # ------------------------------------------------------------------ evidence
@@ -2183,43 +2646,68 @@ def upgrade_into(cohort: str) -> dict | None:
 # ------------------------------------------------------------------ cli
 
 def parser() -> argparse.ArgumentParser:
-    top = argparse.ArgumentParser(prog='constellation-cohort', description=__doc__,
-                                  formatter_class=argparse.RawDescriptionHelpFormatter)
+    top = argparse.ArgumentParser(
+        prog='constellation-cohort', description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='Root: install, init, review, accept, status, evidence, upgrade and verify-retained need root '
+               '(sudo). verify-manifest and upgrade-status do not. Each command prints one JSON object; a '
+               'refusal exits 2.')
     top.add_argument('--version', action='version', version=f'constellation-cohort {DRIVER_VERSION}')
-    sub = top.add_subparsers(dest='command', required=True)
-    for name in ('verify-manifest', 'install'):
-        p = sub.add_parser(name)
-        p.add_argument('--manifest', type=Path, required=True)
-        p.add_argument('--artifacts', type=Path, required=True)
+    # metavar keeps the internal unit entry points out of usage and help.
+    sub = top.add_subparsers(dest='command', required=True, metavar='COMMAND', title='commands')
+    cohort_help = 'the cohort id: 3-40 lowercase letters, digits and hyphens'
+    manifest_help = 'the bundle\'s cohort-manifest.json, already checked against the published digest'
+    artifacts_help = 'the bundle directory that holds the nine artifacts'
+    for name, text in (('verify-manifest', 'check the manifest, every artifact and the kit binding; writes '
+                                           'nothing; no root needed'),
+                       ('install', '(root) verify again, then install the artifacts from their verified bytes')):
+        p = sub.add_parser(name, help=text, description=text)
+        p.add_argument('--manifest', type=Path, required=True, help=manifest_help)
+        p.add_argument('--artifacts', type=Path, required=True, help=artifacts_help)
         if name == 'install':
-            p.add_argument('--cohort', required=True)
-    p = sub.add_parser('init')
-    p.add_argument('--cohort', required=True)
-    p.add_argument('--review-route', choices=sorted(REVIEW_ROUTES), required=True)
-    p.add_argument('--fixture-port', type=int)
-    p = sub.add_parser('review')
-    p.add_argument('--cohort', required=True)
+            p.add_argument('--cohort', required=True, help=cohort_help)
+    text = ('(root) create the account, identities, keys, codex home, plan, ports and NQ watcher; '
+            'no observation, provider request or effect')
+    p = sub.add_parser('init', help=text, description=text)
+    p.add_argument('--cohort', required=True, help=cohort_help)
+    p.add_argument('--review-route', choices=sorted(REVIEW_ROUTES), required=True,
+                   help='fixture-review (qualification only, loopback fixture) or real (one billable review)')
+    p.add_argument('--fixture-port', type=int, metavar='PORT',
+                   help='fixture-review only: the 127.0.0.1 port the loopback fixture listens on (1024-65535)')
+    text = '(root) one durable unit: fresh observation, admission, one bounded review; stops before acceptance'
+    p = sub.add_parser('review', help=text, description=text)
+    p.add_argument('--cohort', required=True, help=cohort_help)
     p.add_argument('--paid-request-allowed', action='store_true',
-                   help='real route only: the operator allows its one billable provider request')
-    sub.add_parser('status').add_argument('--cohort', required=True)
-    p = sub.add_parser('accept')
-    p.add_argument('--cohort', required=True)
-    p.add_argument('--candidate-sha256', required=True,
-                   help='the exact record-review-input.json digest the operator inspected and accepts')
-    p = sub.add_parser('evidence')
-    p.add_argument('--cohort', required=True)
-    p.add_argument('--output', type=Path, required=True)
-    p = sub.add_parser('upgrade', help='retire a settled cohort into an installed, uninitialized successor')
-    p.add_argument('--from-cohort', required=True)
-    p.add_argument('--to-cohort', required=True)
+                   help='real route only: the operator allows its one billable review request')
+    text = '(root) read-only: review, what acceptance would write, the deadline, native state and result.txt'
+    p = sub.add_parser('status', help=text, description=text)
+    p.add_argument('--cohort', required=True, help=cohort_help)
+    p.add_argument('--pretty', action='store_true', help='indent the JSON for reading')
+    text = '(root) accept the retained candidate by its exact digest; executes once'
+    p = sub.add_parser('accept', help=text, description=text)
+    p.add_argument('--cohort', required=True, help=cohort_help)
+    p.add_argument('--candidate-sha256', required=True, metavar='sha256:HEX',
+                   help='the exact record-review-input.json digest that status shows and the operator accepts')
+    text = '(root) export records, store backups and joins to a fresh directory (root-owned, 0700)'
+    p = sub.add_parser('evidence', help=text, description=text)
+    p.add_argument('--cohort', required=True, help=cohort_help)
+    p.add_argument('--output', type=Path, required=True, help='an absolute directory that does not exist yet')
+    text = '(root) retire a settled cohort into an installed, uninitialized successor (not a newcomer step)'
+    p = sub.add_parser('upgrade', help=text, description=text)
+    p.add_argument('--from-cohort', required=True, help='the settled cohort to retire')
+    p.add_argument('--to-cohort', required=True, help='the installed, uninitialized successor')
     p.add_argument('--export', type=Path, required=True, help="the predecessor's `evidence` output directory")
-    p.add_argument('--after-interrupted', help='the interrupted attempt the operator inspected (attempt-NNN)')
-    p = sub.add_parser('verify-retained')
+    p.add_argument('--after-interrupted', metavar='attempt-NNN',
+                   help='the interrupted attempt the operator inspected')
+    text = '(root) read-only re-verification of a retired cohort\'s retained evidence'
+    p = sub.add_parser('verify-retained', help=text, description=text)
     p.add_argument('--cohort', required=True, help='the retired cohort')
     p.add_argument('--retained', type=Path, help='a copy to verify instead of the retained store')
-    sub.add_parser('upgrade-status').add_argument('--from-cohort')
+    text = 'read-only list of upgrade journals, naming interrupted attempts'
+    p = sub.add_parser('upgrade-status', help=text, description=text)
+    p.add_argument('--from-cohort', help='only upgrades out of this cohort')
     for name in ('_review-unit', '_accept-unit'):
-        p = sub.add_parser(name, help=argparse.SUPPRESS)
+        # Internal entry points of the durable units; no help, so not listed.
+        p = sub.add_parser(name)
         p.add_argument('--cohort', required=True)
         p.add_argument('--records', required=True)
         if name == '_accept-unit':
@@ -2239,11 +2727,21 @@ def main(argv=None) -> int:
         return unit_entry(UNITS[args.command], args)
     try:
         result = COMMANDS[args.command](args)
-    except Refusal as refusal:
+    except PermissionError as error:
+        # Every refusal is one JSON object, including an unprivileged read.
+        refusal = Refusal('host.not_root' if os.geteuid() != 0 else 'host.permission',
+                          f'{error.filename or error}: permission denied; run this command with sudo')
+        result = None
+    except Refusal as caught:
+        refusal, result = caught, None
+    if result is None:
         sys.stdout.write(canonical({'result': 'refused', 'command': args.command, 'code': refusal.code,
                                     'detail': refusal.detail}).decode() + '\n')
         return 2
-    sys.stdout.write(canonical(result).decode() + '\n')
+    if getattr(args, 'pretty', False):
+        sys.stdout.write(json.dumps(result, sort_keys=True, indent=1, ensure_ascii=False) + '\n')
+    else:
+        sys.stdout.write(canonical(result).decode() + '\n')
     return 0
 
 

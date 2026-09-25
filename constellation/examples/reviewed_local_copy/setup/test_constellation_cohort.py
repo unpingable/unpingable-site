@@ -471,46 +471,141 @@ class CommandLine(unittest.TestCase):
 
 
 
-class KitIdentity(unittest.TestCase):
-    """The cohort kit is pinned SELF: its build info and its driver bytes."""
+KIT_COMMIT = commit('kit')
 
-    def kit(self, root, driver_bytes, **changes):
-        (root / 'setup').mkdir(parents=True)
-        (root / 'setup/constellation_cohort.py').write_bytes(driver_bytes)
-        (root / 'README.md').write_bytes(b'kit\n')
-        info = {'component': 'cohort-kit', 'version': cc.DRIVER_VERSION, 'source_commit': commit('kit'),
-                'debug_assertions': False, 'profile': 'release',
-                'files': {name: cc.sha256_file(root / name) for name in ('setup/constellation_cohort.py', 'README.md')}}
-        info.update(changes)
-        (root / 'BUILD-INFO.json').write_text(json.dumps(info))
-        return {'package_version': cc.DRIVER_VERSION, 'source_commit': commit('kit')}
 
-    def test_kit_with_the_running_driver_passes(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes())
-            self.assertEqual(cc.check_kit(Path(tmp), pin)['source_commit'], commit('kit'))
+def kit_tarball(files=None, info_changes=None, extra=(), driver=None, top=None):
+    """A cohort-kit tarball laid out like build_cohort_kit.py's, in memory."""
+    top = top or f'cohort-kit-{cc.DRIVER_VERSION}'
+    files = dict(files or {'setup/constellation_cohort.py': cc.RUNNING_DRIVER if driver is None else driver,
+                           'setup/verify_cohort_evidence.py': b'# verifier\n', 'prepare_plan.py': b'# plan\n'})
+    info = {'schema': 'constellation.cohort-kit-build-info/v1', 'component': 'cohort-kit',
+            'version': cc.DRIVER_VERSION, 'source_commit': KIT_COMMIT, 'debug_assertions': False,
+            'profile': 'release', 'files': {name: cc.digest_bytes(raw) for name, raw in files.items()}}
+    info.update(info_changes or {})
+    members = [member(f'{top}/', kind=tarfile.DIRTYPE), member(f'{top}/setup/', kind=tarfile.DIRTYPE),
+               member(f'{top}/BUILD-INFO.json', json.dumps(info).encode(), mode=0o644)]
+    members += [member(f'{top}/{name}', raw, mode=0o644) for name, raw in sorted(files.items())]
+    members += list(extra)
+    buffer = io.BytesIO()
+    with tarfile.open(fileobj=buffer, mode='w:gz') as tar:
+        for info_member, data in members:
+            tar.addfile(info_member, io.BytesIO(data) if data is not None else None)
+    return buffer.getvalue()
 
-    def test_kit_whose_driver_differs_from_the_running_one_refuses(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            pin = self.kit(Path(tmp), b'# another driver\n')
+
+KIT_PIN = {'package_version': cc.DRIVER_VERSION, 'source_commit': KIT_COMMIT}
+
+
+class KitArchive(unittest.TestCase):
+    """F1: the kit tarball is bound exhaustively to this running driver."""
+
+    def check(self, raw, pin=KIT_PIN, stamped=KIT_COMMIT):
+        return cc.check_kit_archive(raw, dict(pin), stamped=stamped)
+
+    def refuses(self, raw, code, **kwargs):
+        with self.assertRaises(cc.Refusal) as caught:
+            self.check(raw, **kwargs)
+        self.assertEqual(caught.exception.code, code, caught.exception.detail)
+        return caught.exception.detail
+
+    def test_released_kit_with_the_running_driver_passes(self):
+        observed = self.check(kit_tarball())
+        self.assertEqual((observed['source_commit'], observed['files'], observed['stamped_commit']),
+                         (KIT_COMMIT, 3, KIT_COMMIT))
+
+    def test_planted_unlisted_module_is_refused(self):
+        planted = member(f'cohort-kit-{cc.DRIVER_VERSION}/setup/json.py', b'raise SystemExit("shadow")\n', mode=0o644)
+        detail = self.refuses(kit_tarball(extra=[planted]), 'kit.unlisted_member')
+        self.assertIn('setup/json.py', detail)
+
+    def test_unlisted_directory_is_refused(self):
+        extra = member(f'cohort-kit-{cc.DRIVER_VERSION}/hidden/', kind=tarfile.DIRTYPE)
+        self.refuses(kit_tarball(extra=[extra]), 'kit.unlisted_member')
+
+    def test_symlink_or_special_member_is_refused(self):
+        link = member(f'cohort-kit-{cc.DRIVER_VERSION}/setup/json.py', kind=tarfile.SYMTYPE, link='/tmp/x.py')
+        self.refuses(kit_tarball(extra=[link]), 'artifact.unsafe_member')
+        fifo = member(f'cohort-kit-{cc.DRIVER_VERSION}/setup/pipe', kind=tarfile.FIFOTYPE)
+        self.refuses(kit_tarball(extra=[fifo]), 'artifact.unsafe_member')
+
+    def test_listed_file_missing_or_changed_is_refused(self):
+        files = {'setup/constellation_cohort.py': cc.RUNNING_DRIVER, 'prepare_plan.py': b'# plan\n'}
+        raw = kit_tarball(files=files, info_changes={'files': {**{k: cc.digest_bytes(v) for k, v in files.items()},
+                                                               'setup/gone.py': cc.digest_bytes(b'x')}})
+        self.refuses(raw, 'kit.missing_member')
+        raw = kit_tarball(files=files, info_changes={'files': {'setup/constellation_cohort.py': cc.digest_bytes(
+            cc.RUNNING_DRIVER), 'prepare_plan.py': cc.digest_bytes(b'# other\n')}})
+        self.refuses(raw, 'kit.member_digest')
+
+    def test_kit_whose_driver_differs_from_the_running_one_is_refused(self):
+        self.refuses(kit_tarball(driver=b'# another driver\n'), 'kit.driver_differs')
+
+    def test_build_info_commit_must_equal_the_manifest(self):
+        self.refuses(kit_tarball(info_changes={'source_commit': commit('other')}), 'build_info.commit')
+
+    def test_placeholder_commit_is_refused(self):
+        for placeholder in ('0' * 40, 'f' * 40):
+            self.refuses(kit_tarball(info_changes={'source_commit': placeholder}), 'pin.kit_commit',
+                         pin={**KIT_PIN, 'source_commit': placeholder}, stamped=placeholder)
+
+    def test_unreleased_driver_refuses_and_a_foreign_commit_refuses(self):
+        self.refuses(kit_tarball(), 'kit.unreleased_driver', stamped=None)
+        self.refuses(kit_tarball(), 'pin.kit_commit', stamped=commit('another release'))
+        if b'\nKIT_SOURCE_COMMIT = None\n' in cc.RUNNING_DRIVER:
+            self.assertIsNone(cc.KIT_SOURCE_COMMIT)  # a source checkout
+        else:
+            self.assertRegex(cc.KIT_SOURCE_COMMIT, cc.COMMIT)  # the released kit copy
+
+    def test_verify_manifest_refuses_an_altered_kit_bundle(self):
+        """The hostile review's k1 shape, end to end through verify-manifest."""
+        planted = member(f'cohort-kit-{cc.DRIVER_VERSION}/setup/json.py', b'raise SystemExit("shadow")\n', mode=0o644)
+        with tempfile.TemporaryDirectory() as tmp, patched(cc, KIT_SOURCE_COMMIT=KIT_COMMIT):
+            directory = Path(tmp)
+            raw_kit = kit_tarball(extra=[planted])
+            (directory / 'cohort-kit-x.tar.gz').write_bytes(raw_kit)
+            manifest = cc.load_manifest(raw(shipped_manifest(kit_commit=KIT_COMMIT,
+                                                             kit_digest=cc.digest_bytes(raw_kit))))
             with self.assertRaises(cc.Refusal) as caught:
-                cc.check_kit(Path(tmp), pin)
-            self.assertEqual(caught.exception.code, 'build_info.executable_digest')
+                pin = manifest['components']['cohort-kit']
+                cc.check_artifact_bytes('cohort-kit', cc.load_artifact(directory / 'cohort-kit-x.tar.gz',
+                                                                       pin['artifact_sha256']), pin)
+            self.assertEqual(caught.exception.code, 'kit.unlisted_member')
 
-    def test_kit_file_changed_after_build_refuses(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes())
-            (Path(tmp) / 'README.md').write_bytes(b'edited\n')
-            with self.assertRaises(cc.Refusal) as caught:
-                cc.check_kit(Path(tmp), pin)
-            self.assertEqual(caught.exception.code, 'build_info.executable_digest')
 
-    def test_kit_commit_must_equal_the_manifest(self):
+class KitImportPath(unittest.TestCase):
+    """F1: a kit file can never shadow the standard library."""
+
+    def test_no_kit_module_is_named_like_a_standard_module(self):
+        kit = Path(__file__).resolve().parent.parent
+        names = {path.stem for path in list(kit.glob('*.py')) + list(kit.glob('setup/*.py'))}
+        self.assertTrue(names)
+        self.assertEqual(sorted(names & set(sys.stdlib_module_names)), [])
+
+    def test_planted_json_module_is_never_imported(self):
         with tempfile.TemporaryDirectory() as tmp:
-            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes(), source_commit=commit('other'))
-            with self.assertRaises(cc.Refusal) as caught:
-                cc.check_kit(Path(tmp), pin)
-            self.assertEqual(caught.exception.code, 'build_info.commit')
+            root = Path(tmp)
+            (root / 'setup').mkdir()
+            marker = root / 'shadow-marker'
+            (root / 'setup/json.py').write_text(f'open({str(marker)!r}, "a").write("imported\\n")\n'
+                                                'raise SystemExit(99)\n')
+            (root / 'setup/probe_module.py').write_text(
+                'import json, sys\n'
+                'def main(argv):\n'
+                '    sys.stdout.write(json.dumps({"json": json.__file__, "argv": argv}))\n')
+            argv = cc.kit_module([root / 'setup', root], 'probe_module', ['x'])
+            self.assertEqual(argv[:4], [str(cc.PYTHON), '-I', '-S', '-c'])
+            argv[0] = sys.executable
+            done = __import__('subprocess').run(argv, capture_output=True, check=False, env={'PATH': '/usr/bin:/bin'})
+            self.assertEqual(done.returncode, 0, done.stderr)
+            self.assertFalse(marker.exists(), 'the planted setup/json.py was imported')
+            self.assertNotIn(str(root), json.loads(done.stdout)['json'])
+            # The pre-fix form (prepend) would have imported it: the test bites.
+            prepend = (f'import sys; sys.path[:0]={[str(root / "setup"), str(root)]!r}; import probe_module; '
+                       'probe_module.main(sys.argv[1:])')
+            done = __import__('subprocess').run([argv[0], '-I', '-S', '-c', prepend, 'x'], capture_output=True,
+                                                check=False, env={'PATH': '/usr/bin:/bin'})
+            self.assertTrue(marker.exists(), prepend)
 
 
 class HostPlumbing(unittest.TestCase):
@@ -542,7 +637,9 @@ class HostPlumbing(unittest.TestCase):
     def test_kit_modules_run_isolated_without_site_and_with_an_explicit_path(self):
         argv = cc.kit_module([Path('/opt/x/lib/maude-plan.pyz'), Path('/opt/kit')], 'prepare_plan', ['--output', Path('/o')])
         self.assertEqual(argv[:4], ['/usr/bin/python3.11', '-I', '-S', '-c'])
-        self.assertIn("sys.path[:0]=['/opt/x/lib/maude-plan.pyz', '/opt/kit']", argv[4])
+        # Appended after the standard library, never prepended (F1).
+        self.assertIn("sys.path.extend(['/opt/x/lib/maude-plan.pyz', '/opt/kit'])", argv[4])
+        self.assertNotIn('sys.path[:0]', argv[4])
         self.assertEqual(argv[5:], ['--output', '/o'])
 
     def test_transition_claims_are_create_once(self):
@@ -855,6 +952,278 @@ class AgReadOnly(unittest.TestCase):
                     cc.native_read(programs, {'deployment': deployment, 'ports': deployment})
         self.assertEqual(caught.exception.code, 'ag.enrolled_file_unavailable')
         self.assertIn('shared_admission.plan_validator', caught.exception.detail)
+
+
+class VerifiedBytes(unittest.TestCase):
+    """F3: hash and use the same bytes; check every extracted file."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = Path(self.tmp.name)
+        (self.dir / 'sources').mkdir()
+        self.genuine = self.dir / 'sources' / 'genuine.tar.gz'
+        tarball(self.genuine, [member('docket-0.1.0/', kind=tarfile.DIRTYPE),
+                               member('docket-0.1.0/bin/docket', b'\x7fELF genuine'),
+                               member('docket-0.1.0/SHA256SUMS',
+                                      (hashlib.sha256(b'\x7fELF genuine').hexdigest() + '  bin/docket\n').encode(),
+                                      mode=0o644)])
+        self.evil = self.dir / 'sources' / 'evil.tar.gz'
+        tarball(self.evil, [member('docket-0.1.0/', kind=tarfile.DIRTYPE),
+                            member('docket-0.1.0/bin/docket', b'#!/bin/sh\necho forged build info\n')])
+        self.expected = cc.sha256_file(self.genuine)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_substitution_between_locate_and_use_is_refused(self):
+        artifact = self.dir / 'docket.tar.gz'
+        artifact.write_bytes(self.genuine.read_bytes())
+        manifest = {'components': {'docket': {'artifact_sha256': self.expected}}}
+        with patched(cc, COMPONENTS={'docket': cc.COMPONENTS['docket']}):
+            located = cc.locate_artifacts(manifest, self.dir)
+        self.assertEqual(located['docket'], artifact)
+        os.replace(self.evil, artifact)  # the swap lands after the check
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.load_artifact(located['docket'], self.expected)
+        self.assertEqual(caught.exception.code, 'artifact.changed')
+
+    def test_substitution_after_the_read_changes_nothing(self):
+        artifact = self.dir / 'docket.tar.gz'
+        artifact.write_bytes(self.genuine.read_bytes())
+        raw = cc.load_artifact(artifact, self.expected)
+        os.replace(self.evil, artifact)
+        digests = {}
+        cc.safe_extract(raw, self.dir / 'out', digests)
+        cc.verify_extracted(self.dir / 'out', digests)
+        self.assertEqual((self.dir / 'out/docket-0.1.0/bin/docket').read_bytes(), b'\x7fELF genuine')
+        root = cc.artifact_root(self.dir / 'out')
+        relative = {key.split('/', 1)[1]: value for key, value in digests.items()}
+        self.assertEqual(cc.check_component_receipt('docket', root, relative), 'SHA256SUMS')
+
+    def test_extracted_tree_changed_afterwards_is_refused(self):
+        digests = {}
+        cc.safe_extract(self.genuine.read_bytes(), self.dir / 'out', digests)
+        (self.dir / 'out/docket-0.1.0/bin/docket').write_bytes(b'#!/bin/sh\n')
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.verify_extracted(self.dir / 'out', digests)
+        self.assertEqual(caught.exception.code, 'artifact.extracted_mismatch')
+        (self.dir / 'out/docket-0.1.0/bin/docket').write_bytes(b'\x7fELF genuine')
+        (self.dir / 'out/docket-0.1.0/bin/extra').write_bytes(b'x')
+        with self.assertRaises(cc.Refusal):
+            cc.verify_extracted(self.dir / 'out', digests)
+        os.unlink(self.dir / 'out/docket-0.1.0/bin/extra')
+        os.symlink('/bin/sh', self.dir / 'out/docket-0.1.0/bin/link')
+        with self.assertRaises(cc.Refusal):
+            cc.verify_extracted(self.dir / 'out', digests)
+
+    def test_component_receipt_must_list_every_file_with_its_digest(self):
+        root = self.dir / 'r'
+        (root / 'bin').mkdir(parents=True)
+        digests = {'bin/docket': cc.digest_bytes(b'a'), 'README.md': cc.digest_bytes(b'b')}
+        (root / 'SHA256SUMS').write_text(hashlib.sha256(b'a').hexdigest() + '  bin/docket\n')
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_component_receipt('docket', root, digests)
+        self.assertEqual(caught.exception.code, 'artifact.receipt_mismatch')
+        (root / 'SHA256SUMS').unlink()
+        (root / 'BUILD-INFO.json').write_text(json.dumps({'binaries': {'nightshift': {
+            'path': 'bin/docket', 'sha256': hashlib.sha256(b'other').hexdigest()}}}))
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_component_receipt('nightshift', root, digests)
+        self.assertEqual(caught.exception.code, 'artifact.receipt_mismatch')
+
+
+def build_deb(root, *, conffile=True, readme=b'nq readme\n'):
+    """A small nq-ng .deb, or None when dpkg-deb is unavailable."""
+    import shutil as _shutil
+    import subprocess as _subprocess
+    if _shutil.which('dpkg-deb') is None:
+        return None
+    tree = root / 'deb-tree'
+    (tree / 'DEBIAN').mkdir(parents=True)
+    (tree / 'usr/bin').mkdir(parents=True)
+    (tree / 'usr/share/doc/nq-ng').mkdir(parents=True)
+    (tree / 'etc/nq').mkdir(parents=True)
+    (tree / 'usr/bin/nq').write_bytes(b'\x7fELF nq\n')
+    os.chmod(tree / 'usr/bin/nq', 0o755)
+    (tree / 'usr/share/doc/nq-ng/README.md').write_bytes(readme)
+    (tree / 'etc/nq/defaults.toml').write_bytes(b'schema = "nq.config.v1"\n')
+    os.symlink('nq', tree / 'usr/bin/nq-link')
+    (tree / 'DEBIAN/control').write_text('Package: nq-ng\nVersion: 0.2.0\nArchitecture: amd64\n'
+                                         'Maintainer: test\nDescription: test package\n')
+    if conffile:
+        (tree / 'DEBIAN/conffiles').write_text('/etc/nq/defaults.toml\n')
+    target = root / 'nq-ng.deb'
+    _subprocess.run(['dpkg-deb', '--root-owner-group', '-Zgzip', '--build', str(tree), str(target)], check=True,
+                    capture_output=True)
+    return target
+
+
+class NqPackage(unittest.TestCase):
+    """F2: an installed nq-ng must equal the pinned package file by file."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = Path(self.tmp.name)
+        deb = build_deb(self.dir)
+        if deb is None:
+            self.skipTest('dpkg-deb is not available')
+        self.raw = deb.read_bytes()
+        self.contents = cc.deb_contents(self.raw)
+        self.root = self.dir / 'host'
+        with tarfile.open(fileobj=io.BytesIO(__import__('subprocess').run(
+                ['dpkg-deb', '--fsys-tarfile', str(deb)], capture_output=True, check=True).stdout)) as tar:
+            if hasattr(tarfile, 'data_filter'):
+                tar.extractall(self.root, filter='data')
+            else:
+                tar.extractall(self.root)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_contents_are_read_from_the_verified_bytes(self):
+        self.assertEqual((self.contents['package'], self.contents['version'], self.contents['architecture']),
+                         ('nq-ng', '0.2.0', 'amd64'))
+        self.assertEqual(self.contents['conffiles'], ['/etc/nq/defaults.toml'])
+        self.assertEqual(self.contents['files']['/usr/bin/nq']['sha256'], cc.digest_bytes(b'\x7fELF nq\n'))
+        self.assertEqual(self.contents['files']['/usr/bin/nq-link'], {'type': 'symlink', 'target': 'nq'})
+
+    def test_identical_installation_passes(self):
+        self.assertEqual(cc.installed_package_mismatches(self.contents, self.root), [])
+
+    def test_edited_file_conffile_and_link_are_each_refused(self):
+        (self.root / 'usr/share/doc/nq-ng/README.md').write_bytes(b'nq readme\nappended\n')
+        (self.root / 'etc/nq/defaults.toml').write_bytes(b'edited\n')
+        os.unlink(self.root / 'usr/bin/nq-link')
+        os.symlink('/bin/sh', self.root / 'usr/bin/nq-link')
+        os.unlink(self.root / 'usr/bin/nq')
+        mismatches = cc.installed_package_mismatches(self.contents, self.root)
+        self.assertEqual(len(mismatches), 4, mismatches)
+        self.assertTrue(any('(conffile)' in line for line in mismatches))
+
+    def test_forged_package_is_refused_although_dpkg_verify_is_clean(self):
+        forged_dir = self.dir / 'forged'
+        forged_dir.mkdir()
+        forged = cc.deb_contents(build_deb(forged_dir, readme=b'nq readme\nforged\n').read_bytes())
+        forged_root = self.dir / 'forged-host'
+        (forged_root / 'usr/share/doc/nq-ng').mkdir(parents=True)
+        # The host holds the forged package; the pin is the genuine one.
+        for path, entry in self.contents['files'].items():
+            source, target = self.root / path.lstrip('/'), forged_root / path.lstrip('/')
+            if entry['type'] == 'dir':
+                target.mkdir(parents=True, exist_ok=True)
+            elif entry['type'] == 'symlink':
+                os.symlink(entry['target'], target)
+            else:
+                target.write_bytes(source.read_bytes())
+        (forged_root / 'usr/share/doc/nq-ng/README.md').write_bytes(b'nq readme\nforged\n')
+        self.assertEqual(cc.installed_package_mismatches(forged, forged_root), [])
+        state = {'status': 'install ok installed', 'version': '0.2.0', 'architecture': 'amd64'}
+        clean = __import__('subprocess').CompletedProcess([], 0, b'', b'')
+        with patched(cc.subprocess, run=lambda *a, **k: clean):
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_installed_nq(self.contents, state, forged_root)
+            self.assertEqual(caught.exception.code, 'nq.installed_mismatch')
+            self.assertIn('README.md', caught.exception.detail)
+            self.assertEqual(cc.check_installed_nq(self.contents, state, self.root)['dpkg_verify_lines'], 0)
+
+    def test_dpkg_verify_output_is_parsed_not_its_exit_status(self):
+        state = {'status': 'install ok installed', 'version': '0.2.0', 'architecture': 'amd64'}
+        tampered = __import__('subprocess').CompletedProcess(
+            [], 0, b'??5?????? c /usr/share/doc/nq-ng/copyright\n', b'')
+        self.assertEqual(cc.dpkg_verify_lines(tampered.stdout), ['??5?????? c /usr/share/doc/nq-ng/copyright'])
+        with patched(cc.subprocess, run=lambda *a, **k: tampered):
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_installed_nq(self.contents, state, self.root)
+        self.assertEqual(caught.exception.code, 'nq.installed_mismatch')
+        self.assertIn('copyright', caught.exception.detail)
+
+    def test_other_version_or_half_installed_is_refused(self):
+        for state in ({'status': 'install ok installed', 'version': '0.1.0', 'architecture': 'amd64'},
+                      {'status': 'install ok half-configured', 'version': '0.2.0', 'architecture': 'amd64'}):
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_installed_nq(self.contents, state, self.root)
+            self.assertEqual(caught.exception.code, 'nq.installed_mismatch')
+
+
+def acceptance_fixture(root, expires_in_ms, route='fixture-review'):
+    paths = {'records': root / 'driver', 'plan': root / 'plan', 'review_output': root / 'review'}
+    for directory in paths.values():
+        directory.mkdir()
+    text = b'Constellation cohort qual-a reviewed copy.\n'
+    (paths['records'] / 'identities.json').write_text(json.dumps(
+        {'reviewed_text_base64': __import__('base64').b64encode(text).decode(), 'review_route': route}))
+    plan = {'scratch_root': '/var/lib/constellation/cohorts/qual-a/scratch',
+            'reviewed_text_digest': cc.digest_bytes(text), 'reviewed_text_byte_length': len(text)}
+    (paths['plan'] / 'executor-config.json').write_text(json.dumps(
+        {'executor_plan_base64': __import__('base64').b64encode(json.dumps(plan).encode()).decode()}))
+    result = {'verdict': 'accepted', 'findings': [{'code': 'fixture.accepted', 'summary': 'scripted verdict'}]}
+    now = cc.now_ms()
+    candidate = {'review': {'verdict': 'accepted', 'reviewer_id': 'fixture-deterministic-reviewer-not-independent',
+                            'reviewed_at_unix_ms': now - 1000, 'expires_at_unix_ms': now + expires_in_ms},
+                 'artifacts': {'result_bytes_base64': __import__('base64').b64encode(json.dumps(result).encode()).decode()}}
+    (paths['review_output'] / 'record-review-input.json').write_text(json.dumps(candidate))
+    return paths, text
+
+
+class Acceptance(unittest.TestCase):
+    """Newcomer fixes: a readable acceptance, its deadline, and clean refusals."""
+
+    def test_view_shows_text_destination_bytes_and_time_left(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            paths, text = acceptance_fixture(Path(tmp), 240_000)
+            view = cc.acceptance_view(paths, 'qual-a')
+        will = view['will_write']
+        self.assertEqual((will['path'], will['bytes'], will['text']),
+                         ('/var/lib/constellation/cohorts/qual-a/scratch/result.txt', len(text), text.decode()))
+        self.assertTrue(will['bound_by_plan'])
+        self.assertEqual(view['review']['findings'], ['scripted verdict'])
+        self.assertIn('scripted', view['review']['note'])
+        self.assertFalse(view['deadline']['expired'])
+        self.assertTrue(230 <= view['deadline']['seconds_remaining'] <= 240)
+        self.assertTrue(view['deadline']['accept_before'].endswith('Z'))
+        self.assertIn('--candidate-sha256 ' + view['candidate_sha256'], view['accept_command'])
+
+    def test_expired_review_is_reported(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            paths, _ = acceptance_fixture(Path(tmp), -5000)
+            view = cc.acceptance_view(paths, 'qual-a')
+        self.assertTrue(view['deadline']['expired'])
+        self.assertEqual(view['deadline']['seconds_remaining'], 0)
+        self.assertIn('fresh cohort', cc.status_next({'review': {'exit_code': 0}, 'accept': 'not_started',
+                                                      'acceptance': view, 'result_file': {}}))
+
+    @unittest.skipIf(os.geteuid() == 0, 'runs as an unprivileged account')
+    def test_unprivileged_status_is_a_clean_refusal(self):
+        out = io.StringIO()
+        with redirect_stdout(out):
+            status = cc.main(['status', '--cohort', 'qual-a'])
+        self.assertEqual((status, json.loads(out.getvalue())['code']), (2, 'host.not_root'))
+
+    def test_permission_error_is_one_json_refusal(self):
+        def denied(args):
+            raise PermissionError(13, 'Permission denied', '/var/lib/constellation/cohorts/qual-a/driver')
+        out = io.StringIO()
+        with patched(cc, COMMANDS={**cc.COMMANDS, 'evidence': denied}), redirect_stdout(out):
+            status = cc.main(['evidence', '--cohort', 'qual-a', '--output', '/tmp/x'])
+        value = json.loads(out.getvalue())
+        self.assertEqual(status, 2)
+        self.assertIn(value['code'], ('host.not_root', 'host.permission'))
+
+
+class Help(unittest.TestCase):
+    def test_help_hides_the_unit_entry_points_and_documents_every_option(self):
+        top = cc.parser()
+        text = top.format_help()
+        self.assertNotIn('SUPPRESS', text)
+        self.assertNotIn('_review-unit', text)
+        self.assertNotIn('_accept-unit', text)
+        for name, sub in top._subparsers._group_actions[0].choices.items():
+            if name.startswith('_'):
+                continue
+            self.assertIn(name, text)
+            for action in sub._actions:
+                if action.option_strings and action.dest != 'help':
+                    self.assertTrue(action.help, f'{name} {action.option_strings} has no help')
 
 
 class UpgradeJournal(unittest.TestCase):
