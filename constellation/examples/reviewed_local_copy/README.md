@@ -40,10 +40,10 @@ can regenerate it. The anchor is these values, published with this page:
 
 | File | sha256 |
 |---|---|
-| `cohort-manifest.json` | `PENDING-MANIFEST-SHA256` |
-| `cohort-kit-0.4.0.tar.gz` | `PENDING-KIT-SHA256` |
+| `cohort-manifest.json` | `8f11768699b726a8ce75daaee738693c9955e5126e401175c195b3976e5a65a3` |
+| `cohort-kit-0.4.0.tar.gz` | `f4bf72f1e10e83604ece8f73aa17e33430692582f9026050bff06ba2943dc18a` |
 
-The kit was built from site commit `PENDING-KIT-COMMIT`. Rebuilding it from
+The kit was built from site commit `c81a12d9c27c91613886eab4245bfd2dc563f7dd`. Rebuilding it from
 that commit with `setup/build_cohort_kit.py` gives the same bytes.
 
 **This anchor is only as good as the page you read it on.** Read it from the
@@ -138,7 +138,7 @@ ranges and no "newer is fine", and any other value refuses `pin.incompatible`.
 | docket | 0.1.0 | `3093def030a5151d2e7b956eafb73d0c16f8c735` | `docket-0.1.0-linux-amd64.tar.gz` | `6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b` |
 | switchyard | 0.2.0 | `1c82e719cf358728d0262ae11138fb13fefe0cae` | `switchyard-0.2.0-1c82e719cf35.tar.gz` | `be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1` |
 | app-server | 0.0.0 | `97b0acd5ce2ccb3c87a763606696c35a450947f6` | `codex-app-server-97b0acd5ce2c-linux-amd64.tar.gz` | `9999bd8e75607071e1e43d9829fea253593f95323dff3a6e690b9d52433e2cd9` |
-| cohort-kit | 0.4.0 | `PENDING-KIT-COMMIT` (see "Published digests") | `cohort-kit-0.4.0.tar.gz` | `PENDING-KIT-SHA256` |
+| cohort-kit | 0.4.0 | `c81a12d9c27c91613886eab4245bfd2dc563f7dd` (see "Published digests") | `cohort-kit-0.4.0.tar.gz` | `f4bf72f1e10e83604ece8f73aa17e33430692582f9026050bff06ba2943dc18a` |
 
 The driver cannot hold the kit row itself, because the kit's commit contains
 the driver. The kit row is instead bound as described below, and the whole
@@ -213,8 +213,8 @@ No kit code runs in this step. Compare the two files with the values in
 ```sh
 cd <bundle>
 sha256sum --check --strict <<'EOF'
-PENDING-MANIFEST-SHA256  cohort-manifest.json
-PENDING-KIT-SHA256  cohort-kit-0.4.0.tar.gz
+8f11768699b726a8ce75daaee738693c9955e5126e401175c195b3976e5a65a3  cohort-manifest.json
+f4bf72f1e10e83604ece8f73aa17e33430692582f9026050bff06ba2943dc18a  cohort-kit-0.4.0.tar.gz
 EOF
 ```
 
