@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
-"""Independently verify an exported cohort evidence bundle (alpha.6 shape).
+"""Independently verify an exported cohort evidence bundle.
 
-QUALIFICATION-ONLY. The published alpha.6 verifier pins its evidence files by
-digest, runs an independent checker over them, and requires a mismatched plan
-digest to refuse. This does the same for a cohort bundle written by
-`constellation_cohort.py evidence`, without trusting the bundle's JOIN.json:
+    /usr/bin/python3.11 -I -S verify_cohort_evidence.py --evidence DIR
 
-- every file listed in SHA256SUMS has its digest;
+This ships in the cohort kit (`setup/`). It checks a bundle written by
+`constellation_cohort.py evidence` in the shape of the published alpha.6
+verifier: digests pinned by SHA256SUMS, an independent checker, and a
+mismatched plan digest that must refuse. It does not trust the bundle's
+JOIN.json, and it imports nothing from the driver:
+
+- every file listed in SHA256SUMS is present with its digest;
 - binding, occurrence and campaign agree across the Maude binding, the
   retained candidate and AG's spend and issuance;
 - the accepted candidate is byte-identical to the retained one;
@@ -16,10 +19,13 @@ digest to refuse. This does the same for a cohort bundle written by
 - exactly one spend, one Docket attempt and one settlement, outcome success;
 - result.txt holds exactly the plan's reviewed bytes;
 - the issuance identity recomputes under AG's digest law, and its Ed25519
-  signature verifies (openssl) by a key the bundle's Docket trust names;
+  signature verifies (/usr/bin/openssl) by a key the bundle's Docket trust
+  names;
 - the same checks with a substituted plan digest refuse.
 
-Prints one JSON line and exits 0 only when every check passes.
+It needs no root beyond reading the bundle, no network and no component
+binary. Prints one JSON line and exits 0 only when every check passes; a
+malformed or incomplete bundle fails (exit 1) with the reason named.
 """
 from __future__ import annotations
 
@@ -32,6 +38,7 @@ import subprocess
 import sys
 import tempfile
 
+OPENSSL = '/usr/bin/openssl'
 SIGNATURE_PREFIX = b'ag-ng\x00governed-loop-issuance-signature\x00v1\x00'
 SPKI_ED25519 = bytes.fromhex('302a300506032b6570032100')
 
@@ -41,10 +48,15 @@ def load(root: Path, name: str):
 
 
 def sums(root: Path) -> list[str]:
+    """Names whose bytes differ from SHA256SUMS, are missing, or escape."""
     bad = []
     for line in (root / 'SHA256SUMS').read_text().splitlines():
-        digest, name = line.split('  ', 1)
-        if hashlib.sha256((root / name).read_bytes()).hexdigest() != digest:
+        digest, separator, name = line.partition('  ')
+        path = root / name
+        if (not separator or not name or name.startswith('/') or '..' in Path(name).parts
+                or path.is_symlink() or not path.is_file()):
+            bad.append(name or line[:120])
+        elif hashlib.sha256(path.read_bytes()).hexdigest() != digest:
             bad.append(name)
     return bad
 
@@ -80,7 +92,7 @@ def issuance_checks(root: Path) -> dict:
         (work / 'k.der').write_bytes(SPKI_ED25519 + b64url(authentication.get('signer_public_key', '')))
         (work / 'm').write_bytes(SIGNATURE_PREFIX + jcs(issuance))
         (work / 's').write_bytes(b64url(authentication.get('signature', '')))
-        done = subprocess.run(['openssl', 'pkeyutl', '-verify', '-pubin', '-inkey', str(work / 'k.der'), '-keyform', 'DER',
+        done = subprocess.run([OPENSSL, 'pkeyutl', '-verify', '-pubin', '-inkey', str(work / 'k.der'), '-keyform', 'DER',
                                '-rawin', '-in', str(work / 'm'), '-sigfile', str(work / 's')], capture_output=True, check=False)
     return {'issuance_identity': identity, 'issuance_signature': trusted and done.returncode == 0}
 
@@ -137,12 +149,17 @@ def main() -> int:
     parser.add_argument('--evidence', type=Path, required=True)
     args = parser.parse_args()
     root = args.evidence.resolve()
-    bad = sums(root)
-    checks = {**joins(root), **issuance_checks(root)}
-    refused = not all(joins(root, 'sha256:' + '0' * 64).values())
+    try:
+        bad = sums(root)
+        checks = {**joins(root), **issuance_checks(root)}
+        refused = not all(joins(root, 'sha256:' + '0' * 64).values())
+        binding = load(root, 'state/plan/binding.json')
+        ag = load(root, 'native/ag-inspect.json')
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, StopIteration) as error:
+        print(json.dumps({'schema': 'constellation.cohort-evidence-check/v1', 'result': 'failed',
+                          'error': f'{type(error).__name__}: {error}'[:500]}, sort_keys=True, separators=(',', ':')))
+        return 1
     passed = not bad and all(checks.values()) and refused
-    binding = load(root, 'state/plan/binding.json')
-    ag = load(root, 'native/ag-inspect.json')
     print(json.dumps({'schema': 'constellation.cohort-evidence-check/v1', 'result': 'passed' if passed else 'failed',
                       'digest_mismatches': bad, 'checks': checks, 'mismatched_plan_digest': 'refused' if refused else 'ACCEPTED',
                       'binding_id': binding['binding_id'], 'occurrence': binding['occurrence'],
@@ -150,7 +167,6 @@ def main() -> int:
                       'sha256sums_sha256': 'sha256:' + hashlib.sha256((root / 'SHA256SUMS').read_bytes()).hexdigest()},
                      sort_keys=True, separators=(',', ':')))
     return 0 if passed else 1
-
 
 if __name__ == '__main__':
     sys.exit(main())
