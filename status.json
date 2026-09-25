@@ -1,7 +1,7 @@
 {
   "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py. Current rows describe public releases; historical rows remain explicitly marked as history.",
-  "generated_note": "Rendered into index.html by tools/render_status.py. Do not hand-edit the ledger block.",
-  "as_of": "2026-09-21",
+  "generated_note": "Rendered into constellation/status.html by tools/render_status.py. Do not hand-edit the ledger block.",
+  "as_of": "2026-09-25",
   "objects": [
     {
       "id": "alpha6-reviewed-local-copy",
@@ -17,6 +17,17 @@
         {"label": "qualification", "url": "constellation/releases/0.1.0-alpha.6/qualification.json"}
       ],
       "promotion": "This release is immutable. Operational burn-in, live notification delivery, cross-version restore, migration, rollback, and production consumer adoption require separate evidence."
+    },
+    {
+      "id": "alpha-exit-rc-clean-install",
+      "name": "reviewed-local-copy/v1 — alpha-exit release candidate, clean install",
+      "kind": "composition",
+      "status": "release candidate; not released",
+      "claim": "Packaged builds of NQ, Maude, Nightshift, Pulse, AG, Docket, Switchyard and the App Server, with a setup kit, were installed into a fresh Debian 12 virtual machine from those artifacts alone. One reviewed and accepted occurrence settled successfully and wrote its file exactly once. Every requested refusal held: a wrong artifact digest, a repeated init, a stale review, an expired authorization, a second execution attempt, and acceptance of the wrong candidate. The review came from a local fixture standing in for the model provider, and the acceptance was performed by the test harness, not by a person.",
+      "verified": "2026-09-25",
+      "verified_by": "clean-install run-002: 21 pass, 0 fail, 0 not exercised. The run record is retained privately; the harness source is public on an unmerged branch.",
+      "evidence": [{"label": "clean-install harness source", "url": "https://github.com/unpingable/unpingable-site/tree/e34d92f6d5fc3c49436b33508ab8146289cbd207/constellation/qualification/reviewed-local-copy-clean-install-v1"}, {"label": "the released alpha.6 profile it packages", "url": "constellation/releases/0.1.0-alpha.6/guide.html"}],
+      "promotion": "This is not a release. The packaged artifacts are not public, and the clean-room newcomer run and hostile review have not taken place. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package."
     },
     {
       "id": "docket",
@@ -52,6 +63,17 @@
       "promotion": "Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified."
     },
     {
+      "id": "nq-0-2-0",
+      "name": "Constellation NQ 0.2.0 component package",
+      "kind": "artifact",
+      "status": "published component release; developer preview",
+      "claim": "A Debian package and a tarball for NQ alone, built twice offline with identical bytes and accepted in a clean Debian 12 virtual machine (49 pass, 0 fail, 2 not exercised). It packages one component; it is not an installable Constellation suite.",
+      "verified": "2026-09-25",
+      "verified_by": "the published GitHub release, whose assets were downloaded and checked against their recorded digests and the qualified copies",
+      "evidence": [{"label": "v0.2.0 release", "url": "https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0"}, {"label": "components", "url": "constellation/components.html#nq"}],
+      "promotion": "NQ's maturity stays developer preview. The package does not qualify any other component or composition."
+    },
+    {
       "id": "constellation-nightshift",
       "name": "Constellation Nightshift",
       "kind": "artifact",
@@ -81,7 +103,7 @@
       "claim": "An earlier pilot separated proposal, authorization, execution custody, and evidence evaluation. It remains research history, not the current installation guide.",
       "verified": "2026-07-26",
       "verified_by": "dated public office records from the historical pilot",
-      "evidence": [{"label": "current documentation", "url": "constellation/"}],
+      "evidence": [{"label": "archived exhibit", "url": "constellation/archive.html#four-office"}, {"label": "current documentation", "url": "constellation/"}],
       "promotion": "Superseded as the public starting point by the immutable alpha.6 walkthrough."
     },
     {
@@ -92,7 +114,7 @@
       "claim": "Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.",
       "verified": null,
       "verified_by": "No general ECAD/design-flow release has been qualified.",
-      "evidence": [{"label": "current boundaries", "url": "constellation/#limits"}],
+      "evidence": [{"label": "current boundaries", "url": "constellation/limits.html"}, {"label": "research directions", "url": "constellation/research.html#authored-design"}],
       "promotion": "A separately scoped, reproducible public profile; alpha.6 does not provide one."
     }
   ]

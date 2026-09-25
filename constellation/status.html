@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dated claims, evidence, maturity and open limits for each Constellation release, component and exhibit.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Constellation status">
+  <meta property="og:description" content="Dated claims, evidence, maturity and open limits for each Constellation release, component and exhibit.">
+  <meta property="og:url" content="https://unpingable.com/constellation/status.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellation status">
+  <meta name="twitter:description" content="Dated claims, evidence, maturity and open limits for each Constellation release, component and exhibit.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Constellation status</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/status.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html" aria-current="page">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
+  </header>
+  <main id="main">
+    <h1>Status</h1>
+    <p class="lede">What exists, what has been shown, and when. Each row below is a dated statement with its evidence and the condition that would have to be met before the claim is strengthened.</p>
+
+    <section aria-labelledby="summary">
+      <h2 id="summary">Summary as of 2026-09-25</h2>
+      <ul class="steps">
+        <li><strong>Released integration profile:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6, <code>reviewed-local-copy/v1</code></a>. One exact plan to create a local file was independently reviewed, explicitly accepted, authorized once, executed once and settled, then checked by a separate read. Anyone can re-verify the retained evidence from public source without repeating the effect.</li>
+        <li><strong>Released component package:</strong> <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">NQ 0.2.0</a>, a Debian package and tarball for NQ alone.</li>
+        <li><strong>Release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25. The artifacts are not public.</li>
+        <li><strong>Earlier profiles:</strong> alpha.1 through alpha.5 remain available for narrower consultation, saved-check, objective-read, connected-cache and installed-cadence paths; see <a href="start.html">guides and source</a>.</li>
+        <li><strong>Not production-ready.</strong> The boundaries are on the <a href="limits.html">limits</a> page.</li>
+      </ul>
+    </section>
+
+    <section id="ledger" aria-labelledby="ledger-heading">
+      <h2 id="ledger-heading">Status ledger</h2>
+      <p>One row per object: what it claims, when that was last verified and by what, where the evidence lives, and what would have to happen before the claim may be strengthened. Rows are dated statements, not a live panel &mdash; a mechanical check may satisfy a promotion condition, but promotion stays an explicit editorial act.</p>
+    <!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->
+    <div class="ledger">
+      <div class="ledger-row" id="status-alpha6-reviewed-local-copy">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation 0.1.0-alpha.6 — reviewed local copy</span>
+          <span class="kind composition">composition</span>
+          <span class="ledger-status">qualified immutable integration release</span>
+        </div>
+        <p class="ledger-claim">One exact local-copy plan was independently reviewed, explicitly accepted, authorized once, executed under Docket custody, settled successfully, and followed by a read-only observation. An anonymous public-clone reproduction verified the retained evidence without repeating the provider call or effect.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-20</dt><dd>the immutable alpha.6 manifest, qualification record, walkthrough, and anonymous public-clone verification</dd>
+          <dt>evidence</dt><dd><a href="releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a> &middot; <a href="releases/0.1.0-alpha.6/manifest.json">manifest</a> &middot; <a href="releases/0.1.0-alpha.6/qualification.json">qualification</a></dd>
+          <dt>promotion</dt><dd>This release is immutable. Operational burn-in, live notification delivery, cross-version restore, migration, rollback, and production consumer adoption require separate evidence.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-alpha-exit-rc-clean-install">
+        <div class="ledger-head">
+          <span class="ledger-name">reviewed-local-copy/v1 — alpha-exit release candidate, clean install</span>
+          <span class="kind composition">composition</span>
+          <span class="ledger-status">release candidate; not released</span>
+        </div>
+        <p class="ledger-claim">Packaged builds of NQ, Maude, Nightshift, Pulse, AG, Docket, Switchyard and the App Server, with a setup kit, were installed into a fresh Debian 12 virtual machine from those artifacts alone. One reviewed and accepted occurrence settled successfully and wrote its file exactly once. Every requested refusal held: a wrong artifact digest, a repeated init, a stale review, an expired authorization, a second execution attempt, and acceptance of the wrong candidate. The review came from a local fixture standing in for the model provider, and the acceptance was performed by the test harness, not by a person.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-25</dt><dd>clean-install run-002: 21 pass, 0 fail, 0 not exercised. The run record is retained privately; the harness source is public on an unmerged branch.</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/unpingable-site/tree/e34d92f6d5fc3c49436b33508ab8146289cbd207/constellation/qualification/reviewed-local-copy-clean-install-v1" target="_blank" rel="noopener">clean-install harness source</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">the released alpha.6 profile it packages</a></dd>
+          <dt>promotion</dt><dd>This is not a release. The packaged artifacts are not public, and the clean-room newcomer run and hostile review have not taken place. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-docket">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation Docket</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">public source; exercised in alpha.6</span>
+        </div>
+        <p class="ledger-claim">Takes custody of one authorized attempt, dispatches an authority-neutral executor, and records settlement and reconciliation. Alpha.6 exercised its bounded local permission snapshot and local-copy executor path.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-20</dt><dd>the alpha.6 manifest and qualification record at the exact pinned public revision</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-docket" target="_blank" rel="noopener">repository</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a></dd>
+          <dt>promotion</dt><dd>The profile is narrow; it does not establish production hardening or arbitrary executor compatibility.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-constellation-ag">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation AG</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">public source; exercised in alpha.6</span>
+        </div>
+        <p class="ledger-claim">Checks whether exact automated work is admissible and grants bounded one-use authority for one specific run. It does not execute work or infer permission from a provider response.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-20</dt><dd>the alpha.6 one-use authorization and public evidence-reader checks</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#ag">components</a></dd>
+          <dt>promotion</dt><dd>No family-wide or production maturity is claimed.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-constellation-nq">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation NQ</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">public source; bounded released profiles</span>
+        </div>
+        <p class="ledger-claim">Evaluates retained evidence under named profiles and keeps missing, stale, unavailable, or uncertain results visible. Its results do not authorize an effect.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-20</dt><dd>alpha.2 through alpha.6 profiles and the separately documented archive-read procedure</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nq" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#nq">components</a></dd>
+          <dt>promotion</dt><dd>Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-nq-0-2-0">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation NQ 0.2.0 component package</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">published component release; developer preview</span>
+        </div>
+        <p class="ledger-claim">A Debian package and a tarball for NQ alone, built twice offline with identical bytes and accepted in a clean Debian 12 virtual machine (49 pass, 0 fail, 2 not exercised). It packages one component; it is not an installable Constellation suite.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-25</dt><dd>the published GitHub release, whose assets were downloaded and checked against their recorded digests and the qualified copies</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0" target="_blank" rel="noopener">v0.2.0 release</a> &middot; <a href="components.html#nq">components</a></dd>
+          <dt>promotion</dt><dd>NQ&#x27;s maturity stays developer preview. The package does not qualify any other component or composition.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-constellation-nightshift">
+        <div class="ledger-head">
+          <span class="ledger-name">Constellation Nightshift</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">public source; recurrence and alpha.6 occurrence paths exercised</span>
+        </div>
+        <p class="ledger-claim">Owns temporal observation, recurrence, and task proposal without acquiring authorization or execution custody.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-20</dt><dd>alpha.5 installed-cadence qualification and the alpha.6 occurrence/review path</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nightshift" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#nightshift">components</a></dd>
+          <dt>promotion</dt><dd>No complete production recurring installation or consumer migration is claimed.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-agent-governor">
+        <div class="ledger-head">
+          <span class="ledger-name">agent_governor (classic Python)</span>
+          <span class="kind artifact">artifact</span>
+          <span class="ledger-status">deprecated predecessor</span>
+        </div>
+        <p class="ledger-claim">Preserved for historical records and migration context. New authorization work uses Constellation AG; the two products are not presented as wire-compatible.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-09-21</dt><dd>the public repository deprecation notice and canonical successor documentation</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/agent_governor" target="_blank" rel="noopener">deprecated repository</a> &middot; <a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">successor</a></dd>
+          <dt>promotion</dt><dd>None. Do not use this predecessor as the current installation path.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-four-office-vertical">
+        <div class="ledger-head">
+          <span class="ledger-name">Four-office governed vertical</span>
+          <span class="kind exhibit">exhibit</span>
+          <span class="ledger-status">historical 2026-07 composition</span>
+        </div>
+        <p class="ledger-claim">An earlier pilot separated proposal, authorization, execution custody, and evidence evaluation. It remains research history, not the current installation guide.</p>
+        <dl class="ledger-meta">
+          <dt>verified 2026-07-26</dt><dd>dated public office records from the historical pilot</dd>
+          <dt>evidence</dt><dd><a href="archive.html#four-office">archived exhibit</a> &middot; <a href="./">current documentation</a></dd>
+          <dt>promotion</dt><dd>Superseded as the public starting point by the immutable alpha.6 walkthrough.</dd>
+        </dl>
+      </div>
+      <div class="ledger-row" id="status-design-layer">
+        <div class="ledger-head">
+          <span class="ledger-name">ECAD / design-flow work</span>
+          <span class="kind proposition">proposition</span>
+          <span class="ledger-status">pre-alpha research direction</span>
+        </div>
+        <p class="ledger-claim">Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.</p>
+        <dl class="ledger-meta">
+          <dt>not verifiable — nothing built</dt><dd>No general ECAD/design-flow release has been qualified.</dd>
+          <dt>evidence</dt><dd><a href="limits.html">current boundaries</a> &middot; <a href="research.html#authored-design">research directions</a></dd>
+          <dt>promotion</dt><dd>A separately scoped, reproducible public profile; alpha.6 does not provide one.</dd>
+        </dl>
+      </div>
+    </div>
+    <p class="ledger-asof">Ledger as of 2026-09-25. Generated from
+      <a href="../status.json">status.json</a> by <code>tools/render_status.py</code> in the
+      <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
+      it is a dated statement, not a live panel. A row moves only by an explicit
+      editorial act &mdash; a passing test may satisfy a promotion condition, but it does
+      not promote the claim.</p>
+    <!-- STATUS:END -->
+    </section>
+
+    <section id="labels" aria-labelledby="labels-heading">
+      <h2 id="labels-heading">How to read the labels</h2>
+      <p>The ledger and the <a href="archive.html">archive</a> use two small vocabularies, so that a reader never has to guess whether something is an idea, a design proposal, a working specimen, a qualified composition, or deployed evidence.</p>
+      <h3>Four kinds of object</h3>
+      <dl>
+        <dt>artifact</dt><dd>An implemented system with a bounded, independently inspectable claim.</dd>
+        <dt>composition</dt><dd>A specific relationship between artifacts that has actually been exercised. Compositions are earned individually and dated; none of them generalize.</dd>
+        <dt>exhibit</dt><dd>A behaviour you can presently inspect or run.</dd>
+        <dt>proposition</dt><dd>Candidate architecture under investigation. Named, not ratified, and usually not built.</dd>
+      </dl>
+      <h3>Four kinds of thing shown</h3>
+      <dl>
+        <dt>schematic</dt><dd>A designed explanatory diagram or normalized trace. It teaches the shape of the system. It is not output.</dd>
+        <dt>captured run</dt><dd>Literal bytes from an actual execution, carrying the command, the version, and the date it was run.</dd>
+        <dt>rendered</dt><dd>A readable presentation generated from a real machine artifact. The raw artifact stays reachable.</dd>
+        <dt>cited</dt><dd>A claim whose warrant is a document in a public repository, linked at the point of use.</dd>
+      </dl>
+      <p>Where a distinction is not yet earned, this site says so rather than smoothing it. Synthetic fixtures appear only where they are identified as synthetic and used to demonstrate conditional behaviour &mdash; never as testimony about a real estate. Terms of art are defined in the <a href="../glossary.html">glossary</a>.</p>
+    </section>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>

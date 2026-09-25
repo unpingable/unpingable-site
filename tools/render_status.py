@@ -1,29 +1,31 @@
 #!/usr/bin/env python3
-"""Render status.json into the ledger block of index.html.
+"""Render status.json into the ledger block of constellation/status.html.
 
-The ledger on the home page is generated, not hand-maintained: status.json is
+The ledger on the status page is generated, not hand-maintained: status.json is
 the canonical source for every object's kind, status, bounded claim,
 verification date, evidence and promotion condition. Editing the HTML directly
 is the drift this script exists to prevent.
 
-    python3 tools/render_status.py           # rewrite index.html in place
-    python3 tools/render_status.py --check    # exit 1 if index.html is stale
+    python3 tools/render_status.py           # rewrite the status page in place
+    python3 tools/render_status.py --check    # exit 1 if the status page is stale
 
 The block is delimited by the BEGIN/END markers below. Everything between them
-is replaced wholesale.
+is replaced wholesale. Relative evidence URLs in status.json are written
+from the site root and rebased onto the status page's directory.
 """
 
 from __future__ import annotations
 
 import argparse
 import html
+import os
 import json
 import pathlib
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "status.json"
-TARGET = ROOT / "index.html"
+TARGET = ROOT / "constellation" / "status.html"
 
 BEGIN = "<!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->"
 END = "<!-- STATUS:END -->"
@@ -35,6 +37,17 @@ def esc(text: str) -> str:
     return html.escape(text, quote=True)
 
 
+def rebase(url: str) -> str:
+    """Rewrite a root-relative site path so it resolves from TARGET."""
+    if url.startswith(("http://", "https://", "#", "/")):
+        return url
+    path, sep, fragment = url.partition("#")
+    rebased = os.path.relpath(ROOT / path, TARGET.parent).replace(os.sep, "/")
+    if path.endswith("/"):
+        rebased += "/"
+    return rebased + sep + fragment
+
+
 def render_row(obj: dict) -> str:
     kind = obj["kind"]
     verified = obj.get("verified")
@@ -43,7 +56,7 @@ def render_row(obj: dict) -> str:
     )
 
     evidence = " &middot; ".join(
-        f'<a href="{esc(e["url"])}"'
+        f'<a href="{esc(rebase(e["url"]))}"'
         + (' target="_blank" rel="noopener"' if e["url"].startswith("http") else "")
         + f'>{esc(e["label"])}</a>'
         for e in obj.get("evidence", [])
@@ -75,7 +88,7 @@ def render(data: dict) -> str:
 {rows}
     </div>
     <p class="ledger-asof">Ledger as of {esc(data['as_of'])}. Generated from
-      <a href="status.json">status.json</a> by <code>tools/render_status.py</code> in the
+      <a href="{esc(rebase('status.json'))}">status.json</a> by <code>tools/render_status.py</code> in the
       <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
       it is a dated statement, not a live panel. A row moves only by an explicit
       editorial act &mdash; a passing test may satisfy a promotion condition, but it does
