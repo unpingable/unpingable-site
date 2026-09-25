@@ -22,7 +22,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import constellation_cohort as cc  # noqa: E402
 
 # The qualified cohort this driver release ships.
-SHIPPED = 'alpha-exit-rc'
+SHIPPED = 'g3-qual-b'  # QUALIFICATION-ONLY
 
 
 def commit(seed):
