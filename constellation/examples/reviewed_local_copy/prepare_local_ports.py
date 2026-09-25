@@ -28,8 +28,9 @@ def identity(path):
 
 def observation_launcher(program, expected, python, store):
     # Fixed purpose and argv. The captured program, not its mutable pathname,
-    # is executed. Interpreter/stdlib are deployment-enrolled inputs.
-    return f'''#!{python} -I
+    # is executed. Interpreter/stdlib are deployment-enrolled inputs; -IS keeps
+    # the host's site-packages and .pth hooks out of the launcher.
+    return f'''#!{python} -IS
 import fcntl, hashlib, os, stat, sys
 if len(sys.argv) != 1: raise SystemExit("observation launcher accepts no arguments")
 fd = os.open({str(program)!r}, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
@@ -86,7 +87,8 @@ def main(argv=None):
         'resolver_program': str(args.ag_standing), 'resolver_sha256': pins['ag_standing']['sha256'],
         'mandate_store': str(root / 'ag-mandates.json'), 'resolver_id': args.standing_resolver_id,
         'answer_ttl_ms': 300000, 'python_interpreter': str(args.python), 'python_sha256': pins['python']['sha256']})
-    record.call('ag-standing-launcher', [args.python, args.ag_standing_sealer, '--enrollment', root / 'ag-standing-enrollment.json',
+    # The sealer is qualified only under an isolated interpreter without site.
+    record.call('ag-standing-launcher', [args.python, '-I', '-S', args.ag_standing_sealer, '--enrollment', root / 'ag-standing-enrollment.json',
         '--launcher', root / 'ag-standing-launcher', '--manifest', root / 'ag-standing-manifest.json'], parsed=False)
     record.write('observation-launcher', observation_launcher(args.nightshift_observation,
         pins['nightshift_observation']['sha256'], args.python, root / 'nightshift.sqlite'))
