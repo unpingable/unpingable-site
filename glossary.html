@@ -204,10 +204,10 @@
     <dd>A <a href="#claim">claim</a> that <a href="#custody">custody</a> has admitted as the basis of an action. The conversion <em>claim &rarr; premise</em> is what custody gates. Policy engines decide over premises; custody decides whether the underlying claims are allowed to become premises in the first place.</dd>
 
     <dt id="receipt">receipt <a class="anchor" href="#receipt">#</a></dt>
-    <dd>A content-addressed record of a custody decision. The receipt id is a deterministic hash of the canonical decision inputs &mdash; the same inputs under the same schema always yield the same id, so the artifact is verifiable rather than merely logged. It is an <em>address</em>, not the claim: change the receipt schema and the id moves while the attested behaviour does not (see <a href="limits.html">limits</a>). Distinct from a log line: a log describes; a receipt attests, with attribution and a return address.</dd>
+    <dd>A content-addressed record of a custody decision. The receipt id is a deterministic hash of the canonical decision inputs &mdash; the same inputs under the same schema always yield the same id, so the artifact is verifiable rather than merely logged. It is an <em>address</em>, not the claim: change the receipt schema and the id moves while the attested behaviour does not (see <a href="constellation/limits.html">limits</a>). Distinct from a log line: a log describes; a receipt attests, with attribution and a return address.</dd>
 
     <dt id="refusal-class">refusal class <a class="anchor" href="#refusal-class">#</a></dt>
-    <dd>A typed category of refusal that the custody kernel licenses by definition &mdash; not a discretionary denial. Example: <code>standing_before_spendability_not_bounded</code> is the refusal class for &ldquo;permission observed earlier than the action, with the gap exceeding the bound.&rdquo; The Lean theorems prove these <em>class</em> boundaries; the receipt attests the <em>instance</em>. See <a href="limits.html">limits</a> for what each does and doesn&rsquo;t prove.</dd>
+    <dd>A typed category of refusal that the custody kernel licenses by definition &mdash; not a discretionary denial. Example: <code>standing_before_spendability_not_bounded</code> is the refusal class for &ldquo;permission observed earlier than the action, with the gap exceeding the bound.&rdquo; The Lean theorems prove these <em>class</em> boundaries; the receipt attests the <em>instance</em>. See <a href="constellation/limits.html">limits</a> for what each does and doesn&rsquo;t prove.</dd>
 
     <dt id="spendability">spendability <a class="anchor" href="#spendability">#</a></dt>
     <dd>A separate question from validity: given <a href="#standing">standing</a> that is otherwise valid, may it still be exercised <em>here and now</em>, under the premises and bounds that govern this effect? Not merely TTL, credential expiry, or authority that decays continuously with age &mdash; time may be one bound, but exact content, identity, context, revision, <a href="#custody">custody</a>, and prior use may all matter, and each is checked at the moment of use rather than inherited from the original grant. Receipt fields and refusal-class names use <code>spendability</code> (e.g., <code>standing_spendability_seam</code>); prose tends to use the longer phrase (&ldquo;usable at action time&rdquo;) because the bare noun reads as a coinage to cold readers.</dd>
@@ -239,7 +239,7 @@
       <li><a href="demo.html">A stale yes</a></li>
       <li><a href="incident.html">Incident</a></li>
       <li><a href="glossary.html">Glossary</a></li>
-      <li><a href="limits.html">Limits</a></li>
+      <li><a href="constellation/limits.html">Limits</a></li>
       <li><a href="https://github.com/unpingable">GitHub</a></li>
     </ul>
   </footer>
