@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Research behind Constellation">
+  <meta property="og:description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
+  <meta property="og:url" content="https://unpingable.com/constellation/research.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Research behind Constellation">
+  <meta name="twitter:description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Research behind Constellation</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/research.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html" aria-current="page">Research</a><a href="absd.html">ABSD</a></nav>
+  </header>
+  <main id="main">
+    <h1>Research</h1>
+    <p class="lede">The papers name the failure classes; the software carries the response.</p>
+    <p>The &Delta;t series is scaffolding for the check-versus-action logic in the admissibility and standing components. Some of this work is theoretical only; not everything here has an instantiation, and the papers are not evidence that anything is deployed. Selected claims from the &Delta;t series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html#proofs">limits</a>.</p>
+    <p>On this page: <a href="#related-work">related work</a> &middot; <a href="#transitions">the transitions under study</a> &middot; <a href="#continuity">continuity</a> &middot; <a href="#authored-design">the authored design layer</a> &middot; <a href="#papers">papers</a>.</p>
+
+    <h2 id="related-work">Related work</h2>
+    <p>Li et al., &ldquo;<a href="https://arxiv.org/abs/2609.29921">Who Holds the Pen? Let Specifications, Not Agents, Sign Off</a>&rdquo;, arXiv:2609.29921 (2026). The paper measures a gap between an agent&rsquo;s completion claim and the state it was asked to produce, and proposes SpecHarness: a trusted runtime that authorizes agent actions, observes their effects, and marks a specification obligation satisfied only from admissible, fresh evidence.</p>
+    <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation explores the harder distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately.</p>
+    <p>This is independent convergence, and evidence that the discipline is worth taking seriously. It is not validation of Constellation&rsquo;s specific architecture. A longer comparison is in the <a href="https://github.com/unpingable/papers/blob/main/working/agent-governance-field-state.md#addendum-2026-09-25--specharness-specificationstate-authority-in-single-runtime-harnesses">literature note on agent-governance field state</a>.</p>
+
+    <h2 id="transitions">The transitions under study</h2>
+    <p>Evidence does not travel from a sensor to an action in one move. It crosses a series of boundaries, and at each one something is converted into something with more force than it had a moment earlier. The recurring failure is that the conversions happen silently &mdash; nothing records that they occurred, and nothing re-checks that they still hold at the moment of use.</p>
+    <p>The table below is a <strong>schematic</strong>: it names the boundaries the program studies, not a pipeline that six named services already implement end to end. The &ldquo;exercised by&rdquo; column records the classic implementations as mapped in July 2026 (AG ng, classic NQ and the Docket Git-effect vertical); current components are on the <a href="components.html">components</a> page and dated claims are in the <a href="status.html#ledger">ledger</a>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Transition</th><th scope="col">The question it must answer</th><th scope="col">Exercised by (July 2026)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1. observe &rarr; interpret</th><td>What did the instrument actually see &mdash; and what did it fail to see? A signal that disappears must become a finding, not a silent zero.</td><td>NQ &mdash; shipped, pre-1.0</td></tr>
+          <tr><th scope="row">2. interpret &rarr; rely</th><td>May a consumer lawfully act on this reading? Reliance is indexed to a named consumer, and a reliance refusal is never the negation of the underlying claim.</td><td>NQ reliance evaluation &mdash; shipped; consumer identity configured, not authenticated</td></tr>
+          <tr><th scope="row">3. rely &rarr; authorize</th><td>May this exact prepared work receive authority? The decision is made over exact bytes, and the decision authority is burned once &mdash; a second issuance for the same decision refuses.</td><td>AG ng &mdash; exercised by one vertical; not production deployable</td></tr>
+          <tr><th scope="row">4. authorize &rarr; act</th><td>Do the authorized bytes match what is about to execute? An authenticated issuance is checked against the executor&rsquo;s own stored attempt &mdash; never against the record&rsquo;s own echoes &mdash; before any local standing is minted.</td><td>Docket &mdash; one admitted effect class: the atomic Git target-ref transition</td></tr>
+          <tr><th scope="row">5. act &rarr; settle</th><td>What actually executed, and what does the surviving record establish? Settlement is a description of what occurred; it is not a safety claim, and it mints nothing downstream.</td><td>Docket settlement &rarr; NQ evaluation &mdash; exercised once; the run&rsquo;s receipts are not public</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>No artifact is mapped onto a transition it has not exercised. Continuity is a concern across all of the transitions, not a stage after them.</p>
+
+    <h3 id="continuity">Continuity is a separate question</h3>
+    <p>The last stage of a pipeline is a bad place to put memory. &ldquo;Remember&rdquo; is not one responsibility, and no artifact here owns it whole. It decomposes into five questions that have different owners, different expiries, and different failure modes:</p>
+    <dl>
+      <dt>valid</dt><dd>What still holds, as opposed to what merely still exists?</dd>
+      <dt>attributable</dt><dd>Whose testimony was it, and can it be recalled by origin?</dd>
+      <dt>reusable</dt><dd>May this be spent again, or was its authority consumed?</dd>
+      <dt>reconstructible</dt><dd>Can the decision be walked back to its premises from what survives?</dd>
+      <dt>unknown</dt><dd>What must stay unknown, or wait for renewed judgment, rather than be inferred?</dd>
+    </dl>
+    <p>Two of these had partial owners when this was written. <a href="https://github.com/unpingable/constellation-continuity">Continuity</a> holds hash-chained cross-session state, so a reliance cannot happen without a prior commit. NQ evaluates imported continuity snapshots as one narrow claim &mdash; <code>continuity_rely_eligible</code> &mdash; and implements none of continuity&rsquo;s trajectory law. The other three are open questions, and the site does not pretend otherwise.</p>
+
+    <h2 id="authored-design">The authored design layer <small>(proposition)</small></h2>
+    <p>The tools do not operate over &ldquo;the enterprise.&rdquo; They operate over a system someone composed on purpose &mdash; its boundaries, identities, relationships, and the evidence that would count for each. That composition is real, and it is currently unwritten: it lives in doctrine and in the operator&rsquo;s head. Every artifact re-derives it by hand.</p>
+    <p>Writing it down is the missing layer. An authored, versioned design; validated and ratified rather than silently amended; compiled into the bounded view each tool is competent to consume; then compared against what was actually witnessed. The verbs already exist across the work. The noun does not.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Stage</th><th scope="col">Meaning</th><th scope="col">Built?</th></tr></thead>
+        <tbody>
+          <tr><td>system design</td><td>authored, not discovered</td><td>not built</td></tr>
+          <tr><td>ratified revision</td><td>immutable; drafts do not govern</td><td>not built</td></tr>
+          <tr><td>consumer projections</td><td>bounded view per tool</td><td>not built</td></tr>
+          <tr><td>witnessed realization</td><td>NQ &middot; Porter &middot; Verifier</td><td>shipped</td></tr>
+          <tr><td>admission, refusal, governed action</td><td>Constellation AG &middot; Constellation Docket &middot; Wicket &middot; Constellation Standing</td><td>shipped</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>What it would buy: a declared surface to name (&ldquo;the public edge&rdquo;) instead of a list of hostnames pasted between tools; a comparison of declared structure against admissible observation, where divergence is a finding rather than a silent widening; and authority that binds to an exact design revision, so a changed system does not inherit the old permission.</p>
+
+    <h3 id="firewall">The one narrow case that already runs</h3>
+    <p>A firewall rule is a small declaration: <em>this traffic is refused.</em> NQ can read that rule over a read-only connection and probe the path from a named vantage point &mdash; and then refuse to let the declaration and the observation be quietly merged into one story. It is not a firewall test. NQ never rules the firewall correct or broken; it holds the two apart and says which one it actually saw.</p>
+    <p>The discipline is in what it will not say. A rule that does not match is <em>cannot testify</em>, never &ldquo;allowed.&rdquo; A blocked path proves nothing by itself &mdash; a dead vantage point looks exactly like a working rule &mdash; so &ldquo;blocked&rdquo; is admissible only alongside a control probe to a known-reachable target, proving the vantage had a way out at all. Only a real completed handshake to a declared-denied address is an unambiguous contradiction; a rejection packet is not a way through. The verdicts are typed and there is no <code>is_ok()</code> &mdash; a test asserts that the receipt contains no <code>healthy</code> and no <code>green</code>.</p>
+    <p>Pointed at a real firewall &mdash; a blocklist rule with 17,007 entries behind it &mdash; the answer was <em>cannot testify</em>: the rule was present and readable, the vantage had ordinary egress, and the path itself was deliberately never probed, because probing it means firing a packet at a named malicious host to make a demonstration look better. The interesting verdicts exist only on a scratch firewall built for the purpose, and the got-through case had to be staged with a deliberately broken rule.</p>
+    <p><strong>Cited:</strong> the lab specimen is <a href="https://github.com/unpingable/nq/blob/main/docs/specimens/declared_deny_lab_subject_probe.md">declared_deny_lab_subject_probe.md</a> in the classic NQ repository. NQ has never caught a real firewall failing to enforce a real block. It has shown it would notice. That is lab-backed compatibility evidence, never live testimony about a deployed estate.</p>
+    <p><strong>Status of the proposition:</strong> named, not ratified. No implementation, no schema, no wire format &mdash; the filing is a handle for review, not authorization to build. It is on this page because the recognition is real and the site records direction honestly, not because anything ships. The firewall probe is one rule at a time, with none of the design layer above it: evidence that the comparison may be worth generalizing, not evidence that it exists. The first three stages in the table are not built. The <a href="status.html#status-design-layer">ledger row</a> carries its dated status.</p>
+
+    <h3 id="other-directions">Other research notes</h3>
+    <ul class="steps">
+      <li><a href="governed-improvement.html">Governed recursive improvement</a> &mdash; a deferred design discussion of tactics, evidence, evaluation, reserves and external amendment authority. It adds no runtime composition or release commitment.</li>
+      <li><a href="understand.html">Staying within budget can still leave work unfinished</a> &mdash; a bounded Lean model separating spend limits from the reserve needed to finish mandatory obligations; a formalized bridge, not an implemented controller.</li>
+      <li><a href="absd.html">ABSD</a> &mdash; a small experimental operating system used partly to test these semantics below the application layer.</li>
+    </ul>
+
+    <h2 id="papers">Papers</h2>
+    <p>Selected papers, grouped by theme. The engineering and reliability work sits beside broader work on censorship, social media, propaganda and institutions; they are listed together because the program treats them as instances of one failure class, not because they share an implementation. The <a href="https://github.com/unpingable/papers">papers repository</a> has the full list and working notes; see also <a href="https://orcid.org/0009-0009-5524-767X">ORCID</a>.</p>
+      <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
+      <ul>
+        <li><a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541">doi:10.5281/zenodo.17857541</a> &middot; <em>start here</em></li>
+        <li><a href="https://doi.org/10.5281/zenodo.17859323">Detecting Temporal Debt in Language Models and Software Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17859323">doi:10.5281/zenodo.17859323</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.17849278">Temporal Closure Requirements for Synthetic Coherence</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849278">doi:10.5281/zenodo.17849278</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18039926">You Need More Than Just Attention: Invariant Requirements for Temporal Coherence in AI Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18039926">doi:10.5281/zenodo.18039926</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18236164">The Temporal Attack Surface: A &Delta;t Framework for Asynchronous Security Systems</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18236164">doi:10.5281/zenodo.18236164</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18235696">Temporal Asymmetry in Censorship Systems</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18235696">doi:10.5281/zenodo.18235696</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18717619">The Gain Geometry of Temporal Mismatch: Shear, Leverage, and Capture in Multi-Timescale Systems</a> &mdash; Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18717619">doi:10.5281/zenodo.18717619</a></li>
+      </ul>
+      <h3>Systems &amp; Institutional Dynamics</h3>
+      <ul>
+        <li><a href="https://doi.org/10.5281/zenodo.17726789">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a> &mdash; Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789">doi:10.5281/zenodo.17726789</a> &middot; <em>start here</em></li>
+        <li><a href="https://doi.org/10.5281/zenodo.17849241">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241">doi:10.5281/zenodo.17849241</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.17726890">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a> &mdash; Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726890">doi:10.5281/zenodo.17726890</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18019050">Capacity-Constrained Stability: A Control-Theoretic Framework for Institutional Resilience</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18019050">doi:10.5281/zenodo.18019050</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a> &mdash; Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18686130">doi:10.5281/zenodo.18686130</a></li>
+      </ul>
+      <h3>Alignment &amp; Reward Dynamics</h3>
+      <ul>
+        <li><a href="https://doi.org/10.5281/zenodo.17791873">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873">doi:10.5281/zenodo.17791873</a> &middot; <em>start here</em></li>
+        <li><a href="https://doi.org/10.5281/zenodo.17803844">Eigenstructure Collapse in Social Media Platforms</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17803844">doi:10.5281/zenodo.17803844</a></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18071264">Representational Invariance and the Observer Problem in Language Model Alignment</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18071264">doi:10.5281/zenodo.18071264</a></li>
+      </ul>
+      <h3>Governance &amp; Epistemic Architecture</h3>
+      <ul>
+        <li><a href="https://doi.org/10.5281/zenodo.18145347">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347">doi:10.5281/zenodo.18145347</a> &middot; <em>start here</em></li>
+        <li><a href="https://doi.org/10.5281/zenodo.18841815">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a> &mdash; Mar 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18841815">doi:10.5281/zenodo.18841815</a></li>
+      </ul>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>

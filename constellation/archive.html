@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Earlier prototypes, historical exhibits, deprecated predecessors and parked experiments, kept for the record.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Constellation archive and history">
+  <meta property="og:description" content="Earlier prototypes, historical exhibits, deprecated predecessors and parked experiments, kept for the record.">
+  <meta property="og:url" content="https://unpingable.com/constellation/archive.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellation archive and history">
+  <meta name="twitter:description" content="Earlier prototypes, historical exhibits, deprecated predecessors and parked experiments, kept for the record.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Constellation archive and history</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/archive.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
+  </header>
+  <main id="main">
+    <h1>Archive and history</h1>
+    <p class="lede">Earlier prototypes, historical exhibits, deprecated predecessors and parked experiments. They are kept because they are part of the evidence trail. Nothing on this page is a current installation path; start from the <a href="index.html">Constellation front page</a> and the <a href="status.html">status page</a> instead.</p>
+    <p>On this page: <a href="#earlier-prototype">earlier prototype</a> &middot; <a href="#four-office">four-office exhibit</a> &middot; <a href="#july-2026-artifacts">July 2026 artifacts</a> &middot; <a href="#deprecated">deprecated predecessors</a> &middot; <a href="#classic-lineage">classic lineage</a> &middot; <a href="#parked">parked</a> &middot; <a href="#field-lab">field lab and other experiments</a>.</p>
+
+    <section id="earlier-prototype" aria-labelledby="earlier-prototype-heading">
+      <h2 id="earlier-prototype-heading">Earlier prototype: the stale-permission refusal</h2>
+      <p>This is the runnable demonstration the site used before the current stack existed. It runs on <a href="https://github.com/unpingable/agent_governor">agent_governor</a>, the deprecated Python predecessor of Constellation AG. A permission is checked and found valid, exercised eleven seconds later against a ten-second bound, and refused on a named monotonic clock basis before any capacity moves:</p>
+      <pre>  standing       verified      &larr; the credential WAS valid
+  wicket         admitted      &larr; naive auth says yes here
+  spendability   REFUSED       standing_before_spendability_not_bounded
+    gap=11s  vs bound=10s  &rarr; over by 1s
+    gap_basis: monotonic, source=process_monotonic epoch=boot:demo-single-host
+  &rarr; refused. No capacity spent (effect_count=0).</pre>
+      <p><strong>Captured run:</strong> excerpt of literal stdout from <code>./demo/refused-spend.sh</code>, run 2026-07-29 against an editable install of <code>agent_governor</code> at <code>485e557</code>. Exit 0; the demo&rsquo;s integrity tripwire fails loudly if it passes for the wrong reason. The refusal class is named <a href="../glossary.html#spendability">spendability</a> &mdash; whether otherwise-valid standing may still be exercised <em>here and now</em>, under the bounds that govern this effect.</p>
+      <p>The ten-second bound is demonstration-sized so the failure reproduces interactively; it is not a proposed operational timeout. Real bounds belong to the specific claim and effect class &mdash; and staleness in time is one instance of the failure, not its definition.</p>
+      <p>Read the full descent (premises, clocks, and the theorem that licenses the refusal) on the <a href="../demo.html">earlier-prototype demo page</a>, or the same event written as a <a href="../incident.html">postmortem</a>.</p>
+    </section>
+
+    <section id="four-office" aria-labelledby="four-office-heading">
+      <h2 id="four-office-heading">Four offices, one bounded change (July 2026)</h2>
+      <p><strong>Historical composition exhibit.</strong> Four separately-owned <a href="../glossary.html#office">offices</a> &mdash; systems that each answer one question and carry a written list of what they will <em>not</em> decide &mdash; carried one small Git change from proposal to evaluated <a href="../glossary.html#testimony">testimony</a>, with no office absorbing another&rsquo;s jurisdiction and no code changes in any of them. It ran once, on 2026-07-26, against the Night Shift repository. It is superseded as the public starting point by the alpha.6 walkthrough; its <a href="status.html#status-four-office-vertical">ledger row</a> is kept.</p>
+      <p>This is one exhibit, not the definition of the program. It demonstrates that <em>these four</em> artifacts compose for <em>this one</em> effect class. It is not evidence that the rest of the work composes, and it is not a product.</p>
+      <ol class="steps">
+        <li><strong>Night Shift</strong> proposes a bounded, advisory, read-only intention. <em>Binds intent only &mdash; never file lists, content bytes, or authority.</em></li>
+        <li><strong>Docket</strong> prepares the exact bytes as a prepared attempt. <em>Preparation authorizes nothing. No standing exists at this point.</em></li>
+        <li><strong>AG ng</strong> authorizes that exact prepared attempt, burning its own one-use decision authority. <em>Its issuance establishes nothing about repository state, and no authority object crosses the boundary.</em></li>
+        <li><strong>Docket</strong> verifies the <a href="../glossary.html#issuance">issuance</a> against its own stored attempt, <a href="../glossary.html#minting">mints</a> local single-use <a href="../glossary.html#standing">standing</a>, executes through its broker, and settles with evidence. <em>Checks custody, not policy. Settlement is not a safety claim.</em></li>
+        <li><strong>NQ</strong> evaluates what the recorded testimony does and does not establish, against registered claims and configured consumer profiles. <em>Emits testimony and typed refusals, never actions.</em></li>
+        <li><strong>Night Shift</strong> consumes NQ&rsquo;s receipt and emits a read-only disposition. <em>No actuation. The boundary is gate-enforced.</em></li>
+        <li><strong>A human</strong> remains the only party able to decide what happens next.</li>
+      </ol>
+
+      <h3>The same proposal, two evidence states</h3>
+      <p>The interesting property is not that the admitted case worked. It is that the refusals happen <em>before</em> effect, and that each one leaves the world exactly as it found it.</p>
+      <dl>
+        <dt>Evidence state A &mdash; coherent</dt>
+        <dd>Trusted issuer; valid signature over the exact body bytes; fresh; the decision admitted; and every executor-owned field matching what the executor itself holds. <strong>Result:</strong> local standing minted once, spent once &mdash; effect settled <code>committed</code>.</dd>
+        <dt>Evidence state B &mdash; altered, stale, or mismatched</dt>
+        <dd>An altered issuance body; an expired issuance; an issuance naming a different prepared digest; an exact issuance replayed against a second attempt; a request refused outright upstream &mdash; a path outside the admitted catalogue, producing no issuance at all. <strong>Result:</strong> no standing, no reservation, no dispatch, no Git mutation, and no testimony describing an execution.</dd>
+      </dl>
+      <p><strong>Cited:</strong> both states are recorded in Docket&rsquo;s <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/vertical-01.md">vertical-01.md</a>, which was itself the governed change it describes: it was written, submitted through the vertical, and the commit that added it was authored by the runtime&rsquo;s broker rather than by hand.</p>
+
+      <h3>The non-grant &mdash; what the run refused to conclude</h3>
+      <p>Authorization succeeded. Execution succeeded. Settlement succeeded. And the composition still declined to mint the one claim a reader would most want from it: <code>safe_to_merge</code> remained <strong>structurally non-mintable</strong>, and no registered claim verified from that testimony alone.</p>
+      <p>That is the point of the exercise. A chain of successful steps is not an argument that the result is safe, and a system that cannot say no to itself at the end is not evidence infrastructure &mdash; it is a conveyor belt with a receipt printer bolted on.</p>
+
+      <h3>What warrants the claims above</h3>
+      <dl>
+        <dt>the declaration</dt><dd>Night Shift&rsquo;s <a href="https://github.com/unpingable/constellation-nightshift/blob/main/docs/FOUR_OFFICE_PILOT_01.md">FOUR_OFFICE_PILOT_01.md</a> &mdash; written <em>before</em> execution, deliberately carrying no identifiers or verdicts. Its presence in the repository establishes only that the pilot was declared and that the governed change carrying it executed through those offices.</dd>
+        <dt>the prior run</dt><dd>The three-office vertical of 2026-07-25, in full, with its negative specimens &mdash; <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/vertical-01.md">vertical-01.md</a>.</dd>
+        <dt>the jurisdictions</dt><dd>Each office stated its own boundary and its own maturity, and the four statements agreed: <a href="https://github.com/unpingable/constellation-nightshift">nightshift</a> &middot; <a href="https://github.com/unpingable/constellation-ag">ag_ng</a> &middot; <a href="https://github.com/unpingable/constellation-docket">docket</a> &middot; <a href="https://github.com/unpingable/nq">nq</a>. (The first three repositories have since been renamed to their Constellation names.)</dd>
+        <dt>what is assumed</dt><dd>Three premises hold the load and are written down as assumptions rather than guarantees &mdash; <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/governed-runtime/trust-model.md">trust-model.md</a>. Also: <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/governed-runtime/greenfield-known-gaps.md">known gaps</a>.</dd>
+        <dt>not available</dt><dd>The run&rsquo;s identifiers, digests, and verdicts. They exist only in a private campaign record and cannot be inspected from here. This is the exhibit&rsquo;s promotion condition, not an omission.</dd>
+      </dl>
+      <p>No notary exists in this composition. The downstream packet is operational testimony marked as a projection of executor-held records; its digests are producer self-consistency, not an independent chain of custody. Two premise kinds &mdash; upstream authorization premises and this effect class&rsquo;s settlement premises &mdash; stay separate everywhere, and neither becomes the other. Upstream residual obligations travelled undischarged, reported as <em>unrepresented</em> because the upstream office could not yet express them; that was recorded as a producer limitation, not as their absence.</p>
+    </section>
+
+    <section id="july-2026-artifacts" aria-labelledby="july-heading">
+      <h2 id="july-heading">Artifacts as presented in July 2026</h2>
+      <p>These entries preserve the names and maturity statements from the historical four-office exhibit. They are retained evidence, not a current product catalog; the current map is on the <a href="components.html">components</a> page.</p>
+      <dl>
+        <dt><a href="https://github.com/unpingable/nq">nq</a> (operational, pre-1.0)</dt>
+        <dd><strong>Role:</strong> testimony, claims, and reliance. Pulls bounded evidence from hosts, classifies failure modes, and keeps loss of observability visible. <strong>Refuses:</strong> turning a signal that disappeared into a healthy zero; letting a clean receipt approve a merge, deployment, restart, or incident closure. A reliance refusal is never the negation of the underlying claim. <strong>Limit:</strong> consumer identity is <em>configured, not authenticated</em>.</dd>
+        <dt><a href="https://github.com/unpingable/constellation-ag">ag_ng</a> (exercised)</dt>
+        <dd><strong>Role:</strong> authority. Decides whether exact prepared work may receive authority, and burns one-use decision authority. <strong>Refuses:</strong> a second issuance for the same decision. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration &mdash; and did not absorb the separately-defined mandate-custody and spendability offices. <strong>Limit:</strong> explicitly <em>not production deployable</em>; the decision-burn ledger is in-memory per process.</dd>
+        <dt><a href="https://github.com/unpingable/constellation-docket">docket</a> (audited baseline)</dt>
+        <dd><strong>Role:</strong> governed execution. Prepares exact bytes, verifies an authenticated issuance against its own stored attempt, executes through a broker, and settles with evidence. <strong>Refuses:</strong> any proposal outside its single admitted <a href="../glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; with a typed refusal <em>before</em> standing is issued, a reservation created, a dispatch identity minted, or a provider runs. Its own reliance bridge refuses <code>safe-to-merge</code> as permanently inadmissible. <strong>Limit:</strong> frozen baseline <code>gwr-greenfield-v0.1</code>; source install, not a published package. Three trust-model premises are assumptions.</dd>
+        <dt><a href="https://github.com/unpingable/constellation-nightshift">nightshift</a> (exercised)</dt>
+        <dd><strong>Role:</strong> proposal and read-only orchestration. Schedules and resumes <em>intent</em>, not commands &mdash; &ldquo;resume this intention under this policy&rdquo; rather than &ldquo;run this at this time.&rdquo; <strong>Refuses:</strong> actuation of any kind, at a gate-enforced boundary; closing a loop before the witnesses needed for closure exist. <strong>Limit:</strong> not operator-ready. File-granular proposals are a library face; the deployment files are reference scaffolding.</dd>
+        <dt><a href="https://github.com/unpingable/agent_governor">agent_governor</a> (legacy / historical)</dt>
+        <dd><strong>Role:</strong> the classic Python admissibility kernel for AI coding agents, and the source of the earlier-prototype demo above. Dispositioned legacy on 2026-07-26: still maintained then, and the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imported. <strong>Refuses:</strong> prose as authority; tests passing treated as code ready to land; a rehearsal treated as production; permissions exercised after their observation horizon. <strong>Limit:</strong> receives no new authority work. No wire compatibility with <code>ag_ng</code> exists or is implied.</dd>
+      </dl>
+      <p>Also listed then as shipped and independently usable: <a href="https://github.com/unpingable/wicket">wicket</a> (intent preflight) &middot; <a href="https://github.com/unpingable/constellation-standing">standing</a> (permission observation with age) &middot; <a href="https://github.com/unpingable/constellation-continuity">continuity</a> (hash-chained cross-session state) &middot; <a href="https://github.com/unpingable/verifier">verifier</a> (Z3 constraint sidecar) &middot; <a href="https://github.com/unpingable/porter">porter</a> (transport with exit-code custody) &middot; <a href="https://github.com/unpingable/maude">maude</a> (operator desk) &middot; <a href="https://github.com/unpingable/lean">lean</a> (proof artifacts, read-only audit).</p>
+    </section>
+
+    <section id="deprecated" aria-labelledby="deprecated-heading">
+      <h2 id="deprecated-heading">Deprecated predecessors</h2>
+      <p>Replaced by current components. The repositories stay public for history and migration; do not install them for new work. The classic and successor components are not drop-in or wire compatible.</p>
+      <ul class="steps">
+        <li><a href="https://github.com/unpingable/agent_governor">agent_governor</a> &mdash; deprecated Python predecessor to Constellation AG.</li>
+        <li><a href="https://github.com/unpingable/nq">nq</a> &mdash; deprecated monitoring and claim-checking predecessor to Constellation NQ.</li>
+        <li><a href="https://github.com/unpingable/wicket-guard">wicket-guard</a> &mdash; deprecated preflight prototype, absorbed into Wicket.</li>
+        <li><a href="https://github.com/unpingable/wlp">wlp</a> &mdash; retired wire-level permission protocol.</li>
+        <li><a href="https://github.com/unpingable/agent-governor-site">agent-governor-site</a> &mdash; the deprecated Agent Governor landing page.</li>
+        <li><a href="https://github.com/unpingable/epistemic_governor">epistemic_governor</a> &mdash; archived governed reasoning substrate.</li>
+      </ul>
+    </section>
+
+    <section id="classic-lineage" aria-labelledby="classic-heading">
+      <h2 id="classic-heading">Classic Agent Governor lineage</h2>
+      <p>Tools and specimens built around the classic implementation. They document how the ideas developed; they are not part of the current stack.</p>
+      <ul class="steps">
+        <li><a href="https://github.com/unpingable/governor-atlas">governor-atlas</a> &mdash; maps architecture claims to supporting evidence for the historical Agent Governor implementation, separating wired, specified and candidate claims. A recorded claim does not establish current runtime behavior.</li>
+        <li><a href="https://github.com/unpingable/transition-kernel">transition-kernel</a> &mdash; sealed research kernel for admissibility decisions in the classic lineage.</li>
+        <li><a href="https://github.com/unpingable/governor_webui">governor_webui</a>, <a href="https://github.com/unpingable/vscode-governor">vscode-governor</a>, <a href="https://github.com/unpingable/guvnah">guvnah</a> and <a href="https://github.com/unpingable/clerk">clerk</a> &mdash; web, editor and desktop front ends for Agent Governor.</li>
+        <li><a href="https://github.com/unpingable/marginalia">marginalia</a> &mdash; a standalone governed creative-writing application built on Agent Governor.</li>
+      </ul>
+    </section>
+
+    <section id="parked" aria-labelledby="parked-heading">
+      <h2 id="parked-heading">Parked</h2>
+      <p>Named, not retired: revisit if the forcing case arrives. None of these is part of the current stack.</p>
+      <ul class="steps">
+        <li><a href="https://github.com/unpingable/cadence">cadence</a> &mdash; temporal admissibility checker for analytics.</li>
+        <li><a href="https://github.com/unpingable/custody">custody</a> &mdash; chain-of-custody policy for sensitive references such as keys, secrets and signing material.</li>
+        <li><a href="https://github.com/unpingable/dossier">dossier</a> &mdash; code-review forensics.</li>
+        <li><a href="https://github.com/unpingable/nlai">nlai</a> &mdash; evidence-gated claims and deterministic receipts for agent workflows.</li>
+        <li><a href="https://github.com/unpingable/receipt_kernel">receipt_kernel</a> &mdash; append-only, hash-chained run ledger.</li>
+        <li><a href="https://github.com/unpingable/resonance">resonance</a> &mdash; advisory cross-scope adjacency detection, without promotion or authority.</li>
+        <li><a href="https://github.com/unpingable/pysorry">pysorry</a> &mdash; marks unfinished Python code as structured debt that CI can refuse to ship.</li>
+        <li>thinkulator &mdash; not public.</li>
+      </ul>
+    </section>
+
+    <section id="field-lab" aria-labelledby="field-lab-heading">
+      <h2 id="field-lab-heading">Field lab and other experiments</h2>
+      <p>The ATProto / Bluesky work is a field lab: a live network where receipt, drift and moderation claims meet real traffic. It is not part of the Constellation stack, and its projects are not peers of the components.</p>
+      <ul class="steps">
+        <li><a href="https://github.com/unpingable/rpp">rpp</a> &mdash; receipt publication protocol for ATProto.</li>
+        <li><a href="https://github.com/unpingable/atproto-labelwatch">atproto-labelwatch</a> &mdash; monitors labeler behavior over time.</li>
+        <li><a href="https://github.com/unpingable/atproto-driftwatch">atproto-driftwatch</a> &mdash; tracks how claims propagate and mutate across the network.</li>
+        <li><a href="https://github.com/unpingable/atproto-labeler">atproto-labeler</a> &mdash; a minimal labeler with governed drift detection.</li>
+        <li><a href="https://github.com/unpingable/atproto-feeds">atproto-feeds</a> &mdash; feed ranking and editorial composition experiments.</li>
+        <li><a href="https://github.com/unpingable/atproto-stats">atproto-stats</a> &mdash; follow-noise analysis.</li>
+      </ul>
+      <p>Standalone experiments: <a href="https://github.com/unpingable/grid-dependency-atlas">grid-dependency-atlas</a>, a map of communities exposed to infrastructure decisions made outside their control; <a href="https://github.com/unpingable/lexidoku">lexidoku</a>, Wordle meets Sudoku.</p>
+    </section>
+  </main>
+  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+</body>
+</html>
