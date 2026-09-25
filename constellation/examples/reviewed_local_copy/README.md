@@ -1,415 +1,470 @@
-# Reviewed local copy: an external caller candidate
+# Reviewed local copy: the `reviewed-local-copy/v1` cohort kit
 
-This example connects existing native interfaces for one operation: copy selected
-UTF-8 text (at most 64 KiB) to a previously absent `result.txt` in an exclusive
-scratch directory. It has no arbitrary command field, notification requirement,
-scheduler, replacement authority store, or alternative provider route.
+This kit sets up one operation on one Debian 12 host: copy selected UTF-8 text
+(at most 64 KiB) to a previously absent `result.txt` in an exclusive scratch
+directory, after one bounded review and one explicit operator acceptance. It has
+no arbitrary command field, notification requirement, scheduler, replacement
+authority store or alternative provider route.
 
-This is **candidate glue**, not a released, newcomer-qualified deployment. Local
-tests exercise its parsing, scheduling, failure boundaries and recovery routing.
-They do not establish a real accepted provider review, native authority, a copy,
-or interruption recovery. A fresh installation still needs native provisioning,
-exact enrolled program/configuration identities, and a separately admitted real
-qualification. No captured review or private deployment files ship here.
+**Status.** This is candidate material, not a released or generally installable
+suite. The setup driver in `setup/` was qualified in one clean Debian 12 VM
+(`cohort-clean-install/run-002`: 21 PASS, 0 FAIL, 0 not exercised), installing
+only from the cohort artifacts and using the qualification-only fixture review.
+That run does not establish:
 
-## Ownership and order
+- a real-provider review (the real route has not been exercised);
+- a supported upgrade path, or more than one occurrence per cohort;
+- a public download of the cohort bundle. Run-002 used a bundle composed by the
+  qualification harness; this README describes the path that bundle took.
 
-The operator admits one durable manager for this complete finite chain:
+A newcomer run from these instructions is still pending. Treat anything this
+README does not state as unsupported.
+
+## Host requirements
+
+The driver checks these and refuses (`host.*`) when one is missing:
+
+- Debian 12 (`/etc/os-release` `debian:12`);
+- `/usr/bin/python3.11` as a regular file, not a symlink. Debian 12 ships 3.11.2.
+  Every kit command runs as `/usr/bin/python3.11 -I -S`. **Do not use
+  `python3.12`**, `/usr/bin/python3` (a symlink) or a virtual environment;
+- `/usr/bin/openssl` with Ed25519;
+- `systemd-run`, `setpriv`, `dpkg` and `useradd` on the system path;
+- root for `install`, `init`, `review`, `accept`, and for `status` and `evidence`
+  once the cohort is initialized;
+- at least 2 GiB and 10000 inodes free under `/opt` (install) and `/var/lib`
+  (review).
+
+Run-002 also relied on `memfd_create`, `libssl3` and `liblzma5`, which the Debian
+12 genericcloud image provides. It used 2 vCPU and 4 GiB of memory.
+
+The review also requires NQ to report the host load condition as
+`explicitly_absent`. On a busy host the review refuses `observation.condition`
+before any provider request.
+
+## Cohort manifest pins
+
+The driver sets up only the cohort `alpha-exit-rc` of profile
+`reviewed-local-copy/v1`. The manifest (`constellation.cohort-manifest/v1`) must
+name exactly these components. Compatibility means equality: version, source
+commit **and** artifact digest must all match. There are no ranges and no
+"newer is fine"; any other value refuses `pin.incompatible`.
+
+| Component | Version | Source commit | Artifact | sha256 |
+|---|---|---|---|---|
+| nq | 0.2.0 | `dbe29d81ba84061b08fec285f1218ec2145c65bc` | `nq-ng_0.2.0_amd64.deb` | `9e953e88d1f79cffd03e97b530199459b5e45ead55ea4ba7d5066e0851008d7b` |
+| maude | 0.1.0 | `75d4dc1df1934cfc797c48c528d314804938eaae` | `maude-reviewed-local-copy-0.1.0.tar.gz` | `f88b5823f6a7bc6ff1c9645daff6312eec5234559bb735d25db589e1904f7357` |
+| nightshift | 0.1.0 | `30c89fe17723a7b9d77b19fd650aadb0a784748d` | `nightshift-0.1.0-30c89fe-linux-amd64.tar.gz` | `cffbea38c4718c480fd9c0b5c41c28331d52132205a3e16f2fda2e572467a254` |
+| pulse | 0.1.0 | `30c89fe17723a7b9d77b19fd650aadb0a784748d` | `pulse-nq-load-support-0.1.0-30c89fe-linux-amd64.tar.gz` | `51e85b97f44504240044f3b666d6fb3602270939102676e65798f4cecd405c61` |
+| ag | 0.1.0 | `e20c23a35f836d9f3913b62fbd3cb2621a866321` | `ag-0.1.0-linux-amd64.tar.gz` | `b03b8f06363ca73464c14b2131be8ac7b7bf8c38c9521fd594882d1cd15fac19` |
+| docket | 0.1.0 | `3093def030a5151d2e7b956eafb73d0c16f8c735` | `docket-0.1.0-linux-amd64.tar.gz` | `6596315fcdb92fd881d6c0f2159eb912ee9c96b99a58fdc5ddea5e11a192c81b` |
+| switchyard | 0.2.0 | `1c82e719cf358728d0262ae11138fb13fefe0cae` | `switchyard-0.2.0-1c82e719cf35.tar.gz` | `be418f76e9f5f8239d457137b19ff771d562d89a85ccda5b4ccfdc0049f665c1` |
+| app-server | 0.0.0 | `97b0acd5ce2ccb3c87a763606696c35a450947f6` | `codex-app-server-97b0acd5ce2c-linux-amd64.tar.gz` | `9999bd8e75607071e1e43d9829fea253593f95323dff3a6e690b9d52433e2cd9` |
+| cohort-kit | 0.2.0 | `e34d92f6d5fc3c49436b33508ab8146289cbd207` (this site repository) | `cohort-kit-0.2.0.tar.gz` | `283334f6668128a5f17f3fab4f751f69c8ba99b17d761ae004856a02e09832a6` |
+
+Run-002's manifest has sha256 `822afd2b6c0efd31fb16e1f56e07ff4fb21edbd3624e587d6b43759f02c31b0b`
+and its bundle `SHA256SUMS` has sha256
+`621581ad7e96aac57d6a939bdee150ef245668f8e915923c218441522b8bfc9a`.
+
+Beyond the table, `install` checks:
+
+- **The kit pins itself.** The manifest's cohort-kit commit must equal the kit's
+  `BUILD-INFO.json`, every kit file must match its recorded digest, and the
+  installed driver must be byte-equal to the driver you are running. The kit row
+  above is the build run-002 used. This README was corrected after that build,
+  so a kit built from a later commit has a different digest and needs its own
+  manifest entry.
+- **Switchyard** must report `installed_closure_matches_provenance: true` and
+  canonical revision `299609cda100ccf8701d5619ac78499f8bddd303`.
+- **The App Server** is identified by its `build-info.json` `executable_sha256`,
+  because the binary cannot report its own commit.
+- Every other executable must report the pinned version and commit through
+  `--build-info`, and must be a release build.
+
+## Newcomer path
+
+`<bundle>` is the directory holding `cohort-manifest.json`, `SHA256SUMS` and the
+nine artifacts. `<kit>` is where you extract the cohort kit. `<id>` is a fresh
+cohort id: 3 to 40 lowercase letters, digits and hyphens.
+
+Each command prints one JSON object. A refusal exits 2 and prints
+`{"code":…,"command":…,"detail":…,"result":"refused"}`. The step's record
+directory holds `*.started.json`, `*.stdout`, `*.stderr` and `*.finished.json` for
+every child it ran, with its exact argv, exit status and output.
+
+### 1. Check the bundle and extract only the kit
+
+```sh
+cd <bundle> && sha256sum --check --strict SHA256SUMS
+mkdir <kit>
+tar -xzf <bundle>/cohort-kit-0.2.0.tar.gz -C <kit> --no-same-owner
+DRIVER="/usr/bin/python3.11 -I -S <kit>/cohort-kit-0.2.0/setup/constellation_cohort.py"
+$DRIVER --version        # constellation-cohort 0.2.0
+```
+
+Optionally, run the kit's unit tests as run-002 did:
+
+```sh
+/usr/bin/python3.11 -I -S -B <kit>/cohort-kit-0.2.0/setup/test_constellation_cohort.py -v
+```
+
+### 2. Verify the manifest and install
+
+```sh
+sudo $DRIVER verify-manifest --manifest <bundle>/cohort-manifest.json --artifacts <bundle>
+sudo $DRIVER install --cohort <id> --manifest <bundle>/cohort-manifest.json --artifacts <bundle>
+```
+
+`verify-manifest` writes nothing, and it does not need root. It prints
+`"qualified_cohort":"alpha-exit-rc"`. `install` checks everything again, installs
+the NQ package (or verifies an identical installed one with `dpkg --verify`) and
+extracts each other artifact under `/opt/constellation/cohorts/<id>/`. It then
+checks the build info of all 18 executables and writes `installed.json`
+create-once. A wrong digest, missing artifact or unsafe tar member refuses before
+anything is written.
+
+### 3. Initialize the cohort
+
+For the fixture route (qualification only; see below):
+
+```sh
+sudo $DRIVER init --cohort <id> --review-route fixture-review --fixture-port <port>
+```
+
+For the real provider route:
+
+```sh
+sudo $DRIVER init --cohort <id> --review-route real
+```
+
+`init` runs once for each cohort and refuses `cohort.exists` if repeated. It
+does the following:
+
+1. It creates the `constellation` system account if it is absent.
+2. It creates the synthetic identities and keys, including a fresh Ed25519 AG
+   issuer key. No operator secret is involved.
+3. It creates a cohort-owned codex home.
+4. It compiles and validates the Maude plan and prepares the AG, Docket and
+   Nightshift ports.
+5. It writes a per-cohort NQ config at `/etc/nq/cohort-<id>.toml` (root:nq 0640)
+   with its store at `/var/lib/nq/cohort-<id>/`. It then runs `nq init` and
+   admits the one watcher in NQ's capability-bearing unit.
+
+It takes no observation, makes no provider request and creates no effect.
+
+### 4. Review
+
+```sh
+sudo $DRIVER review --cohort <id>                          # fixture route
+sudo $DRIVER review --cohort <id> --paid-request-allowed   # real route
+```
+
+The review runs as one transient `systemd-run` system unit: 600 s, no restart,
+bounded tasks and memory, and an explicit environment. It:
+
+1. takes one fresh NQ observation;
+2. prepares Pulse support;
+3. seals, verifies and initializes the AG genesis (genesis happens here, not in
+   `init`, because it pins facts that exist only after the observation);
+4. runs Nightshift admission and Foreman custody;
+5. sends **exactly one** bounded provider request;
+6. runs the independent native review verifier.
+
+It stops before acceptance, with 0 grants and 0 effects, and prints
+`candidate_sha256`. `review` is a create-once claim: a second `review` on the
+same cohort refuses `review.exists`.
+
+The provider request must start while both the observation and the Pulse
+support have at least 230000 ms left. In run-002 it started about 11 s after the
+observation, and the whole review took 14.4 s.
+
+### 5. Read the candidate, then accept it
+
+```sh
+sudo $DRIVER status --cohort <id>
+```
+
+`status` is strictly read-only. It shows:
+
+- the review verdict, the counters (all still 0) and the review body;
+- `review.candidate_sha256`;
+- the path of the candidate, which is
+  `/var/lib/constellation/cohorts/<id>/review/review-001/record-review-input.json`.
+
+Read the candidate. Then accept it by naming that exact digest:
+
+```sh
+sudo $DRIVER accept --cohort <id> --candidate-sha256 sha256:<64 hex from status>
+```
+
+Acceptance is the operator's own step, and the driver has no auto-accept
+option. Accept runs one durable unit that records the review in AG, creates a
+Docket standing grant of at most 60 s, and runs AG's finite runner. The Maude
+executor then creates `result.txt` once. The continuation makes no provider
+request.
+
+- If the digest is wrong, accept refuses `accept.candidate_mismatch` and records
+  nothing. The retained candidate stays acceptable.
+- A second `accept` refuses `accept.exists`.
+- The result reports `human_attestation: false`. The acceptance is an operator
+  transition, not a signed human attestation.
+
+### 6. Inspect
+
+```sh
+sudo $DRIVER status --cohort <id>
+```
+
+After a successful accept, `status` shows:
+
+- AG at `settled_observation_required` with settlement outcome `success`;
+- replay counts of 1 spend, 1 Docket attempt and 1 settlement;
+- `result_file` with the exact bytes, sha256, `matches_plan: true`, and a
+  scratch directory that holds only `result.txt`.
+
+### 7. Export and verify evidence
+
+```sh
+sudo $DRIVER evidence --cohort <id> --output /absolute/fresh/directory
+```
+
+The output directory must not exist yet. It receives:
+
+- the driver and caller records, and the plan, owner, deployment, observation
+  and port inputs;
+- online SQLite backups of the AG, Foreman, Switchyard, Nightshift, Docket and
+  plan stores;
+- native AG and Docket inspection;
+- `JOIN.json`, and a `SHA256SUMS` over all files.
+
+The export copies no codex home, so it contains no credential file. The driver's
+join checks that the binding, occurrence, accepted candidate, v2 issuance
+(`not_after` later than the spend), AG and Docket custody, attempt, settlement
+and standing snapshot all agree, with exactly one spend, attempt and settlement.
+
+Then check the export independently with `verify_cohort_evidence.py`, not the
+published alpha.6 `verify-evidence.py`:
+
+```sh
+sudo /usr/bin/python3.11 -I -S verify_cohort_evidence.py --evidence /absolute/fresh/directory
+```
+
+The script is in this repository at
+`constellation/qualification/reviewed-local-copy-clean-install-v1/verify_cohort_evidence.py`.
+It is **not** inside the cohort-kit tarball, so fetch it from the same site
+commit as the kit. It does not trust `JOIN.json`. It does four things:
+
+- rechecks every `SHA256SUMS` digest;
+- recomputes the joins itself;
+- checks that `result.txt` holds exactly the plan's reviewed bytes;
+- requires the same checks to refuse when a different plan digest is
+  substituted.
+
+It prints one JSON line and exits 0 only when `"result":"passed"`.
+
+The published alpha.6 `constellation/releases/0.1.0-alpha.6/verify-evidence.py`
+cannot run against a cohort export. Its objective leg needs a Maude
+`PlanDocument` reader for `ag-operator-ui`, and that reader is not packaged.
+
+## Review routes
+
+### Fixture review: qualification only
+
+The `fixture-review` route qualifies install, wiring, custody, authority and
+effect. It does **not** qualify review independence. Its reviewer id is
+`fixture-deterministic-reviewer-not-independent`.
+
+- `init` writes the codex home `codex-home-fixture-review/` with a loopback
+  `openai_base_url` and a generated dummy key
+  (`fixture-not-a-credential-<hex>`). No credential is involved.
+- The fixture is not a manifest component and not part of the product. Run-002
+  shipped it in the bundle under
+  `qualification-only/fixture-review-tooling-7b04e8d8cf99.tar.gz` (sha256
+  `168c4e57a7cb3d431ee2f9cb3b546c0d51f97a4781313522fa28f42b39964b8a`) and
+  started it before `review`:
+
+  ```sh
+  tar -xzf <bundle>/qualification-only/fixture-review-tooling-7b04e8d8cf99.tar.gz -C <fixture-dir> --no-same-owner
+  /usr/bin/python3.11 -I <fixture-dir>/fixture-review-tooling/fixture_responses_endpoint.py \
+    --port <port> --mode accepted --log <fixture-dir>/requests.jsonl --ready-file <fixture-dir>/ready.json
+  ```
+
+  It binds 127.0.0.1 only. The port must equal `init --fixture-port`. If nothing
+  is listening, `review` refuses `fixture.unreachable`.
+
+### Real provider: the operator's acceptance step
+
+A real-provider review is the operator's acceptance step for this cohort. It has
+not been run. Nothing in run-002 exercised it, and the API-key credential form
+below has not been tried against the real provider.
+
+- `init --review-route real` creates
+  `/var/lib/constellation/cohorts/<id>/codex-home-real/` (constellation, 0700),
+  holding only `config.toml`. That file sets
+  `cli_auth_credentials_store = "file"` and no `openai_base_url`.
+- The reviewer id is `cohort-<id>-independent-reviewer`. The route is provider
+  `openai`, model `gpt-5.6-terra`, through the pinned App Server.
+- **The operator places the credential.** The driver never reads, writes or
+  copies it. Use the API-key form, a single-key JSON object:
+
+  ```json
+  {"OPENAI_API_KEY":"<your key>"}
+  ```
+
+  Write it as `auth.json` in that codex home, owned by `constellation` with mode
+  0600. For example, run the following and paste the object on standard input:
+
+  ```sh
+  sudo -u constellation sh -c 'umask 077; cat > /var/lib/constellation/cohorts/<id>/codex-home-real/auth.json'
+  ```
+
+  This key bills the API organization. **Never commit `auth.json` or its value**,
+  and never copy it into evidence, a bundle, logs or an issue. The `evidence`
+  export does not include the codex home.
+- `review` then needs `--paid-request-allowed`. Without it, the review refuses
+  `review.paid_request` before any request. The flag allows exactly one billable
+  request.
+
+## Limitations found by the closure lanes
+
+- **One cohort, one occurrence.** `init`, `review` and `accept` are create-once
+  for each cohort. The driver has no retry, re-review or second-occurrence
+  command. A refused review, an expired issuance or a lost unit all need a new
+  cohort id, with a fresh `install` and `init`, or a new disposable host. The
+  driver also has no recovery command. After a lost unit, inspect with `status`
+  and the record directory, and do not rerun the step.
+- **Expired issuance.** AG's v2 issuance carries a signed not-after. A spend that
+  misses it is refused `issuance_not_current` and never reaches Docket. The
+  occurrence cannot be revived, so use a new cohort.
+- **NQ DEFECT-2: the verified-replica read path.** NQ 0.2.0 has no documented
+  read path for an account other than `nq`. The `constellation` account cannot
+  run `nq diagnostics qualify` on NQ's store (`/etc/nq` is 0750 root:nq and
+  `/var/lib/nq` is 0700). The driver works around this during `review`:
+  1. As `nq`, it takes a verified `nq backup`.
+  2. It restores the backup with `nq restore` into
+     `/var/lib/constellation/cohorts/<id>/observation/nq-replica/`.
+  3. It enrolls that replica in Nightshift.
+  4. It refuses `observation.replica` unless the replica's `qualify` output is
+     byte-identical to the live store's.
+
+  This is a named, open NQ defect. The workaround is accepted for this cohort
+  only.
+- **Docket local-mode refusal names.** With the shipped local standing
+  resolver, standing refusals do not use the D4 name
+  `governed-execution-standing-absent`. Docket's `accept` reports them as local
+  resolver refusals, and they fail closed before custody:
+  - `process-refused:refused/error: local-standing-absent` (absent standing);
+  - `…local-standing-future` (future-dated standing);
+  - `…local-standing-ambiguous` (duplicate grants);
+  - `…local-standing-operator-enrollment-mismatch` (operator mismatch).
+
+  These local-mode names are the documented surface, and no mapping is applied.
+- **Evidence verification.** As described in step 7, the published alpha.6
+  `verify-evidence.py` cannot run against a cohort export, so use
+  `verify_cohort_evidence.py`.
+- **Supervised Maude sessions are unsupported in this release.** This means the
+  classic RPC, the TUI and agent_governor. The Maude artifact also does not
+  ship the plan CLI or `public-nq-host-bootstrap.py`.
+- **Stale-review diagnostics.** A review that does not match the cohort's
+  binding is refused (`review.refused`) by the caller's own check, before the
+  native verifier runs. It writes no candidate. The caller's terminal names phase
+  `record-review-custody` instead of the projection step that refused.
+
+### Refusal codes you may meet
+
+| Code | Meaning |
+|---|---|
+| `pin.incompatible` | A manifest value differs from `alpha-exit-rc`; the detail names the field |
+| `artifact.missing`, `artifact.ambiguous` | No file, or more than one file, in `--artifacts` carries a pinned digest |
+| `build_info.*` | An installed executable does not report its pinned identity |
+| `host.unsupported`, `host.missing_tool`, `host.not_root`, `host.storage` | Host requirement not met |
+| `cohort.exists` | Install or init was already done for this id; use a fresh id |
+| `cohort.not_installed`, `cohort.not_initialized` | A step ran out of order |
+| `fixture.port`, `fixture.unreachable` | The fixture port is missing, was given for the real route, or nothing is listening |
+| `review.paid_request` | The real route needs `--paid-request-allowed` |
+| `observation.condition` | NQ did not report the host load condition as `explicitly_absent` |
+| `observation.replica` | The NQ replica's qualification differs from the live store's (DEFECT-2 path) |
+| `review.refused` | The caller or the native verifier refused the review; no candidate was written |
+| `review.exists`, `accept.exists` | The create-once step already ran for this cohort |
+| `review.not_ready` | No retained, passing review to accept |
+| `accept.candidate`, `accept.candidate_mismatch` | The digest is malformed, or is not the retained candidate |
+| `accept.refused` | The continuation refused; see its records |
+| `evidence.output` | The output path is not absolute, or already exists |
+
+## What the driver runs underneath
+
+The driver composes the caller glue in this directory with the components' own
+commands, in a fixed order. The ownership it relies on is:
 
 1. Maude's caller-owned Plan Core store supplies a checked, locked,
-   deterministically compiled `maude.governed-plan-binding/v1` and sealed executor
-   plan. Neither compilation nor this caller confers permission.
-2. Nightshift `cycle run-config` admits that exact handoff to an already initialized
-   AG V2 genesis using current NQ observation and Pulse support. The native AG
-   command is `record-proposal ... --plan-binding ...`, not an authorization.
-3. Foreman prepares one bounded request. Switchyard performs local preflight and
-   exactly one existing-AppServer review. The independent native review verifier
-   authenticates the result against the retained Switchyard and Foreman stores.
-4. AG records the review and resolves standing. Its permission preflight binds the
-   exact occurrence, work, binding, reviewer and genesis profile; it grants nothing.
-5. The explicitly authorized operator command creates a Docket standing grant for
-   at most 60 seconds, never beyond the original review expiry.
-6. AG's native V2 finite runner owns the durable program counter, protected
-   decision, authorization consumption and Docket attempt. It does not repeat the
-   already completed Nightshift admission. Docket owns execution custody; the
-   Maude executor owns its attempt journal and exclusive file creation.
-7. Native AG/Docket inspection joins custody and settlement. The caller separately
-   checks the regular file's exact bytes. That check is not a fresh NQ judgment of
-   a postcondition.
+   deterministically compiled `maude.governed-plan-binding/v1` and a sealed
+   executor plan. Neither compilation nor this caller confers permission.
+2. Nightshift `cycle run-config` admits that exact handoff to an initialized AG
+   V2 genesis, using the current NQ observation and Pulse support. The native AG
+   command is `record-proposal ... --plan-binding ...`, which is not an
+   authorization.
+3. Foreman prepares one bounded request (120 s, 32768 output bytes).
+   Switchyard performs local preflight and exactly one App Server review. The
+   independent native review verifier authenticates the result against the
+   retained Switchyard and Foreman stores.
+4. On the operator's accept, AG records the review and resolves standing. Its
+   permission preflight binds the exact occurrence, work, binding, reviewer and
+   genesis profile, and it grants nothing.
+5. The continuation creates a Docket standing grant for at most 60 s, never
+   beyond the review's expiry.
+6. AG's native V2 finite runner owns the durable program counter, the protected
+   decision, authorization consumption and the Docket attempt. Docket owns
+   execution custody. The Maude executor owns its attempt journal and the
+   exclusive file creation.
+7. Native AG and Docket inspection joins custody and settlement. The caller
+   separately checks the exact bytes of `result.txt`. That check is not a fresh
+   NQ judgment of a postcondition.
 
-Review enforcement is not merely a caller preflight. AG's V2 genesis enrolls
-`shared_admission`; `fresh_shared_gate` verifies the stored plan and current accepted
-review again before each protected decision and authorization consumption.
-`commit_shared_consequence` commits the transition and exact binding/review gate
-atomically. Store reopening verifies gate coverage and joins. Removing or changing
-a gate must make native replay fail closed. The V1 catalog alone does not supply
-this law; this caller refuses a V1 genesis.
+Review enforcement is not only a caller preflight. AG's V2 genesis enrolls
+`shared_admission`, and `fresh_shared_gate` verifies the stored plan and the
+current accepted review again before each protected decision and authorization
+consumption. `commit_shared_consequence` commits the transition and the exact
+binding and review gate atomically. Reopening the store verifies gate coverage
+and joins. Removing or changing a gate makes native replay fail closed. This
+caller refuses a V1 genesis.
 
-## Public sources and deployment boundary
+| File | Role in the cohort |
+|---|---|
+| `setup/constellation_cohort.py` | The setup driver (stdlib only, `/usr/bin/python3.11 -I -S`) |
+| `setup/test_constellation_cohort.py` | The driver's unit tests |
+| `setup/cohort_plan_inputs.py` | Builds the plan inputs with Maude's constructors from `maude-plan.pyz` |
+| `setup/prepare_review_inputs.py` | Drafts and seals the five Foreman inputs with `nightshift-foreman provider-seal-inputs` |
+| `prepare_plan.py`, `prepare_local_ports.py`, `prepare_owner.py`, `prepare_finite_run.py`, `seal_admission.py`, `enroll_caller.py`, `prepare_review_candidate.py` | Plan, port, owner, admission, caller-enrollment and finite-run preparation, run by the driver directly or through the caller modules |
+| `reviewed_action.py`, `continue_reviewed_action.py` | The caller: `--preflight-only` and `--review-only` in the review unit, and `--accept-and-execute` in the accept unit. The caller's `--execute`, `--inspect` and `--recover-run` modes are not wrapped by the driver and were not exercised in run-002 |
 
-[source-pins.json](source-pins.json) lists exact public source revisions, not
-interchangeable binary hashes. Build from those checkouts using their native
-locked tooling; preserve source/export provenance and the installed interpreter,
-launcher, configuration and program closure. Do not silently substitute an older
-binary because its command name matches.
+The driver runs every kit module as
+`/usr/bin/python3.11 -I -S -c 'import sys; sys.path[:0]=[…]; import M; M.main(sys.argv[1:])'`.
+On 3.11, `-I` implies `-P`, so the kit directories go on the path explicitly.
+The hand-run B004-era procedure has been retired. It invoked each of these
+scripts with `python3.12`, from source builds, with a caller layout written by
+hand. Running the scripts by hand is not a supported newcomer path. Their `--help`
+and module docstrings remain the reference for their arguments.
 
-Relevant native surfaces are:
+## Retired pre-cohort material
 
-| Component | Public entrypoint / contract |
-| --- | --- |
-| Maude | `docs/REVIEWED-LOCAL-COPY.md`; `maude.plan.reviewed_local_copy`; explicit validator/executor roles in `tools/build_reviewed_local_copy_validator.py` |
-| Nightshift / Foreman | `runtime/`; `cycle run-config`, `recover-config`, `sync-ag`; Foreman's provider admission/prepare/record commands |
-| NQ / Pulse | NQ's native configuration, `init`, watcher admission and local diagnostics; the pinned Pulse load-support integration and closed resolver launcher |
-| AG | `ag-loopctl` V2 runtime profile, `record-review`, `permission-preflight`, `run`, `inspect`; `crates/ag-app/src/bin/ag-loopctl.rs` and `crates/ag-store/src/campaign.rs` |
-| Docket | `docs/governed-runtime/local-execution-standing.md`, executor transport V1; `standing-grant`, `inspect`, `standing-snapshot` |
-| Switchyard | Installed `switchyard-provider-runner` and `switchyard-review-verifier` commands; internal Python modules are not an SDK |
-| AppServer | `codex-rs/rust-toolchain.toml`; build in `codex-rs` with `cargo build --locked -p codex-app-server --bin codex-app-server` |
+These files remain in the directory, but they are not part of the cohort path.
+None of them is a cohort pin.
 
-Use a release AG binary (`cargo build --locked --release -p ag-app --bin
-ag-loopctl`), since initialization and repeated verification consume real time.
-Build Maude's validator and executor separately with the explicit fixed Python
-interpreter and source revision; the validator package cannot execute work.
+- **`source-pins.json`** lists the source revisions of the pre-cohort
+  candidate: Maude `c1fce17`, NQ `d3089a9`, Pulse `d91b214`, AG `4dafc1a`,
+  Docket `fbcacc1`, and Nightshift and Foreman `58639a9`. The cohort manifest
+  above supersedes it. NQ 0.2.0 changed the `nq.host` profile semantic id, so
+  that NQ and Pulse pair is not interchangeable with the cohort's.
+- **`run_public_python_closure_001.sh`, `prepare_public_python_closure.py` and
+  `requirements-public.lock`** build a Switchyard Python closure from source.
+  They default to `/usr/bin/python3.12`, which Debian 12 does not ship. The
+  cohort does not use them: the Switchyard artifact ships its installed closure,
+  and `install` checks it against its provenance. The site repository's
+  `tools/test_reviewed_local_copy_example.py` controls also predate the driver.
+- **`drop_success_response.py`** and Maude `c1fce17`'s
+  `executor-interruption-qualification` artifact are component qualification
+  fixtures for response loss and interruption. Run-002 did not exercise them,
+  and the cohort does not enroll them.
 
-The AppServer source pin is public. Its deployment-owned CLI home, credential
-reference and model/provider selection must be explicitly authorized and enrolled
-in the backend and reviewer configuration. This example neither reads credential
-values nor copies a home or unrelated configuration. Build provenance is not
-authorization to contact a provider. Use the same selected route throughout; no
-fallback, automatic approval response, recursive workers or semantic retries.
-
-Native deployment setup remains explicit, not invented by `enroll_caller.py`:
-
-- Prepare fresh Plan Core/AG/Nightshift/NQ/Pulse/Docket/executor coordinates and
-  exclusive scratch. The exact scratch pathname is part of Maude's binding and
-  work identity; changing it requires a newly compiled plan and review.
-- Prepare the native V2 profile ports with Maude validator, review requirement/verifier,
-  Nightshift, observation resolver, standing resolver, Docket and executor pins.
-  Allocate the owner observation coordinate and prepare static ports, plan and
-  genesis before taking fresh observations. Identity allocation is not evidence.
-  The later sealer binds the actual posture/diagnostic to that same coordinate.
-  Use a local-copy policy catalog with `delivery.not_required`, since no delivery
-  is requested; retain all other forbidden-state checks. A catalog is not authority.
-- Initialize a fresh NQ store and admit its watcher before the first supported
-  local diagnostic. This example chooses exactly one initial acquisition, not a
-  successor workflow. Do not append a second initial diagnostic or refresh an
-  expired timestamp. Any successor must use its distinct native protocol.
-- Produce actual Pulse support and retain its native receipt. Seal a Nightshift
-  cycle request carrying the exact Maude binding and original observation time.
-  Configure the existing observation resolver's TTL to 300000 ms and a compatible
-  AG maximum. The original NQ clock and Pulse boot clock remain independent.
-- Prepare exact native Foreman packet/admission/profile/policy/requirement inputs,
-  reviewer enrollment, backend and source provenance. Review material must bind
-  the actual plan and acceptance conditions, not private logs or a claimed verdict.
-
-These are real native inputs, not substitutes for authentic stores or evidence.
-The example intentionally does not infer their schemas from sample JSON, create
-an accepted review, manufacture Pulse evidence or bypass local credential setup.
-Native provisioning of a complete fresh public cohort is still a qualification
-prerequisite; a passing caller-only test is not that prerequisite.
-
-The selected NQ/Pulse pair is explicitly `d3089a9` / `d91b214`. Their exact profile
-semantic identity, native read/query adapter files and launcher must be enrolled
-together. An older NQ artifact or Pulse profile is not interchangeable with this
-pair. Native pre-provider qualification must exercise this pair with the selected
-shared Nightshift/AG cohort; source compatibility alone is insufficient.
-
-### Prepare the native Maude handoff
-
-The selected public Maude revision also contains reusable host setup helpers in
-`qualification/synthetic_cache/`: `public-nq-host-bootstrap.py` writes the explicit
-watcher configuration, `helpers/cache-host-bootstrap.py acquire` runs one actual
-native diagnostic/export/qualification, and its `construct` command produces a
-posture-only request from that artifact. Their CLI help lists exact arguments.
-These host-only operations do not request cache work. Do not invoke their `cycle`
-command here: the reviewed caller owns the single later Nightshift admission.
-
-Either compile with the real posture request's `observation_id`, or explicitly
-preallocate the owner coordinate in the static plan and use the sealer's named
-allocation option below. Do not label allocation as an observed fact.
-After native plan/owner preparation,
-`prepare_pulse_support.py` from that same public directory can create fresh Pulse
-enrollment and a closed launcher for this exact artifact/posture request. It
-creates no measurement. The separately admitted Pulse `produce` and `ingest`
-commands must retain their actual receipt before admission.
-
-`prepare_plan.py` consumes a caller-selected native `maude.plan-document/v1`
-PlanDocument and canonical `ReviewedLocalCopyInputsV1` bytes. Use the public Maude
-constructors/serialization from the pinned source, not abbreviated sample JSON.
-The inputs name the actual campaign, UUID occurrence, program, subject, scope,
-observation, absolute scratch and selected UTF-8 bytes. This helper does not invent
-these coordinates or claim its observation is current.
-
-```sh
-python3.12 prepare_plan.py --document /absolute/input/plan-document.json \
-  --compiler-inputs /absolute/input/local-copy-inputs.json \
-  --draft-id draft_REPLACE_WITH_FRESH_NATIVE_DRAFT_ID \
-  --output /absolute/fresh/maude-plan
-```
-
-It creates a fresh native DraftStore, records the real Plan Core check, locks and
-compiles through `compile_and_bind_reviewed_local_copy`, then independently
-validates the stored result using the public read-only validator. Its output
-includes `binding.json`, `compiled-handoff.json`, the exact native
-`validator-config.json`, an `executor-config.json` with a fresh empty attempt-state
-directory, and preparation records. It never creates `result.txt`.
-An occupied output or scratch refuses; no previous plan store is copied.
-The optional native preparation test runs when the pinned Maude package is
-installed and is explicitly a local component fixture, not current NQ evidence.
-
-### Assemble the native protected owner
-
-`prepare_owner.py --help` lists explicit native file/port arguments. It combines
-the Maude binding, deployment-selected native reviewer config, Nightshift config
-and Docket root enrollment into a fresh V2 catalog, review requirement, Nightshift
-config, AG enrollment and genesis. Issuer/key locators stay references; this helper
-does not open key bytes. The Nightshift input must already select the exact
-observation resolver and intended runtime-profile output pathname. A differing
-previous shared-review requirement refuses rather than being overwritten.
-
-Native setup then remains explicit:
-
-```sh
-"$AG" seal-runtime-profile-v2 \
-  --enrollment /absolute/owner/runtime-profile-enrollment-v2.json \
-  --output /absolute/deployment/runtime-profile.json
-"$AG" verify-runtime-profile-v2 --runtime-profile /absolute/deployment/runtime-profile.json
-"$AG" init-v2 --database /absolute/deployment/ag.sqlite \
-  --genesis /absolute/owner/genesis-v1.json \
-  --runtime-profile /absolute/deployment/runtime-profile.json
-```
-
-Use the exact same profile pathname selected in the Nightshift input. These
-commands must be locally qualified on the installed public cohort before a paid
-review; the helper's output status explicitly says seal/verify/init are required.
-No execution input or accepted review is generated during owner preparation.
-
-### Seal the observed admission request
-
-```sh
-python3.12 seal_admission.py --binding /absolute/fresh/maude-plan/binding.json \
-  --posture-request /absolute/observation/posture-request.json \
-  --output /absolute/deployment/cycle-request.json
-```
-
-The sealer checks the original request identity and exact compiled handoff,
-requires the same work/occurrence, and attaches only native
-`proposal` and `reviewed_plan_binding` fields before computing the new request
-identity. By default it requires the same observation ID. With the explicit
-`--use-plan-observation-identity` option, it assigns the statically preallocated
-plan observation coordinate to the actual posture. That ID is a native owner
-coordinate, not a replacement artifact identity. Neither mode changes
-`evaluated_at`, policy, actual diagnostic bytes, support inputs or timestamps.
-The complete runtime admission still belongs to native Nightshift/AG, not this
-wire projection. A changed plan observation coordinate requires recompilation
-and fresh preparation rather than substitution under an existing plan binding.
-
-## Enroll and inspect the caller configuration
-
-Create a JSON layout with schema `constellation.reviewed-local-copy-caller/v1`.
-The object must contain exactly `schema`, `programs`, `inputs`, `paths`, `review`
-and `operator`. All file locators are absolute and deployment-owned.
-
-- `programs`: paths for `ag`, `nightshift`, `foreman`, `provider`,
-  `review_verifier`, `docket`, `pulse`, `app_server`.
-- `inputs`: paths for `binding`, `cycle_request`, `nightshift_config`,
-  `runtime_profile`, `review_requirement`, `review_verifier_config`,
-  `executor_config`, `backend`, `packet`, `admission`, `profile`, `policy`,
-  `provider_requirement`, `source_provenance`, `pulse_query`, `pulse_retention`,
-  `docket_standing_config`.
-  Here `profile` is the Foreman provider profile, not the AG runtime profile.
-- `paths`: native mutable locators `ag_database`, `foreman_database`,
-  `switchyard_database`, `docket_state`, `ag_mandates`.
-- `review`: fresh native `run_id`, `work_item`, `dispatch_id`, `adapter_process`,
-  `app_server_session_identity`; `operator` is the admitted local operator identity.
-
-`docket_standing_config` is the pinned Docket local-standing resolver
-configuration. Its operator must equal the caller's `operator`, and its state
-database must be `docket_state/state.sqlite`. Enrollment refuses a mismatch
-before review, authority, or execution; a grant owned under another operator
-identity cannot satisfy Docket's permission boundary.
-
-`pulse_query` is the native closed resolver query. `pulse_retention` projects only
-the retained native receipt's `evidence_id`, `received_at.clock_id` and
-`expiry_tick_ms`; copy those values unchanged. It is a comparison input, not a
-replacement for Pulse's signed evidence, receiver receipt or boot clock.
-
-The sealed Foreman work item must preserve the review verifier's manifest
-convention. With `brief_manifest_pointer` equal to `["acceptance_tests", "0"]`,
-`acceptance_tests[0]` is the compact canonical
-`switchyard.shared-review-manifest/v1` string. Put the public technical material
-at index 1 and its reviewer instruction at index 2 (and have the instruction
-refer to `acceptance_tests[1]`). `compose_review_acceptance_tests` in
-`prepare_review_candidate.py` builds this ordering from the exact binding bytes
-and enrolled verifier configuration. Moving the pointer alone cannot repair a
-work item that contains no manifest. Static caller preflight checks the frozen
-packet, and the executing caller checks the actual Foreman brief, against the
-enrolled binding before provider invocation; the native verifier still
-performs the authoritative custody verification after completion.
-
-```sh
-python3.12 enroll_caller.py --layout /absolute/deployment/layout.json \
-  --output /absolute/deployment/caller.json
-python3.12 reviewed_action.py --config /absolute/deployment/caller.json \
-  --output /absolute/deployment/unused-output --preflight-only
-```
-
-Enrollment replaces each program/input locator with `{ "path": ..., "sha256":
-"sha256:..." }`, checks the native cross-references and uses exclusive output
-creation. It neither rewrites mismatching native pins nor invokes native programs.
-`--preflight-only` is deliberately **local static checking**, not a full native
-admission/currentness qualification. Help and malformed CLI arguments launch no
-child. A failed enrollment output remains evidence; use a fresh output identity.
-
-## Retain review before accepting or executing
-
-The review transition has its own supported stop. It performs native admission,
-provider preflight, at most one provider request, Foreman evidence derivation and
-custody, and the independent native verifier. It retains the candidate
-`record-review-input.json`, then stops:
-
-```sh
-python3.12 reviewed_action.py --config /absolute/deployment/caller.json \
-  --output /absolute/deployment/review-001 --review-only
-```
-
-The terminal `constellation.review-only-result/v1` reports the verifier's actual
-accepted or rejected result and zero grants, spends, Docket attempts, executor
-calls, and effects. Even an accepted result is only a candidate for later human
-or operator acceptance. This mode cannot record the review into AG, create a
-standing mandate, create a Docket grant, invoke the finite runner, or copy a file.
-Response loss remains attached to this one original provider request; inspect and
-reconcile its retained owner rather than repeating it.
-
-After inspecting a retained candidate, the operator can continue the same
-occurrence without another provider request:
-
-```sh
-python3.12 continue_reviewed_action.py \
-  --config /absolute/deployment/caller.json \
-  --retained-review /absolute/deployment/review-001 \
-  --accept-candidate-sha256 sha256:REPLACE_WITH_EXACT_RECORD_REVIEW_INPUT_DIGEST \
-  --output /absolute/deployment/continuation-001 \
-  --accept-and-execute
-```
-
-This is an explicit operator transition, not a generated human attestation. It
-re-runs native review verification, binds the named candidate digest into its
-checkpoint, and advances the existing AG occurrence. An absent, expired,
-changed, or mismatched candidate refuses. Its `--preflight-only` mode performs
-only static pin checking and reports zero provider calls and no authority.
-
-## Admit one execution, then reconcile the original
-
-For a single uninterrupted operator-admitted chain, only after operator review
-of the installed closure, currentness budget, storage reserve, provider
-allowance and bounded physical operation should a durable manager invoke:
-
-```sh
-python3.12 reviewed_action.py --config /absolute/deployment/caller.json \
-  --output /absolute/deployment/attempt-001 --execute
-```
-
-Use the deployment's durable service manager, not an interactive background job.
-The caller requires its `INVOCATION_ID`, takes an owner lock and writes create-once
-started/finished/checkpoint records. A suitable manager envelope is one invocation,
-600 seconds, no restart, bounded tasks/memory and a reserved records directory.
-Persist unit identity, exact command/source/config hashes, resource bounds and
-inspection commands before launch. Configure writable temporary/state directories
-and reserve storage across all owners, not just this caller's files.
-
-Immediately before the paid call, both original NQ observation and Pulse support
-must retain at least **230000 ms**. The worker request is exactly 120 seconds /
-32768 output bytes; local provider preflight has 30 seconds and provider collection
-150 seconds. Review lifetime is at most 300000 ms from the actual provider end,
-not projection time. The permission and finite-run deadlines can only shorten it.
-Slow preparation or a refused currentness gate requires explicit new preparation,
-not a timestamp edit or automatic new review.
-
-On response loss or supervisor loss, inspect the original manager and native
-stores first. A missing finished record establishes an unresolved stage, not
-permission to repeat it. `--inspect` is read-only native inspection. Only if the
-original finite run was actually invoked, explicit recovery can call:
-
-```sh
-python3.12 reviewed_action.py --config /absolute/deployment/caller.json \
-  --output /absolute/deployment/recovery-001 \
-  --recover-run /absolute/deployment/attempt-001
-```
-
-Recovery verifies the original run/config bytes, preserves the original deadline,
-and invokes only inspect → same native `ag run` input → inspect. It cannot create
-a review, standing mandate or grant. AG's durable state decides whether to settle,
-wait or refuse. Before `finite-run.started.json`, this recovery mode refuses; use
-the existing native owner's inspection/reconciliation protocol, not a rerun of
-the complete caller. In particular, unknown provider execution never triggers a
-second request.
-
-## Qualification boundaries
-
-### Isolated public Python closure
-
-Before an installed Switchyard component check, use a fresh durable manager and
-the exact source pins in `source-pins.json`. The manager-owned,
-caller-configured `run_public_python_closure_001.sh` wrapper is deliberately a bounded
-pre-provider preparation: it checks the fresh owner, storage reserve and clean
-public source revisions; downloads only its fixed binary wheel set once with no
-retries; writes the resulting hash lock; and then builds and installs offline
-with no system site packages. Its installed checks are `pip check`, interpreter
-origin guards, and the two Switchyard CLI help paths. It creates no reviewer
-request, grant, or local-copy effect. A manager loss is reconciled from its
-checkpoint, terminal record, and the original owner root; never replace the
-wheel lock or reinstall that occurrence. Supply explicit absolute `--unit`,
-`--owner`, `--records`, `--switchyard`, and `--maude` coordinates from the
-caller-owned durable-manager configuration; the distributed wrapper has no
-campaign-local pathname defaults.
-
-Run the public-only controls from the repository root:
-
-```sh
-PYTHONDONTWRITEBYTECODE=1 python3.12 -B -m unittest discover \
-  -s tools -p test_reviewed_local_copy_example.py -v
-```
-
-Schedule tests use clearly labeled substitution frames. Other tests execute only
-harmless local JSON-producing programs. Required real installed-cohort cases
-remain: accepted exact review and copy; rejected/stale/mismatched review without
-permission; durable protected-gate replay refusal; admission-response loss with
-native status-only recovery; one copy under duplicate/success-response-loss
-reconciliation; and interruption after creation before the durable success record.
-
-`drop_success_response.py` supports the **retained-success response-loss** case.
-Enroll a fixed launcher supplying `--executor`, `--sha256`, `--records`, followed
-by Docket's operation/config arguments. Its program hash differs from the normal
-executor and must be enrolled before the test. It forwards `plan-id`/`reconcile`,
-runs `execute` at most once, retains native stdout and deliberately returns 74
-without forwarding that completed response. Docket/AG must reconcile the same
-attempt and receipt; no new grant, issuance or copy is allowed.
-
-This wrapper cannot establish interruption **before** the success journal commit.
-Maude revision `c1fce17a529c4f73d23012b22b7f1a2a3ee666a7` supplies a distinct
-closed artifact for that qualification boundary:
-
-```sh
-python3.12 tools/build_reviewed_local_copy_validator.py \
-  --role executor-interruption-qualification \
-  --source-revision c1fce17a529c4f73d23012b22b7f1a2a3ee666a7 \
-  --output /absolute/existing-directory/reviewed-copy-interruption.pyz \
-  --manifest /absolute/existing-directory/reviewed-copy-interruption.json
-```
-
-Build it from that exact clean Maude revision into two absent file paths beneath
-an existing operator-selected directory, then enroll the resulting artifact
-as a separate executor program. Its `execute` path terminates with status 75
-after the result file and containing directory are synced but before the success
-record is written. Its `plan-id` and `reconcile` paths do not select the cut.
-The retained executor record therefore remains reserved; same-attempt
-reconciliation reports indeterminate and a repeated `execute` does not repeat
-the copy. Component tests establish that local boundary. A bounded local
-Docket/Maude qualification at Docket `fbcacc1` and Maude `c1fce17` also bound
-the measured program through one 240-second operator-owned Docket grant. Docket
-retained one indeterminate custody attempt after exit 75 and reconciled that
-same attempt without another execution, result mutation, grant, or standing
-use. Its ephemeral qualification signer was not AG judgment. Recipe B still
-needs a fresh accepted review, AG-owned issuance, and public-only reproduction.
-Do not relabel terminal replay or post-success response loss as this earlier
-interruption case.
+See [PUBLICATION-SCOPE.md](PUBLICATION-SCOPE.md) for what may and may not be
+published from this directory.
