@@ -39,7 +39,7 @@
     <h1>Research directions</h1>
     <p class="lede">The questions behind the software: what has to hold as evidence turns into action, and what the components are and are not yet built to answer.</p>
     <p>This is an independent research and engineering program on preserving evidence <a href="../glossary.html#custody">custody</a> as systems move from observation to action over time &mdash; formal models, executable systems, and bounded compositions. The same failure appears across operations, AI agents, distributed systems, formal verification, and governance; operations is merely where the questions were learned.</p>
-    <p>The papers name the failure classes; the software carries the response. The <a href="../research.html">research catalogue</a> lists the papers, including the &Delta;t series that scaffolds the check-versus-action logic. Selected claims from that series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html#proofs">limits</a>.</p>
+    <p>The papers name the failure classes; the software carries the response. The <a href="../research.html">research catalogue</a> lists the papers, including the &Delta;t series that scaffolds the check-versus-action logic. Selected claims from that series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>), and a <a href="https://github.com/unpingable/lean/blob/main/constraints/README.md">design-constraints family</a> that bounds specific design claims. The &Delta;t theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html#proofs">limits</a>.</p>
     <p>On this page: <a href="#related-work">related work</a> &middot; <a href="#transitions">the transitions under study</a> &middot; <a href="#continuity">continuity</a> &middot; <a href="#authored-design">the authored design layer</a> &middot; <a href="#other-directions">other notes</a>.</p>
 
     <h2 id="related-work">Related work</h2>
@@ -102,7 +102,7 @@
     <h3 id="other-directions">Other research notes</h3>
     <ul class="steps">
       <li><a href="governed-improvement.html">Governed recursive improvement</a> &mdash; a deferred design discussion of tactics, evidence, evaluation, reserves and external amendment authority. It adds no runtime composition or release commitment.</li>
-      <li><a href="understand.html">Staying within budget can still leave work unfinished</a> &mdash; a bounded Lean model separating spend limits from the reserve needed to finish mandatory obligations; a formalized bridge, not an implemented controller.</li>
+      <li><a href="understand.html">Staying within budget can still leave work unfinished</a> &mdash; a bounded Lean model separating spend limits from the reserve needed to finish mandatory obligations; a formalized bridge, not an implemented controller (<a href="https://github.com/unpingable/lean/blob/main/constraints/Resources/ObligationViability.lean">Lean source</a>).</li>
       <li><a href="absd.html">ABSD</a> &mdash; a small experimental operating system used partly to test these semantics below the application layer.</li>
     </ul>
 
