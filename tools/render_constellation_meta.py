@@ -15,9 +15,34 @@ BASE = "https://unpingable.com/constellation/"
 IMAGE = "https://unpingable.com/og-card.png"
 PAGES = {
     "index.html": (
-        "Constellation — governance and execution custody",
-        "Constellation is a governance and execution-custody layer for automated work. Start with the verified 0.1.0-alpha.6 walkthrough.",
+        "Constellation — independent evidence for automated work",
+        "Constellation is an experimental system that separates automated and AI agent work from the evidence, authority and acceptance used to decide whether that work succeeded.",
         BASE,
+    ),
+    "status.html": (
+        "Constellation status",
+        "Dated claims, evidence, maturity and open limits for each Constellation release, component and exhibit.",
+        BASE + "status.html",
+    ),
+    "limits.html": (
+        "Constellation limits",
+        "What Constellation has and has not shown: qualified scope, one-off results, private evidence, production readiness, and where evidence does not generalize.",
+        BASE + "limits.html",
+    ),
+    "research.html": (
+        "Research behind Constellation",
+        "Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.",
+        BASE + "research.html",
+    ),
+    "absd.html": (
+        "ABSD — a small experimental operating system",
+        "ABSD is a small x86-64 operating system for stateful, recoverable workloads, with a Rust userspace, a crash- and power-loss-tested filesystem and real Constellation components, run under QEMU.",
+        BASE + "absd.html",
+    ),
+    "archive.html": (
+        "Constellation archive and history",
+        "Earlier prototypes, historical exhibits, deprecated predecessors and parked experiments, kept for the record.",
+        BASE + "archive.html",
     ),
     "understand.html": (
         "How Constellation works",
@@ -98,13 +123,13 @@ PAGES = {
 
 NAVIGATION = (
     ("index.html", "Constellation", "index.html"),
-    (None, "Alpha.6 walkthrough", "releases/0.1.0-alpha.6/guide.html"),
+    ("understand.html", "How it works", "understand.html"),
+    ("status.html", "Status", "status.html"),
+    ("limits.html", "Limits", "limits.html"),
     ("components.html", "Components", "components.html"),
-    ("integration.html", "Integration", "integration.html"),
-    ("recipes.html", "Recipes", "recipes.html"),
-    ("after-first-run.html", "Operations", "after-first-run.html"),
-    ("start.html", "Source and tutorials", "start.html"),
-    ("troubleshooting.html", "Troubleshooting", "troubleshooting.html"),
+    ("start.html", "Guides and source", "start.html"),
+    ("research.html", "Research", "research.html"),
+    ("absd.html", "ABSD", "absd.html"),
 )
 
 
