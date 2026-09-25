@@ -46,7 +46,8 @@
     </section>
 
     <!-- DEMO SLOT BEGIN: current-stack demo from lane A (constellation-docket
-         campaign/public-demo-20260925 at 5b06ca4; code and run-003 at 9ebdc5e). -->
+         tag demo/indeterminate-effect-20260925 at eeb0534; demo code identical
+         to run-003 at 9ebdc5e, only the README changed). -->
     <section id="demo" aria-labelledby="demo-heading">
       <h2 id="demo-heading">The demo: when nobody knows whether it happened</h2>
       <p>An agent asks a payment provider to refund $40.00. The request goes out and the reply never comes back. The agent reports &ldquo;Done.&rdquo; The service that keeps custody of the attempt (it is called Docket) records the refund as <strong>unknown</strong>: not success, not failure. It does not send the request again. It settles only when a separate read of the provider&rsquo;s own records says what happened.</p>
@@ -88,10 +89,10 @@ what the provider's own records show, not what the agent said.</span></pre>
       <pre class="terminal" tabindex="0"><span class="prompt"></span>sudo apt-get install -y git curl gcc libc6-dev python3 openssl
 <span class="prompt"></span>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain none
 <span class="prompt"></span>. "$HOME/.cargo/env"
-<span class="prompt"></span>git clone -b campaign/public-demo-20260925 https://github.com/unpingable/constellation-docket.git
+<span class="prompt"></span>git clone -b demo/indeterminate-effect-20260925 https://github.com/unpingable/constellation-docket.git
 <span class="prompt"></span>cd constellation-docket
 <span class="prompt"></span>./examples/indeterminate-effect/run.sh</pre>
-      <p>Source: <a href="https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect"><code>examples/indeterminate-effect</code></a> on the <code>campaign/public-demo-20260925</code> branch, which is not yet merged. Its dated claim is in the <a href="status.html#status-indeterminate-effect-demo">status ledger</a>.</p>
+      <p>Source: <a href="https://github.com/unpingable/constellation-docket/tree/demo/indeterminate-effect-20260925/examples/indeterminate-effect"><code>examples/indeterminate-effect</code></a> at the tag <code>demo/indeterminate-effect-20260925</code> (commit <code>eeb0534</code>). The tag is a qualified public exhibit, not a Docket release. Its demo code is identical to the qualifying run&rsquo;s; only the README has changed since. Its dated claim is in the <a href="status.html#status-indeterminate-effect-demo">status ledger</a>.</p>
       <p><strong>Use your own executor:</strong> the worker is a separate program that speaks Docket&rsquo;s <a href="https://github.com/unpingable/constellation-docket/blob/main/docs/governed-runtime/executor-transport-v1.md">executor contract</a> (<code>plan-id</code>, <code>execute</code>, <code>reconcile</code>). Its <code>reconcile</code> step must only read, and the independence of that read is up to the executor you write.</p>
 
       <details>
@@ -101,7 +102,7 @@ what the provider's own records show, not what the agent said.</span></pre>
           <li><strong>The worker</strong> (<code>bin/refund-executor</code>) sends the refund once. Its <code>reconcile</code> does not read its own notes: it runs the observer and applies one fixed rule. Success if the provider has the exact request; failure if the provider lacks it and its deadline has passed; otherwise still indeterminate.</li>
           <li><strong>The observer</strong> (<code>bin/observe</code>) is a separate program. It asks the provider&rsquo;s read-only lookup directly, not through the faulty link, and quotes the answer verbatim.</li>
           <li><strong>Stand-ins:</strong> the agent is a script that reports &ldquo;Done.&rdquo; on exit code 0. The payment provider and the faulty network link are small local programs. The authorization is signed by a stand-in that reproduces the published test vector of Constellation&rsquo;s authorizing service (<a href="https://github.com/unpingable/constellation-ag">constellation-ag</a>) byte for byte; that service itself is not running.</li>
-          <li><strong>Limits:</strong> the system trusts the worker&rsquo;s <code>reconcile</code>, and the observer&rsquo;s path is part of the worker&rsquo;s configuration, which the system does not pin, so independence holds for this composition, not as a general guarantee. Had the worker received a reply, its own receipt would have been accepted at once. Everything runs on one host under one clock. The build is a source build of an unmerged branch, not a packaged release.</li>
+          <li><strong>Limits:</strong> the system trusts the worker&rsquo;s <code>reconcile</code>, and the observer&rsquo;s path is part of the worker&rsquo;s configuration, which the system does not pin, so independence holds for this composition, not as a general guarantee. Had the worker received a reply, its own receipt would have been accepted at once. Everything runs on one host under one clock. The build is a source build at the exhibit tag, not a packaged release.</li>
         </ul>
         <p>Identifiers from the run. Reply lost: attempt <code>sha256:e751808736f4563332b002c30991941b5948b15a227c5f0f7036fabfb4b5b1ee</code>, indeterminate evidence <code>sha256:988028ef…</code>, settlement receipt (the observer&rsquo;s document) <code>sha256:91a77b24…</code>, settlement <code>sha256:9366c504…</code>, provider refund <code>rf_a0f76303be7b717c</code>. Request lost: attempt <code>sha256:5046f27f0ec634d16024b560830ca98bc234d7af53013ca1b6c7fc5b118ab190</code>, settlement receipt <code>sha256:52c43a73…</code>.</p>
         <p>Run A as the terminal printed it:</p>
