@@ -92,7 +92,7 @@ def validate_profiles(root: Path = ROOT) -> int:
     if (data.get("schema") != "constellation.integration-profiles/v1"
             or not isinstance(data.get("version"), str)
             or not PRERELEASE.fullmatch(data["version"])
-            or data.get("release_status") != "candidate"):
+            or data.get("release_status") not in {"candidate", "released"}):
         raise ValueError("invalid integration profile header")
     seen = set()
     for profile in data.get("profiles", []):
