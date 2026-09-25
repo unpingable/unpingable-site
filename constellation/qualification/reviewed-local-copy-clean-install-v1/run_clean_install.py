@@ -44,9 +44,17 @@ import traceback
 from typing import Any
 
 HERE = pathlib.Path(__file__).resolve().parent
-GUEST_SCRIPTS = ("probe.sh", "expire_issuance.py")
-HARNESS_FILES = ("run_clean_install.py", "compose_bundle.py", "verify_cohort_evidence.py",
-                 *(f"guest/{name}" for name in GUEST_SCRIPTS))
+GUEST_SCRIPTS = ("probe.sh", "expire_issuance.py", "keyless_ag.py")
+HARNESS_FILES = ("run_clean_install.py", "compose_bundle.py", *(f"guest/{name}" for name in GUEST_SCRIPTS))
+# The evidence verifier ships in the cohort kit (setup/). The harness runs the
+# bytes from the bundle's kit tarball, on the host and in the guest.
+KIT_VERIFIER = "setup/verify_cohort_evidence.py"
+# AG 58122ce enrollment identities (PKG-ag revision 2) and the superseded
+# e20c23a ones, which must appear nowhere in the new cohort's evidence.
+AG_ENROLLED = {"ag-loopctl": "af5fe488c0d9ec23fbbefbb5ef527ec05843ef433cbd484eb310fd8da50c323f",
+               "ag-standing-resolver": "7a42b5ea16353ec918d57656f35a1f729f394f9c0b2cc82c17e24b21c453f68e"}
+AG_SUPERSEDED = {"ag-loopctl": "1ea51d0499a81ee0303a55abf2ad3ef7cbcd10d67e398d64644aac86186a970a",
+                 "ag-standing-resolver": "b96ad7b0bee2a654e35c6c0c4654921203d76e81767e5a1a402e56f8c6898ff2"}
 IMAGE_NAME = "debian-12-genericcloud-amd64-20260903-2590.qcow2"
 DEFAULT_IMAGE = pathlib.Path(
     "/data/git/.campaign-artifacts/constellation-operator-beta-composed-m2-run-002/input"
@@ -79,7 +87,11 @@ CASES = (
     ("W-02", "status: retained candidate digest; zero grants, spends, attempts, effects"),
     ("W-03", "SYNTHETIC OPERATOR acceptance of the exact candidate digest (harness step, labelled)"),
     ("W-04", "status after execution: settled success, result.txt written once with the reviewed bytes"),
-    ("W-05", "evidence: bundle exported; driver join complete; independent verifier (alpha.6 shape) passes on the host"),
+    ("W-05", "evidence: bundle exported; driver join complete; the kit's verifier passes on the host; AG enrollment "
+             "follows the repin"),
+    ("V-01", "the in-kit verifier under guest python3.11 -I -S: passes the export, fails a byte-flipped copy"),
+    ("K-01", "keyless AG inspect, replay, history and status over the settled cohort: identical without the issuer key; "
+             "an absent enrolled file exits 3 and is never success"),
     ("N-06", "accept naming a digest other than the retained candidate refuses with no grant or effect"),
     ("N-07", "a second execute attempt refuses: driver accept, the kit continuation and AG re-run; one effect"),
     ("N-08", "stale fixture review (cohort B) is refused before any candidate; no authority, no effect"),
@@ -334,7 +346,32 @@ class Harness:
         self.identity["bundle"] = {"directory": str(bundle), "sha256sums_sha256": file_digest(bundle / "SHA256SUMS"),
                                    "manifest_sha256": "sha256:" + file_digest(bundle / "cohort-manifest.json"),
                                    "manifest": manifest, "files": names}
+        self.identity["host_verifier"] = self.extract_host_verifier(bundle)
         self.record("PASS", image_sha512=actual, bundle=self.identity["bundle"])
+
+    def extract_host_verifier(self, bundle: pathlib.Path) -> dict[str, Any]:
+        """Take the verifier from the bundle's kit tarball; its digest must be the kit's BUILD-INFO entry."""
+        [kit] = [p for p in bundle.iterdir() if p.name.startswith("cohort-kit-") and p.name.endswith(".tar.gz")]
+        top = kit.name.removesuffix(".tar.gz")
+        with tarfile.open(kit, "r:gz") as tar:
+            raw = tar.extractfile(f"{top}/{KIT_VERIFIER}").read()
+            info = json.loads(tar.extractfile(f"{top}/BUILD-INFO.json").read())
+        digest = "sha256:" + hashlib.sha256(raw).hexdigest()
+        if info["files"].get(KIT_VERIFIER) != digest:
+            raise Refusal(f"the kit's {KIT_VERIFIER} does not match its BUILD-INFO.json")
+        target = self.state / "host-kit" / KIT_VERIFIER
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw)
+        self.host_verifier = target
+        return {"path": str(target), "sha256": digest, "kit": kit.name, "kit_commit": info["source_commit"]}
+
+    def host_verify(self, directory: pathlib.Path) -> tuple[int, dict[str, Any], bytes]:
+        done = run([sys.executable, "-I", "-S", "-B", str(self.host_verifier), "--evidence", str(directory)], check=False)
+        try:
+            value = json.loads(done.stdout)
+        except ValueError:
+            value = {"stderr": text(done.stderr)[-2000:]}
+        return done.returncode, value, done.stdout
 
     # ------------------------------------------------------------------ guest
     def prepare_guest(self) -> Guest:
@@ -462,10 +499,14 @@ users:
         self.record("FAIL" if missing else "PASS", missing=missing, facts=facts)
 
     def case_i03(self) -> None:
-        done = self.ssh(f"/usr/bin/python3.11 -I -S -B {self.facts['kit_root']}/setup/test_constellation_cohort.py -v 2>&1")
-        tail = text(done.stdout).strip().splitlines()[-3:]
-        ok = done.returncode == 0 and any(line.startswith("OK") for line in tail)
-        self.record("PASS" if ok else "FAIL", summary=tail)
+        summaries, ok = {}, True
+        for name in ("test_constellation_cohort.py", "test_verify_cohort_evidence.py"):
+            done = self.ssh(f"/usr/bin/python3.11 -I -S -B {self.facts['kit_root']}/setup/{name} -v 2>&1")
+            tail = text(done.stdout).strip().splitlines()[-3:]
+            summaries[name] = tail
+            ok &= done.returncode == 0 and any(line.startswith("OK") for line in tail) \
+                and not any("skipped" in line for line in tail)
+        self.record("PASS" if ok else "FAIL", summary=summaries)
 
     # -------------------------------------------------------- manifest refusals
     def variant_manifest(self, name: str, component: str, field: str, value: str) -> str:
@@ -522,7 +563,10 @@ users:
             installs[cohort] = self.driver(f"install --cohort {cohort} --manifest {BUNDLE}/cohort-manifest.json "
                                            f"--artifacts {BUNDLE}", timeout=900)
         identities = self.guest_json(f"sudo cat /opt/constellation/cohorts/qual-a/installed.json")
+        ag = {pathlib.PurePosixPath(path).name: v["sha256"] for path, v in identities.get("identities", {}).items()
+              if v.get("component") == "ag"}
         ok = (status_v == 0 and verify.get("qualified_cohort") == "alpha-exit-rc"
+              and all(ag.get(name, "").removeprefix("sha256:") == digest for name, digest in AG_ENROLLED.items())
               and all(status == 0 and value.get("result") == "installed" for status, value in installs.values()))
         self.record("PASS" if ok else "FAIL", verify=verify, install={k: v[1] for k, v in installs.items()},
                     executables={path: {k: v[k] for k in ("component", "sha256", "version", "source_commit")}
@@ -661,12 +705,90 @@ users:
         target.mkdir()
         with tarfile.open(fileobj=__import__("io").BytesIO(archive), mode="r:gz") as tar:
             tar.extractall(target, filter="data")
-        verifier = run([sys.executable, str(HERE / "verify_cohort_evidence.py"), "--evidence", str(target)], check=False)
-        (self.out / "evidence" / "qual-a-verifier.json").write_bytes(verifier.stdout)
-        verified = json.loads(verifier.stdout) if verifier.returncode == 0 else {"stderr": text(verifier.stderr)[-2000:]}
-        ok = status == 0 and result.get("join_complete") is True and verifier.returncode == 0 \
-            and verified.get("result") == "passed"
-        self.record("PASS" if ok else "FAIL", evidence=result, verifier=verified)
+        code, verified, raw = self.host_verify(target)
+        (self.out / "evidence" / "qual-a-verifier.json").write_bytes(raw)
+        enrollment = self.ag_enrollment(target)
+        self.facts["ag_enrollment"] = enrollment
+        ok = status == 0 and result.get("join_complete") is True and code == 0 \
+            and verified.get("result") == "passed" and enrollment["follows_repin"]
+        self.record("PASS" if ok else "FAIL", evidence=result, verifier=verified,
+                    verifier_source=self.identity.get("host_verifier"), ag_enrollment=enrollment)
+
+    @staticmethod
+    def ag_enrollment(root: pathlib.Path) -> dict[str, Any]:
+        """Where the new AG executables are enrolled, and that the superseded ones appear nowhere."""
+        found: dict[str, list[str]] = {f"new:{k}": [] for k in AG_ENROLLED} | {f"old:{k}": [] for k in AG_SUPERSEDED}
+        for path in sorted(p for p in root.rglob("*") if p.is_file() and p.suffix == ".json"):
+            data = path.read_bytes()
+            for label, table in (("new", AG_ENROLLED), ("old", AG_SUPERSEDED)):
+                for name, digest in table.items():
+                    if digest.encode() in data:
+                        found[f"{label}:{name}"].append(str(path.relative_to(root)))
+        required = {"new:ag-loopctl": {"state/owner/nightshift-ag-cycle-config.json", "state/deployment/caller.json"},
+                    "new:ag-standing-resolver": {"state/ports/ag-standing-enrollment.json",
+                                                 "state/ports/ag-standing-manifest.json"}}
+        follows = (all(need <= set(found[key]) for key, need in required.items())
+                   and not any(found[f"old:{name}"] for name in AG_SUPERSEDED))
+        return {"follows_repin": follows, "files": found}
+
+    def case_v01(self) -> None:
+        self.passed("W-05")
+        verifier = f"{self.facts['kit_root']}/{KIT_VERIFIER}"
+        digest = text(self.ssh(f"sha256sum {verifier}", check=True).stdout).split()[0]
+        genuine = self.ssh(f"sudo /usr/bin/python3.11 -I -S {verifier} --evidence {EVIDENCE}")
+        flipped_dir = "/root/cohort-evidence-v01-flipped"
+        self.ssh(f"sudo sh -c 'cp -a {EVIDENCE} {flipped_dir} && chmod u+w {flipped_dir}/native/docket-inspect.json && "
+                 f"printf \" \" >> {flipped_dir}/native/docket-inspect.json'", check=True)
+        flipped = self.ssh(f"sudo /usr/bin/python3.11 -I -S {verifier} --evidence {flipped_dir}")
+        self.ssh(f"sudo rm -rf {flipped_dir}", check=True)
+        (self.out / "evidence" / "qual-a-verifier-in-guest.json").write_bytes(genuine.stdout)
+        try:
+            good, bad = json.loads(genuine.stdout), json.loads(flipped.stdout)
+        except ValueError:
+            raise Refusal(f"verifier output is not JSON: {text(genuine.stdout)[-300:]} {text(flipped.stdout)[-300:]}")
+        host = json.loads((self.out / "evidence" / "qual-a-verifier.json").read_text())
+        ok = (genuine.returncode == 0 and good.get("result") == "passed" and good.get("mismatched_plan_digest") == "refused"
+              and all(good.get("checks", {}).values()) and good == host
+              and "sha256:" + digest == self.identity["host_verifier"]["sha256"]
+              and flipped.returncode == 1 and bad.get("result") == "failed"
+              and bad.get("digest_mismatches") == ["native/docket-inspect.json"])
+        self.record("PASS" if ok else "FAIL", verifier=verifier, verifier_sha256="sha256:" + digest,
+                    interpreter="/usr/bin/python3.11 -I -S", genuine=good, equals_host_output=good == host,
+                    flipped={"exit": flipped.returncode, "result": bad.get("result"),
+                             "digest_mismatches": bad.get("digest_mismatches")})
+
+    def case_k01(self) -> None:
+        self.passed("W-04")
+        cohort = COHORTS["A"][0]
+        ag = f"/opt/constellation/cohorts/{cohort}/ag/ag-0.1.0/bin/ag-loopctl"
+        done = self.ssh(f"sudo /usr/bin/python3.11 -I -S {GUEST_HOME}/bin/keyless_ag.py --kit-setup "
+                        f"{self.facts['kit_root']}/setup --cohort {cohort} --ag {ag}", timeout=600)
+        if done.returncode != 0:
+            raise Refusal(f"keyless helper failed: {text(done.stderr)[-1500:]}")
+        report = json.loads(done.stdout)
+        (self.out / "evidence" / "qual-a-keyless-ag.json").write_bytes(done.stdout)
+        variants = report["variants"]
+        control = variants["with-key"]["commands"]
+        live = self.status(cohort)["native"]
+        verified = all(c["outcome"] == "verified" and c["exit"] == 0 for c in control.values())
+        same = {name: all(variants[name]["commands"][cmd]["outcome"] == "verified"
+                          and variants[name]["commands"][cmd]["stdout_sha256"] == control[cmd]["stdout_sha256"]
+                          for cmd in control) for name in ("without-key", "garbage-key")}
+        absent = variants["without-validator-config"]["commands"]
+        exit3 = all(c["exit"] == 3 and c["outcome"] == "verified_except_unavailable"
+                    and [u["role"] for u in c["unavailable"]] == ["shared_admission.plan_validator_config"]
+                    for c in absent.values())
+        ok = (verified and all(same.values()) and exit3 and report["ag_sha256"] == "sha256:" + AG_ENROLLED["ag-loopctl"]
+              and control["inspect"]["program_counter"] == "settled_observation_required"
+              and absent["inspect"]["state_digest"] == control["inspect"]["state_digest"]
+              and not variants["without-key"]["key_present_in_view"] and report["live_key_present"])
+        read_only = variants["read-only-database"]["commands"]["inspect"]
+        self.record("PASS" if ok else "FAIL", ag_sha256=report["ag_sha256"],
+                    state_digest=control["inspect"]["state_digest"], live_status_counter=live.get("program_counter"),
+                    control_verified=verified, identical_without_key=same, absent_enrolled_file_exit3=exit3,
+                    absent_report=absent["inspect"]["unavailable"], driver_classification=absent["inspect"]["outcome"],
+                    read_only_database_probe={k: read_only[k] for k in ("exit", "outcome", "stderr_tail")},
+                    note="read-only-database is an observation of the AG owner limitation (G3 X-04), not a gate")
 
     # ------------------------------------------------------------ workflow refusals
     def case_n06(self) -> None:
@@ -766,8 +888,8 @@ users:
                               ("I-04", self.case_i04), ("I-05", self.case_i05), ("N-05", self.case_n05),
                               ("F-01", self.case_f01), ("W-01", self.case_w01), ("W-02", self.case_w02),
                               ("N-06", self.case_n06), ("W-03", self.case_w03), ("W-04", self.case_w04),
-                              ("N-07", self.case_n07), ("W-05", self.case_w05), ("N-08", self.case_n08),
-                              ("N-09", self.case_n09)):
+                              ("N-07", self.case_n07), ("W-05", self.case_w05), ("V-01", self.case_v01),
+                              ("K-01", self.case_k01), ("N-08", self.case_n08), ("N-09", self.case_n09)):
             self.run_case(cid, function)
         self.ssh("pkill -f fixture_responses_endpoint.py || true")
 
