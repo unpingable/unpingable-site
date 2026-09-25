@@ -13,15 +13,16 @@ import sys
 ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://unpingable.com/constellation/"
 IMAGE = "https://unpingable.com/og-card.png"
+IMAGE_ALT = "unpingable — evidence, authority, action. James Beck."
 PAGES = {
     "index.html": (
         "Constellation — independent evidence for automated work",
-        "Constellation is an experimental system that separates automated and AI agent work from the evidence, authority and acceptance used to decide whether that work succeeded.",
+        "An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.",
         BASE,
     ),
     "status.html": (
         "Constellation status",
-        "Dated claims, evidence, maturity and open limits for each Constellation release, component and exhibit.",
+        "Dated claims, the evidence behind each one, maturity and open limits for every Constellation release, release candidate, component and exhibit.",
         BASE + "status.html",
     ),
     "limits.html": (
@@ -31,7 +32,7 @@ PAGES = {
     ),
     "directions.html": (
         "Constellation research directions",
-        "The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.",
+        "The research questions behind Constellation, and related work on agent completion, specifications and trusted evidence in single-runtime agent harnesses.",
         BASE + "directions.html",
     ),
     "absd.html": (
@@ -46,12 +47,12 @@ PAGES = {
     ),
     "understand.html": (
         "How Constellation works",
-        "Understand Constellation's observation, judgment, authority, execution-custody and reconciliation boundaries.",
+        "How Constellation divides planning, agent authority, execution custody, observation and state verification between separate programs, and where the trust boundaries sit.",
         BASE + "understand.html",
     ),
     "components.html": (
         "Constellation components",
-        "Verified public source, responsibilities, maturity and availability for Constellation components.",
+        "What each Constellation component does, what it refuses, and how mature it is, with links to verified public source.",
         BASE + "components.html",
     ),
     "integration.html": (
@@ -170,7 +171,9 @@ def head(title: str, description: str, canonical: str) -> str:
   <meta property="og:description" content="{esc(description)}">
   <meta property="og:url" content="{esc(canonical)}">
   <meta property="og:image" content="{IMAGE}">
-  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{IMAGE_ALT}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{esc(title)}">
   <meta name="twitter:description" content="{esc(description)}">

@@ -3,17 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
+  <meta name="description" content="The research questions behind Constellation, and related work on agent completion, specifications and trusted evidence in single-runtime agent harnesses.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="Constellation research directions">
-  <meta property="og:description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
+  <meta property="og:description" content="The research questions behind Constellation, and related work on agent completion, specifications and trusted evidence in single-runtime agent harnesses.">
   <meta property="og:url" content="https://unpingable.com/constellation/directions.html">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
-  <meta property="og:image:alt" content="Constellation — governed automated work">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Constellation research directions">
-  <meta name="twitter:description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
+  <meta name="twitter:description" content="The research questions behind Constellation, and related work on agent completion, specifications and trusted evidence in single-runtime agent harnesses.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <title>Constellation research directions</title>
   <link rel="canonical" href="https://unpingable.com/constellation/directions.html">
@@ -41,7 +43,7 @@
     <p>On this page: <a href="#related-work">related work</a> &middot; <a href="#transitions">the transitions under study</a> &middot; <a href="#continuity">continuity</a> &middot; <a href="#authored-design">the authored design layer</a> &middot; <a href="#other-directions">other notes</a>.</p>
 
     <h2 id="related-work">Related work</h2>
-    <p>Li et al., &ldquo;<a href="https://arxiv.org/abs/2609.29921">Who Holds the Pen? Let Specifications, Not Agents, Sign Off</a>&rdquo;, arXiv:2609.29921 (2026). The paper measures a gap between an agent&rsquo;s completion claim and the state it was asked to produce, and proposes SpecHarness: a trusted runtime that authorizes agent actions, observes their effects, and marks a specification obligation satisfied only from admissible, fresh evidence.</p>
+    <p>Haiqing Li, Xin Ma, Yinhao Wu, Wenliang Zhong, Feng Jiang, Thao M. Dang, Xiao Hu, Hehuan Ma, Yuzhi Guo and Junzhou Huang, &ldquo;Who Holds the Pen? Let Specifications, Not Agents, Sign Off&rdquo;, <a href="https://arxiv.org/abs/2609.29921">arXiv:2609.29921</a> (2026). Across seven models on SkillsBench, the paper measures a gap between an agent&rsquo;s completion claim and the state it was asked to produce, and proposes SpecHarness, an agent harness in which a trusted runtime authorizes agent actions, observes their effects, and marks a specification obligation satisfied only from admissible, fresh evidence.</p>
     <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation explores the harder distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately.</p>
     <p>This is independent convergence, and evidence that the discipline is worth taking seriously. It is not validation of Constellation&rsquo;s specific architecture. A longer comparison is in the <a href="https://github.com/unpingable/papers/blob/main/working/agent-governance-field-state.md#addendum-2026-09-25--specharness-specificationstate-authority-in-single-runtime-harnesses">literature note on agent-governance field state</a>.</p>
 
