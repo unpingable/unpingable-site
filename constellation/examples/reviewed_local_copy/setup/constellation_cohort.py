@@ -22,6 +22,16 @@ Newcomer steps:
                       one durable unit records the review and executes once
   7. evidence         read-only bundle of records, store backups and joins
 
+Upgrading is re-initialization into a new cohort id with retained evidence
+(there is no in-place upgrade):
+
+  8. upgrade          (root, successor's driver) verify the predecessor's
+                      evidence export with the successor's installed tools,
+                      retain it read-only, quarantine the predecessor's state
+                      and leave a tombstone; then init the successor
+  9. verify-retained  read-only re-verification of retained evidence
+ 10. upgrade-status   read-only journal listing; names interrupted attempts
+
 Every run writes create-once started/finished records. A refusal has a stable
 code and never leaves a half-written file presented as complete. Nothing is
 retried, and nothing is overwritten: a second run of a step against the same
@@ -52,7 +62,7 @@ import tarfile
 import time
 import uuid
 
-DRIVER_VERSION = '0.2.0'
+DRIVER_VERSION = '0.3.0'
 MANIFEST_SCHEMA = 'constellation.cohort-manifest/v1'
 PROFILE = 'reviewed-local-copy/v1'
 RECORD_SCHEMA = 'constellation.cohort-driver-record/v1'
@@ -876,6 +886,8 @@ def cmd_init(args) -> dict:
     require_host(facts)
     paths = cohort_paths(args.cohort)
     programs = Programs(args.cohort)
+    check_not_retired(args.cohort)
+    predecessor = upgrade_into(args.cohort)
     if paths['state'].exists() or paths['nq_config'].exists() or paths['nq_state'].exists():
         raise Refusal('cohort.exists', f'{paths["state"]} exists; init runs once per cohort')
     if args.review_route == 'real' and args.fixture_port is not None:
@@ -957,7 +969,9 @@ def cmd_init(args) -> dict:
     records.write('timings.json', records.timings)
     finished = {'schema': 'constellation.cohort-init/v1', 'cohort': args.cohort, 'review_route': args.review_route,
                 'binding_id': read_json(paths['plan'] / 'binding.json')['binding_id'], 'occurrence': ids['occurrence'],
-                'records': str(records.run), 'observation': 'none', 'provider_calls': 0, 'grants': 0, 'effects': 0}
+                'records': str(records.run), 'observation': 'none', 'provider_calls': 0, 'grants': 0, 'effects': 0,
+                'predecessor': None if predecessor is None else {
+                    key: predecessor[key] for key in ('from', 'retained', 'retained_sha256sums')}}
     write_new(paths['records'] / 'init.finished.json', canonical(finished) + b'\n', 0o644)
     return {'result': 'initialized', **finished}
 
@@ -1547,6 +1561,558 @@ def cmd_evidence(args) -> dict:
             'join_complete': join['complete'], 'join': join['checks']}
 
 
+# ------------------------------------------------------------------ upgrade
+#
+# The supported upgrade rule is re-initialization into a new cohort id with
+# retained evidence. There is no in-place upgrade: every component store of a
+# cohort is bound to that cohort's exact installed bytes and identities (the
+# AG genesis pins the runtime profile's files, the Docket state its first-grant
+# operator and issuer trust, NQ its per-cohort store and admissions, the
+# review stores the cohort's run id). So a successor cohort B gets fresh
+# identities, keys and stores, and the predecessor A is retired:
+#
+#   1. A's own driver exports A's evidence (`evidence`), after A's occurrence
+#      has settled or stopped without authority in flight.
+#   2. B is installed from B's qualified manifest (not initialized).
+#   3. B's driver runs `upgrade`: it verifies the export with B's installed
+#      tools, copies it into a read-only retained store, moves A's live state
+#      (and A's NQ config and store) into quarantine and leaves a tombstone at
+#      A's state path, then re-verifies A's AG store from the quarantine.
+#   4. B's `init` refuses while an upgrade into B is interrupted, and records
+#      its completed predecessor.
+#
+# Every step is journaled create-once. An interrupted upgrade is never
+# silently resumed: a later `upgrade` refuses until the operator names the
+# interrupted attempt, and nothing an attempt wrote is deleted.
+
+UPGRADE_ROOT = Path('/var/lib/constellation/upgrades')
+RETAINED_ROOT = Path('/var/lib/constellation/retained')
+QUARANTINE_ROOT = Path('/var/lib/constellation/quarantine')
+VERIFY_SCRATCH_ROOT = Path('/var/lib/constellation')
+UNSHARE = Path('/usr/bin/unshare')
+# AG program counters with authority in flight: an upgrade refuses them.
+IN_FLIGHT = ('dispatched', 'reconciliation_required')
+# AG issuance signature law (AG conformance/governed-loop-issuance vectors).
+ISSUANCE_SIGNATURE_PREFIX = b'ag-ng\x00governed-loop-issuance-signature\x00v1\x00'
+ED25519_SPKI_PREFIX = bytes.fromhex('302a300506032b6570032100')
+RETAINED_SCHEMA = 'constellation.cohort-retained-evidence/v1'
+TOMBSTONE_SCHEMA = 'constellation.cohort-retired/v1'
+HEX64 = re.compile(r'[0-9a-f]{64}\Z')
+
+
+def sync_dir(path: Path) -> None:
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY | os.O_CLOEXEC)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def read_sums(directory: Path, prefix: str) -> dict:
+    """Parse SHA256SUMS strictly: one `hex  relative-path` per line."""
+    try:
+        raw = read_bytes(directory / 'SHA256SUMS')
+    except FileNotFoundError:
+        raise Refusal(f'{prefix}.missing', f'{directory}/SHA256SUMS') from None
+    entries = {}
+    for line in raw.decode(errors='strict').splitlines():
+        value, separator, name = line.partition('  ')
+        parts = PurePosixPath(name).parts
+        if not separator or not HEX64.fullmatch(value) or not name or name in entries \
+                or name.startswith('/') or '..' in parts or name in ('SHA256SUMS', 'RETAINED.json'):
+            raise Refusal(f'{prefix}.sums', f'malformed SHA256SUMS line {line[:120]!r}')
+        entries[name] = 'sha256:' + value
+    if not entries:
+        raise Refusal(f'{prefix}.sums', 'empty SHA256SUMS')
+    return entries
+
+
+def check_tree(directory: Path, entries: dict, prefix: str, extra_allowed=('SHA256SUMS',)) -> None:
+    """Every listed file present with its digest; nothing unlisted; no links."""
+    present = set()
+    for path in sorted(directory.rglob('*')):
+        relative = str(path.relative_to(directory))
+        if path.is_symlink():
+            raise Refusal(f'{prefix}.unsafe', f'{relative} is a symbolic link')
+        if path.is_file():
+            present.add(relative)
+        elif not path.is_dir():
+            raise Refusal(f'{prefix}.unsafe', f'{relative} is not a regular file or directory')
+    missing = sorted(set(entries) - present)
+    if missing:
+        raise Refusal(f'{prefix}.missing', ', '.join(missing[:10]))
+    unlisted = sorted(present - set(entries) - set(extra_allowed))
+    if unlisted:
+        raise Refusal(f'{prefix}.unlisted', ', '.join(unlisted[:10]))
+    for name, expected in sorted(entries.items()):
+        if sha256_file(directory / name) != expected:
+            raise Refusal(f'{prefix}.digest_mismatch', name)
+
+
+def ag_hash_domain(domain: str, payload: bytes) -> str:
+    digest = hashlib.sha256(b'ag-ng\x00digest\x00v1\x00')
+    digest.update(len(domain).to_bytes(16, 'big') + domain.encode())
+    digest.update(len(payload).to_bytes(16, 'big') + payload)
+    return 'sha256:' + digest.hexdigest()
+
+
+def issuance_identity(issuance: dict) -> str:
+    """Recompute AG's issuance identity (Docket gwr-runtime issuance_identity)."""
+    schema, not_after = issuance.get('schema'), issuance.get('not_after_unix_ms')
+    if schema == 'ag.governed-loop.issuance/v2' and type(not_after) is int and not_after > 0:
+        domain = schema
+    elif schema == 'ag.governed-loop.issuance/v1' and not_after is None:
+        domain = schema
+    else:
+        raise Refusal('evidence.issuance_identity', f'issuance schema {schema!r} and not-after shape disagree')
+    fields = ('key', 'mandate', 'observation', 'program', 'proposal', 'scope', 'spend', 'standing_resolution',
+              'subject', 'work', 'work_schema')
+    basis = {name: issuance[name] for name in fields}
+    if not_after is not None:
+        basis['not_after_unix_ms'] = not_after
+    return ag_hash_domain(domain, canonical(basis))
+
+
+def b64url(value: str) -> bytes:
+    return base64.urlsafe_b64decode(value + '=' * (-len(value) % 4))
+
+
+def signed_issuance_envelope(record: dict) -> bytes:
+    """The exact signed issuance a Docket record retains, re-assembled."""
+    return canonical({'schema': 'ag.governed-loop.signed-issuance/v1', 'authentication': record['authentication'],
+                      'body_b64': base64.urlsafe_b64encode(canonical(record['issuance'])).decode().rstrip('=')})
+
+
+def verify_issuance_signature(record: dict, trust: dict, scratch: Path) -> dict:
+    """Ed25519 over the AG prefix and the canonical body, by a trusted key."""
+    authentication = record['authentication']
+    trusted = [entry for entry in trust.get('issuers', [])
+               if entry.get('issuer_principal') == authentication['issuer_principal']
+               and entry.get('key_id') == authentication['signer_key_id']
+               and entry.get('public_key') == authentication['signer_public_key']]
+    work = scratch / 'signature'
+    work.mkdir(mode=0o700)
+    write_new(work / 'public.der', ED25519_SPKI_PREFIX + b64url(authentication['signer_public_key']))
+    write_new(work / 'message', ISSUANCE_SIGNATURE_PREFIX + canonical(record['issuance']))
+    write_new(work / 'signature', b64url(authentication['signature']))
+    done = subprocess.run([str(OPENSSL), 'pkeyutl', '-verify', '-pubin', '-inkey', str(work / 'public.der'),
+                           '-keyform', 'DER', '-rawin', '-in', str(work / 'message'), '-sigfile', str(work / 'signature')],
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={'PATH': SYSTEM_PATH, 'LANG': 'C.UTF-8'},
+                          timeout=30, check=False)
+    return {'trusted_by_retained_trust': len(trusted) == 1, 'signature_valid': done.returncode == 0,
+            'issuer_principal': authentication['issuer_principal'], 'signer_key_id': authentication['signer_key_id'],
+            'signer_public_key': authentication['signer_public_key']}
+
+
+def restored_view(source_state: Path, cohort: str, stage: Path, argv: list[str]) -> list[str]:
+    """Run argv with `source_state` visible read-only at the cohort's original
+    state path, in a private mount namespace that ends with the process.
+
+    AG verifies a campaign store only against its genesis-bound runtime
+    profile, whose files (including the issuer key) are pinned by absolute
+    path. The view restores those locators without writing to them and
+    without making the retired state live in the host's namespace.
+    """
+    script = ('set -eu; mount --bind "$1" "$2"; mount -t tmpfs -o mode=0755,size=1m,nosuid,nodev,noexec '
+              'constellation-restored-view "$3"; mkdir -m 0700 "$3/$4"; mount --bind "$2" "$3/$4"; '
+              'mount -o remount,bind,ro,nosuid,nodev "$3/$4"; shift 4; exec "$@"')
+    return [str(UNSHARE), '--mount', '--propagation', 'private', '--', '/bin/sh', '-c', script, 'restored-view',
+            str(source_state), str(stage), str(STATE_ROOT), cohort, *argv]
+
+
+class VerifyScratch:
+    """A private scratch directory for store copies; removed afterwards."""
+
+    def __enter__(self) -> Path:
+        account = pwd.getpwnam(COHORT_ACCOUNT)
+        self.path = VERIFY_SCRATCH_ROOT / f'verify-scratch-{secrets.token_hex(8)}'
+        make_dir(self.path, 0o700, COHORT_ACCOUNT)
+        os.chown(self.path, account.pw_uid, account.pw_gid)
+        return self.path
+
+    def __exit__(self, *exc) -> None:
+        # Only copies live here; the mount stage is empty once the view ends.
+        shutil.rmtree(self.path, ignore_errors=True)
+
+
+def owned_copy(source: Path, target: Path) -> Path:
+    target.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+    account = pwd.getpwnam(COHORT_ACCOUNT)
+    os.chown(target.parent, account.pw_uid, account.pw_gid)
+    shutil.copyfile(source, target)
+    os.chmod(target, 0o600)
+    os.chown(target, account.pw_uid, account.pw_gid)
+    return target
+
+
+def run_read(argv: list[str], label: str, timeout: int = 120) -> dict:
+    done = subprocess.run([str(a) for a in argv], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                          env={'PATH': SYSTEM_PATH, 'LANG': 'C.UTF-8'}, timeout=timeout, check=False)
+    result = {'label': label, 'exit': done.returncode, 'stderr_tail': done.stderr.decode(errors='replace')[-600:]}
+    try:
+        result['json'] = json.loads(done.stdout) if done.returncode == 0 else None
+    except ValueError:
+        result['json'] = None
+    return result
+
+
+def verify_evidence(directory: Path, cohort: str, programs: 'Programs', source_state: Path | None,
+                    require_ag: bool) -> dict:
+    """Re-verify one cohort's exported evidence with the given installed tools.
+
+    Digests are checked by the caller. This checks meaning: the Docket store
+    re-inspects to the exported projections, the issuance identity and
+    signature verify against the retained trust, and (when the retired state
+    is available) AG replays its store to the exported inspection.
+    """
+    installed_record = read_json(directory / 'records' / 'installed.json')
+    if installed_record.get('cohort') != cohort:
+        raise Refusal('evidence.cohort', f'the evidence belongs to {installed_record.get("cohort")!r}, not {cohort!r}')
+    join = read_json(directory / 'JOIN.json')
+    ag_export = read_json(directory / 'native' / 'ag-inspect.json')
+    counter = next(iter(ag_export['current']['state']))
+    checks, observed = {}, {'program_counter': counter, 'join_complete': join.get('complete') is True}
+    docket_path = directory / 'native' / 'docket-inspect.json'
+    with VerifyScratch() as scratch:
+        if docket_path.is_file():
+            docket_export = read_json(docket_path)
+            snapshot_export = read_json(directory / 'native' / 'standing-snapshot.json')
+            record = docket_export['record']
+            issuance = docket_export['requested_issuance']
+            state = scratch / 'docket-state'
+            owned_copy(directory / 'stores' / 'docket.sqlite', state / 'state.sqlite')
+            inspected = run_read(as_user(COHORT_ACCOUNT, [programs.docket, 'governed-loop', 'inspect', '--state', state,
+                                                          '--issuance', issuance]), 'docket-inspect')
+            snapshot = run_read(as_user(COHORT_ACCOUNT, [programs.docket, 'governed-loop', 'standing-snapshot', '--state',
+                                                         state, '--issuance', issuance]), 'docket-standing-snapshot')
+            checks['docket_reinspection'] = inspected['json'] == docket_export and snapshot['json'] == snapshot_export
+            observed['docket'] = {'inspect_exit': inspected['exit'], 'snapshot_exit': snapshot['exit'],
+                                  'program': str(programs.docket), 'stderr': inspected['stderr_tail']}
+            checks['issuance_identity'] = (issuance_identity(record['issuance']) == issuance == record['issuance']['issuance']
+                                           == join.get('issuance'))
+            signature = verify_issuance_signature(record, read_json(directory / 'state' / 'ports' / 'docket-trust.json'),
+                                                  scratch)
+            checks['issuance_signature'] = signature['trusted_by_retained_trust'] and signature['signature_valid']
+            observed['issuance'] = {'issuance': issuance, 'not_after_unix_ms': record['issuance'].get('not_after_unix_ms'),
+                                    **signature}
+        if source_state is not None:
+            database = owned_copy(directory / 'stores' / 'ag.sqlite', scratch / 'ag' / 'ag.sqlite')
+            stage = make_dir(scratch / 'view-stage', 0o700)
+            argv = restored_view(source_state, cohort, stage, as_user(COHORT_ACCOUNT, [programs.ag, 'inspect',
+                                                                                          '--database', database]))
+            inspected = run_read(argv, 'ag-inspect-restored-view')
+            checks['ag_reinspection'] = inspected['json'] == ag_export
+            observed['ag'] = {'inspect_exit': inspected['exit'], 'program': str(programs.ag), 'view_source': str(source_state),
+                              'stderr': inspected['stderr_tail']}
+        elif require_ag:
+            checks['ag_reinspection'] = False
+            observed['ag'] = {'unavailable': 'the retired state that AG verification needs is absent'}
+    return {'checks': checks, 'verified': bool(checks) and all(checks.values()), 'observed': observed}
+
+
+def upgrade_dir(source: str, target: str) -> Path:
+    return UPGRADE_ROOT / f'{source}-to-{target}'
+
+
+def attempts(directory: Path) -> list[Path]:
+    if not directory.is_dir():
+        return []
+    return sorted(path for path in directory.iterdir() if path.is_dir() and re.fullmatch(r'attempt-\d{3}', path.name))
+
+
+def attempt_state(attempt: Path) -> dict:
+    steps = sorted(path.name.removesuffix('.json') for path in attempt.glob('*.json'))
+    return {'attempt': attempt.name, 'steps': steps, 'completed': (attempt / 'completed.json').is_file(),
+            'acknowledged_interrupted': (attempt / 'interrupted.acknowledged.json').is_file()}
+
+
+def journals(source: str | None = None, target: str | None = None) -> list[dict]:
+    """Every upgrade journal on this host, optionally filtered."""
+    found = []
+    if not UPGRADE_ROOT.is_dir():
+        return found
+    for directory in sorted(UPGRADE_ROOT.iterdir()):
+        match = re.fullmatch(r'([a-z0-9][a-z0-9-]{2,39})-to-([a-z0-9][a-z0-9-]{2,39})', directory.name)
+        if not match or (source and match.group(1) != source) or (target and match.group(2) != target):
+            continue
+        states = [attempt_state(path) for path in attempts(directory)]
+        found.append({'from': match.group(1), 'to': match.group(2), 'directory': str(directory), 'attempts': states,
+                      'completed': any(state['completed'] for state in states),
+                      'interrupted': [state['attempt'] for state in states
+                                      if not state['completed'] and not state['acknowledged_interrupted']]})
+    return found
+
+
+def journal_write(attempt: Path, name: str, value: dict) -> None:
+    write_new(attempt / f'{name}.json', canonical({'at': utc_now(), **value}) + b'\n', 0o600)
+    sync_dir(attempt)
+
+
+def quarantine_moves(source: str) -> list[tuple[Path, Path]]:
+    paths = cohort_paths(source)
+    nq_quarantine = NQ_STATE_DIR / f'quarantine-cohort-{source}'
+    return [(paths['state'], QUARANTINE_ROOT / source / 'state'),
+            (paths['nq_state'], nq_quarantine / 'store'),
+            (paths['nq_config'], nq_quarantine / paths['nq_config'].name)]
+
+
+def retired_state(source: str) -> Path | None:
+    """Where the source cohort's state is: live, quarantined or absent."""
+    live, quarantined = quarantine_moves(source)[0]
+    if live.is_dir() and not live.is_symlink():
+        return live
+    if quarantined.is_dir():
+        return quarantined
+    return None
+
+
+def tombstone(source: str) -> Path:
+    return cohort_paths(source)['state']
+
+
+def retained_path(source: str, sums_digest: str) -> Path:
+    return RETAINED_ROOT / source / ('sha256-' + sums_digest.removeprefix('sha256:'))
+
+
+def retain_copy(export: Path, entries: dict, target: Path, attempt: Path, sums_digest: str, source: str) -> str:
+    """Copy the verified export into a read-only retained store.
+
+    The copy is written under a partial name, verified, sealed read-only and
+    renamed into place. A partial copy from an interrupted attempt is kept,
+    labelled by its name, and never treated as retained evidence.
+    """
+    if target.exists():
+        check_tree(target, entries, 'retained', extra_allowed=('SHA256SUMS', 'RETAINED.json'))
+        if sha256_file(target / 'SHA256SUMS') != sums_digest:
+            raise Refusal('retained.digest_mismatch', f'{target}/SHA256SUMS')
+        return 'already_retained'
+    parent = target.parent
+    for directory in (RETAINED_ROOT, parent):
+        directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+    partial = parent / f'.partial-{attempt.parent.name}-{attempt.name}'
+    make_dir(partial, 0o700)
+    sync_dir(parent)
+    for name in sorted(entries):
+        destination = partial / name
+        destination.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        write_new(destination, read_bytes(export / name, 512 * 1024 * 1024), 0o400)
+    write_new(partial / 'SHA256SUMS', read_bytes(export / 'SHA256SUMS'), 0o400)
+    write_new(partial / 'RETAINED.json', canonical({
+        'schema': RETAINED_SCHEMA, 'cohort': source, 'sha256sums': sums_digest, 'files': len(entries),
+        'exported_from': str(export), 'retained_by_attempt': str(attempt), 'at': utc_now()}) + b'\n', 0o400)
+    check_tree(partial, entries, 'retained', extra_allowed=('SHA256SUMS', 'RETAINED.json'))
+    for path in sorted(partial.rglob('*'), key=lambda item: len(item.parts), reverse=True):
+        if path.is_dir():
+            sync_dir(path)
+            os.chmod(path, 0o500)
+    sync_dir(partial)
+    os.chmod(partial, 0o500)
+    os.rename(partial, target)
+    sync_dir(parent)
+    return 'retained'
+
+
+def quarantine(source: str, attempt: Path, retained: Path) -> list[dict]:
+    """Move the retired cohort's live state aside (never deleted)."""
+    moved = []
+    for origin, destination in quarantine_moves(source):
+        if origin.exists() and not destination.exists() and not (origin == tombstone(source) and origin.is_file()):
+            destination.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+            if destination.parent.parent == NQ_STATE_DIR:
+                nq = pwd.getpwnam(NQ_ACCOUNT)
+                os.chown(destination.parent, nq.pw_uid, nq.pw_gid)
+            try:
+                os.rename(origin, destination)
+            except OSError as error:
+                raise Refusal('upgrade.quarantine', f'{origin} -> {destination}: {error}') from None
+            sync_dir(origin.parent)
+            sync_dir(destination.parent)
+            moved.append({'from': str(origin), 'to': str(destination), 'moved_by': attempt.name})
+        elif destination.exists() and (not origin.exists() or (origin == tombstone(source) and origin.is_file())):
+            moved.append({'from': str(origin), 'to': str(destination), 'moved_by': 'an earlier attempt'})
+        elif origin.exists() and destination.exists():
+            raise Refusal('upgrade.quarantine_conflict', f'both {origin} and {destination} exist')
+        else:
+            raise Refusal('upgrade.quarantine_lost', f'neither {origin} nor {destination} exists')
+    marker = tombstone(source)
+    value = {'schema': TOMBSTONE_SCHEMA, 'cohort': source, 'retained': str(retained),
+             'quarantine': [entry['to'] for entry in moved], 'upgrade': str(attempt.parent)}
+    if marker.exists():
+        if not marker.is_file() or read_json(marker).get('schema') != TOMBSTONE_SCHEMA:
+            raise Refusal('upgrade.quarantine_conflict', f'{marker} exists and is not this upgrade\'s tombstone')
+    else:
+        # A file where the state directory was: every earlier driver release
+        # refuses to initialize over it, so the retired id is never reused.
+        write_new(marker, canonical(value) + b'\n', 0o444)
+        sync_dir(marker.parent)
+    return moved
+
+
+def evidence_identities(directory: Path) -> dict:
+    """Identities a retained export carries (read from the export itself)."""
+    ids_path = directory / 'records' / 'driver' / 'identities.json'
+    ids = read_json(ids_path) if ids_path.is_file() else {}
+    join = read_json(directory / 'JOIN.json')
+    trust = read_json(directory / 'state' / 'ports' / 'docket-trust.json')
+    keep = ('cohort', 'operator', 'issuer_principal', 'issuer_key_id', 'standing_resolver_id', 'author_principal',
+            'reviewer_id', 'occurrence', 'campaign', 'program', 'subject', 'nq_subject', 'run_id', 'review_route')
+    return {'driver': {key: ids.get(key) for key in keep}, 'issuer_trust': trust.get('issuers'),
+            'binding_id': join.get('binding_id'), 'issuance': join.get('issuance'), 'attempt': join.get('attempt'),
+            'settlement': join.get('settlement'), 'state_digest': join.get('state_digest')}
+
+
+def cmd_upgrade(args) -> dict:
+    facts = host_facts()
+    require_host(facts)
+    source, target = args.from_cohort, args.to_cohort
+    cohort_paths(source), cohort_paths(target)
+    if source == target:
+        raise Refusal('upgrade.same_cohort', 'the successor is a new cohort id')
+    if not UNSHARE.is_file():
+        raise Refusal('host.missing_tool', str(UNSHARE))
+    programs = Programs(target)
+    if cohort_paths(target)['state'].exists():
+        raise Refusal('upgrade.target_initialized', f'{target} is already initialized; upgrade before init')
+    if not (INSTALL_ROOT / source / 'installed.json').is_file():
+        raise Refusal('upgrade.source_not_installed', source)
+    export = args.export
+    if not export.is_absolute() or not export.is_dir():
+        raise Refusal('upgrade.export', 'an absolute evidence directory written by the predecessor\'s `evidence`')
+    for other in journals(source=source):
+        if other['to'] != target:
+            raise Refusal('upgrade.source_retired', f'{source} is already being retired into {other["to"]}')
+    directory = upgrade_dir(source, target)
+    previous = [attempt_state(path) for path in attempts(directory)]
+    if any(state['completed'] for state in previous):
+        raise Refusal('upgrade.exists', f'{source} was already upgraded into {target}; see {directory}')
+    pending = [state for state in previous if not state['acknowledged_interrupted']]
+    if pending and args.after_interrupted != pending[-1]['attempt']:
+        raise Refusal('upgrade.interrupted', json.dumps({'directory': str(directory), 'interrupted': pending},
+                                                        sort_keys=True) + '; inspect it, then rerun with '
+                      f'--after-interrupted {pending[-1]["attempt"]}')
+    if not pending and args.after_interrupted is not None:
+        raise Refusal('upgrade.interrupted', 'no interrupted attempt to acknowledge')
+    source_state = retired_state(source)
+    if source_state is None:
+        raise Refusal('cohort.not_initialized', f'{source} has neither live nor quarantined state')
+    # Read-only checks before anything is written: digests, cohort, settled.
+    entries = read_sums(export, 'export')
+    check_tree(export, entries, 'export')
+    sums_digest = sha256_file(export / 'SHA256SUMS')
+    if read_json(export / 'records' / 'installed.json').get('cohort') != source:
+        raise Refusal('evidence.cohort', f'{export} is not {source}\'s evidence')
+    ag_export = read_json(export / 'native' / 'ag-inspect.json')
+    counter = next(iter(ag_export['current']['state']))
+    value = ag_export['current']['state'][counter]
+    not_after = (value.get('dispatch', {}).get('authorized', {}).get('issuance', {}).get('not_after_unix_ms')
+                 if isinstance(value, dict) else None)
+    if counter in IN_FLIGHT or (counter == 'authorization_consumed' and (not_after is None or now_ms() < not_after)):
+        raise Refusal('upgrade.source_in_flight', f'{source} is at {counter}; settle or reconcile it before retiring it')
+    # Journal from here on.
+    UPGRADE_ROOT.mkdir(mode=0o700, parents=True, exist_ok=True)
+    directory.mkdir(mode=0o700, exist_ok=True)
+    for state in pending:
+        journal_write(directory / state['attempt'], 'interrupted.acknowledged', {'acknowledged_by': 'upgrade',
+                                                                                 'steps_found': state['steps']})
+    attempt = make_dir(directory / f'attempt-{len(previous) + 1:03d}', 0o700)
+    sync_dir(directory)
+    source_record = read_json(INSTALL_ROOT / source / 'installed.json')
+    target_record = installed(target)
+    journal_write(attempt, 'begin', {
+        'schema': 'constellation.cohort-upgrade/v1', 'from': source, 'to': target, 'export': str(export),
+        'export_sha256sums': sums_digest, 'export_files': len(entries), 'source_state': str(source_state),
+        'from_qualified_cohort': source_record.get('qualified_cohort'), 'from_manifest': source_record.get('manifest_sha256'),
+        'to_qualified_cohort': target_record.get('qualified_cohort'), 'to_manifest': target_record.get('manifest_sha256'),
+        'acknowledged_interrupted': [state['attempt'] for state in pending], 'driver_version': DRIVER_VERSION})
+    journal_write(attempt, 'verify-export.started', {})
+    verified = verify_evidence(export, source, programs, source_state, require_ag=True)
+    journal_write(attempt, 'verify-export', verified)
+    if not verified['verified']:
+        raise Refusal('upgrade.export_unverified', json.dumps(verified['checks'], sort_keys=True))
+    retained = retained_path(source, sums_digest)
+    journal_write(attempt, 'retain.started', {'target': str(retained)})
+    outcome = retain_copy(export, entries, retained, attempt, sums_digest, source)
+    journal_write(attempt, 'retain', {'retained': str(retained), 'outcome': outcome, 'sha256sums': sums_digest})
+    journal_write(attempt, 'quarantine.intent', {'moves': [[str(a), str(b)] for a, b in quarantine_moves(source)],
+                                                 'tombstone': str(tombstone(source))})
+    moved = quarantine(source, attempt, retained)
+    journal_write(attempt, 'quarantine', {'moves': moved, 'tombstone': str(tombstone(source))})
+    quarantined = quarantine_moves(source)[0][1]
+    after = verify_evidence(retained, source, programs, quarantined, require_ag=True)
+    journal_write(attempt, 'verify-retained', after)
+    if not after['verified']:
+        raise Refusal('upgrade.retained_unverified', json.dumps(after['checks'], sort_keys=True))
+    completed = {'from': source, 'to': target, 'retained': str(retained), 'retained_sha256sums': sums_digest,
+                 'quarantine': moved, 'tombstone': str(tombstone(source)),
+                 'preserved_identities': evidence_identities(retained),
+                 'successor_identities': 'fresh at init of ' + target,
+                 'verified_with': {'docket': str(programs.docket), 'ag': str(programs.ag)}}
+    journal_write(attempt, 'completed', completed)
+    return {'result': 'upgraded', 'attempt': str(attempt), **completed,
+            'checks': {'export': verified['checks'], 'retained': after['checks']}}
+
+
+def completed_upgrade(source: str) -> dict:
+    """The one completed upgrade that retired `source`."""
+    for journal in journals(source=source):
+        for state in journal['attempts']:
+            if state['completed']:
+                return read_json(Path(journal['directory']) / state['attempt'] / 'completed.json')
+    raise Refusal('retained.not_recorded', f'no completed upgrade retired {source}')
+
+
+def cmd_verify_retained(args) -> dict:
+    """Read-only: re-verify a retired cohort's retained evidence with this
+    host's successor tools. Refuses any digest or meaning mismatch."""
+    if os.geteuid() != 0:
+        raise Refusal('host.not_root', 'verify-retained reads root-only retained evidence')
+    source = args.cohort
+    cohort_paths(source)
+    completed = completed_upgrade(source)
+    directory = args.retained or Path(completed['retained'])
+    entries = read_sums(directory, 'retained')
+    check_tree(directory, entries, 'retained', extra_allowed=('SHA256SUMS', 'RETAINED.json'))
+    sums_digest = sha256_file(directory / 'SHA256SUMS')
+    if sums_digest != completed['retained_sha256sums']:
+        raise Refusal('retained.not_recorded', f'{directory} SHA256SUMS {sums_digest} is not the retained '
+                                               f'{completed["retained_sha256sums"]}')
+    marker = read_json(directory / 'RETAINED.json')
+    if marker.get('schema') != RETAINED_SCHEMA or marker.get('cohort') != source or marker.get('sha256sums') != sums_digest:
+        raise Refusal('retained.marker', f'{directory}/RETAINED.json does not bind this evidence')
+    programs = Programs(completed['to'])
+    quarantined = quarantine_moves(source)[0][1]
+    result = verify_evidence(directory, source, programs, quarantined if quarantined.is_dir() else None, require_ag=True)
+    if not result['verified']:
+        raise Refusal('retained.unverified', json.dumps(result['checks'], sort_keys=True))
+    return {'result': 'retained_verified', 'cohort': source, 'retained': str(directory), 'sha256sums': sums_digest,
+            'files': len(entries), 'successor': completed['to'], **result}
+
+
+def cmd_upgrade_status(args) -> dict:
+    """Read-only: every upgrade journal, with interrupted attempts named."""
+    found = journals(source=args.from_cohort)
+    partial = sorted(str(path) for path in RETAINED_ROOT.glob('*/.partial-*')) if RETAINED_ROOT.is_dir() else []
+    for journal in found:
+        journal['source_state'] = str(retired_state(journal['from']) or 'absent')
+    return {'result': 'upgrade_status', 'journals': found, 'partial_retained_copies': partial,
+            'interrupted': [f'{j["directory"]}/{a}' for j in found for a in j['interrupted']]}
+
+
+def check_not_retired(cohort: str) -> None:
+    if (QUARANTINE_ROOT / cohort).exists() or journals(source=cohort):
+        raise Refusal('cohort.retired', f'{cohort} was retired by an upgrade; its id is never reused')
+
+
+def upgrade_into(cohort: str) -> dict | None:
+    """Refuse while an upgrade into `cohort` is interrupted; else its record."""
+    for journal in journals(target=cohort):
+        if not journal['completed']:
+            raise Refusal('upgrade.interrupted', f'the upgrade {journal["directory"]} into {cohort} did not complete; '
+                                                 'finish it before init')
+        return completed_upgrade(journal['from'])
+    return None
+
+
 # ------------------------------------------------------------------ cli
 
 def parser() -> argparse.ArgumentParser:
@@ -1576,6 +2142,15 @@ def parser() -> argparse.ArgumentParser:
     p = sub.add_parser('evidence')
     p.add_argument('--cohort', required=True)
     p.add_argument('--output', type=Path, required=True)
+    p = sub.add_parser('upgrade', help='retire a settled cohort into an installed, uninitialized successor')
+    p.add_argument('--from-cohort', required=True)
+    p.add_argument('--to-cohort', required=True)
+    p.add_argument('--export', type=Path, required=True, help="the predecessor's `evidence` output directory")
+    p.add_argument('--after-interrupted', help='the interrupted attempt the operator inspected (attempt-NNN)')
+    p = sub.add_parser('verify-retained')
+    p.add_argument('--cohort', required=True, help='the retired cohort')
+    p.add_argument('--retained', type=Path, help='a copy to verify instead of the retained store')
+    sub.add_parser('upgrade-status').add_argument('--from-cohort')
     for name in ('_review-unit', '_accept-unit'):
         p = sub.add_parser(name, help=argparse.SUPPRESS)
         p.add_argument('--cohort', required=True)
@@ -1586,7 +2161,8 @@ def parser() -> argparse.ArgumentParser:
 
 
 COMMANDS = {'verify-manifest': cmd_verify_manifest, 'install': cmd_install, 'init': cmd_init,
-            'review': cmd_review, 'accept': cmd_accept, 'status': cmd_status, 'evidence': cmd_evidence}
+            'review': cmd_review, 'accept': cmd_accept, 'status': cmd_status, 'evidence': cmd_evidence,
+            'upgrade': cmd_upgrade, 'verify-retained': cmd_verify_retained, 'upgrade-status': cmd_upgrade_status}
 UNITS = {'_review-unit': _review_unit, '_accept-unit': _accept_unit}
 
 

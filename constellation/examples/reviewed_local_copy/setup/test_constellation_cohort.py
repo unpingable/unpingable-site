@@ -648,5 +648,244 @@ class EvidenceJoin(unittest.TestCase):
             self.assertFalse(cc.evidence_join(native, paths)['checks']['candidate_accepted'])
 
 
+
+# AG conformance vector v2-current (constellation-ag
+# conformance/governed-loop-issuance/v2-vectors.json, mirrored by Docket).
+VECTOR_BODY = (
+    '{"issuance":"sha256:178d3f9b60ff4052535cf0984c5c26234b9f7ac648576d5056d4c48287375d49",'
+    '"key":{"campaign":"sha256:1111111111111111111111111111111111111111111111111111111111111111",'
+    '"occurrence":"00000000-0000-4000-8000-0000000000e1"},'
+    '"mandate":"sha256:9999999999999999999999999999999999999999999999999999999999999999",'
+    '"not_after_unix_ms":1790000060000,'
+    '"observation":"sha256:7777777777777777777777777777777777777777777777777777777777777777",'
+    '"program":"sha256:2222222222222222222222222222222222222222222222222222222222222222",'
+    '"proposal":"sha256:3333333333333333333333333333333333333333333333333333333333333333",'
+    '"schema":"ag.governed-loop.issuance/v2",'
+    '"scope":"sha256:6666666666666666666666666666666666666666666666666666666666666666",'
+    '"spend":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",'
+    '"standing_resolution":"sha256:8888888888888888888888888888888888888888888888888888888888888888",'
+    '"subject":"sha256:5555555555555555555555555555555555555555555555555555555555555555",'
+    '"work":"sha256:4444444444444444444444444444444444444444444444444444444444444444",'
+    '"work_schema":"conformance.exact-work/v1"}')
+VECTOR_AUTHENTICATION = {
+    'issuer_principal': 'conformance.ag-issuer',
+    'signature': 'fcBIZs0NoZmmYqphD6EcJh5MPKbRI7-dos085YpTmfnkLSxBjektFswyKSR-CenBvmhvMjqxzJWQiWotF-rVDA',
+    'signer_key_id': 'conformance.ag-issuer.v2-vectors',
+    'signer_public_key': 'sllKLbsqnYtcVIRHSoWzizsv1p_ng46_Sb22IvtYLD0'}
+VECTOR_TRUST = {'issuers': [{'issuer_principal': 'conformance.ag-issuer', 'key_id': 'conformance.ag-issuer.v2-vectors',
+                             'public_key': 'sllKLbsqnYtcVIRHSoWzizsv1p_ng46_Sb22IvtYLD0'}]}
+
+
+class RetainedIssuance(unittest.TestCase):
+    def setUp(self):
+        self.issuance = json.loads(VECTOR_BODY)
+        self.record = {'issuance': self.issuance, 'authentication': dict(VECTOR_AUTHENTICATION)}
+
+    def test_identity_is_the_ag_law(self):
+        self.assertEqual(cc.issuance_identity(self.issuance), self.issuance['issuance'])
+        extended = dict(self.issuance, not_after_unix_ms=self.issuance['not_after_unix_ms'] + 1)
+        self.assertNotEqual(cc.issuance_identity(extended), self.issuance['issuance'])
+
+    def test_not_after_shape_must_match_the_schema(self):
+        for changed in (dict(self.issuance, not_after_unix_ms=None),
+                        dict(self.issuance, schema='ag.governed-loop.issuance/v1')):
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.issuance_identity(changed)
+            self.assertEqual(caught.exception.code, 'evidence.issuance_identity')
+
+    def test_canonical_body_is_the_signed_body(self):
+        self.assertEqual(cc.canonical(self.issuance), VECTOR_BODY.encode())
+        envelope = json.loads(cc.signed_issuance_envelope(self.record))
+        self.assertEqual(envelope['schema'], 'ag.governed-loop.signed-issuance/v1')
+        self.assertEqual(cc.b64url(envelope['body_b64']), VECTOR_BODY.encode())
+
+    @unittest.skipUnless(cc.OPENSSL.is_file(), 'needs /usr/bin/openssl')
+    def test_signature_verifies_and_a_changed_body_or_untrusted_key_does_not(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in 'abc':
+                (Path(tmp) / name).mkdir()
+            good = cc.verify_issuance_signature(self.record, VECTOR_TRUST, Path(tmp) / 'a')
+            self.assertTrue(good['signature_valid'] and good['trusted_by_retained_trust'])
+            changed = {'issuance': dict(self.issuance, not_after_unix_ms=self.issuance['not_after_unix_ms'] + 1),
+                       'authentication': self.record['authentication']}
+            self.assertFalse(cc.verify_issuance_signature(changed, VECTOR_TRUST, Path(tmp) / 'b')['signature_valid'])
+            other = cc.verify_issuance_signature(self.record, {'issuers': []}, Path(tmp) / 'c')
+            self.assertFalse(other['trusted_by_retained_trust'])
+
+
+class RetainedTree(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name) / 'export'
+        (self.root / 'native').mkdir(parents=True)
+        (self.root / 'JOIN.json').write_bytes(b'{"complete":true}\n')
+        (self.root / 'native' / 'ag-inspect.json').write_bytes(b'{}\n')
+        sums = ''.join(f'{hashlib.sha256((self.root / n).read_bytes()).hexdigest()}  {n}\n'
+                       for n in ('JOIN.json', 'native/ag-inspect.json'))
+        (self.root / 'SHA256SUMS').write_text(sums)
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def refuses(self, code):
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_tree(self.root, cc.read_sums(self.root, 'export'), 'export')
+        self.assertEqual(caught.exception.code, code, caught.exception.detail)
+
+    def test_intact_tree_verifies(self):
+        cc.check_tree(self.root, cc.read_sums(self.root, 'export'), 'export')
+
+    def test_changed_byte(self):
+        (self.root / 'JOIN.json').write_bytes(b'{"complete":false}\n')
+        self.refuses('export.digest_mismatch')
+
+    def test_missing_file(self):
+        (self.root / 'native' / 'ag-inspect.json').unlink()
+        self.refuses('export.missing')
+
+    def test_unlisted_file(self):
+        (self.root / 'native' / 'extra.json').write_bytes(b'{}')
+        self.refuses('export.unlisted')
+
+    def test_symlink(self):
+        (self.root / 'link').symlink_to(self.root / 'JOIN.json')
+        self.refuses('export.unsafe')
+
+    def test_malformed_or_escaping_sums(self):
+        for line in ('xyz  JOIN.json\n', f'{"0" * 64}  ../etc/passwd\n', f'{"0" * 64}  SHA256SUMS\n'):
+            (self.root / 'SHA256SUMS').write_text(line)
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.read_sums(self.root, 'export')
+            self.assertEqual(caught.exception.code, 'export.sums')
+
+    def test_retained_copy_is_sealed_and_a_partial_copy_is_never_retained(self):
+        entries = cc.read_sums(self.root, 'export')
+        digest = cc.sha256_file(self.root / 'SHA256SUMS')
+        attempt = Path(self.tmp.name) / 'upgrades' / 'qual-a-to-qual-b' / 'attempt-001'
+        attempt.mkdir(parents=True)
+        with patched(cc, RETAINED_ROOT=Path(self.tmp.name) / 'retained'):
+            target = cc.retained_path('qual-a', digest)
+            # An interrupted attempt's partial copy stays, and is not the target.
+            (target.parent).mkdir(parents=True)
+            (target.parent / '.partial-qual-a-to-qual-b-attempt-000').mkdir()
+            self.assertEqual(cc.retain_copy(self.root, entries, target, attempt, digest, 'qual-a'), 'retained')
+            self.assertEqual(stat_mode(target), 0o500)
+            self.assertEqual(stat_mode(target / 'JOIN.json'), 0o400)
+            marker = json.loads((target / 'RETAINED.json').read_text())
+            self.assertEqual((marker['cohort'], marker['sha256sums']), ('qual-a', digest))
+            cc.check_tree(target, entries, 'retained', extra_allowed=('SHA256SUMS', 'RETAINED.json'))
+            self.assertEqual(cc.retain_copy(self.root, entries, target, attempt, digest, 'qual-a'), 'already_retained')
+            self.assertTrue((target.parent / '.partial-qual-a-to-qual-b-attempt-000').is_dir())
+            os.chmod(target, 0o700)
+            os.chmod(target / 'JOIN.json', 0o600)
+            (target / 'JOIN.json').write_bytes(b'{"complete":false}\n')
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.retain_copy(self.root, entries, target, attempt, digest, 'qual-a')
+            self.assertEqual(caught.exception.code, 'retained.digest_mismatch')
+
+
+def stat_mode(path):
+    return os.stat(path).st_mode & 0o777
+
+
+class patched:
+    """Temporarily replace module attributes (roots) for one test."""
+
+    def __init__(self, module, **values):
+        self.module, self.values, self.saved = module, values, {}
+
+    def __enter__(self):
+        for name, value in self.values.items():
+            self.saved[name] = getattr(self.module, name)
+            setattr(self.module, name, value)
+
+    def __exit__(self, *exc):
+        for name, value in self.saved.items():
+            setattr(self.module, name, value)
+
+
+class UpgradeJournal(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        me = __import__('pwd').getpwuid(os.getuid()).pw_name
+        self.patch = patched(cc, UPGRADE_ROOT=base / 'upgrades', RETAINED_ROOT=base / 'retained',
+                             QUARANTINE_ROOT=base / 'quarantine', STATE_ROOT=base / 'cohorts',
+                             NQ_STATE_DIR=base / 'nq', NQ_CONFIG_DIR=base / 'etc-nq', NQ_ACCOUNT=me)
+        self.patch.__enter__()
+        for directory in (cc.STATE_ROOT / 'qual-a' / 'ports', cc.NQ_STATE_DIR / 'cohort-qual-a', cc.NQ_CONFIG_DIR):
+            directory.mkdir(parents=True)
+        (cc.STATE_ROOT / 'qual-a' / 'ports' / 'issuer.pk8').write_bytes(b'synthetic')
+        (cc.NQ_CONFIG_DIR / 'cohort-qual-a.toml').write_bytes(b'# synthetic\n')
+
+    def tearDown(self):
+        self.patch.__exit__()
+        self.tmp.cleanup()
+
+    def attempt(self, name='attempt-001'):
+        path = cc.upgrade_dir('qual-a', 'qual-b') / name
+        path.mkdir(parents=True)
+        cc.journal_write(path, 'begin', {'from': 'qual-a', 'to': 'qual-b'})
+        return path
+
+    def test_an_interrupted_upgrade_blocks_the_successor_init_and_retires_the_source_id(self):
+        self.attempt()
+        [journal] = cc.journals()
+        self.assertEqual((journal['from'], journal['to'], journal['interrupted']), ('qual-a', 'qual-b', ['attempt-001']))
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.upgrade_into('qual-b')
+        self.assertEqual(caught.exception.code, 'upgrade.interrupted')
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_not_retired('qual-a')
+        self.assertEqual(caught.exception.code, 'cohort.retired')
+        cc.check_not_retired('qual-b')
+
+    def test_a_completed_upgrade_is_the_successor_predecessor(self):
+        path = self.attempt()
+        cc.journal_write(path, 'completed', {'from': 'qual-a', 'to': 'qual-b', 'retained': '/r',
+                                             'retained_sha256sums': 'sha256:' + '0' * 64})
+        self.assertEqual(cc.upgrade_into('qual-b')['from'], 'qual-a')
+        self.assertIsNone(cc.upgrade_into('qual-c'))
+
+    def test_quarantine_moves_never_delete_and_leave_a_tombstone(self):
+        path = self.attempt()
+        moved = cc.quarantine('qual-a', path, Path('/retained'))
+        self.assertEqual([entry['moved_by'] for entry in moved], ['attempt-001'] * 3)
+        self.assertEqual((cc.QUARANTINE_ROOT / 'qual-a' / 'state' / 'ports' / 'issuer.pk8').read_bytes(), b'synthetic')
+        self.assertTrue((cc.NQ_STATE_DIR / 'quarantine-cohort-qual-a' / 'cohort-qual-a.toml').is_file())
+        marker = cc.STATE_ROOT / 'qual-a'
+        self.assertTrue(marker.is_file())
+        self.assertEqual(json.loads(marker.read_text())['schema'], cc.TOMBSTONE_SCHEMA)
+        self.assertEqual(cc.retired_state('qual-a'), cc.QUARANTINE_ROOT / 'qual-a' / 'state')
+        # A resumed attempt finds everything already moved.
+        again = cc.quarantine('qual-a', cc.upgrade_dir('qual-a', 'qual-b') / 'attempt-002', Path('/retained'))
+        self.assertEqual([entry['moved_by'] for entry in again], ['an earlier attempt'] * 3)
+
+    def test_quarantine_refuses_a_conflict_or_a_loss(self):
+        path = self.attempt()
+        (cc.QUARANTINE_ROOT / 'qual-a' / 'state').mkdir(parents=True)
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.quarantine('qual-a', path, Path('/retained'))
+        self.assertEqual(caught.exception.code, 'upgrade.quarantine_conflict')
+        os.rmdir(cc.QUARANTINE_ROOT / 'qual-a' / 'state')
+        __import__('shutil').rmtree(cc.STATE_ROOT / 'qual-a')
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.quarantine('qual-a', path, Path('/retained'))
+        self.assertEqual(caught.exception.code, 'upgrade.quarantine_lost')
+
+    def test_restored_view_is_private_and_read_only(self):
+        argv = cc.restored_view(Path('/q/state'), 'qual-a', Path('/s/stage'), ['/bin/true'])
+        self.assertEqual(argv[:5], ['/usr/bin/unshare', '--mount', '--propagation', 'private', '--'])
+        self.assertIn('remount,bind,ro', argv[7])
+        self.assertEqual(argv[-5:], ['/q/state', '/s/stage', str(cc.STATE_ROOT), 'qual-a', '/bin/true'])
+
+    def test_upgrade_needs_an_export_and_names_no_automatic_resume(self):
+        with self.assertRaises(SystemExit):
+            with redirect_stdout(io.StringIO()), __import__('contextlib').redirect_stderr(io.StringIO()):
+                cc.parser().parse_args(['upgrade', '--from-cohort', 'qual-a', '--to-cohort', 'qual-b'])
+        options = {action.dest for action in cc.parser()._subparsers._group_actions[0].choices['upgrade']._actions}
+        self.assertEqual(options, {'help', 'from_cohort', 'to_cohort', 'export', 'after_interrupted'})
+
+
 if __name__ == '__main__':
     unittest.main()
