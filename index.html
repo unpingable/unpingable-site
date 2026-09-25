@@ -726,13 +726,13 @@
             </g>
             <g class="edge" tabindex="0"
                data-claim="May this exact prepared work receive authority? The decision is made over exact bytes, and the decision authority is burned once &mdash; a second issuance for the same decision refuses."
-               data-owner="AG ng" data-status="exercised by one vertical; not production deployable">
+               data-owner="Constellation AG (formerly AG ng)" data-status="one exact composition qualified in alpha.6; not a production-deployment claim">
               <line class="edge-line" x1="360" y1="96" x2="426" y2="96" marker-end="url(#arr)"/>
               <rect class="edge-hit" x="356" y="76" width="74" height="40"/>
             </g>
             <g class="edge" tabindex="0"
                data-claim="Do the authorized bytes match what is about to execute? An authenticated issuance is checked against the executor&rsquo;s own stored attempt &mdash; never against the record&rsquo;s own echoes &mdash; before any local standing is minted."
-               data-owner="Docket" data-status="one admitted effect class: the atomic Git target-ref transition">
+               data-owner="Docket" data-status="frozen Git baseline admits one effect class, the atomic Git target-ref transition; alpha.6 dispatched a separate exclusive-create executor through Docket&rsquo;s executor transport">
               <line class="edge-line" x1="514" y1="96" x2="584" y2="96" marker-end="url(#arr)"/>
               <rect class="edge-hit" x="510" y="76" width="78" height="40"/>
             </g>
@@ -1010,41 +1010,45 @@
       <span class="mode">Artifacts</span>
       <h2>Historical artifact snapshot <span class="kind artifact">artifact</span></h2>
       <p>This section records the systems as presented by the July 2026 four-office exhibit. It is retained evidence, not a current product catalog.</p>
-      <p class="fine">The cards below preserve the names and maturity statements from the historical four-office exhibit. They are not current installation guidance. The canonical <a href="constellation/components.html">component map</a> and <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a> describe what is public now.</p>
+      <p class="fine">The cards below preserve the names and maturity statements from the historical four-office exhibit. They are not current installation guidance, and the repositories they link are deprecated predecessors: do not install them for current paths; the successors are named on each card and are not drop-in compatible. The canonical <a href="constellation/components.html">component map</a> and <a href="constellation/releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a> describe what is public now.</p>
 
       <div class="artifact-card">
-        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status live">operational</span><span class="status">pre-1.0</span></div>
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nq" target="_blank" rel="noopener">nq</a><span class="status legacy">deprecated predecessor</span></div>
         <dl>
           <dt>role</dt><dd>Testimony, claims, and reliance. Pulls bounded evidence from hosts, classifies failure modes, and keeps loss of observability visible.</dd>
           <dt>refuses</dt><dd>Turning a signal that disappeared into a healthy zero; letting a clean receipt approve a merge, deployment, restart, or incident closure. A reliance refusal is never the negation of the underlying claim.</dd>
           <dt>limit</dt><dd>Consumer identity is <em>configured, not authenticated</em>.</dd>
+          <dt>now</dt><dd>Superseded by <a href="https://github.com/unpingable/constellation-nq" target="_blank" rel="noopener">Constellation NQ</a>. Do not install <code>unpingable/nq</code>; the repositories are not drop-in compatible.</dd>
         </dl>
       </div>
 
       <div class="artifact-card">
-        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">ag_ng</a><span class="status">exercised</span></div>
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/ag_ng" target="_blank" rel="noopener">ag_ng</a><span class="status legacy">historical name</span></div>
         <dl>
           <dt>role</dt><dd>Authority. Decides whether exact prepared work may receive authority, and burns one-use decision authority.</dd>
           <dt>refuses</dt><dd>A second issuance for the same decision. It does not own the wire contracts, execution, settlement, claim admissibility, or orchestration &mdash; and did not absorb the separately-defined mandate-custody and spendability offices.</dd>
-          <dt>limit</dt><dd>Explicitly <em>not production deployable</em>; the decision-burn ledger is in-memory per process.</dd>
+          <dt>limit</dt><dd>At the time of the exhibit, explicitly <em>not production deployable</em>, with an in-memory decision-burn ledger. Current Constellation AG spends authority durably through its C1 campaign store and reconstructs historical spends on restart; it is still not a production-deployment claim.</dd>
+          <dt>now</dt><dd><code>ag_ng</code> is an earlier name for the same Rust implementation, not a separate product. Use <a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">Constellation AG</a>.</dd>
         </dl>
       </div>
 
       <div class="artifact-card">
-        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a><span class="status">audited baseline</span></div>
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/docket" target="_blank" rel="noopener">docket</a><span class="status legacy">deprecated predecessor</span></div>
         <dl>
           <dt>role</dt><dd>Governed execution. Prepares exact bytes, verifies an authenticated issuance against its own stored attempt, executes through a broker, and settles with evidence.</dd>
-          <dt>refuses</dt><dd>Any proposal outside its single admitted <a href="glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; with a typed refusal <em>before</em> standing is issued, a reservation created, a dispatch identity minted, or a provider runs. Its own reliance bridge refuses <code>safe-to-merge</code> as permanently inadmissible.</dd>
+          <dt>refuses</dt><dd>Within its frozen Git baseline, any proposal outside the one admitted <a href="glossary.html#effect-class">effect class</a> &mdash; the atomic Git target-ref transition &mdash; with a typed refusal <em>before</em> standing is issued, a reservation created, a dispatch identity minted, or a provider runs. Its own reliance bridge refuses <code>safe-to-merge</code> as permanently inadmissible.</dd>
           <dt>limit</dt><dd>Frozen baseline <code>gwr-greenfield-v0.1</code>; source install, not a published package. Three trust-model premises are assumptions.</dd>
+          <dt>now</dt><dd>Superseded by <a href="https://github.com/unpingable/constellation-docket" target="_blank" rel="noopener">Constellation Docket</a>, which also carries a generic executor transport; alpha.6 dispatched Maude&rsquo;s exclusive-create executor through it. See the <a href="constellation/components.html">component map</a>.</dd>
         </dl>
       </div>
 
       <div class="artifact-card">
-        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a><span class="status">exercised</span></div>
+        <div class="artifact-head"><a class="name" href="https://github.com/unpingable/nightshift" target="_blank" rel="noopener">nightshift</a><span class="status legacy">deprecated predecessor</span></div>
         <dl>
           <dt>role</dt><dd>Proposal and read-only orchestration. Schedules and resumes <em>intent</em>, not commands &mdash; &ldquo;resume this intention under this policy&rdquo; rather than &ldquo;run this at this time.&rdquo;</dd>
           <dt>refuses</dt><dd>Actuation of any kind, at a gate-enforced boundary; closing a loop before the witnesses needed for closure exist.</dd>
           <dt>limit</dt><dd>Not operator-ready. File-granular proposals are a library face; the deployment files are reference scaffolding.</dd>
+          <dt>now</dt><dd>Superseded by <a href="https://github.com/unpingable/constellation-nightshift" target="_blank" rel="noopener">Constellation Nightshift</a>.</dd>
         </dl>
       </div>
 
@@ -1054,6 +1058,7 @@
           <dt>role</dt><dd>The classic Python admissibility kernel for AI coding agents, and the source of the runnable exhibit above. Dispositioned legacy on 2026-07-26: still maintained, still the custody home of the frozen conformance corpus and of the bounded diagnostic drill helpers Night Shift imports.</dd>
           <dt>refuses</dt><dd>Prose as authority; tests passing treated as code ready to land; a rehearsal treated as production; permissions exercised after their observation horizon.</dd>
           <dt>limit</dt><dd>Receives no new authority work. No wire compatibility with <code>ag_ng</code> exists or is implied.</dd>
+          <dt>now</dt><dd>Deprecated. The successor is <a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">Constellation AG</a>.</dd>
         </dl>
       </div>
 
