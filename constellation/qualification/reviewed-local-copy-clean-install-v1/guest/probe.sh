@@ -2,6 +2,7 @@
 # Record the clean guest's facts the cohort driver depends on, as one JSON line.
 # Read-only. Absent tools are reported as null, never installed.
 set -eu
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
 digest() { if [ -e "$1" ]; then printf '"sha256:%s"' "$(sha256sum "$1" | cut -d' ' -f1)"; else printf null; fi; }
 has() { if command -v "$1" >/dev/null 2>&1; then printf true; else printf false; fi; }
 pymod() { if /usr/bin/python3 -I -c "import $1" >/dev/null 2>&1; then printf true; else printf false; fi; }
@@ -19,6 +20,7 @@ printf '"tools":{"systemd-run":%s,"setpriv":%s,"runuser":%s,"dpkg":%s,"useradd":
   "$(has systemd-run)" "$(has setpriv)" "$(has runuser)" "$(has dpkg)" "$(has useradd)" "$(has sqlite3)" "$(has pip3)" "$(has git)" "$(has cargo)"
 printf '"python_modules":{"venv_ensurepip":%s,"yaml":%s,"sqlite3":%s,"jsonschema":%s},' \
   "$(pymod ensurepip)" "$(pymod yaml)" "$(pymod sqlite3)" "$(pymod jsonschema)"
+printf '"python_isolated_sees_dist_packages":%s,' "$(if /usr/bin/python3 -I -c 'import sys; raise SystemExit(0 if any(p.endswith("dist-packages") for p in sys.path) else 1)'; then printf true; else printf false; fi)"
 printf '"tarfile_data_filter":%s,' "$(if /usr/bin/python3 -I -c 'import tarfile; tarfile.data_filter' >/dev/null 2>&1; then printf true; else printf false; fi)"
 printf '"memfd_create":%s,' "$(if /usr/bin/python3 -I -c 'import os; os.close(os.memfd_create("probe"))' >/dev/null 2>&1; then printf true; else printf false; fi)"
 printf '"root_free_kib":%s}\n' "$(df -Pk / | awk 'NR==2{print $4}')"

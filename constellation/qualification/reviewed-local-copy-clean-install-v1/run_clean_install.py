@@ -354,8 +354,10 @@ users:
 """)
         run(["xorriso", "-as", "mkisofs", "-quiet", "-output", str(root / "seed.iso"), "-volid", "cidata",
              "-joliet", "-rock", str(root / "user-data"), str(root / "meta-data")])
+        # The genericcloud root is about 3 GB; grow the overlay so cloud-init's
+        # growpart leaves room for the cohort artifacts and stores.
         run(["qemu-img", "create", "-q", "-f", "qcow2", "-b", str(self.args.image), "-F", "qcow2",
-             str(root / "overlay.qcow2")])
+             str(root / "overlay.qcow2"), "12G"])
         self.guest = guest
         return guest
 
@@ -448,7 +450,9 @@ users:
             self.record("PASS", facts=facts)
 
     def case_i03(self) -> None:
-        done = self.ssh(f"cd {KIT} && /usr/bin/python3 -I -B -m unittest -v test_constellation_cohort 2>&1")
+        # -I implies -P on 3.11, so run the test file as a script; it puts its
+        # own directory on sys.path explicitly.
+        done = self.ssh(f"/usr/bin/python3 -I -B {KIT}/test_constellation_cohort.py -v 2>&1")
         tail = text(done.stdout).strip().splitlines()[-3:]
         if done.returncode == 0 and any(line.startswith("OK") for line in tail):
             self.record("PASS", summary=tail)
