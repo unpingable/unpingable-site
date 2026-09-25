@@ -4,12 +4,15 @@ Run as root in the guest: python3.11 -I -S expire_issuance.py --cohort C --candi
 
 1. As a labelled SYNTHETIC OPERATOR, run the kit continuation for the exact
    retained candidate in a durable unit as the cohort account, with its run
-   document bounded to two AG steps (decide, then authorize). AG mints the
-   issuance (the spend) and stops before dispatch.
-2. Wait until the issuance's signed not_after has passed.
-3. Run AG's finite runner again with a fresh run document for the same
-   occurrence. AG must refuse to present the retained issuance; Docket must
-   hold no record of it and the executor must not have run.
+   document bounded to two AG steps (decide, then authorize) and its deadline
+   set to the end of the review window (inside the window prepare_finite_run
+   validates). AG mints the issuance (the spend) and stops before dispatch.
+2. Wait until the issuance's signed not_after has passed (the run deadline
+   has not).
+3. Run AG's finite runner again with the same run document, which AG resumes
+   at dispatch. AG must refuse to present the retained issuance because it is
+   past its not_after; Docket must hold no record and the executor must not
+   have run.
 
 Prints one JSON report. Nothing here is a product path.
 """
@@ -45,7 +48,10 @@ def main() -> int:
     output = state / 'runs' / 'continuation-bounded-001'
     code = (f"import sys; sys.path[:0]=[{str(kit / 'setup')!r}, {str(kit)!r}]; import continue_reviewed_action as c; "
             "original = c.prepare\n"
-            "def bounded(*a):\n    value = original(*a); value['max_steps'] = 2; return value\n"
+            "import json\n"
+            "def bounded(*a):\n    value = original(*a); value['max_steps'] = 2\n"
+            "    review = json.loads(open(a[2], 'rb').read())['review']\n"
+            "    value['deadline_unix_ms'] = review['expires_at_unix_ms'] - 1000; return value\n"
             "c.prepare = bounded; c.main(sys.argv[1:])")
     first = subprocess.run(['systemd-run', '--wait', '--pipe', '--collect', '--quiet', '--uid=constellation',
                             '--gid=constellation', '--setenv=PATH=/usr/bin:/bin', '--setenv=LANG=C.UTF-8', '--',
@@ -69,32 +75,27 @@ def main() -> int:
         report['error'] = 'no retained issuance after the bounded run'
         print(json.dumps(report, sort_keys=True))
         return 1
+    first_input = output / 'run-input-v2.json'
+    deadline = json.loads(first_input.read_bytes())['deadline_unix_ms']
+    report['run_deadline_unix_ms'] = deadline
     wait = issuance['not_after_unix_ms'] - time.time_ns() // 1_000_000 + 1500
     report['waited_ms'] = max(0, wait)
     time.sleep(max(0, wait) / 1000)
-    # A fresh run document for the same occurrence, within the review window.
-    review = json.loads((output / 'accepted-record-review-input.json').read_bytes())['review']
-    profile = json.loads(as_cohort([ag, 'verify-runtime-profile-v2', '--runtime-profile',
-                                    state / 'deployment/runtime-profile.json']).stdout)['profile_digest']
-    make = (f"import sys, json; sys.path[:0]=[{str(kit)!r}]; from prepare_finite_run import prepare; "
-            "from pathlib import Path; from prepare_review_candidate import canonical; "
-            "v = prepare(*(Path(p) for p in sys.argv[1:5]), sys.argv[5], int(sys.argv[6])); "
-            "open(sys.argv[7], 'xb').write(canonical(v))")
-    second_input = output.parent / 'expired-issuance-run-input.json'
-    made = as_cohort(['/usr/bin/python3.11', '-I', '-S', '-c', make, state / 'plan/binding.json',
-                      state / 'deployment/cycle-request.json', output / 'accepted-record-review-input.json',
-                      state / 'plan/executor-config.json', profile, review['expires_at_unix_ms'] - 1000, second_input])
-    report['second_input_exit'] = made.returncode
-    second = as_cohort([ag, 'run', '--database', state / 'deployment/ag.sqlite', '--run-input', second_input])
+    now = time.time_ns() // 1_000_000
+    report['resumed_at_unix_ms'] = now
+    report['resumed_after_not_after_before_deadline'] = issuance['not_after_unix_ms'] <= now < deadline
+    second = as_cohort([ag, 'run', '--database', state / 'deployment/ag.sqlite', '--run-input', first_input])
     report['second_run'] = {'exit': second.returncode, 'stdout': second.stdout.decode(errors='replace')[-1500:],
                             'stderr': second.stderr.decode(errors='replace')[-1500:]}
     try:
         second_value = json.loads(second.stdout)
     except ValueError:
         second_value = {}
-    # AG refuses to present: a typed error exit, or waiting with an issuance reason.
-    report['second_run_refused'] = second.returncode != 0 or (
-        second_value.get('status') == 'waiting' and 'issuance' in second_value.get('reason', ''))
+    # AG must refuse to present because of the issuance not-after, not for any
+    # other reason (run identity, deadline, step bound).
+    report['second_run_refused'] = (report['resumed_after_not_after_before_deadline']
+                                    and second_value.get('status') == 'waiting'
+                                    and second_value.get('reason') == 'issuance_not_current')
     docket_view = as_cohort([docket, 'governed-loop', 'inspect', '--state', state / 'ports/docket-state',
                              '--issuance', issuance['issuance']])
     report['docket_inspect'] = docket_view.stdout.decode(errors='replace')[-800:]

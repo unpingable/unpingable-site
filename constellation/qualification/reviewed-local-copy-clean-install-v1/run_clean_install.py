@@ -82,7 +82,7 @@ CASES = (
     ("W-05", "evidence: bundle exported; driver join complete; independent verifier (alpha.6 shape) passes on the host"),
     ("N-06", "accept naming a digest other than the retained candidate refuses with no grant or effect"),
     ("N-07", "a second execute attempt refuses: driver accept, the kit continuation and AG re-run; one effect"),
-    ("N-08", "stale fixture review (cohort B) refuses at native review verification; no candidate, no authority"),
+    ("N-08", "stale fixture review (cohort B) is refused before any candidate; no authority, no effect"),
     ("N-09", "expired issuance (cohort C) is never presented: AG refuses dispatch; no Docket record, no effect"),
 )
 
@@ -718,13 +718,24 @@ users:
         value = self.status(cohort)
         phase = (facts["caller_terminal"] or {}).get("phase")
         observed = {"result": result, **facts, "native": value.get("native")}
-        if phase != "native-review-verification" and facts["fixture_requests"] == 0:
+        if facts["fixture_requests"] == 0:
             self.append_case("\n# observed " + json.dumps(observed, default=str) + "\n")
             raise Blocked(f"the review refused before the fixture answered ({result.get('code')}: "
                           f"{result.get('detail', '')[:400]}), so staleness was not exercised")
-        ok = (status == 2 and result.get("code") == "review.refused" and phase == "native-review-verification"
+        # The stale result may be refused by the caller's matching contract
+        # check (prepare_review_candidate.project, which runs before the native
+        # verifier) or by the native verifier itself. Record which.
+        reason = (facts["caller_terminal"] or {}).get("reason", "")
+        layer = ("native-review-verifier" if phase == "native-review-verification" else
+                 "caller-contract-check" if reason == "review result does not match the native verifier contract" else None)
+        answered = [r.get("binding_id") for r in self.fixture_requests(cohort) if r.get("mode") == "stale"]
+        candidate = self.ssh(f"sudo test -e /var/lib/constellation/cohorts/{cohort}/review/review-001/"
+                             "record-review-input.json").returncode == 0
+        ok = (status == 2 and result.get("code") == "review.refused" and layer is not None and not candidate
+              and value["native"].get("program_counter") == "proposal_recorded"
               and value["native"].get("replay", {}).get("ag_spends") == 0 and value["result_file"].get("present") is False)
-        self.record("PASS" if ok else "FAIL", **observed)
+        self.record("PASS" if ok else "FAIL", refusing_layer=layer, candidate_written=candidate,
+                    fixture_stale_answers=len(answered), **observed)
 
     def case_n09(self) -> None:
         self.passed("I-05", "F-01")
