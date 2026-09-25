@@ -70,7 +70,7 @@ CASES = (
     ("P-01", "preflight: tools, KVM, image SHA-512, port; bundle A is run-002's; bundle B verifies; Docket B reproducible"),
     ("I-01", "boot a fresh Debian 12 guest; copy both bundles; sha256sum --check; extract both kits"),
     ("I-02", "driver unit tests of both kits under the guest's python3.11 -I -S"),
-    ("A-01", "cohort A (kit 0.2.0): install, init, review, SYNTHETIC OPERATOR accept, settled success, result.txt once"),
+    ("A-01", "cohort A (kit 0.3.0): install, init, review, SYNTHETIC OPERATOR accept, settled success, result.txt once"),
     ("A-02", "cohort A evidence export (pre-upgrade); standalone host verifier passes"),
     ("M-01", "mixed A/B pins refuse in both drivers (verify-manifest and install), writing nothing"),
     ("B-01", "cohort B (g3-qual-b): verify-manifest and install beside A; Docket B identity; A untouched"),
@@ -688,9 +688,8 @@ class Harness(base.Harness):
         # A's kit is 0.3.0 too, so its init names the retirement before the
         # tombstone (the pre-0.3.0 tombstone path was run-001's X-06).
         ok = (s1 == 2 and b_init.get("code") == "cohort.retired" and s2 == 2
-              and a_init.get("code") in ("cohort.retired", "cohort.exists")
-              and s3 == 2 and a_review.get("code") in ("cohort.not_initialized", "cohort.retired")
-              and (a_status.get("initialized") is False or (s4 == 2 and a_status.get("code") == "cohort.retired"))
+              and a_init.get("code") == "cohort.retired"
+              and s3 == 2 and a_review.get("code") == "cohort.not_initialized" and a_status.get("initialized") is False
               and before == after)
         self.record("PASS" if ok else "FAIL", b_driver_init=b_init, a_driver_init=a_init, a_driver_review=a_review,
                     a_driver_status=a_status, writes_unchanged=before == after)
