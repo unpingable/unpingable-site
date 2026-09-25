@@ -11,9 +11,14 @@ re-assembly, restored view); it never calls a driver command itself except
     present-issuance --kit-setup DIR --retained DIR -- DOCKET_ACCEPT_ARGV...
         re-assemble the retired cohort's retained signed issuance and feed it
         to `docket governed-loop accept` (argv given) as the cohort account.
-    ag-view --kit-setup DIR --state DIR --cohort ID --ag BIN --database DB [--without FILE]
-        run `ag-loopctl inspect` in a restored view of a copy of STATE,
-        optionally with one file removed from the copy.
+    ag-view --kit-setup DIR --state DIR --cohort ID --ag BIN --database DB
+            [--without FILE] [--garbage FILE] [--own]
+        run `ag-loopctl inspect` in a restored view of a copy of STATE over a
+        private writable copy of DB, optionally with one file removed from or
+        replaced by random bytes in the copy (--own: make the copy the cohort
+        account's, for a root-only retained store). The exit is classified
+        with the successor driver's `ag_read_only_outcome`: exit 3 is
+        "verified except the named enrolled files", never success.
 """
 import argparse
 import json
@@ -76,12 +81,19 @@ def ag_view(args):
         root = Path(tmp)
         copy = root / 'state'
         subprocess.run(['/bin/cp', '-a', '--', args.state, str(copy)], check=True)  # keeps owners and modes
-        removed = None
+        removed = replaced = None
         if args.without:
             target = copy / args.without
             removed = target.is_file()
             target.unlink()
+        if args.garbage:
+            target = copy / args.garbage
+            replaced = target.is_file()
+            target.write_bytes(os.urandom(48))
         account = cc.pwd.getpwnam(cc.COHORT_ACCOUNT)
+        if args.own:
+            subprocess.run(['/bin/chown', '-R', f'{account.pw_uid}:{account.pw_gid}', '--', str(copy)], check=True)
+            subprocess.run(['/bin/chmod', '-R', 'u+rwX', '--', str(copy)], check=True)
         os.chown(root, account.pw_uid, account.pw_gid)
         database = root / 'db' / 'ag.sqlite'
         database.parent.mkdir()
@@ -94,13 +106,14 @@ def ag_view(args):
                                                                                           str(database)]))
         done = subprocess.run([str(a) for a in argv], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                               env={'PATH': cc.SYSTEM_PATH, 'LANG': 'C.UTF-8'}, timeout=120, check=False)
-        try:
-            value = json.loads(done.stdout) if done.returncode == 0 else None
-        except ValueError:
-            value = None
-        print(json.dumps({'without': args.without, 'removed': removed, 'exit': done.returncode,
-                          'state_digest': (value or {}).get('current', {}).get('state_digest'),
-                          'program_counter': next(iter((value or {}).get('current', {}).get('state', {'none': 0}))),
+        outcome = cc.ag_read_only_outcome(done.returncode, done.stdout, done.stderr)
+        value = outcome['json'] if isinstance(outcome['json'], dict) else {}
+        print(json.dumps({'without': args.without, 'removed': removed, 'garbage': args.garbage, 'replaced': replaced,
+                          'key_present_in_view': (copy / 'ports' / 'issuer.pk8').is_file(),
+                          'exit': done.returncode, 'outcome': outcome['status'], 'unavailable': outcome['unavailable'],
+                          'stdout_sha256': cc.digest_bytes(done.stdout),
+                          'state_digest': (value.get('current') or {}).get('state_digest'),
+                          'program_counter': next(iter((value.get('current') or {}).get('state') or {'none': 0})),
                           'stderr': done.stderr.decode()[-1500:]}, sort_keys=True))
 
 
@@ -121,6 +134,8 @@ def main():
     for name in ('--kit-setup', '--state', '--cohort', '--ag', '--database'):
         p.add_argument(name, required=True)
     p.add_argument('--without')
+    p.add_argument('--garbage')
+    p.add_argument('--own', action='store_true')
     args = parser.parse_args()
     if getattr(args, 'rest', None) and args.rest[0] == '--':
         args.rest = args.rest[1:]

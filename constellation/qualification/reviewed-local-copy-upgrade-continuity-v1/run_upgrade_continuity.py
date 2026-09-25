@@ -7,7 +7,7 @@ networking, one SSH hostfwd on 127.0.0.1, qemu -sandbox on), copies in only
 two cohort bundles and this harness's guest helper, and qualifies the
 driver's upgrade rule experimentally:
 
-    cohort A (alpha-exit-rc, kit 0.2.0)   install -> init -> review ->
+    cohort A (alpha-exit-rc, kit 0.3.0)   install -> init -> review ->
         SYNTHETIC OPERATOR accept -> settled success -> evidence
     cohort B (g3-qual-b, qualification-only: Docket rebuilt with a version
         bump, kit with the upgrade procedure)   install -> upgrade (export,
@@ -47,11 +47,13 @@ import run_clean_install as base  # noqa: E402
 from run_clean_install import Blocked, Refusal, file_digest, run, text, utc_now  # noqa: E402
 
 HARNESS_FILES = ("run_upgrade_continuity.py", "compose_cohort_b.py", "guest/g3_guest.py",
-                 "../reviewed-local-copy-clean-install-v1/run_clean_install.py",
-                 "../reviewed-local-copy-clean-install-v1/verify_cohort_evidence.py")
+                 "../reviewed-local-copy-clean-install-v1/run_clean_install.py")
 DEFAULT_OUTPUT_ROOT = pathlib.Path("/data/git/.campaign-artifacts/alpha-exit-closure-20260925/upgrade-continuity")
 DEFAULT_STATE = pathlib.Path.home() / ".local/state/alpha-exit-g3-upgrade-continuity"
-RUN_002_MANIFEST = "822afd2b6c0efd31fb16e1f56e07ff4fb21edbd3624e587d6b43759f02c31b0b"
+# Bundle A must be the qualified alpha-exit-rc bundle of cohort-clean-install/run-003.
+RUN_003_MANIFEST = "PENDING"
+AG_PIN = {"package_version": "0.1.0", "source_commit": "58122cec1ca8de35a1d146bf7987f8e69f49a040",
+          "artifact_sha256": "sha256:bc53b836d7207493bbe35f0b380475641603caf3aedea6e8bcd3c9c0dea6ab5c"}
 GH = base.GUEST_HOME
 BUNDLE = {"A": f"{GH}/bundle-a", "B": f"{GH}/bundle-b"}
 KIT = {"A": f"{GH}/kit-a", "B": f"{GH}/kit-b"}
@@ -86,7 +88,8 @@ CASES = (
     ("X-06", "the retired cohort id cannot be reinitialized or reviewed by either driver"),
     ("T-01", "a byte-flipped retained copy is refused by verify-retained and by the host verifier"),
     ("T-02", "a tampered retained copy with rewritten SHA256SUMS and marker is refused (journal binding)"),
-    ("K-01", "AG re-verification of A's store needs A's issuer private key in the restored view (defect probe)"),
+    ("K-01", "AG replays A's retained store without A's issuer private key; retained state alone exits 3, never "
+             "success; verify-retained passes with the quarantined key set aside"),
 )
 
 
@@ -161,12 +164,10 @@ class Harness(base.Harness):
         return target
 
     def host_verify(self, directory: pathlib.Path, label: str) -> tuple[int, dict]:
-        done = run([sys.executable, str(CLEAN / "verify_cohort_evidence.py"), "--evidence", str(directory)], check=False)
-        (self.out / "evidence" / f"{label}-verifier.json").write_bytes(done.stdout + done.stderr)
-        try:
-            return done.returncode, json.loads(done.stdout)
-        except ValueError:
-            return done.returncode, {"stderr": text(done.stderr)[-1500:]}
+        """The in-kit verifier from bundle A's kit tarball (see P-01), run on the host."""
+        code, value, raw = super().host_verify(directory)
+        (self.out / "evidence" / f"{label}-verifier.json").write_bytes(raw)
+        return code, value
 
     def installed_program(self, which: str, component: str, relative: str) -> str:
         roots = self.root_json(f"cat /opt/constellation/cohorts/{COHORT[which][0]}/installed.json")["roots"]
@@ -260,8 +261,13 @@ class Harness(base.Harness):
             bundles[which] = {"directory": str(directory), "sha256sums_sha256": file_digest(directory / "SHA256SUMS"),
                               "manifest_sha256": file_digest(directory / "cohort-manifest.json"),
                               "manifest": json.loads((directory / "cohort-manifest.json").read_text())}
-        if bundles["A"]["manifest_sha256"] != RUN_002_MANIFEST:
-            raise Refusal("bundle A is not run-002's qualified manifest")
+        if bundles["A"]["manifest_sha256"] != RUN_003_MANIFEST:
+            raise Refusal("bundle A is not run-003's qualified manifest")
+        self.identity["host_verifier"] = self.extract_host_verifier(self.args.bundle_a)
+        ag = {which: next({k: e[k] for k in AG_PIN} for e in bundles[which]["manifest"]["components"]
+                          if e["component"] == "ag") for which in ("A", "B")}
+        if ag["A"] != AG_PIN or ag["B"] != AG_PIN:
+            raise Refusal(f"both cohorts must carry AG 58122ce: {ag}")
         receipt = json.loads((self.args.docket_build / "build-receipt.v1.json").read_text())
         docket_b = next(e for e in bundles["B"]["manifest"]["components"] if e["component"] == "docket")
         tarball = next(name for name in receipt["artifacts"] if name.endswith(".tar.gz"))
@@ -275,7 +281,7 @@ class Harness(base.Harness):
                                         "docket_b_reproduction": receipt["reproduction"]}
         self.record("PASS" if differ == ["cohort-kit", "docket"] else "FAIL", image_sha512=actual,
                     bundles={k: {x: v[x] for x in ("sha256sums_sha256", "manifest_sha256")} for k, v in bundles.items()},
-                    b_differs_from_a=differ)
+                    b_differs_from_a=differ, ag_in_both=ag["A"], host_verifier=self.identity["host_verifier"])
 
     # ------------------------------------------------------------ guest
     def case_i01(self) -> None:
@@ -679,8 +685,12 @@ class Harness(base.Harness):
         s3, a_review = self.drv("A", f"review --cohort {a}")
         s4, a_status = self.drv("A", f"status --cohort {a}")
         after = self.snapshot()
-        ok = (s1 == 2 and b_init.get("code") == "cohort.retired" and s2 == 2 and a_init.get("code") == "cohort.exists"
-              and s3 == 2 and a_review.get("code") == "cohort.not_initialized" and a_status.get("initialized") is False
+        # A's kit is 0.3.0 too, so its init names the retirement before the
+        # tombstone (the pre-0.3.0 tombstone path was run-001's X-06).
+        ok = (s1 == 2 and b_init.get("code") == "cohort.retired" and s2 == 2
+              and a_init.get("code") in ("cohort.retired", "cohort.exists")
+              and s3 == 2 and a_review.get("code") in ("cohort.not_initialized", "cohort.retired")
+              and (a_status.get("initialized") is False or (s4 == 2 and a_status.get("code") == "cohort.retired"))
               and before == after)
         self.record("PASS" if ok else "FAIL", b_driver_init=b_init, a_driver_init=a_init, a_driver_review=a_review,
                     a_driver_status=a_status, writes_unchanged=before == after)
@@ -720,17 +730,51 @@ class Harness(base.Harness):
     def case_k01(self) -> None:
         self.passed("U-03")
         a = COHORT["A"][0]
+        quarantined = f"/var/lib/constellation/quarantine/{a}/state"
         ag = self.installed_program("B", "ag", "bin/ag-loopctl")
-        common = (f"sudo {PY} {HELPER} ag-view --kit-setup {self.facts['kit_B']}/setup --state "
-                  f"/var/lib/constellation/quarantine/{a}/state --cohort {a} --ag {ag} "
+        common = (f"sudo {PY} {HELPER} ag-view --kit-setup {self.facts['kit_B']}/setup --cohort {a} --ag {ag} "
                   f"--database {self.a_retained()}/stores/ag.sqlite")
-        control = json.loads(self.ssh(common, check=True).stdout)
-        without = json.loads(self.ssh(common + " --without ports/issuer.pk8", check=True).stdout)
+        view = {
+            "quarantine_with_key": json.loads(self.ssh(f"{common} --state {quarantined}", check=True).stdout),
+            "quarantine_without_key": json.loads(self.ssh(f"{common} --state {quarantined} --without ports/issuer.pk8",
+                                                          check=True).stdout),
+            "quarantine_garbage_key": json.loads(self.ssh(f"{common} --state {quarantined} --garbage ports/issuer.pk8",
+                                                          check=True).stdout),
+            # A's retained evidence alone: no quarantine, no key, no launchers.
+            "retained_state_only": json.loads(self.ssh(f"{common} --state {self.a_retained()}/state --own",
+                                                       check=True).stdout),
+        }
         pre = self.out / "evidence" / "a-evidence-pre-upgrade"
         expected = json.loads((pre / "native/ag-inspect.json").read_text())["current"]["state_digest"]
-        ok = control["exit"] == 0 and control["state_digest"] == expected and without["exit"] != 0 and without["removed"]
-        self.record("PASS" if ok else "FAIL", with_key=control, without_key=without, expected_state_digest=expected,
-                    finding="AG read-only inspect of a retained store requires the issuer private key" if ok else None)
+        control = view["quarantine_with_key"]
+        keyless = all(view[name]["exit"] == 0 and view[name]["outcome"] == "verified"
+                      and view[name]["state_digest"] == expected and view[name]["stdout_sha256"] == control["stdout_sha256"]
+                      for name in ("quarantine_with_key", "quarantine_without_key", "quarantine_garbage_key"))
+        retained = view["retained_state_only"]
+        named = sorted(entry["path"] for entry in retained["unavailable"] or [])
+        retained_ok = (retained["exit"] == 3 and retained["outcome"] == "verified_except_unavailable"
+                       and retained["state_digest"] == expected and bool(named)
+                       and all(path.startswith(f"{STATE}/{a}/") for path in named))
+        # The driver path with the retired key set aside (operator S-2 is
+        # undecided, so the harness puts the key back afterwards).
+        key, aside = f"{quarantined}/ports/issuer.pk8", f"{WORK}/k01-issuer.pk8.aside"
+        self.ssh(f"sudo mv {key} {aside}", check=True)
+        try:
+            status, verified = self.drv("B", f"verify-retained --cohort {a}")
+        finally:
+            self.ssh(f"sudo mv {aside} {key}", check=True)
+        restored = self.ssh(f"sudo test -f {key}").returncode == 0
+        driver_ok = (status == 0 and verified.get("result") == "retained_verified"
+                     and verified.get("checks", {}).get("ag_reinspection") is True
+                     and verified.get("observed", {}).get("ag", {}).get("outcome") == "verified")
+        self.facts["k01"] = view
+        self.record("PASS" if keyless and retained_ok and driver_ok and restored else "FAIL",
+                    expected_state_digest=expected, views=view, keyless_identical=keyless,
+                    retained_state_only_exit3=retained_ok, retained_state_only_named=named,
+                    verify_retained_without_key=verified, key_put_back=restored,
+                    finding=("AG replays A's retained store without A's issuer private key (D-1 fixed); from the "
+                             "retained evidence alone it verifies all but the named launchers and exits 3, which is "
+                             "never success") if keyless and retained_ok and driver_ok else None)
 
     # ------------------------------------------------------------ main
     def execute_all(self) -> None:
