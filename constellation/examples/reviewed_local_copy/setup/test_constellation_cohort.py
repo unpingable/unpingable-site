@@ -339,6 +339,21 @@ class BuildInfo(unittest.TestCase):
                                      '001-build-info-nq.stderr', '001-build-info-nq.stdout'])
 
 
+    def test_receipt_identity_binds_the_executable_digest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'bin').mkdir()
+            (root / 'bin/codex-app-server').write_bytes(b'\x7fELF app server')
+            info = self.info(component='app-server', executables={
+                'bin/codex-app-server': cc.sha256_file(root / 'bin/codex-app-server')})
+            (root / 'build-info.json').write_text(json.dumps(info) + '\n')
+            cc.check_receipt_identity('app-server', root, 'bin/codex-app-server', self.pin)
+            (root / 'bin/codex-app-server').write_bytes(b'\x7fELF a different build')
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_receipt_identity('app-server', root, 'bin/codex-app-server', self.pin)
+            self.assertEqual(caught.exception.code, 'build_info.executable_digest')
+
+
 class Records(unittest.TestCase):
     def test_create_once(self):
         with tempfile.TemporaryDirectory() as tmp:

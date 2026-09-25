@@ -90,8 +90,11 @@ COMPONENTS = {
         'bin/docket': 'elf', 'bin/docket-local-standing-resolver': 'elf'}},
     'switchyard': {'lane': 'E', 'kind': 'tar', 'executables': {
         'bin/switchyard-provider-runner': 'script', 'bin/switchyard-review-verifier': 'script'}},
+    # The codex fork cannot grow --build-info without moving the commit that
+    # Switchyard pins (FINAL_CODEX_SOURCE_HEAD), so its identity comes from
+    # the artifact's build-info.json, which binds the executable's digest.
     'app-server': {'lane': 'E', 'kind': 'tar', 'executables': {
-        'bin/codex-app-server': 'elf'}},
+        'bin/codex-app-server': 'receipt'}},
     'cohort-kit': {'lane': 'F', 'kind': 'tar', 'executables': {}},
 }
 
@@ -312,6 +315,23 @@ def check_build_info(component: str, program: str, info: dict, pin: dict) -> dic
     return observed
 
 
+def check_receipt_identity(component: str, root: Path, relative: str, pin: dict) -> dict:
+    """Identity for an executable that cannot report build info itself.
+
+    `<root>/build-info.json` is one JSON line with component, version,
+    source_commit and `executables: {relative path: sha256:<hex>}`.
+    """
+    path = root / 'build-info.json'
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_CLOEXEC)
+    with os.fdopen(fd, 'rb') as stream:
+        info = parse_build_info(stream.read(1024 * 1024))
+    observed = check_build_info(component, relative, info, pin)
+    listed = info.get('executables')
+    if not isinstance(listed, dict) or listed.get(relative) != sha256_file(root / relative):
+        raise Refusal('build_info.executable_digest', f'{component} {relative}: digest not bound by build-info.json')
+    return observed
+
+
 # ------------------------------------------------------------------- records
 
 class Records:
@@ -444,9 +464,12 @@ def cmd_install(args) -> dict:
             root = artifact_root(paths['install'] / name)
         for relative, runner in sorted(COMPONENTS[name]['executables'].items()):
             program = root / relative.lstrip('/')
-            argv = {'elf': [program], 'script': [program], 'pyz': [PYTHON, '-I', program]}[runner]
-            done = records.call(f'build-info-{name}-{program.name}', argv + ['--build-info'], timeout=30)
-            observed = check_build_info(name, str(program), parse_build_info(done.stdout), pin)
+            if runner == 'receipt':
+                observed = check_receipt_identity(name, root, relative, pin)
+            else:
+                argv = {'elf': [program], 'script': [program], 'pyz': [PYTHON, '-I', program]}[runner]
+                done = records.call(f'build-info-{name}-{program.name}', argv + ['--build-info'], timeout=30)
+                observed = check_build_info(name, str(program), parse_build_info(done.stdout), pin)
             identities[str(program)] = {'component': name, 'sha256': sha256_file(program), **observed}
     records.write('installed-identities.json', identities)
     return {'result': 'installed', 'cohort': args.cohort, 'qualified_cohort': qualified,
