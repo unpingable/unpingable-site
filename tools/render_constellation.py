@@ -63,13 +63,13 @@ def render_item(item: dict[str, str]) -> str:
     return f'''      <article id="{esc(item["id"])}">
         <h3>{name}</h3>
         <p>{esc(item["role"])}</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>{esc(item["refuses"])}</dd>
           <dt>Maturity</dt><dd>{esc(item["maturity_label"])}</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>{esc(item["role_detail"])}</dd>
             <dt>Relationship</dt><dd>{esc(item["relationship"])}</dd>
             <dt>Implementation</dt><dd>{esc(item["implementation_form"])}</dd>

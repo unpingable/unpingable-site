@@ -62,19 +62,16 @@ def render_row(obj: dict) -> str:
         for e in obj.get("evidence", [])
     )
 
-    return f"""      <div class="ledger-row" id="status-{esc(obj['id'])}">
-        <div class="ledger-head">
-          <span class="ledger-name">{esc(obj['name'])}</span>
-          <span class="kind {esc(kind)}">{esc(kind)}</span>
-          <span class="ledger-status">{esc(obj['status'])}</span>
-        </div>
-        <p class="ledger-claim">{esc(obj['claim'])}</p>
-        <dl class="ledger-meta">
+    return f"""      <article class="ledger-row" id="status-{esc(obj['id'])}">
+        <h3>{esc(obj['name'])}</h3>
+        <p><span class="badge{' accent' if kind == 'composition' else ' dashed' if kind == 'proposition' else ''}">{esc(kind)}</span> <span class="badge">{esc(obj['status'])}</span></p>
+        <p>{esc(obj['claim'])}</p>
+        <dl class="pairs">
           <dt>{verified_line}</dt><dd>{esc(obj['verified_by'])}</dd>
           <dt>evidence</dt><dd>{evidence}</dd>
           <dt>promotion</dt><dd>{esc(obj['promotion'])}</dd>
         </dl>
-      </div>"""
+      </article>"""
 
 
 def render(data: dict) -> str:
@@ -87,7 +84,7 @@ def render(data: dict) -> str:
     <div class="ledger">
 {rows}
     </div>
-    <p class="ledger-asof">Ledger as of {esc(data['as_of'])}. Generated from
+    <p class="fine">Ledger as of {esc(data['as_of'])}. Generated from
       <a href="{esc(rebase('status.json'))}">status.json</a> by <code>tools/render_status.py</code> in the
       <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
       it is a dated statement, not a live panel. A row moves only by an explicit

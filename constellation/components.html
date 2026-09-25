@@ -43,13 +43,13 @@
       <article id="ag">
         <h3><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h3>
         <p>Decides whether one exact piece of automated work may run, and grants permission for that one run.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Refuses authority that is already spent or no longer current. Does not execute work or treat a provider response as permission.</dd>
           <dt>Maturity</dt><dd>Development source</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Makes bounded, one-use authorization decisions from current inputs.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust authorization office</dd>
@@ -62,13 +62,13 @@
       <article id="nq">
         <h3><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a></h3>
         <p>Evaluates a narrowly defined question from recorded evidence.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Returns a typed refusal when required evidence is missing, stale or cannot be evaluated. Its results never authorize an effect.</dd>
           <dt>Maturity</dt><dd>Developer preview</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Derives bounded diagnostic dispositions or typed refusals from retained evidence.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
@@ -81,13 +81,13 @@
       <article id="docket">
         <h3><a href="https://github.com/unpingable/constellation-docket">Constellation Docket</a></h3>
         <p>Keeps custody of one authorized execution attempt: dispatches it, records the outcome and reconciles it.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Refuses to execute without matching, current permission. An uncertain attempt is recorded as indeterminate and reconciled, not blindly repeated.</dd>
           <dt>Maturity</dt><dd>Exercised in alpha.6; not production-hardened</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Keeps custody of a bounded execution attempt and records its outcome.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust execution-custody product</dd>
@@ -100,13 +100,13 @@
       <article id="nightshift">
         <h3><a href="https://github.com/unpingable/constellation-nightshift">Constellation Nightshift</a></h3>
         <p>Tracks recurring work and changing conditions over time, and proposes the next bounded task.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Does not authorize or execute work, and does not turn old evidence into a fresh fact.</dd>
           <dt>Maturity</dt><dd>Development source</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Tracks currentness, recurrence, and attention over time.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust temporal-observation office</dd>
@@ -119,13 +119,13 @@
       <article id="maude">
         <h3><a href="https://github.com/unpingable/maude">Maude</a></h3>
         <p>Authors, checks, compares and locks automation plans before they are submitted for authorization.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>A checked plan grants no permission and runs no work.</dd>
           <dt>Maturity</dt><dd>Exercised in alpha.4 and alpha.6; design-flow work pre-alpha</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Authors, checks, compares, and locks pre-governed plans.</dd>
             <dt>Relationship</dt><dd>core operator surface</dd>
             <dt>Implementation</dt><dd>standalone Python authoring and supervision product</dd>
@@ -140,13 +140,13 @@
       <article id="phosphor">
         <h3><a href="https://github.com/unpingable/constellation-ag/blob/e0f30de668234935cdbc4b0bd04f5dc13838411d/docs/objective-read-projection.md">Phosphor</a></h3>
         <p>Shows authored goals with their linked runs, outcomes and supporting records.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Read-only: cannot accept a plan, grant authority, rerun work or settle an occurrence.</dd>
           <dt>Maturity</dt><dd>Experimental</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Shows authored goals and their linked runs, outcomes, and supporting records.</dd>
             <dt>Relationship</dt><dd>hosted family capability</dd>
             <dt>Implementation</dt><dd>read-only inspector hosted in Constellation AG</dd>
@@ -159,13 +159,13 @@
       <article id="continuity">
         <h3><a href="https://github.com/unpingable/constellation-continuity">Constellation Continuity</a></h3>
         <p>Stores versioned memories and records when they may be relied on across sessions.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Its records do not select work, infer currentness or authorize action.</dd>
           <dt>Maturity</dt><dd>Supported in one vertical; broader doctrine candidate</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Provides receipted persistence custody for workflows that explicitly rely on retained memory.</dd>
             <dt>Relationship</dt><dd>optional family member</dd>
             <dt>Implementation</dt><dd>standalone Python persistence-custody office</dd>
@@ -178,13 +178,13 @@
       <article id="standing">
         <h3><a href="https://github.com/unpingable/constellation-standing">Constellation Standing</a></h3>
         <p>Tracks scoped, expiring mandates and checks whether they still apply to proposed work.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>A mandate is an input to an authorization decision, not permission by itself.</dd>
           <dt>Maturity</dt><dd>Implemented; broader deployment not claimed</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Owns scoped, expiring mandate custody and standing judgments.</dd>
             <dt>Relationship</dt><dd>optional family member</dd>
             <dt>Implementation</dt><dd>standalone Rust mandate-custody product</dd>
@@ -197,13 +197,13 @@
       <article id="linear-accountant">
         <h3><a href="https://github.com/unpingable/constellation-linear-accountant">Constellation Linear Accountant</a></h3>
         <p>Tracks finite resource allowances and prevents double spending.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Accounts for capacity only; it does not authorize action.</dd>
           <dt>Maturity</dt><dd>Frozen v0 reference</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Accounts for conserved finite capacity separately from action permission.</dd>
             <dt>Relationship</dt><dd>optional reference component</dd>
             <dt>Implementation</dt><dd>standalone Rust library and thin transport binary</dd>
@@ -216,13 +216,13 @@
       <article id="monitor">
         <h3><a href="https://github.com/unpingable/constellation-monitor">Constellation Monitor</a></h3>
         <p>Collects bounded observations about an explicitly selected project.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Does not establish diagnostic truth or permission to act.</dd>
           <dt>Maturity</dt><dd>Experimental</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.</dd>
             <dt>Relationship</dt><dd>optional family member</dd>
             <dt>Implementation</dt><dd>standalone Rust project-concern acquisition workspace hosting Pulse</dd>
@@ -235,13 +235,13 @@
       <article id="pulse">
         <h3><a href="https://github.com/unpingable/constellation-monitor">Pulse</a></h3>
         <p>Checks whether current evidence still supports one specific statement.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Support expires. It is not general health, permission to act, or delivery.</dd>
           <dt>Maturity</dt><dd>Component checks passed; live delivery unqualified</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Evaluates proposition-specific present support under explicit coverage and policy.</dd>
             <dt>Relationship</dt><dd>hosted optional family capability</dd>
             <dt>Implementation</dt><dd>Rust subsystem and support adapters hosted within Constellation Monitor</dd>
@@ -254,13 +254,13 @@
       <article id="porter">
         <h3><a href="https://github.com/unpingable/porter">Porter</a></h3>
         <p>Runs declared commands over SSH or serial connections and records output, exit status, artifacts and hashes.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Transport only: it does not choose what to run, and it does not own attempt custody or settlement.</dd>
           <dt>Maturity</dt><dd>Early usable</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Carries a declared command to a declared substrate and retains factual transcripts, observed exit status, artifacts and hashes.</dd>
             <dt>Relationship</dt><dd>optional execution-transport integration</dd>
             <dt>Implementation</dt><dd>Python CLI and library with SSH, serial-console and caller-recipe transports</dd>
@@ -273,13 +273,13 @@
       <article id="switchyard-runtime">
         <h3><a href="https://github.com/unpingable/switchyard-runtime">Switchyard Runtime</a></h3>
         <p>Runs bounded model-provider requests with cancellation, deadlines and retained records.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Completing a review does not accept a plan, grant authority or execute work.</dd>
           <dt>Maturity</dt><dd>Exercised in alpha.6</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Provides a reviewed source-only provider-runtime distribution for an enrolled integration.</dd>
             <dt>Relationship</dt><dd>shared provider integration</dd>
             <dt>Implementation</dt><dd>reviewed source-only provider-runtime distribution</dd>
@@ -292,13 +292,13 @@
       <article id="wicket">
         <h3><a href="https://github.com/unpingable/wicket">Wicket</a></h3>
         <p>Checks a proposed change against supplied evidence and rules before execution.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>A preflight answer does not replace an owning authorization decision.</dd>
           <dt>Maturity</dt><dd>Public; relation to AG unratified</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Performs stateless admissibility preflight for supplied basis, precedence, and standing.</dd>
             <dt>Relationship</dt><dd>optional integration or reference</dd>
             <dt>Implementation</dt><dd>standalone Rust admissibility-preflight library and CLI</dd>
@@ -311,13 +311,13 @@
       <article id="spine">
         <h3><a href="https://github.com/unpingable/spine">Spine</a></h3>
         <p>Builds readable indexes of selected sources and compares editions.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>An index does not establish current truth or permission to act.</dd>
           <dt>Maturity</dt><dd>Implemented; locally tested</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Builds readable indexes and compares editions of explicitly selected sources without changing their semantic state.</dd>
             <dt>Relationship</dt><dd>optional read-plane integration</dd>
             <dt>Implementation</dt><dd>Python CLI and library for explicit-source indexes and editions</dd>
@@ -330,13 +330,13 @@
       <article id="claimdocs">
         <h3><a href="https://github.com/unpingable/claimdocs">claimdocs</a></h3>
         <p>Checks architecture claim records and their evidence references, and generates documentation.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Resolving evidence is not judging it adequate; reports grant no authority.</dd>
           <dt>Maturity</dt><dd>Implemented</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Checks claim structure, resolves cited evidence, reports freshness and renders documentation.</dd>
             <dt>Relationship</dt><dd>optional architectural evidence documentation engine</dd>
             <dt>Implementation</dt><dd>Python CLI used by architectural claim specimens</dd>
@@ -349,13 +349,13 @@
       <article id="verifier">
         <h3><a href="https://github.com/unpingable/verifier">Verifier</a></h3>
         <p>Checks caller-defined facts and rules with the Z3 solver.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>A passing check is not real-system correctness or permission. Solver unsat and unknown are not yet distinguished.</dd>
           <dt>Maturity</dt><dd>Implemented</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Checks a caller-encoded proposal, facts and rules. The caller supplies the model, assumptions and input truth.</dd>
             <dt>Relationship</dt><dd>optional encoded-claim checking integration</dd>
             <dt>Implementation</dt><dd>Python library, CLI and stdio MCP server backed by Z3</dd>
@@ -370,13 +370,13 @@
       <article id="axolotl">
         <h3>Axolotl</h3>
         <p>Explores bounded ambiguity interrogation and intent preparation upstream of authorization.</p>
-        <dl>
+        <dl class="pairs">
           <dt>Boundary</dt><dd>Not implemented; not a workflow prerequisite.</dd>
           <dt>Maturity</dt><dd>Design only</dd>
         </dl>
         <details>
           <summary>Details</summary>
-          <dl>
+          <dl class="pairs">
             <dt>Precise role</dt><dd>Explores bounded ambiguity interrogation and intent preparation upstream of authorization.</dd>
             <dt>Relationship</dt><dd>design-stage upstream capability</dd>
             <dt>Implementation</dt><dd>design and roadmap only</dd>
