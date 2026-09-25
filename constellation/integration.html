@@ -20,7 +20,18 @@
   <link rel="stylesheet" href="base.css">
 </head>
 <body><a class="skip" href="#main">Skip to content</a>
-<header><nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav></header>
+<header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
 <main id="main">
   <h1>Compose responsibilities, not a monolith</h1>
   <p class="lede">Choose the smallest set of components that owns the decisions and records your workflow actually needs. Passing data between tools does not transfer authority.</p>
@@ -68,4 +79,4 @@
 
   <h2 id="unsupported">Unsupported combinations</h2>
   <ul><li>Federation is not a supported profile. A shared HTTP or MCP transport does not establish matching plan, evidence, review, or authority semantics.</li><li>The deprecated Python governor and classic NQ are not drop-in implementations of the successor AG/NQ contracts.</li><li>Maude's design workspace and AG-hosted Phosphor inspection do not share a plan store. Navigation between them does not supply handoff or execution.</li><li>Porter's command transport alone does not supply an arbitrary Docket executor, task-specific NQ profile, or Nightshift composition.</li><li>General ECAD/design-flow and arbitrary campaign execution remain outside the advertised supported recipes.</li></ul>
-</main><footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer></body></html>
+</main><footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer></body></html>

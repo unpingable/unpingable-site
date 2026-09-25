@@ -114,7 +114,7 @@
       "claim": "Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.",
       "verified": null,
       "verified_by": "No general ECAD/design-flow release has been qualified.",
-      "evidence": [{"label": "current boundaries", "url": "constellation/limits.html"}, {"label": "research directions", "url": "constellation/research.html#authored-design"}],
+      "evidence": [{"label": "current boundaries", "url": "constellation/limits.html"}, {"label": "research directions", "url": "constellation/directions.html#authored-design"}],
       "promotion": "A separately scoped, reproducible public profile; alpha.6 does not provide one."
     }
   ]

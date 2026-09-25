@@ -21,7 +21,18 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header><nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav></header>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
   <main id="main">
     <h1>Read one saved check beside an authored objective</h1>
     <p class="lede">Author a disposable plan, run a finite saved check, and inspect its retained result beside the exact criterion you defined. See what changes when the evidence expires or the requested record is missing.</p>
@@ -157,6 +168,6 @@ AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
     <p>A successful run can log <code>operator UI request failed: empty request</code> from the caller's TCP readiness probe. Check the subsequent objective JSON and complete capture record before classifying that line as a failed read. The server's <code>-15</code> terminal return code here records its deliberate stop after capture, not the saved-check outcome.</p>
     <p>For support, report suite <code>0.1.0-alpha.3</code>, profile <code>objective-saved-check-read/v1</code>, the four runtime repository revisions, the separate kit revision and both kit hashes, tool versions, the exact command and a minimal redacted diagnostic excerpt through <a href="troubleshooting.html">Troubleshooting</a>. Do not send credentials, operator-only plan prose, full databases or unrelated retained records. Experimental support is best effort, with no guaranteed response time.</p>
   </main>
-  <footer>Constellation alpha integration · <a href="saved-check-attention.html">Saved-check lifecycle</a> · <a href="integration.html">Composition boundaries</a></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
 </body>
 </html>

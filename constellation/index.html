@@ -21,9 +21,18 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header>
-    <nav aria-label="Main navigation"><strong><a href="index.html" aria-current="page">Constellation</a></strong><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
   </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html" aria-current="page">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
   <main id="main">
     <section aria-labelledby="hero">
       <p class="eyebrow">Constellation · experimental</p>
@@ -58,7 +67,7 @@
       <h2 id="related-heading">Related work</h2>
       <p>Recent work independently studies the same basic separation inside a single agent runtime: agents act, but trusted evidence determines authoritative completion. Constellation explores the harder distributed case, where the observer, authority, executor and evidence sources may be independently owned and may fail separately.</p>
       <p>See Li et al., &ldquo;<a href="https://arxiv.org/abs/2609.29921">Who Holds the Pen? Let Specifications, Not Agents, Sign Off</a>&rdquo;, arXiv:2609.29921 (2026). This is independent convergence and evidence for the discipline, not validation of Constellation&rsquo;s specific architecture. A <a href="https://github.com/unpingable/papers/blob/main/working/agent-governance-field-state.md#addendum-2026-09-25--specharness-specificationstate-authority-in-single-runtime-harnesses">longer literature note</a> compares the two.</p>
-      <p>From this project: &ldquo;<a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>&rdquo; and &ldquo;<a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>&rdquo;. The full catalogue is on the <a href="research.html">research</a> page.</p>
+      <p>From this project: &ldquo;<a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a>&rdquo; and &ldquo;<a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a>&rdquo;. The full catalogue is on the <a href="../index.html#research">research</a> page, and the questions behind the software are on <a href="directions.html">research directions</a>.</p>
     </section>
 
     <section id="status" aria-labelledby="limits">
@@ -79,11 +88,11 @@
         <li><a href="understand.html">How it works</a></li>
         <li><a href="status.html">Current status</a></li>
         <li><a href="start.html">Source and guides</a></li>
-        <li><a href="research.html">Research</a></li>
+        <li><a href="../index.html#research">Research</a></li>
         <li><a href="absd.html">ABSD</a> &mdash; a small experimental operating system being built partly to pressure-test these semantics below the application layer.</li>
       </ul>
     </section>
   </main>
-  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
 </body>
 </html>

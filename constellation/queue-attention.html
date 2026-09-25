@@ -18,7 +18,18 @@
   <link rel="canonical" href="https://unpingable.com/constellation/queue-attention.html">
   <link rel="stylesheet" href="base.css">
 </head>
-<body><a class="skip" href="#main">Skip to content</a><header><nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav></header>
+<body><a class="skip" href="#main">Skip to content</a><header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
 <main id="main"><h1>Read a queue and decide whether it needs attention</h1>
 <p class="lede">Read a disposable SQLite queue, check the evidence, decide whether it needs attention, and deliver one local operator-inbox message through actual Monitor, NQ, Pulse and Nightshift entry points.</p>
 <p><strong>Development profile: <code>local-queue-attention/v1</code>.</strong> Public-only reproduction passed on Linux x86-64 without access to private repositories. This profile is not the released Maude-only 0.1.0-alpha.1 profile, a complete recurring monitoring deployment, or permission to change an application.</p>
@@ -61,4 +72,4 @@ python3 local-queue-attention.py --local-inbox \
 <p>The <a href="https://github.com/unpingable/constellation-nightshift/blob/39216731bf5124d71c7a3113a198a3c6d1b00962/integrations/monitor-predicate-support/docs/local-queue-attention.md">complete caller and recovery guide</a> gives exact commands and retained-state ownership. Keep the inbox files with the delivery database: neither substitutes for the other. Stop all example commands before backing up or removing its exact disposable root; preserve SQLite sidecars with their database. Complete-deployment restoration, migration and rollback are not verified.</p>
 <p>This profile does not provide recurring saved-check scheduling, automatic maintenance overlays, generation retention, objective completion, AG/Docket authorization and execution, or federation. Those missing capabilities are not supplied by the UI or this successful example. Recipe B is a separately released exact local-copy composition; it does not add governed effects to this queue profile or complete a broader application integration.</p>
 <p>For problems, report the two source revisions, environment versions, command and a minimal redacted excerpt through <a href="troubleshooting.html">Troubleshooting</a>. Do not upload the whole state directory or private evidence. Experimental alpha support is best effort with no guaranteed response time.</p>
-</main><footer>Constellation documentation · <a href="integration.html">Composition matrix</a></footer></body></html>
+</main><footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer></body></html>

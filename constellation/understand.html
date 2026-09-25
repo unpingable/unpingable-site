@@ -21,15 +21,31 @@
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header>
-    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html" aria-current="page">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html">Research</a><a href="absd.html">ABSD</a></nav>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
   </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html" aria-current="page">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
   <main id="main">
     <h1>Different jobs, explicit handoffs</h1>
     <p class="lede">No single screen or process is treated as the planner, permission giver, executor, observer, and judge.</p>
     <aside class="note"><strong>Deployment direction:</strong> the qualified release remains single-host. The <a href="over-the-wire-roadmap.html">canonical post-alpha.6 over-the-wire roadmap</a> defines the contracts, failure cases, ownership, and evidence required before a network-separated composition is called supported.</aside>
 
-    <h2>From proposal to review</h2>
+    <h2 id="contract">The contract</h2>
+<dl class="pairs">
+<dt>Contract</dt><dd>Automation may propose work &mdash; runbooks, scripts, Terraform plans, AI agents. Gates decide whether the proposal is admissible. Operators decide whether governed output is promoted.</dd>
+<dt>Not approval</dt><dd>An agent saying &ldquo;done.&rdquo; Tests passing. A completed run. A green check. A demonstration succeeding.</dd>
+<dt>Evidence</dt><dd>Every refusal names the gate, the failed predicate, the clock basis, and whether any effect occurred.</dd>
+</dl>
+
+<h2>From proposal to review</h2>
     <h3>Maude: author and check</h3>
     <p>Maude lets you edit a plan, check its structure and dependencies, compare revisions, and save a fixed snapshot. You can edit directly or review a proposed change. The current design demo uses deterministic sample proposals, not a live model. Accepting a change saves a new draft revision; check that revision again. A checked or locked plan grants no permission and proves no execution.</p>
     <h3>Constellation AG: decide and account for permission</h3>
@@ -67,13 +83,13 @@
 <dl class="interfaces">
 <dt>Pre-effect gate</dt><dd>Re-check, immediately before the effect, whether the evidence or standing that justified it is still usable. The <a href="archive.html#earlier-prototype">earlier prototype</a> shows the shape: checked valid, refused at exercise, nothing spent.</dd>
 <dt>Receipt boundary</dt><dd>Wrap an existing executor so the premises, decision, exact attempted effect and outcome survive together. The current example is the <a href="releases/0.1.0-alpha.6/guide.html">alpha.6 Docket-custodied action</a>; the older Git vertical remains a <a href="archive.html#four-office">historical exhibit</a>.</dd>
-<dt>Read-only evaluator</dt><dd>Observe an existing system and classify what its evidence establishes, with no action authority to inherit. Current diagnostic source lives in <a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a>; the <a href="research.html#firewall">declared-deny probe</a> is a classic-NQ historical specimen.</dd>
+<dt>Read-only evaluator</dt><dd>Observe an existing system and classify what its evidence establishes, with no action authority to inherit. Current diagnostic source lives in <a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a>; the <a href="directions.html#firewall">declared-deny probe</a> is a classic-NQ historical specimen.</dd>
 <dt>Governed effect custody</dt><dd>Carry one exact authorized attempt through execution and reconciliation while preserving uncertainty and refusing blind repetition. See <a href="https://github.com/unpingable/constellation-docket">Constellation Docket</a> and the alpha.6 walkthrough.</dd>
 </dl>
 <p>These are the shapes the existing artifacts and exhibits actually demonstrate &mdash; different artifacts support different ones, and no artifact supports them all. The unit of adoption is not &ldquo;the enterprise.&rdquo; It is one consequential transition, one bounded claim, or one admitted effect class.</p>
 
-<p><a href="start.html">See what you can inspect today</a>.</p>
+<p><a href="start.html">See what you can inspect today</a>, or read the <a href="directions.html">research directions</a> behind these boundaries.</p>
   </main>
-  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
 </body>
 </html>

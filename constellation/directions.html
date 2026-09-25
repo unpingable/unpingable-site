@@ -3,32 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
+  <meta name="description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
-  <meta property="og:title" content="Research behind Constellation">
-  <meta property="og:description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
-  <meta property="og:url" content="https://unpingable.com/constellation/research.html">
+  <meta property="og:title" content="Constellation research directions">
+  <meta property="og:description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
+  <meta property="og:url" content="https://unpingable.com/constellation/directions.html">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:alt" content="Constellation — governed automated work">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Research behind Constellation">
-  <meta name="twitter:description" content="Papers and research directions behind Constellation, from temporal coherence and fault domains to institutional dynamics, with related work on agent completion and specifications.">
+  <meta name="twitter:title" content="Constellation research directions">
+  <meta name="twitter:description" content="The research questions behind Constellation: the transitions from observation to action, continuity, an authored design layer, and related work on agent completion and specifications.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
-  <title>Research behind Constellation</title>
-  <link rel="canonical" href="https://unpingable.com/constellation/research.html">
+  <title>Constellation research directions</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/directions.html">
   <link rel="stylesheet" href="base.css">
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
-  <header>
-    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="research.html" aria-current="page">Research</a><a href="absd.html">ABSD</a></nav>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
   </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a><a href="absd.html">ABSD</a>
+  </nav>
   <main id="main">
-    <h1>Research</h1>
-    <p class="lede">The papers name the failure classes; the software carries the response.</p>
-    <p>The &Delta;t series is scaffolding for the check-versus-action logic in the admissibility and standing components. Some of this work is theoretical only; not everything here has an instantiation, and the papers are not evidence that anything is deployed. Selected claims from the &Delta;t series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html#proofs">limits</a>.</p>
-    <p>On this page: <a href="#related-work">related work</a> &middot; <a href="#transitions">the transitions under study</a> &middot; <a href="#continuity">continuity</a> &middot; <a href="#authored-design">the authored design layer</a> &middot; <a href="#papers">papers</a>.</p>
+    <h1>Research directions</h1>
+    <p class="lede">The questions behind the software: what has to hold as evidence turns into action, and what the components are and are not yet built to answer.</p>
+    <p>This is an independent research and engineering program on preserving evidence <a href="../glossary.html#custody">custody</a> as systems move from observation to action over time &mdash; formal models, executable systems, and bounded compositions. The same failure appears across operations, AI agents, distributed systems, formal verification, and governance; operations is merely where the questions were learned.</p>
+    <p>The papers name the failure classes; the software carries the response. The <a href="../index.html#research">research catalogue</a> lists the papers, including the &Delta;t series that scaffolds the check-versus-action logic. Selected claims from that series are machine-audited in Lean: <a href="https://github.com/unpingable/lean">unpingable/lean</a> (<a href="https://unpingable.github.io/lean/">proof reader&rsquo;s portal</a>). The theorems prove class boundaries of refusals &mdash; not that any deployed system is safe. See <a href="limits.html#proofs">limits</a>.</p>
+    <p>On this page: <a href="#related-work">related work</a> &middot; <a href="#transitions">the transitions under study</a> &middot; <a href="#continuity">continuity</a> &middot; <a href="#authored-design">the authored design layer</a> &middot; <a href="#other-directions">other notes</a>.</p>
 
     <h2 id="related-work">Related work</h2>
     <p>Li et al., &ldquo;<a href="https://arxiv.org/abs/2609.29921">Who Holds the Pen? Let Specifications, Not Agents, Sign Off</a>&rdquo;, arXiv:2609.29921 (2026). The paper measures a gap between an agent&rsquo;s completion claim and the state it was asked to produce, and proposes SpecHarness: a trusted runtime that authorizes agent actions, observes their effects, and marks a specification obligation satisfied only from admissible, fresh evidence.</p>
@@ -94,38 +104,7 @@
       <li><a href="absd.html">ABSD</a> &mdash; a small experimental operating system used partly to test these semantics below the application layer.</li>
     </ul>
 
-    <h2 id="papers">Papers</h2>
-    <p>Selected papers, grouped by theme. The engineering and reliability work sits beside broader work on censorship, social media, propaganda and institutions; they are listed together because the program treats them as instances of one failure class, not because they share an implementation. The <a href="https://github.com/unpingable/papers">papers repository</a> has the full list and working notes; see also <a href="https://orcid.org/0009-0009-5524-767X">ORCID</a>.</p>
-      <h3>Temporal Coherence &amp; &Delta;t Theory</h3>
-      <ul>
-        <li><a href="https://doi.org/10.5281/zenodo.17857541">&Delta;t-Constrained Inference: A General Model of Temporal Coherence in Hierarchical Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17857541">doi:10.5281/zenodo.17857541</a> &middot; <em>start here</em></li>
-        <li><a href="https://doi.org/10.5281/zenodo.17859323">Detecting Temporal Debt in Language Models and Software Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17859323">doi:10.5281/zenodo.17859323</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.17849278">Temporal Closure Requirements for Synthetic Coherence</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849278">doi:10.5281/zenodo.17849278</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18039926">You Need More Than Just Attention: Invariant Requirements for Temporal Coherence in AI Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18039926">doi:10.5281/zenodo.18039926</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18236164">The Temporal Attack Surface: A &Delta;t Framework for Asynchronous Security Systems</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18236164">doi:10.5281/zenodo.18236164</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18235696">Temporal Asymmetry in Censorship Systems</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18235696">doi:10.5281/zenodo.18235696</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18717619">The Gain Geometry of Temporal Mismatch: Shear, Leverage, and Capture in Multi-Timescale Systems</a> &mdash; Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18717619">doi:10.5281/zenodo.18717619</a></li>
-      </ul>
-      <h3>Systems &amp; Institutional Dynamics</h3>
-      <ul>
-        <li><a href="https://doi.org/10.5281/zenodo.17726789">The Coherence Criterion: A Unified Framework for Stability in Hierarchical Systems</a> &mdash; Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726789">doi:10.5281/zenodo.17726789</a> &middot; <em>start here</em></li>
-        <li><a href="https://doi.org/10.5281/zenodo.17849241">Control Laws for Hierarchical Kinetics: Design Principles for Multi-Timescale Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17849241">doi:10.5281/zenodo.17849241</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.17726890">The Second Law of Organizations: How Temporal Lag Drives Irreversible Institutional Decay</a> &mdash; Nov 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17726890">doi:10.5281/zenodo.17726890</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18019050">Capacity-Constrained Stability: A Control-Theoretic Framework for Institutional Resilience</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18019050">doi:10.5281/zenodo.18019050</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18686130">Cybernetic Fault Domains: When Commitment Outruns Verification</a> &mdash; Feb 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18686130">doi:10.5281/zenodo.18686130</a></li>
-      </ul>
-      <h3>Alignment &amp; Reward Dynamics</h3>
-      <ul>
-        <li><a href="https://doi.org/10.5281/zenodo.17791873">Scalar Reward Collapse: A General Theory of Eigenstructure Evaporation in Closed-Loop Systems</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17791873">doi:10.5281/zenodo.17791873</a> &middot; <em>start here</em></li>
-        <li><a href="https://doi.org/10.5281/zenodo.17803844">Eigenstructure Collapse in Social Media Platforms</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.17803844">doi:10.5281/zenodo.17803844</a></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18071264">Representational Invariance and the Observer Problem in Language Model Alignment</a> &mdash; Dec 2025 &middot; <a href="https://doi.org/10.5281/zenodo.18071264">doi:10.5281/zenodo.18071264</a></li>
-      </ul>
-      <h3>Governance &amp; Epistemic Architecture</h3>
-      <ul>
-        <li><a href="https://doi.org/10.5281/zenodo.18145347">Bounded Lattice Inference: A Governed Reasoning Substrate with Persistent State and Non-Linguistic Authority</a> &mdash; Jan 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18145347">doi:10.5281/zenodo.18145347</a> &middot; <em>start here</em></li>
-        <li><a href="https://doi.org/10.5281/zenodo.18841815">Receipt the Compiler: Propaganda as Hidden Epistemic Policy and the Architecture of Legible Memory</a> &mdash; Mar 2026 &middot; <a href="https://doi.org/10.5281/zenodo.18841815">doi:10.5281/zenodo.18841815</a></li>
-      </ul>
   </main>
-  <footer>Constellation documentation · plain working edition · <a href="../index.html">More from unpingable</a></footer>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../index.html#research">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">Constellation documentation · plain working edition</p></footer>
 </body>
 </html>
