@@ -1,0 +1,65 @@
+
+A-lost-reply
+  ok    authorization signature verifies against the trusted demo key
+  ok    authorization identity recomputes (ag.governed-loop.issuance/v2)
+  ok    authorization names exactly this refund plan
+  ok    Docket's attempt and marker identities recompute from the authorization
+  ok    re-sending the authorization returned the same attempt
+  ok    agent claimed success because its command exited 0
+  ok    Docket's first disposition: indeterminate, no settlement
+  ok    the worker sent once and holds a no-reply record
+  ok    Docket's indeterminate evidence is the worker's no-reply record
+  ok    indeterminate reconciliation digest recomputes
+  ok    the no-reply record is for this exact provider request
+  ok    provider ledger entry is exactly this request
+  ok    provider received this request 1 time(s) (never twice)
+        from the provider's records: success (the ledger has refund rf_a0f76303be7b717c)
+  ok    observation 91a77b2407d1 is intact
+  ok    observation 91a77b2407d1 asked about exactly this request
+  ok    observation 91a77b2407d1 contains nothing from the agent's claim or the worker's journal
+  ok    observation 91a77b2407d1 agrees with the provider ledger (committed)
+  ok    Docket's final disposition (success) equals the re-derived one (success)
+  ok    the settlement's receipt is an observer document, not the worker's or the agent's
+  ok    settlement digest recomputes
+  ok    the earlier indeterminate evidence is retained
+  ok    order: agent's claim, then the observer's lookup, then the settlement
+  ok    the executor Docket ran is this repository's bin/refund-executor
+  ok    Docket's store, re-read now, equals the retained record
+        context only (not used above): network log says reply-dropped
+
+B-lost-request
+  ok    authorization signature verifies against the trusted demo key
+  ok    authorization identity recomputes (ag.governed-loop.issuance/v2)
+  ok    authorization names exactly this refund plan
+  ok    Docket's attempt and marker identities recompute from the authorization
+  ok    re-sending the authorization returned the same attempt
+  ok    agent claimed success because its command exited 0
+  ok    Docket's first disposition: indeterminate, no settlement
+  ok    the worker sent once and holds a no-reply record
+  ok    Docket's indeterminate evidence is the worker's no-reply record
+  ok    indeterminate reconciliation digest recomputes
+  ok    the no-reply record is for this exact provider request
+  ok    provider received this request 0 time(s) (never twice)
+        from the provider's records: failure (no such refund in the ledger; deadline passed before the last lookup)
+  ok    observation 52c43a73d5bb is intact
+  ok    observation ae204a9da8dd is intact
+  ok    observation 52c43a73d5bb asked about exactly this request
+  ok    observation 52c43a73d5bb contains nothing from the agent's claim or the worker's journal
+  ok    observation 52c43a73d5bb agrees with the provider ledger (absent)
+  ok    observation ae204a9da8dd asked about exactly this request
+  ok    observation ae204a9da8dd contains nothing from the agent's claim or the worker's journal
+  ok    observation ae204a9da8dd agrees with the provider ledger (absent)
+  ok    reconcile-1.json: evidence that the refund could still apply left the attempt indeterminate
+  ok    Docket's final disposition (failure) equals the re-derived one (failure)
+  ok    the settlement's receipt is an observer document, not the worker's or the agent's
+  ok    settlement digest recomputes
+  ok    the earlier indeterminate evidence is retained
+  ok    order: agent's claim, then the observer's lookup, then the settlement
+  ok    the executor Docket ran is this repository's bin/refund-executor
+  ok    Docket's store, re-read now, equals the retained record
+        context only (not used above): network log says request-dropped
+
+across runs
+  ok    the agent said done both times; the final dispositions differ (success, failure)
+
+PASS: 0 failed check(s)

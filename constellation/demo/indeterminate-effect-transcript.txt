@@ -1,0 +1,76 @@
+Docket, which keeps custody of each attempt and its result: docket 0.1.0 9ebdc5e30705250b062f14239da5418dc5c82a61
+Authorization signer: stand-in, reproduces AG's published test vector (sha256 b715ddcf1d04...)
+Provider: stand-in payment service on 127.0.0.1:34551, ledger provider/ledger.jsonl
+Receipts: examples/indeterminate-effect/out/20260925T183115Z
+
+=== Run A: the reply goes missing ===
+[  0.6s] 1. Effect attempted
+          An agent is asked to: Refund $40.00 for order 1042.
+          The request must apply at the provider before 18:31:24 UTC or not at all.
+          A signed authorization for exactly this request goes to Docket, which sends it once.
+[  0.8s] 2. Outcome ambiguous
+          The worker sent the request; the connection closed with no reply after 0.0s
+          (RemoteDisconnected). It cannot tell whether the refund happened,
+          and says so: outcome "indeterminate".
+[  0.8s] 3. Agent says success
+          agent: "Done. Refund $40.00 for order 1042: completed successfully."
+          Its evidence: command exited 0.
+[  0.8s] 4. System: INDETERMINATE
+          Docket's record for this attempt: INDETERMINATE.
+          Settlement: none. Not success, not failure.
+          The exit code 0 the agent saw only meant that Docket took custody.
+          Sending the same authorization again returns the same attempt.
+          The worker has sent 1 request(s) in total.
+[  0.9s] 5. Independent evidence arrives
+          A separate observer asks the provider directly at 18:31:16 UTC.
+          provider: this exact request is COMMITTED, as refund rf_a0f76303be7b717c at 18:31:16 UTC.
+          Docket now says: SETTLED.
+[  0.9s] 6. Final disposition
+          Docket settles the attempt as SUCCESS.
+          It cites the observer's document sha256:91a77b2407d13c28... as its receipt,
+          and keeps the earlier INDETERMINATE evidence sha256:988028ef5966e3fb...
+          (Behind the scenes, from the network log:
+           the request reached the provider, which answered 201 Created;
+           the reply was dropped.)
+
+=== Run B: the request goes missing ===
+[  1.1s] 1. Effect attempted
+          An agent is asked to: Refund $25.00 for order 1043.
+          The request must apply at the provider before 18:31:24 UTC or not at all.
+          A signed authorization for exactly this request goes to Docket, which sends it once.
+[  1.3s] 2. Outcome ambiguous
+          The worker sent the request; the connection closed with no reply after 0.0s
+          (RemoteDisconnected). It cannot tell whether the refund happened,
+          and says so: outcome "indeterminate".
+[  1.3s] 3. Agent says success
+          agent: "Done. Refund $25.00 for order 1043: completed successfully."
+          Its evidence: command exited 0.
+[  1.3s] 4. System: INDETERMINATE
+          Docket's record for this attempt: INDETERMINATE.
+          Settlement: none. Not success, not failure.
+          The exit code 0 the agent saw only meant that Docket took custody.
+          Sending the same authorization again returns the same attempt.
+          The worker has sent 1 request(s) in total.
+[  1.4s] 5. Independent evidence (not yet enough)
+          A separate observer asks the provider directly at 18:31:17 UTC.
+          provider: no such refund yet, but the request could still apply until 18:31:24 UTC.
+          Docket now says: INDETERMINATE.
+          Waiting 8.8s for the deadline to pass, then asking again.
+[ 10.3s] 5. Independent evidence arrives
+          A separate observer asks the provider directly at 18:31:26 UTC.
+          provider: no such refund, and the deadline 18:31:24 UTC has passed, so it can never apply.
+          Docket now says: SETTLED.
+[ 10.3s] 6. Final disposition
+          Docket settles the attempt as FAILURE.
+          It cites the observer's document sha256:52c43a73d5bb2f20... as its receipt,
+          and keeps the earlier INDETERMINATE evidence sha256:ef0f01737dd99b06...
+          (Behind the scenes, from the network log:
+           the request was dropped before it reached the provider.)
+
+=== Summary ===
+run             agent said            Docket at first   Docket at the end
+A-lost-reply    done (exit 0)         indeterminate     success
+B-lost-request  done (exit 0)         indeterminate     failure
+The agent said "done" both times. The final answers differ, and each one follows
+what the provider's own records show, not what the agent said.
+Check it yourself: python3 examples/indeterminate-effect/check.py examples/indeterminate-effect/out/20260925T183115Z

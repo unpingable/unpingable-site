@@ -44,18 +44,94 @@
       <p>AI coding agents make this sharper. When an agent reports that a task is done, that is a report from the worker, not evidence that the intended change exists.</p>
     </section>
 
-    <!-- DEMO SLOT BEGIN: current-stack demo, owned by lane A of the public-surface tranche.
-         Contract (see LANE-B-REPORT.md): replace everything between DEMO SLOT BEGIN and
-         DEMO SLOT END. Keep section id="demo" and an h2. Six English steps, in order:
-         effect attempted; outcome ambiguous; agent says success; system records INDETERMINATE;
-         independent evidence arrives; final settlement. Machine identifiers go in <details>
-         or behind a link, never in the step text. Then: one cold-clone command block, the
-         short terminal transcript or capture, and a link to the demo's repository README.
-         Do not put the legacy agent_governor demo here. -->
+    <!-- DEMO SLOT BEGIN: current-stack demo from lane A (constellation-docket
+         campaign/public-demo-20260925 at 5b06ca4; code and run-003 at 9ebdc5e). -->
     <section id="demo" aria-labelledby="demo-heading">
-      <h2 id="demo-heading">The demo</h2>
-      <p class="note"><strong>Placeholder.</strong> A small public demonstration built on the current components is being prepared for this spot: a requested external effect whose result times out or is lost, a worker that claims success, and a system that records the outcome as unknown until independent evidence settles it. It is not published yet.</p>
-      <p>Until then, the reproducible example is the <a href="releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a>: one reviewed, explicitly accepted local file change, with evidence you can re-check from public source.</p>
+      <h2 id="demo-heading">The demo: when nobody knows whether it happened</h2>
+      <p>An agent asks a payment provider to refund $40.00. The request goes out and the reply never comes back. The agent reports &ldquo;Done.&rdquo; The service that keeps custody of the attempt records the refund as <strong>unknown</strong>: not success, not failure. It does not send the request again. It settles only when a separate read of the provider&rsquo;s own records says what happened.</p>
+      <p>The custody service is real and built from source. The authorizing service, the payment provider, the network fault and the agent are small local stand-ins.</p>
+      <p>The two usual rules both fail here. &ldquo;A network error means failure&rdquo; is wrong in this run, where the refund had already applied. &ldquo;Retry with the idempotency key&rdquo; answers the question with a second write under an authorization that was only good for one; finding out should be a read.</p>
+
+      <ol class="steps">
+        <li><strong>Effect attempted.</strong> An agent is asked to refund $40.00 for order 1042. The refund must apply at the provider within eight seconds or not at all. A signed authorization for exactly this refund is handed to the system, which sends it once.</li>
+        <li><strong>Outcome ambiguous.</strong> The request left, and the connection closed with no reply. The worker that sent it cannot tell whether the refund happened, and says exactly that instead of guessing.</li>
+        <li><strong>The agent says success.</strong> The agent ran its command, saw exit code 0 and reported the refund done. The exit code shows only that the command finished, not that the money moved.</li>
+        <li><strong>The system says: indeterminate.</strong> The record for this attempt has no success or failure entered. Sending the same authorization again returns the same attempt; nothing is sent twice.</li>
+        <li><strong>Independent evidence arrives.</strong> A separate observer, which never sees the agent&rsquo;s message or the worker&rsquo;s notes, asks the provider directly whether this exact request is in its ledger. It is.</li>
+        <li><strong>Final settlement.</strong> Only now is the refund recorded as a success, citing the observer&rsquo;s document as evidence and keeping the earlier &ldquo;unknown&rdquo; entry.</li>
+      </ol>
+
+      <p><strong>Same message, opposite truth.</strong> The demo then refunds $25.00 for order 1043 with the same agent and the same &ldquo;Done.&rdquo; This time the request itself is lost on the way. The system again records it as unknown. The first lookup finds no refund, but the request could still arrive before its deadline, so the answer stays unknown. After the deadline the provider can never apply it, and the system records a failure.</p>
+      <div class="table-wrap" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Run</th><th scope="col">Agent said</th><th scope="col">System at first</th><th scope="col">System at the end</th><th scope="col">Provider&rsquo;s ledger</th></tr></thead>
+          <tbody>
+            <tr><td>Reply lost</td><td>Done</td><td>Unknown</td><td>Success</td><td>Refund present</td></tr>
+            <tr><td>Request lost</td><td>Done</td><td>Unknown</td><td>Failure</td><td>No refund; deadline passed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="capture">
+        <pre class="terminal" tabindex="0"><span class="out">=== Summary ===
+run             agent said            Docket at first   Docket at the end
+A-lost-reply    done (exit 0)         <span class="hot">indeterminate</span>     <span class="ok">success</span>
+B-lost-request  done (exit 0)         <span class="hot">indeterminate</span>     failure
+The agent said "done" both times. The final answers differ, and each one follows
+what the provider's own records show, not what the agent said.</span></pre>
+        <figcaption>Verbatim from the qualifying run on 2026-09-25: an anonymous clone into a fresh Debian 12 virtual machine, with the network cut off for the build and the run. &ldquo;Docket&rdquo; is the custody service. A separate check script then re-derived every result from the saved records: 53 of 53 checks passed. <a href="demo/indeterminate-effect-transcript.txt">Full transcript</a> &middot; <a href="demo/indeterminate-effect-check.txt">check output</a> &middot; <a href="demo/indeterminate-effect.cast" download>terminal recording</a> (asciinema v2 file).</figcaption>
+      </figure>
+
+      <h3 id="run-demo">Run it yourself</h3>
+      <p>On a fresh Debian 12 machine, about 2 minutes 20 seconds end to end in the qualifying virtual machine (4 vCPUs): roughly one minute installing packages, one building, and ten seconds for the demo and its check.</p>
+      <pre class="terminal" tabindex="0"><span class="prompt"></span>sudo apt-get install -y git curl gcc libc6-dev python3 openssl
+<span class="prompt"></span>curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain none
+<span class="prompt"></span>. "$HOME/.cargo/env"
+<span class="prompt"></span>git clone -b campaign/public-demo-20260925 https://github.com/unpingable/constellation-docket.git
+<span class="prompt"></span>cd constellation-docket
+<span class="prompt"></span>./examples/indeterminate-effect/run.sh</pre>
+      <p>Source: <a href="https://github.com/unpingable/constellation-docket/tree/campaign/public-demo-20260925/examples/indeterminate-effect"><code>examples/indeterminate-effect</code></a> on the <code>campaign/public-demo-20260925</code> branch, which is not yet merged. Its dated claim is in the <a href="status.html#status-indeterminate-effect-demo">status ledger</a>.</p>
+
+      <details>
+        <summary>What is running, what is a stand-in, and the identifiers</summary>
+        <ul>
+          <li><strong>Docket</strong> (<a href="https://github.com/unpingable/constellation-docket">constellation-docket</a>, built from source at <code>9ebdc5e</code>) is the custody service. It records <code>indeterminate</code> and later settles through the worker&rsquo;s <code>reconcile</code> operation, which by contract reads evidence and never repeats the effect.</li>
+          <li><strong>The worker</strong> (<code>bin/refund-executor</code>) sends the refund once. Its <code>reconcile</code> does not read its own notes: it runs the observer and applies one fixed rule. Success if the provider has the exact request; failure if the provider lacks it and its deadline has passed; otherwise still indeterminate.</li>
+          <li><strong>The observer</strong> (<code>bin/observe</code>) is a separate program. It asks the provider&rsquo;s read-only lookup directly, not through the faulty link, and quotes the answer verbatim.</li>
+          <li><strong>Stand-ins:</strong> the agent is a script that reports &ldquo;Done.&rdquo; on exit code 0. The payment provider and the faulty network link are small local programs. The authorization is signed by a stand-in that reproduces the published test vector of Constellation&rsquo;s authorizing service (<a href="https://github.com/unpingable/constellation-ag">constellation-ag</a>) byte for byte; that service itself is not running.</li>
+          <li><strong>Limits:</strong> the system trusts the worker&rsquo;s <code>reconcile</code>, and the observer&rsquo;s path is part of the worker&rsquo;s configuration, which the system does not pin, so independence holds for this composition, not as a general guarantee. Had the worker received a reply, its own receipt would have been accepted at once. Everything runs on one host under one clock. The build is a source build of an unmerged branch, not a packaged release.</li>
+        </ul>
+        <p>Identifiers from the run. Reply lost: attempt <code>sha256:e751808736f4563332b002c30991941b5948b15a227c5f0f7036fabfb4b5b1ee</code>, indeterminate evidence <code>sha256:988028ef…</code>, settlement receipt (the observer&rsquo;s document) <code>sha256:91a77b24…</code>, settlement <code>sha256:9366c504…</code>, provider refund <code>rf_a0f76303be7b717c</code>. Request lost: attempt <code>sha256:5046f27f0ec634d16024b560830ca98bc234d7af53013ca1b6c7fc5b118ab190</code>, settlement receipt <code>sha256:52c43a73…</code>.</p>
+        <p>Run A as the terminal printed it:</p>
+        <pre class="terminal" tabindex="0"><span class="out">[  0.6s] 1. Effect attempted
+          An agent is asked to: Refund $40.00 for order 1042.
+          The request must apply at the provider before 18:31:24 UTC or not at all.
+          A signed authorization for exactly this request goes to Docket, which sends it once.
+[  0.8s] 2. Outcome ambiguous
+          The worker sent the request; the connection closed with no reply after 0.0s
+          (RemoteDisconnected). It cannot tell whether the refund happened,
+          and says so: outcome "indeterminate".
+[  0.8s] 3. Agent says success
+          agent: "Done. Refund $40.00 for order 1042: completed successfully."
+          Its evidence: command exited 0.
+[  0.8s] 4. System: <span class="hot">INDETERMINATE</span>
+          Docket's record for this attempt: INDETERMINATE.
+          Settlement: none. Not success, not failure.
+          The exit code 0 the agent saw only meant that Docket took custody.
+          Sending the same authorization again returns the same attempt.
+          The worker has sent 1 request(s) in total.
+[  0.9s] 5. Independent evidence arrives
+          A separate observer asks the provider directly at 18:31:16 UTC.
+          provider: this exact request is COMMITTED, as refund rf_a0f76303be7b717c at 18:31:16 UTC.
+          Docket now says: SETTLED.
+[  0.9s] 6. Final disposition
+          Docket settles the attempt as <span class="ok">SUCCESS</span>.
+          It cites the observer's document sha256:91a77b2407d13c28... as its receipt,
+          and keeps the earlier INDETERMINATE evidence sha256:988028ef5966e3fb...
+          (Behind the scenes, from the network log:
+           the request reached the provider, which answered 201 Created;
+           the reply was dropped.)</span></pre>
+      </details>
     </section>
     <!-- DEMO SLOT END -->
 
@@ -74,7 +150,7 @@
 
     <section id="status" aria-labelledby="limits">
       <h2 id="limits">Status and limits</h2>
-      <p>Constellation is experimental, and real composed workloads run on it. The <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> release records one reviewed, explicitly accepted file change that was authorized once, executed once and then checked by a separate read; anyone can re-verify that evidence from public source. On 2026-09-25 a packaged release candidate installed cleanly from its artifacts in a fresh virtual machine and passed its end-to-end and refusal checks. Those packages are not public yet, and nothing has been released beyond alpha.6 and a package for one of its components. It is not production-ready.</p>
+      <p>Constellation is experimental, and real composed workloads run on it. The <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> release records one reviewed, explicitly accepted file change that was authorized once, executed once and then checked by a separate read; anyone can re-verify that evidence from public source. On 2026-09-25 a packaged release candidate installed cleanly from its artifacts in a fresh virtual machine and passed its end-to-end and refusal checks. Those packages are not public yet, and nothing has been released beyond alpha.6 and a package for one of its components. The demo above runs from public source on a branch that is not yet merged. It is not production-ready.</p>
       <p><a href="status.html">Current status</a> &middot; <a href="limits.html">Limits</a></p>
     </section>
 
@@ -86,7 +162,7 @@
     <section id="doors" aria-labelledby="doors-heading">
       <h2 id="doors-heading">Where to go next</h2>
       <ul class="doors">
-        <li><a href="#demo">Run the demo</a><span>The current-stack demonstration, once published; until then the alpha.6 walkthrough.</span></li>
+        <li><a href="#run-demo">Run the demo</a><span>A few commands on a fresh Debian 12 machine; about 2 minutes 20 seconds including the build.</span></li>
         <li><a href="understand.html">How it works</a><span>Which program owns which decision, and where the trust boundaries are.</span></li>
         <li><a href="status.html">Current status</a><span>Dated claims, evidence and maturity for each release and component.</span></li>
         <li><a href="start.html">Source and guides</a><span>Public repositories, released profiles and operating guides.</span></li>
