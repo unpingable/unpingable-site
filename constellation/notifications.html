@@ -44,7 +44,7 @@
   <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> can retain an exact attention intent, replay the matching Nightshift decision where applicable, and make one bounded Slack or Discord webhook request. It records a factual delivery state; it does not establish that a person saw the message. An installed route and its current recipients must be checked separately. PagerDuty is not a supported profile.</p>
 
   <h2>Keep four responsibilities separate</h2>
-  <div class="table-wrap"><table><thead><tr><th>Question</th><th>Responsibility</th></tr></thead><tbody>
+  <div class="table-wrap" tabindex="0"><table><thead><tr><th>Question</th><th>Responsibility</th></tr></thead><tbody>
     <tr><td>What condition was observed?</td><td>The diagnostic owner supplies its scoped result, evidence references, freshness and uncertainty.</td></tr>
     <tr><td>Does this transition need human attention?</td><td>The workflow owner and explicit operator policy decide. A raw finding does not automatically page someone.</td></tr>
     <tr><td>Was a notification sent?</td><td>The delivery path records its exact destination and attempt outcome. Failure and ambiguous delivery stay visible.</td></tr>
@@ -59,7 +59,7 @@
 
   <h2>Configure a bounded webhook route</h2>
   <p>Keep the endpoint in an operator-provisioned environment variable, not in the repository or the route file. The route names that variable; it does not contain its value.</p>
-  <pre><code>[[notification_routes]]
+  <pre tabindex="0"><code>[[notification_routes]]
 reference = "operations"
 transport = "slack" # or "discord"
 endpoint_secret_locator = "NQ_OPERATIONS_WEBHOOK_URL"

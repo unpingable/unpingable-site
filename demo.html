@@ -192,7 +192,7 @@
 
   <div class="outcome">
     <div class="head"><span>LEGITIMATE &mdash; exercise at t=45, before expiry</span><span class="tag-pass">consumed</span></div>
-    <pre>standing       verified
+    <pre tabindex="0">standing       verified
 wicket         admitted
 spendability   judged
 LA grant       granted
@@ -203,7 +203,7 @@ leaf receipt   ag_rcpt_2f8d461bc9bdf930
 
   <div class="outcome">
     <div class="head"><span>IMPOSTOR &mdash; exercise at t=51, one second after expiry</span><span class="tag-block">REFUSED</span></div>
-    <pre>standing       verified      &larr; the credential WAS valid
+    <pre tabindex="0">standing       verified      &larr; the credential WAS valid
 wicket         admitted      &larr; naive auth says yes here
 spendability   REFUSED       standing_before_spendability_not_bounded
   gap=11s  vs bound=10s  &rarr; over by 1s
@@ -239,7 +239,7 @@ leaf receipt   ag_rcpt_3f8b93c149d02bbe
 
   <details>
     <summary>raw receipt JSON (verbatim from <code>governor receipts --id 3f8b93c1&hellip; --evidence</code>, 2026-07-29)</summary>
-    <pre>{
+    <pre tabindex="0">{
   "receipt_id": "3f8b93c149d02bbeb87c71ddb33bea19af17b6fc162c81495d30498660db81fc",
   "schema_version": 4,
   "timestamp": "2026-07-29T18:06:29.472827+00:00",
@@ -300,7 +300,7 @@ leaf receipt   ag_rcpt_3f8b93c149d02bbe
   <div class="qa">
     <p class="q">What happened to the spend?</p>
     <p class="muted" style="font-size: 0.9rem; margin: 0 0 0.5rem;">The missing upstream receipt is intentional in this specimen: absence is reported as absence, not inferred away.</p>
-    <pre>$ governor why 3f8b93c149d02bbe&hellip;
+    <pre tabindex="0">$ governor why 3f8b93c149d02bbe&hellip;
 &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
 DRILL  chain origin: 'drill' (NQ-side mint provenance &mdash; receipt does NOT carry an observed-condition witness)
 &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
@@ -315,7 +315,7 @@ REFUSED  standing_before_spendability_not_bounded  gate=standing_spendability_se
 
   <div class="qa">
     <p class="q">Which predicate failed?</p>
-    <pre>$ governor receipts --id 3f8b93c149d02bbe&hellip; --evidence
+    <pre tabindex="0">$ governor receipts --id 3f8b93c149d02bbe&hellip; --evidence
 gap_ns     = 11000000000
 bound_ns   = 10000000000
 overage_ns =  1000000000</pre>
@@ -325,7 +325,7 @@ overage_ns =  1000000000</pre>
 
   <div class="qa">
     <p class="q">Stale under <em>which</em> clock witness?</p>
-    <pre>"gap_basis": { "kind": "monotonic", "source": "process_monotonic",
+    <pre tabindex="0">"gap_basis": { "kind": "monotonic", "source": "process_monotonic",
                "epoch": "boot:demo-single-host", "start_ns": 40&hellip;, "end_ns": 51&hellip; }
 "wall":      { "observed_at": "2026-06-09T00:00:40Z", "role": "display_only" }</pre>
     <p class="check">&#10003; the gap ran on a named monotonic basis; wall time is display-only. A gap is a difference between compatible clock witnesses, not numbers.</p>
@@ -333,7 +333,7 @@ overage_ns =  1000000000</pre>
 
   <div class="qa">
     <p class="q">And a receipt that doesn't exist?</p>
-    <pre>$ governor why 0000000000000000&hellip;
+    <pre tabindex="0">$ governor why 0000000000000000&hellip;
 &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
 receipt id not found: 0000000000000000&hellip;
 $ echo $?
@@ -348,7 +348,7 @@ $ echo $?
     <div class="lane">
       <div class="head">OPA / Rego lane</div>
       <div class="body">
-        <pre>default allow := false
+        <pre tabindex="0">default allow := false
 
 allow if {
     input.credential.status == "valid"
@@ -387,9 +387,9 @@ allow if {
 
   <h2><span class="act">REPRODUCE</span>Run it yourself</h2>
   <p>From a clone to this refusal, about five minutes:</p>
-  <pre>git clone https://github.com/unpingable/agent_governor.git
+  <pre tabindex="0">git clone https://github.com/unpingable/agent_governor.git
 cd agent_governor</pre>
-  <pre>python3 -m venv .venv
+  <pre tabindex="0">python3 -m venv .venv
 . .venv/bin/activate
 pip install -e .
 ./demo/refused-spend.sh     # a valid credential, acted on one second after expiry — REFUSED, with receipts

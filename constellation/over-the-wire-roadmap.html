@@ -40,7 +40,7 @@
     <h1>From one host to explicit network boundaries</h1>
     <p class="lede">Constellation already has exact identities, bounded authorization, durable attempt custody, reconciliation, signed local RPC, and versioned records. Its qualified composition is nevertheless local. This roadmap names the contracts and evidence required before any network-separated composition is called supported.</p>
 
-    <aside class="note"><strong>Scope:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> remains immutable and single-host-qualified. “Committed” below means the next profile’s documented scope and order; it is not authorization to implement, deploy, contact a provider, or operate a production system.</aside>
+    <aside class="note" aria-label="Scope"><strong>Scope:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6</a> remains immutable and single-host-qualified. “Committed” below means the next profile’s documented scope and order; it is not authorization to implement, deploy, contact a provider, or operate a production system.</aside>
 
     <nav class="integration-nav" aria-label="Roadmap sections"><a href="#baseline">Released baseline</a><a href="#progression">Progression</a><a href="#distributed-custody">Distributed custody</a><a href="#execution-locality">Execution locality</a><a href="#qualification">Qualification</a><a href="#otel-otlp">OpenTelemetry / OTLP</a><a href="#decisions">Open decisions</a><a href="#release">Promotion criteria</a></nav>
 
@@ -55,7 +55,7 @@
     </ul>
 
     <h2 id="progression">Roadmap progression</h2>
-    <div class="table-wrap"><table>
+    <div class="table-wrap" tabindex="0"><table>
       <thead><tr><th>Milestone</th><th>Disposition</th><th>Delivered capability</th><th>Completion evidence</th></tr></thead>
       <tbody>
         <tr><td>1. Remote inspection</td><td><strong>Committed next-profile work</strong></td><td>Authenticated, disclosure-controlled Phosphor access with TLS, explicit freshness/staleness, bounded responses, and audit records. Read credentials confer no proposal, authorization, or execution permission.</td><td>A separately deployed reader and owner, identity/refusal fixtures, bounded-response checks, stale/unavailable cases, access logs, public operator instructions, and a deployment qualification record.</td></tr>
@@ -68,7 +68,7 @@
 
     <h2 id="distributed-custody"><code>distributed-custody/v1</code></h2>
     <p>The first runtime split keeps the effect boundary local to its custodian:</p>
-    <pre><code>governance host                         effect host
+    <pre tabindex="0"><code>governance host                         effect host
 Nightshift → AG  ── exact signed grant ──→ Docket → local executor
                  ← custody / settlement ──
 
@@ -107,7 +107,7 @@ lost response ──→ inspect/reconcile the same occurrence
     </ul>
 
     <h3>Headline case: deliberate response loss</h3>
-    <aside class="note"><strong>One occurrence is authorized once, accepted once, possibly effected once, and then reconciled by the same identity.</strong> The qualification deliberately removes the AG↔Docket response after acceptance and at later durable boundaries. Recovery inspects that occurrence. It never invents a successor identity or resubmits the effect to obtain a cleaner reply.</aside>
+    <aside class="note" aria-label="Occurrence rule"><strong>One occurrence is authorized once, accepted once, possibly effected once, and then reconciled by the same identity.</strong> The qualification deliberately removes the AG↔Docket response after acceptance and at later durable boundaries. Recovery inspects that occurrence. It never invents a successor identity or resubmits the effect to obtain a cleaner reply.</aside>
 
     <h3>First proving composition</h3>
     <p>Use two independently restartable, non-production hosts or local VMs and a small closed vocabulary of reversible actions: pinned service deployment, restart, backup verification, projection rebuild, rollback, and cache invalidation. Each action needs its own sealed plan, preconditions, executor implementation, qualified observation, and reconciliation evidence; there is no arbitrary-command escape hatch.</p>
@@ -116,7 +116,7 @@ lost response ──→ inspect/reconcile the same occurrence
     <p>The custody milestone may begin with evidence already admitted on the governance host and must say so. It does not claim general remote NQ/Pulse ingress until milestone 3 qualifies that boundary.</p>
 
     <h2 id="qualification">Required qualification cases</h2>
-    <div class="table-wrap"><table>
+    <div class="table-wrap" tabindex="0"><table>
       <thead><tr><th>Boundary</th><th>Cases that must be retained</th><th>Required conclusion</th></tr></thead>
       <tbody>
         <tr><td>Delivery and response loss</td><td>Request lost before Docket acceptance; request accepted but response lost; effect settled but settlement response lost.</td><td>Pre-acceptance absence permits no inference. Accepted work is inspected/reconciled by its original identity. A lost response never causes replacement execution.</td></tr>
@@ -141,7 +141,7 @@ lost response ──→ inspect/reconcile the same occurrence
     </ol>
 
     <h2 id="otel-otlp">OpenTelemetry / OTLP convergence</h2>
-    <aside class="note"><strong>ROADMAP / NOT CURRENT CAMPAIGN:</strong> begin with a source-backed instrumentation survey and one bounded custody experiment. This section does not authorize implementation, dependency changes, a collector deployment, or broad telemetry migration.</aside>
+    <aside class="note" aria-label="ROADMAP / NOT CURRENT CAMPAIGN"><strong>ROADMAP / NOT CURRENT CAMPAIGN:</strong> begin with a source-backed instrumentation survey and one bounded custody experiment. This section does not authorize implementation, dependency changes, a collector deployment, or broad telemetry migration.</aside>
     <p>Use OpenTelemetry as the preferred commodity observability substrate across the operational family where it fits. Use standard OTel APIs and semantic conventions for ordinary traces, metrics, and logs, and prefer OTLP for telemetry interchange/export. Preserve every component's authority, custody, admissibility, expiry, coverage, refusal, and judgment semantics above that substrate. OTLP carriage does not make telemetry authoritative state.</p>
     <p>Two related tracks stay distinct. A service may emit ordinary operational telemetry directly to an enrolled collector; it does not pass through Monitor or Pulse merely to report a trace. Monitor/Pulse has a separate possible role: carrying exact OTLP bytes as a governed observation payload with additional evidence semantics.</p>
 
@@ -181,7 +181,7 @@ lost response ──→ inspect/reconcile the same occurrence
 
     <h2 id="decisions">Open-decision register</h2>
     <p>These decisions are prerequisites for implementation. The roadmap deliberately does not decide them by implication.</p>
-    <div class="table-wrap"><table>
+    <div class="table-wrap" tabindex="0"><table>
       <thead><tr><th>ID</th><th>Decision</th><th>Must preserve</th></tr></thead>
       <tbody>
         <tr><td>DC-01</td><td>Wire protocol and TLS termination placement.</td><td>Bounded framing, channel confidentiality, endpoint authentication, retained end-to-end application signatures, and no authority in the proxy.</td></tr>

@@ -43,7 +43,7 @@
     <section id="earlier-prototype" aria-labelledby="earlier-prototype-heading">
       <h2 id="earlier-prototype-heading">Earlier prototype: the stale-permission refusal</h2>
       <p>This is the runnable demonstration the site used before the current stack existed. It runs on <a href="https://github.com/unpingable/agent_governor">agent_governor</a>, the deprecated Python predecessor of Constellation AG. A permission is checked and found valid, exercised eleven seconds later against a ten-second bound, and refused on a named monotonic clock basis before any capacity moves:</p>
-      <pre>  standing       verified      &larr; the credential WAS valid
+      <pre tabindex="0">  standing       verified      &larr; the credential WAS valid
   wicket         admitted      &larr; naive auth says yes here
   spendability   REFUSED       standing_before_spendability_not_bounded
     gap=11s  vs bound=10s  &rarr; over by 1s

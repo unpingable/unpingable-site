@@ -41,7 +41,7 @@
     <aside class="note"><strong>Integration alpha.3:</strong> <code>objective-saved-check-read/v1</code> passed public-only reproduction and newcomer inspection. Use the <a href="releases/0.1.0-alpha.3/manifest.json">exact manifest</a>, <a href="releases/0.1.0-alpha.3/qualification.json">qualification scope</a> and <a href="releases/0.1.0-alpha.3/guide.html">immutable guide</a>. Component versions remain independent. This is not a governed-action profile or complete application migration.</aside>
 
     <h2>What happens</h2>
-    <pre><code>Maude new/save/lock → objective-read → exact authored condition IDs
+    <pre tabindex="0"><code>Maude new/save/lock → objective-read → exact authored condition IDs
 Nightshift finite schedule → Monitor acquisition → NQ saved evaluation
 exact condition ID + retained NQ evaluation → application-owned reader
                                           → Phosphor objective-detail/v2
@@ -65,7 +65,7 @@ exact condition ID + retained NQ evaluation → application-owned reader
     </ul>
     <p>The example script is deliberately downloaded from the kit pin; it is not assumed to exist in the runtime checkout.</p>
     <p>The source guide records development status at its frozen commit. This release records the subsequent public-only qualification; its manifest pins the runtime, kit and public Python wheels separately.</p>
-    <pre><code>SETUP=$(mktemp -d /tmp/objective-saved-check-setup.XXXXXX)
+    <pre tabindex="0"><code>SETUP=$(mktemp -d /tmp/objective-saved-check-setup.XXXXXX)
 git clone https://github.com/unpingable/constellation-ag.git "$SETUP/ag"
 git -C "$SETUP/ag" checkout --detach deac918c2ad95b8205f293393874adb8eb12fe26
 git clone https://github.com/unpingable/maude.git "$SETUP/maude"
@@ -106,9 +106,9 @@ CARGO_TARGET_DIR="$SETUP/monitor-target" cargo +1.94.0 build --locked --manifest
 
     <h2>Start the finite example</h2>
     <p>Choose an absent absolute root whose final name begins <code>objective-owner-composed-</code>, and an unused loopback port. The caller is create-only. This read-only probe checks whether the proposed port can be bound, then closes it without touching an existing process:</p>
-    <pre><code>python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 28456)); s.close()'</code></pre>
+    <pre tabindex="0"><code>python3 -c 'import socket; s=socket.socket(); s.bind(("127.0.0.1", 28456)); s.close()'</code></pre>
     <p>A successful probe is not a reservation: another process can bind the port before the caller does. If the caller reports the port unavailable, inspect the process you own and choose another unused port; do not terminate or replace an unrelated listener.</p>
-    <pre><code>"$SETUP/objective-owner-composed.py" \
+    <pre tabindex="0"><code>"$SETUP/objective-owner-composed.py" \
   --root "$SETUP/objective-owner-composed-demo" \
   --maude "$SETUP/maude-venv/bin/maude-plan" \
   --nq "$SETUP/nq-target/debug/nq" \
@@ -130,7 +130,7 @@ CARGO_TARGET_DIR="$SETUP/monitor-target" cargo +1.94.0 build --locked --manifest
       <li><strong>Missing evaluation:</strong> an explicitly different all-zero evaluation ID produces <code>unavailable</code>, no owner evidence or record reference, and unavailable prerequisites. This is a real read-only NQ refusal for a wrong caller reference, not a substituted service.</li>
       <li>The second, unmapped criterion stays <code>unknown</code>; occurrences stay empty; the NQ database bytes stay unchanged across the objective reads.</li>
     </ul>
-    <pre><code>ROOT="$SETUP/objective-owner-composed-demo"
+    <pre tabindex="0"><code>ROOT="$SETUP/objective-owner-composed-demo"
 python3 -m json.tool "$ROOT/maude-objective.json"
 python3 -m json.tool "$ROOT/fresh-objective.json"
 python3 -m json.tool "$ROOT/stale-objective.json"
@@ -141,7 +141,7 @@ python3 -m json.tool "$ROOT/result.json"</code></pre>
     <p>Keep the exact root, <code>commands.jsonl</code>, plan/store, reader configurations, server identity and terminal records, and the complete saved-check directory. Each Phosphor read also retains <code>&lt;label&gt;-server-stdout.log</code> and <code>&lt;label&gt;-server-stderr.log</code>. Each stream is bounded to 1 MiB; when a server emits more, the retained file is explicitly a prefix and the terminal diagnostic marks it truncated. The matching terminal record reports per-stream byte counts, truncation and completeness plus any bounded error. An incomplete capture refuses rather than becoming a successful objective read. These records improve reconciliation but do not guarantee survival of supervisor loss.</p>
     <p>Read the transcript as a sequence of labels and lifecycle events. A <code>planned</code> entry proves only that the caller intended a command. A matching <code>started</code> entry adds its process identity. Only the matching <code>terminal</code> entry supplies captured exit status and bounded output. If a started label lacks a terminal entry, first reconcile that exact process and its owner records. Preserve the root as uncertain if neither process nor owner outcome can be established; do not infer failure or rerun the create-only caller.</p>
     <p>For a completed saved-check producer, extract the exact later evaluation ID from its retained nested transcript, then perform these wrapper-specific read-only inspections:</p>
-    <pre><code>ROOT="$SETUP/objective-owner-composed-demo"
+    <pre tabindex="0"><code>ROOT="$SETUP/objective-owner-composed-demo"
 STATE="$ROOT/nightshift-saved-check-run-objective"
 EVALUATION_ID=$(python3 -c 'import json,sys
 for line in open(sys.argv[1], encoding="utf-8"):
@@ -166,7 +166,7 @@ AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
     <p>The <code>--at</code> value is the actual present read coordinate; never choose an earlier time to make retained evidence appear fresh. These commands inspect existing custody and do not repeat acquisition, evaluation or delivery. If the expected terminal label or evaluation ID is absent, preserve the state and stop instead of inventing an ID.</p>
     <p>If output is lost, reconcile existing process identity and retained owner records before doing anything new. The missing-ID control does not erase the actual evaluation: inspect the original ID and NQ custody rather than rerunning the producer. Do not rerun this create-only caller over an existing or uncertain root. This guide does not validate supervisor-loss recovery, uncertain execution, interrupted delivery, migration, restoration or retention rollover.</p>
     <p>After all processes have stopped, and only when no evidence, diagnosis, replay or recovery dependency remains, visually verify and remove the one exact disposable root. Do not use a variable, glob, setup parent or repository path:</p>
-    <pre><code>rm -rf -- /tmp/objective-saved-check-setup.EXACT/objective-owner-composed-demo</code></pre>
+    <pre tabindex="0"><code>rm -rf -- /tmp/objective-saved-check-setup.EXACT/objective-owner-composed-demo</code></pre>
     <p>A successful run can log <code>operator UI request failed: empty request</code> from the caller's TCP readiness probe. Check the subsequent objective JSON and complete capture record before classifying that line as a failed read. The server's <code>-15</code> terminal return code here records its deliberate stop after capture, not the saved-check outcome.</p>
     <p>For support, report suite <code>0.1.0-alpha.3</code>, profile <code>objective-saved-check-read/v1</code>, the four runtime repository revisions, the separate kit revision and both kit hashes, tool versions, the exact command and a minimal redacted diagnostic excerpt through <a href="troubleshooting.html">Troubleshooting</a>. Do not send credentials, operator-only plan prose, full databases or unrelated retained records. Experimental support is best effort, with no guaranteed response time.</p>
   </main>

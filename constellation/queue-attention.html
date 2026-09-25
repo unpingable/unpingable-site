@@ -36,7 +36,7 @@
 <p class="lede">Read a disposable SQLite queue, check the evidence, decide whether it needs attention, and deliver one local operator-inbox message through actual Monitor, NQ, Pulse and Nightshift entry points.</p>
 <p><strong>Development profile: <code>local-queue-attention/v1</code>.</strong> Public-only reproduction passed on Linux x86-64 without access to private repositories. This profile is not the released Maude-only 0.1.0-alpha.1 profile, a complete recurring monitoring deployment, or permission to change an application.</p>
 <h2>What happens</h2>
-<pre><code>your caller → Monitor → primary SQLite read → NQ admission
+<pre tabindex="0"><code>your caller → Monitor → primary SQLite read → NQ admission
 your caller → separate SQLite read → Pulse support → NQ replay
 your caller → Nightshift attention custody → Pulse replay
 your caller → NQ notification custody → Nightshift replay
@@ -45,7 +45,7 @@ your caller ← one retained local inbox file and inspectable records</code></pr
 <h2>Required sources and setup</h2>
 <p>Tested with Rust/Cargo 1.94.0, Python 3.12.3, <code>cryptography</code> 41.0.7 and SQLite 3.45.1 on Linux x86-64. You need a C compiler/linker, Git, and public dependency access. The Python package may come from the OS; if absent, install that version in a local virtual environment and use its Python for the final command. The two observation subprocesses require <code>/usr/bin/python3</code> and only its standard library.</p>
 <p>Use debug builds for this same-account local exercise. Production NQ verifier enrollment has separate-account requirements that this profile does not qualify. Allow several GiB of build space; two build jobs, disabled incremental builds and no debug information keep the example modest. No provider key, webhook, daemon or container is needed.</p>
-<pre><code>DEMO_PARENT=$(mktemp -d /tmp/queue-attention-setup.XXXXXX)
+<pre tabindex="0"><code>DEMO_PARENT=$(mktemp -d /tmp/queue-attention-setup.XXXXXX)
 cd "$DEMO_PARENT"
 git clone https://github.com/unpingable/constellation-nightshift.git nightshift
 git -C nightshift checkout --detach fdadf9666da0ca32b534a3dab9aa678b18a99fc3

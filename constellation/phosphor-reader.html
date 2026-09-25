@@ -42,7 +42,7 @@
 <p>AG's lock names only the public crates.io registry for external packages. The build below uses <code>--locked</code>; it may contact that registry unless its exact packages are already cached and <code>CARGO_NET_OFFLINE=true</code> is set. Git servers may ignore partial-clone filters, so check actual source and target allocation before continuing.</p>
 
 <h2>Acquire and build</h2>
-<pre><code>RUN=$(mktemp -d /tmp/phosphor-reader.XXXXXX)
+<pre tabindex="0"><code>RUN=$(mktemp -d /tmp/phosphor-reader.XXXXXX)
 git init "$RUN/ag"
 git -C "$RUN/ag" remote add origin https://github.com/unpingable/constellation-ag.git
 git -C "$RUN/ag" fetch --filter=blob:none --depth=1 origin 32f10101c4a93bad77d00803bad3031dd6847698
@@ -67,7 +67,7 @@ cargo build --locked -j1 -p ag-operator-ui</code></pre>
 
 <h2>Serve and read the exact loopback endpoint</h2>
 <p>Port 8417 must be unused. Do not stop someone else's listener or redirect this reader to another address. The initial check refuses an existing listener; each readiness iteration also checks that your own process remains present.</p>
-<pre><code>python3 -c 'import socket; s=socket.socket(); s.settimeout(.2); busy=s.connect_ex(("127.0.0.1",8417))==0; s.close(); assert not busy, "port 8417 is already in use"'
+<pre tabindex="0"><code>python3 -c 'import socket; s=socket.socket(); s.settimeout(.2); busy=s.connect_ex(("127.0.0.1",8417))==0; s.close(); assert not busy, "port 8417 is already in use"'
 "$RUN/target/debug/ag-operator-ui" \
   --demo-corpus "$RUN/corpus/operator-demo-corpus.json" \
   --bind 127.0.0.1:8417 >"$RUN/server.log" 2>&amp;1 &amp;
@@ -86,12 +86,12 @@ python3 "$RUN/site/constellation/examples/read_phosphor.py" \
   --url http://127.0.0.1:8417/api/v1/campaigns \
   | tee "$RUN/reader-first.json"</code></pre>
 <p>The reader makes one proxy-free, redirect-refusing GET with a ten-second transport timeout and a 4 MiB body limit. It accepts only <code>ag.operator-ui.campaign-index/v1</code>, then emits <code>constellation.phosphor-index-summary/v1</code>. Each campaign retains independent <code>inspect</code>, <code>history</code>, and <code>refusals</code> availability. Expect both shapes in this fixture:</p>
-<pre><code>{"availability":"available"}
+<pre tabindex="0"><code>{"availability":"available"}
 {"availability":"unavailable","error_kind":"unavailable"}</code></pre>
 <p>An unavailable source is an owner-projection result, not an instruction to retry and not a claim that the entire campaign is unavailable.</p>
 
 <h2>Server loss, same-corpus recovery, and component checks</h2>
-<pre><code>kill "$SERVER_PID"
+<pre tabindex="0"><code>kill "$SERVER_PID"
 wait "$SERVER_PID" || true
 python3 "$RUN/site/constellation/examples/read_phosphor.py" \
   --url http://127.0.0.1:8417/api/v1/campaigns
@@ -112,7 +112,7 @@ python3 "$RUN/site/tools/test_read_phosphor_example.py"</code></pre>
 <h2>Stop, retain, and clean up</h2>
 <p>Stop only the process you started: <code>kill "$SERVER_PID"; wait "$SERVER_PID" || true</code>. Retain the exact source revisions, <code>Cargo.lock</code>, corpus hash, binary hash, reader outputs and server logs while diagnosing a mismatch. Do not regenerate the fixture to conceal a refusal or overwrite evidence from a different run.</p>
 <p>When the demonstration and any diagnosis are finished, inspect the exact disposable path below. If nothing needs retention, remove that one directory using your normal file manager; it contains the source checkouts, target, corpus and logs. Do not remove another workspace or a retained user store.</p>
-<pre><code>printf '%s\n' "$RUN"
+<pre tabindex="0"><code>printf '%s\n' "$RUN"
 ls -ld -- "$RUN" "$RUN/corpus" "$RUN/target"</code></pre>
 <p>These pathname checks are local. The sparse partial clones may need GitHub access for additional Git operations even after installation. Do not confuse an unavailable download with loss of the retained corpus or delete records to repair it.</p>
 <p>See <a href="recipes.html#recipe-a">the recipe comparison</a>, <a href="integration.html#composition-matrix">composition matrix</a>, and <a href="troubleshooting.html">support guide</a>. Support is best effort with no guaranteed response time.</p>

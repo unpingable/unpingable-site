@@ -98,7 +98,7 @@
   <p class="callout quiet"><strong>Earlier prototype.</strong> This page documents a demonstration built on the deprecated <code>agent_governor</code>, the predecessor of the current Constellation components. It is kept for the record; it is not the current demo or installation path. Start from <a href="constellation/">Constellation</a>, or see the <a href="constellation/archive.html#earlier-prototype">archive</a>.</p>
   <p class="muted">A credential valid at check, expired at action. The classic check-then-act race condition, with a <a href="glossary.html#receipt">receipt</a> that says no. Written for ops, SRE, and platform readers; the deeper descent is at <a href="demo.html">A stale yes</a>. Here, <a href="glossary.html#custody">custody</a> means the layer that controls whether a <a href="glossary.html#claim">claim</a> may become an operational <a href="glossary.html#premise">premise</a> at action time.</p>
 
-  <p class="strip"><span class="t">t=40</span> check OK <span class="dash">&mdash;</span> expires after 10s <span class="dash">&mdash;</span> <span class="t">t=50</span> expired <span class="dash">&mdash;</span> 1s <span class="dash">&mdash;</span> <span class="t">t=51</span> action <span class="refused">REFUSED</span></p>
+  <p class="strip" tabindex="0"><span class="t">t=40</span> check OK <span class="dash">&mdash;</span> expires after 10s <span class="dash">&mdash;</span> <span class="t">t=50</span> expired <span class="dash">&mdash;</span> 1s <span class="dash">&mdash;</span> <span class="t">t=51</span> action <span class="refused">REFUSED</span></p>
 
   <h2>What happened</h2>
   <div class="timeline">
@@ -114,7 +114,7 @@
     <div class="lane">
       <div class="head">policy lane (OPA / Rego)</div>
       <div class="body">
-        <pre style="margin: 0 0 0.6rem">default allow := false
+        <pre style="margin: 0 0 0.6rem" tabindex="0">default allow := false
 
 allow if {
     input.credential.status == "valid"
@@ -172,7 +172,7 @@ allow if {
 
   <h2>Run it</h2>
   <p>From a cold clone to the refusal above, about five minutes:</p>
-  <pre>git clone https://github.com/unpingable/agent_governor.git
+  <pre tabindex="0">git clone https://github.com/unpingable/agent_governor.git
 cd agent_governor
 python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e .
 
@@ -189,7 +189,7 @@ python3 -m venv .venv &amp;&amp; . .venv/bin/activate &amp;&amp; pip install -e 
   <details>
     <summary>for the formal-methods curious &mdash; the refusal class, machine-checked</summary>
     <p style="margin: 0.6rem 0 0.4rem; font-size: 0.92rem; color: var(--fg-muted);">The refusal kind <code>standing_before_spendability_not_bounded</code> is licensed by <a href="https://github.com/unpingable/lean/blob/main/LeanProofs/Admissibility/Freshness.lean#L179"><code>Admissibility.Freshness.expired_not_fresh</code></a>:</p>
-    <pre style="margin: 0.4rem 0 0;">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</pre>
+    <pre style="margin: 0.4rem 0 0;" tabindex="0">theorem expired_not_fresh (h : &not; (now &le; expires + skew)) : &not; Fresh now issued expires skew maxDiv</pre>
     <p style="margin: 0.6rem 0 0; font-size: 0.92rem; color: var(--fg-muted);">An observation whose exercise time is past its expiry is not <code>Fresh</code>. The receipt&rsquo;s <code>gap_ns &gt; bound_ns</code> is definitionally the theorem&rsquo;s hypothesis &mdash; this refusal is the one the kernel licenses, not a discretionary denial. The theorem proves the <em>class</em>; the receipt attests the <em>instance</em>. Both are narrower than &ldquo;proven safe&rdquo; &mdash; see <a href="constellation/limits.html">limits</a>.</p>
   </details>
 
