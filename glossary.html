@@ -169,7 +169,7 @@
 
     <dt id="custody">custody <a class="anchor" href="#custody">#</a></dt>
     <dd>The layer that controls whether a <a href="#claim">claim</a> may become a <a href="#premise">premise</a> for action. Distinct from authorization (which asks only whether the action is allowed) and from policy (which decides over premises it has been handed). Custody decides whether the premises it would hand the policy are still good enough to act on.</dd>
-    <dd class="aka">In Docket documentation the word is narrower: durable ownership of one <a href="#attempt">attempt</a>&rsquo;s records and transitions, including identity, replay and recovery rules. Custody in that sense does not itself grant <a href="#authority">authority</a>.</dd>
+    <dd class="aka">In Docket documentation the word is narrower: durable ownership of one <a href="#attempt">attempt</a>&rsquo;s records and transitions, including identity, replay and recovery rules. Custody in that sense does not itself grant <a href="#authority">authority</a> (<a href="https://github.com/unpingable/lean/blob/main/constraints/Authority/ProvenanceIsNotAuthority.lean">Lean statement</a>).</dd>
 
     <dt id="dispatch">dispatch <a class="anchor" href="#dispatch">#</a></dt>
     <dd>Docket&rsquo;s invocation of the exact enrolled executor for one accepted <a href="#attempt">attempt</a>. A dispatch names the attempt and an executor-local idempotency marker that Docket issues for that attempt; the same attempt with a different marker, work, subject or scope is a substitution, not a retry. Dispatch is not arbitrary remote shell access. A dispatch with an unknown result is reconciled against the same issuance and attempt, never mechanically repeated.</dd>
