@@ -1,8 +1,8 @@
 """Unit tests for the cohort setup driver: manifest validation and fail-closed pins.
 
-Run from this directory with the target interpreter:
+Run with the target interpreter (-I implies -P, so run the file itself):
 
-    python3 -B -m unittest -v test_constellation_cohort
+    python3.11 -I -S -B test_constellation_cohort.py -v
 
 No root, network, component artifact or VM is needed.
 """
@@ -49,8 +49,21 @@ def raw(value):
 
 def qualified_for(value):
     return {cc.PROFILE: {'test-cohort': {
-        entry['component']: {'package_version': entry['package_version'], 'source_commit': entry['source_commit']}
+        entry['component']: {key: entry[key] for key in cc.PIN_FIELDS}
         for entry in value['components']}}}
+
+
+def shipped_manifest(kit_commit=None, kit_digest=None, kit_version=None):
+    """A manifest naming exactly the shipped qualified cohort."""
+    pins = cc.QUALIFIED_COHORTS[cc.PROFILE]['alpha-exit-rc']
+    components = []
+    for name, pin in sorted(pins.items()):
+        entry = {'component': name, **pin}
+        if name == 'cohort-kit':
+            entry.update(package_version=kit_version or cc.DRIVER_VERSION, source_commit=kit_commit or commit('kit'),
+                         artifact_sha256=kit_digest or 'sha256:' + hashlib.sha256(b'kit').hexdigest())
+        components.append(entry)
+    return {'schema': cc.MANIFEST_SCHEMA, 'profile': cc.PROFILE, 'components': components}
 
 
 class ManifestValidation(unittest.TestCase):
@@ -144,9 +157,38 @@ class CohortPins(unittest.TestCase):
     def test_exact_match_names_the_qualified_cohort(self):
         self.assertEqual(cc.check_cohort_pins(self.manifest, qualified_for(self.value)), 'test-cohort')
 
-    def test_shipped_table_is_pending_and_refuses_every_manifest(self):
+    def test_shipped_table_refuses_other_commits(self):
         detail = self.refuses(None)
-        self.assertIn('PENDING', detail)
+        self.assertIn('alpha-exit-rc', detail)
+
+    def test_shipped_cohort_matches_with_any_kit_commit_but_its_own_version(self):
+        manifest = cc.load_manifest(raw(shipped_manifest()))
+        self.assertEqual(cc.check_cohort_pins(manifest), 'alpha-exit-rc')
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_cohort_pins(cc.load_manifest(raw(shipped_manifest(kit_version='0.1.0'))))
+        self.assertIn('cohort-kit.package_version', caught.exception.detail)
+
+    def test_shipped_cohort_refuses_another_artifact_digest(self):
+        value = shipped_manifest()
+        for entry in value['components']:
+            if entry['component'] == 'docket':
+                entry['artifact_sha256'] = 'sha256:' + hashlib.sha256(b'rebuilt').hexdigest()
+        with self.assertRaises(cc.Refusal) as caught:
+            cc.check_cohort_pins(cc.load_manifest(raw(value)))
+        self.assertEqual(caught.exception.code, 'pin.incompatible')
+        self.assertIn('docket.artifact_sha256', caught.exception.detail)
+
+    def test_shipped_table_binds_the_lane_reports(self):
+        pins = cc.QUALIFIED_COHORTS[cc.PROFILE]['alpha-exit-rc']
+        self.assertEqual(set(pins), set(cc.COMPONENTS))
+        self.assertEqual(pins['maude']['source_commit'], '75d4dc1df1934cfc797c48c528d314804938eaae')
+        self.assertEqual(pins['nightshift']['source_commit'], pins['pulse']['source_commit'])
+        self.assertNotEqual(pins['nightshift']['artifact_sha256'], pins['pulse']['artifact_sha256'])
+        self.assertTrue(pins['nq']['artifact_sha256'].startswith('sha256:9e953e88'))
+        for name, pin in pins.items():
+            if name != 'cohort-kit':
+                self.assertRegex(pin['source_commit'], cc.COMMIT)
+                self.assertRegex(pin['artifact_sha256'], cc.DIGEST)
 
     def test_one_commit_differs(self):
         table = qualified_for(self.value)
@@ -344,9 +386,9 @@ class BuildInfo(unittest.TestCase):
             root = Path(tmp)
             (root / 'bin').mkdir()
             (root / 'bin/codex-app-server').write_bytes(b'\x7fELF app server')
-            info = self.info(component='app-server', executables={
-                'bin/codex-app-server': cc.sha256_file(root / 'bin/codex-app-server')})
-            (root / 'build-info.json').write_text(json.dumps(info) + '\n')
+            info = self.info(component='codex-app-server', profile='release',
+                             executable_sha256=cc.sha256_file(root / 'bin/codex-app-server'))
+            (root / 'build-info.json').write_text(json.dumps(info, indent=1) + '\n')
             cc.check_receipt_identity('app-server', root, 'bin/codex-app-server', self.pin)
             (root / 'bin/codex-app-server').write_bytes(b'\x7fELF a different build')
             with self.assertRaises(cc.Refusal) as caught:
@@ -403,7 +445,7 @@ class CommandLine(unittest.TestCase):
             status = cc.main(argv)
         return status, json.loads(out.getvalue())
 
-    def test_verify_manifest_fails_closed_on_pending_pins(self):
+    def test_verify_manifest_fails_closed_on_unqualified_pins(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'manifest.json'
             path.write_bytes(raw(manifest_value()))
@@ -420,6 +462,187 @@ class CommandLine(unittest.TestCase):
             action.format_help() for action in cc.parser()._subparsers._group_actions[0].choices.values())
         for word in ('auto-accept', 'yes', 'synthetic'):
             self.assertNotIn('--' + word, help_text)
+
+
+
+class KitIdentity(unittest.TestCase):
+    """The cohort kit is pinned SELF: its build info and its driver bytes."""
+
+    def kit(self, root, driver_bytes, **changes):
+        (root / 'setup').mkdir(parents=True)
+        (root / 'setup/constellation_cohort.py').write_bytes(driver_bytes)
+        (root / 'README.md').write_bytes(b'kit\n')
+        info = {'component': 'cohort-kit', 'version': cc.DRIVER_VERSION, 'source_commit': commit('kit'),
+                'debug_assertions': False, 'profile': 'release',
+                'files': {name: cc.sha256_file(root / name) for name in ('setup/constellation_cohort.py', 'README.md')}}
+        info.update(changes)
+        (root / 'BUILD-INFO.json').write_text(json.dumps(info))
+        return {'package_version': cc.DRIVER_VERSION, 'source_commit': commit('kit')}
+
+    def test_kit_with_the_running_driver_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes())
+            self.assertEqual(cc.check_kit(Path(tmp), pin)['source_commit'], commit('kit'))
+
+    def test_kit_whose_driver_differs_from_the_running_one_refuses(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self.kit(Path(tmp), b'# another driver\n')
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_kit(Path(tmp), pin)
+            self.assertEqual(caught.exception.code, 'build_info.executable_digest')
+
+    def test_kit_file_changed_after_build_refuses(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes())
+            (Path(tmp) / 'README.md').write_bytes(b'edited\n')
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_kit(Path(tmp), pin)
+            self.assertEqual(caught.exception.code, 'build_info.executable_digest')
+
+    def test_kit_commit_must_equal_the_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pin = self.kit(Path(tmp), Path(cc.__file__).read_bytes(), source_commit=commit('other'))
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.check_kit(Path(tmp), pin)
+            self.assertEqual(caught.exception.code, 'build_info.commit')
+
+
+class HostPlumbing(unittest.TestCase):
+    def test_nq_config_correlates_subject_and_scope_under_nq_directories(self):
+        ids = cc.synthetic_identities('qual-a', 'fixture-review')
+        text = cc.nq_config_text('qual-a', ids).decode()
+        self.assertIn('subject = "host:cohort-qual-a-host"', text)
+        self.assertIn('value = { id = "cohort-qual-a-host" }', text)
+        self.assertIn('execution_account = "nq-helper"', text)
+        self.assertIn('database_path = "/var/lib/nq/cohort-qual-a/nq.db"', text)
+        self.assertNotIn('allow_same_identity_in_debug', text)
+
+    def test_nq_unit_is_the_documented_capability_unit(self):
+        argv = cc.nq_unit(['--config', '/etc/nq/x.toml', 'diagnostics', 'execute', 'h'])
+        self.assertEqual(argv[:5], ['/usr/bin/systemd-run', '--quiet', '--wait', '--pipe', '--collect'])
+        self.assertIn('--property=User=nq', argv)
+        self.assertIn('--property=AmbientCapabilities=CAP_SETUID CAP_SETGID CAP_CHOWN CAP_KILL', argv)
+        self.assertIn('--property=ReadWritePaths=/var/lib/nq /run/nq', argv)
+        self.assertEqual(argv[argv.index('--') + 1:], ['/usr/bin/nq', '--config', '/etc/nq/x.toml', 'diagnostics',
+                                                         'execute', 'h'])
+
+    def test_children_drop_to_the_service_account_without_new_privileges(self):
+        argv = cc.as_user('constellation', ['/bin/true'])
+        self.assertEqual(argv[0], '/usr/bin/setpriv')
+        self.assertIn('--reuid=constellation', argv)
+        self.assertIn('--no-new-privs', argv)
+        self.assertEqual(argv[-2:], ['--', '/bin/true'])
+
+    def test_kit_modules_run_isolated_without_site_and_with_an_explicit_path(self):
+        argv = cc.kit_module([Path('/opt/x/lib/maude-plan.pyz'), Path('/opt/kit')], 'prepare_plan', ['--output', Path('/o')])
+        self.assertEqual(argv[:4], ['/usr/bin/python3.11', '-I', '-S', '-c'])
+        self.assertIn("sys.path[:0]=['/opt/x/lib/maude-plan.pyz', '/opt/kit']", argv[4])
+        self.assertEqual(argv[5:], ['--output', '/o'])
+
+    def test_transition_claims_are_create_once(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = {'records': Path(tmp)}
+            cc.claim(paths, 'accept', {'at': 'now'})
+            with self.assertRaises(cc.Refusal) as caught:
+                cc.claim(paths, 'accept', {'at': 'later'})
+            self.assertEqual(caught.exception.code, 'accept.exists')
+
+    def test_unit_entry_always_leaves_one_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            class Args:
+                records = tmp
+            def refuse(args, records):
+                raise cc.Refusal('observation.condition', 'present')
+            self.assertEqual(cc.unit_entry(refuse, Args), 2)
+            result = json.loads((Path(tmp) / 'unit-result.json').read_bytes())
+            self.assertEqual((result['result'], result['code']), ('refused', 'observation.condition'))
+
+    def test_identities_are_fresh_per_cohort_and_bound_to_the_cohort(self):
+        first = cc.synthetic_identities('qual-a', 'fixture-review')
+        second = cc.synthetic_identities('qual-a', 'fixture-review')
+        self.assertNotEqual(first['occurrence'], second['occurrence'])
+        self.assertNotEqual(first['draft_id'], second['draft_id'])
+        self.assertEqual(first['campaign'], second['campaign'])
+        self.assertRegex(first['draft_id'], r'draft_[0-9a-f]{32}\Z')
+        self.assertEqual(first['run_id'], 'cohort-qual-a-review-001')
+
+
+def join_fixture(root):
+    """A settled occurrence in the native shapes (AG inspect, Docket inspect)."""
+    binding = {'binding_id': 'sha256:' + 'b' * 64, 'campaign': 'sha256:' + 'c' * 64,
+               'occurrence': '00000000-0000-4000-8000-000000000001', 'work': 'sha256:' + 'e' * 64}
+    candidate = {'schema': 'ag.governed-loop.review-record-input/v1', 'campaign': binding['campaign'],
+                 'occurrence': binding['occurrence'], 'binding_id': binding['binding_id'],
+                 'review': {'binding_id': binding['binding_id'], 'result_digest': 'sha256:' + 'f' * 64}}
+    candidate_raw = json.dumps(candidate).encode()
+    key = {'campaign': binding['campaign'], 'occurrence': binding['occurrence']}
+    issuance = {'schema': 'ag.governed-loop.issuance/v2', 'issuance': 'sha256:' + '1' * 64, 'key': key,
+                'work': binding['work'], 'not_after_unix_ms': 2000}
+    custody = {'issuance': issuance['issuance'], 'attempt': 'sha256:' + '2' * 64,
+               'execution_standing': 'sha256:' + '3' * 64, 'standing_currentness': 'sha256:' + '4' * 64}
+    settlement = {'settlement': 'sha256:' + '5' * 64, 'issuance': issuance['issuance'], 'attempt': custody['attempt'],
+                  'outcome': 'success'}
+    native = {
+        'program_counter': 'settled_observation_required',
+        'ag_inspect': {'current': {'state_digest': 'sha256:' + '6' * 64, 'state': {'settled_observation_required': {
+            'dispatch': {'authorized': {'spend': {'spend': 'sha256:' + '7' * 64, 'key': key, 'consumed_at_unix_ms': 1000},
+                                        'issuance': issuance}, 'custody': custody},
+            'settlement': settlement}}},
+            'replay': {'ag_spends': 1, 'docket_attempts': 1, 'settlements': 1}},
+        'docket_inspect': {'requested_issuance': issuance['issuance'],
+                           'record': {'status': 'settled', 'issuance': issuance, 'custody': custody, 'settlement': settlement}},
+        'standing_snapshot': {'execution_standing': custody['execution_standing'],
+                              'currentness': custody['standing_currentness']},
+    }
+    paths = {'plan': root / 'plan', 'review_output': root / 'review', 'continuation': root / 'continuation'}
+    for directory in paths.values():
+        directory.mkdir()
+    (paths['plan'] / 'binding.json').write_text(json.dumps(binding))
+    (paths['review_output'] / 'record-review-input.json').write_bytes(candidate_raw)
+    (paths['continuation'] / 'accepted-record-review-input.json').write_bytes(candidate_raw)
+    (paths['continuation'] / 'operator-acceptance.json').write_text(json.dumps(
+        {'candidate_sha256': 'sha256:' + hashlib.sha256(candidate_raw).hexdigest()}))
+    return native, paths
+
+
+class EvidenceJoin(unittest.TestCase):
+    def test_complete_join(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            native, paths = join_fixture(Path(tmp))
+            join = cc.evidence_join(native, paths)
+            self.assertTrue(join['complete'], join['checks'])
+            self.assertEqual(join['not_after_unix_ms'], 2000)
+
+    def test_each_broken_link_is_reported(self):
+        cases = {
+            'issuance_v2_not_after': lambda n: n['ag_inspect']['current']['state']['settled_observation_required']
+            ['dispatch']['authorized']['issuance'].update(schema='ag.governed-loop.issuance/v1'),
+            'issuance_ag_docket': lambda n: n['docket_inspect']['record']['issuance'].update(work='sha256:' + '9' * 64),
+            'attempt_ag_docket': lambda n: n['docket_inspect']['record']['settlement'].update(attempt='sha256:' + '9' * 64),
+            'standing_join': lambda n: n['standing_snapshot'].update(currentness='sha256:' + '9' * 64),
+            'replay_once': lambda n: n['ag_inspect']['replay'].update(docket_attempts=2),
+        }
+        for check, damage in cases.items():
+            with self.subTest(check), tempfile.TemporaryDirectory() as tmp:
+                native, paths = join_fixture(Path(tmp))
+                native = json.loads(json.dumps(native))
+                damage(native)
+                join = cc.evidence_join(native, paths)
+                self.assertFalse(join['complete'])
+                self.assertFalse(join['checks'][check])
+
+    def test_not_after_must_follow_the_spend(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            native, paths = join_fixture(Path(tmp))
+            native['ag_inspect']['current']['state']['settled_observation_required']['dispatch']['authorized'][
+                'issuance']['not_after_unix_ms'] = 1000
+            self.assertFalse(cc.evidence_join(native, paths)['checks']['issuance_v2_not_after'])
+
+    def test_other_accepted_candidate_breaks_the_join(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            native, paths = join_fixture(Path(tmp))
+            (paths['continuation'] / 'accepted-record-review-input.json').write_bytes(b'{}')
+            self.assertFalse(cc.evidence_join(native, paths)['checks']['candidate_accepted'])
 
 
 if __name__ == '__main__':
