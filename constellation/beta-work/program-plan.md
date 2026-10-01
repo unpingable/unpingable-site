@@ -180,7 +180,7 @@ Owning issue: [PA-09](https://github.com/unpingable/cartography/issues/10).
 
 ## PA-10: Keep the canonical beta objective and owner decisions visible
 
-`DOCUMENTATION` · **Required for operator-beta** · Project: Ready.
+`DOCUMENTATION` · **Required for operator-beta** · Project: Done.
 
 Problem: The September dated objective was invisible from an active campaign branch.
 
