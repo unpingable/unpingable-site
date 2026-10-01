@@ -1,0 +1,21 @@
+{
+  "format": "constellation.integration-usability-conformance-v1",
+  "base": "base-valid.json",
+  "assessmentTime": "2030-01-02T00:00:00Z",
+  "coverage": [
+    {"failure": "same-name-gates-join", "goldenCase": "namespaced-q2", "directTest": "test_same_name_gates_remain_independent"},
+    {"failure": "wrong-credential-class", "goldenCase": "mismatched-credential-class"},
+    {"failure": "unresolved-issuer", "goldenCase": "unresolved-issuer-is-scoped"},
+    {"failure": "template-accepted", "goldenCase": "template-is-not-completed-evidence"},
+    {"failure": "resource-reserve-scope-escape", "goldenCase": "filesystem-reserve-applicability", "directTest": "test_two_filesystem_reserves_remain_independent"},
+    {"failure": "scratch-becomes-sequencing", "goldenCase": "nfs-does-not-satisfy-q6c", "directTest": "test_scratch_authority_does_not_resolve_sequence_gate"},
+    {"failure": "time-gate-blocks-local-preparation", "case": "time-gate-scoped"},
+    {"failure": "prepared-candidate-becomes-release", "case": "prepared-not-accepted", "directTest": "test_prepared_starter_keeps_release_hold"},
+    {"failure": "ordinary-repair-becomes-owner-question", "goldenCase": "permitted-composition-repair", "directTest": "test_ordinary_repair_has_no_owner_escalation"}
+  ],
+  "cases": [
+    {"id": "time-gate-scoped", "mutations": [{"pointer": "/gates/0/kind", "value": "time-boundary"}, {"pointer": "/gates/0/timeBoundary", "value": {"notBefore": "2030-02-01T00:00:00Z", "clockContractRef": "rfc3339-utc", "assessment": "not-reached"}}], "expected": {"operationDispositions": {"prepare": "permitted-by-declared-contract", "effect": "blocked", "produce": "blocked", "reconcile": "permitted-by-declared-contract"}, "operation": "produce", "disposition": "blocked", "blockerCodes": ["TIME_NOT_REACHED"]}},
+    {"id": "prepared-not-accepted", "mutations": [{"pointer": "/receipts/0/disposition", "value": "retained-unverified"}, {"pointer": "/receipts/0/evidenceBasis", "value": "Prepared candidate and passing source checks; no release acceptance"}], "expected": {"operationDispositions": {"prepare": "permitted-by-declared-contract", "produce": "blocked"}, "operation": "produce", "disposition": "blocked", "blockerCodes": ["EVIDENCE_NOT_EXTERNALLY_ACCEPTED"]}},
+    {"id": "elapsed-time-not-acceptance", "mutations": [{"pointer": "/gates/0/timeBoundary", "value": {"notBefore": "2030-01-01T00:00:00Z", "clockContractRef": "rfc3339-utc", "assessment": "reached"}}, {"pointer": "/receipts/0/disposition", "value": "template"}], "expected": {"operation": "produce", "disposition": "blocked", "blockerCodes": ["EVIDENCE_NOT_EXTERNALLY_ACCEPTED"], "absentBlockerCodes": ["TIME_NOT_REACHED"]}}
+  ]
+}

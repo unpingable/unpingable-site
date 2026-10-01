@@ -1,0 +1,99 @@
+{
+  "apiVersion": "constellation.integration/v1",
+  "integration": {"id": "example-candidate", "description": "Fictional authoring starter: prepare a candidate, hold release and cleanup", "intendedConsumers": ["example-author", "example-operator"]},
+  "interfaceClosure": {
+    "basisSourceRefs": [
+      "standing-policy",
+      "native-procedure"
+    ],
+    "ownerRefs": [
+      "author",
+      "release-owner",
+      "operator"
+    ],
+    "authorityRefs": [
+      "local-work",
+      "release",
+      "acceptance",
+      "cleanup"
+    ],
+    "operationRefs": [
+      "prepare",
+      "release",
+      "reconcile",
+      "cleanup"
+    ],
+    "gateRefs": [
+      "release-accepted",
+      "custody-accepted"
+    ],
+    "credentialRefs": [],
+    "receiptRefs": [
+      "candidate",
+      "release-acceptance",
+      "custody"
+    ],
+    "resourceRuleRefs": [
+      "release-envelope"
+    ],
+    "privacyRuleRefs": [],
+    "cleanupRuleRefs": [
+      "scratch"
+    ]
+  },
+  "sources": [
+    {"id": "standing-policy", "kind": "example-only", "ref": "example:bounded-local-authoring-policy", "pin": null, "status": "unverified", "unresolvedReason": "Replace with the existing policy for the actual target"},
+    {"id": "native-procedure", "kind": "example-only", "ref": "example:native-reconcile-and-rollback-procedure", "pin": null, "status": "unverified", "unresolvedReason": "Replace with the current target procedure and exact pin"}
+  ],
+  "owners": [
+    {"id": "author", "name": "Fictional local author", "status": "resolved", "boundary": "This starter's non-operational preparation only", "evidenceRefs": []},
+    {"id": "release-owner", "name": "Unresolved existing release owner", "status": "unresolved", "boundary": "Target release and custody acceptance", "evidenceRefs": []},
+    {"id": "operator", "name": "Unresolved fictional runtime operator role", "status": "unresolved", "boundary": "Logical release and cleanup caller; no identity or invocation grant established", "evidenceRefs": []}
+  ],
+  "authorities": [
+    {"id": "local-work", "ownerRef": "author", "kind": "local-work", "boundary": "Fictional source-only preparation", "status": "established", "authorizedPrincipalRefs": ["author"], "evidenceRefs": []},
+    {"id": "release", "ownerRef": "release-owner", "kind": "production-effect", "boundary": "Exact target release", "status": "unresolved", "authorizedPrincipalRefs": [], "evidenceRefs": []},
+    {"id": "acceptance", "ownerRef": "release-owner", "kind": "acceptance", "boundary": "Existing target evidence acceptance", "status": "unresolved", "authorizedPrincipalRefs": [], "evidenceRefs": []},
+    {"id": "cleanup", "ownerRef": "release-owner", "kind": "cleanup", "boundary": "Exact scratch after custody", "status": "unresolved", "authorizedPrincipalRefs": [], "evidenceRefs": []}
+  ],
+  "operations": [
+    {"id": "prepare", "kind": "local-preparation", "executionClass": "source-only", "invocationBinding": null, "purpose": "Author a source-only candidate", "consumer": "example-author", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": ["candidate"], "requiredAuthorityRefs": ["local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": null},
+    {"id": "release", "kind": "production-effect", "executionClass": "runtime", "invocationBinding": {"principalRef": "operator", "authorityRef": "release"}, "purpose": "Release only under existing target admission", "consumer": "example-operator", "credentialRequirements": [], "requiredReceiptRefs": ["release-acceptance"], "producedReceiptRefs": ["custody"], "requiredAuthorityRefs": ["release"], "requiredResourceRuleRefs": ["release-envelope"], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to Release only under existing target admission", "interfaces": ["example-operator supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["custody"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "operator", "authorityRef": "release", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["custody"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}},
+    {"id": "reconcile", "kind": "read-only-reconciliation", "executionClass": "runtime", "invocationBinding": {"principalRef": "author", "authorityRef": "local-work"}, "purpose": "Inspect the original occurrence under the native procedure", "consumer": "example-author", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to Inspect the original occurrence under the native procedure", "interfaces": ["example-author supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["candidate"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "author", "authorityRef": "local-work", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["candidate"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}},
+    {"id": "cleanup", "kind": "cleanup", "executionClass": "runtime", "invocationBinding": {"principalRef": "operator", "authorityRef": "cleanup"}, "purpose": "Remove admitted regenerable scratch after custody", "consumer": "example-operator", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["cleanup"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to Remove admitted regenerable scratch after custody", "interfaces": ["example-operator supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["candidate"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "operator", "authorityRef": "cleanup", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["candidate"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}}
+  ],
+  "gates": [
+    {"id": "release-accepted", "kind": "required-evidence", "ownerRef": "release-owner", "status": "unresolved", "recordedDisposition": "No accepted release evidence; source preparation is independent", "requiredReceiptRefs": ["release-acceptance"], "blocks": ["release"], "doesNotBlock": ["prepare", "reconcile", "cleanup"], "timeBoundary": null},
+    {"id": "custody-accepted", "kind": "required-evidence", "ownerRef": "release-owner", "status": "unresolved", "recordedDisposition": "Declare later custody acceptance scope now; no custody evidence exists", "requiredReceiptRefs": ["custody"], "blocks": ["cleanup"], "doesNotBlock": ["prepare", "release", "reconcile"], "timeBoundary": null}
+  ],
+  "credentials": [],
+  "receipts": [
+    {"id": "candidate", "schemaType": "example.candidate/v1", "issuerOwnerRef": "release-owner", "issuerAuthorityRef": "acceptance", "evidenceBasis": "Candidate is not yet prepared", "evidenceBasisStatus": "missing", "artifactIdentity": "not produced", "artifactIdentityStatus": "missing", "custody": "not retained", "custodyStatus": "missing", "retention": "Retain candidate bytes for review", "downstreamConsumers": [], "disposition": "missing", "semanticRoles": []},
+    {"id": "release-acceptance", "schemaType": "example.release-acceptance/v1", "issuerOwnerRef": "release-owner", "issuerAuthorityRef": "acceptance", "evidenceBasis": "No existing owner acceptance supplied", "evidenceBasisStatus": "missing", "artifactIdentity": "not supplied", "artifactIdentityStatus": "missing", "custody": "not supplied", "custodyStatus": "missing", "retention": "Retain exact accepted record when supplied", "downstreamConsumers": ["release"], "disposition": "missing", "semanticRoles": []},
+    {"id": "custody", "schemaType": "example.custody/v1", "issuerOwnerRef": "release-owner", "issuerAuthorityRef": "acceptance", "evidenceBasis": "No release occurrence or custody", "evidenceBasisStatus": "missing", "artifactIdentity": "not produced", "artifactIdentityStatus": "missing", "custody": "not retained", "custodyStatus": "missing", "retention": "Retain before disposing of scratch", "downstreamConsumers": ["cleanup"], "disposition": "missing", "semanticRoles": []}
+  ],
+  "resourceRules": [
+    {"id": "release-envelope", "resource": "example:unselected-release-filesystem", "purpose": "Record the actual target reserve before release allocation", "scope": "release only", "minimum": 0, "expectedAllocation": 0, "unit": "bytes", "applicableOperations": ["release"], "assessment": {"status": "unknown", "observedAvailable": null, "measuredAt": null, "provenance": null}}
+  ],
+  "repairAuthority": {"sourceRef": "standing-policy", "allowedCategories": ["composition", "implementation", "test", "documentation"], "protectedBoundaries": ["semantics", "authority", "privacy", "production-state", "acceptance-criteria"]},
+  "outcomes": [
+    {"id": "success", "kind": "success", "definition": "Existing target owner accepts exact release evidence with custody", "requiredEvidenceRefs": ["release-acceptance", "custody"]},
+    {"id": "refusal", "kind": "refusal", "definition": "A prerequisite refuses before the affected operation", "requiredEvidenceRefs": []},
+    {"id": "indeterminate", "kind": "indeterminate", "definition": "Original occurrence outcome cannot be established after response loss", "requiredEvidenceRefs": []}
+  ],
+  "reconciliation": {"retainedIdentities": ["original occurrence", "candidate identity", "attempt identity"], "redispatchForbidden": true, "responseLossProcedureRef": "native-procedure"},
+  "rawEvidence": {"immutable": true, "interpretationRules": [{"sourceRef": "native-procedure", "scope": "original occurrence evidence", "rule": "Preserve raw bytes and apply only the existing target's duplicate rule"}]},
+  "cleanupRules": [
+    {"id": "scratch", "objectClass": "example regenerable scratch only", "regenerable": true, "custodyPrerequisiteReceiptRefs": ["custody"], "operationRefs": ["cleanup"]}
+  ],
+  "rollback": {"reversible": ["unreleased local candidate"], "compensable": [], "procedureRef": "native-procedure", "retainedStateLimits": "Unknown target rollback; retain all evidence"},
+  "privacyEgress": [],
+  "ownerDecisions": [
+    {"id": "release-issuer", "ownerRef": "release-owner", "kind": "owner-supplied-fact", "missingField": "existing release issuer identity and acceptance authority", "rationale": "Local preparation cannot assign the target's release issuer", "evidenceSearch": "Fictional starter has no supplied target owner record", "affectedOperations": ["release"], "choices": []}
+  ],
+  "autonomousRepairs": [
+    {"id": "adapter-wiring", "category": "composition", "description": "Bind the target's existing interfaces without changing protected boundaries"}
+  ],
+  "imports": [],
+  "assessment": {"timestamp": "2030-01-01T00:00:00Z", "source": "Fictional authoring starter; no real authority or evidence", "sourcePin": null, "verification": "not-verified", "limits": ["Replace all example facts before real use", "Empty credentials and privacy arrays describe only this fictional source-only example", "V1 grants no effect authority"]}
+}

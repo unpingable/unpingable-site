@@ -1,0 +1,121 @@
+{
+  "apiVersion": "constellation.integration/v1",
+  "integration": {"id": "ag-docket-reviewed-copy", "description": "Selected reviewed-local-copy/v1 path qualification, fresh AG issuance requirement, Docket one-use spend, Maude local file effect and same-attempt reconciliation", "intendedConsumers": ["campaign-worker", "ag", "docket", "maude", "campaign-root"]},
+  "interfaceClosure": {
+    "basisSourceRefs": [
+      "v1-semantics",
+      "effect-time-disposition",
+      "cohort038-acceptance",
+      "reviewed-copy-site",
+      "dogfood-review-001",
+      "admission-check",
+      "spend-and-reconcile-check",
+      "ag-source",
+      "docket-source",
+      "maude-source"
+    ],
+    "ownerRefs": [
+      "campaign-root",
+      "ag-owner",
+      "docket-owner"
+    ],
+    "authorityRefs": [
+      "bounded-local-work",
+      "docket-local-file-effect",
+      "evidence-cleanup",
+      "campaign-root-acceptance",
+      "docket-owner-acceptance",
+      "ag-owner-acceptance"
+    ],
+    "operationRefs": [
+      "prepare-reviewed-plan",
+      "execute-new-local-file-effect",
+      "reconcile-same-attempt",
+      "cleanup-rehearsal"
+    ],
+    "gateRefs": [
+      "selected-reviewed-copy",
+      "effect-time-contract",
+      "fresh-issuance"
+    ],
+    "credentialRefs": [
+      "fresh-ag-one-use-issuance"
+    ],
+    "receiptRefs": [
+      "effect-time-record",
+      "cohort038-terminal",
+      "fresh-issuance-record"
+    ],
+    "resourceRuleRefs": [],
+    "privacyRuleRefs": [],
+    "cleanupRuleRefs": [
+      "rehearsal-substrate"
+    ]
+  },
+  "sources": [
+    {"id": "v1-semantics", "kind": "campaign-policy", "ref": "/data/git/.campaign-artifacts/operational-acceptance-20260926/INTEGRATION-CONTRACT-V1-SEMANTICS.md", "pin": "sha256:fd1900aa65fc0988ece11c974f1d87591a07504c0e595991308008f278261513", "status": "pinned", "unresolvedReason": null},
+    {"id": "effect-time-disposition", "kind": "campaign-disposition", "ref": "/data/git/.campaign-artifacts/operational-acceptance-20260926/EFFECT-TIME-DISPOSITION.md", "pin": "sha256:4c74e87d09cfcc4c9a3ed950fb7165991bf4d90599f143080140663216cd1643", "status": "pinned", "unresolvedReason": null},
+    {"id": "cohort038-acceptance", "kind": "campaign-acceptance", "ref": "/data/git/.campaign-artifacts/operational-acceptance-20260926/COHORT038-ACCEPTANCE.md", "pin": "sha256:d7960aa2250771726301b51c9345f6ebccb88f36646c4cb2defc3a1df173e7d0", "status": "pinned", "unresolvedReason": null},
+    {"id": "reviewed-copy-site", "kind": "git-commit", "ref": "/data/git/unpingable-site", "pin": "0731ff1fd1a4ed840d0605c5bc18663bda84cc9b", "status": "pinned", "unresolvedReason": null},
+    {"id": "dogfood-review-001", "kind": "factual-review", "ref": "/data/git/.campaign-artifacts/operational-acceptance-20260926/INTEGRATION-V1-DOGFOOD-REVIEW-001.md", "pin": "sha256:876d3daacf70ba9d291d3a00398d691eb759e914c11cdf37f5c1b38d0d7b553b", "status": "pinned", "unresolvedReason": null},
+    {"id": "admission-check", "kind": "source-file", "ref": "constellation/examples/reviewed_local_copy/seal_admission.py@0731ff1fd1a4ed840d0605c5bc18663bda84cc9b", "pin": "sha256:712e0372e5fe38c130195ad853d86c34f2a4972b9a6701423afafbe008d62b5f", "status": "pinned", "unresolvedReason": null},
+    {"id": "spend-and-reconcile-check", "kind": "source-file", "ref": "constellation/examples/reviewed_local_copy/reviewed_action.py@0731ff1fd1a4ed840d0605c5bc18663bda84cc9b", "pin": "sha256:d6d6fd0378793c6322a54b54c63f357c8a22d7fad2d4aaa81ba6d08749788f27", "status": "pinned", "unresolvedReason": null},
+    {"id": "ag-source", "kind": "git-commit", "ref": "/data/git/ag", "pin": "58122cec1ca8de35a1d146bf7987f8e69f49a040", "status": "pinned", "unresolvedReason": null},
+    {"id": "docket-source", "kind": "git-commit", "ref": "/data/git/docket", "pin": "3093def030a5151d2e7b956eafb73d0c16f8c735", "status": "pinned", "unresolvedReason": null},
+    {"id": "maude-source", "kind": "git-commit", "ref": "https://github.com/unpingable/maude.git", "pin": "75d4dc1df1934cfc797c48c528d314804938eaae", "status": "pinned", "unresolvedReason": null}
+  ],
+  "owners": [
+    {"id": "campaign-root", "name": "Operational acceptance coordinator", "status": "resolved", "boundary": "selected cohort, occurrence acceptance and evidence custody", "evidenceRefs": ["cohort038-terminal"]},
+    {"id": "ag-owner", "name": "Selected AG contract owner", "status": "resolved", "boundary": "issuance and standing policy", "evidenceRefs": ["effect-time-record"]},
+    {"id": "docket-owner", "name": "Selected Docket contract owner", "status": "resolved", "boundary": "one-use spend, executor binding and reconcile semantics", "evidenceRefs": ["effect-time-record"]}
+  ],
+  "authorities": [
+    {"id": "bounded-local-work", "ownerRef": "campaign-root", "kind": "local-work", "boundary": "read-only inspection and preparation", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": ["cohort038-terminal"]},
+    {"id": "docket-local-file-effect", "ownerRef": "docket-owner", "kind": "effect", "boundary": "exact selected local file effect under one-use issuance; no production effect", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": ["effect-time-record", "cohort038-terminal"]},
+    {"id": "evidence-cleanup", "ownerRef": "campaign-root", "kind": "cleanup", "boundary": "cleanup only after separate custody disposition", "status": "unresolved", "authorizedPrincipalRefs": [], "evidenceRefs": ["cohort038-terminal"]},
+    {"id": "campaign-root-acceptance", "ownerRef": "campaign-root", "kind": "acceptance", "boundary": "existing campaign acceptance and custody boundary", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": []},
+    {"id": "docket-owner-acceptance", "ownerRef": "docket-owner", "kind": "acceptance", "boundary": "existing selected Docket contract acceptance boundary", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": []},
+    {"id": "ag-owner-acceptance", "ownerRef": "ag-owner", "kind": "acceptance", "boundary": "existing AG issuance acceptance boundary", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": []}
+  ],
+  "operations": [
+    {"id": "prepare-reviewed-plan", "kind": "local-preparation", "executionClass": "source-only", "invocationBinding": null, "purpose": "prepare the selected reviewed-local-copy plan without effect", "consumer": "campaign-worker", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["bounded-local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": null},
+    {"id": "execute-new-local-file-effect", "kind": "local-effect", "executionClass": "runtime", "invocationBinding": null, "purpose": "admit and spend one fresh issuance through Docket and Maude for a new exact local file effect", "consumer": "docket", "credentialRequirements": [{"credentialRef": "fresh-ag-one-use-issuance", "purpose": "one-use-local-file-effect", "consumer": "docket", "requiredAuthorityRef": "docket-local-file-effect"}], "requiredReceiptRefs": ["effect-time-record", "cohort038-terminal", "fresh-issuance-record"], "producedReceiptRefs": [], "requiredAuthorityRefs": ["docket-local-file-effect"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to admit and spend one fresh issuance through Docket and Maude for a new exact local file effect", "interfaces": ["docket supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["effect-time-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": null, "authorityRef": null, "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["effect-time-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}},
+    {"id": "reconcile-same-attempt", "kind": "read-only-reconciliation", "executionClass": "runtime", "invocationBinding": null, "purpose": "inspect the same issuance and execution identity after response loss without dispatch", "consumer": "docket", "credentialRequirements": [], "requiredReceiptRefs": ["effect-time-record"], "producedReceiptRefs": [], "requiredAuthorityRefs": ["bounded-local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to inspect the same issuance and execution identity after response loss without dispatch", "interfaces": ["docket supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["effect-time-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": null, "authorityRef": null, "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["effect-time-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}},
+    {"id": "cleanup-rehearsal", "kind": "cleanup", "executionClass": "runtime", "invocationBinding": null, "purpose": "remove exact regenerable rehearsal substrate only after custody", "consumer": "campaign-root", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["evidence-cleanup"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": {"status": "unresolved", "unresolvedReason": "Target-native platform identity, visibility coverage, mediation, and output custody require confirmation before runtime.", "baselinePlatformIdentity": "unresolved target runtime identity", "operationPlatformIdentity": "unresolved target runtime identity", "operationCapabilities": [], "platformMediation": "unresolved target-native mediation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to remove exact regenerable rehearsal substrate only after custody", "interfaces": ["campaign-root supported runtime interface"], "requiredPlatformIdentity": "unresolved target runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["effect-time-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": null, "authorityRef": null, "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "unresolved target runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "target-native custody contract", "pathnameReplacementBoundary": "target-native custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["effect-time-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "none", "description": "No equivalence claim is made until the target-native boundary is confirmed.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}}
+  ],
+  "gates": [
+    {"id": "selected-reviewed-copy", "kind": "required-evidence", "ownerRef": "campaign-root", "status": "satisfied", "recordedDisposition": "cohort038 records path qualification only; its historical issuance is not reusable", "requiredReceiptRefs": ["cohort038-terminal"], "blocks": ["execute-new-local-file-effect", "reconcile-same-attempt", "cleanup-rehearsal"], "doesNotBlock": ["prepare-reviewed-plan"], "timeBoundary": null},
+    {"id": "effect-time-contract", "kind": "required-evidence", "ownerRef": "docket-owner", "status": "satisfied", "recordedDisposition": "selected admission, one-use spend, expiry and same-attempt reconcile checks are retained as path semantics", "requiredReceiptRefs": ["effect-time-record"], "blocks": ["execute-new-local-file-effect", "reconcile-same-attempt"], "doesNotBlock": ["prepare-reviewed-plan", "cleanup-rehearsal"], "timeBoundary": null},
+    {"id": "fresh-issuance", "kind": "required-evidence", "ownerRef": "ag-owner", "status": "unsatisfied", "recordedDisposition": "historical cohort038 evidence does not establish a fresh unspent issuance for a new occurrence", "requiredReceiptRefs": ["fresh-issuance-record"], "blocks": ["execute-new-local-file-effect"], "doesNotBlock": ["prepare-reviewed-plan", "reconcile-same-attempt", "cleanup-rehearsal"], "timeBoundary": null}
+  ],
+  "credentials": [
+    {"id": "fresh-ag-one-use-issuance", "purpose": "one-use-local-file-effect", "readiness": "absent", "scopeVerification": "unverified", "authorizedConsumers": ["docket"], "authorizedPrincipalRefs": [], "authorityGrantedRefs": ["docket-local-file-effect"], "authorityNotGrantedRefs": [], "evidenceRefs": ["fresh-issuance-record"], "sourceRefs": ["ag-source", "admission-check", "spend-and-reconcile-check"]}
+  ],
+  "receipts": [
+    {"id": "effect-time-record", "schemaType": "selected-governed-profile.effect-time-disposition/v1", "issuerOwnerRef": "docket-owner", "issuerAuthorityRef": "docket-owner-acceptance", "evidenceBasis": "retained selected implementation and owner contract qualify admission/spend/reconcile semantics, not a current issuance", "evidenceBasisStatus": "recorded", "artifactIdentity": "sha256:4c74e87d09cfcc4c9a3ed950fb7165991bf4d90599f143080140663216cd1643", "artifactIdentityStatus": "recorded", "custody": "/data/git/.campaign-artifacts/operational-acceptance-20260926/EFFECT-TIME-DISPOSITION.md", "custodyStatus": "recorded", "retention": "selected path evidence", "downstreamConsumers": ["execute-new-local-file-effect", "reconcile-same-attempt"], "disposition": "externally-accepted", "semanticRoles": []},
+    {"id": "cohort038-terminal", "schemaType": "constellation.cohort038-acceptance/v1", "issuerOwnerRef": "campaign-root", "issuerAuthorityRef": "campaign-root-acceptance", "evidenceBasis": "31 predetermined historical path cases passed; historical issuance/effect is not reusable", "evidenceBasisStatus": "recorded", "artifactIdentity": "invocation:546a37ad58e744d1bd20017fd066a227;terminal-sha256:10fe1948274aa3a83b8867452c690ade22fd66bbad2fbe407cbe74b5523cd01b", "artifactIdentityStatus": "recorded", "custody": "/data/git/.campaign-artifacts/operational-acceptance-20260926/cohort-038 and retained sealed bundle", "custodyStatus": "recorded", "retention": "retain for replay and diagnosis until campaign disposition", "downstreamConsumers": ["prepare-reviewed-plan", "execute-new-local-file-effect", "reconcile-same-attempt", "cleanup-rehearsal"], "disposition": "externally-accepted", "semanticRoles": []},
+    {"id": "fresh-issuance-record", "schemaType": "ag.issuance/v2", "issuerOwnerRef": "ag-owner", "issuerAuthorityRef": "ag-owner-acceptance", "evidenceBasis": "no fresh admitted issuance has been created for a new occurrence", "evidenceBasisStatus": "recorded", "artifactIdentity": "missing", "artifactIdentityStatus": "missing", "custody": "none", "custodyStatus": "missing", "retention": "must be created and retained by exact current admission checks", "downstreamConsumers": ["execute-new-local-file-effect"], "disposition": "missing", "semanticRoles": []}
+  ],
+  "resourceRules": [],
+  "repairAuthority": {"sourceRef": "v1-semantics", "allowedCategories": ["composition", "implementation", "test", "documentation"], "protectedBoundaries": ["semantics", "authority", "privacy", "production-state", "acceptance-criteria"]},
+  "outcomes": [
+    {"id": "success", "kind": "success", "definition": "accepted exact new-occurrence receipt exists after one fresh issuance spend and local effect; process exit alone is insufficient", "requiredEvidenceRefs": ["effect-time-record", "fresh-issuance-record"]},
+    {"id": "refusal", "kind": "refusal", "definition": "expired, spent, stale, altered or mismatched issuance refuses before executor invocation", "requiredEvidenceRefs": ["effect-time-record"]},
+    {"id": "indeterminate", "kind": "indeterminate", "definition": "after-custody expiry or lost response leaves effect state unresolved; reconcile without invoking executor", "requiredEvidenceRefs": ["effect-time-record"]}
+  ],
+  "reconciliation": {"retainedIdentities": ["issuance identity", "governed plan", "Docket attempt", "executor binding", "local effect identity"], "redispatchForbidden": true, "responseLossProcedureRef": "effect-time-disposition"},
+  "rawEvidence": {"immutable": true, "interpretationRules": [{"sourceRef": "effect-time-disposition", "scope": "selected issuance and Docket records", "rule": "retain exact selected records; retry and reconciliation do not dispatch and do not replace expiry with newest-timestamp logic"}]},
+  "cleanupRules": [
+    {"id": "rehearsal-substrate", "objectClass": "regenerable reviewed-copy rehearsal substrate", "regenerable": true, "custodyPrerequisiteReceiptRefs": ["cohort038-terminal"], "operationRefs": ["cleanup-rehearsal"]}
+  ],
+  "rollback": {"reversible": ["unspent prepared plan"], "compensable": ["local file effect under its existing procedure"], "procedureRef": "effect-time-disposition", "retainedStateLimits": "spent issuance and accepted evidence remain; rollback is not erasure"},
+  "privacyEgress": [],
+  "ownerDecisions": [
+    {"id": "cleanup-authority-fact", "ownerRef": "campaign-root", "kind": "owner-supplied-fact", "missingField": "explicit cleanup authority after retained evidence custody", "rationale": "cohort 038 explicitly records that no cleanup authorization was inferred", "evidenceSearch": "cohort 038 terminal acceptance and custody record", "affectedOperations": ["cleanup-rehearsal"], "choices": []}
+  ],
+  "autonomousRepairs": [
+    {"id": "reviewed-copy-composition", "category": "composition", "description": "repair reference wiring without changing selected issuance, spend or reconcile semantics"}
+  ],
+  "imports": [],
+  "assessment": {"timestamp": "2026-09-28T01:14:02Z", "source": "dogfood factual review plus selected path qualification", "sourcePin": "sha256:876d3daacf70ba9d291d3a00398d691eb759e914c11cdf37f5c1b38d0d7b553b", "verification": "caller-verified-index", "limits": ["cohort038 qualifies the path but supplies no fresh unspent issuance", "new effect remains blocked until exact current admission and spend evidence exists", "read-only same-attempt reconciliation has no fresh standing or issuance requirement", "no production admission or human/provider review follows", "V1 grants no effect authority"]}
+}

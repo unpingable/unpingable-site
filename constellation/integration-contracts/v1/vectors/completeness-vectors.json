@@ -1,0 +1,334 @@
+{
+  "description": "Derived declaration completeness; unresolved facts remain separate readiness holds. RFC 6901 replacements against base-valid.json.",
+  "assessmentTime": "2030-01-02T00:00:00Z",
+  "cases": [
+    {
+      "id": "complete-declaration-is-not-an-effect-grant",
+      "mutations": [],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": []
+      }
+    },
+    {
+      "id": "null-runtime-binding-is-an-incomplete-draft",
+      "mutations": [
+        {
+          "pointer": "/operations/1/invocationBinding",
+          "value": null
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "INVOCATION_BINDING_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "unresolved-logical-role-stays-bound",
+      "mutations": [
+        {
+          "pointer": "/owners/2/status",
+          "value": "unresolved"
+        }
+      ],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "INVOCATION_PRINCIPAL_UNRESOLVED"
+        ]
+      }
+    },
+    {
+      "id": "unknown-invocation-grant-is-not-missing-wiring",
+      "mutations": [
+        {
+          "pointer": "/authorities/1/status",
+          "value": "unresolved"
+        },
+        {
+          "pointer": "/authorities/1/authorizedPrincipalRefs",
+          "value": []
+        }
+      ],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "INVOCATION_AUTHORITY_UNRESOLVED",
+          "INVOCATION_PRINCIPAL_UNAUTHORIZED"
+        ]
+      }
+    },
+    {
+      "id": "absent-credential-is-a-readiness-hold",
+      "mutations": [
+        {
+          "pointer": "/credentials/0/readiness",
+          "value": "absent"
+        }
+      ],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "CREDENTIAL_NOT_PRESENT"
+        ]
+      }
+    },
+    {
+      "id": "unknown-resource-is-a-readiness-hold",
+      "mutations": [
+        {
+          "pointer": "/resourceRules/0/assessment",
+          "value": {
+            "status": "unknown",
+            "observedAvailable": null,
+            "measuredAt": null,
+            "provenance": null
+          }
+        }
+      ],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "produce",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "RESOURCE_UNRESOLVED"
+        ]
+      }
+    },
+    {
+      "id": "missing-receipt-needs-required-evidence-not-source-gate",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "missing"
+        },
+        {
+          "pointer": "/gates/0/kind",
+          "value": "prerequisite-source"
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "template-receipt-needs-required-evidence-not-source-gate",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "template"
+        },
+        {
+          "pointer": "/gates/0/kind",
+          "value": "prerequisite-source"
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "retained-unverified-receipt-needs-required-evidence-not-source-gate",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "retained-unverified"
+        },
+        {
+          "pointer": "/gates/0/kind",
+          "value": "prerequisite-source"
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "failed-receipt-needs-required-evidence-not-source-gate",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "failed"
+        },
+        {
+          "pointer": "/gates/0/kind",
+          "value": "prerequisite-source"
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "externally-accepted-receipt-needs-required-evidence-not-source-gate",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "externally-accepted"
+        },
+        {
+          "pointer": "/gates/0/kind",
+          "value": "prerequisite-source"
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "missing-evidence-with-declared-scope-is-complete",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "missing"
+        },
+        {
+          "pointer": "/owners/1/status",
+          "value": "unresolved"
+        },
+        {
+          "pointer": "/authorities/5/status",
+          "value": "unresolved"
+        }
+      ],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "effect",
+        "disposition": "blocked",
+        "blockerCodes": [
+          "EVIDENCE_NOT_EXTERNALLY_ACCEPTED",
+          "EVIDENCE_ISSUER_UNRESOLVED",
+          "EVIDENCE_ISSUER_AUTHORITY_UNRESOLVED"
+        ]
+      }
+    },
+    {
+      "id": "missing-evidence-incomplete-gate-scope",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/disposition",
+          "value": "missing"
+        },
+        {
+          "pointer": "/gates/0/blocks",
+          "value": [
+            "effect"
+          ]
+        },
+        {
+          "pointer": "/gates/0/doesNotBlock",
+          "value": [
+            "prepare",
+            "produce",
+            "reconcile",
+            "cleanup"
+          ]
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_INCOMPLETE"
+        ]
+      }
+    },
+    {
+      "id": "produced-only-missing-receipt-is-not-incomplete",
+      "mutations": [],
+      "expected": {
+        "integrationComplete": true,
+        "integrationBlockerCodes": [],
+        "operation": "effect",
+        "disposition": "permitted-by-declared-contract",
+        "absentBlockerCodes": [
+          "EVIDENCE_SCOPE_GATE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "missing-cleanup-rule-is-incomplete",
+      "mutations": [
+        {
+          "pointer": "/cleanupRules",
+          "value": []
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "CLEANUP_RULE_MISSING"
+        ]
+      }
+    },
+    {
+      "id": "receipt-positive-scope-wiring-is-incomplete",
+      "mutations": [
+        {
+          "pointer": "/receipts/0/downstreamConsumers",
+          "value": [
+            "effect"
+          ]
+        }
+      ],
+      "expected": {
+        "integrationComplete": false,
+        "integrationBlockerCodes": [
+          "EVIDENCE_CONSUMER_SCOPE_MISMATCH"
+        ]
+      }
+    }
+  ]
+}

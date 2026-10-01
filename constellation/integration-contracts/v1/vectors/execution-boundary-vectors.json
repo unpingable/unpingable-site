@@ -1,0 +1,279 @@
+{
+  "assessmentTime": "2030-01-02T00:00:00Z",
+  "operation": "effect",
+  "boundedCensusBoundary": {
+    "status": "established",
+    "unresolvedReason": null,
+    "baselinePlatformIdentity": "uid:1000 ordinary campaign observer",
+    "operationPlatformIdentity": "uid:1000 ordinary campaign observer",
+    "operationCapabilities": [],
+    "platformMediation": "direct unprivileged observation plus one separately invoked bounded all-UID producer census primitive",
+    "technicalVisibilityFacts": [
+      {
+        "id": "all-uid-producer-census",
+        "fact": "No named serialized producer is visible in the host PID namespace at the census instant",
+        "interfaces": [
+          "/proc/<pid>/stat",
+          "/proc/<pid>/comm",
+          "/proc/<pid>/cmdline",
+          "/proc/<pid>/exe"
+        ],
+        "requiredPlatformIdentity": "service-mediated bounded census identity",
+        "requiredCapabilities": [
+          "read all process identities in the admitted host PID namespace"
+        ],
+        "temporalScope": "point-in-time",
+        "establishesExclusion": false,
+        "onIncomplete": "refuse",
+        "downstreamReceiptRefs": [
+          "effect-result"
+        ],
+        "downstreamClaim": "point-in-time all-UID producer absence only; this fact does not reserve the producer slot through dispatch",
+        "visibilityPurpose": "observation-input",
+        "delegatedPrimitiveRef": "all-uid-producer-census-primitive",
+        "sharedExclusionRef": null,
+        "claimKind": "producer-absence",
+        "coverage": {
+          "kind": "all-owner-uid-processes",
+          "population": "all-owner-uids",
+          "completeness": "complete-or-refuse",
+          "namespaceScope": {
+            "pidNamespace": "bound-host-pid-namespace",
+            "userNamespace": "bound-initial-user-namespace",
+            "procfsVisibility": "all-pids-hidepid-zero-or-refuse"
+          },
+          "bindingReceiptRefs": ["effect-result"]
+        }
+      }
+    ],
+    "authoritySemantics": {
+      "principalRef": "invoker",
+      "authorityRef": "local-effect",
+      "platformIdentityConveysAuthority": false
+    },
+    "outputCustody": {
+      "writerIdentity": "uid:1000 ordinary campaign observer",
+      "ownerIdentity": "fixture receipt custodian",
+      "mode": "create-new receipt followed by independent custody verification",
+      "pathnameReplacementBoundary": "campaign-owned directory remains replaceable by its owner; receipt digest and later seal detect replacement",
+      "separatedFromObservationPrivilege": true,
+      "receiptRefs": [
+        "effect-result"
+      ],
+      "claim": "receipt ownership and pathname custody do not derive from the census primitive's platform identity",
+      "justifiesOperationPrivilege": false
+    },
+    "campaignConvention": {
+      "requirements": [
+        "historical root-owned observer output is rejected; no UID-0 convention is carried forward"
+      ],
+      "establishesTechnicalRequirement": false
+    },
+    "leastPrivilegeAlternative": {
+      "unprivilegedEquivalence": "delegated-primitive",
+      "description": "The ordinary observer gathers every ordinary fact and consumes only the bounded fail-closed census result.",
+      "broaderPrivilegeRefused": true,
+      "delegatedPrimitiveRefs": [
+        "all-uid-producer-census-primitive"
+      ]
+    },
+    "baselineCapabilities": [],
+    "delegatedPrimitives": [
+      {
+        "id": "all-uid-producer-census-primitive",
+        "command": [
+          "constellation-producer-census",
+          "--pid-namespace",
+          "host",
+          "--names",
+          "exact-admitted-set",
+          "--fail-on-unreadable"
+        ],
+        "invokingPlatformPrincipal": "uid:1000 ordinary campaign observer",
+        "executionPlatformIdentity": "service-mediated bounded census identity",
+        "requiredCapabilities": [
+          "read all process identities in the admitted host PID namespace"
+        ],
+        "interfaces": [
+          "/proc/<pid>/stat",
+          "/proc/<pid>/comm",
+          "/proc/<pid>/cmdline",
+          "/proc/<pid>/exe"
+        ],
+        "onIncomplete": "refuse",
+        "receiptRefs": [
+          "effect-result"
+        ],
+        "identity": {
+          "kind": "package-artifact",
+          "reference": "pkg:constellation-producer-census@fixture-v1",
+          "identityPin": "sha256:b50f022d366975466d010eb6131258595dfe04f9983521fbe412c846df5ba120",
+          "sourceRef": "policy"
+        },
+        "coverage": {
+          "kind": "all-owner-uid-processes",
+          "population": "all-owner-uids",
+          "completeness": "complete-or-refuse",
+          "namespaceScope": {
+            "pidNamespace": "bound-host-pid-namespace",
+            "userNamespace": "bound-initial-user-namespace",
+            "procfsVisibility": "all-pids-hidepid-zero-or-refuse"
+          },
+          "bindingReceiptRefs": ["effect-result"]
+        }
+      }
+    ],
+    "sharedExclusions": [],
+    "delegatedExecutors": []
+  },
+  "cases": [
+    {
+      "id": "missing-runtime-boundary",
+      "kind": "preflight",
+      "mutation": "remove",
+      "expectedCode": "EXECUTION_BOUNDARY_MISSING"
+    },
+    {
+      "id": "bounded-census-is-complete",
+      "kind": "preflight",
+      "mutation": "bounded-census",
+      "absentCodes": [
+        "EXECUTION_BOUNDARY_MISSING",
+        "EXECUTION_BOUNDARY_UNRESOLVED",
+        "EXECUTION_BOUNDARY_AUTHORITY_MISMATCH"
+      ]
+    },
+    {
+      "id": "logical-boundary-must-match-invocation",
+      "kind": "preflight",
+      "mutation": "authority-mismatch",
+      "expectedCode": "EXECUTION_BOUNDARY_AUTHORITY_MISMATCH"
+    },
+    {
+      "id": "point-census-cannot-claim-reservation",
+      "kind": "validation",
+      "mutation": "point-census-claims-exclusion",
+      "expectedCode": "EXECUTION_BOUNDARY_TEMPORAL_OVERCLAIM"
+    },
+    {
+      "id": "reservation-requires-shared-exclusion",
+      "kind": "validation",
+      "mutation": "reservation-without-mechanism",
+      "expectedCode": "EXECUTION_BOUNDARY_EXCLUSION_MISSING"
+    },
+    {
+      "id": "delegated-census-keeps-observer-unprivileged",
+      "kind": "validation",
+      "mutation": "elevate-whole-observer",
+      "expectedCode": "EXECUTION_BOUNDARY_OVERPRIVILEGED"
+    },
+    {
+      "id": "fact-label-cannot-justify-whole-operation-elevation",
+      "kind": "validation",
+      "mutation": "self-label-effect-interface",
+      "expectedCode": "VALUE_ENUM"
+    },
+    {
+      "id": "delegated-census-is-not-direct-equivalence",
+      "kind": "validation",
+      "mutation": "claim-exact-equivalence",
+      "expectedCode": "EXECUTION_BOUNDARY_EQUIVALENCE_FALSE"
+    },
+    {
+      "id": "incomplete-census-refuses",
+      "kind": "validation",
+      "mutation": "allow-incomplete",
+      "expectedCode": "VALUE_ENUM"
+    },
+    {
+      "id": "custody-is-not-observation-privilege",
+      "kind": "validation",
+      "mutation": "collapse-custody",
+      "expectedCode": "EXECUTION_BOUNDARY_CUSTODY_COLLAPSE"
+    },
+    {
+      "id": "platform-identity-is-not-logical-authority",
+      "kind": "validation",
+      "mutation": "collapse-authority",
+      "expectedCode": "EXECUTION_BOUNDARY_AUTHORITY_COLLAPSE"
+    },
+    {
+      "id": "convention-does-not-create-technical-need",
+      "kind": "validation",
+      "mutation": "convention-as-requirement",
+      "expectedCode": "EXECUTION_BOUNDARY_CONVENTION_AS_REQUIREMENT"
+    },
+    {
+      "id": "custody-only-whole-operation-elevation-refuses",
+      "kind": "validation",
+      "mutation": "custody-only-elevation",
+      "expectedCode": "EXECUTION_BOUNDARY_OVERPRIVILEGED"
+    },
+    {
+      "id": "arbitrary-exclusion-text-is-not-a-reference",
+      "kind": "validation",
+      "mutation": "arbitrary-exclusion-reference",
+      "expectedCode": "REFERENCE_DANGLING"
+    },
+    {
+      "id": "shared-exclusion-needs-all-producers",
+      "kind": "validation",
+      "mutation": "incomplete-producer-honoring",
+      "expectedCode": "EXECUTION_BOUNDARY_EXCLUSION_PARTICIPATION"
+    },
+    {
+      "id": "delegated-primitive-invoker-matches-baseline",
+      "kind": "validation",
+      "mutation": "primitive-principal-mismatch",
+      "expectedCode": "EXECUTION_BOUNDARY_PRIMITIVE_PRINCIPAL_MISMATCH"
+    },
+    {
+      "id": "delegated-primitive-invoker-is-required",
+      "kind": "validation",
+      "mutation": "primitive-principal-missing",
+      "expectedCode": "FIELD_MISSING"
+    },
+    {
+      "id": "delegated-primitive-capability-matches-fact",
+      "kind": "validation",
+      "mutation": "primitive-capability-mismatch",
+      "expectedCode": "EXECUTION_BOUNDARY_PRIMITIVE_CAPABILITY_MISMATCH"
+    },
+    {
+      "id": "delegated-primitive-capabilities-are-required",
+      "kind": "validation",
+      "mutation": "primitive-capability-missing",
+      "expectedCode": "FIELD_MISSING"
+    },
+    {
+      "id": "delegated-primitive-namespace-matches-fact",
+      "kind": "validation",
+    "mutation": "primitive-namespace-mismatch",
+    "expectedCode": "EXECUTION_BOUNDARY_COVERAGE_PROFILE"
+    },
+    {
+      "id": "delegated-primitive-namespace-is-required",
+      "kind": "validation",
+      "mutation": "primitive-namespace-missing",
+      "expectedCode": "FIELD_MISSING"
+    },
+    {
+      "id": "all-owner-uid-claim-refuses-invoking-owner-sample",
+      "kind": "validation",
+    "mutation": "primitive-coverage-narrowed",
+    "expectedCode": "EXECUTION_BOUNDARY_COVERAGE_PROFILE"
+    },
+    {
+      "id": "package-artifact-identity-refuses-floating-pin",
+      "kind": "validation",
+      "mutation": "primitive-identity-floating",
+      "expectedCode": "EXECUTION_BOUNDARY_PRIMITIVE_IDENTITY"
+    },
+    {
+      "id": "service-endpoint-identity-refuses-floating-pin",
+      "kind": "validation",
+      "mutation": "service-identity-floating",
+      "expectedCode": "EXECUTION_BOUNDARY_PRIMITIVE_IDENTITY"
+    }
+  ]
+}

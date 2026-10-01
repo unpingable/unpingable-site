@@ -1,0 +1,113 @@
+{
+  "apiVersion": "constellation.integration/v1",
+  "integration": {"id": "vector", "description": "Shared conformance base", "intendedConsumers": ["worker", "operator"]},
+  "interfaceClosure": {
+    "basisSourceRefs": [
+      "policy",
+      "procedure"
+    ],
+    "ownerRefs": [
+      "root",
+      "issuer",
+      "invoker"
+    ],
+    "authorityRefs": [
+      "local-work",
+      "local-effect",
+      "production-effect",
+      "privacy",
+      "cleanup",
+      "issuer-acceptance"
+    ],
+    "operationRefs": [
+      "prepare",
+      "effect",
+      "produce",
+      "reconcile",
+      "cleanup"
+    ],
+    "gateRefs": [
+      "Q2",
+      "custody"
+    ],
+    "credentialRefs": [
+      "worker-credential",
+      "operator-credential"
+    ],
+    "receiptRefs": [
+      "accepted-record",
+      "custody-record",
+      "effect-result"
+    ],
+    "resourceRuleRefs": [
+      "root-reserve"
+    ],
+    "privacyRuleRefs": [
+      "enrollment"
+    ],
+    "cleanupRuleRefs": [
+      "fixture-cleanup"
+    ]
+  },
+  "sources": [
+    {"id": "policy", "kind": "policy", "ref": "fixture://policy", "pin": "fixture-policy-v1", "status": "pinned", "unresolvedReason": null},
+    {"id": "procedure", "kind": "procedure", "ref": "fixture://procedure", "pin": "fixture-procedure-v1", "status": "pinned", "unresolvedReason": null}
+  ],
+  "owners": [
+    {"id": "root", "name": "Fixture root", "status": "resolved", "boundary": "local and effect decisions", "evidenceRefs": ["accepted-record"]},
+    {"id": "issuer", "name": "Fixture evidence issuer", "status": "resolved", "boundary": "legacy receipt disposition", "evidenceRefs": ["accepted-record"]},
+    {"id": "invoker", "name": "Fixture root/Operations invoking principal", "status": "resolved", "boundary": "logical fixture invocation identity; not an OS account model", "evidenceRefs": []}
+  ],
+  "authorities": [
+    {"id": "local-work", "ownerRef": "root", "kind": "local-work", "boundary": "bounded local work", "status": "established", "authorizedPrincipalRefs": ["invoker"], "evidenceRefs": []},
+    {"id": "local-effect", "ownerRef": "root", "kind": "effect", "boundary": "fixture local effect", "status": "established", "authorizedPrincipalRefs": ["invoker"], "evidenceRefs": ["accepted-record"]},
+    {"id": "production-effect", "ownerRef": "root", "kind": "production-effect", "boundary": "fixture production decision", "status": "established", "authorizedPrincipalRefs": ["invoker"], "evidenceRefs": ["accepted-record"]},
+    {"id": "privacy", "ownerRef": "root", "kind": "privacy", "boundary": "fixture enrollment", "status": "established", "authorizedPrincipalRefs": ["invoker"], "evidenceRefs": ["accepted-record"]},
+    {"id": "cleanup", "ownerRef": "root", "kind": "cleanup", "boundary": "fixture cleanup", "status": "established", "authorizedPrincipalRefs": ["invoker"], "evidenceRefs": ["custody-record"]},
+    {"id": "issuer-acceptance", "ownerRef": "issuer", "kind": "acceptance", "boundary": "existing fixture legacy-receipt acceptance boundary", "status": "established", "authorizedPrincipalRefs": [], "evidenceRefs": []}
+  ],
+  "operations": [
+    {"id": "prepare", "kind": "local-preparation", "executionClass": "source-only", "invocationBinding": null, "purpose": "prepare bounded fixture", "consumer": "worker", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": [], "executionBoundary": null},
+    {"id": "effect", "kind": "local-effect", "executionClass": "runtime", "invocationBinding": {"principalRef": "invoker", "authorityRef": "local-effect"}, "executionBoundary": {"status": "established", "unresolvedReason": null, "baselinePlatformIdentity": "fixture ordinary runtime identity", "operationPlatformIdentity": "fixture ordinary runtime identity", "operationCapabilities": [], "platformMediation": "direct ordinary runtime invocation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to apply fixture effect", "interfaces": ["worker supported runtime interface"], "requiredPlatformIdentity": "fixture ordinary runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["effect-result"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "invoker", "authorityRef": "local-effect", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "fixture ordinary runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "fixture custody contract", "pathnameReplacementBoundary": "fixture custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["effect-result"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "exact", "description": "The ordinary fixture identity provides every declared input.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}, "purpose": "apply fixture effect", "consumer": "worker", "credentialRequirements": [{"credentialRef": "worker-credential", "purpose": "fixture-compute", "consumer": "worker", "requiredAuthorityRef": "local-effect"}], "requiredReceiptRefs": ["accepted-record"], "producedReceiptRefs": ["effect-result"], "requiredAuthorityRefs": ["local-effect"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": []},
+    {"id": "produce", "kind": "production-effect", "executionClass": "runtime", "invocationBinding": {"principalRef": "invoker", "authorityRef": "production-effect"}, "executionBoundary": {"status": "established", "unresolvedReason": null, "baselinePlatformIdentity": "fixture ordinary runtime identity", "operationPlatformIdentity": "fixture ordinary runtime identity", "operationCapabilities": [], "platformMediation": "direct ordinary runtime invocation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to exercise production gate", "interfaces": ["operator supported runtime interface"], "requiredPlatformIdentity": "fixture ordinary runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["accepted-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "invoker", "authorityRef": "production-effect", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "fixture ordinary runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "fixture custody contract", "pathnameReplacementBoundary": "fixture custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["accepted-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "exact", "description": "The ordinary fixture identity provides every declared input.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}, "purpose": "exercise production gate", "consumer": "operator", "credentialRequirements": [{"credentialRef": "operator-credential", "purpose": "production-effect", "consumer": "operator", "requiredAuthorityRef": "production-effect"}], "requiredReceiptRefs": ["accepted-record"], "producedReceiptRefs": [], "requiredAuthorityRefs": ["production-effect"], "requiredResourceRuleRefs": ["root-reserve"], "requiredPrivacyRuleRefs": ["enrollment"]},
+    {"id": "reconcile", "kind": "read-only-reconciliation", "executionClass": "runtime", "invocationBinding": {"principalRef": "invoker", "authorityRef": "local-work"}, "executionBoundary": {"status": "established", "unresolvedReason": null, "baselinePlatformIdentity": "fixture ordinary runtime identity", "operationPlatformIdentity": "fixture ordinary runtime identity", "operationCapabilities": [], "platformMediation": "direct ordinary runtime invocation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to inspect same attempt", "interfaces": ["worker supported runtime interface"], "requiredPlatformIdentity": "fixture ordinary runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["accepted-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "invoker", "authorityRef": "local-work", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "fixture ordinary runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "fixture custody contract", "pathnameReplacementBoundary": "fixture custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["accepted-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "exact", "description": "The ordinary fixture identity provides every declared input.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}, "purpose": "inspect same attempt", "consumer": "worker", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["local-work"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": []},
+    {"id": "cleanup", "kind": "cleanup", "executionClass": "runtime", "invocationBinding": {"principalRef": "invoker", "authorityRef": "cleanup"}, "executionBoundary": {"status": "established", "unresolvedReason": null, "baselinePlatformIdentity": "fixture ordinary runtime identity", "operationPlatformIdentity": "fixture ordinary runtime identity", "operationCapabilities": [], "platformMediation": "direct ordinary runtime invocation", "technicalVisibilityFacts": [{"id": "runtime-input-visibility", "fact": "Runtime visibility required to remove regenerable fixture after custody", "interfaces": ["worker supported runtime interface"], "requiredPlatformIdentity": "fixture ordinary runtime identity", "requiredCapabilities": [], "temporalScope": "point-in-time", "establishesExclusion": false, "onIncomplete": "refuse", "downstreamReceiptRefs": ["accepted-record"], "downstreamClaim": "the named receipt or prerequisite claim depends only on complete declared runtime inputs and does not establish producer-slot exclusion", "visibilityPurpose": "observation-input", "delegatedPrimitiveRef": null, "sharedExclusionRef": null, "claimKind": "input-state", "coverage": {"kind": "declared-inputs", "population": "declared-input-set", "completeness": "complete-or-refuse", "namespaceScope": {"pidNamespace": "operation-pid-namespace", "userNamespace": "operation-user-namespace", "procfsVisibility": "not-applicable"}, "bindingReceiptRefs": []}}], "authoritySemantics": {"principalRef": "invoker", "authorityRef": "cleanup", "platformIdentityConveysAuthority": false}, "outputCustody": {"writerIdentity": "fixture ordinary runtime identity", "ownerIdentity": "receipt-declared custodian", "mode": "fixture custody contract", "pathnameReplacementBoundary": "fixture custody contract", "separatedFromObservationPrivilege": true, "receiptRefs": ["accepted-record"], "claim": "receipt ownership and pathname custody are assessed separately from observation visibility", "justifiesOperationPrivilege": false}, "campaignConvention": {"requirements": [], "establishesTechnicalRequirement": false}, "leastPrivilegeAlternative": {"unprivilegedEquivalence": "exact", "description": "The ordinary fixture identity provides every declared input.", "broaderPrivilegeRefused": true, "delegatedPrimitiveRefs": []}, "baselineCapabilities": [], "delegatedPrimitives": [], "sharedExclusions": [], "delegatedExecutors": []}, "purpose": "remove regenerable fixture after custody", "consumer": "worker", "credentialRequirements": [], "requiredReceiptRefs": [], "producedReceiptRefs": [], "requiredAuthorityRefs": ["cleanup"], "requiredResourceRuleRefs": [], "requiredPrivacyRuleRefs": []}
+  ],
+  "gates": [
+    {"id": "Q2", "kind": "required-evidence", "ownerRef": "issuer", "status": "satisfied", "recordedDisposition": "legacy fixture record is recorded externally accepted", "requiredReceiptRefs": ["accepted-record"], "blocks": ["effect", "produce"], "doesNotBlock": ["prepare", "reconcile", "cleanup"], "timeBoundary": null},
+    {"id": "custody", "kind": "required-evidence", "ownerRef": "issuer", "status": "satisfied", "recordedDisposition": "fixture custody record is recorded externally accepted", "requiredReceiptRefs": ["custody-record"], "blocks": ["cleanup"], "doesNotBlock": ["prepare", "effect", "produce", "reconcile"], "timeBoundary": null}
+  ],
+  "credentials": [
+    {"id": "worker-credential", "purpose": "fixture-compute", "readiness": "present", "scopeVerification": "verified", "authorizedConsumers": ["worker"], "authorizedPrincipalRefs": ["invoker"], "authorityGrantedRefs": ["local-effect"], "authorityNotGrantedRefs": ["production-effect"], "evidenceRefs": ["accepted-record"], "sourceRefs": ["policy"]},
+    {"id": "operator-credential", "purpose": "production-effect", "readiness": "present", "scopeVerification": "verified", "authorizedConsumers": ["operator"], "authorizedPrincipalRefs": ["invoker"], "authorityGrantedRefs": ["production-effect"], "authorityNotGrantedRefs": ["local-effect"], "evidenceRefs": ["accepted-record"], "sourceRefs": ["policy"]}
+  ],
+  "receipts": [
+    {"id": "accepted-record", "schemaType": "fixture.accepted/v1", "issuerOwnerRef": "issuer", "issuerAuthorityRef": "issuer-acceptance", "evidenceBasis": "deterministic fixture evidence", "evidenceBasisStatus": "recorded", "artifactIdentity": "sha256:fixture-accepted", "artifactIdentityStatus": "recorded", "custody": "fixture vector", "custodyStatus": "recorded", "retention": "retain with vector", "downstreamConsumers": ["effect", "produce"], "disposition": "externally-accepted", "semanticRoles": []},
+    {"id": "custody-record", "schemaType": "fixture.custody/v1", "issuerOwnerRef": "issuer", "issuerAuthorityRef": "issuer-acceptance", "evidenceBasis": "deterministic custody fixture", "evidenceBasisStatus": "recorded", "artifactIdentity": "sha256:fixture-custody", "artifactIdentityStatus": "recorded", "custody": "fixture vector", "custodyStatus": "recorded", "retention": "retain with vector", "downstreamConsumers": ["cleanup"], "disposition": "externally-accepted", "semanticRoles": []},
+    {"id": "effect-result", "schemaType": "fixture.effect-result/v1", "issuerOwnerRef": "issuer", "issuerAuthorityRef": "issuer-acceptance", "evidenceBasis": "effect result is owed only after the operation runs", "evidenceBasisStatus": "recorded", "artifactIdentity": "not-yet-produced", "artifactIdentityStatus": "missing", "custody": "not-yet-produced", "custodyStatus": "missing", "retention": "retain after production", "downstreamConsumers": [], "disposition": "missing", "semanticRoles": []}
+  ],
+  "resourceRules": [
+    {"id": "root-reserve", "resource": "/", "purpose": "preserve fixture headroom", "scope": "root filesystem only", "minimum": 100, "expectedAllocation": 10, "unit": "bytes", "applicableOperations": ["produce"], "assessment": {"status": "meets", "observedAvailable": 110, "measuredAt": "2030-01-01T00:00:00Z", "provenance": "fixture measurement"}}
+  ],
+  "repairAuthority": {"sourceRef": "policy", "allowedCategories": ["composition", "implementation", "test"], "protectedBoundaries": ["semantics", "authority", "privacy", "production-state", "acceptance-criteria"]},
+  "outcomes": [
+    {"id": "success", "kind": "success", "definition": "required accepted evidence is retained", "requiredEvidenceRefs": ["accepted-record"]},
+    {"id": "refusal", "kind": "refusal", "definition": "a declared prerequisite refuses before effect", "requiredEvidenceRefs": []},
+    {"id": "indeterminate", "kind": "indeterminate", "definition": "effect completion cannot be established after response loss", "requiredEvidenceRefs": []}
+  ],
+  "reconciliation": {"retainedIdentities": ["integration", "operation", "attempt", "issuance"], "redispatchForbidden": true, "responseLossProcedureRef": "procedure"},
+  "rawEvidence": {"immutable": true, "interpretationRules": [{"sourceRef": "policy", "scope": "fixture series", "rule": "exact bytes and source-defined duplicate rule; no timestamp-only dedupe"}]},
+  "cleanupRules": [
+    {"id": "fixture-cleanup", "objectClass": "regenerable test output", "regenerable": true, "custodyPrerequisiteReceiptRefs": ["custody-record"], "operationRefs": ["cleanup"]}
+  ],
+  "rollback": {"reversible": ["fixture configuration"], "compensable": ["fixture effect"], "procedureRef": "procedure", "retainedStateLimits": "accepted evidence remains retained"},
+  "privacyEgress": [
+    {"id": "enrollment", "dataClass": "fixture public record", "recipients": ["fixture.example"], "purpose": "production fixture", "enrollmentScope": "one fixture identity", "requiredAuthorityRefs": ["privacy"], "retention": "fixture duration", "unknowns": [], "applicableOperations": ["produce"], "status": "satisfied"}
+  ],
+  "ownerDecisions": [],
+  "autonomousRepairs": [
+    {"id": "composition-wiring", "category": "composition", "description": "repair references without changing protected boundaries"}
+  ],
+  "imports": [],
+  "assessment": {"timestamp": "2030-01-01T00:00:00Z", "source": "shared conformance fixture", "sourcePin": "sha256:fixture-index", "verification": "caller-verified-index", "limits": ["fixture verification does not authenticate issuer authority", "preflight grants no effect authority"]}
+}

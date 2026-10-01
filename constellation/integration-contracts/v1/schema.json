@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unpingable.github.io/constellation/integration-contracts/v1/schema.json",
+  "title": "Constellation Integration Contract V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["apiVersion", "integration", "sources", "owners", "authorities", "operations", "gates", "credentials", "receipts", "resourceRules", "repairAuthority", "outcomes", "reconciliation", "rawEvidence", "cleanupRules", "rollback", "privacyEgress", "ownerDecisions", "autonomousRepairs", "imports", "assessment"],
+  "properties": {
+    "apiVersion": {"const": "constellation.integration/v1"},
+    "integration": {"$ref": "#/$defs/integration"},
+    "interfaceClosure": {"$ref": "#/$defs/interfaceClosure"},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "owners": {"type": "array", "items": {"$ref": "#/$defs/owner"}},
+    "authorities": {"type": "array", "items": {"$ref": "#/$defs/authority"}},
+    "operations": {"type": "array", "items": {"$ref": "#/$defs/operation"}},
+    "gates": {"type": "array", "items": {"$ref": "#/$defs/gate"}},
+    "credentials": {"type": "array", "items": {"$ref": "#/$defs/credential"}},
+    "receipts": {"type": "array", "items": {"$ref": "#/$defs/receipt"}},
+    "resourceRules": {"type": "array", "items": {"$ref": "#/$defs/resourceRule"}},
+    "repairAuthority": {"$ref": "#/$defs/repairAuthority"},
+    "outcomes": {"type": "array", "items": {"$ref": "#/$defs/outcome"}},
+    "reconciliation": {"$ref": "#/$defs/reconciliation"},
+    "rawEvidence": {"$ref": "#/$defs/rawEvidence"},
+    "cleanupRules": {"type": "array", "items": {"$ref": "#/$defs/cleanupRule"}},
+    "rollback": {"$ref": "#/$defs/rollback"},
+    "privacyEgress": {"type": "array", "items": {"$ref": "#/$defs/privacy"}},
+    "ownerDecisions": {"type": "array", "items": {"$ref": "#/$defs/ownerDecision"}},
+    "autonomousRepairs": {"type": "array", "items": {"$ref": "#/$defs/autonomousRepair"}},
+    "imports": {"type": "array", "maxItems": 0, "items": {"$ref": "#/$defs/import"}},
+    "assessment": {"$ref": "#/$defs/assessment"}
+  },
+  "$defs": {
+    "id": {"type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._:-]*$"},
+    "string": {"type": "string", "minLength": 1},
+    "strings": {"type": "array", "items": {"$ref": "#/$defs/string"}, "uniqueItems": true},
+    "ids": {"type": "array", "items": {"$ref": "#/$defs/id"}, "uniqueItems": true},
+    "integration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "description", "intendedConsumers"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "description": {"$ref": "#/$defs/string"}, "intendedConsumers": {"$ref": "#/$defs/strings", "minItems": 1}}
+    },
+    "interfaceClosure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["basisSourceRefs", "ownerRefs", "authorityRefs", "operationRefs", "gateRefs", "credentialRefs", "receiptRefs", "resourceRuleRefs", "privacyRuleRefs", "cleanupRuleRefs"],
+      "properties": {
+        "basisSourceRefs": {"$ref": "#/$defs/ids", "minItems": 1},
+        "ownerRefs": {"$ref": "#/$defs/ids"},
+        "authorityRefs": {"$ref": "#/$defs/ids"},
+        "operationRefs": {"$ref": "#/$defs/ids", "minItems": 1},
+        "gateRefs": {"$ref": "#/$defs/ids"},
+        "credentialRefs": {"$ref": "#/$defs/ids"},
+        "receiptRefs": {"$ref": "#/$defs/ids"},
+        "resourceRuleRefs": {"$ref": "#/$defs/ids"},
+        "privacyRuleRefs": {"$ref": "#/$defs/ids"},
+        "cleanupRuleRefs": {"$ref": "#/$defs/ids"}
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "ref", "pin", "status", "unresolvedReason"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"$ref": "#/$defs/string"}, "ref": {"$ref": "#/$defs/string"}, "pin": {"type": ["string", "null"], "minLength": 1}, "status": {"enum": ["pinned", "unverified"]}, "unresolvedReason": {"type": ["string", "null"], "minLength": 1}}
+    },
+    "owner": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "status", "boundary", "evidenceRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "name": {"$ref": "#/$defs/string"}, "status": {"enum": ["resolved", "unresolved"]}, "boundary": {"$ref": "#/$defs/string"}, "evidenceRefs": {"$ref": "#/$defs/ids"}}
+    },
+    "authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "ownerRef", "kind", "boundary", "status", "authorizedPrincipalRefs", "evidenceRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "ownerRef": {"$ref": "#/$defs/id"}, "kind": {"enum": ["local-work", "storage", "compute", "effect", "external-effect", "production-effect", "privacy", "acceptance", "cleanup"]}, "boundary": {"$ref": "#/$defs/string"}, "status": {"enum": ["established", "unresolved"]}, "authorizedPrincipalRefs": {"$ref": "#/$defs/ids"}, "evidenceRefs": {"$ref": "#/$defs/ids"}}
+    },
+    "credentialRequirement": {
+      "type": "object", "additionalProperties": false,
+      "required": ["credentialRef", "purpose", "consumer", "requiredAuthorityRef"],
+      "properties": {"credentialRef": {"$ref": "#/$defs/id"}, "purpose": {"$ref": "#/$defs/string"}, "consumer": {"$ref": "#/$defs/string"}, "requiredAuthorityRef": {"$ref": "#/$defs/id"}}
+    },
+    "operation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "executionClass", "invocationBinding", "purpose", "consumer", "credentialRequirements", "requiredReceiptRefs", "producedReceiptRefs", "requiredAuthorityRefs", "requiredResourceRuleRefs", "requiredPrivacyRuleRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["local-preparation", "local-effect", "external-effect", "production-effect", "read-only-reconciliation", "cleanup"]}, "executionClass": {"enum": ["source-only", "runtime"]}, "invocationBinding": {"$ref": "#/$defs/invocationBinding"}, "executionBoundary": {"oneOf": [{"$ref": "#/$defs/executionBoundary"}, {"type": "null"}]}, "purpose": {"$ref": "#/$defs/string"}, "consumer": {"$ref": "#/$defs/string"}, "credentialRequirements": {"type": "array", "items": {"$ref": "#/$defs/credentialRequirement"}}, "requiredReceiptRefs": {"$ref": "#/$defs/ids"}, "producedReceiptRefs": {"$ref": "#/$defs/ids"}, "requiredAuthorityRefs": {"$ref": "#/$defs/ids"}, "requiredResourceRuleRefs": {"$ref": "#/$defs/ids"}, "requiredPrivacyRuleRefs": {"$ref": "#/$defs/ids"}}
+    },
+    "invocationBinding": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["principalRef", "authorityRef"],
+      "properties": {"principalRef": {"$ref": "#/$defs/id"}, "authorityRef": {"$ref": "#/$defs/id"}}
+    },
+    "technicalVisibilityFact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "fact", "interfaces", "requiredPlatformIdentity", "requiredCapabilities", "visibilityPurpose", "claimKind", "coverage", "delegatedPrimitiveRef", "temporalScope", "sharedExclusionRef", "establishesExclusion", "onIncomplete", "downstreamReceiptRefs", "downstreamClaim"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "fact": {"$ref": "#/$defs/string"},
+        "interfaces": {"$ref": "#/$defs/strings", "minItems": 1},
+        "requiredPlatformIdentity": {"$ref": "#/$defs/string"},
+        "requiredCapabilities": {"$ref": "#/$defs/strings"},
+        "visibilityPurpose": {"const": "observation-input"},
+        "claimKind": {"enum": ["producer-absence", "input-state", "endpoint-state"]},
+        "coverage": {"$ref": "#/$defs/observationCoverage"},
+        "delegatedPrimitiveRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "temporalScope": {"enum": ["point-in-time", "continuous-observation", "reserved-through-dispatch"]},
+        "sharedExclusionRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+        "establishesExclusion": {"type": "boolean"},
+        "onIncomplete": {"enum": ["refuse"]},
+        "downstreamReceiptRefs": {"$ref": "#/$defs/ids", "minItems": 1},
+        "downstreamClaim": {"$ref": "#/$defs/string"}
+      }
+    },
+    "namespaceScope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pidNamespace", "userNamespace", "procfsVisibility"],
+      "properties": {"pidNamespace": {"enum": ["bound-host-pid-namespace", "operation-pid-namespace", "not-applicable"]}, "userNamespace": {"enum": ["bound-initial-user-namespace", "operation-user-namespace", "not-applicable"]}, "procfsVisibility": {"enum": ["all-pids-hidepid-zero-or-refuse", "invoking-owner-pids-or-refuse", "not-applicable"]}}
+    },
+    "observationCoverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "population", "completeness", "namespaceScope", "bindingReceiptRefs"],
+      "properties": {
+        "kind": {"enum": ["all-owner-uid-processes", "invoking-owner-processes", "declared-inputs", "endpoint-response"]},
+        "population": {"enum": ["all-owner-uids", "invoking-owner-uid", "declared-input-set", "declared-endpoint"]}, "completeness": {"const": "complete-or-refuse"},
+        "namespaceScope": {"$ref": "#/$defs/namespaceScope"}, "bindingReceiptRefs": {"$ref": "#/$defs/ids"}
+      },
+      "allOf": [
+        {"if": {"properties": {"kind": {"const": "all-owner-uid-processes"}}}, "then": {"properties": {"population": {"const": "all-owner-uids"}, "namespaceScope": {"properties": {"pidNamespace": {"const": "bound-host-pid-namespace"}, "userNamespace": {"const": "bound-initial-user-namespace"}, "procfsVisibility": {"const": "all-pids-hidepid-zero-or-refuse"}}}, "bindingReceiptRefs": {"minItems": 1}}}},
+        {"if": {"properties": {"kind": {"const": "invoking-owner-processes"}}}, "then": {"properties": {"population": {"const": "invoking-owner-uid"}, "namespaceScope": {"properties": {"pidNamespace": {"const": "operation-pid-namespace"}, "userNamespace": {"const": "operation-user-namespace"}, "procfsVisibility": {"const": "invoking-owner-pids-or-refuse"}}}, "bindingReceiptRefs": {"maxItems": 0}}}},
+        {"if": {"properties": {"kind": {"const": "declared-inputs"}}}, "then": {"properties": {"population": {"const": "declared-input-set"}, "namespaceScope": {"properties": {"pidNamespace": {"const": "operation-pid-namespace"}, "userNamespace": {"const": "operation-user-namespace"}, "procfsVisibility": {"const": "not-applicable"}}}, "bindingReceiptRefs": {"maxItems": 0}}}},
+        {"if": {"properties": {"kind": {"const": "endpoint-response"}}}, "then": {"properties": {"population": {"const": "declared-endpoint"}, "namespaceScope": {"properties": {"pidNamespace": {"const": "not-applicable"}, "userNamespace": {"const": "not-applicable"}, "procfsVisibility": {"const": "not-applicable"}}}, "bindingReceiptRefs": {"maxItems": 0}}}}
+      ]
+    },
+    "primitiveIdentity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "reference", "identityPin", "sourceRef"],
+      "properties": {"kind": {"enum": ["digest", "package-artifact", "service-endpoint"]}, "reference": {"$ref": "#/$defs/string"}, "identityPin": {"$ref": "#/$defs/string"}, "sourceRef": {"$ref": "#/$defs/id"}},
+      "allOf": [{"if": {"properties": {"kind": {"const": "service-endpoint"}}}, "then": {"properties": {"identityPin": {"pattern": "^(?:spki-sha256:[0-9a-f]{64}|service-id:[a-zA-Z0-9][a-zA-Z0-9._:/@+-]*)$"}}}, "else": {"properties": {"identityPin": {"pattern": "^sha256:[0-9a-f]{64}$"}}}}]
+    },
+    "exclusionIdentity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "reference", "identityPin", "sourceRef"],
+      "properties": {"kind": {"enum": ["filesystem-lock", "lease-record", "scheduler-slot"]}, "reference": {"$ref": "#/$defs/string"}, "identityPin": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "sourceRef": {"$ref": "#/$defs/id"}}
+    },
+    "delegatedPrimitive": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "identity", "command", "invokingPlatformPrincipal", "executionPlatformIdentity", "requiredCapabilities", "interfaces", "coverage", "onIncomplete", "receiptRefs"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "identity": {"$ref": "#/$defs/primitiveIdentity"},
+        "command": {"oneOf": [{"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/string"}}, {"type": "null"}]},
+        "invokingPlatformPrincipal": {"$ref": "#/$defs/string"}, "executionPlatformIdentity": {"$ref": "#/$defs/string"},
+        "requiredCapabilities": {"$ref": "#/$defs/strings"}, "interfaces": {"$ref": "#/$defs/strings", "minItems": 1},
+        "coverage": {"$ref": "#/$defs/observationCoverage"}, "onIncomplete": {"const": "refuse"},
+        "receiptRefs": {"$ref": "#/$defs/ids", "minItems": 1}
+      }
+    },
+    "delegatedExecutor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "identity", "command", "invokingPlatformPrincipal", "executionPlatformIdentity", "requiredCapabilities", "authorityRef", "operationRef", "onFailure", "receiptRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "identity": {"$ref": "#/$defs/primitiveIdentity"}, "command": {"oneOf": [{"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/string"}}, {"type": "null"}]}, "invokingPlatformPrincipal": {"$ref": "#/$defs/string"}, "executionPlatformIdentity": {"$ref": "#/$defs/string"}, "requiredCapabilities": {"$ref": "#/$defs/strings"}, "authorityRef": {"$ref": "#/$defs/id"}, "operationRef": {"$ref": "#/$defs/id"}, "onFailure": {"enum": ["refuse", "indeterminate"]}, "receiptRefs": {"$ref": "#/$defs/ids", "minItems": 1}}
+    },
+    "sharedExclusion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "mechanismIdentity", "attemptBinding", "ownerRef", "relevantOperationRefs", "honoringOperationRefs", "acquisition", "hold", "handoff", "release"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "mechanismIdentity": {"$ref": "#/$defs/exclusionIdentity"}, "attemptBinding": {"$ref": "#/$defs/attemptBinding"}, "ownerRef": {"$ref": "#/$defs/id"},
+        "relevantOperationRefs": {"$ref": "#/$defs/ids", "minItems": 1}, "honoringOperationRefs": {"$ref": "#/$defs/ids", "minItems": 1},
+        "acquisition": {"allOf": [{"$ref": "#/$defs/exclusionPhase"}, {"required": ["issuerOwnerRef", "issuerAuthorityRef", "authorityEvidenceReceiptRef"], "properties": {"predicate": {"const": "before-observation"}, "direction": {"const": "current-input"}, "availability": {"const": "current-accepted"}, "predecessorReceiptRef": {"type": "null"}}}]},
+        "hold": {"allOf": [{"$ref": "#/$defs/exclusionPhase"}, {"required": ["issuerOwnerRef", "issuerAuthorityRef", "authorityEvidenceReceiptRef"], "properties": {"predicate": {"enum": ["through-dispatch-handoff", "through-attempt-terminal"]}, "direction": {"const": "current-input"}, "availability": {"const": "current-accepted"}, "predecessorReceiptRef": {"$ref": "#/$defs/id"}}}]},
+        "handoff": {"allOf": [{"$ref": "#/$defs/exclusionPhase"}, {"type": "object", "required": ["targetOperationRef"], "properties": {"predicate": {"const": "to-declared-operation"}, "targetOperationRef": {"$ref": "#/$defs/id"}, "direction": {"const": "future-output"}, "availability": {"const": "owed"}, "predecessorReceiptRef": {"$ref": "#/$defs/id"}}}]},
+        "release": {"allOf": [{"$ref": "#/$defs/exclusionPhase"}, {"properties": {"predicate": {"enum": ["after-dispatch-handoff", "after-attempt-terminal", "on-refusal-before-dispatch"]}, "direction": {"const": "future-output"}, "availability": {"const": "owed"}, "predecessorReceiptRef": {"$ref": "#/$defs/id"}}}]}
+      }
+    },
+    "attemptBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "operationRef", "supervisorOwnerRef", "identitySourceRef", "identityPin", "receiptRef", "issuerOwnerRef", "issuerAuthorityRef", "authorityEvidenceReceiptRef"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "operationRef": {"$ref": "#/$defs/id"}, "supervisorOwnerRef": {"$ref": "#/$defs/id"}, "identitySourceRef": {"$ref": "#/$defs/id"}, "identityPin": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "receiptRef": {"$ref": "#/$defs/id"}, "issuerOwnerRef": {"$ref": "#/$defs/id"}, "issuerAuthorityRef": {"$ref": "#/$defs/id"}, "authorityEvidenceReceiptRef": {"$ref": "#/$defs/id"}}
+    },
+    "exclusionPhase": {
+      "type": "object", "additionalProperties": false,
+      "required": ["predicate", "receiptRef", "direction", "availability", "predecessorReceiptRef"],
+      "properties": {"predicate": {"$ref": "#/$defs/string"}, "receiptRef": {"$ref": "#/$defs/id"}, "direction": {"enum": ["current-input", "future-output"]}, "availability": {"enum": ["current-accepted", "owed"]}, "predecessorReceiptRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}, "targetOperationRef": {"$ref": "#/$defs/id"}, "issuerOwnerRef": {"$ref": "#/$defs/id"}, "issuerAuthorityRef": {"$ref": "#/$defs/id"}, "authorityEvidenceReceiptRef": {"$ref": "#/$defs/id"}}
+    },
+    "executionBoundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "unresolvedReason", "baselinePlatformIdentity", "baselineCapabilities", "operationPlatformIdentity", "operationCapabilities", "platformMediation", "delegatedPrimitives", "delegatedExecutors", "sharedExclusions", "technicalVisibilityFacts", "authoritySemantics", "outputCustody", "campaignConvention", "leastPrivilegeAlternative"],
+      "properties": {
+        "status": {"enum": ["established", "unresolved"]},
+        "unresolvedReason": {"type": ["string", "null"], "minLength": 1},
+        "baselinePlatformIdentity": {"$ref": "#/$defs/string"},
+        "baselineCapabilities": {"$ref": "#/$defs/strings"},
+        "operationPlatformIdentity": {"$ref": "#/$defs/string"},
+        "operationCapabilities": {"$ref": "#/$defs/strings"},
+        "platformMediation": {"$ref": "#/$defs/string"},
+        "delegatedPrimitives": {"type": "array", "items": {"$ref": "#/$defs/delegatedPrimitive"}},
+        "delegatedExecutors": {"type": "array", "items": {"$ref": "#/$defs/delegatedExecutor"}},
+        "sharedExclusions": {"type": "array", "items": {"$ref": "#/$defs/sharedExclusion"}},
+        "technicalVisibilityFacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/technicalVisibilityFact"}},
+        "authoritySemantics": {
+          "type": "object", "additionalProperties": false,
+          "required": ["principalRef", "authorityRef", "platformIdentityConveysAuthority"],
+          "properties": {"principalRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}, "authorityRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}, "platformIdentityConveysAuthority": {"const": false}}
+        },
+        "outputCustody": {
+          "type": "object", "additionalProperties": false,
+          "required": ["writerIdentity", "ownerIdentity", "mode", "pathnameReplacementBoundary", "separatedFromObservationPrivilege", "justifiesOperationPrivilege", "receiptRefs", "claim"],
+          "properties": {"writerIdentity": {"$ref": "#/$defs/string"}, "ownerIdentity": {"$ref": "#/$defs/string"}, "mode": {"$ref": "#/$defs/string"}, "pathnameReplacementBoundary": {"$ref": "#/$defs/string"}, "separatedFromObservationPrivilege": {"const": true}, "justifiesOperationPrivilege": {"const": false}, "receiptRefs": {"$ref": "#/$defs/ids", "minItems": 1}, "claim": {"$ref": "#/$defs/string"}}
+        },
+        "campaignConvention": {
+          "type": "object", "additionalProperties": false,
+          "required": ["requirements", "establishesTechnicalRequirement"],
+          "properties": {"requirements": {"$ref": "#/$defs/strings"}, "establishesTechnicalRequirement": {"const": false}}
+        },
+        "leastPrivilegeAlternative": {
+          "type": "object", "additionalProperties": false,
+          "required": ["unprivilegedEquivalence", "description", "delegatedPrimitiveRefs", "broaderPrivilegeRefused"],
+          "properties": {"unprivilegedEquivalence": {"enum": ["exact", "delegated-primitive", "none"]}, "description": {"$ref": "#/$defs/string"}, "delegatedPrimitiveRefs": {"$ref": "#/$defs/ids"}, "broaderPrivilegeRefused": {"const": true}}
+        }
+      }
+    },
+    "timeBoundary": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["notBefore", "clockContractRef", "assessment"],
+      "properties": {"notBefore": {"$ref": "#/$defs/string"}, "clockContractRef": {"$ref": "#/$defs/string"}, "assessment": {"enum": ["reached", "not-reached", "unresolved"]}}
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "ownerRef", "status", "recordedDisposition", "requiredReceiptRefs", "blocks", "doesNotBlock", "timeBoundary"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["owner", "prerequisite-source", "required-evidence", "time-boundary"]}, "ownerRef": {"$ref": "#/$defs/id"}, "status": {"enum": ["satisfied", "unsatisfied", "unresolved"]}, "recordedDisposition": {"$ref": "#/$defs/string"}, "requiredReceiptRefs": {"$ref": "#/$defs/ids"}, "blocks": {"$ref": "#/$defs/ids", "minItems": 1}, "doesNotBlock": {"$ref": "#/$defs/ids"}, "timeBoundary": {"$ref": "#/$defs/timeBoundary"}}
+    },
+    "credential": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "purpose", "readiness", "scopeVerification", "authorizedConsumers", "authorizedPrincipalRefs", "authorityGrantedRefs", "authorityNotGrantedRefs", "evidenceRefs", "sourceRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "purpose": {"$ref": "#/$defs/string"}, "readiness": {"enum": ["present", "absent", "unverified"]}, "scopeVerification": {"enum": ["verified", "unverified", "failed"]}, "authorizedConsumers": {"$ref": "#/$defs/strings", "minItems": 1}, "authorizedPrincipalRefs": {"$ref": "#/$defs/ids"}, "authorityGrantedRefs": {"$ref": "#/$defs/ids"}, "authorityNotGrantedRefs": {"$ref": "#/$defs/ids"}, "evidenceRefs": {"$ref": "#/$defs/ids"}, "sourceRefs": {"$ref": "#/$defs/ids"}}
+    },
+    "receipt": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "schemaType", "issuerOwnerRef", "issuerAuthorityRef", "evidenceBasis", "evidenceBasisStatus", "artifactIdentity", "artifactIdentityStatus", "custody", "custodyStatus", "retention", "downstreamConsumers", "disposition"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "schemaType": {"$ref": "#/$defs/string"}, "issuerOwnerRef": {"$ref": "#/$defs/id"}, "issuerAuthorityRef": {"$ref": "#/$defs/id"}, "evidenceBasis": {"$ref": "#/$defs/string"}, "evidenceBasisStatus": {"enum": ["recorded", "missing", "template", "unverified"]}, "artifactIdentity": {"$ref": "#/$defs/string"}, "artifactIdentityStatus": {"enum": ["recorded", "missing", "template", "unverified"]}, "custody": {"$ref": "#/$defs/string"}, "custodyStatus": {"enum": ["recorded", "missing", "template", "unverified"]}, "retention": {"$ref": "#/$defs/string"}, "downstreamConsumers": {"$ref": "#/$defs/ids"}, "disposition": {"enum": ["missing", "template", "retained-unverified", "externally-accepted", "failed"]}, "semanticRoles": {"type": "array", "maxItems": 1, "items": {"$ref": "#/$defs/receiptSemanticRole"}}}
+    },
+    "receiptSemanticRole": {
+      "oneOf": [
+        {"type": "object", "additionalProperties": false, "required": ["kind", "bindingRef", "operationRef", "supervisorOwnerRef", "identitySourceRef", "identityPin"], "properties": {"kind": {"const": "operation-attempt-binding"}, "bindingRef": {"$ref": "#/$defs/id"}, "operationRef": {"$ref": "#/$defs/id"}, "supervisorOwnerRef": {"$ref": "#/$defs/id"}, "identitySourceRef": {"$ref": "#/$defs/id"}, "identityPin": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}}},
+        {"type": "object", "additionalProperties": false, "required": ["kind", "operationRef", "factRef", "primitiveRef", "primitiveIdentityPin", "coverageKind", "population", "completeness", "namespaceScope"], "properties": {"kind": {"const": "observation-coverage-domain"}, "operationRef": {"$ref": "#/$defs/id"}, "factRef": {"$ref": "#/$defs/id"}, "primitiveRef": {"$ref": "#/$defs/id"}, "primitiveIdentityPin": {"type": "string", "pattern": "^(?:(?:sha256|spki-sha256):[0-9a-f]{64}|service-id:[a-zA-Z0-9][a-zA-Z0-9._:/@+-]*)$"}, "coverageKind": {"enum": ["all-owner-uid-processes", "invoking-owner-processes", "declared-inputs", "endpoint-response"]}, "population": {"enum": ["all-owner-uids", "invoking-owner-uid", "declared-input-set", "declared-endpoint"]}, "completeness": {"const": "complete-or-refuse"}, "namespaceScope": {"$ref": "#/$defs/namespaceScope"}}},
+        {"type": "object", "additionalProperties": false, "required": ["kind", "mechanismRef", "mechanismIdentityPin", "attemptBindingRef", "attemptIdentityPin", "ownerRef", "producerOperationRefs", "phaseOrdinal", "predecessorReceiptRef", "direction", "availability", "producerKind", "producerRef", "predicate"], "properties": {"kind": {"enum": ["shared-exclusion-acquire", "shared-exclusion-hold", "shared-exclusion-handoff", "shared-exclusion-release"]}, "mechanismRef": {"$ref": "#/$defs/id"}, "mechanismIdentityPin": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "attemptBindingRef": {"$ref": "#/$defs/id"}, "attemptIdentityPin": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}, "ownerRef": {"$ref": "#/$defs/id"}, "producerOperationRefs": {"$ref": "#/$defs/ids", "minItems": 1}, "phaseOrdinal": {"type": "integer", "minimum": 0, "maximum": 3}, "predecessorReceiptRef": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]}, "direction": {"enum": ["current-input", "future-output"]}, "availability": {"enum": ["current-accepted", "owed"]}, "producerKind": {"enum": ["owner", "operation"]}, "producerRef": {"$ref": "#/$defs/id"}, "predicate": {"enum": ["before-observation", "before-dispatch", "through-dispatch-handoff", "through-attempt-terminal", "to-declared-operation", "after-dispatch-handoff", "after-attempt-terminal", "on-refusal-before-dispatch"]}}}
+      ]
+    },
+    "resourceAssessment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "observedAvailable", "measuredAt", "provenance"],
+      "properties": {"status": {"enum": ["meets", "does-not-meet", "unknown"]}, "observedAvailable": {"type": ["number", "null"], "minimum": 0}, "measuredAt": {"type": ["string", "null"], "minLength": 1}, "provenance": {"type": ["string", "null"], "minLength": 1}}
+    },
+    "resourceRule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "resource", "purpose", "scope", "minimum", "expectedAllocation", "unit", "applicableOperations", "assessment"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "resource": {"$ref": "#/$defs/string"}, "purpose": {"$ref": "#/$defs/string"}, "scope": {"$ref": "#/$defs/string"}, "minimum": {"type": "number", "minimum": 0}, "expectedAllocation": {"type": "number", "minimum": 0}, "unit": {"$ref": "#/$defs/string"}, "applicableOperations": {"$ref": "#/$defs/ids", "minItems": 1}, "assessment": {"$ref": "#/$defs/resourceAssessment"}}
+    },
+    "repairAuthority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceRef", "allowedCategories", "protectedBoundaries"],
+      "properties": {"sourceRef": {"$ref": "#/$defs/id"}, "allowedCategories": {"type": "array", "uniqueItems": true, "minItems": 1, "items": {"enum": ["composition", "implementation", "test", "documentation"]}}, "protectedBoundaries": {"type": "array", "uniqueItems": true, "minItems": 5, "maxItems": 5, "items": {"enum": ["semantics", "authority", "privacy", "production-state", "acceptance-criteria"]}}}
+    },
+    "outcome": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "kind", "definition", "requiredEvidenceRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "kind": {"enum": ["success", "refusal", "indeterminate"]}, "definition": {"$ref": "#/$defs/string"}, "requiredEvidenceRefs": {"$ref": "#/$defs/ids"}}
+    },
+    "reconciliation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["retainedIdentities", "redispatchForbidden", "responseLossProcedureRef"],
+      "properties": {"retainedIdentities": {"$ref": "#/$defs/strings", "minItems": 1}, "redispatchForbidden": {"type": "boolean"}, "responseLossProcedureRef": {"$ref": "#/$defs/id"}}
+    },
+    "interpretationRule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sourceRef", "scope", "rule"],
+      "properties": {"sourceRef": {"$ref": "#/$defs/id"}, "scope": {"$ref": "#/$defs/string"}, "rule": {"$ref": "#/$defs/string"}}
+    },
+    "rawEvidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["immutable", "interpretationRules"],
+      "properties": {"immutable": {"type": "boolean"}, "interpretationRules": {"type": "array", "items": {"$ref": "#/$defs/interpretationRule"}}}
+    },
+    "cleanupRule": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "objectClass", "regenerable", "custodyPrerequisiteReceiptRefs", "operationRefs"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "objectClass": {"$ref": "#/$defs/string"}, "regenerable": {"type": "boolean"}, "custodyPrerequisiteReceiptRefs": {"$ref": "#/$defs/ids", "minItems": 1}, "operationRefs": {"$ref": "#/$defs/ids", "minItems": 1}}
+    },
+    "rollback": {
+      "type": "object", "additionalProperties": false,
+      "required": ["reversible", "compensable", "procedureRef", "retainedStateLimits"],
+      "properties": {"reversible": {"$ref": "#/$defs/strings"}, "compensable": {"$ref": "#/$defs/strings"}, "procedureRef": {"$ref": "#/$defs/id"}, "retainedStateLimits": {"$ref": "#/$defs/string"}}
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "dataClass", "recipients", "purpose", "enrollmentScope", "requiredAuthorityRefs", "retention", "unknowns", "applicableOperations", "status"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "dataClass": {"$ref": "#/$defs/string"}, "recipients": {"$ref": "#/$defs/strings", "minItems": 1}, "purpose": {"$ref": "#/$defs/string"}, "enrollmentScope": {"$ref": "#/$defs/string"}, "requiredAuthorityRefs": {"$ref": "#/$defs/ids", "minItems": 1}, "retention": {"$ref": "#/$defs/string"}, "unknowns": {"$ref": "#/$defs/strings"}, "applicableOperations": {"$ref": "#/$defs/ids", "minItems": 1}, "status": {"enum": ["satisfied", "unresolved", "denied"]}}
+    },
+    "ownerDecision": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "ownerRef", "kind", "missingField", "rationale", "evidenceSearch", "affectedOperations", "choices"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "ownerRef": {"$ref": "#/$defs/id"}, "kind": {"enum": ["choice", "owner-supplied-fact"]}, "missingField": {"$ref": "#/$defs/string"}, "rationale": {"$ref": "#/$defs/string"}, "evidenceSearch": {"$ref": "#/$defs/string"}, "affectedOperations": {"$ref": "#/$defs/ids", "minItems": 1}, "choices": {"$ref": "#/$defs/strings"}}
+    },
+    "autonomousRepair": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "category", "description"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "category": {"enum": ["composition", "implementation", "test", "documentation"]}, "description": {"$ref": "#/$defs/string"}}
+    },
+    "import": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "integrationId", "objectType", "objectId", "sourceContractRef", "sourceContractPin"],
+      "properties": {"id": {"$ref": "#/$defs/id"}, "integrationId": {"$ref": "#/$defs/string"}, "objectType": {"$ref": "#/$defs/string"}, "objectId": {"$ref": "#/$defs/string"}, "sourceContractRef": {"$ref": "#/$defs/string"}, "sourceContractPin": {"$ref": "#/$defs/string"}}
+    },
+    "assessment": {
+      "type": "object", "additionalProperties": false,
+      "required": ["timestamp", "source", "sourcePin", "verification", "limits"],
+      "properties": {"timestamp": {"$ref": "#/$defs/string"}, "source": {"$ref": "#/$defs/string"}, "sourcePin": {"type": ["string", "null"], "minLength": 1}, "verification": {"enum": ["not-verified", "caller-verified-index"]}, "limits": {"$ref": "#/$defs/strings", "minItems": 1}}
+    }
+  }
+}
