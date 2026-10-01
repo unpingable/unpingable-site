@@ -103,3 +103,7 @@ Acceptance/evidence: All links resolve to current development refs and owning is
 Owner decisions: None beyond a bounded work order.
 
 Owning issue: [DOC-01](https://github.com/unpingable/unpingable-site/issues/9).
+
+## Program documentation publication
+
+The [public program plan](../constellation/beta-work/program-plan.md), [objective](../constellation/beta-work/operator-beta-objective.md) and [work index](../constellation/beta-work/index.md) are reviewed documentation projections. Cartography retains decision ownership and private coordination; this repository does not acquire semantic authority by hosting their public text.
