@@ -30,3 +30,7 @@ git diff --check
 The site contains public documentation only. Private campaign records,
 credentials, retained provider material, and local inventory data do not
 belong in this repository.
+
+## Beta work planning
+
+See the [current beta work plan](docs/BETA-WORK.md) for owned requirements, exclusions, dependencies and GitHub issues. Plan publication does not start implementation or transfer qualification.
