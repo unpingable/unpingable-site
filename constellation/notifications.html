@@ -37,7 +37,7 @@
 <main id="main">
   <h1>Who gets told when work needs attention?</h1>
   <p class="lede">An inspectable record is useful, but it is not a notification. Someone still needs a supported way to receive and act on an alert.</p>
-  <aside class="note"><strong>Try the local route:</strong> A <a href="queue-attention.html">public-only four-component example</a> now delivers one protected operator-inbox file after actual acquisition, evidence checks and attention replay. It does not establish human receipt. Slack/Discord adapters have deterministic tests, but no live channel delivery is verified; the complete recurring migration remains open.</aside>
+  <aside class="note"><strong>Try the local route:</strong> A <a href="queue-attention.html">public-only four-component example</a> now delivers one protected operator-inbox file after actual acquisition, evidence checks and attention replay. It does not establish human receipt. Slack/Discord adapters have deterministic tests, and one live Slack delivery was observed on 2026-10-01 with the owner confirming receipt; that is one message, not qualified delivery, and the complete recurring migration remains open.</aside>
 
   <h2>What exists today</h2>
   <p>Classic NQ selects new, escalated and recurring findings above a configured severity threshold, groups them, and sends them through configured webhook, Slack or Discord channels. Its durable finding-level cooldown suppresses repeated notifications. A recorded notification cycle does not prove delivery: eligibility is consumed even when the send fails. See the <a href="https://github.com/unpingable/nq">deprecated source</a> for historical behavior, not a new installation recommendation.</p>
@@ -71,14 +71,14 @@ max_response_bytes = 32768</code></pre>
   <h2>What was qualified, and what was not</h2>
   <p>Local Nightshift-to-NQ replay exercised receipt consistency without network delivery, including an exact duplicate and changed-receipt refusal. Deterministic Slack/Discord transports exercised the request and retained-outcome path. Upstream inputs in those cases were synthetic. Those checks demonstrate bounded local behavior; they do not show that a configured destination received a message, that a recipient read it, or that recurring monitoring is connected end to end.</p>
 
-  <h2>Manual coverage while live delivery remains unverified</h2>
+  <h2>Manual coverage while live delivery remains unqualified</h2>
   <ol>
     <li>Name the operator and the selected workflow's existing inspection entry point. Agree which failed, uncertain or overdue transitions need attention; do not infer an alert policy from an evidence stream.</li>
     <li>Inspect the retained run or attempt through its owner. Preserve unresolved outcomes and reconcile before considering another submission.</li>
     <li>Give the operator a minimal handoff: what happened, what needs attention, and an approved link or local reference to the relevant record. Exclude credentials, private prompts, raw evidence and unrelated campaign records.</li>
     <li>Record acknowledgment separately if one is actually received. A file written to an inbox does not establish that anyone read it.</li>
   </ol>
-  <p>This is a manual operating procedure, not evidence of dependable live notification. The current alpha.6 governed-action profile does not include notification delivery, and the earlier notification exercises do not establish a live destination. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
+  <p>This is a manual operating procedure, not evidence of dependable live notification. The current alpha.6 governed-action profile does not include notification delivery, and one observed live delivery (<a href="observation-profile-20261001.html">2026-10-01</a>) does not establish a dependable destination. See <a href="after-first-run.html">Operations</a> and <a href="troubleshooting.html">Troubleshooting</a> for supported inspection and reporting paths.</p>
 
   <h2>Failures and recovery</h2>
   <p>Exact duplicate event/destination submissions converge on one retained record. Changed intent or message content under that identity refuses. <strong>Pending</strong> means no attempt has been claimed. For HTTPS, <strong>accepted</strong> means HTTP 2xx and <strong>failed</strong> means a non-success response. For a local file, accepted means exclusive creation plus file/directory sync; failed means creation failed before writing. Neither establishes human receipt. <strong>Unknown</strong> includes post-create uncertainty or a claimed attempt without a terminal result. Inspect before considering another action; do not invent a new event ID to work around uncertainty.</p>

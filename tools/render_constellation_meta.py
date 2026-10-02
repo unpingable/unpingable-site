@@ -115,6 +115,11 @@ PAGES = {
         "A deferred research direction for improving governed campaign processes without moving their authority boundaries.",
         BASE + "governed-improvement.html",
     ),
+    "observation-profile-20261001.html": (
+        "Observation profile on one operator host — record",
+        "A dated, sanitized record of the first Constellation observation profile installed as services on one operator host: what ran, what was verified, and how it failed closed.",
+        BASE + "observation-profile-20261001.html",
+    ),
     "over-the-wire-roadmap.html": (
         "Constellation over-the-wire roadmap",
         "The canonical post-alpha.6 roadmap from Constellation's qualified single-host composition to supported over-the-wire operation.",

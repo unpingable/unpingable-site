@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A dated, sanitized record of the first Constellation observation profile installed as services on one operator host: what ran, what was verified, and how it failed closed.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Observation profile on one operator host — record">
+  <meta property="og:description" content="A dated, sanitized record of the first Constellation observation profile installed as services on one operator host: what ran, what was verified, and how it failed closed.">
+  <meta property="og:url" content="https://unpingable.com/constellation/observation-profile-20261001.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Observation profile on one operator host — record">
+  <meta name="twitter:description" content="A dated, sanitized record of the first Constellation observation profile installed as services on one operator host: what ran, what was verified, and how it failed closed.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Observation profile on one operator host — record</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/observation-profile-20261001.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body><a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../research.html">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a>
+  </nav>
+<main id="main">
+    <p class="eyebrow">Record &middot; installed 2026-10-01 &middot; corrected 2026-10-02</p>
+    <h1>The first observation profile on an operator host</h1>
+    <p class="lede">On 2026-10-01 three Constellation components were installed from packages as services on one production-adjacent operator host. They observed, notified and recurred for about an hour, then the acquisition path began refusing and has refused since. This page is the public summary of the owner&rsquo;s dated record; it names what ran and what happened, and leaves out the host.</p>
+
+    <aside class="note" aria-label="Scope"><strong>What this is:</strong> a dated report of one installation, not a qualification, a release, or evidence that the profile can be relied on. The host is described only as one Ubuntu 22.04 machine that also does real work; its identity, addresses, paths and notification destination are deliberately absent.</aside>
+
+    <h2 id="installed">What was installed</h2>
+    <p>All three packages were built in one pinned Ubuntu 22.04 container and installed with their checksums verified. They are the same builds that ran the same day in a fresh Ubuntu 22.04 virtual machine (below). None of these packages is published standalone; NQ&rsquo;s published <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">0.2.0 assets</a> are Debian 12 builds of the same source.</p>
+    <ul class="steps">
+      <li><strong>NQ 0.2.0</strong> (source <code>dbe29d8</code>, the v0.2.0 release source) as <code>nq-ng_0.2.0_amd64.deb</code>. Its daemon was deliberately not started: the runner owns acquisition and calls NQ per cycle.</li>
+      <li><strong>Monitor&rsquo;s host-posture runner 0.1.0</strong> (source <code>81212a5</code>; the public equivalent is on <a href="https://github.com/unpingable/constellation-monitor/tree/dev/operator-beta/crates/constellation-host-posture"><code>dev/operator-beta</code></a>) as <code>constellation-host-posture_0.1.0_amd64.deb</code>: one filesystem-capacity watcher, a status projection published every acquisition, and fixed time bounds on each stage.</li>
+      <li><strong>Nightshift 0.1.0</strong> (source <code>610525a</code>) as <code>constellation-nightshift_0.1.0_amd64.deb</code>, driven by a five-minute systemd timer through site-written glue that hands each tick a fresh NQ artifact. That glue is deployment configuration, not a component feature.</li>
+    </ul>
+
+    <h2 id="timeline">What happened, in UTC</h2>
+    <ul class="steps">
+      <li><strong>17:42</strong> &mdash; packages installed; the runner enrolled, published <code>healthy</code> and began acquiring every 60 seconds; NQ produced a real root-filesystem capacity diagnostic.</li>
+      <li><strong>17:45:01</strong> &mdash; one Slack message sent through NQ&rsquo;s webhook adapter, recorded <code>accepted</code> (HTTP 2xx). The owner confirmed seeing it at 20:10. This is the first live use of the adapter; it is one message, not qualified delivery.</li>
+      <li><strong>17:45:31</strong> &mdash; a manual Nightshift tick closed one observation cycle against a live NQ artifact. The timer&rsquo;s first automatic run fell into the same slot and was refused by the unique-slot claim, as designed.</li>
+      <li><strong>17:51:40</strong> &mdash; the timer fired unattended, exported a fresh artifact, claimed the next slot and closed a cycle. The posture it reported was <code>incomplete</code> by construction: no present-evidence support family exists yet for filesystem capacity.</li>
+      <li><strong>18:49:29</strong> &mdash; the last successful native observation, occurrence 50. From 18:44 the <code>qualify</code> stage had begun exceeding its 15-second bound; from 19:00 the mandatory replay did; from 22:00 the 60-second acquire itself did. After a later reboot every cycle refused with an acquisition reconciliation failure caused by an NQ timeout, and the runner published <code>unknown</code>. That is its designed fail-closed response.</li>
+      <li><strong>2026-10-02 03:05</strong> &mdash; the owner&rsquo;s record was corrected: the health table that was true at 17:47 stopped being true an hour later.</li>
+    </ul>
+
+    <h2 id="cause">Why it failed</h2>
+    <p>NQ 0.2.0 validates the entire retained artifact and intake history every time it opens its store. On a host that acquires every minute, the work per invocation therefore grows without bound as the history grows. NQ&rsquo;s processor time equalled wall time with idle cores available and a store of about 11&nbsp;MB, so this is neither host load nor the reboot, and it does not heal itself. The same mechanism had ended an earlier sustained run in a virtual machine. The correction belongs in NQ, as a bounded, watermarked validation on the command-line acquire, replay and qualify paths; it does not belong in the runner&rsquo;s time bounds or in scheduling.</p>
+
+    <h2 id="vm">The same day in a fresh virtual machine</h2>
+    <p>Before the host installation, the same three packages were installed in a fresh Ubuntu 22.04.5 virtual machine. There NQ reported the capacity condition absent, then present at 97% after the disk was filled, then absent again; the runner&rsquo;s posture went <code>healthy</code>, then <code>degraded</code> within 11 seconds of the fill, then <code>healthy</code> within 8 seconds of its removal; the runner survived a service restart and a reboot; one Slack message was accepted; and one Nightshift cycle closed. The virtual machine ran at a 10-second cadence for a short time and did not reach the failure above.</p>
+
+    <h2 id="envelope">Generation one</h2>
+    <p>The runner&rsquo;s example bounds are a qualification profile. For this host the owner set a generation-one operational envelope: acquisition every 60 seconds and retention ceilings sized from measured rates. The journal bound of 2&nbsp;GiB implies a rotation obligation of roughly 40 days, so a re-enrollment into generation two is due about early November 2026. That obligation is itself a natural first thing for Nightshift to watch.</p>
+
+    <h2 id="not-claimed">Not claimed</h2>
+    <ul class="steps">
+      <li>Reboot survival on the host; the virtual machine rebooted, the host was not rebooted as a test.</li>
+      <li>Any burn-in. The profile observed for about an hour before failing closed.</li>
+      <li>Any governed effect. AG and Docket are not installed on that host, and nothing there is part of the Alpha 2 showing.</li>
+      <li>A cutover. The host&rsquo;s older alerting path kept running throughout and still does.</li>
+      <li>A general &ldquo;healthy&rdquo;. The projection&rsquo;s word covers one capacity watcher, not the host.</li>
+      <li>Dependable notification. One message was delivered and seen; there is no acknowledgment loop.</li>
+    </ul>
+
+    <h2 id="omitted">What this page leaves out</h2>
+    <p>The host&rsquo;s name, provider, addresses, instance and volume identifiers, on-host paths, the notification route and channel, digests of host configuration, and the other services the host runs. The owner&rsquo;s full record lives in a private coordination repository; this page is the public summary and will be corrected if that record is.</p>
+    <p><a href="status.html#status-observation-profile-gen1">Ledger row</a> &middot; <a href="limits.html">Limits</a> &middot; <a href="notifications.html">Notifications</a></p>
+</main><footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer></body></html>
