@@ -135,7 +135,7 @@ def run_target():
  binding={field:before[field] for field in ['question','profile','profile_semantic_id','vantage','state_model','evaluator','threshold_policy','projection','subject']}
  binding.update(producer_node_id=before['producer']['node_id'],producer_build=before['producer']['build'],producer_cohort=before['producer']['cohort'],claim_id=before['primary_claim_id'])
  role={'id':'constellation-m2-local-operator','version':'1','digest':domain('constellation.m2.role/v1',b'local-operator')}
- policy=seal({'schema':'nightshift.diagnostic_posture_policy.v2','generation':identity['run_id'],'subject':before['subject'],'role':role,'delivery_required':False,'inventory':[{'binding':binding,'requirement':'mandatory','required_state_bindings':[],'max_age_seconds':60}]},'policy_id')
+ policy=seal({'schema':'nightshift.diagnostic_posture_policy.v2','generation':identity['run_id'],'subject':before['subject'],'role':role,'delivery_required':False,'inventory':[{'binding':binding,'requirement':'mandatory','required_state_bindings':sorted([{'kind':b['kind'],'value':b['value']} for b in before['state_bindings'] if b['binding_id'] in next(c for c in before['claims'] if c['claim_id']==before['primary_claim_id'])['state_binding_ids']],key=lambda b:(b['kind'],b['value'])),'max_age_seconds':60}]},'policy_id')
  inputs=seal({'schema':'nightshift.diagnostic_inputs.v2','inputs':[{'key':key,'status':'delivered','artifact':before}]},'inputs_id')
  schedule={'schedule_id':'m2-one-slot','first_due_at':before['started_at'],'cadence_seconds':300,'jitter_bound_seconds':0,'max_execution_budget_seconds':30,'standing_window_seconds':60}
  slot_basis={'schedule_id':schedule['schedule_id'],'occurrence':0,'key':key,'due_at':before['started_at'],'budget_seconds':30}
@@ -154,7 +154,8 @@ def run_target():
  provenance=run(['nq','--config',CONF/'nq.toml','--json','diagnostics','qualify',before['artifact_id']],'before-provenance')
  source=provenance['source']['source_id']
  nsargs=['nightshift','--store',ROOT/'nightshift.sqlite','cycle','run','--request',CONF/'cycle.json','--present-evidence-resolver',support,'--nq-program','/usr/bin/nq','--nq-config',CONF/'nq.toml','--nq-source-id',source,'--ag-loopctl','/usr/bin/ag-loopctl','--ag-database',database,'--ag-observation-resolver',CONF/'observation-resolver','--ag-observation-resolver-id','constellation-m2-observation/v1','--ag-runtime-profile',CONF/'runtime-profile.json']
- run(nsargs,'nightshift-cycle')
+ cycle=run(nsargs,'nightshift-cycle')
+ if 'ag_occurrence_opened' not in cycle:raise RuntimeError('Nightshift did not open the exact AG occurrence; inspect nightshift-cycle.stdout')
  gate=['--catalog',CONF/'catalog.json','--observation-resolver',CONF/'observation-resolver','--expected-observation-resolver-id','constellation-m2-observation/v1','--standing-resolver',CONF/'ag-standing-resolver','--expected-standing-resolver-id','constellation-m2-ag-standing/v1','--max-standing-ttl-ms','60000']
  run(['ag-loopctl','require-standing','--database',database],'ag-standing-required')
  run(['ag-loopctl','decide','--database',database]+gate,'ag-decision')
