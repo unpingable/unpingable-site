@@ -1,8 +1,5 @@
-# M2 release-candidate preparation
+# M2 release candidate
 
-See [RUNBOOK.md](RUNBOOK.md), [ARTIFACTS.md](ARTIFACTS.md) and
-[candidate.json](candidate.json). This generation is blocked and unpromoted.
-The release owner retains the source-free partial archive with packages,
-contracts, notices and SHA256SUMS. `inspect-candidate.sh` is its inspection
-entry point; a source checkout alone is not that archive or a launchable showing.
-No fresh VM/effect occurrence is performed by these documents.
+See [RUNBOOK.md](RUNBOOK.md), [ARTIFACTS.md](ARTIFACTS.md), [candidate.json](candidate.json) and [the current clock decision](M2-CLOCK-DECISION.md).
+
+Four original product blockers are repaired and published. Five exact Jammy packages are rebuilt and inspected. The candidate is unpromoted: the NQ/Nightshift temporal authority decision prevents the fresh showing. Candidate preparation is not Alpha 2.

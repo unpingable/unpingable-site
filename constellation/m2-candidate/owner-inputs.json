@@ -2,20 +2,22 @@
   "schema": "constellation.m2.owner-input-worksheet/v1",
   "accepted_runtime_configuration": false,
   "provider_credentials_required": false,
+  "resolved": [
+    "Docket execution-standing ownership",
+    "AG signed Systemd envelope/enrollment",
+    "Nightshift current plan domains",
+    "NQ descriptor ACL runtime checks",
+    "fresh two-VM occurrence authority"
+  ],
   "unresolved": {
-    "docket_execution_standing": "Principal, decision source, currentness and revocation ownership; constellation-docket#3",
-    "systemd_signed_dispatch": "Current enrolled authorization contract; constellation-ag#13",
-    "nightshift_plan_domains": "Closed supported current schema selection; constellation-nightshift#6",
-    "observer_configuration": "Select whether additional identity enrollment is needed; constellation-docket#1",
-    "promotion_and_fresh_occurrence": "Independent RC review then separately admitted showing; no effect authorized here"
+    "temporal_authority": "Choose evidence-backed producer/receiver/comparison contract or explicitly narrower bounded M2 observation path; see M2-CLOCK-DECISION.md"
   },
   "mechanically_recoverable": [
-    "Installed binary hashes/paths",
-    "Source/lock/builder identities",
-    "Runtime profile and exact-work plan identity",
-    "NQ profile/question/policy/scope/vantage identities",
-    "Fresh target machine ID/address and installed unit hash",
-    "Fresh service-subject descriptor and JCS digest"
+    "Installed paths/hashes",
+    "Exact forward source/builder/package identities",
+    "Fresh VM machine ID/address/unit hash",
+    "Runtime profile and exact Systemd work",
+    "NQ subject/scope/vantage/profile and actual artifact identities"
   ],
-  "private_material": "Owner supplies exact admitted issuer key custody outside bundle; derive public trust only then."
+  "private_material": "Generated/custodied only in admitted fresh VMs; excluded from bundle."
 }
