@@ -151,7 +151,7 @@
     {
       "id": "NQ_NIGHTSHIFT_TEMPORAL_AUTHORITY",
       "kind": "OWNER_AUTHORITY_DECISION",
-      "summary": "NQ emits unqualified clock facts; Nightshift v2 explicitly refuses temporal Current without qualified source and evaluation/recurrence clock comparison. Owner selects clock/comparison contract or explicitly narrower bounded M2 observation path.",
+      "summary": "Owner selected preservation of Nightshift temporal standing. Ordinary synchronization evidence has no current NQ qualification/evaluation-comparison enrollment input; canonical Nightshift instead consumes already-qualified proposition support. No existing qualified M2 systemd/HTTP support family supplies that result. Stop condition: materially new authority contract would be required.",
       "issues": [
         "https://github.com/unpingable/constellation-nq/issues/3",
         "https://github.com/unpingable/unpingable-site/issues/12"
@@ -207,7 +207,8 @@
     "abi": "All14 runtime executables resolve on Ubuntu22.04; GLIBC requirements <=2.35.",
     "clock_boundary": "Six existing Nightshift clock tests pass; intentional refusal established, not bypassed.",
     "fresh_vm_showing": "Not performed; owner decision required.",
-    "limitations": "Preexisting unrelated all-target style/lint warnings are not general release qualification; no two-byte-equal-build or beta promotion claim."
+    "limitations": "Preexisting unrelated all-target style/lint warnings are not general release qualification; no two-byte-equal-build or beta promotion claim.",
+    "clock_enrollment_review": "Read-only host timesync/adjtimex evidence and exact live-contract inspection; incompatible with clock-only enrollment. No product generation changed or guest launched."
   },
   "alpha2_disposition": "CONSTELLATION_ALPHA2_BLOCKED_ON_OWNER_DECISION",
   "resolved_original_blockers": {
@@ -215,5 +216,6 @@
     "AG#13": "Signed current Docket envelope with installed profile/issuer and persisted custody verification for Systemd",
     "Nightshift#6": "Known plan schema identity domains and shared current Systemd vectors",
     "NQ#3_xattrs": "Exact descriptor POSIX ACL queries; core/admin runtime checks now pass"
-  }
+  },
+  "owner_clock_direction": "Option1 selected: preserve temporal standing; no automatic narrower M2 path."
 }

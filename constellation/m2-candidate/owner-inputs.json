@@ -7,10 +7,11 @@
     "AG signed Systemd envelope/enrollment",
     "Nightshift current plan domains",
     "NQ descriptor ACL runtime checks",
-    "fresh two-VM occurrence authority"
+    "fresh two-VM occurrence authority",
+    "Owner selected Option1: preserve Nightshift temporal standing; bounded local clock enrollment only if current contract consumes its evidence"
   ],
   "unresolved": {
-    "temporal_authority": "Choose evidence-backed producer/receiver/comparison contract or explicitly narrower bounded M2 observation path; see M2-CLOCK-DECISION.md"
+    "temporal_authority": "Specific contract incompatibility: select/admit a versioned producer/receiver clock-comparison contract or an M2 proposition-exact qualified support authority. Neither exists as a synchronization enrollment in current forward source. No automatic Option2 fallback."
   },
   "mechanically_recoverable": [
     "Installed paths/hashes",

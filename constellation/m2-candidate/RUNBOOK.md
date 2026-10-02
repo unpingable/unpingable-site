@@ -10,11 +10,11 @@ Start only `constellation-beta-http-fixture.service`, initially inactive and dis
 
 ## Current owner boundary
 
-See [M2-CLOCK-DECISION.md](M2-CLOCK-DECISION.md). The current NQ live emitter marks absolute clock quality unqualified. The current Nightshift v2 consumer deliberately refuses temporal Current for those artifacts. Even a bounded source interval cannot earn Current against the unqualified Nightshift evaluation/recurrence clock. A deployment adapter cannot relabel those facts or supply the missing comparison contract.
+The owner selected preservation of Nightshift temporal standing and explicitly required a stop if ordinary local VM synchronization could not satisfy the current contract without materially new authority architecture. The bounded review found that incompatibility; see [M2-CLOCK-DECISION.md](M2-CLOCK-DECISION.md).
 
-The owner must choose the current clock-qualification/comparison direction, or explicitly authorize a narrower bounded M2 observation path while leaving Nightshift temporal acceptance outside that showing. No producer clock, comparison relation or semantic standing is fabricated here.
+NQ has no installed synchronization-qualification input. Nightshift's bare V2 posture evaluator has no qualified evaluation/comparison carrier. The live canonical runtime instead consumes an independently qualified, exact-proposition present-support answer; it does not convert NTP state into such an answer. Existing published Pulse support families do not cover this M2 systemd/HTTP scenario. A clock file cannot bridge those boundaries.
 
-The fresh occurrence itself is already authorized by the owner. No separate routine launch approval is needed after the real authority decision and required product correction. There is no valid governed-effect launch entry point for this blocked generation.
+The fresh occurrence itself remains already authorized after resolution. No separate routine launch approval is needed. No governed-effect launch entry point is claimed for this blocked generation; no narrower observation showing was substituted.
 
 ## Source-free inspection and inert installation
 
