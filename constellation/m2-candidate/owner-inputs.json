@@ -1,24 +1,21 @@
 {
   "schema": "constellation.m2.owner-input-worksheet/v1",
-  "accepted_runtime_configuration": false,
+  "accepted_runtime_configuration": true,
   "provider_credentials_required": false,
   "resolved": [
-    "Docket execution-standing ownership",
-    "AG signed Systemd envelope/enrollment",
-    "Nightshift current plan domains",
-    "NQ descriptor ACL runtime checks",
-    "fresh two-VM occurrence authority",
-    "Owner selected Option1: preserve Nightshift temporal standing; bounded local clock enrollment only if current contract consumes its evidence"
+    "Owner-controlled Docket execution-standing projection",
+    "Signed current AG Systemd envelope",
+    "Current plan identity domains",
+    "NQ descriptor ACL inspection",
+    "Fresh local two-VM showing authority",
+    "Pulse exact local M2 systemd/HTTP support authority"
   ],
-  "unresolved": {
-    "temporal_authority": "Specific contract incompatibility: select/admit a versioned producer/receiver clock-comparison contract or an M2 proposition-exact qualified support authority. Neither exists as a synchronization enrollment in current forward source. No automatic Option2 fallback."
-  },
+  "unresolved": {},
   "mechanically_recoverable": [
-    "Installed paths/hashes",
-    "Exact forward source/builder/package identities",
-    "Fresh VM machine ID/address/unit hash",
-    "Runtime profile and exact Systemd work",
-    "NQ subject/scope/vantage/profile and actual artifact identities"
+    "installed hashes and VM machine/boot identity",
+    "private local fixture IP",
+    "exact fresh NQ artifacts",
+    "derived runtime profile/work/issuance/attempt"
   ],
-  "private_material": "Generated/custodied only in admitted fresh VMs; excluded from bundle."
+  "private_material": "Generated only in protected VM management/issuer custody; absent from bundle."
 }

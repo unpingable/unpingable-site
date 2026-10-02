@@ -1,7 +1,7 @@
 {
   "schema": "constellation.m2.release-candidate/v1",
   "candidate_id": "m2-jammy-20261001",
-  "disposition": "M2_RELEASE_CANDIDATE_BLOCKED_ON_OWNER_OR_PRODUCT_DECISION",
+  "disposition": "M2_RELEASE_CANDIDATE_READY_FOR_FRESH_SHOWING",
   "promoted": false,
   "fresh_showing_performed": false,
   "target": {
@@ -44,7 +44,7 @@
       "nq.systemd_unit/v1",
       "nq.http_endpoint/v1"
     ],
-    "source_free_showing_entry_point": null,
+    "source_free_showing_entry_point": "sudo ./m2.py prepare-target --run-id UNIQUE; sudo ./m2.py run-target; controller prepare-controller/observe-controller",
     "inspection_entry_point": "./inspect-candidate.sh",
     "provider_invocation_required": false,
     "aggregate_postcondition_claim": false
@@ -83,11 +83,18 @@
       "remote_sha": "623a74760c5ea02c633aa97bdb15d52953e66616"
     },
     "nightshift": {
-      "sha": "f891d88b2b0187284b0416a23ec6cb55c193c0f4",
-      "source_date_epoch": 1790894317,
-      "source_archive_sha256": "169114d1c0743367355408a13b8f1c240fb9527e8825a3d68d0d59e3b8f6ec26",
+      "sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "source_date_epoch": 1790908027,
+      "source_archive_sha256": "0f88388c8eb603c925d7f87405b8cde08efc9f7d3b7366bae38cdf9f4458277e",
       "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742",
-      "remote_sha": "f891d88b2b0187284b0416a23ec6cb55c193c0f4"
+      "remote_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217"
+    },
+    "monitor": {
+      "sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "source_date_epoch": 1790907982,
+      "source_archive_sha256": "e9f21e66b6c8a846effd0d1a79762166428280fb4d658d9f423aa213ef167223",
+      "cargo_lock_sha256": "3bd5cab5aeb413919c2a61696601ab2b81e5c7376672a683b729eb8a719507ec",
+      "remote_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c"
     }
   },
   "packages": [
@@ -98,8 +105,7 @@
       "sha256": "97bbddd8a3c2e70968c70f566a50d0038dbdc63aec35fb407129491805a5c307",
       "bytes": 3986084,
       "debian_control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Agent Governor governed-loop operator tools\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
-      "package_payload": "drwxr-xr-x root/root         0 2026-10-01 20:55 ./\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/bin/\n-rwxr-xr-x root/root   8538232 2026-10-01 20:55 ./usr/bin/ag-loopctl\n-rwxr-xr-x root/root   5234272 2026-10-01 20:55 ./usr/bin/ag-operator-ui\n-rwxr-xr-x root/root   2711360 2026-10-01 20:55 ./usr/bin/ag-standing-resolver\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-operator-tools/\n-rw-r--r-- root/root     11358 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-operator-tools/copyright\n-rw-r--r-- root/root     15125 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-operator-tools/governed-loop-c1.md\n",
-      "ubuntu_22_04_dependency_status": "Fourteen executables: loaders/libraries resolve on pinned Jammy, required GLIBC <=2.35. Fresh VM installation/showing not performed.",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
       "runtime_abi_record": "contracts/ag-abi.json"
     },
     {
@@ -109,8 +115,7 @@
       "sha256": "1df6b1b49a89d70843bc70fa57ea6de4e5b01ce6040b6f65afbdb8b36ddfbc92",
       "bytes": 2813446,
       "debian_control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), systemd (>= 249)\nDescription: Agent Governor target-local systemd effect process adapter\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
-      "package_payload": "drwxr-xr-x root/root         0 2026-10-01 20:55 ./\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/libexec/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/libexec/agent-governor-ng/\n-rwxr-xr-x root/root   9115024 2026-10-01 20:55 ./usr/libexec/agent-governor-ng/ag-effectd\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-systemd-executor/\n-rw-r--r-- root/root     11358 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-systemd-executor/copyright\n-rw-r--r-- root/root     15722 2026-10-01 20:55 ./usr/share/doc/agent-governor-ng-systemd-executor/operator-beta-systemd-dbus-backend-v1.md\n",
-      "ubuntu_22_04_dependency_status": "Fourteen executables: loaders/libraries resolve on pinned Jammy, required GLIBC <=2.35. Fresh VM installation/showing not performed.",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
       "runtime_abi_record": "contracts/ag-abi.json"
     },
     {
@@ -120,19 +125,17 @@
       "sha256": "d17e4451884caed87da5d13f6af89aa53ebd95ea4faa444288742b37e2e75ced",
       "bytes": 1748514,
       "debian_control": "Package: constellation-docket\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Docket governed-loop custody and reconciliation CLI\n Inert CLI payload. Installs no issuer trust, observer/executor enrollment,\n configuration, credentials or state. Experimental VM/session executors and\n the Git work provider/broker profile are not included.\n",
-      "package_payload": "drwxr-xr-x root/root         0 2026-10-01 20:55 ./\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/bin/\n-rwxr-xr-x root/root   4456272 2026-10-01 20:55 ./usr/bin/docket\n-rwxr-xr-x root/root    830320 2026-10-01 20:55 ./usr/bin/docket-standing-resolver\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/constellation-docket/\n-rw-r--r-- root/root       970 2026-10-01 20:55 ./usr/share/doc/constellation-docket/README.md\n-rw-r--r-- root/root     10761 2026-10-01 20:55 ./usr/share/doc/constellation-docket/copyright\n",
-      "ubuntu_22_04_dependency_status": "Fourteen executables: loaders/libraries resolve on pinned Jammy, required GLIBC <=2.35. Fresh VM installation/showing not performed.",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
       "runtime_abi_record": "contracts/docket-abi.json"
     },
     {
       "component": "nightshift",
-      "forward_sha": "f891d88b2b0187284b0416a23ec6cb55c193c0f4",
-      "artifact": "packages/constellation-nightshift_0.1.0+m2.20261001.2_amd64.deb",
-      "sha256": "10f032cd87c3d36f51fb07cf69cd976b9d0c0daa60369277f177a4b95bd68ce5",
-      "bytes": 5762116,
-      "debian_control": "Package: constellation-nightshift\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n",
-      "package_payload": "drwxr-xr-x root/root         0 2026-10-01 20:55 ./\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./lib/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./lib/systemd/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./lib/systemd/system/\n-rw-r--r-- root/root      1691 2026-10-01 20:55 ./lib/systemd/system/nightshift-observation-cycle.service\n-rw-r--r-- root/root       446 2026-10-01 20:55 ./lib/systemd/system/nightshift-observation-cycle.timer\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/bin/\n-rwxr-xr-x root/root  13376280 2026-10-01 20:55 ./usr/bin/nightshift\n-rwxr-xr-x root/root   7940816 2026-10-01 20:55 ./usr/bin/nightshift-observation-resolver\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/\ndrwxr-xr-x root/root         0 2026-10-01 20:55 ./usr/share/doc/constellation-nightshift/\n-rw-r--r-- root/root      3722 2026-10-01 20:55 ./usr/share/doc/constellation-nightshift/README.md\n-rw-r--r-- root/root      2531 2026-10-01 20:55 ./usr/share/doc/constellation-nightshift/observation-cycle.env.example\n",
-      "ubuntu_22_04_dependency_status": "Fourteen executables: loaders/libraries resolve on pinned Jammy, required GLIBC <=2.35. Fresh VM installation/showing not performed.",
+      "forward_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "artifact": "packages/constellation-nightshift_0.1.0+m2.20261001.3_amd64.deb",
+      "sha256": "f04430b4618c54aa96fc20632e31736657b08d9efa163d54f134ffad08e55427",
+      "bytes": 5761604,
+      "debian_control": "Package: constellation-nightshift\nVersion: 0.1.0+m2.20261001.3\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
       "runtime_abi_record": "contracts/nightshift-abi.json"
     },
     {
@@ -142,29 +145,22 @@
       "sha256": "b54f45658c8adb42c938a9fe91aaeabbb9f0c79d05c78fd2b9e5eff061331e3a",
       "bytes": 9190822,
       "debian_control": "Package: nq-ng\nVersion: 0.2.0\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: NQ contributors\nDepends: libc6, python3 (>= 3.8), adduser\nConflicts: nq\nDescription: local-first operational evidence service\n NQ-ng supervises bounded watcher helpers, admits versioned evidence, stores\n durable local custody records, and exposes a read-only local operator view.\n This package is a developer preview and does not initialize or migrate state\n during installation.\n",
-      "package_payload": "drwxr-xr-x root/root         0 2026-10-01 20:56 ./\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/bin/\n-rwxr-xr-x root/root  23998832 2026-10-01 20:56 ./usr/bin/nq\n-rwxr-xr-x root/root    498768 2026-10-01 20:56 ./usr/bin/nqd\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/nq/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/nq/helpers/\n-rwxr-xr-x root/root   1663592 2026-10-01 20:56 ./usr/lib/nq/helpers/nq-host-helper\n-rwxr-xr-x root/root   1999272 2026-10-01 20:56 ./usr/lib/nq/helpers/nq-host-resource-helper\n-rwxr-xr-x root/root   5308104 2026-10-01 20:56 ./usr/lib/nq/helpers/nq-operator-beta-helper\n-rwxr-xr-x root/root   3761688 2026-10-01 20:56 ./usr/lib/nq/helpers/nq-synthetic-cache-result-helper\n-rwxr-xr-x root/root     20144 2026-10-01 20:56 ./usr/lib/nq/helpers/nq_conformance_helper.py\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/systemd/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/systemd/system/\n-rw-r--r-- root/root      3373 2026-10-01 20:56 ./usr/lib/systemd/system/nqd.service\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/sysusers.d/\n-rw-r--r-- root/root       195 2026-10-01 20:56 ./usr/lib/sysusers.d/nq.conf\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/lib/tmpfiles.d/\n-rw-r--r-- root/root       372 2026-10-01 20:56 ./usr/lib/tmpfiles.d/nq.conf\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/doc/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/doc/nq-ng/\n-rw-r--r-- root/root     11357 2026-10-01 20:56 ./usr/share/doc/nq-ng/LICENSE\n-rw-r--r-- root/root     43065 2026-10-01 20:56 ./usr/share/doc/nq-ng/OPERATIONS.md\n-rw-r--r-- root/root      8218 2026-10-01 20:56 ./usr/share/doc/nq-ng/README.md\n-rw-r--r-- root/root       359 2026-10-01 20:56 ./usr/share/doc/nq-ng/copyright\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/doc/nq-ng/docs/\n-rw-r--r-- root/root     10720 2026-10-01 20:56 ./usr/share/doc/nq-ng/docs/DEVELOPMENT.md\n-rw-r--r-- root/root     17377 2026-10-01 20:56 ./usr/share/doc/nq-ng/docs/IMPLEMENTATION_STATUS.md\n-rw-r--r-- root/root     22367 2026-10-01 20:56 ./usr/share/doc/nq-ng/docs/PLAN.md\n-rw-r--r-- root/root     17180 2026-10-01 20:56 ./usr/share/doc/nq-ng/docs/PORTER_NETBOX_ADDENDUM.md\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/doc/nq-ng/examples/\n-rw-r--r-- root/root      1095 2026-10-01 20:56 ./usr/share/doc/nq-ng/examples/nq-host.toml\n-rw-r--r-- root/root      1218 2026-10-01 20:56 ./usr/share/doc/nq-ng/examples/nq.toml\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/\n-rw-r--r-- root/root     10701 2026-10-01 20:56 ./usr/share/nq/MANIFEST.sha256\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/\n-rw-r--r-- root/root      1907 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/README.md\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/hostile/\n-rw-r--r-- root/root      4960 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/hostile/projection_collision_match.json\n-rw-r--r-- root/root      4960 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/hostile/projection_collision_mismatch.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/valid/\n-rw-r--r-- root/root      4862 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/valid/positive.json\n-rw-r--r-- root/root      3433 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/valid/provider_no_response.json\n-rw-r--r-- root/root      3749 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/fixtures/valid/refused.json\n-rw-r--r-- root/root      2731 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/manifest.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/schemas/\n-rw-r--r-- root/root     17642 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract/schemas/nq.diagnostic_execution.v1.schema.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/\n-rw-r--r-- root/root      2875 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/README.md\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/\n-rw-r--r-- root/root      4257 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/acquisition_failure_with_timeout.json\n-rw-r--r-- root/root      5913 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/missing_refusal_frontier_member.json\n-rw-r--r-- root/root      3660 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/missing_unsupported_frontier.json\n-rw-r--r-- root/root      4310 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/no_response_with_spawn.json\n-rw-r--r-- root/root      5335 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/received_before_acquisition.json\n-rw-r--r-- root/root      4270 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/hostile/substituted_failure_dependency.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/\n-rw-r--r-- root/root      4308 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/acquisition_failure.json\n-rw-r--r-- root/root      5461 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/completed_bounded_clock.json\n-rw-r--r-- root/root      5335 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/completed_unqualified_clock.json\n-rw-r--r-- root/root      5354 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/detector_refusal_detail_a.json\n-rw-r--r-- root/root      5347 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/detector_refusal_detail_b.json\n-rw-r--r-- root/root      6246 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/multiple_input_refusals.json\n-rw-r--r-- root/root      4259 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/provider_no_response.json\n-rw-r--r-- root/root      4669 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/received_input_refusal.json\n-rw-r--r-- root/root      4556 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/retained_acquisition_refusal.json\n-rw-r--r-- root/root      4014 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/fixtures/valid/typed_unsupported.json\n-rw-r--r-- root/root      7321 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/manifest.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/schemas/\n-rw-r--r-- root/root     44783 2026-10-01 20:56 ./usr/share/nq/diagnostic-contract-v2/schemas/nq.diagnostic_execution.v2.schema.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/profiles/\n-rw-r--r-- root/root      2317 2026-10-01 20:56 ./usr/share/nq/profiles/failure-codes.json\n-rw-r--r-- root/root      2144 2026-10-01 20:56 ./usr/share/nq/profiles/manifest.json\n-rw-r--r-- root/root      1544 2026-10-01 20:56 ./usr/share/nq/profiles/nq.conformance.v1.json\n-rw-r--r-- root/root      2195 2026-10-01 20:56 ./usr/share/nq/profiles/nq.host.v1.json\n-rw-r--r-- root/root      1816 2026-10-01 20:56 ./usr/share/nq/profiles/nq.host_filesystem_capacity.v1.json\n-rw-r--r-- root/root      1808 2026-10-01 20:56 ./usr/share/nq/profiles/nq.host_filesystem_inodes.v1.json\n-rw-r--r-- root/root      1517 2026-10-01 20:56 ./usr/share/nq/profiles/nq.host_memory.v1.json\n-rw-r--r-- root/root      1432 2026-10-01 20:56 ./usr/share/nq/profiles/nq.http_endpoint.v1.json\n-rw-r--r-- root/root      1569 2026-10-01 20:56 ./usr/share/nq/profiles/nq.synthetic_cache_executor_result.v1.json\n-rw-r--r-- root/root      1391 2026-10-01 20:56 ./usr/share/nq/profiles/nq.systemd_unit.v1.json\n-rw-r--r-- root/root      1695 2026-10-01 20:56 ./usr/share/nq/profiles/nq.systemd_unit.v2.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/protocol/\n-rw-r--r-- root/root      3651 2026-10-01 20:56 ./usr/share/nq/protocol/README.md\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/\n-rw-r--r-- root/root         6 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/extra_frame.ndjson\n-rw-r--r-- root/root        66 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/request_duplicate_key.ndjson\n-rw-r--r-- root/root       718 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/request_unknown_field.ndjson\n-rw-r--r-- root/root       685 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/request_wrong_version.ndjson\n-rw-r--r-- root/root      1307 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/response_capability_escape.ndjson\n-rw-r--r-- root/root      1299 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/response_failed_without_error.ndjson\n-rw-r--r-- root/root       880 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/invalid/response_wrong_echo.ndjson\n-rw-r--r-- root/root      1056 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/manifest.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/\n-rw-r--r-- root/root       920 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/evidence_report.ndjson\n-rw-r--r-- root/root       685 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/request.ndjson\n-rw-r--r-- root/root      1406 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/response_failed_report.ndjson\n-rw-r--r-- root/root       958 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/response_refusal.ndjson\n-rw-r--r-- root/root      1652 2026-10-01 20:56 ./usr/share/nq/protocol/fixtures/valid/response_report.ndjson\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/protocol/schemas/\n-rw-r--r-- root/root      4051 2026-10-01 20:56 ./usr/share/nq/protocol/schemas/nq.evidence_report.v1.schema.json\n-rw-r--r-- root/root      3566 2026-10-01 20:56 ./usr/share/nq/protocol/schemas/nq.helper.request.v1.schema.json\n-rw-r--r-- root/root      4857 2026-10-01 20:56 ./usr/share/nq/protocol/schemas/nq.helper.response.v1.schema.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/system-contract/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/\n-rw-r--r-- root/root      1890 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/nq_observation_projection.json\n-rw-r--r-- root/root      2453 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/porter_actuation_projection.json\n-rw-r--r-- root/root      3206 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/scope_cut.json\n-rw-r--r-- root/root      2891 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/scope_cut_proposal.json\n-rw-r--r-- root/root      2536 2026-10-01 20:56 ./usr/share/nq/system-contract/fixtures/valid/system_spec.json\n-rw-r--r-- root/root      3728 2026-10-01 20:56 ./usr/share/nq/system-contract/manifest.json\ndrwxr-xr-x root/root         0 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/\n-rw-r--r-- root/root       268 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.observation_projection.v1.schema.json\n-rw-r--r-- root/root       280 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.porter_actuation_projection.v1.schema.json\n-rw-r--r-- root/root       236 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.scope_cut.v1.schema.json\n-rw-r--r-- root/root       253 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.scope_cut_proposal.v1.schema.json\n-rw-r--r-- root/root     18581 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.system_contract.defs.v1.schema.json\n-rw-r--r-- root/root       233 2026-10-01 20:56 ./usr/share/nq/system-contract/schemas/nq.system_spec.v1.schema.json\n",
-      "ubuntu_22_04_dependency_status": "Fourteen executables: loaders/libraries resolve on pinned Jammy, required GLIBC <=2.35. Fresh VM installation/showing not performed.",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
       "runtime_abi_record": "contracts/nq-abi.json"
-    }
-  ],
-  "blockers": [
-    {
-      "id": "NQ_NIGHTSHIFT_TEMPORAL_AUTHORITY",
-      "kind": "OWNER_AUTHORITY_DECISION",
-      "summary": "Owner selected preservation of Nightshift temporal standing. Ordinary synchronization evidence has no current NQ qualification/evaluation-comparison enrollment input; canonical Nightshift instead consumes already-qualified proposition support. No existing qualified M2 systemd/HTTP support family supplies that result. Stop condition: materially new authority contract would be required.",
-      "issues": [
-        "https://github.com/unpingable/constellation-nq/issues/3",
-        "https://github.com/unpingable/unpingable-site/issues/12"
-      ],
-      "decision_record": "M2-CLOCK-DECISION.md"
-    }
-  ],
-  "excluded_components": [
+    },
     {
       "component": "monitor",
-      "forward_sha": "6543276e6315136a46607000d7a54765791a4898",
-      "reason": "Optional present-support overlay; not required by fixed systemd/HTTP scenario"
-    },
+      "forward_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "artifact": "packages/pulse-m2-support_0.1.0+m2.20261001.3_amd64.deb",
+      "sha256": "e82b9c7c382110922f2eb5ac795b5c6e1339a89ede076bb34efb536a2d290f85",
+      "bytes": 476394,
+      "debian_control": "Package: pulse-m2-support\nVersion: 0.1.0+m2.20261001.3\nArchitecture: amd64\nSection: admin\nPriority: optional\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), nq-ng (>= 0.2.0)\nDescription: exact local M2 NQ proposition support\n Inert Pulse support tool for the fixed non-production Ubuntu22.04 M2\n systemd/HTTP propositions. Installs no enrollment, custody or service.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/monitor-abi.json"
+    }
+  ],
+  "blockers": [],
+  "excluded_components": [
     {
       "component": "switchyard",
       "forward_sha": "cc8bc993098b56a3b9072cdad618cc11e0b3cdfb",
@@ -198,24 +194,26 @@
   "trust": {
     "docket_standing_owner": "root-controlling release/deployment operator; currentness/revocation projection reread each acceptance",
     "issuer_credentials": "Fresh VM-local key custody at eventual admitted setup; no private material in bundle.",
-    "temporal_authority": "Pending explicit clock/comparison or narrowed M2 owner decision."
+    "temporal_authority": "Pulse exact M2 NQ support authority; fresh pinned NQ acquisition with exclusive 60s boot-bound expiry. UTC testimony remains unqualified."
   },
   "checks": {
     "focused_product_tests": "All selected commands pass; Docket debug/release libraries, enrollment/intake/read; AG adapters/signed vectors/Systemd CLI/governed loop; Nightshift canonical runtime/resolver/export/decision basis; NQ helper 12, core 200+1 ignored, admin 8, profiles15, system contract tests.",
-    "exact_rebuild": "Four published exact commit exports; locked offline Rust1.94 Jammy release builds and existing package assemblers pass.",
+    "exact_rebuild": "Existing AG/Docket/NQ exact packages; new exact published Pulse/Nightshift exports rebuilt offline Jammy.",
     "nq_payload": "Official current schema/manifest/path/type/mode/digest verifiers pass.",
     "abi": "All14 runtime executables resolve on Ubuntu22.04; GLIBC requirements <=2.35.",
     "clock_boundary": "Six existing Nightshift clock tests pass; intentional refusal established, not bypassed.",
-    "fresh_vm_showing": "Not performed; owner decision required.",
+    "fresh_vm_showing": "Pending authorized fresh two-VM showing",
     "limitations": "Preexisting unrelated all-target style/lint warnings are not general release qualification; no two-byte-equal-build or beta promotion claim.",
-    "clock_enrollment_review": "Read-only host timesync/adjtimex evidence and exact live-contract inspection; incompatible with clock-only enrollment. No product generation changed or guest launched."
+    "clock_enrollment_review": "Clock-only path superseded by explicit exact-proposition support owner decision.",
+    "support": "Pulse13 deterministic cases, existing support/process tests, shared Nightshift wire vector and canonical40 pass; broad Monitor preexisting missing fixture/unused import recorded."
   },
-  "alpha2_disposition": "CONSTELLATION_ALPHA2_BLOCKED_ON_OWNER_DECISION",
+  "alpha2_disposition": "NOT_YET_ACCEPTED",
   "resolved_original_blockers": {
     "Docket#3": "Owner-controlled installed projection contract and refusal tests",
     "AG#13": "Signed current Docket envelope with installed profile/issuer and persisted custody verification for Systemd",
     "Nightshift#6": "Known plan schema identity domains and shared current Systemd vectors",
     "NQ#3_xattrs": "Exact descriptor POSIX ACL queries; core/admin runtime checks now pass"
   },
-  "owner_clock_direction": "Option1 selected: preserve temporal standing; no automatic narrower M2 path."
+  "owner_clock_direction": "Option1 selected: preserve temporal standing; no automatic narrower M2 path.",
+  "owner_support_direction": "Exact local systemd/HTTP Pulse families authorized; no general clock/comparison architecture."
 }

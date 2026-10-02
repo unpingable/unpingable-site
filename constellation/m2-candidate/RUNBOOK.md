@@ -1,38 +1,37 @@
-# Current M2 candidate and Alpha 2 boundary
+# Fresh two-VM M2 showing
 
-The four original blockers have product repairs on published `dev/operator-beta` lines. Ordinary focused tests pass; the same Jammy candidate was rebuilt from exact commit exports using the pinned Rust 1.94/Ubuntu 22.04 builder. Five packages contain fourteen runtime binaries; loader/library dependencies resolve on Jammy. Source/package identity does not establish a successful showing.
+Use two fresh local Ubuntu 22.04 amd64 VMs, each with Python3, OpenSSL, systemd and ordinary Debian base packages. Give the controller private network access to target port18080. The operator must have sudo on both. No provider credentials, Internet runtime dependency or development checkout is needed.
 
-**Alpha 2 does not exist yet.** It requires this source-free candidate, ordinary checks, one successful fresh two-VM governed-effect M2 showing against the September objective/amended Ubuntu 22.04 baseline, and publication of exact candidate identities and result.
+Verify the archive sidecar hash, extract it on both VMs and enter `candidate`. Run `./inspect-candidate.sh` then `sudo ./install.sh` on each. Installation is inert: no authority, enrollment or effect is installed. Keep all files at one root-controlled absolute path.
 
-## Fixed scenario
-
-Start only `constellation-beta-http-fixture.service`, initially inactive and disabled, through AG one-use authorization, Docket custody and target-local Systemd execution. Independent fresh NQ profiles retain target unit state (loaded/active/running/disabled) and controller GET `/healthz` (200, exact shipped body, redirects refused). Retain source-labelled AG/Docket/NQ/Nightshift facts and a read-only operator view. No receipt substitutes for either postcondition; no aggregate health, causation or exactly-once claim is made.
-
-## Current owner boundary
-
-The owner selected preservation of Nightshift temporal standing and explicitly required a stop if ordinary local VM synchronization could not satisfy the current contract without materially new authority architecture. The bounded review found that incompatibility; see [M2-CLOCK-DECISION.md](M2-CLOCK-DECISION.md).
-
-NQ has no installed synchronization-qualification input. Nightshift's bare V2 posture evaluator has no qualified evaluation/comparison carrier. The live canonical runtime instead consumes an independently qualified, exact-proposition present-support answer; it does not convert NTP state into such an answer. Existing published Pulse support families do not cover this M2 systemd/HTTP scenario. A clock file cannot bridge those boundaries.
-
-The fresh occurrence itself remains already authorized after resolution. No separate routine launch approval is needed. No governed-effect launch entry point is claimed for this blocked generation; no narrower observation showing was substituted.
-
-## Source-free inspection and inert installation
-
-The retained archive contains exact packages, `candidate.json`, `SHA256SUMS`, library/dependency records, current public contracts, notices/licenses, this runbook and the fixed inert fixture. It contains no Git worktree, Cargo cache, compiler tree, campaign execution machinery, historical fixtures or private credential. On a fresh Ubuntu 22.04 amd64 VM with standard Python 3/OpenSSL:
+On the target:
 
 ```sh
-sha256sum -c constellation-m2-jammy-20261001.tar.gz.sha256
-tar -xzf constellation-m2-jammy-20261001.tar.gz
-cd candidate
-./inspect-candidate.sh
+sudo ./m2.py prepare-target --run-id UNIQUE_FRESH_M2_ID
+sudo ./m2.py run-target
 ```
 
-Inspection verifies bytes and exits nonzero while the owner boundary remains. `sudo ./install.sh` installs inert packages only; it creates no standing, issuer trust or governed effect. Installation/runtime/showing are not claimed tested on fresh VMs in this generation.
+Preparation installs only the fixed inactive/disabled `constellation-beta-http-fixture.service`, builds exact subject/configuration from installed VM/unit bytes and generates fresh VM-local issuer custody. Run performs fresh NQ baseline and Pulse-owned fresh corroborating acquisition; Nightshift consumes its normal qualified-support port and produces canonical observation/proposal custody. AG validates observation/standing, spends one exact issuance, and Docket consumes the enrolled operator-owned execution-standing projection before dispatching the signed envelope to the current Systemd executor. The only effect is starting that non-production unit. Docket must settle success and a new NQ unit observation must independently establish loaded/active/running/disabled.
 
-## Ownership and recovery
+Copy only `/var/lib/constellation-m2/subject.json` from target to controller (public subject). On the controller:
 
-The release/deployment operator controls the installed Docket standing principal, currentness and revocation projection. Docket consumes/enforces it and owns custody, dispatch, settlement and reconciliation. AG Systemd execute/reconcile validate the signed current outer envelope against installed authority and persisted Docket custody before mechanics; bare dispatch refuses. Nightshift derives work identity from the known current plan schema; missing/unknown schemas refuse. NQ checks exact POSIX ACL attributes on already-open descriptors and preserves mode/owner/account/containment checks.
+```sh
+sudo ./m2.py prepare-controller --subject /ABSOLUTE/subject.json --endpoint http://TARGET_PRIVATE_IPV4:18080/healthz
+sudo ./m2.py observe-controller
+```
 
-For a future interrupted showing, inspect the original durable VM producer and exact AG spend/Docket attempt before changing anything. Reconcile the same captured executor/config; do not mint new authority or redispatch an uncertain attempt. Preserve failures and use fresh occurrences after product-generation changes.
+Controller NQ must establish status200, exact shipped body hash and no redirect. Pulse separately acquires a fresh HTTP sample and emits Current exact-proposition support. Target and controller results are required separately. Receipts do not substitute for either postcondition; no aggregate health, causation or exactly-once claim is made.
 
-The fixed deterministic M2 path needs no external AI/provider credentials. Monitor/Pulse overlay, broader Foreman/Switchyard provider lifecycle, Maude, M3/application dogfood, notifications, cleanup and post-beta hardening remain outside this task. `agent_gov`, `nq-classic`, WLP and predecessor/campaign implementations remain excluded source donors and dependencies.
+## Inspection and recovery
+
+Read `/var/lib/constellation-m2/target-result.json` and controller `controller-result.json`; command stdout/stderr/exit records, exact NQ artifacts and Pulse receipts are adjacent. Capture OS/kernel/machine/boot identities, installed package versions and exact candidate hashes. `nightshift --store /var/lib/constellation-m2/nightshift.sqlite --help` identifies the read-only canonical inspection surface. Docket's retained inspection is in `docket-inspection.stdout`.
+
+Never repeat run-target on an existing occurrence. On interruption, inspect the original durable VM producer and AG spend/Docket attempt before changing authority. Reconcile the same captured executor/configuration; do not redispatch an uncertain attempt. Preserve failed occurrences; changed product generations require fresh VMs/occurrences. Pulse resolve never refreshes its exclusive60s boot-bound receipt, and an interrupted acquisition claim remains spent.
+
+## Authority and limits
+
+Pulse owns only these fixed M2 local Jammy support families. Root-controlled exact NQ binary/config, machine/boot/subject/profile/question/baseline bytes and immutable receipt bind the evidence. Fresh acquisition is evidence; the explicit Pulse support rule earns Current. NQ UTC quality remains unqualified. This proves neither NTP accuracy nor general cross-VM time comparison. Same-root/OS/NQ correctness and exclusive local deployment ownership are premises; no independent failure-domain or remote-attestation claim is made.
+
+Docket consumes/enforces the owner-controlled principal/currentness/revocation projection; AG owns one-use effect authority. Pulse/NQ do not grant execution authority. No external model/provider, Switchyard invocation, notifications, M3 application work, VM-executor research or broad release qualification is included. Retired agent_gov/nq-classic/WLP and predecessor/campaign implementations remain excluded.
+
+Candidate preparation is not Alpha2. Alpha2 requires both successful fresh VM paths and published exact source/package/candidate/result identities.
