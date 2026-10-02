@@ -62,10 +62,10 @@
     <h2 id="limits">Limits</h2>
     <ul class="steps">
       <li>QEMU only. A bootable image for a physical laptop has been prepared and tested under QEMU&rsquo;s BIOS and UEFI firmware, but ABSD has not booted on physical hardware.</li>
-      <li>One CPU. No networking. Programs are embedded in the kernel build; there is no execution from the filesystem and no dynamic linking.</li>
+      <li>One CPU. Networking is one kernel-driven network card with the TCP stack inside the process that holds it, static addresses only, enabled only by an explicit boot option; an SSH server runs on it. Programs come from an embedded catalog or are started as images from the filesystem through a broker; there is no dynamic linking.</li>
       <li>One writer process holds the filesystem at a time; there is no filesystem server. The on-disk format is experimental, with no compatibility promise.</li>
       <li>The power-loss result does not cover media that tear a sector unit, media corruption, or whether a particular drive honours its flush command.</li>
-      <li>The source is private. The facts on this page come from the project&rsquo;s own documentation and test records as of 2026-09-25 and cannot be checked from here yet.</li>
+      <li>The source is private. The facts on this page come from the project&rsquo;s own documentation and test records as of 2026-10-01 and cannot be checked from here yet.</li>
     </ul>
 
     <p><a href="index.html">Back to Constellation</a> &middot; <a href="status.html">Status</a> &middot; <a href="limits.html">Limits</a></p>
