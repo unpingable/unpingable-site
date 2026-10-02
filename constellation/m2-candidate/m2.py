@@ -118,6 +118,7 @@ def run_target():
  identity=read(ROOT/'identity.json')
  database=ROOT/'campaigns/active.sqlite'
  if database.exists():raise RuntimeError('existing AG occurrence; inspect/recover it; do not restart run-target')
+ database.parent.mkdir(mode=0o755,parents=True,exist_ok=True)
  before=collect('systemd_unit','before')
  if before['outcome']['condition']!='present':raise RuntimeError('fixture precondition must be independently observed as condition present')
  scope=before['subject']['scope']['digest'];subject=identity['subject'];t=now();expiry=ms(t)+60000
