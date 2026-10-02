@@ -1,0 +1,13 @@
+[Unit]
+Description=Bounded non-production Constellation M2 HTTP fixture
+After=network.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+ExecStart=/usr/bin/python3 -m http.server 18080 --bind 0.0.0.0 --directory /usr/share/constellation-m2/fixture
+Restart=no
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
