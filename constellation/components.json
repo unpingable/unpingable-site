@@ -1,8 +1,8 @@
 {
-  "as_of": "2026-09-25",
+  "as_of": "2026-10-02",
   "components": [
     {
-      "availability": "Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.",
+      "availability": "Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d. The Alpha 2 showing (2026-10-02) used forward source f21b2431d07e15e6d03298502c3ca29577c04058 on dev/operator-beta, packaged as agent-governor-ng-operator-tools and agent-governor-ng-systemd-executor inside the published Alpha 2 bundle; no standalone package or tag is published.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
       "maturity": "Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.",
@@ -17,10 +17,10 @@
       "use": "Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example."
     },
     {
-      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. NQ 0.2.0 is also published as a component package (a Debian package and a tarball) for NQ alone: https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0.",
+      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. NQ 0.2.0 is also published as a component package (a Debian package and a tarball) for NQ alone: https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0. The Alpha 2 bundle and the operator-host installation carry an Ubuntu 22.04 rebuild of the same source; it is published only inside that bundle.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.",
+      "maturity": "Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback remain unverified; one live Slack delivery was observed on 2026-10-01, not qualified. Sustained acquisition over a growing store failed on one host because every store open validates the whole retained history.",
       "maturity_label": "Developer preview",
       "name": "Constellation NQ",
       "refuses": "Returns a typed refusal when required evidence is missing, stale or cannot be evaluated. Its results never authorize an effect.",
@@ -32,11 +32,11 @@
       "use": "Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act."
     },
     {
-      "availability": "Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.",
+      "availability": "Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation. The Alpha 2 showing (2026-10-02) used forward source 0c771e9be75e6e4bb197ea355682ff86101de97f on dev/operator-beta, packaged inside the published Alpha 2 bundle; no standalone package or tag is published.",
       "id": "docket",
       "implementation_form": "standalone Rust execution-custody product",
       "maturity": "Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.",
-      "maturity_label": "Exercised in alpha.6; not production-hardened",
+      "maturity_label": "Exercised in alpha.6 and Alpha 2; not production-hardened",
       "name": "Constellation Docket",
       "refuses": "Refuses to execute without matching, current permission. An uncertain attempt is recorded as indeterminate and reconciled, not blindly repeated.",
       "relationship": "core family office",
@@ -47,7 +47,7 @@
       "use": "Use when an authorized workflow needs attempt identity and settlement custody."
     },
     {
-      "availability": "Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.",
+      "availability": "Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b. The Alpha 2 showing (2026-10-02) used forward source 3333c791d32cae33dbb8c8302fc69ca2ba0ec217 on dev/operator-beta, packaged inside the published Alpha 2 bundle.",
       "id": "nightshift",
       "implementation_form": "standalone Rust temporal-observation office",
       "maturity": "Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.",
@@ -137,10 +137,10 @@
       "use": "Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it."
     },
     {
-      "availability": "Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.",
+      "availability": "Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; the host-posture runner and Pulse support packaging are on dev/operator-beta (Alpha 2 forward source 5a44225ce9db0f58192df2f0d4c88501ba77f09c). Packages exist only inside the published Alpha 2 bundle and on one operator host; none is published standalone.",
       "id": "monitor",
       "implementation_form": "standalone Rust project-concern acquisition workspace hosting Pulse",
-      "maturity": "Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.",
+      "maturity": "Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift. The host-posture runner ran as a service on one operator host from 2026-10-01 and has been refusing, fail-closed, since NQ's acquisition exceeded its time bounds the same day; no complete recurring migration claim.",
       "maturity_label": "Experimental",
       "name": "Constellation Monitor",
       "refuses": "Does not establish diagnostic truth or permission to act.",
@@ -152,11 +152,11 @@
       "use": "Use monitor-concerns to acquire an explicitly selected project's observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits."
     },
     {
-      "availability": "Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.",
+      "availability": "Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236 and on dev/operator-beta; the Alpha 2 bundle carries a pulse-m2-support package. No separate Pulse repository or standalone package is published.",
       "id": "pulse",
       "implementation_form": "Rust subsystem and support adapters hosted within Constellation Monitor",
-      "maturity": "Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.",
-      "maturity_label": "Component checks passed; live delivery unqualified",
+      "maturity": "Host-load component checks and actual local predicate-support/attention example passed; in Alpha 2 (2026-10-02) Pulse judged current support for the two fixed M2 propositions from fresh NQ acquisition. Live delivery and full recurring migration remain unqualified.",
+      "maturity_label": "Component checks passed; M2 support judged; live delivery unqualified",
       "name": "Pulse",
       "refuses": "Support expires. It is not general health, permission to act, or delivery.",
       "relationship": "hosted optional family capability",
