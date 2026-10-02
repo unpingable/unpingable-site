@@ -35,3 +35,15 @@ Pulse owns only these fixed M2 local Jammy support families. Root-controlled exa
 Docket consumes/enforces the owner-controlled principal/currentness/revocation projection; AG owns one-use effect authority. Pulse/NQ do not grant execution authority. No external model/provider, Switchyard invocation, notifications, M3 application work, VM-executor research or broad release qualification is included. Retired agent_gov/nq-classic/WLP and predecessor/campaign implementations remain excluded.
 
 Candidate preparation is not Alpha2. Alpha2 requires both successful fresh VM paths and published exact source/package/candidate/result identities.
+
+## Source-labelled read view
+
+After the target occurrence, start the installed read-only Phosphor surface on target:
+
+```sh
+sudo systemd-run --unit=constellation-m2-readview /usr/bin/ag-operator-ui --campaign-root /var/lib/constellation-m2/campaigns --ag-loopctl /usr/bin/ag-loopctl --nightshift-bin /usr/bin/nightshift --nightshift-store /var/lib/constellation-m2/nightshift.sqlite --docket-bin /usr/bin/docket --docket-state /var/lib/constellation-m2/docket --bind 127.0.0.1:8417
+```
+
+Use an exact pinned SSH tunnel for localhost8417 or inspect locally. `/` and `/api/v1/campaigns` give the index; use its exact locator token for `/campaign/TOKEN` and `/api/v1/campaigns/TOKEN`. UI HTTP responsiveness is liveness, not a governed-effect/postcondition result. AG/Nightshift/Docket sections remain source-labelled; optional unavailable sources do not become positive facts. Fresh NQ unit/HTTP postconditions remain separate exact result records. Stop only this read-only unit when inspection ends.
+
+[Alpha2 result](ALPHA2.md) records the accepted exact candidate. A future run uses a fresh identity and obeys the current owner admission; acceptance does not authorize production or unrelated scenarios.

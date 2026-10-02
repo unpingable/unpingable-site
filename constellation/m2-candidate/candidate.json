@@ -3,7 +3,7 @@
   "candidate_id": "m2-jammy-20261001",
   "disposition": "M2_RELEASE_CANDIDATE_READY_FOR_FRESH_SHOWING",
   "promoted": false,
-  "fresh_showing_performed": false,
+  "fresh_showing_performed": true,
   "target": {
     "distribution": "Ubuntu",
     "version": "22.04",
@@ -61,40 +61,35 @@
     "build_reproduction_claim": false
   },
   "source_inputs": {
-    "ag": {
-      "sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
-      "source_date_epoch": 1790898932,
-      "source_archive_sha256": "efe23d530c793589fcecd6e9f3bc46a102897f752e17c2af8665d5dd2705f693",
-      "cargo_lock_sha256": "68205a7d2319b648ed5ebcbc42c015222dba2257286012af44b4d9d9e073bcad",
-      "remote_sha": "f21b2431d07e15e6d03298502c3ca29577c04058"
-    },
     "docket": {
       "sha": "0c771e9be75e6e4bb197ea355682ff86101de97f",
-      "source_date_epoch": 1790898519,
-      "source_archive_sha256": "a6c9dd42651e4a180485ee10cae929f5051ed2c1de18d62e346352eea53062fd",
-      "cargo_lock_sha256": "c8753bcca410fbbf6617f630e4d439b1db929c54829aeff7591b5216fbe39ed2",
-      "remote_sha": "0c771e9be75e6e4bb197ea355682ff86101de97f"
+      "source_date_epoch": 1790902520,
+      "source_archive_sha256": "c65ff1550242d5056b7dd6fd732665813ba246aa48d750ad2ea05f2323484318",
+      "cargo_lock_sha256": "c8753bcca410fbbf6617f630e4d439b1db929c54829aeff7591b5216fbe39ed2"
     },
-    "nq": {
-      "sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
-      "source_date_epoch": 1790894315,
-      "source_archive_sha256": "2d8715e7796f0fcba0d8d93772695349149c30c20045986d523aea6c4e6adb60",
-      "cargo_lock_sha256": "11cabfd28eb26c6ecc95cd45c7a0668cf55952718d66785f59036b68cd8bdb31",
-      "remote_sha": "623a74760c5ea02c633aa97bdb15d52953e66616"
+    "ag": {
+      "sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "source_date_epoch": 1790902520,
+      "source_archive_sha256": "3e9f0c64cfbdae66efee585fdd0220f2c0c6798576bfa5fb1b93021f5c9d22e9",
+      "cargo_lock_sha256": "68205a7d2319b648ed5ebcbc42c015222dba2257286012af44b4d9d9e073bcad"
     },
     "nightshift": {
       "sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
       "source_date_epoch": 1790908027,
       "source_archive_sha256": "0f88388c8eb603c925d7f87405b8cde08efc9f7d3b7366bae38cdf9f4458277e",
-      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742",
-      "remote_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217"
+      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742"
+    },
+    "nq": {
+      "sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
+      "source_date_epoch": 1790902589,
+      "source_archive_sha256": "249ac2014aeb58cbb6d76c3fbbcd1171a9c6ebb01df6b0a9a80b229b03ebdcf8",
+      "cargo_lock_sha256": "11cabfd28eb26c6ecc95cd45c7a0668cf55952718d66785f59036b68cd8bdb31"
     },
     "monitor": {
       "sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
       "source_date_epoch": 1790907982,
       "source_archive_sha256": "e9f21e66b6c8a846effd0d1a79762166428280fb4d658d9f423aa213ef167223",
-      "cargo_lock_sha256": "3bd5cab5aeb413919c2a61696601ab2b81e5c7376672a683b729eb8a719507ec",
-      "remote_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c"
+      "cargo_lock_sha256": "3bd5cab5aeb413919c2a61696601ab2b81e5c7376672a683b729eb8a719507ec"
     }
   },
   "packages": [
@@ -105,7 +100,7 @@
       "sha256": "97bbddd8a3c2e70968c70f566a50d0038dbdc63aec35fb407129491805a5c307",
       "bytes": 3986084,
       "debian_control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Agent Governor governed-loop operator tools\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/ag-abi.json"
     },
     {
@@ -115,7 +110,7 @@
       "sha256": "1df6b1b49a89d70843bc70fa57ea6de4e5b01ce6040b6f65afbdb8b36ddfbc92",
       "bytes": 2813446,
       "debian_control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), systemd (>= 249)\nDescription: Agent Governor target-local systemd effect process adapter\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/ag-abi.json"
     },
     {
@@ -125,7 +120,7 @@
       "sha256": "d17e4451884caed87da5d13f6af89aa53ebd95ea4faa444288742b37e2e75ced",
       "bytes": 1748514,
       "debian_control": "Package: constellation-docket\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Docket governed-loop custody and reconciliation CLI\n Inert CLI payload. Installs no issuer trust, observer/executor enrollment,\n configuration, credentials or state. Experimental VM/session executors and\n the Git work provider/broker profile are not included.\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/docket-abi.json"
     },
     {
@@ -135,7 +130,7 @@
       "sha256": "f04430b4618c54aa96fc20632e31736657b08d9efa163d54f134ffad08e55427",
       "bytes": 5761604,
       "debian_control": "Package: constellation-nightshift\nVersion: 0.1.0+m2.20261001.3\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/nightshift-abi.json"
     },
     {
@@ -145,7 +140,7 @@
       "sha256": "b54f45658c8adb42c938a9fe91aaeabbb9f0c79d05c78fd2b9e5eff061331e3a",
       "bytes": 9190822,
       "debian_control": "Package: nq-ng\nVersion: 0.2.0\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: NQ contributors\nDepends: libc6, python3 (>= 3.8), adduser\nConflicts: nq\nDescription: local-first operational evidence service\n NQ-ng supervises bounded watcher helpers, admits versioned evidence, stores\n durable local custody records, and exposes a read-only local operator view.\n This package is a developer preview and does not initialize or migrate state\n during installation.\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/nq-abi.json"
     },
     {
@@ -155,7 +150,7 @@
       "sha256": "e82b9c7c382110922f2eb5ac795b5c6e1339a89ede076bb34efb536a2d290f85",
       "bytes": 476394,
       "debian_control": "Package: pulse-m2-support\nVersion: 0.1.0+m2.20261001.3\nArchitecture: amd64\nSection: admin\nPriority: optional\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), nq-ng (>= 0.2.0)\nDescription: exact local M2 NQ proposition support\n Inert Pulse support tool for the fixed non-production Ubuntu22.04 M2\n systemd/HTTP propositions. Installs no enrollment, custody or service.\n",
-      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "ubuntu_22_04_dependency_status": "Successfully installed on both fresh Jammy VMs; exact15 runtime hashes equal; ABI resolves.",
       "runtime_abi_record": "contracts/monitor-abi.json"
     }
   ],
@@ -194,20 +189,20 @@
   "trust": {
     "docket_standing_owner": "root-controlling release/deployment operator; currentness/revocation projection reread each acceptance",
     "issuer_credentials": "Fresh VM-local key custody at eventual admitted setup; no private material in bundle.",
-    "temporal_authority": "Pulse exact M2 NQ support authority; fresh pinned NQ acquisition with exclusive 60s boot-bound expiry. UTC testimony remains unqualified."
+    "temporal_authority": "Pulse exact local M2 support with fresh pinned NQ and exclusive boot-bound60s expiry; no UTC relabeling."
   },
   "checks": {
     "focused_product_tests": "All selected commands pass; Docket debug/release libraries, enrollment/intake/read; AG adapters/signed vectors/Systemd CLI/governed loop; Nightshift canonical runtime/resolver/export/decision basis; NQ helper 12, core 200+1 ignored, admin 8, profiles15, system contract tests.",
     "exact_rebuild": "Existing AG/Docket/NQ exact packages; new exact published Pulse/Nightshift exports rebuilt offline Jammy.",
     "nq_payload": "Official current schema/manifest/path/type/mode/digest verifiers pass.",
-    "abi": "All14 runtime executables resolve on Ubuntu22.04; GLIBC requirements <=2.35.",
+    "abi": "15 executable ABI/loader checks pass on pinned Jammy; both fresh VM installed15-binary sets equal exact candidate.",
     "clock_boundary": "Six existing Nightshift clock tests pass; intentional refusal established, not bypassed.",
-    "fresh_vm_showing": "Pending authorized fresh two-VM showing",
-    "limitations": "Preexisting unrelated all-target style/lint warnings are not general release qualification; no two-byte-equal-build or beta promotion claim.",
+    "fresh_vm_showing": "m2-support-003 passes fixed target/controller paths",
+    "limitations": "Scoped Alpha2 M2 acceptance; preexisting broad Monitor check failures, no two-byte-equal-build, external stranger study or whole-beta promotion claim.",
     "clock_enrollment_review": "Clock-only path superseded by explicit exact-proposition support owner decision.",
     "support": "Pulse13 deterministic cases, existing support/process tests, shared Nightshift wire vector and canonical40 pass; broad Monitor preexisting missing fixture/unused import recorded."
   },
-  "alpha2_disposition": "NOT_YET_ACCEPTED",
+  "alpha2_disposition": "CONSTELLATION_ALPHA2_M2_ACCEPTED",
   "resolved_original_blockers": {
     "Docket#3": "Owner-controlled installed projection contract and refusal tests",
     "AG#13": "Signed current Docket envelope with installed profile/issuer and persisted custody verification for Systemd",
@@ -215,5 +210,6 @@
     "NQ#3_xattrs": "Exact descriptor POSIX ACL queries; core/admin runtime checks now pass"
   },
   "owner_clock_direction": "Option1 selected: preserve temporal standing; no automatic narrower M2 path.",
-  "owner_support_direction": "Exact local systemd/HTTP Pulse families authorized; no general clock/comparison architecture."
+  "owner_support_direction": "Exact local systemd/HTTP Pulse families authorized; no general clock/comparison architecture.",
+  "accepted_result": "ALPHA2-RESULT.json"
 }

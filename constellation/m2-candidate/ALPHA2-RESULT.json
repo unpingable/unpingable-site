@@ -1,0 +1,436 @@
+{
+  "success": true,
+  "occurrence": "m2-support-003",
+  "candidate": {
+    "sha256": "1630a83bcfeebc01606a4d48c124ff371d3287a9814f525d6b613bfc3703ddf6",
+    "bytes": 24303685,
+    "runbook_source_sha": "6d040e748ca470000d2275ffa53fcedc5e9587c8",
+    "created_utc": "2026-10-02T02:39:53.361572+00:00",
+    "candidate_ready": true,
+    "M2_passed": true,
+    "archive": "constellation-m2-jammy-20261001-support-setup.tar.gz"
+  },
+  "target": {
+    "ag_spend": "sha256:58b20f3cb8fcfc7cf5cdd63daafb9ff83b23e08a49fe95f20219c0b7b4b7c641",
+    "attempt": "sha256:ac3768e23c96ba969607fccc934d111415bb5a8128d5d870e4b3b1236f09a33a",
+    "before": "sha256:d11313e0aca6f680bf4cfbd2881db68fe0ff15679d5894e2d80216433aa6e863",
+    "campaign": "sha256:357e93b05a652abb6f07bc9784850968b468d143e575a1144d56702b55fcad2a",
+    "completed_at": "2026-10-02T02:41:02.283Z",
+    "controller_result_required": true,
+    "issuance": "sha256:a3228189f2f6c62d401704abc12389a03be92620bd4e401609f75ea4a66b73ff",
+    "occurrence": "c69215dd-4005-405b-b6da-4c9abcc9540e",
+    "receipt": "sha256:911ae324e1d30957f1001e5a5517bc8cf2a86f95bd9f81a65464fad677e61622",
+    "run_id": "m2-support-003",
+    "runtime_profile": "sha256:a9d9ec53e36dfd34d70997113277e065929f7b8099642c29ec22997bb070b3b1",
+    "schema": "constellation.m2.target-result/v1",
+    "scope": "sha256:f3d99f2f5d633f8d6971640c211adb5149f72f3e41980b6af90720ebc8c6ec86",
+    "settlement": "sha256:fd8e1fbd215938e5a368d574a931f4a5b8f59e9ba4dfd1d6714dba6e416a8349",
+    "status": "target_path_passed",
+    "subject": "sha256:d12cbdf30bbb2d943b099b6a18caef053e07772c2da6bab35fb0825c2bad58b9",
+    "target_after": "sha256:2f993aa7d0c8483e26aabd6973388b038614e608da5dfad7df12d05879b5e714",
+    "work": "sha256:0d7e0bcabe4b4ccb67ce4910eb66f4ddc060772062399e36bdf3c90931ce2ad1"
+  },
+  "controller": {
+    "artifact_id": "sha256:6c1d9f0698407b02f046fdbbe58a8e321ddbc0e757aa8a1ae32de175d4f8b189",
+    "completed_at": "2026-10-02T02:41:04.515Z",
+    "run_id": "m2-support-003",
+    "schema": "constellation.m2.controller-result/v1",
+    "status": "controller_path_passed",
+    "support": {
+      "artifact_ids": [
+        "sha256:6c1d9f0698407b02f046fdbbe58a8e321ddbc0e757aa8a1ae32de175d4f8b189"
+      ],
+      "authority_id": "pulse-m2-local/m2-support-003",
+      "diagnostic_inputs_id": "sha256:89cfe1b2e3241a1c9e1cbefa1fc505424462b37db707b5782094a75702489725",
+      "evaluated_at": {
+        "clock_id": "pulse-m2-boottime:sha256:5c0cd4419a930d0482e3cd2925d48040ca9ab86ae070c4fd9b2131d607636169",
+        "tick": 69450
+      },
+      "evidence_refs": [
+        "sha256:357c3cf8d4bc6856be47cb4b685c4e4108ac8a2b51813b4f6bc3bf1c9ae4d6e6",
+        "sha256:562b4e2ec87837ee61e2aa98065f5a074a3d5eadf975ed8d9bdb3354ce6489f7"
+      ],
+      "expiry": {
+        "clock_id": "pulse-m2-boottime:sha256:5c0cd4419a930d0482e3cd2925d48040ca9ab86ae070c4fd9b2131d607636169",
+        "tick": 128800
+      },
+      "observation_cycle_id": "controller-m2-support-003",
+      "observation_id": "sha256:ccf4ef2a08895ed73daede1f976246a08118367c64419a2c5eca5f17e372a1c1",
+      "query_id": "sha256:fa3af83d4b86e5ae5bf3bed5dc04488882265f28d990c5031d058398abcc6218",
+      "request_nonce": "3d1b281f-0734-497e-9f2a-a17f927bb50d",
+      "schema": "nightshift.qualified_support.v1",
+      "scope_id": "sha256:cfaa507a0ae1f0c80143172bcf4ece586775bb00104d3a946f41815af71882c8",
+      "standing": "current",
+      "subject_id": "sha256:d12cbdf30bbb2d943b099b6a18caef053e07772c2da6bab35fb0825c2bad58b9",
+      "support_id": "sha256:1c1f6379a32d47b04dd4410603c16de749a2575c73133d8067c185fe0735fc27"
+    }
+  },
+  "target_support": {
+    "artifact_ids": [
+      "sha256:d11313e0aca6f680bf4cfbd2881db68fe0ff15679d5894e2d80216433aa6e863"
+    ],
+    "authority_id": "pulse-m2-local/m2-support-003",
+    "diagnostic_inputs_id": "sha256:f6ca5b10190f353e940a64047a6215ed50b81952dfe14d792944bacc6c60afec",
+    "evaluated_at": {
+      "clock_id": "pulse-m2-boottime:sha256:6a20f582838df42dbee0762500d58035dc35c3c1a063f6fb29604a7479c094d3",
+      "tick": 66580
+    },
+    "evidence_refs": [
+      "sha256:bfa96cd331cf7245567a796524e1afd1c23ea1adaa1317ebbb4665f02cf55494",
+      "sha256:d31720a7ee18895162c6b50705b6bb76fcb2fedb7b7d96dd77a54e554bb2a583"
+    ],
+    "expiry": {
+      "clock_id": "pulse-m2-boottime:sha256:6a20f582838df42dbee0762500d58035dc35c3c1a063f6fb29604a7479c094d3",
+      "tick": 125810
+    },
+    "observation_cycle_id": "cycle:6bf33417-113c-453e-a8a5-2b13b4c0d04f",
+    "observation_id": "sha256:237ddb08960387a3b3d90946121ce941827146e74435ae464a41e194bd488067",
+    "query_id": "sha256:4f2fec6ed6052449218e80e4e0ca91154e10e8206ad36769f1e4ce6606e97e87",
+    "request_nonce": "support-query:7c4da3b9-f696-4847-8414-c58c1b8e2b03",
+    "schema": "nightshift.qualified_support.v1",
+    "scope_id": "sha256:f3d99f2f5d633f8d6971640c211adb5149f72f3e41980b6af90720ebc8c6ec86",
+    "standing": "current",
+    "subject_id": "sha256:d12cbdf30bbb2d943b099b6a18caef053e07772c2da6bab35fb0825c2bad58b9",
+    "support_id": "sha256:68671d8c1e79745d54445de328b233f597e5ad31559e90791b314ba9e563b939"
+  },
+  "target_nq_condition": {
+    "before": {
+      "coherence": "jointly_established",
+      "condition": "present",
+      "coverage": "complete",
+      "derivation": "completed",
+      "refusals": [],
+      "summary": "the observed systemd unit tuple differs from the admitted policy",
+      "unsupported": []
+    },
+    "after": {
+      "coherence": "jointly_established",
+      "condition": "explicitly_absent",
+      "coverage": "complete",
+      "derivation": "completed",
+      "refusals": [],
+      "summary": "the observed systemd unit tuple equals the admitted policy",
+      "unsupported": []
+    }
+  },
+  "nightshift_cycle_id": "cycle:6bf33417-113c-453e-a8a5-2b13b4c0d04f",
+  "docket_record": {
+    "issuance": {
+      "schema": "ag.governed-loop.issuance/v1",
+      "issuance": "sha256:a3228189f2f6c62d401704abc12389a03be92620bd4e401609f75ea4a66b73ff",
+      "key": {
+        "campaign": "sha256:357e93b05a652abb6f07bc9784850968b468d143e575a1144d56702b55fcad2a",
+        "occurrence": "c69215dd-4005-405b-b6da-4c9abcc9540e"
+      },
+      "program": "sha256:d2ffd29486ed26b62f463aa7053490525ffa6e364895dd038917d6ef1186dff6",
+      "proposal": "sha256:398e83906b78817a4f1509eb54f8d16579c2f62031d048d8a8dfcc3a76fbc492",
+      "work_schema": "ag-effectd.docket-executor-systemd-work/v2",
+      "work": "sha256:0d7e0bcabe4b4ccb67ce4910eb66f4ddc060772062399e36bdf3c90931ce2ad1",
+      "subject": "sha256:d12cbdf30bbb2d943b099b6a18caef053e07772c2da6bab35fb0825c2bad58b9",
+      "scope": "sha256:f3d99f2f5d633f8d6971640c211adb5149f72f3e41980b6af90720ebc8c6ec86",
+      "observation": "sha256:237ddb08960387a3b3d90946121ce941827146e74435ae464a41e194bd488067",
+      "standing_resolution": "sha256:587371a360ae68bd4893f70738f5b1fd700d655f1569b523d50eabcee6faf296",
+      "mandate": "sha256:c41dc6d2e5d637bf53154f9052e7ce5185a269d062a08394f03d180146b623c0",
+      "spend": "sha256:58b20f3cb8fcfc7cf5cdd63daafb9ff83b23e08a49fe95f20219c0b7b4b7c641"
+    },
+    "authentication": {
+      "issuer_principal": "constellation-m2-release-operator",
+      "signer_key_id": "m2-m2-support-003",
+      "signer_public_key": "xQuWA8-xkv7oUZAQWazp39uFwJ_zUcTGyPLSiR0EZKY",
+      "signature": "LLvBQVbiekRBVGFsmxBVoRSgLcPRjyeA5FQ1MJM6cTbOAzq2cY589BJ5YDZP5QImZrF4iYFnnhuZk9kovyBWBA"
+    },
+    "custody": {
+      "schema": "ag.governed-loop.docket-custody/v1",
+      "issuance": "sha256:a3228189f2f6c62d401704abc12389a03be92620bd4e401609f75ea4a66b73ff",
+      "ag_spend": "sha256:58b20f3cb8fcfc7cf5cdd63daafb9ff83b23e08a49fe95f20219c0b7b4b7c641",
+      "execution_standing": "sha256:d2b04c3338b366a74831be378c3b4be8d46878979d49dd3e9e9bc9b144ffc573",
+      "standing_currentness": "sha256:3bd692bf40d4d2e229bc59fceeb67e9e76bbc893851a0b8117deb5ec375606ff",
+      "attempt": "sha256:ac3768e23c96ba969607fccc934d111415bb5a8128d5d870e4b3b1236f09a33a",
+      "executor_marker": "sha256:f39bd530570c1a8a11c3c7a4e648b74db35ae4ad1af6eecdab30fd5590956a80",
+      "accepted_at_unix_ms": 1790908861847
+    },
+    "status": "settled",
+    "settlement": {
+      "schema": "ag.governed-loop.docket-settlement/v1",
+      "settlement": "sha256:fd8e1fbd215938e5a368d574a931f4a5b8f59e9ba4dfd1d6714dba6e416a8349",
+      "issuance": "sha256:a3228189f2f6c62d401704abc12389a03be92620bd4e401609f75ea4a66b73ff",
+      "attempt": "sha256:ac3768e23c96ba969607fccc934d111415bb5a8128d5d870e4b3b1236f09a33a",
+      "executor_marker": "sha256:f39bd530570c1a8a11c3c7a4e648b74db35ae4ad1af6eecdab30fd5590956a80",
+      "receipt": "sha256:911ae324e1d30957f1001e5a5517bc8cf2a86f95bd9f81a65464fad677e61622",
+      "outcome": "success",
+      "settled_at_unix_ms": 1790908861937
+    },
+    "indeterminate": null,
+    "executor_binding": "sha256:16c5e3ef8cecbf6580fa1dc7666b9d466c415668387a05e7bb98ef28b7db90ab",
+    "executor_program_digest": "sha256:711dad369a07306ed92ce01f6c667361d9c39235336a1f776c23fa06977574e9",
+    "executor_plan": "sha256:0d7e0bcabe4b4ccb67ce4910eb66f4ddc060772062399e36bdf3c90931ce2ad1"
+  },
+  "observation_id": "sha256:237ddb08960387a3b3d90946121ce941827146e74435ae464a41e194bd488067",
+  "http_nq_condition": {
+    "coherence": "jointly_established",
+    "condition": "explicitly_absent",
+    "coverage": "complete",
+    "derivation": "completed",
+    "refusals": [],
+    "summary": "the observed HTTP response equals the admitted policy",
+    "unsupported": []
+  },
+  "installed_binary_hashes": {
+    "/usr/bin/ag-loopctl": "f55fc2e074b6dbdae073028b592f7e5e8dd48d535fa63768f25d3a214503153d",
+    "/usr/bin/ag-standing-resolver": "a758d9e08c8d6581cfd9f040525118d2380a464640538614989bf1301af196cd",
+    "/usr/libexec/agent-governor-ng/ag-effectd": "0ba9119f1964c825fae039fa8856e6a3abb06a65c71c6c020b219d6450acce70",
+    "/usr/bin/ag-operator-ui": "a63522d27bc4e83f27f8f5365ad8fd3e9218bf4392a98248af4cc4f3cd3fad5d",
+    "/usr/bin/docket": "c590eb7375ac41f8a8257baef893bc9e4aad61c9db03af2b8685a0155fa20d7b",
+    "/usr/bin/docket-standing-resolver": "4129e864a5500f60ffd804b6025d5f3ba498e0eecdf544c5c193ca45d95ca77f",
+    "/usr/bin/nightshift": "ed897599d8bf1998191271c26d2f7d4f328593a495c56f79249c7b8c8026551a",
+    "/usr/bin/nightshift-observation-resolver": "dcce602ad773047b3db183a90985caf83ba0a9171e8c325bba41a44fd6741043",
+    "/usr/bin/nq": "0897ae128213ef1fa0c68dbaa180d9e72934fafaa4333435928d7e0aa29e0522",
+    "/usr/bin/nqd": "e81ea1089f53f8cefe5f2289f2408c5a6f211731ae9566b8ac5521ba84919205",
+    "/usr/lib/nq/helpers/nq-host-helper": "948e3c5c083a5b87a8ad71cf54ff5196db3cf0b6c7c4c6af7df05996240216b1",
+    "/usr/lib/nq/helpers/nq-host-resource-helper": "f3babd22ee4708d991a9e3f5db963e1df2c966064f4b420fe27c55deea234754",
+    "/usr/lib/nq/helpers/nq-operator-beta-helper": "ec0b0662f375d171e94e6d52f425e3db21b907f2ffa1c928cc31297a316519b1",
+    "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper": "a1141b91e9b42e8e09ce009366a1571de6ebf06320db010a51b175f925613e6e",
+    "/usr/bin/pulse-m2-support": "e15a69e099c6c8b97c6583ffc76630c8e23cbe19549fe9cb38d2d8b39b3e0307"
+  },
+  "baseline": {
+    "target": "PRETTY_NAME=\"Ubuntu 22.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.5 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\nLinux constellation-m2-target 5.15.0-191-generic #201-Ubuntu SMP Fri Aug 7 18:39:04 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\nefcb552a4f164bf8a8417c5353f8533b\nbce09fbc-af1e-4263-bb7c-23e1f7e80100\n3: m2local: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000\n    altname enp0s4\n    altname ens4\n    inet 172.27.42.2/24 brd 172.27.42.255 scope global m2local\n       valid_lft forever preferred_lft forever\n",
+    "controller": "PRETTY_NAME=\"Ubuntu 22.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.5 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\nLinux constellation-m2-controller 5.15.0-191-generic #201-Ubuntu SMP Fri Aug 7 18:39:04 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux\n6c33a76576e143fea4356d0166f49770\n2e0db851-7d47-4695-bdd5-ae1323cc1c2c\n3: m2local: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000\n    altname enp0s4\n    altname ens4\n    inet 172.27.42.3/24 brd 172.27.42.255 scope global m2local\n       valid_lft forever preferred_lft forever\n"
+  },
+  "source_inputs": {
+    "docket": {
+      "sha": "0c771e9be75e6e4bb197ea355682ff86101de97f",
+      "source_date_epoch": 1790902520,
+      "source_archive_sha256": "c65ff1550242d5056b7dd6fd732665813ba246aa48d750ad2ea05f2323484318",
+      "cargo_lock_sha256": "c8753bcca410fbbf6617f630e4d439b1db929c54829aeff7591b5216fbe39ed2"
+    },
+    "ag": {
+      "sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "source_date_epoch": 1790902520,
+      "source_archive_sha256": "3e9f0c64cfbdae66efee585fdd0220f2c0c6798576bfa5fb1b93021f5c9d22e9",
+      "cargo_lock_sha256": "68205a7d2319b648ed5ebcbc42c015222dba2257286012af44b4d9d9e073bcad"
+    },
+    "nightshift": {
+      "sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "source_date_epoch": 1790908027,
+      "source_archive_sha256": "0f88388c8eb603c925d7f87405b8cde08efc9f7d3b7366bae38cdf9f4458277e",
+      "cargo_lock_sha256": "4f58881c3ae3ba33efc57cba3be958d4b623c9f6d8f5a48d8dbad3d4ab241742"
+    },
+    "nq": {
+      "sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
+      "source_date_epoch": 1790902589,
+      "source_archive_sha256": "249ac2014aeb58cbb6d76c3fbbcd1171a9c6ebb01df6b0a9a80b229b03ebdcf8",
+      "cargo_lock_sha256": "11cabfd28eb26c6ecc95cd45c7a0668cf55952718d66785f59036b68cd8bdb31"
+    },
+    "monitor": {
+      "sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "source_date_epoch": 1790907982,
+      "source_archive_sha256": "e9f21e66b6c8a846effd0d1a79762166428280fb4d658d9f423aa213ef167223",
+      "cargo_lock_sha256": "3bd5cab5aeb413919c2a61696601ab2b81e5c7376672a683b729eb8a719507ec"
+    }
+  },
+  "disposition": "CONSTELLATION_ALPHA2_M2_ACCEPTED",
+  "name": "Alpha 2 \u2014 fresh Ubuntu22.04 M2",
+  "acceptance_scope": "One fixed local non-production two-VM governed start; separate fresh unit/HTTP diagnostic postconditions. No aggregate health, effect causation, exactly-once, UTC accuracy, external-provider or beta-general promotion claim.",
+  "checks": {
+    "Pulse": "13 deterministic product cases and existing support process boundary; fmt/focused clippy pass",
+    "Nightshift": "shared typed support/refusal vector; canonical40 pass",
+    "other_components": "Previously retained focused exact forward product tests pass",
+    "packages": "6 exact Debian packages,15 runtime executables; Jammy ABI plus actual installed bytes equal on both fresh VMs"
+  },
+  "known_check_limits": [
+    "Preexisting broad Monitor unused import outside changed cone",
+    "Preexisting broad Monitor absent filesystem-capacity correspondence fixture",
+    "No two-byte-equal-builder reproduction claim"
+  ],
+  "failed_occurrences": [
+    {
+      "id": "m2-support-001",
+      "cause": "runbook omitted exact NQ state binding; Current Pulse support received; no AG occurrence/effect",
+      "evidence": "retained public-records.tar and protected VM recovery custody"
+    },
+    {
+      "id": "m2-support-002",
+      "cause": "runbook missing AG state parent; no AG occurrence/effect",
+      "evidence": "retained public-records.tar and protected VM recovery custody"
+    }
+  ],
+  "recorded_utc": "2026-10-02T02:53:04.826569+00:00",
+  "readview": {
+    "success": true,
+    "role": "target",
+    "source": "installed ag-operator-ui with real AG/Nightshift/Docket owners",
+    "mutations": false,
+    "context": "post-showing read-only inspection after original VM restart; no effect redispatched",
+    "records": [
+      "readview-index.json",
+      "readview-detail.json",
+      "readview-index.html",
+      "readview-detail.html"
+    ],
+    "limitation": "Installed owner read view captured after showing and VM restart; no external stranger study or historical interactive browser journey transfer is claimed."
+  },
+  "vm_image": {
+    "distribution": "Ubuntu22.04.5 amd64",
+    "kernel": "5.15.0-191-generic",
+    "official_image_sha256": "48c7e1ab2005bff1c5450bd6c74d0f38482f0d750e14f320367e3e1c795035f9",
+    "fresh_roles": [
+      "target-authority",
+      "controller-observer"
+    ],
+    "qemu": "KVM,2vCPU/2GiB each; isolated private socket network; restricted management network"
+  },
+  "AG_terminal_state": "settled_observation_required; independent fresh NQ postconditions retained separately; no successor campaign/occurrence opened",
+  "packages": [
+    {
+      "component": "ag",
+      "forward_sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "artifact": "packages/agent-governor-ng-operator-tools_0.1.0+m2.20261001.2_amd64.deb",
+      "sha256": "97bbddd8a3c2e70968c70f566a50d0038dbdc63aec35fb407129491805a5c307",
+      "bytes": 3986084,
+      "debian_control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Agent Governor governed-loop operator tools\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/ag-abi.json"
+    },
+    {
+      "component": "ag",
+      "forward_sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "artifact": "packages/agent-governor-ng-systemd-executor_0.1.0+m2.20261001.2_amd64.deb",
+      "sha256": "1df6b1b49a89d70843bc70fa57ea6de4e5b01ce6040b6f65afbdb8b36ddfbc92",
+      "bytes": 2813446,
+      "debian_control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), systemd (>= 249)\nDescription: Agent Governor target-local systemd effect process adapter\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/ag-abi.json"
+    },
+    {
+      "component": "docket",
+      "forward_sha": "0c771e9be75e6e4bb197ea355682ff86101de97f",
+      "artifact": "packages/constellation-docket_0.1.0+m2.20261001.2_amd64.deb",
+      "sha256": "d17e4451884caed87da5d13f6af89aa53ebd95ea4faa444288742b37e2e75ced",
+      "bytes": 1748514,
+      "debian_control": "Package: constellation-docket\nVersion: 0.1.0+m2.20261001.2\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Docket governed-loop custody and reconciliation CLI\n Inert CLI payload. Installs no issuer trust, observer/executor enrollment,\n configuration, credentials or state. Experimental VM/session executors and\n the Git work provider/broker profile are not included.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/docket-abi.json"
+    },
+    {
+      "component": "nightshift",
+      "forward_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "artifact": "packages/constellation-nightshift_0.1.0+m2.20261001.3_amd64.deb",
+      "sha256": "f04430b4618c54aa96fc20632e31736657b08d9efa163d54f134ffad08e55427",
+      "bytes": 5761604,
+      "debian_control": "Package: constellation-nightshift\nVersion: 0.1.0+m2.20261001.3\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/nightshift-abi.json"
+    },
+    {
+      "component": "nq",
+      "forward_sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
+      "artifact": "packages/nq-ng_0.2.0_amd64.deb",
+      "sha256": "b54f45658c8adb42c938a9fe91aaeabbb9f0c79d05c78fd2b9e5eff061331e3a",
+      "bytes": 9190822,
+      "debian_control": "Package: nq-ng\nVersion: 0.2.0\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: NQ contributors\nDepends: libc6, python3 (>= 3.8), adduser\nConflicts: nq\nDescription: local-first operational evidence service\n NQ-ng supervises bounded watcher helpers, admits versioned evidence, stores\n durable local custody records, and exposes a read-only local operator view.\n This package is a developer preview and does not initialize or migrate state\n during installation.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/nq-abi.json"
+    },
+    {
+      "component": "monitor",
+      "forward_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "artifact": "packages/pulse-m2-support_0.1.0+m2.20261001.3_amd64.deb",
+      "sha256": "e82b9c7c382110922f2eb5ac795b5c6e1339a89ede076bb34efb536a2d290f85",
+      "bytes": 476394,
+      "debian_control": "Package: pulse-m2-support\nVersion: 0.1.0+m2.20261001.3\nArchitecture: amd64\nSection: admin\nPriority: optional\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), nq-ng (>= 0.2.0)\nDescription: exact local M2 NQ proposition support\n Inert Pulse support tool for the fixed non-production Ubuntu22.04 M2\n systemd/HTTP propositions. Installs no enrollment, custody or service.\n",
+      "ubuntu_22_04_dependency_status": "Pinned Jammy build; package/ABI inspected. Fresh VM showing pending.",
+      "runtime_abi_record": "contracts/monitor-abi.json"
+    }
+  ],
+  "product_remote_equality": [
+    {
+      "component": "ag",
+      "repository": "https://github.com/unpingable/constellation-ag",
+      "ref": "refs/heads/dev/operator-beta",
+      "local_sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "remote_sha": "f21b2431d07e15e6d03298502c3ca29577c04058",
+      "verified_utc": "2026-10-02T02:45:52.716339+00:00"
+    },
+    {
+      "component": "docket",
+      "repository": "https://github.com/unpingable/constellation-docket",
+      "ref": "refs/heads/dev/operator-beta",
+      "local_sha": "0c771e9be75e6e4bb197ea355682ff86101de97f",
+      "remote_sha": "0c771e9be75e6e4bb197ea355682ff86101de97f",
+      "verified_utc": "2026-10-02T02:45:52.881577+00:00"
+    },
+    {
+      "component": "nq",
+      "repository": "https://github.com/unpingable/constellation-nq",
+      "ref": "refs/heads/dev/operator-beta",
+      "local_sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
+      "remote_sha": "623a74760c5ea02c633aa97bdb15d52953e66616",
+      "verified_utc": "2026-10-02T02:45:53.055500+00:00"
+    },
+    {
+      "component": "nightshift",
+      "repository": "https://github.com/unpingable/constellation-nightshift",
+      "ref": "refs/heads/dev/operator-beta",
+      "local_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "remote_sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "verified_utc": "2026-10-02T02:45:53.210923+00:00"
+    },
+    {
+      "component": "monitor",
+      "repository": "https://github.com/unpingable/constellation-monitor",
+      "ref": "refs/heads/dev/operator-beta",
+      "local_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "remote_sha": "5a44225ce9db0f58192df2f0d4c88501ba77f09c",
+      "verified_utc": "2026-10-02T02:45:53.627099+00:00"
+    }
+  ],
+  "original_worktrees": {
+    "docket": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    },
+    "ag": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    },
+    "nightshift": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    },
+    "nq": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    },
+    "integration": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    },
+    "cartography": {
+      "branch": true,
+      "head": true,
+      "status": true,
+      "remotes": true,
+      "recorded_dirty_bytes": true
+    }
+  },
+  "public_evidence": {
+    "artifact": "constellation-alpha2-m2-20261001-records.tar.gz",
+    "sha256": "4d7f2d5628cce8340013d29f1a292e7d91925e92af2f31abcc984da80124e3e3",
+    "bytes": 426927
+  }
+}

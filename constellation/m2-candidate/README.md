@@ -1,3 +1,3 @@
-# M2 release candidate
+# Alpha2 M2 release
 
-See [RUNBOOK.md](RUNBOOK.md), [ARTIFACTS.md](ARTIFACTS.md) and [candidate.json](candidate.json). Six exact Jammy packages provide the fixed M2 path, including Pulse-owned fresh NQ proposition support. The published clock-only incompatibility is superseded by the explicit narrow support decision. Candidate readiness alone is not Alpha 2.
+`CONSTELLATION_ALPHA2_M2_ACCEPTED` — one successful fresh source-free two-VM Jammy governed-effect showing. See [accepted scope and exact identities](ALPHA2.md), [machine-readable result](ALPHA2-RESULT.json), [runbook](RUNBOOK.md) and [packages](ARTIFACTS.md). Candidate readiness alone was not called Alpha2.
