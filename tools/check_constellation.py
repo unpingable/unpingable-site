@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
@@ -13,6 +14,40 @@ from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
+REPLAY_MANIFEST_SHA256 = "fac404326904367055742f1ba94655d19b2aa67fcea9d9125e5a8ba48854bdf0"
+
+
+def captured_replay_pages(root: Path = ROOT) -> tuple[set[Path], list[str]]:
+    """Keep the exact accepted export immutable, while still checking its links."""
+    base = root / "constellation" / "demo"
+    manifest = base / "manifest.json"
+    if not manifest.exists():
+        return set(), []
+    try:
+        raw = manifest.read_bytes()
+        if manifest.is_symlink() or hashlib.sha256(raw).hexdigest() != REPLAY_MANIFEST_SHA256:
+            raise ValueError("accepted manifest identity changed")
+        record = json.loads(raw)
+        if record["schema"] != "constellation.reveal-demo/v1" or record["replay_boundary"] != (
+            "AS RECORDED; static local inspection only, no acquisition, action or authority."
+        ):
+            raise ValueError("replay boundary changed")
+        pages = set()
+        for item in record["files"]:
+            relative = Path(item["path"])
+            path = base / relative
+            if relative.is_absolute() or ".." in relative.parts or path.is_symlink():
+                raise ValueError("invalid captured path")
+            if not path.resolve().is_relative_to(base.resolve()):
+                raise ValueError("captured path leaves export")
+            data = path.read_bytes()
+            if len(data) != item["bytes"] or hashlib.sha256(data).hexdigest() != item["sha256"]:
+                raise ValueError(f"captured bytes changed: {relative}")
+            if path.suffix == ".html":
+                pages.add(path)
+        return pages, []
+    except (OSError, ValueError, KeyError, TypeError) as error:
+        return set(), [f"constellation/demo: {error}"]
 
 
 class Page(HTMLParser):
@@ -217,6 +252,8 @@ def main() -> int:
     checked = 0
     pages = sorted((ROOT / "constellation").rglob("*.html"))
     failures.extend(route_source_problems())
+    replay_pages, replay_problems = captured_replay_pages()
+    failures.extend(replay_problems)
     pages += [ROOT / name for name in ("index.html", "about.html")]
     for path in pages:
         parsed = Page(path.read_text())
@@ -228,10 +265,10 @@ def main() -> int:
             if href.startswith("https://"):
                 external.add(href.split("#", 1)[0])
         relative = path.relative_to(ROOT)
-        immutable_release = "releases" in relative.parts
+        immutable_release = "releases" in relative.parts or path in replay_pages
         if not parsed.title.strip():
             failures.append(f"{relative}: missing title")
-        # Immutable release pages retain their published bytes and hashes. The
+        # Immutable release pages and verified replay retain their exact bytes. The
         # mutable entry points supply current descriptions and social previews.
         if not immutable_release and not parsed.meta_value("name", "description"):
             failures.append(f"{relative}: missing description")

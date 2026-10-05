@@ -1,11 +1,28 @@
 import tempfile
+import shutil
 import unittest
 from pathlib import Path
 
-from check_constellation import Page, local_problem, route_source_problems
+from check_constellation import ROOT, Page, local_problem, route_source_problems, captured_replay_pages
 
 
 class LocalLinks(unittest.TestCase):
+    def test_replay_metadata_exception_requires_exact_export(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            demo = root / "constellation" / "demo"
+            shutil.copytree(ROOT / "constellation" / "demo", demo)
+            pages, errors = captured_replay_pages(root)
+            self.assertEqual(errors, [])
+            self.assertEqual(len(pages), 9)
+            extra = demo / "uncaptured.html"
+            extra.write_text("uncaptured")
+            self.assertNotIn(extra, pages)
+            (demo / "records" / "healthy-cohort.json").write_text("changed")
+            pages, errors = captured_replay_pages(root)
+            self.assertEqual(pages, set())
+            self.assertIn("captured bytes changed", errors[0])
+
     def test_parser_collects_navigation_assets_and_anchors(self):
         page = Page('<title>Front</title><h1>Heading</h1><nav><a href="start.html#demo">Start here</a></nav><img src="shot.png"><h2 id="demo">Demo</h2>')
         self.assertEqual(page.links, ["start.html#demo", "shot.png"])

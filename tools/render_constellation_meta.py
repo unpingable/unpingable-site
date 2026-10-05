@@ -135,6 +135,7 @@ SITE_HEADER = f'''<header class="site-header">
 NAVIGATION = (
     ("index.html", "Overview", "index.html"),
     ("understand.html", "How it works", "understand.html"),
+    ("workbench.html", "Workbench", "workbench.html"),
     ("status.html", "Status", "status.html"),
     ("limits.html", "Limits", "limits.html"),
     ("components.html", "Components", "components.html"),
