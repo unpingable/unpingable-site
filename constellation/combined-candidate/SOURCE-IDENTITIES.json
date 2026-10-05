@@ -53,7 +53,7 @@
       "component": "workbench",
       "repository": "private canonical constellation-workbench",
       "branch": "dev/operator-beta",
-      "commit": "ca31202c66786f668153d9de98c5603ec4c1bb59",
+      "commit": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
       "accepted_runtime_source": "ca31202c66786f668153d9de98c5603ec4c1bb59",
       "packaging_note": "bounded read-only accounting projection added; no native LA/effect semantic change"
     }

@@ -70,14 +70,14 @@
     },
     {
       "component": "workbench",
-      "source_revision": "f28d23db894a60bcc92cfcdaf7772368d881dbf4",
+      "source_revision": "ca31202c66786f668153d9de98c5603ec4c1bb59",
       "spdx_declared": "Apache-2.0",
       "license_text": {
         "file": "licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
         "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
         "bytes": 11358
       },
-      "runtime_dependencies": "Python3.10standardlibrary; selectedruntime10modules; no thirdpartypipdependencies"
+      "runtime_dependencies": "Python3.10 standard library; eleven selected modules/six isolated wrappers; no third-party pip dependency"
     }
   ],
   "registry_packages": [

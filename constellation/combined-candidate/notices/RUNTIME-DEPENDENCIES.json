@@ -58,7 +58,7 @@
     },
     {
       "filename": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
-      "sha256": "859863d154e08a2181ae9c54db03aedcd2162a05800dd56add5f603a87f08265",
+      "sha256": "77a2a74555d40bd42054e7671e79f90799de6e3e8a8a91b365b0d12c48ccbcc7",
       "control_fields": "Package: constellation-workbench\nVersion: 0.1.0+release.20261005.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
     },
     {

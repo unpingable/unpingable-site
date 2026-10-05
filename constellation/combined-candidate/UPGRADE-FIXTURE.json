@@ -1,14 +1,14 @@
 {
   "schema": "constellation.package-upgrade-fixture/v1",
-  "source": "ca31202c66786f668153d9de98c5603ec4c1bb59",
+  "source": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
   "before": {
     "file": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
-    "sha256": "859863d154e08a2181ae9c54db03aedcd2162a05800dd56add5f603a87f08265",
+    "sha256": "77a2a74555d40bd42054e7671e79f90799de6e3e8a8a91b365b0d12c48ccbcc7",
     "version": "0.1.0+release.20261005.1"
   },
   "after": {
     "file": "upgrade/constellation-workbench_0.1.0+release.20261005.2_all.deb",
-    "sha256": "034c25d21ceb1121dcf4fba7326da9ea09d9f9601c3fa3b4ba4e5ec9741d505a",
+    "sha256": "3841386ac8fff00c613a3170cc046de6deb0d9a685ee2e084bcc4210bbfdb373",
     "version": "0.1.0+release.20261005.2"
   },
   "runtime_payload_identical": true,
