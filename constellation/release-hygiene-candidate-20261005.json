@@ -1,11 +1,11 @@
 {
-  "schema": "constellation.release-hygiene-artifact/v1",
-  "identity": "constellation-release-hygiene-candidate-20261005",
-  "file": "constellation-release-hygiene-candidate-20261005.tar.gz",
-  "sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
-  "bytes": 31177993,
-  "stage_manifest_sha256": "abaeaf725d71886c1056017369c90dc1965372dbc172c9600514d4cb2a83c9c9",
-  "documentation_commit": "dd5a9cbacdad935e27fb1066a5f781b53ef5a54b",
+  "schema": "constellation.licensing-artifact/v1",
+  "identity": "constellation-licensing-candidate-20261005",
+  "file": "constellation-licensing-candidate-20261005.tar.gz",
+  "sha256": "2add6f0f939efd73528a2f2963a9af8359ff736e0c943c31cda5adb3ce5ab808",
+  "bytes": 31191398,
+  "stage_manifest_sha256": "b92bf430f4f9bba269adcc68d024d96caa90090568a33e9580f381212d7784b2",
+  "documentation_commit": "b6d36b860af7d82f3c3df6f113df622d3c71244f",
   "package_count": 11,
   "runtime_files": 44,
   "upgrade_fixture_count": 1,
@@ -21,9 +21,9 @@
         "component": "nq",
         "repository": "https://github.com/unpingable/constellation-nq",
         "branch": "dev/operator-beta",
-        "commit": "996f2ca9c5b1c7bb148d9cf9e818432b6f860936",
+        "commit": "a7d37dcfd3594f44737b2e7c5af3b0a26955877a",
         "accepted_runtime_source": "7e2c821932c1607913e13445877628a67b9ee72e",
-        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+        "packaging_note": "licensing-only copyright correction; accepted native runtime source and executable bytes unchanged"
       },
       {
         "component": "nightshift",
@@ -146,11 +146,14 @@
       "control": "Package: linear-accountant-inference\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1\n"
     },
     {
-      "file": "packages/nq-ng_0.2.5+release.20261005.1_amd64.deb",
-      "sha256": "327f782a371357643ce5ff31fbb6b4ed026fe6c71088af0063bf40035c0e0f21",
-      "bytes": 9346268,
-      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
+      "file": "packages/nq-ng_0.2.5+release.20261005.2_amd64.deb",
+      "sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
+      "bytes": 9346392,
+      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.2\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
     }
   ],
-  "time": "2026-10-05T13:37:31.517176+00:00"
+  "time": "2026-10-05T15:44:19.183225+00:00",
+  "predecessor_sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
+  "licensing": "Scoped Apache-2.0 project code/glue; upstream components retain respective licenses and companion notices; Geist site font OFL-1.1; no global Site policy change",
+  "runtime_change": false
 }

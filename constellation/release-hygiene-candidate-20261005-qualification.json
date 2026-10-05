@@ -1,34 +1,71 @@
 {
-  "schema": "constellation.release-coherence/v1",
-  "candidate_sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
-  "verdict": "PASS",
-  "Ubuntu": "22.04.5 LTS amd64",
-  "consumer_path": "private HTTP serving exact published-style directory; guest downloaded archive/checksum, no source checkout",
-  "run": "8352413b-9f87-49b4-a819-e6655b5b1d08",
-  "protocol_sha256": "6b89c2b69f9524715775e2efe7580769631435cf1db5f25e995beb562e7d8130",
-  "result_sha256": "8e379ef65e48c2b80c644ee9dc2d8b38ed8e29d4b268691514ca858695828f8d",
-  "commands_passed": 16,
-  "checks": [
-    "archive/internal/installed44runtimehashverification",
-    "11declaredpackagesinstalled, no newnativeELFbytes",
-    "inert installation, explicit boundedfresh enrollment",
-    "Workbench/currentnativeunitreads andbuildidentity",
-    "LA actualselectedacceptedceiling/reservation/providersettlement/remainingretiredcapacity/reconciliation",
-    "nativebudgetexhaustion withoutaction/continuation",
-    "realreboot/newboot/currentnativeunitrecovery",
-    "Workbenchpackage-onlyupgrade.1-.2-.1, same runtime hashes"
-  ],
-  "native_executables_unchanged": 23,
-  "runtime_files": 44,
-  "model_calls_this_pass": 0,
-  "historical_reveal": "unchanged labeledrecorded, reveal did not exercise LA",
-  "limitations": [
-    "not formal stranger-human qualification",
-    "not newLA/provider/effectsemanticqualification",
-    "optionalaccounting is authenticowner-exported recordeddata, no automaticlivepublisher",
-    "whole-spine historicalpredecessor packagesexcluded public download/privatecustody",
-    "Workbenchunitfixture doesnotenrollallreference metrics/Grafana/evaluator paths; prior standing retained",
-    "noBC1/publicsite/productionmodeactivation"
-  ],
-  "time": "2026-10-05T13:40:20.796853+00:00"
+  "schema": "constellation.licensing-changed-cone/v1",
+  "predecessor_archive_sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
+  "retained_install_day_two_smoke": {
+    "schema": "constellation.release-coherence/v1",
+    "candidate_sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
+    "verdict": "PASS",
+    "Ubuntu": "22.04.5 LTS amd64",
+    "consumer_path": "private HTTP serving exact published-style directory; guest downloaded archive/checksum, no source checkout",
+    "run": "8352413b-9f87-49b4-a819-e6655b5b1d08",
+    "protocol_sha256": "6b89c2b69f9524715775e2efe7580769631435cf1db5f25e995beb562e7d8130",
+    "result_sha256": "8e379ef65e48c2b80c644ee9dc2d8b38ed8e29d4b268691514ca858695828f8d",
+    "commands_passed": 16,
+    "checks": [
+      "archive/internal/installed44runtimehashverification",
+      "11declaredpackagesinstalled, no newnativeELFbytes",
+      "inert installation, explicit boundedfresh enrollment",
+      "Workbench/currentnativeunitreads andbuildidentity",
+      "LA actualselectedacceptedceiling/reservation/providersettlement/remainingretiredcapacity/reconciliation",
+      "nativebudgetexhaustion withoutaction/continuation",
+      "realreboot/newboot/currentnativeunitrecovery",
+      "Workbenchpackage-onlyupgrade.1-.2-.1, same runtime hashes"
+    ],
+    "native_executables_unchanged": 23,
+    "runtime_files": 44,
+    "model_calls_this_pass": 0,
+    "historical_reveal": "unchanged labeledrecorded, reveal did not exercise LA",
+    "limitations": [
+      "not formal stranger-human qualification",
+      "not newLA/provider/effectsemanticqualification",
+      "optionalaccounting is authenticowner-exported recordeddata, no automaticlivepublisher",
+      "whole-spine historicalpredecessor packagesexcluded public download/privatecustody",
+      "Workbenchunitfixture doesnotenrollallreference metrics/Grafana/evaluator paths; prior standing retained",
+      "noBC1/publicsite/productionmodeactivation"
+    ],
+    "time": "2026-10-05T13:40:20.796853+00:00"
+  },
+  "licensing_only_nq_check": {
+    "exit_code": 0,
+    "old_sha256": "327f782a371357643ce5ff31fbb6b4ed026fe6c71088af0063bf40035c0e0f21",
+    "new_sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
+    "new_file": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
+    "new_bytes": 9346392,
+    "source_revision": "a7d37dcfd3594f44737b2e7c5af3b0a26955877a",
+    "data_changed": [
+      "usr/share/doc/nq-ng/copyright",
+      "usr/share/nq/MANIFEST.sha256"
+    ],
+    "control_changed": [
+      "control",
+      "md5sums"
+    ],
+    "data_entry_count": 122,
+    "all_other_payload_bytes_modes_links_unchanged": true,
+    "checksum_manifests_verified": true,
+    "build_identity_smoke": [
+      {
+        "file": "usr/bin/nq",
+        "result": "{\"schema\":\"nq.build_info.v2\",\"component\":\"nq\",\"version\":\"0.2.5\",\"debug_assertions\":false,\"helper_isolation_policy\":\"production_separate_identity_required\",\"source_commit\":\"7e2c821932c1607913e13445877628a67b9ee72e\"}"
+      },
+      {
+        "file": "usr/bin/nqd",
+        "result": "{\"schema\":\"nq.build_info.v2\",\"component\":\"nqd\",\"version\":\"0.2.5\",\"debug_assertions\":false,\"helper_isolation_policy\":\"production_separate_identity_required\",\"source_commit\":\"7e2c821932c1607913e13445877628a67b9ee72e\"}"
+      }
+    ],
+    "time": "2026-10-05T15:40:01.915898+00:00"
+  },
+  "no_runtime_unit_dependency_or_maintainer_script_change": true,
+  "new_VM_run": false,
+  "human": "not executed"
 }
