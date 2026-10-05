@@ -1,0 +1,82 @@
+{
+  "schema": "constellation.combined-qualification/v1",
+  "scope": "Automatedfocusedinstalledcombinedchangedcone; acceptedhistoricalstandingretained; nothumanqualification/BC1/productionpromotion",
+  "sources": {
+    "nq": "7e2c821932c1607913e13445877628a67b9ee72e",
+    "nightshift": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+    "ag": "2ac8675274c9eb3d209d7446ec13520d688fc449",
+    "docket": "75f08ebad207f09659801eccdcb272d3c30a7613",
+    "la": "239803f83f9a54d0f181edcc3850df8b0c83e782",
+    "monitor": "f1313df277b17da6a243ad92c7a091f251d4772e",
+    "workbench": "f28d23db894a60bcc92cfcdaf7772368d881dbf4"
+  },
+  "source_checks": {
+    "nq_rust_passed": 347,
+    "nq_release_verifiers": "21passed/3skipped as declared platform gates",
+    "nq_helper_python": "passed; rawlogretained",
+    "monitor_full_tests": 583,
+    "monitor_fmt_clippy": "passed",
+    "monitor_http_tests": 11,
+    "monitor_kubernetes_tests": 21,
+    "workbench_tests": 89,
+    "workbench_python": "Ubuntu22.04 Python3.10 stdlib runtime",
+    "site_guard_tests": 5,
+    "site_local_references": 1166
+  },
+  "installed": {
+    "Ubuntu": "22.04amd64",
+    "packages": 11,
+    "ELFs": 23,
+    "runtime_files": 42,
+    "source_free": true,
+    "steps": [
+      {
+        "name": "01-inert-upgrade-rollback",
+        "exit_code": 0,
+        "protocol_sha256": "2178a38c09c56a180dbaebd2f7c86cfda446356fa954614627be8c29e13b9fc5"
+      },
+      {
+        "name": "02-enrollment",
+        "exit_code": 0,
+        "protocol_sha256": "8de76814dc2fadf479862a3387e8e2ce19957d3fd6acdc16540c1f9d896231d5"
+      },
+      {
+        "name": "03-native-action",
+        "exit_code": 0,
+        "protocol_sha256": "636e6897e8628194341574997b2782a930d2449cad86eb8c8696ddc66780e4cc"
+      },
+      {
+        "name": "04-stale-restart",
+        "exit_code": 0,
+        "protocol_sha256": "b9e45854b3fa1e8ec8d980913020866391bf34e52d08af81e6a0c6ca8984ef86"
+      },
+      {
+        "name": "05-oldboot-and-recovery",
+        "exit_code": 0,
+        "protocol_sha256": "2ed1871c7e28f6131f890d24abfbe6b064ce49916a7ad2c375455a6b3321dc75"
+      }
+    ],
+    "one_grant_use": true,
+    "native_settlement": "settled_observation_required",
+    "successor": "authorityempty observation_required distinctoccurrence",
+    "completion": "completed after35secdwell andfreshcurrentactiveunit",
+    "stale": "exclusive60secondnativeboundary refused, thenfreshcollectionrecovered",
+    "real_reboot": "bootidentitychanged; oldboot evidence refused, freshsameboot collectionrecovered",
+    "upgrade_rollback": "exactinert9package0.2.4 predecessor\u219211package0.2.5\u2192coherentpredecessor\u2192combined; post-enrollmentsemanticdowngradenotclaimed"
+  },
+  "retained_standing": {
+    "v1": "unchangeddefaultconsumer/v2resolver plus583sourcechecks; acceptedspineactualcanary",
+    "v2_LA": "exactacceptedoptionalpackagecompatibility; norealmodel/providersend/currentWorkbenchLAexercise",
+    "Tier5": "boundedrealacceptedreveal; no newk3scampaign/executor",
+    "HTTP": "acceptedreaderexactbytes plus11tests andinstalledclosure; targetVMhasnoHTTPcapability",
+    "observability": "unchangedfrozenadapter/sourcecontracts; no newGrafana/backenddeployclaim"
+  },
+  "failures_retained": [
+    "initialcontainerUID1000missingaccount",
+    "postassemblyunsupportedconsumerbuild-infoflag",
+    "VMversion/helpassertions",
+    "durableVMchildlifecycle/argv0preflightcorrespondence"
+  ],
+  "human": "13-step protocol/fixturesprepared; NOTEXECUTED",
+  "publication": "neutralownerreviewcandidate; no BC1tag/release/publicwebsite deployment"
+}

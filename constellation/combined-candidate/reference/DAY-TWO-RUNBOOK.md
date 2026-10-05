@@ -1,5 +1,6 @@
 # Day-two runbook: install, enroll, restart, upgrade, roll back
 
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
 This lifecycle walkthrough uses retained NQ 0.2.3 as the starting generation and current 0.2.4 as the successor. For a fresh current installation, use INSTALLATION.md; this walkthrough is also the prepared upgrade/rollback procedure.
 
 Target: one Ubuntu 22.04 amd64 host, root access, no build tools, no source, no network needed after the packages are copied on.

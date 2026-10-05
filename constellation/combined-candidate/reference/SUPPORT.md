@@ -1,5 +1,6 @@
 # Support scope and diagnostic record
 
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
 This prework supports one source-free Ubuntu 22.04 amd64 spine with the exact manifest packages, a filesystem-capacity observation profile, Nightshift observation recurrence, local attention and one separately enrolled canary start. Exact package/lifecycle/canary scope is recorded in QUALIFICATION-SUMMARY.json. Workbench integration, combined human operability and final BC1 publication remain pending. This is not a general fleet or service-management support envelope.
 
 ## Known limits

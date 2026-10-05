@@ -1,5 +1,6 @@
 # Operate and inspect the prepared spine
 
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
 This guide covers the source-defined component workflow. Workbench is the intended primary operator surface after its separate integration; use these documented CLI paths when that surface is unavailable or explicitly directs you here. This prepared cohort has no completed combined Workbench or human qualification claim.
 
 ## Find identity and current state

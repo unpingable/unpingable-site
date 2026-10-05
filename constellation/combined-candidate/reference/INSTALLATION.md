@@ -1,24 +1,15 @@
 # Install the prepared operational spine
 
-This exact neutral prework cohort is bound by PACKAGES.json, installed-SHA256SUMS and QUALIFICATION-SUMMARY.json. The retained fresh-origin Ubuntu lifecycle and composed package/canary checks passed within that recorded scope. Workbench and human qualification remain later gates. Live enrollment still requires the owner’s explicit installation/authority choice.
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
+This exact neutral prework cohort is bound by PACKAGES.json, installed-SHA256SUMS and QUALIFICATION-SUMMARY.json. The retained fresh-origin Ubuntu lifecycle and composed package/canary checks passed within that recorded scope. Workbench is included by the combined installation; human qualification remains unexecuted. Live enrollment still requires the owner’s explicit installation/authority choice.
 
 ## Requirements and artifacts
 
 Use a fresh Ubuntu 22.04 amd64 system with systemd, root/sudo, Python 3.10 with its standard `sqlite3` module and the ordinary command-line tools used by [the day-two runbook](DAY-TWO-RUNBOOK.md). No Rust, compiler or source checkout is required. Install `coreutils` for hashes/install/file tools and `util-linux` for `setpriv` observation/resolver account switching. Optional canary action enrollment also needs the OpenSSL CLI (`openssl`) for issuer generation and DER conversion. Have these and declared package dependencies available locally before an offline installation. The selected standalone AG executor targets systemd 249 or later; the larger AG daemon/credential-unit package is a different installation and is not selected here.
 
-Obtain the frozen release directory, `SHA256SUMS`, exact package/executable identity manifest, source-free documentation, `site-adapter/`, `scripts/enroll-canary-observation.sh` and `scripts/enroll-remediation.py` from the release page. Confirm the release page/manifest identity independently; a checksum downloaded with an untrusted file establishes correspondence only. Use SOURCE.json in the extracted bundle for its documentation commit and SHA256SUMS for exact bytes. Workbench/combined-human fields in RELEASE-DRAFT.md deliberately remain future inputs.
+Obtain the frozen release directory, `SHA256SUMS`, exact package/executable identity manifest, source-free documentation, `site-adapter/`, `scripts/enroll-canary-observation.sh` and `scripts/enroll-remediation.py` from the release page. Confirm the release page/manifest identity independently; a checksum downloaded with an untrusted file establishes correspondence only. Use SOURCE.json in the extracted bundle for its documentation commit and SHA256SUMS for exact bytes. Current Workbench identity and pending human status appear in the combined RELEASE-DRAFT.md.
 
-| Package | Prepared version | Purpose |
-|---|---|---|
-| nq-ng | 0.2.4 | NQ CLI/daemon/helpers |
-| constellation-host-posture | 0.1.0+spine.20261004.1 | filesystem-capacity observation profile and status tools |
-| constellation-nightshift | 0.1.0+spine.20261004.1 | observation-cycle runtime |
-| constellation-attention | 0.1.0+spine.20261004.1 | attention evaluator |
-| agent-governor-ng-operator-tools | 0.1.0+spine.20261004.1 | AG inspection, enrollment and loop tools |
-| agent-governor-ng-systemd-executor | 0.1.0+spine.20261004.1 | selected target-local Systemd executor |
-| constellation-docket | 0.1.0+spine.20261004.1 | custody and bounded standing resolvers |
-| linear-accountant-inference | 0.1.0+spine.20261004.1 | accounting CLI; no stock enrolled |
-| constellation-remediation | 0.1.0+spine.20261004.1 | deterministic consumer and unit observation resolver |
+Use the current [PACKAGES.json](../PACKAGES.json), eleven-package [installation](../INSTALLATION.md) and installed byte manifest. The old package table is omitted here to prevent accidental predecessor installation.
 
 `pulse-m2-support` remains source material for a separate integration path and is not selected by this reference package manifest. Foreman is likewise outside the reference installed closure.
 
@@ -33,7 +24,7 @@ sha256sum --check SHA256SUMS
 Every required artifact must be named and pass. Missing artifacts, mismatched digests or unfilled manifest fields stop installation. Use the exact manifest filenames, for example:
 
 ```sh
-sudo dpkg --install   nq-ng_0.2.4_amd64.deb   constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb   constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb   constellation-attention_0.1.0+spine.20261004.1_amd64.deb   agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb   agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb   constellation-docket_0.1.0+spine.20261004.1_amd64.deb   linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb   constellation-remediation_0.1.0+spine.20261004.1_amd64.deb
+sudo dpkg --install packages/*.deb
 sudo systemctl daemon-reload
 ```
 
@@ -50,13 +41,13 @@ ag-loopctl --version
 la_inference version
 ```
 
-Run `sha256sum --check installed-SHA256SUMS` from the bundle root to check all 22 installed native executables, including `ag-effectd` under `/usr/libexec/agent-governor-ng/`. A package version or crate version alone does not identify every build. Docket has no source-defined `--version` command; use its package and executable identity.
+Run `sha256sum --check installed-SHA256SUMS` from the bundle root to check all selected runtime files (23 native executables plus installed scripts/modules), including `ag-effectd` under `/usr/libexec/agent-governor-ng/`. A package version or crate version alone does not identify every build. Docket has no source-defined `--version` command; use its package and executable identity.
 
 The packages create documented service accounts/directories and install disabled units or inert tools. They do not write live configuration, initialize NQ/AG/Docket books, admit helpers, install grants or start the operational loops. LA creates its root-owned default directory only. Confirm `nqd.service`, host-posture, attention and remediation are inactive and their timers are not enabled before enrollment. A pre-existing active installation is outside this fresh-system procedure; preserve its state and use the day-two workflow instead.
 
 ## Enroll the observation profile first
 
-For the current fresh installation, follow [DAY-TWO-RUNBOOK.md, section 2](DAY-TWO-RUNBOOK.md#2-initial-enrollment), with the already installed NQ 0.2.4 cohort. Do not reinstall its section-1 NQ 0.2.3 baseline. Use that document's sandboxed `nq-helper-run` wrapper and exact configuration/admission/ownership procedure, not an unsandboxed helper shortcut.
+For the current fresh installation, follow [DAY-TWO-RUNBOOK.md, section 2](DAY-TWO-RUNBOOK.md#2-initial-enrollment), with the already installed combined NQ 0.2.5 cohort. Do not reinstall its section-1 NQ 0.2.3 baseline. Use that document's sandboxed `nq-helper-run` wrapper and exact configuration/admission/ownership procedure, not an unsandboxed helper shortcut.
 
 Record the actual machine/filesystem identity, NQ store genesis, first artifact, admitted profile and host-posture policy generation. Choose the unique local issuance shown in the runbook. Its source, build and qualification-result identities remain pinned to this exact package cohort; the issuance label grants no effect authority. Stop if the host-posture sample still contains `REPLACE` fields. The required order is NQ test/admit/acquire, host-posture enroll, prepare-qualification, preflight, then start. Qualification-input records must be included by this exact package cohort; do not borrow an unrelated old qualification result.
 
@@ -107,4 +98,4 @@ This enables the already enrolled deterministic canary workflow. Inspect current
 
 No `[model]` enrollment, provider key or model-decider drop-in is required for deterministic v1. Optional v2 is a separate owner action covered by its installed documentation; do not enable it to complete this installation.
 
-Workbench remains a pending integration. Its artifact, address, access procedure and release identity must be supplied by the combined release; component CLI installation is not proof that Workbench is installed or healthy.
+Use the combined [Workbench entry and enrollment procedure](../INSTALLATION.md); keep its local fixture separate from this reference enrollment. Package installation alone is not proof of current healthy operation.

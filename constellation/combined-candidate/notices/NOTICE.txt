@@ -1,12 +1,14 @@
-Constellation operational-spine NOTICE preparation
+Constellation combined-candidate NOTICE preparation
 
 Frozen sources and provided component license declarations:
-nq 9c1a1604f3e833dd5e671c198caf42b7ddb6e4b5 — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
+nq 7e2c821932c1607913e13445877628a67b9ee72e — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
 nightshift 3333c791d32cae33dbb8c8302fc69ca2ba0ec217 — Apache-2.0; licenses/f8c96bf1a1e2b2e6f57d8ae035d6207de5fa64ba92428c1e822569e11a071405.txt
 ag 2ac8675274c9eb3d209d7446ec13520d688fc449 — Apache-2.0; licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt
 docket 75f08ebad207f09659801eccdcb272d3c30a7613 — Apache-2.0; licenses/f8c96bf1a1e2b2e6f57d8ae035d6207de5fa64ba92428c1e822569e11a071405.txt
 linear-accountant 239803f83f9a54d0f181edcc3850df8b0c83e782 — Apache-2.0; licenses/43a93bc3f5afd26caa1cebc6c9c665e974a8229e3cfbaa1f4c30e8f9b2dd9c83.txt
-monitor b0240b2646e46e00c8c8fb2949862b5144ba830e — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
+monitor f1313df277b17da6a243ad92c7a091f251d4772e — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
+
+workbench f28d23db894a60bcc92cfcdaf7772368d881dbf4 — Apache-2.0; licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt
 
 LICENSE-INDEX.json records480 registry package names, versions, exact archive checksums, verbatim Cargo/SPDX declarations and retained license/notice texts. The inventory is a full-lock superset, including build/dev/cross-platform/unselected workspace inputs; it is not a claim every dependency is linked or shipped. Shared identical license text bytes are stored once by SHA256.
 
@@ -17,3 +19,5 @@ Standard Rust library COPYRIGHT and provided toolchain license texts are retaine
 Cartography has no supplied root LICENSE. Integration glue retains authored-owner source provenance and is included under the owner-authorized prework distribution scope; no blanket license grant is invented. Native component source licenses do not implicitly license copied site/deployment glue.
 
 These notices document neutral prework artifacts. They establish no combined BC1 release, provider permission or authority to activate remediation.
+
+Combined addendum: the registry dependency set is unchanged; NQ-owned workspace package versions became 0.2.5 and Monitor adds a bin using existing dependencies. Workbench ships ten ordinary interpreted modules using Python 3.10 standard library; its standard Apache-2.0 text matches the pre-existing license declaration. Current package/dependency hashes supersede the retained predecessor inventory in RUNTIME-DEPENDENCIES.json.

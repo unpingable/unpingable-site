@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "scope": "Full union of six frozen Cargo.lock registry packages. Declared superset includes dev/build/cross-platform and unselected workspace inputs; NOT an exact installed/release runtime dependency graph.",
+  "scope": "Registry dependency superset of frozen Cargo locks; NQ-ownedworkspaceversionsbumped only, Monitorregistrylockunchanged; exactordinaryWorkbenchstandardlibraryclosureadded. NotanexactlinkedRustgraph.",
   "components": [
     {
       "component": "nq",
-      "source_revision": "9c1a1604f3e833dd5e671c198caf42b7ddb6e4b5",
+      "source_revision": "7e2c821932c1607913e13445877628a67b9ee72e",
       "spdx_declared": "Apache-2.0",
       "license_text": {
         "file": "licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
         "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
         "bytes": 11357
       },
-      "Cargo_lock_sha256": "8c5109cc1e3d3a3be02f107c1914f845dbb52ffe14fc2131a24e90142ded0d2d"
+      "Cargo_lock_sha256": "c44a4284ee92adeb52466948212100774a5876958b8186a47af181a2d2557557"
     },
     {
       "component": "nightshift",
@@ -59,7 +59,7 @@
     },
     {
       "component": "monitor",
-      "source_revision": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+      "source_revision": "f1313df277b17da6a243ad92c7a091f251d4772e",
       "spdx_declared": "Apache-2.0",
       "license_text": {
         "file": "licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt",
@@ -67,6 +67,17 @@
         "bytes": 11357
       },
       "Cargo_lock_sha256": "6307cada2966f0524ca421e1130f53d3ffe5597fddf2913cca63140b012bfc18"
+    },
+    {
+      "component": "workbench",
+      "source_revision": "f28d23db894a60bcc92cfcdaf7772368d881dbf4",
+      "spdx_declared": "Apache-2.0",
+      "license_text": {
+        "file": "licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt",
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+        "bytes": 11358
+      },
+      "runtime_dependencies": "Python3.10standardlibrary; selectedruntime10modules; no thirdpartypipdependencies"
     }
   ],
   "registry_packages": [
