@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta name="description" content="Current scoped attention/page delivery, operator interpretation and exact correlation; earlier source-profile examples remain historical.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
   <meta property="og:title" content="Human notifications — Constellation">
-  <meta property="og:description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta property="og:description" content="Current scoped attention/page delivery, operator interpretation and exact correlation; earlier source-profile examples remain historical.">
   <meta property="og:url" content="https://unpingable.com/constellation/notifications.html">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
@@ -15,7 +15,7 @@
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Human notifications — Constellation">
-  <meta name="twitter:description" content="What Constellation&#x27;s local and deterministic notification paths establish, and why live delivery remains unqualified.">
+  <meta name="twitter:description" content="Current scoped attention/page delivery, operator interpretation and exact correlation; earlier source-profile examples remain historical.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
   <title>Human notifications — Constellation</title>
   <link rel="canonical" href="https://unpingable.com/constellation/notifications.html">
@@ -37,11 +37,11 @@
 <main id="main">
   <h1>Who gets told when work needs attention?</h1>
   <p class="lede">An inspectable record is useful, but it is not a notification. Someone still needs a supported way to receive and act on an alert.</p>
-  <aside class="note"><strong>Try the local route:</strong> A <a href="queue-attention.html">public-only four-component example</a> now delivers one protected operator-inbox file after actual acquisition, evidence checks and attention replay. It does not establish human receipt. Slack/Discord adapters have deterministic tests, but no live channel delivery is verified; the complete recurring migration remains open.</aside>
+  <aside class="note"><strong>Current combined candidate:</strong> bounded Slack/Discord delivery and PagerDuty routing semantics retain their accepted installation scope. Informational, attention and page are distinct; a page is not effect authority. Delivery is not human acknowledgment, and a resolved monitoring failure is not proof of service repair. Use the <a href="combined-candidate/OPERATIONS.md">current operator guide</a>, <a href="combined-candidate/reference/OPERATIONS.md">reference notification inspection</a> and <a href="../docs/OPERATOR-LEGIBILITY.md">legibility principle</a>. The source-profile examples below are older scoped history, not the current installation path.</aside>
 
-  <h2>What exists today</h2>
+  <h2>Earlier released notification profiles</h2>
   <p>Classic NQ selects new, escalated and recurring findings above a configured severity threshold, groups them, and sends them through configured webhook, Slack or Discord channels. Its durable finding-level cooldown suppresses repeated notifications. A recorded notification cycle does not prove delivery: eligibility is consumed even when the send fails. See the <a href="https://github.com/unpingable/nq">deprecated source</a> for historical behavior, not a new installation recommendation.</p>
-  <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> can retain an exact attention intent, replay the matching Nightshift decision where applicable, and make one bounded Slack or Discord webhook request. It records a factual delivery state; it does not establish that a person saw the message. An installed route and its current recipients must be checked separately. PagerDuty is not a supported profile.</p>
+  <p><a href="https://github.com/unpingable/constellation-nq">Constellation NQ</a> can retain an exact attention intent, replay the matching Nightshift decision where applicable, and make one bounded Slack or Discord webhook request. It records a factual delivery state; it does not establish that a person saw the message. An installed route and its current recipients must be checked separately. PagerDuty was outside that older profile; the current candidate retains the separately accepted bounded page adapter.</p>
 
   <h2>Keep four responsibilities separate</h2>
   <div class="table-wrap" tabindex="0"><table><thead><tr><th>Question</th><th>Responsibility</th></tr></thead><tbody>
@@ -71,7 +71,7 @@ max_response_bytes = 32768</code></pre>
   <h2>What was qualified, and what was not</h2>
   <p>Local Nightshift-to-NQ replay exercised receipt consistency without network delivery, including an exact duplicate and changed-receipt refusal. Deterministic Slack/Discord transports exercised the request and retained-outcome path. Upstream inputs in those cases were synthetic. Those checks demonstrate bounded local behavior; they do not show that a configured destination received a message, that a recipient read it, or that recurring monitoring is connected end to end.</p>
 
-  <h2>Manual coverage while live delivery remains unverified</h2>
+  <h2>Historical manual coverage example</h2>
   <ol>
     <li>Name the operator and the selected workflow's existing inspection entry point. Agree which failed, uncertain or overdue transitions need attention; do not infer an alert policy from an evidence stream.</li>
     <li>Inspect the retained run or attempt through its owner. Preserve unresolved outcomes and reconcile before considering another submission.</li>
@@ -82,6 +82,6 @@ max_response_bytes = 32768</code></pre>
 
   <h2>Failures and recovery</h2>
   <p>Exact duplicate event/destination submissions converge on one retained record. Changed intent or message content under that identity refuses. <strong>Pending</strong> means no attempt has been claimed. For HTTPS, <strong>accepted</strong> means HTTP 2xx and <strong>failed</strong> means a non-success response. For a local file, accepted means exclusive creation plus file/directory sync; failed means creation failed before writing. Neither establishes human receipt. <strong>Unknown</strong> includes post-create uncertainty or a claimed attempt without a terminal result. Inspect before considering another action; do not invent a new event ID to work around uncertainty.</p>
-  <p>There is no retry daemon, delivery-failure alert loop, human acknowledgment, automatic resolution, escalation tree, or PagerDuty integration. Delivery failures remain inspectable locally, while an operator uses the manual handoff above. A live test needs separate approval of its exact message and destination; publication or model-provider approval does not authorize contacting a channel or paging people.</p>
+  <p>That historical profile provided no retry daemon, delivery-failure alert loop, human acknowledgment, automatic resolution, escalation tree, or PagerDuty integration; this is not the current candidate’s notification capability inventory. Delivery failures remain inspectable locally, while an operator uses the manual handoff above. A live test needs separate approval of its exact message and destination; publication or model-provider approval does not authorize contacting a channel or paging people.</p>
   <p>Saved local checks and maintenance declarations are separate, experimental NQ capabilities. The retained condition view keeps the original outcome, source-time assertion, local-read evidence and maintenance annotation distinct; coverage never changes a failed result or sends a message. See <a href="https://github.com/unpingable/constellation-nq/blob/e605a56c9b90c92f60c6c5c80b3076c189ee30a4/docs/SAVED_CHECKS.md">Saved checks</a> for the public-only example and recovery procedure. The <a href="saved-check-attention.html">saved-check attention walkthrough</a> now connects those interfaces through a finite Nightshift recurrence, exact attention replay and one real local-inbox delivery. It preserves the failed outcome under maintenance and qualifies duplicates and altered-receipt refusal. An unattended installation, application migration, live webhook delivery and human acknowledgment remain outside that evidence.</p>
 </main><footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer></body></html>

@@ -82,7 +82,7 @@ PAGES = {
     ),
     "notifications.html": (
         "Human notifications — Constellation",
-        "What Constellation's local and deterministic notification paths establish, and why live delivery remains unqualified.",
+        "Current scoped attention/page delivery, operator interpretation and exact correlation; earlier source-profile examples remain historical.",
         BASE + "notifications.html",
     ),
     "troubleshooting.html": (
