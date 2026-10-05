@@ -62,7 +62,12 @@
     "completion": "completed after35secdwell andfreshcurrentactiveunit",
     "stale": "exclusive60secondnativeboundary refused, thenfreshcollectionrecovered",
     "real_reboot": "bootidentitychanged; oldboot evidence refused, freshsameboot collectionrecovered",
-    "upgrade_rollback": "exactinert9package0.2.4 predecessor\u219211package0.2.5\u2192coherentpredecessor\u2192combined; post-enrollmentsemanticdowngradenotclaimed"
+    "upgrade_rollback": "Inert nine-package NQ0.2.4\u2192eleven-package NQ0.2.5\u2192predecessor\u2192combined passed; original HP predecessor variant differed only JSON key order. Exact published HP correction subsequently installed/re-upgraded successfully. Enrolled Workbench .1\u2192.2\u2192.1 package-only upgrade passed with identical runtime and current evidence.",
+    "addenda": {
+      "exact_HP": "Accepted a3794eddf939274fb41fee35b2fb88bbce969ceee8c78384a026a3740dd0c71c installed and combined restored; metadata-correction producer later failed only missing telemetry output directory, retained",
+      "tail": "dfe32fde-2821-46e8-8e4b-86cf47ff2a05 passed: documented output directory created; sparse metrics/status, actual package-only upgrade/rollback and all42runtime hashes verified",
+      "observability_limit": "Sparse adapter output with missing inputs visible; no claim all reference services enrolled on unit-only VM"
+    }
   },
   "retained_standing": {
     "v1": "unchangeddefaultconsumer/v2resolver plus583sourcechecks; acceptedspineactualcanary",
@@ -75,7 +80,9 @@
     "initialcontainerUID1000missingaccount",
     "postassemblyunsupportedconsumerbuild-infoflag",
     "VMversion/helpassertions",
-    "durableVMchildlifecycle/argv0preflightcorrespondence"
+    "durableVMchildlifecycle/argv0preflightcorrespondence",
+    "predecessor HP qualification JSON byte-order selection corrected to exact published bytes",
+    "sparse exporter output-directory precondition omitted by apparatus, then supplied"
   ],
   "human": "13-step protocol/fixturesprepared; NOTEXECUTED",
   "publication": "neutralownerreviewcandidate; no BC1tag/release/publicwebsite deployment"

@@ -1,0 +1,16 @@
+{
+  "schema": "constellation.package-upgrade-fixture/v1",
+  "source": "f28d23db894a60bcc92cfcdaf7772368d881dbf4",
+  "before": {
+    "file": "packages/constellation-workbench_0.1.0+combined.20261005.1_all.deb",
+    "sha256": "ead144b2fec77c46941708b2342985d66c2be8294baa1c3d7af7eb599cd549dc",
+    "version": "0.1.0+combined.20261005.1"
+  },
+  "after": {
+    "file": "upgrade/constellation-workbench_0.1.0+combined.20261005.2_all.deb",
+    "sha256": "a007fa7723c5673ea90dec15c61c3a3ea68a6f53a06bc157f025576c242b2ad3",
+    "version": "0.1.0+combined.20261005.2"
+  },
+  "runtime_payload_identical": true,
+  "claim": "Ordinary package-only upgrade/rollback; no semantic generation change or new enrollment"
+}

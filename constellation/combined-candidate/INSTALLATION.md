@@ -6,6 +6,7 @@ Use fresh Ubuntu 22.04 amd64 with systemd 249+, Python 3.10 standard library, su
 sha256sum --check SHA256SUMS
 sudo dpkg --install packages/*.deb
 sudo dpkg --audit
+sha256sum --check installed-SHA256SUMS
 ```
 
 PACKAGES.json records the eleven exact packages and dependency declarations. RUNTIME-IDENTITIES.json records installed runtime bytes and source revisions. NQ is 0.2.5 for this combined candidate; unchanged spine components retain their accepted package bytes. Package installation does not create effect grants, provider enrollment or a working cohort. Workbench remains inactive until configuration exists and the owner explicitly enables it.
