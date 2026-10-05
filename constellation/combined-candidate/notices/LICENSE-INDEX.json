@@ -13562,5 +13562,6 @@
     }
   ],
   "license_expression_rule": "SPDX/Cargo declarations reproduced verbatim. Legacy slash expressions marked, not silently normalized or interpreted. No license invented.",
-  "integration_glue": "Authored installation glue has no separately assigned public distribution license; distribution terms remain owner review. No third-party license is invented."
+  "integration_glue": "Project-authored glue in this directory is explicitly Apache-2.0 under ../LICENSE; upstream materials retain their respective licenses.",
+  "supplemental_nested_notices": "NESTED-NOTICES.json"
 }

@@ -62,10 +62,10 @@
       "control": "Package: linear-accountant-inference\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1\n"
     },
     {
-      "file": "packages/nq-ng_0.2.5+release.20261005.1_amd64.deb",
-      "sha256": "327f782a371357643ce5ff31fbb6b4ed026fe6c71088af0063bf40035c0e0f21",
-      "bytes": 9346268,
-      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
+      "file": "packages/nq-ng_0.2.5+release.20261005.2_amd64.deb",
+      "sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
+      "bytes": 9346392,
+      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.2\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
     }
   ]
 }

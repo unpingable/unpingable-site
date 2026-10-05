@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "scope": "separately served release/reveal dependencies; font is not included in runtime packages or archive",
+  "first_party_grant": "constellation/BC1-DISTRIBUTION.md in source site",
+  "font": {
+    "name": "Geist Mono",
+    "version": "1.3.1",
+    "license": "OFL-1.1",
+    "site_file": "assets/fonts/GeistMono-Variable.woff2",
+    "sha256": "5bc6413e82be410dc057feccee55160495b999d0fe212b7b6c6499b29b8b1e4a",
+    "license_file": "licenses/930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137.txt",
+    "license_sha256": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137"
+  },
+  "site_asset_inventory": "constellation/BC1-DISTRIBUTION-ASSETS.json"
+}

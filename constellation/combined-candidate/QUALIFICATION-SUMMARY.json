@@ -97,5 +97,19 @@
       "tail": "dfe32fde-2821-46e8-8e4b-86cf47ff2a05 passed: documented output directory created; sparse metrics/status, actual package-only upgrade/rollback and all42runtime hashes verified",
       "observability_limit": "Sparse adapter output with missing inputs visible; no claim all reference services enrolled on unit-only VM"
     }
+  },
+  "licensing_correction": {
+    "source": "a7d37dcfd3594f44737b2e7c5af3b0a26955877a",
+    "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
+    "sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
+    "changes": [
+      "usr/share/doc/nq-ng/copyright",
+      "usr/share/nq/MANIFEST.sha256",
+      "control",
+      "md5sums"
+    ],
+    "all_other_payload_bytes_modes_links_unchanged": true,
+    "check": "checksum manifests and packaged NQ/nqd --build-info; prior source-free Ubuntu install standing retained because no runtime/unit/helper/maintainer-script/dependency change",
+    "human": "not executed"
   }
 }

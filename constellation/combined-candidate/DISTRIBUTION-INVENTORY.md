@@ -1,0 +1,21 @@
+# Exact distribution inventory
+
+`PACKAGES.json`, `SOURCE-IDENTITIES.json` and `SOURCE.json` bind the named packages and frozen source revisions. `SHA256SUMS` covers every archive file; each .deb contains its own data/control payload. The distribution unit includes all notices. The private audit enumerates every data/control file mechanically by byte hash and retained packaging protocols; this summary groups those files without duplicating license texts.
+
+| Artifact / file class | Owning source | Source identity | Intended license | Third-party material | Action |
+|---|---|---|---|---|---|
+| NQ package, helpers, units, profiles, schemas | constellation-nq | canonical `a7d37dcfd3594f44737b2e7c5af3b0a26955877a`; runtime `7e2c821932c1607913e13445877628a67b9ee72e` | Apache-2.0 first-party | linked Rust/SQLite, original terms retained | corrected scoped copyright and source URL; metadata revision .2 |
+| Nightshift package/unit/template | constellation-nightshift | runtime `3333c791d32cae33dbb8c8302fc69ca2ba0ec217` | Apache-2.0 first-party | linked Rust | retain exact package and NOTICE |
+| AG tools/systemd-executor packages | constellation-ag | runtime `2ac8675274c9eb3d209d7446ec13520d688fc449` | Apache-2.0 first-party | linked Rust | retain exact packages and companion notices |
+| Docket package/contracts | constellation-docket | runtime `75f08ebad207f09659801eccdcb272d3c30a7613` | Apache-2.0 first-party | linked Rust | restore verbatim source NOTICE in companion collection |
+| attention/host-posture/remediation/live-observation packages | constellation-monitor | runtime `f1313df277b17da6a243ad92c7a091f251d4772e` | Apache-2.0 first-party | linked Rust; finite tool-generated qualification records | retain exact bytes/source correspondence and NOTICE |
+| LA inference package | constellation-linear-accountant | runtime `239803f83f9a54d0f181edcc3850df8b0c83e782` | Apache-2.0 first-party | linked Rust | restore verbatim source NOTICE in companion collection |
+| Workbench package, eleven Python modules, six wrappers, static replay/unit; same-runtime .2 upgrade fixture | canonical Workbench | runtime `ca31202c66786f668153d9de98c5603ec4c1bb59`; canonical `2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae` | Apache-2.0 | no bundled external Python/web library | retain exact package/license and manifest-bound replay |
+| install/setup/adapter/status/exporter helpers, units/drop-ins, configuration, docs, generated release metadata | Site release material | exact revision in SOURCE.json plus file hashes | explicit scoped Apache-2.0 | upstream notice files are excluded from first-party grant | add LICENSE/NOTICE and finite scope |
+| full upstream notices and Rust standard-library copyright/texts | retained component locks/toolchain | 480 entries; versions/checksums/text SHA256s in LICENSE-INDEX.json; nested supplement | original recorded licenses, not blanket Apache | yes; conservative full-lock superset | retain full texts deduplicated by byte hash; add missing nested notices |
+| separately served Site pages, CSS, OG card | finite Site scope | BC1-DISTRIBUTION-ASSETS.json | explicit scoped Apache-2.0 first-party | Geist used in rendering; actual font below | finite grant, not global site policy |
+| eight Workbench screenshots and historical replay export | Workbench renderer/capture | replay manifest `fac404326904367055742f1ba94655d19b2aa67fcea9d9125e5a8ba48854bdf0`; capture `3375e1425fff46f4b3b95a09c102a344d74ddc81b3192f3f1d9bcf232adb60c7` | Apache-2.0 project-generated | no copied icon/font bundle | retain exact captured/export bytes |
+| separately served Geist Mono WOFF2 | geist 1.3.1 upstream | font and OFL hashes in WEB-ASSETS.json | OFL-1.1 | yes | preserve full original adjacent OFL; no font in runtime archive |
+| system/CLI libraries and central OCI images | separately obtained OS/registry sources | dependency records | upstream terms | dependencies, not redistributed bytes | distinguish from bundled content |
+
+Full-lock entries do not imply linked bytes. Missing standalone texts for unselected platform/build entries do not create a current Ubuntu runtime license claim. The native closure is deliberately conservative; it is not an exact linker attribution model.

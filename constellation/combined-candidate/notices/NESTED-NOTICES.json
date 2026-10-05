@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "scope": "Nested notices missing from the original top-level scan; ring fiat/once_cell Apache texts reuse existing byte-identical texts. Build-only cfg_aliases and optional tracing spin notices retained conservatively.",
+  "records": [
+    {
+      "name": "cfg_aliases",
+      "version": "0.2.1",
+      "original_filename": "NOTICES.md",
+      "sha256": "1e2b7ade3fb228130408b9990cae6a7618eb314c75aa0b164bfe485d9d9756ee",
+      "bytes": 1472,
+      "file": "licenses/1e2b7ade3fb228130408b9990cae6a7618eb314c75aa0b164bfe485d9d9756ee.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "cfg_aliases",
+      "version": "0.2.2",
+      "original_filename": "NOTICES.md",
+      "sha256": "1e2b7ade3fb228130408b9990cae6a7618eb314c75aa0b164bfe485d9d9756ee",
+      "bytes": 1472,
+      "file": "licenses/1e2b7ade3fb228130408b9990cae6a7618eb314c75aa0b164bfe485d9d9756ee.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "fiat-crypto",
+      "version": "0.2.9",
+      "original_filename": "AUTHORS",
+      "sha256": "ad74c036a6afaedc418fed65f171c877c2f74a4c70938a03930aa11c98a20508",
+      "bytes": 648,
+      "file": "licenses/ad74c036a6afaedc418fed65f171c877c2f74a4c70938a03930aa11c98a20508.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "regex-syntax",
+      "version": "0.8.10",
+      "original_filename": "src/unicode_tables/LICENSE-UNICODE",
+      "sha256": "74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3",
+      "bytes": 2847,
+      "file": "licenses/74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "regex-syntax",
+      "version": "0.8.11",
+      "original_filename": "src/unicode_tables/LICENSE-UNICODE",
+      "sha256": "74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3",
+      "bytes": 2847,
+      "file": "licenses/74db5baf44a41b1000312c673544b3374e4198af5605c7f9080a402cec42cfa3.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "ring",
+      "version": "0.17.14",
+      "original_filename": "src/polyfill/once_cell/LICENSE-MIT",
+      "sha256": "6ee2ed6c77710de911761acd5fc1ad1da00f476beb1a7ef27e78c2d1858deafc",
+      "bytes": 1022,
+      "file": "licenses/6ee2ed6c77710de911761acd5fc1ad1da00f476beb1a7ef27e78c2d1858deafc.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "ring",
+      "version": "0.17.14",
+      "original_filename": "src/polyfill/once_cell/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "bytes": 10847,
+      "file": "licenses/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "ring",
+      "version": "0.17.14",
+      "original_filename": "third_party/fiat/LICENSE",
+      "sha256": "9eacbcb81be660840c714a560a9d65ba07913db98dd4baf969f78dd499fdd60f",
+      "bytes": 638,
+      "file": "licenses/9eacbcb81be660840c714a560a9d65ba07913db98dd4baf969f78dd499fdd60f.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    },
+    {
+      "name": "tracing-core",
+      "version": "0.1.36",
+      "original_filename": "src/spin/LICENSE",
+      "sha256": "58545fed1565e42d687aecec6897d35c6d37ccb71479a137c0deb2203e125c79",
+      "bytes": 1085,
+      "file": "licenses/58545fed1565e42d687aecec6897d35c6d37ccb71479a137c0deb2203e125c79.txt",
+      "scope": "nested upstream notice; conservative full-lock collection, not an assertion every locked dependency is linked"
+    }
+  ]
+}

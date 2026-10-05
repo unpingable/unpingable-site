@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "scope": "Finite BC1 prepared release/reveal assets only; not a global Site license. License-text files preserve their original terms.",
+  "source_basis": "a74bae3120333361c59b5f20e4655056205defea",
+  "replay_manifest_sha256": "fac404326904367055742f1ba94655d19b2aa67fcea9d9125e5a8ba48854bdf0",
+  "capture_manifest_sha256": "3375e1425fff46f4b3b95a09c102a344d74ddc81b3192f3f1d9bcf232adb60c7",
+  "files": [
+    {
+      "path": "constellation/index.html",
+      "sha256": "5e8e8901451679e0ba99db785f31fd1fcfd71429dcc65532bd9c46f09c6b9342",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/workbench.html",
+      "sha256": "5b85c03bea0d36526bd347bf9fa986ba4e2b753758db5d743be761809e7ed49e",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/release-hygiene-candidate-20261005.html",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture",
+      "audit_input_sha256": "5f7c42eab52d00787cd252c892333d357892179a46d6badb932c6e23bb519d07",
+      "identity_binding": "generated release metadata: exact final bytes recorded by adjacent artifact metadata and licensing receipt; scope grant applies to named path"
+    },
+    {
+      "path": "constellation/release-hygiene-candidate-20261005.json",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture",
+      "audit_input_sha256": "3978a57a585842af463294a0f16589b3cd7797f46519df9bc01cf92175fb17de",
+      "identity_binding": "generated release metadata: exact final bytes recorded by adjacent artifact metadata and licensing receipt; scope grant applies to named path"
+    },
+    {
+      "path": "constellation/release-hygiene-candidate-20261005-qualification.json",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture",
+      "audit_input_sha256": "a8bbbac3bb1b203dc22013f77de234dd888e98c37adb62b991d57e332fa67aed",
+      "identity_binding": "generated release metadata: exact final bytes recorded by adjacent artifact metadata and licensing receipt; scope grant applies to named path"
+    },
+    {
+      "path": "constellation/base.css",
+      "sha256": "22c73fae682e240a43dc9c1fdd6e9c630be9c48f58744ba690d443611e91f8fd",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/workbench.css",
+      "sha256": "7da30d2d4277a7b0abf5f8827d9c0c2ea4647b2d35ecd528a0dcf916e737af3a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "assets/house.css",
+      "sha256": "edd76671aaaadec6b92fcdd3deab05572682328c6387ccd58cc51ad4c23fbf11",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "assets/fonts/GeistMono-Variable.woff2",
+      "sha256": "5bc6413e82be410dc057feccee55160495b999d0fe212b7b6c6499b29b8b1e4a",
+      "license": "OFL-1.1",
+      "provenance": "geist@1.3.1; retained upstream OFL copyright/license"
+    },
+    {
+      "path": "assets/fonts/GeistMono-OFL.txt",
+      "sha256": "930853ee1daa68554d9e35c8a9175affb74f699fad9a5da6ee5ebe76379d9137",
+      "license": "OFL-1.1",
+      "provenance": "geist@1.3.1; retained upstream OFL copyright/license"
+    },
+    {
+      "path": "og-card.png",
+      "sha256": "8de19bc9c47f3c3422a2f0d36eb3befa0cae5ff6fe4c96c3d2e5410cf16d7600",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "tools/render_og_card.py",
+      "sha256": "d1b6dbea4315e1a9f8e8b3f83c46f0a88ea4dd36ebe43096010d48211dea4f98",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/manifest.json",
+      "sha256": "fac404326904367055742f1ba94655d19b2aa67fcea9d9125e5a8ba48854bdf0",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/application-relationship.html",
+      "sha256": "1d78ab96176fee5a738c04ff4c30db415a0d3786bd3149f7bec10fc8325a8a96",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/diagnostic-plan.html",
+      "sha256": "0b50d73292b2314846aa99b09f816c3776cdd9f5ad6e31aa393fd59b676684af",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/evidence.html",
+      "sha256": "08e6d1c9c33f7f8a03456847de909605c84f3303720f290e4d38c7f5fb338adc",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/governed-attempt.html",
+      "sha256": "f03682773c1d617c35d5a535e960dd00258a3f9fc338afee3e0e45e64e4285d2",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/healthy-cohort.html",
+      "sha256": "599d8fd535f2dad107aee632e688c2bb7e60074026e6e622662f91670394c9b6",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/index.html",
+      "sha256": "ece2413550342fe49ec3d840c707592225b8424508a981e01fc9b2b5405b668a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/mixed-version.html",
+      "sha256": "d13db471909fc2ecf324397596c942403ce583b10bc2b83dfcc588242f9aa2b7",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/application-relationship-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/application-relationship.json",
+      "sha256": "bd918c321fefbae871c0c4dbfeb58d19585cf5893c6b74d75d2b42cf1fb0dcc2",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/diagnostic-plan-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/diagnostic-plan.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/evidence-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/evidence.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/governed-attempt-plan.json",
+      "sha256": "c79f81baa6c663818f099a1160209508d6c176d965695501cdc9095d771876b1",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/governed-attempt.json",
+      "sha256": "f243188c99d1dcb01b0e92b87d9f6f1ad901207e5d32ca6b900336fe6950ec6d",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/healthy-cohort-plan.json",
+      "sha256": "fac24781ee351cc34d41133212d95961ab8f5e301d578a34d6b972189ec58055",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/healthy-cohort.json",
+      "sha256": "f22af19583c7ce200435f03b325249b4161d44551e880008403831b7d270739c",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/mixed-version-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/mixed-version.json",
+      "sha256": "1d4c0266fea42b96d3a6bb79a52507bf4ed87a44da62bb4ca3deef590e91c748",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/refusal-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/refusal.json",
+      "sha256": "bd918c321fefbae871c0c4dbfeb58d19585cf5893c6b74d75d2b42cf1fb0dcc2",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/service-attention-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/records/service-attention.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/refusal.html",
+      "sha256": "ff6aafef14eab8724ce04c927044f22e8b013a9fa864f52ad7ba77545c916757",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/demo/service-attention.html",
+      "sha256": "1b5895a1d26a75917c2072bcef690d22ee66e9bc9fa9d3da8019808afe3c973e",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/healthy-cohort.png",
+      "sha256": "b4edd0bfccb6dd46b741f5c90060391a847106acf79f8bc0e2b5d3137414aa7c",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/service-attention.png",
+      "sha256": "b9efa84fdffd3d8733353cd2ccea5a38b85f6a306eb0bef917f62308c38fbb7a",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/evidence.png",
+      "sha256": "976d2b40db062eccff75f153a03297e02fc55b0b785c5d00becaf57e6f705912",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/diagnostic-plan.png",
+      "sha256": "770bcfda27292e7136dfebe7c403daa9d126469f773a51311bd16f1ff6f98a2e",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/refusal.png",
+      "sha256": "103b3dd5c8f7eb560b4bcd55ae739ecece34f6cb93832dcb508fbfd72e09df76",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/application-relationship.png",
+      "sha256": "0eb279043ced849cae6bfe5bb82a88114b5302ae3c45917b8e3faf2f58ad8056",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/mixed-version.png",
+      "sha256": "6e4e4d244c60c6b22dcfadc5f677792f2439574aeae84ab2bf3d32d2b5826cd3",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    },
+    {
+      "path": "constellation/assets/workbench-reveal/governed-attempt.png",
+      "sha256": "26ae1d5436532bba0169ec63f624d5bb6b5db71f73f2cf3c14193a4889e61d19",
+      "license": "Apache-2.0",
+      "provenance": "Site authored presentation or Workbench generated replay/capture"
+    }
+  ]
+}

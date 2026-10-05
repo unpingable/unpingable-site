@@ -1,23 +1,25 @@
-Constellation combined-candidate NOTICE preparation
+Constellation release notice inventory
 
-Accepted native-runtime sources and provided component license declarations (current packaging/canonical revisions are separately listed in SOURCE-IDENTITIES.json):
-nq 7e2c821932c1607913e13445877628a67b9ee72e — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
-nightshift 3333c791d32cae33dbb8c8302fc69ca2ba0ec217 — Apache-2.0; licenses/f8c96bf1a1e2b2e6f57d8ae035d6207de5fa64ba92428c1e822569e11a071405.txt
-ag 2ac8675274c9eb3d209d7446ec13520d688fc449 — Apache-2.0; licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt
-docket 75f08ebad207f09659801eccdcb272d3c30a7613 — Apache-2.0; licenses/f8c96bf1a1e2b2e6f57d8ae035d6207de5fa64ba92428c1e822569e11a071405.txt
-linear-accountant 239803f83f9a54d0f181edcc3850df8b0c83e782 — Apache-2.0; licenses/43a93bc3f5afd26caa1cebc6c9c665e974a8229e3cfbaa1f4c30e8f9b2dd9c83.txt
-monitor f1313df277b17da6a243ad92c7a091f251d4772e — Apache-2.0; licenses/c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4.txt
+Project-authored code and release glue are Apache-2.0; compiled third-party
+components retain their respective licenses and attributions. The complete
+release, not an unaccompanied .deb, is the distribution unit. Redistribute
+individual native packages only with this complete notice collection.
 
-workbench ca31202c66786f668153d9de98c5603ec4c1bb59 — Apache-2.0; licenses/cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30.txt
+LICENSE-INDEX.json records seven exact accepted component sources, six Cargo
+locks and 480 registry package names/versions/checksums with verbatim declared
+license expressions. It is a conservative full-lock superset, including build,
+development, unselected and non-Linux dependencies, not an exact link map.
+No dependency source is redistributed merely because it appears in a lock.
+NESTED-NOTICES.json adds nested copyright/license notices from retained sources.
+Rust standard-library COPYRIGHT and supplied texts are included; the compiler
+is not distributed. Component NOTICEs: Monitor, Nightshift, Docket and LA.
 
-LICENSE-INDEX.json records480 registry package names, versions, exact archive checksums, verbatim Cargo/SPDX declarations and retained license/notice texts. The inventory is a full-lock superset, including build/dev/cross-platform/unselected workspace inputs; it is not a claim every dependency is linked or shipped. Shared identical license text bytes are stored once by SHA256.
+SQLite is bundled into selected native executables through libsqlite3-sys;
+its source is public domain, while the Rust wrapper keeps its declared license.
+The SQLCipher alternative is not selected in this Ubuntu SQLite build.
+Ordinary system libraries and separately obtained central OCI images are
+installation dependencies, not redistributed artifact bytes.
 
-Packages without standalone texts are listed explicitly. No such name appears in the inspected current release fingerprint directories or JSON dependency names; this is bounded build-footprint evidence, not a universal future/other-platform exclusion. The release owner must review the final exact compiled/installed closure and fill any actual missing text before publication. No unrelated license or copyright was substituted.
-
-Standard Rust library COPYRIGHT and provided toolchain license texts are retained. The Rust compiler/toolchain is not included in this source-free runtime; its full compiler COPYRIGHT is not copied. OS libraries and optional central images remain separately installed dependencies. RUNTIME-DEPENDENCIES.json distinguishes supported baseline from declared package minima and optional image versions.
-
-Authored installation glue has no supplied separate public LICENSE. It retains authored-owner source provenance and is included under the owner-authorized prework distribution scope; no blanket license grant is invented. Native component source licenses do not implicitly license copied site/deployment glue.
-
-These notices document neutral prework artifacts. They establish no combined BC1 release, provider permission or authority to activate remediation.
-
-Combined addendum: the registry dependency set is unchanged; NQ-owned workspace package versions became 0.2.5 and Monitor adds a bin using existing dependencies. Workbench ships eleven ordinary interpreted modules and six isolated wrappers using Python 3.10 standard library; its standard Apache-2.0 text matches the pre-existing license declaration. Current package/dependency hashes supersede the retained predecessor inventory in RUNTIME-DEPENDENCIES.json.
+The first-party scope grant is ../LICENSE and ../NOTICE. Third-party text
+files retain original terms. See ../THIRD-PARTY-LICENSES.md and
+../DISTRIBUTION.md for selected web assets and the redistribution boundary.

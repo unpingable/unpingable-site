@@ -9,3 +9,7 @@ This preparation follows the accepted combined spine/Workbench generation. It is
 - Keep the exact older nine-package NQ0.2.4 predecessor private because its installed dated documentation contains private machine labels. The public set supplies the current Workbench version-only upgrade/rollback pair instead.
 
 Ubuntu22.04 amd64 remains the support baseline. V2 is qualified/optional/default-disabled; bounded Kubernetes observation/diagnosis has no Kubernetes executor. FreeBSD standing is separately bounded, not a claim these Ubuntu artifacts run there. See SUPPORT.md and DAY-TWO-RUNBOOK.md for limits.
+
+## Distribution correction
+
+Explicitly license project-authored release glue under Apache-2.0; retain Docket/LA component NOTICEs and nested upstream notices. Correct NQ copyright scope/source information. Runtime behavior and native executable bytes remain unchanged.

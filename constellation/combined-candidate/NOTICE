@@ -1,0 +1,13 @@
+Constellation prepared release
+Copyright 2026 James Beck and the named component contributors.
+
+Project-authored release documentation, installation helpers, configuration
+templates, observation adapters and status/metrics presentation in this directory
+are licensed under Apache-2.0 (LICENSE). Component project code retains its own
+Apache-2.0 license and notices. This grant does not relicense third-party material
+or imply that every byte of a compiled executable is Apache-2.0.
+
+Distribute native packages with the complete notices/ directory and
+THIRD-PARTY-LICENSES.md. It contains upstream license texts, copyright notices,
+component NOTICEs and Rust standard-library notices. See DISTRIBUTION.md for
+source identities, redistribution scope and separately served web assets.

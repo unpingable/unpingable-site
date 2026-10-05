@@ -198,7 +198,7 @@
     {
       "path": "/usr/bin/nq",
       "sha256": "f05163dde4d2e4cd2b2eb8a0408d323ea536eca49a8cd033f5b699969f235563",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 24800648,
       "needed": [
         "libgcc_s.so.1",
@@ -210,7 +210,7 @@
     {
       "path": "/usr/bin/nqd",
       "sha256": "29691482e846e14fc1a04c32ca0b46b607ebd4034145de766db827f7c769a1b6",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 498776,
       "needed": [
         "libgcc_s.so.1",
@@ -221,7 +221,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-host-helper",
       "sha256": "072f2b0ebe2b9cd71afd05d04e56516c378b4db914637dcb6de527835eed30f3",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 1672544,
       "needed": [
         "libgcc_s.so.1",
@@ -232,7 +232,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-host-resource-helper",
       "sha256": "8e3f6844fd9e63e757a38d505c9691e0082e8db59e5d3565c83e773e7a244197",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 2098184,
       "needed": [
         "libgcc_s.so.1",
@@ -243,7 +243,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-operator-beta-helper",
       "sha256": "f4ef55bb1cdd304a52f554e26b3e2925a64c29cc062f7834cd7c97e53f207c77",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 5318864,
       "needed": [
         "libgcc_s.so.1",
@@ -254,7 +254,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper",
       "sha256": "32fb088d9ce352fc95d8f8f82545c0fd3a389332672fe776be44615b455fb17e",
-      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
       "bytes": 3771536,
       "needed": [
         "libgcc_s.so.1",
