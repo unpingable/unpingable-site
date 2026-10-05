@@ -18,6 +18,8 @@ required. Prepared download metadata does not claim public artifact availability
 
 ## Source and website publication
 
+Architecture requirements are recorded separately from shipping capabilities: [operator legibility](docs/OPERATOR-LEGIBILITY.md) and [stateful incident follow-through](docs/OBLIGATION-CONTINUITY.md). The latter treats context reconstruction as a cache and successor obligations as durable, evidence-bearing state; it does not claim an implemented obligation registry.
+
 `dev/operator-beta` is the canonical current documentation line. GitHub Pages
 continues to serve the separately published `main` snapshot from the root at
 https://unpingable.com/. Preparing/pushing this branch does not change Pages

@@ -50,6 +50,8 @@ This documentation capture does not claim those renderer improvements already sh
 
 A page may demand human attention because an obligation cannot be evaluated, rather than because its underlying service is proved failed. Keep that distinction in summaries, resolves, runbooks and UI. Do not hide uncertainty behind friendly prose or require knowledge of the internal component graph to understand the interruption.
 
+[Obligation continuity](OBLIGATION-CONTINUITY.md) records the related architectural requirement: restoration of service or monitoring must not implicitly discharge corrective work created by the incident. Context memory helps reconstruct the explanation; it is not the authoritative ledger of what remains owed.
+
 ## Formalization consideration
 
 Proposition: presentation preserves exact identity, source proposition, uncertainty and trigger/resolve scope while adding qualified human context. Current typed-state/registry inspection and named examples are sufficient for this bounded design capture; no new runtime/wire semantics are introduced. Unknown domain labels, missing source distinctions and dedup-only resolve transports limit what can be rendered. A future renderer correction should use deterministic paired trigger/resolve and unknown-hold controls. Integration owner owns this decision; component source/tests remain authoritative.
