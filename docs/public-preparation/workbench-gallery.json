@@ -1,0 +1,55 @@
+{
+  "schema": "workbench-public-gallery/v1",
+  "presentation": "captured-record replay (presentation polish), not live production",
+  "placement": "constellation/workbench.html between WORKBENCH-GALLERY markers; wrap figures in div.gallery",
+  "items": [
+    {
+      "path": "assets/workbench-reveal/healthy-cohort.png",
+      "title": "Healthy cohort",
+      "caption": "The available observations agree on the healthy application cohort. Captured-record replay with presentation polish; not live production.",
+      "alt": "Healthy cohort in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/service-attention.png",
+      "title": "Service attention",
+      "caption": "A service condition calls for review; readiness alone does not settle service behavior. Captured-record replay with presentation polish; not live production.",
+      "alt": "Service attention in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/evidence.png",
+      "title": "Evidence in context",
+      "caption": "Current observations retain their source and scope for the diagnostic question. Captured-record replay with presentation polish; not live production.",
+      "alt": "Evidence in context in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/diagnostic-plan.png",
+      "title": "Bounded diagnostic plan",
+      "caption": "Inspect the proposed diagnostic work and the evidence it needs. Captured-record replay with presentation polish; not live production.",
+      "alt": "Bounded diagnostic plan in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/refusal.png",
+      "title": "A refusal with a reason",
+      "caption": "An unsupported remediation request remains refused at the application boundary. Captured-record replay with presentation polish; not live production.",
+      "alt": "A refusal with a reason in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/application-relationship.png",
+      "title": "Application relationship",
+      "caption": "Follow frontend \u2192 API \u2192 SQLite state through the retained application model. Captured-record replay with presentation polish; not live production.",
+      "alt": "Application relationship in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/mixed-version.png",
+      "title": "Mixed-version observation",
+      "caption": "Inspect version differences without assuming that observation authorizes a change. Captured-record replay with presentation polish; not live production.",
+      "alt": "Mixed-version observation in the retained Workbench captured-record replay"
+    },
+    {
+      "path": "assets/workbench-reveal/governed-attempt.png",
+      "title": "Governed attempt",
+      "caption": "Read the exact authorization, execution attempt, and independent postcondition together. Captured-record replay with presentation polish; not live production.",
+      "alt": "Governed attempt in the retained Workbench captured-record replay"
+    }
+  ]
+}
