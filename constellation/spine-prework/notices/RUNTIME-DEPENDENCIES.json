@@ -8,7 +8,10 @@
     "other_installed_dependencies": [
       "adduser",
       "systemd/D-Bus services as selected by installed units",
-      "ordinary distribution libc/shared libraries as declared by exact package controls"
+      "ordinary distribution libc/shared libraries as declared by exact package controls",
+      "coreutils (sha256sum, install and ordinary file tools)",
+      "util-linux (setpriv observation/resolver account switching)",
+      "openssl CLI (optional canary issuer generation and DER conversion)"
     ]
   },
   "inspected_package_metadata": [
