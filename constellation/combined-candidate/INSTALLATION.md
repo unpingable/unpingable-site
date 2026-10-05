@@ -1,6 +1,21 @@
 # Install the combined candidate
 
-Use fresh Ubuntu 22.04 amd64 with systemd 249+, Python 3.10 standard library, sudo/root, coreutils, util-linux and OpenSSL. No checkout, compiler or developer directory is required. Have the declared dependencies available before offline installation. Verify the candidate identity against the owner-approved download record, then run from its extracted directory:
+Obtain the archive and its adjacent SHA256 file from the owner-approved release page. Do not use the historical alpha source recipes. From the download directory, verify and extract the exact neutral candidate before following the commands below; the release page supplies its exact archive basename.
+
+```sh
+sha256sum --check constellation-release-hygiene-candidate-20261005.tar.gz.sha256
+tar --extract --gzip --file constellation-release-hygiene-candidate-20261005.tar.gz
+cd constellation-release-hygiene-candidate-20261005
+```
+
+Use fresh Ubuntu 22.04 amd64 with systemd 249+, Python 3.10 standard library, sudo/root, coreutils, util-linux and OpenSSL. No checkout, compiler or developer directory is required. For an online fresh machine, install `python3`, `adduser`, `systemd`, `util-linux`, `openssl`, `libc6`, `libgcc-s1`, `sudo`, `coreutils`, `curl` and `ca-certificates` from Ubuntu22.04 before installing the verified local packages.
+
+```sh
+sudo apt-get update
+sudo apt-get install python3 adduser systemd util-linux openssl libc6 libgcc-s1 sudo coreutils curl ca-certificates
+```
+
+For offline installation, supply the corresponding Ubuntu packages separately. The Constellation archive does not redistribute an operating system. Verify the candidate identity against the owner-approved download record, then run from its extracted directory:
 
 ```sh
 sha256sum --check SHA256SUMS
@@ -9,7 +24,7 @@ sudo dpkg --audit
 sha256sum --check installed-SHA256SUMS
 ```
 
-PACKAGES.json records the eleven exact packages and dependency declarations. RUNTIME-IDENTITIES.json records installed runtime bytes and source revisions. NQ is 0.2.5 for this combined candidate; unchanged spine components retain their accepted package bytes. Package installation does not create effect grants, provider enrollment or a working cohort. Workbench remains inactive until configuration exists and the owner explicitly enables it.
+PACKAGES.json records the eleven exact packages and dependency declarations. RUNTIME-IDENTITIES.json records installed runtime bytes and source revisions. NQ is 0.2.5 for this combined candidate; native spine executables retain their accepted bytes; corrected package metadata, dependencies and operator docs have new package revisions. Package installation does not create effect grants, provider enrollment or a working cohort. Workbench remains inactive until configuration exists and the owner explicitly enables it.
 
 ## Prepared local operator exercise
 

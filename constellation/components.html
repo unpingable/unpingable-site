@@ -41,13 +41,13 @@
       <p class="lede">The Constellation map in boring nouns: what each component does, what it will not do, and how mature it is.</p>
       <p>This is a public source map, not a claim that every component is installed, live, or needed for every workflow. Constellation is compositional; choose the smallest supported composition on the <a href="integration.html">integration</a> page. Dated claims are on the <a href="status.html">status</a> page.</p>
       <h2 id="core">Core components</h2>
-      <p>The components exercised together in the alpha.6 governed-action profile.</p>
+      <p>The bounded operational spine and its human-facing Workbench surface.</p>
       <article id="ag">
         <h3><a href="https://github.com/unpingable/constellation-ag">Constellation AG</a></h3>
         <p>Decides whether one exact piece of automated work may run, and grants permission for that one run.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Refuses authority that is already spent or no longer current. Does not execute work or treat a provider response as permission.</dd>
-          <dt>Maturity</dt><dd>Development source</dd>
+          <dt>Maturity</dt><dd>Qualified bounded authority office</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -55,9 +55,9 @@
             <dt>Precise role</dt><dd>Makes bounded, one-use authorization decisions from current inputs.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust authorization office</dd>
-            <dt>Maturity in full</dt><dd>Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.</dd>
-            <dt>Available now</dt><dd>Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.</dd>
-            <dt>When to use it</dt><dd>Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example.</dd>
+            <dt>Maturity in full</dt><dd>Makes independent exact-work decisions from current evidence and owner-enrolled standing; no model output grants authority.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -66,7 +66,7 @@
         <p>Evaluates a narrowly defined question from recorded evidence.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Returns a typed refusal when required evidence is missing, stale or cannot be evaluated. Its results never authorize an effect.</dd>
-          <dt>Maturity</dt><dd>Developer preview</dd>
+          <dt>Maturity</dt><dd>Qualified bounded observation/currentness</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -74,9 +74,9 @@
             <dt>Precise role</dt><dd>Derives bounded diagnostic dispositions or typed refusals from retained evidence.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust diagnostic engine</dd>
-            <dt>Maturity in full</dt><dd>Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.</dd>
-            <dt>Available now</dt><dd>Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. NQ 0.2.0 is also published as a component package (a Debian package and a tarball) for NQ alone: https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0.</dd>
-            <dt>When to use it</dt><dd>Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act.</dd>
+            <dt>Maturity in full</dt><dd>NQ0.2.5 adds boot-bound unit observation/export; current reference spine is qualified and Classic runtime retired. Profiles remain individually bounded.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -85,7 +85,7 @@
         <p>Keeps custody of one authorized execution attempt: dispatches it, records the outcome and reconciles it.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Refuses to execute without matching, current permission. An uncertain attempt is recorded as indeterminate and reconciled, not blindly repeated.</dd>
-          <dt>Maturity</dt><dd>Exercised in alpha.6; not production-hardened</dd>
+          <dt>Maturity</dt><dd>Qualified bounded execution custody</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -93,9 +93,9 @@
             <dt>Precise role</dt><dd>Keeps custody of a bounded execution attempt and records its outcome.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust execution-custody product</dd>
-            <dt>Maturity in full</dt><dd>Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.</dd>
-            <dt>Available now</dt><dd>Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.</dd>
-            <dt>When to use it</dt><dd>Use when an authorized workflow needs attempt identity and settlement custody.</dd>
+            <dt>Maturity in full</dt><dd>Keeps exact enrolled attempt and settlement custody; a receipt is not independent recovery evidence or renewed authority.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -104,7 +104,7 @@
         <p>Tracks recurring work and changing conditions over time, and proposes the next bounded task.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Does not authorize or execute work, and does not turn old evidence into a fresh fact.</dd>
-          <dt>Maturity</dt><dd>Development source</dd>
+          <dt>Maturity</dt><dd>Qualified reference recurrence</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -112,9 +112,9 @@
             <dt>Precise role</dt><dd>Tracks currentness, recurrence, and attention over time.</dd>
             <dt>Relationship</dt><dd>core family office</dd>
             <dt>Implementation</dt><dd>standalone Rust temporal-observation office</dd>
-            <dt>Maturity in full</dt><dd>Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.</dd>
-            <dt>Available now</dt><dd>Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.</dd>
-            <dt>When to use it</dt><dd>Use when a workflow needs temporal observation rather than authorization or execution.</dd>
+            <dt>Maturity in full</dt><dd>Reference observation recurrence, attention and currentness compose without authorizing effects; unknown support stays unknown.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -134,6 +134,25 @@
             <dt>Maturity in full</dt><dd>Public source includes deterministic Plan Core authoring, an optional enrolled provider route, the qualified alpha.4 connected-cache workflow, and the alpha.6 local-copy validator/executor. ECAD/design-flow remains pre-alpha.</dd>
             <dt>Available now</dt><dd>Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.</dd>
             <dt>When to use it</dt><dd>Use for source-level Plan Core work; a checked plan grants no permission and runs no work.</dd>
+          </dl>
+        </details>
+      </article>
+      <article id="workbench">
+        <h3>Constellation Workbench</h3>
+        <p>Presents current owner evidence, plans, gaps and exact outcomes.</p>
+        <dl class="pairs">
+          <dt>Boundary</dt><dd>Does not turn diagnostic depth, frontend budgets, stale evidence or model narration into effect authority.</dd>
+          <dt>Maturity</dt><dd>Qualified bounded operator surface</dd>
+        </dl>
+        <details>
+          <summary>Details</summary>
+          <dl class="pairs">
+            <dt>Precise role</dt><dd>Human-facing Operational EDA surface over the operational spine.</dd>
+            <dt>Relationship</dt><dd>human-facing operator surface</dd>
+            <dt>Implementation</dt><dd>packaged Python3.10 read-only operator surface and bounded native API escape</dd>
+            <dt>Maturity in full</dt><dd>Accepted bounded live unit loop and Kubernetes observation/diagnosis; optional recorded LA projection is subsequent composition. Historical replay is labeled. General frontend coverage and stranger-human operability remain unclaimed.</dd>
+            <dt>Available now</dt><dd>Included in the prepared Ubuntu22.04 combined candidate; implementation repository remains private. No public source-availability claim.</dd>
+            <dt>When to use it</dt><dd>Enter through the source-free operator guide; no Cartography or private repository is required.</dd>
           </dl>
         </details>
       </article>
@@ -201,7 +220,7 @@
         <p>Tracks finite resource allowances and prevents double spending.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Accounts for capacity only; it does not authorize action.</dd>
-          <dt>Maturity</dt><dd>Frozen v0 reference</dd>
+          <dt>Maturity</dt><dd>Qualified optional inference accounting</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -209,9 +228,9 @@
             <dt>Precise role</dt><dd>Accounts for conserved finite capacity separately from action permission.</dd>
             <dt>Relationship</dt><dd>optional reference component</dd>
             <dt>Implementation</dt><dd>standalone Rust library and thin transport binary</dd>
-            <dt>Maturity in full</dt><dd>Frozen v0 reference component with a machine-checked arithmetic core; a scalar spend/residual-viability bridge is formalized, but no cross-stack reserve controller is implemented.</dd>
-            <dt>Available now</dt><dd>Optional public source</dd>
-            <dt>When to use it</dt><dd>Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it.</dd>
+            <dt>Maturity in full</dt><dd>Separately accepted remediation-v2 uses finite reservation, send fence, actual-usage settlement and reconciliation. Workbench reveal did not exercise LA; optional recorded read projection does not administer budgets.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -220,7 +239,7 @@
         <p>Collects bounded observations about an explicitly selected project.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Does not establish diagnostic truth or permission to act.</dd>
-          <dt>Maturity</dt><dd>Experimental</dd>
+          <dt>Maturity</dt><dd>Qualified bounded observation/diagnosis</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -228,9 +247,9 @@
             <dt>Precise role</dt><dd>Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.</dd>
             <dt>Relationship</dt><dd>optional family member</dd>
             <dt>Implementation</dt><dd>standalone Rust project-concern acquisition workspace hosting Pulse</dd>
-            <dt>Maturity in full</dt><dd>Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.</dd>
-            <dt>Available now</dt><dd>Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.</dd>
-            <dt>When to use it</dt><dd>Use monitor-concerns to acquire an explicitly selected project&#x27;s observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits.</dd>
+            <dt>Maturity in full</dt><dd>Bounded discovery, support, attention/evaluation and reference status are qualified. GET-only Kubernetes observation/diagnosis introduces no Kubernetes executor or NQ/Pulse standing.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>
@@ -239,7 +258,7 @@
         <p>Checks whether current evidence still supports one specific statement.</p>
         <dl class="pairs">
           <dt>Boundary</dt><dd>Support expires. It is not general health, permission to act, or delivery.</dd>
-          <dt>Maturity</dt><dd>Component checks passed; live delivery unqualified</dd>
+          <dt>Maturity</dt><dd>Qualified scoped support/custody</dd>
         </dl>
         <details>
           <summary>Details</summary>
@@ -247,9 +266,9 @@
             <dt>Precise role</dt><dd>Evaluates proposition-specific present support under explicit coverage and policy.</dd>
             <dt>Relationship</dt><dd>hosted optional family capability</dd>
             <dt>Implementation</dt><dd>Rust subsystem and support adapters hosted within Constellation Monitor</dd>
-            <dt>Maturity in full</dt><dd>Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.</dd>
-            <dt>Available now</dt><dd>Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.</dd>
-            <dt>When to use it</dt><dd>Select the adapter matching the named evidence profile and explicit source policy. Positive support expires and is not general health, action permission or delivery.</dd>
+            <dt>Maturity in full</dt><dd>Receiver-owned evidence custody and scoped current support remain separate from NQ judgment and operational authority.</dd>
+            <dt>Available now</dt><dd>Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.</dd>
+            <dt>When to use it</dt><dd>Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment.</dd>
           </dl>
         </details>
       </article>

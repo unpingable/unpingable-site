@@ -1,33 +1,75 @@
 {
   "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py. Current rows describe public releases; historical rows remain explicitly marked as history.",
   "generated_note": "Rendered into constellation/status.html by tools/render_status.py. Do not hand-edit the ledger block.",
-  "as_of": "2026-09-25",
+  "as_of": "2026-10-05",
   "objects": [
     {
+      "id": "combined-candidate",
+      "name": "Constellation combined spine + Workbench candidate",
+      "kind": "composition",
+      "status": "technically accepted neutral candidate; release hygiene/owner review pending",
+      "claim": "Eleven source-free Ubuntu22.04 packages combine the accepted spine and Workbench. V1 is reference/default; v2 separately qualified and optional. Historical reveal stays recorded; bounded Kubernetes diagnosis has no executor.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted combined source/package and focused installed-native records",
+      "evidence": [
+        {
+          "label": "operator guide",
+          "url": "constellation/combined-candidate/README.md"
+        },
+        {
+          "label": "supported scope",
+          "url": "constellation/combined-candidate/SUPPORT.md"
+        }
+      ],
+      "promotion": "No BC1 tag/publication or formal human study. Final release hygiene and explicit owner review remain."
+    },
+    {
       "id": "alpha6-reviewed-local-copy",
-      "name": "Constellation 0.1.0-alpha.6 — reviewed local copy",
+      "name": "Constellation 0.1.0-alpha.6 \u2014 reviewed local copy",
       "kind": "composition",
       "status": "qualified immutable integration release",
       "claim": "One exact local-copy plan was independently reviewed, explicitly accepted, authorized once, executed under Docket custody, settled successfully, and followed by a read-only observation. An anonymous public-clone reproduction verified the retained evidence without repeating the provider call or effect.",
       "verified": "2026-09-20",
       "verified_by": "the immutable alpha.6 manifest, qualification record, walkthrough, and anonymous public-clone verification",
       "evidence": [
-        {"label": "alpha.6 walkthrough", "url": "constellation/releases/0.1.0-alpha.6/guide.html"},
-        {"label": "manifest", "url": "constellation/releases/0.1.0-alpha.6/manifest.json"},
-        {"label": "qualification", "url": "constellation/releases/0.1.0-alpha.6/qualification.json"}
+        {
+          "label": "alpha.6 walkthrough",
+          "url": "constellation/releases/0.1.0-alpha.6/guide.html"
+        },
+        {
+          "label": "manifest",
+          "url": "constellation/releases/0.1.0-alpha.6/manifest.json"
+        },
+        {
+          "label": "qualification",
+          "url": "constellation/releases/0.1.0-alpha.6/qualification.json"
+        }
       ],
       "promotion": "This release is immutable. Operational burn-in, live notification delivery, cross-version restore, migration, rollback, and production consumer adoption require separate evidence."
     },
     {
       "id": "alpha-exit-rc-clean-install",
-      "name": "reviewed-local-copy/v1 — Alpha 2 release candidate, clean install",
+      "name": "reviewed-local-copy/v1 \u2014 Alpha 2 release candidate, clean install",
       "kind": "composition",
-      "status": "release candidate; not released",
+      "status": "historical Alpha2 packaging qualification; superseded by accepted combined candidate",
       "claim": "Packaged builds of NQ, Maude, Nightshift, Pulse, AG, Docket, Switchyard and the App Server, with a setup kit, were installed into a fresh Debian 12 virtual machine from those artifacts alone. One reviewed and accepted occurrence settled successfully and wrote its file exactly once. Every requested refusal held: a wrong artifact digest, a repeated init, a stale review, an expired authorization, a second execution attempt, and acceptance of the wrong candidate. The review came from a local fixture standing in for the model provider, and the acceptance was performed by the test harness, not by a person.",
       "verified": "2026-09-25",
       "verified_by": "clean-install run-004 on 2026-09-25: 31 pass, 0 fail, 0 not exercised, with setup kit 0.4.0. It reruns every earlier case, including a check that the evidence verifier shipped in the kit gives the same result inside the virtual machine as outside it and a replay of the settled evidence without the issuer's private key, and adds cases from the hostile review: the review's altered setup kits and substitute artifact were run against the new bundle and refused, and an already-installed NQ is now compared with the package file by file. An earlier upgrade-continuity run (run-002: 22 pass, 0 fail, 0 not exercised) upgraded an install of the previous kit to a second, test-only build and re-verified the first build's retained evidence, byte for byte; the upgrade code is unchanged in kit 0.4.0, so it was not rerun. Both run records are retained privately; the harness source is public on an unmerged branch.",
-      "evidence": [{"label": "clean-install harness source", "url": "https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-clean-install-v1"}, {"label": "upgrade-continuity harness source", "url": "https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-upgrade-continuity-v1"}, {"label": "the released alpha.6 profile it packages", "url": "constellation/releases/0.1.0-alpha.6/guide.html"}],
-      "promotion": "This is not a release. The packaged artifacts are not public. Alpha 1 proved the semantics; Alpha 2 claims only that the same composition can be packaged, installed, reproduced and upgraded as one set of versions outside the development environment; Beta, an operator experience someone can actually live in, is not claimed. The candidate awaits the operator's own acceptance run against the real model provider, and its packaging branches stay unmerged until then. A clean-room newcomer run succeeded on 2026-09-25. A hostile review the same day found that an altered setup kit passed the kit pin check; that is fixed and the attack was refused in run-004. It also found that whoever controls the operator's host account can run the packaged executor directly, without an AG issuance or Docket custody. That is not fixed: it is documented as the local trust boundary and needs component changes. The paid review route also sends one non-generating warm-up request whose billing is unverified. Both are open items for a beta. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package."
+      "evidence": [
+        {
+          "label": "clean-install harness source",
+          "url": "https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-clean-install-v1"
+        },
+        {
+          "label": "upgrade-continuity harness source",
+          "url": "https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-upgrade-continuity-v1"
+        },
+        {
+          "label": "the released alpha.6 profile it packages",
+          "url": "constellation/releases/0.1.0-alpha.6/guide.html"
+        }
+      ],
+      "promotion": "Original evidence/limits retained. Current operator/package path is the combined candidate; no historical campaign replay required."
     },
     {
       "id": "indeterminate-effect-demo",
@@ -37,41 +79,85 @@
       "claim": "An agent reports a refund done after the reply was lost. Docket, built from source, records the attempt as indeterminate, sends nothing twice, and settles success or failure only on a separate observer's read of the provider's ledger. A second run with the request lost ends in failure under the same agent claim. Docket is real; the authorization signer (a stand-in reproducing AG's published test vector), the payment provider, the faulty network link and the agent are local stand-ins. Everything runs on one host under one clock.",
       "verified": "2026-09-25",
       "verified_by": "run-003: an anonymous HTTPS clone of the demo source into a fresh Debian 12 virtual machine, with the network cut off for the build and the run; the demo exited 0 and its independent check passed 53 of 53 checks. The exhibit tag demo/indeterminate-effect-20260925 (eeb0534) carries the same demo code; only the README changed.",
-      "evidence": [{"label": "demo source (tag demo/indeterminate-effect-20260925)", "url": "https://github.com/unpingable/constellation-docket/tree/demo/indeterminate-effect-20260925/examples/indeterminate-effect"}, {"label": "transcript", "url": "constellation/demo/indeterminate-effect-transcript.txt"}, {"label": "check output", "url": "constellation/demo/indeterminate-effect-check.txt"}, {"label": "recording", "url": "constellation/demo/indeterminate-effect.cast"}],
+      "evidence": [
+        {
+          "label": "demo source (tag demo/indeterminate-effect-20260925)",
+          "url": "https://github.com/unpingable/constellation-docket/tree/demo/indeterminate-effect-20260925/examples/indeterminate-effect"
+        },
+        {
+          "label": "transcript",
+          "url": "constellation/demo/indeterminate-effect-transcript.txt"
+        },
+        {
+          "label": "check output",
+          "url": "constellation/demo/indeterminate-effect-check.txt"
+        },
+        {
+          "label": "recording",
+          "url": "constellation/demo/indeterminate-effect.cast"
+        }
+      ],
       "promotion": "The tag is a qualified public exhibit, not a Docket release or cohort promotion; the demo counts as part of Docket only once it is merged there. Independence holds because this demo's worker delegates reconcile to the observer; Docket does not pin that configuration, so it is not a general guarantee. Using AG itself, a remote provider, or several observers would each need separate evidence."
     },
     {
       "id": "docket",
       "name": "Constellation Docket",
       "kind": "artifact",
-      "status": "public source; exercised in alpha.6",
-      "claim": "Takes custody of one authorized attempt, dispatches an authority-neutral executor, and records settlement and reconciliation. Alpha.6 exercised its bounded local permission snapshot and local-copy executor path.",
-      "verified": "2026-09-20",
-      "verified_by": "the alpha.6 manifest and qualification record at the exact pinned public revision",
-      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-docket"}, {"label": "alpha.6 walkthrough", "url": "constellation/releases/0.1.0-alpha.6/guide.html"}],
-      "promotion": "The profile is narrow; it does not establish production hardening or arbitrary executor compatibility."
+      "status": "accepted bounded operational spine; combined package candidate prepared",
+      "claim": "Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted operational spine and combined-candidate records",
+      "evidence": [
+        {
+          "label": "repository",
+          "url": "https://github.com/unpingable/constellation-docket"
+        },
+        {
+          "label": "alpha.6 walkthrough",
+          "url": "constellation/releases/0.1.0-alpha.6/guide.html"
+        }
+      ],
+      "promotion": "Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support."
     },
     {
       "id": "constellation-ag",
       "name": "Constellation AG",
       "kind": "artifact",
-      "status": "public source; exercised in alpha.6",
-      "claim": "Checks whether exact automated work is admissible and grants bounded one-use authority for one specific run. It does not execute work or infer permission from a provider response.",
-      "verified": "2026-09-20",
-      "verified_by": "the alpha.6 one-use authorization and public evidence-reader checks",
-      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-ag"}, {"label": "components", "url": "constellation/components.html#ag"}],
-      "promotion": "No family-wide or production maturity is claimed."
+      "status": "accepted bounded operational spine; combined package candidate prepared",
+      "claim": "Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted operational spine and combined-candidate records",
+      "evidence": [
+        {
+          "label": "repository",
+          "url": "https://github.com/unpingable/constellation-ag"
+        },
+        {
+          "label": "components",
+          "url": "constellation/components.html#ag"
+        }
+      ],
+      "promotion": "Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support."
     },
     {
       "id": "constellation-nq",
       "name": "Constellation NQ",
       "kind": "artifact",
-      "status": "public source; bounded released profiles",
-      "claim": "Evaluates retained evidence under named profiles and keeps missing, stale, unavailable, or uncertain results visible. Its results do not authorize an effect.",
-      "verified": "2026-09-20",
-      "verified_by": "alpha.2 through alpha.6 profiles and the separately documented archive-read procedure",
-      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-nq"}, {"label": "components", "url": "constellation/components.html#nq"}],
-      "promotion": "Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified."
+      "status": "accepted bounded operational spine; combined package candidate prepared",
+      "claim": "Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted operational spine and combined-candidate records",
+      "evidence": [
+        {
+          "label": "repository",
+          "url": "https://github.com/unpingable/constellation-nq"
+        },
+        {
+          "label": "components",
+          "url": "constellation/components.html#nq"
+        }
+      ],
+      "promotion": "Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support."
     },
     {
       "id": "nq-0-2-0",
@@ -81,19 +167,37 @@
       "claim": "A Debian package and a tarball for NQ alone, built twice offline with identical bytes and accepted in a clean Debian 12 virtual machine (49 pass, 0 fail, 2 not exercised). It packages one component; it is not an installable Constellation suite.",
       "verified": "2026-09-25",
       "verified_by": "the published GitHub release, whose assets were downloaded and checked against their recorded digests and the qualified copies",
-      "evidence": [{"label": "v0.2.0 release", "url": "https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0"}, {"label": "components", "url": "constellation/components.html#nq"}],
+      "evidence": [
+        {
+          "label": "v0.2.0 release",
+          "url": "https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0"
+        },
+        {
+          "label": "components",
+          "url": "constellation/components.html#nq"
+        }
+      ],
       "promotion": "NQ's maturity stays developer preview. The package does not qualify any other component or composition."
     },
     {
       "id": "constellation-nightshift",
       "name": "Constellation Nightshift",
       "kind": "artifact",
-      "status": "public source; recurrence and alpha.6 occurrence paths exercised",
-      "claim": "Owns temporal observation, recurrence, and task proposal without acquiring authorization or execution custody.",
-      "verified": "2026-09-20",
-      "verified_by": "alpha.5 installed-cadence qualification and the alpha.6 occurrence/review path",
-      "evidence": [{"label": "repository", "url": "https://github.com/unpingable/constellation-nightshift"}, {"label": "components", "url": "constellation/components.html#nightshift"}],
-      "promotion": "No complete production recurring installation or consumer migration is claimed."
+      "status": "accepted bounded operational spine; combined package candidate prepared",
+      "claim": "Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted operational spine and combined-candidate records",
+      "evidence": [
+        {
+          "label": "repository",
+          "url": "https://github.com/unpingable/constellation-nightshift"
+        },
+        {
+          "label": "components",
+          "url": "constellation/components.html#nightshift"
+        }
+      ],
+      "promotion": "Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support."
     },
     {
       "id": "agent-governor",
@@ -103,7 +207,16 @@
       "claim": "Preserved for historical records and migration context. New authorization work uses Constellation AG; the two products are not presented as wire-compatible.",
       "verified": "2026-09-21",
       "verified_by": "the public repository deprecation notice and canonical successor documentation",
-      "evidence": [{"label": "deprecated repository", "url": "https://github.com/unpingable/agent_governor"}, {"label": "successor", "url": "https://github.com/unpingable/constellation-ag"}],
+      "evidence": [
+        {
+          "label": "deprecated repository",
+          "url": "https://github.com/unpingable/agent_governor"
+        },
+        {
+          "label": "successor",
+          "url": "https://github.com/unpingable/constellation-ag"
+        }
+      ],
       "promotion": "None. Do not use this predecessor as the current installation path."
     },
     {
@@ -114,19 +227,37 @@
       "claim": "An earlier pilot separated proposal, authorization, execution custody, and evidence evaluation. It remains research history, not the current installation guide.",
       "verified": "2026-07-26",
       "verified_by": "dated public office records from the historical pilot",
-      "evidence": [{"label": "archived exhibit", "url": "constellation/archive.html#four-office"}, {"label": "current documentation", "url": "constellation/"}],
+      "evidence": [
+        {
+          "label": "archived exhibit",
+          "url": "constellation/archive.html#four-office"
+        },
+        {
+          "label": "current documentation",
+          "url": "constellation/"
+        }
+      ],
       "promotion": "Superseded as the public starting point by the immutable alpha.6 walkthrough."
     },
     {
       "id": "design-layer",
       "name": "ECAD / design-flow work",
       "kind": "proposition",
-      "status": "pre-alpha research direction",
-      "claim": "Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.",
-      "verified": null,
-      "verified_by": "No general ECAD/design-flow release has been qualified.",
-      "evidence": [{"label": "current boundaries", "url": "constellation/limits.html"}, {"label": "research directions", "url": "constellation/directions.html#authored-design"}],
-      "promotion": "A separately scoped, reproducible public profile; alpha.6 does not provide one."
+      "status": "Operational EDA: bounded Workbench loop accepted; broader direction developing",
+      "claim": "Workbench is the human-facing surface of the operational spine. Live current-forward unit diagnosis and separately bounded Kubernetes observation/diagnosis are accepted; no Kubernetes executor or general diagnostic compiler is claimed.",
+      "verified": "2026-10-05",
+      "verified_by": "accepted bounded Workbench/reveal and combined-candidate records",
+      "evidence": [
+        {
+          "label": "current boundaries",
+          "url": "constellation/limits.html"
+        },
+        {
+          "label": "research directions",
+          "url": "constellation/directions.html#authored-design"
+        }
+      ],
+      "promotion": "Broader templates, observer-only and distributed qualification remain later beta."
     }
   ]
 }

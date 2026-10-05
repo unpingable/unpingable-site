@@ -1,16 +1,45 @@
 {
   "schema": "constellation.combined-qualification/v1",
-  "scope": "Automatedfocusedinstalledcombinedchangedcone; acceptedhistoricalstandingretained; nothumanqualification/BC1/productionpromotion",
   "sources": {
-    "nq": "7e2c821932c1607913e13445877628a67b9ee72e",
-    "nightshift": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
-    "ag": "2ac8675274c9eb3d209d7446ec13520d688fc449",
-    "docket": "75f08ebad207f09659801eccdcb272d3c30a7613",
-    "la": "239803f83f9a54d0f181edcc3850df8b0c83e782",
-    "monitor": "f1313df277b17da6a243ad92c7a091f251d4772e",
-    "workbench": "f28d23db894a60bcc92cfcdaf7772368d881dbf4"
+    "nq": "996f2ca9c5b1c7bb148d9cf9e818432b6f860936",
+    "nightshift": "6ec5e05b34111011c9e09ef278744630bca7d8cb",
+    "ag": "2726696c6f30847fd877ce440a18e6fb5852f180",
+    "docket": "e97454f980a6e489bb978143a7c0e1315defa9e0",
+    "monitor": "ea7438aa6dc365525a614620c5e091ee9643522e",
+    "la": "0cc727fe92b2c9141c602038088856542871280b",
+    "workbench": "ca31202c66786f668153d9de98c5603ec4c1bb59"
   },
-  "source_checks": {
+  "retained_standing": {
+    "v1": "unchangeddefaultconsumer/v2resolver plus583sourcechecks; acceptedspineactualcanary",
+    "v2_LA": "real v2 LA admission/reserve/send-fence/actual settle/reconcile separately accepted; new Workbench optional selected-record read projection is subsequent composition, no model default activation",
+    "Tier5": "boundedrealacceptedreveal; no newk3scampaign/executor",
+    "HTTP": "acceptedreaderexactbytes plus11tests andinstalledclosure; targetVMhasnoHTTPcapability",
+    "observability": "unchangedfrozenadapter/sourcecontracts; no newGrafana/backenddeployclaim"
+  },
+  "failures_retained": [
+    "initialcontainerUID1000missingaccount",
+    "postassemblyunsupportedconsumerbuild-infoflag",
+    "VMversion/helpassertions",
+    "durableVMchildlifecycle/argv0preflightcorrespondence",
+    "predecessor HP qualification JSON byte-order selection corrected to exact published bytes",
+    "sparse exporter output-directory precondition omitted by apparatus, then supplied"
+  ],
+  "human": "13-step protocol/fixturesprepared; NOTEXECUTED",
+  "publication": "neutralownerreviewcandidate; no BC1tag/release/publicwebsite deployment",
+  "baseline_scope": "Automatedfocusedinstalledcombinedchangedcone; acceptedhistoricalstandingretained; nothumanqualification/BC1/productionpromotion",
+  "scope": "Frozen release-hygiene input; retained technical acceptance plus new optional recorded LA projection. Exact fresh release-surface smoke and final review are adjacent qualification records, not human qualification.",
+  "hygiene": {
+    "packages": 11,
+    "runtime_files": 44,
+    "unchanged_native_ELFs": 23,
+    "LA_source_tests": 6,
+    "LA_independent_controls": 14,
+    "independent_LA_acceptance_sha256": "2538d4d592ebaf54db7d7372febc28120eb697bc9a2ba9c6ecccf7cb2b244934",
+    "NQ_release_verifiers": 24,
+    "site_local_links": 1178,
+    "rollback_predecessor": "retained exact privately; excluded public download for dated machine-label docs"
+  },
+  "accepted_baseline_source_checks": {
     "nq_rust_passed": 347,
     "nq_release_verifiers": "21passed/3skipped as declared platform gates",
     "nq_helper_python": "passed; rawlogretained",
@@ -23,7 +52,7 @@
     "site_guard_tests": 5,
     "site_local_references": 1166
   },
-  "installed": {
+  "accepted_baseline_installed": {
     "Ubuntu": "22.04amd64",
     "packages": 11,
     "ELFs": 23,
@@ -68,22 +97,5 @@
       "tail": "dfe32fde-2821-46e8-8e4b-86cf47ff2a05 passed: documented output directory created; sparse metrics/status, actual package-only upgrade/rollback and all42runtime hashes verified",
       "observability_limit": "Sparse adapter output with missing inputs visible; no claim all reference services enrolled on unit-only VM"
     }
-  },
-  "retained_standing": {
-    "v1": "unchangeddefaultconsumer/v2resolver plus583sourcechecks; acceptedspineactualcanary",
-    "v2_LA": "exactacceptedoptionalpackagecompatibility; norealmodel/providersend/currentWorkbenchLAexercise",
-    "Tier5": "boundedrealacceptedreveal; no newk3scampaign/executor",
-    "HTTP": "acceptedreaderexactbytes plus11tests andinstalledclosure; targetVMhasnoHTTPcapability",
-    "observability": "unchangedfrozenadapter/sourcecontracts; no newGrafana/backenddeployclaim"
-  },
-  "failures_retained": [
-    "initialcontainerUID1000missingaccount",
-    "postassemblyunsupportedconsumerbuild-infoflag",
-    "VMversion/helpassertions",
-    "durableVMchildlifecycle/argv0preflightcorrespondence",
-    "predecessor HP qualification JSON byte-order selection corrected to exact published bytes",
-    "sparse exporter output-directory precondition omitted by apparatus, then supplied"
-  ],
-  "human": "13-step protocol/fixturesprepared; NOTEXECUTED",
-  "publication": "neutralownerreviewcandidate; no BC1tag/release/publicwebsite deployment"
+  }
 }

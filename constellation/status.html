@@ -40,14 +40,13 @@
     <p class="lede">What exists, what has been shown, and when. Each row below is a dated statement with its evidence and the condition that would have to be met before the claim is strengthened.</p>
 
     <section aria-labelledby="summary">
-      <h2 id="summary">Summary as of 2026-09-25</h2>
-      <p><strong>Alpha 2 release candidate &mdash; installable and reproducible in qualification; awaiting operator acceptance; operator experience still under active development.</strong> Not released; 0.1.0-alpha.6 remains the released state.</p>
-      <p>Alpha 1, which ended with the released 0.1.0-alpha.6, proved the semantics: a real composed occurrence, its authority, custody and currentness boundaries, recovery, receipts and refusals. Alpha 2 proves that the same thing can be packaged, installed, reproduced and upgraded as one coherent set of versions by someone outside the development environment. Beta will mean an operator can actually live in it, with an operator-facing workflow, coherent status and refusal surfaces, and real setup, upgrade and diagnosis; nothing here claims that yet.</p>
-      <ul class="steps">
+      <h2 id="summary">Summary as of 2026-10-05</h2>
+      <p><strong>Prepared combined Operational EDA candidate.</strong> The accepted operational spine and Workbench are reconciled for Ubuntu 22.04 amd64. Final release hygiene and owner review precede any BC1 naming/publication. This is not a released BC1; the formal stranger-human study is prepared, not run.</p><p>Workbench is the human-facing surface: inspect current evidence, gaps, plans and native outcomes. Deterministic remediation v1 is the reference/default policy. Separately qualified model-backed v2 is optional; Linear Accountant governs its inference expenditure while AG/Docket govern effects and custody. Bounded Kubernetes observation/diagnosis has no Kubernetes executor. <a href="combined-candidate/README.md">Candidate/operator guide</a> · <a href="combined-candidate/SUPPORT.md">Supported scope</a> · <a href="workbench.html">Workbench and historical replay</a>.</p>
+      <h3>Historical released profiles and qualification records</h3><p>The dated Alpha records below retain their original scope. Their old pending branches/provider gates are superseded by the current combined candidate.</p><ul class="steps">
         <li><strong>Released integration profile:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6, <code>reviewed-local-copy/v1</code></a>. One exact plan to create a local file was independently reviewed, explicitly accepted, authorized once, executed once and settled, then checked by a separate read. Anyone can re-verify the retained evidence from public source without repeating the effect.</li>
         <li><strong>Runnable demo:</strong> the <a href="index.html#demo">indeterminate-effect demo</a> passed a cold-clone run in a fresh virtual machine on 2026-09-25. The custody service is real and built from source; the other parts are local stand-ins. Its source is the tag <code>demo/indeterminate-effect-20260925</code>, a qualified public exhibit, not a Docket release. See the <a href="#status-indeterminate-effect-demo">ledger row</a>.</li>
         <li><strong>Released component package:</strong> <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">NQ 0.2.0</a>, a Debian package and tarball for NQ alone.</li>
-        <li><strong>Alpha 2 release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25, and a clean-room newcomer run succeeded the same day. A hostile review then found a kit-check blocker, since fixed and refused in a rerun (run-004, 31 of 31 passed), and a local trust boundary that remains open; see <a href="limits.html#trust-boundary">limits</a>. An upgrade-continuity run passed 22 of 22. The candidate awaits the operator&rsquo;s own acceptance run against the real model provider; until then the packaging branches stay unmerged and the artifacts are not public.</li>
+        <li><strong>Alpha 2 release candidate, not released:</strong> packaged builds of the alpha.6 composition passed a clean install from those artifacts alone in a fresh virtual machine on 2026-09-25, and a clean-room newcomer run succeeded the same day. A hostile review then found a kit-check blocker, since fixed and refused in a rerun (run-004, 31 of 31 passed), and a local trust boundary that remains open; see <a href="limits.html#trust-boundary">limits</a>. An upgrade-continuity run passed 22 of 22. The candidate awaits the operator&rsquo;s own acceptance run against the real model provider; That earlier gate is historical; current canonical sources and the prepared combined artifacts are described above.</li>
         <li><strong>Earlier profiles:</strong> alpha.1 through alpha.5 remain available for narrower consultation, saved-check, objective-read, connected-cache and installed-cadence paths; see <a href="start.html">guides and source</a>.</li>
         <li><strong>Not production-ready.</strong> The boundaries are on the <a href="limits.html">limits</a> page.</li>
       </ul>
@@ -73,6 +72,16 @@
       <p>One row per object: what it claims, when that was last verified and by what, where the evidence lives, and what would have to happen before the claim may be strengthened. Rows are dated statements, not a live panel &mdash; a mechanical check may satisfy a promotion condition, but promotion stays an explicit editorial act.</p>
     <!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->
     <div class="ledger">
+      <article class="ledger-row" id="status-combined-candidate">
+        <h3>Constellation combined spine + Workbench candidate</h3>
+        <p><span class="badge accent">composition</span> <span class="badge">technically accepted neutral candidate; release hygiene/owner review pending</span></p>
+        <p>Eleven source-free Ubuntu22.04 packages combine the accepted spine and Workbench. V1 is reference/default; v2 separately qualified and optional. Historical reveal stays recorded; bounded Kubernetes diagnosis has no executor.</p>
+        <dl class="pairs">
+          <dt>verified 2026-10-05</dt><dd>accepted combined source/package and focused installed-native records</dd>
+          <dt>evidence</dt><dd><a href="combined-candidate/README.md">operator guide</a> &middot; <a href="combined-candidate/SUPPORT.md">supported scope</a></dd>
+          <dt>promotion</dt><dd>No BC1 tag/publication or formal human study. Final release hygiene and explicit owner review remain.</dd>
+        </dl>
+      </article>
       <article class="ledger-row" id="status-alpha6-reviewed-local-copy">
         <h3>Constellation 0.1.0-alpha.6 — reviewed local copy</h3>
         <p><span class="badge accent">composition</span> <span class="badge">qualified immutable integration release</span></p>
@@ -85,42 +94,42 @@
       </article>
       <article class="ledger-row" id="status-alpha-exit-rc-clean-install">
         <h3>reviewed-local-copy/v1 — Alpha 2 release candidate, clean install</h3>
-        <p><span class="badge accent">composition</span> <span class="badge">release candidate; not released</span></p>
+        <p><span class="badge accent">composition</span> <span class="badge">historical Alpha2 packaging qualification; superseded by accepted combined candidate</span></p>
         <p>Packaged builds of NQ, Maude, Nightshift, Pulse, AG, Docket, Switchyard and the App Server, with a setup kit, were installed into a fresh Debian 12 virtual machine from those artifacts alone. One reviewed and accepted occurrence settled successfully and wrote its file exactly once. Every requested refusal held: a wrong artifact digest, a repeated init, a stale review, an expired authorization, a second execution attempt, and acceptance of the wrong candidate. The review came from a local fixture standing in for the model provider, and the acceptance was performed by the test harness, not by a person.</p>
         <dl class="pairs">
           <dt>verified 2026-09-25</dt><dd>clean-install run-004 on 2026-09-25: 31 pass, 0 fail, 0 not exercised, with setup kit 0.4.0. It reruns every earlier case, including a check that the evidence verifier shipped in the kit gives the same result inside the virtual machine as outside it and a replay of the settled evidence without the issuer&#x27;s private key, and adds cases from the hostile review: the review&#x27;s altered setup kits and substitute artifact were run against the new bundle and refused, and an already-installed NQ is now compared with the package file by file. An earlier upgrade-continuity run (run-002: 22 pass, 0 fail, 0 not exercised) upgraded an install of the previous kit to a second, test-only build and re-verified the first build&#x27;s retained evidence, byte for byte; the upgrade code is unchanged in kit 0.4.0, so it was not rerun. Both run records are retained privately; the harness source is public on an unmerged branch.</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-clean-install-v1" target="_blank" rel="noopener">clean-install harness source</a> &middot; <a href="https://github.com/unpingable/unpingable-site/tree/e2b3a608a3be242b014788bf8dc827bfd9357c84/constellation/qualification/reviewed-local-copy-upgrade-continuity-v1" target="_blank" rel="noopener">upgrade-continuity harness source</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">the released alpha.6 profile it packages</a></dd>
-          <dt>promotion</dt><dd>This is not a release. The packaged artifacts are not public. Alpha 1 proved the semantics; Alpha 2 claims only that the same composition can be packaged, installed, reproduced and upgraded as one set of versions outside the development environment; Beta, an operator experience someone can actually live in, is not claimed. The candidate awaits the operator&#x27;s own acceptance run against the real model provider, and its packaging branches stay unmerged until then. A clean-room newcomer run succeeded on 2026-09-25. A hostile review the same day found that an altered setup kit passed the kit pin check; that is fixed and the attack was refused in run-004. It also found that whoever controls the operator&#x27;s host account can run the packaged executor directly, without an AG issuance or Docket custody. That is not fixed: it is documented as the local trust boundary and needs component changes. The paid review route also sends one non-generating warm-up request whose billing is unverified. Both are open items for a beta. Nothing is released beyond 0.1.0-alpha.6 and the NQ 0.2.0 component package.</dd>
+          <dt>promotion</dt><dd>Original evidence/limits retained. Current operator/package path is the combined candidate; no historical campaign replay required.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-docket">
         <h3>Constellation Docket</h3>
-        <p><span class="badge">artifact</span> <span class="badge">public source; exercised in alpha.6</span></p>
-        <p>Takes custody of one authorized attempt, dispatches an authority-neutral executor, and records settlement and reconciliation. Alpha.6 exercised its bounded local permission snapshot and local-copy executor path.</p>
+        <p><span class="badge">artifact</span> <span class="badge">accepted bounded operational spine; combined package candidate prepared</span></p>
+        <p>Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.</p>
         <dl class="pairs">
-          <dt>verified 2026-09-20</dt><dd>the alpha.6 manifest and qualification record at the exact pinned public revision</dd>
+          <dt>verified 2026-10-05</dt><dd>accepted operational spine and combined-candidate records</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-docket" target="_blank" rel="noopener">repository</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">alpha.6 walkthrough</a></dd>
-          <dt>promotion</dt><dd>The profile is narrow; it does not establish production hardening or arbitrary executor compatibility.</dd>
+          <dt>promotion</dt><dd>Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-constellation-ag">
         <h3>Constellation AG</h3>
-        <p><span class="badge">artifact</span> <span class="badge">public source; exercised in alpha.6</span></p>
-        <p>Checks whether exact automated work is admissible and grants bounded one-use authority for one specific run. It does not execute work or infer permission from a provider response.</p>
+        <p><span class="badge">artifact</span> <span class="badge">accepted bounded operational spine; combined package candidate prepared</span></p>
+        <p>Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.</p>
         <dl class="pairs">
-          <dt>verified 2026-09-20</dt><dd>the alpha.6 one-use authorization and public evidence-reader checks</dd>
+          <dt>verified 2026-10-05</dt><dd>accepted operational spine and combined-candidate records</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-ag" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#ag">components</a></dd>
-          <dt>promotion</dt><dd>No family-wide or production maturity is claimed.</dd>
+          <dt>promotion</dt><dd>Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-constellation-nq">
         <h3>Constellation NQ</h3>
-        <p><span class="badge">artifact</span> <span class="badge">public source; bounded released profiles</span></p>
-        <p>Evaluates retained evidence under named profiles and keeps missing, stale, unavailable, or uncertain results visible. Its results do not authorize an effect.</p>
+        <p><span class="badge">artifact</span> <span class="badge">accepted bounded operational spine; combined package candidate prepared</span></p>
+        <p>Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.</p>
         <dl class="pairs">
-          <dt>verified 2026-09-20</dt><dd>alpha.2 through alpha.6 profiles and the separately documented archive-read procedure</dd>
+          <dt>verified 2026-10-05</dt><dd>accepted operational spine and combined-candidate records</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nq" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#nq">components</a></dd>
-          <dt>promotion</dt><dd>Live Slack or Discord delivery, cross-version restore, production migration, and rollback remain unqualified.</dd>
+          <dt>promotion</dt><dd>Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-nq-0-2-0">
@@ -135,12 +144,12 @@
       </article>
       <article class="ledger-row" id="status-constellation-nightshift">
         <h3>Constellation Nightshift</h3>
-        <p><span class="badge">artifact</span> <span class="badge">public source; recurrence and alpha.6 occurrence paths exercised</span></p>
-        <p>Owns temporal observation, recurrence, and task proposal without acquiring authorization or execution custody.</p>
+        <p><span class="badge">artifact</span> <span class="badge">accepted bounded operational spine; combined package candidate prepared</span></p>
+        <p>Current canonical source is dev/operator-beta. The source-free Ubuntu22.04 combined candidate preserves component-owned semantics, evidence/currentness, authority and custody; installation/enrollment remain explicit.</p>
         <dl class="pairs">
-          <dt>verified 2026-09-20</dt><dd>alpha.5 installed-cadence qualification and the alpha.6 occurrence/review path</dd>
+          <dt>verified 2026-10-05</dt><dd>accepted operational spine and combined-candidate records</dd>
           <dt>evidence</dt><dd><a href="https://github.com/unpingable/constellation-nightshift" target="_blank" rel="noopener">repository</a> &middot; <a href="components.html#nightshift">components</a></dd>
-          <dt>promotion</dt><dd>No complete production recurring installation or consumer migration is claimed.</dd>
+          <dt>promotion</dt><dd>Neutral candidate pending release hygiene/owner review, not BC1 or general deployment support.</dd>
         </dl>
       </article>
       <article class="ledger-row" id="status-agent-governor">
@@ -175,16 +184,16 @@
       </article>
       <article class="ledger-row" id="status-design-layer">
         <h3>ECAD / design-flow work</h3>
-        <p><span class="badge dashed">proposition</span> <span class="badge">pre-alpha research direction</span></p>
-        <p>Extends Constellation upstream into how work is designed, decomposed, composed, and reviewed. It is not part of the qualified alpha.6 integration profile.</p>
+        <p><span class="badge dashed">proposition</span> <span class="badge">Operational EDA: bounded Workbench loop accepted; broader direction developing</span></p>
+        <p>Workbench is the human-facing surface of the operational spine. Live current-forward unit diagnosis and separately bounded Kubernetes observation/diagnosis are accepted; no Kubernetes executor or general diagnostic compiler is claimed.</p>
         <dl class="pairs">
-          <dt>not verifiable — nothing built</dt><dd>No general ECAD/design-flow release has been qualified.</dd>
+          <dt>verified 2026-10-05</dt><dd>accepted bounded Workbench/reveal and combined-candidate records</dd>
           <dt>evidence</dt><dd><a href="limits.html">current boundaries</a> &middot; <a href="directions.html#authored-design">research directions</a></dd>
-          <dt>promotion</dt><dd>A separately scoped, reproducible public profile; alpha.6 does not provide one.</dd>
+          <dt>promotion</dt><dd>Broader templates, observer-only and distributed qualification remain later beta.</dd>
         </dl>
       </article>
     </div>
-    <p class="fine">Ledger as of 2026-09-25. Generated from
+    <p class="fine">Ledger as of 2026-10-05. Generated from
       <a href="../status.json">status.json</a> by <code>tools/render_status.py</code> in the
       <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
       it is a dated statement, not a live panel. A row moves only by an explicit

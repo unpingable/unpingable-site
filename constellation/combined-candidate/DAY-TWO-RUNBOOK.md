@@ -15,12 +15,12 @@ On collector failure, keep the unit/effect state intact and inspect its service/
 
 ## Upgrade and rollback boundary
 
-Use the exact current and predecessor packages under `packages/` and `rollback/`, with their respective checksum manifests. The predecessor is the accepted neutral nine-package 0.2.4 spine, not a second Workbench generation. The current candidate adds Workbench/live observation and NQ 0.2.5. Package versions alone are insufficient identity.
+Use the exact current packages under `packages/` and the supplied Workbench package-only upgrade under `upgrade/`, with their checksum manifests. The accepted historical nine-package NQ 0.2.4 predecessor remains in private recovery custody and is not redistributed in this public release set: its dated operator documents contain private machine labels. This omission does not change native rollback semantics or imply that an arbitrary older package is safe. Package versions alone are insufficient identity.
 
 The prepared human exercise uses the exact package-only upgrade fixture in `upgrade/` and UPGRADE-FIXTURE.json. Workbench .1 and .2 have the same accepted source and identical runtime payload; their Debian package versions differ. On the existing enrolled exercise VM, from the verified candidate directory:
 
 ```sh
-sudo dpkg --install upgrade/constellation-workbench_0.1.0+combined.20261005.2_all.deb
+sudo dpkg --install upgrade/constellation-workbench_0.1.0+release.20261005.2_all.deb
 sudo dpkg --audit
 sudo systemctl restart constellation-workbench.service
 dpkg-query -W constellation-workbench
@@ -30,7 +30,7 @@ sha256sum --check installed-SHA256SUMS
 Recover a stale collector with `sudo systemctl start nqd-ops.service`, then wait for fresh native same-boot evidence. Roll back only Workbench:
 
 ```sh
-sudo dpkg --install packages/constellation-workbench_0.1.0+combined.20261005.1_all.deb
+sudo dpkg --install packages/constellation-workbench_0.1.0+release.20261005.1_all.deb
 sudo dpkg --audit
 sudo systemctl restart constellation-workbench.service
 sha256sum --check installed-SHA256SUMS
@@ -38,13 +38,15 @@ sha256sum --check installed-SHA256SUMS
 
 Inspect current native state and retained attempts in Workbench after each operation. No new enrollment or grant is created. This is an honest package-only upgrade/rollback, not proof of arbitrary semantic generation migration. Semantic/helper executable inode replacement may invalidate NQ admission. Preserve prior store/admission; follow native refusal and the documented generation/re-admission boundary rather than editing receipts.
 
-A rollback to 0.2.4 requires stopping Workbench, its native reader and ops collector, preserving exact configuration/store/attempt records and protected credential custody, removing `constellation-workbench` and `constellation-live-observation` without purging state, then installing the exact predecessor package set. The newer reader's declared dependency requires NQ >=0.2.5: **downgrading NQ alone is invalid**. Workbench is deliberately unavailable on that predecessor. Do not continue a pending governed attempt through downgrade; reconcile it first. Re-upgrade reinstalls the exact combined set; retained fixture enrollment must not be reapplied. A native helper-generation refusal requires explicit owner reconciliation/re-admission within the same bounded observer, not automatic authority renewal.
-
-```sh
-sudo systemctl stop constellation-workbench.service constellation-live-reader.service nqd-ops.service
-sudo dpkg --remove constellation-workbench constellation-live-observation
-sudo dpkg --install rollback/*.deb
-sudo dpkg --audit
-```
+The supplied rollback is Workbench .2 → .1 on the same accepted runtime generation. Historical whole-spine rollback requires separately verified owner-approved predecessor package and protected state custody; it is not a command available from this public download. Downgrading NQ alone while the current live reader requires NQ >=0.2.5 is invalid. Stop the relevant writers and reconcile pending effects before any separately authorized semantic downgrade.
 
 The bundled reference day-two runbook supplies the accepted filesystem/posture generation, new-store, retained-state rollback and bad-upgrade procedures. A post-effect rollback is not guaranteed merely because package rollback succeeds. Current evidence and independent effect reconciliation decide recovery.
+
+## Removal
+
+Reconcile a pending governed attempt first. Stop the owner-enabled Workbench,
+its separately enrolled native reader/collector, attention and remediation
+services/timers before removing their packages. Package removal does not
+remove/revoke enrollment or credentials, settle an attempt or erase state.
+Keep protected state for recovery; do not treat purge as rollback. Never stop
+an unrelated collector merely because it has a similar service name.

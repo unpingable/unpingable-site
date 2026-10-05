@@ -1,4 +1,4 @@
-# Workbench Integration Contract 1.2 — combined candidate
+# Workbench Integration Contract 1.3 — combined candidate
 
 This version resolves the predecessor 1.1 boot/HTTP packaging hold. Exact candidate source/package manifests are authoritative; the accepted reveal remains a separate retained qualification record. No core schema rename or universal health enum is introduced.
 
@@ -25,4 +25,17 @@ NQ source testimony age and evaluation age remain independent. Native read time 
 
 The predecessor 1.1 contract remains the detailed native field/enumeration reference under the accepted spine record. Its future Workbench merge hold is superseded by this candidate's installed closure and focused qualification; its temporal, provenance, notification, accounting and authority rules remain standing. Workbench's current cohort is a bounded projection, not a universal adapter for every underlying component. CLI inspection remains documented where no Workbench projection exists.
 
-The installed runtime is ten ordinary Python modules and five fixed wrappers, plus one new boot reader ELF and two accepted interpreted observation readers. No runtime source checkout, `/opt` copied developer module, PYTHONPATH or harness/oracle is required. No new executor, model credential, enrollment or live service starts merely by package installation. Source-free permits installed interpreted modules; it excludes repository/build/harness dependencies.
+The installed runtime is eleven ordinary Python modules and six fixed wrappers, plus one new boot reader ELF and two accepted interpreted observation readers. No runtime source checkout, `/opt` copied developer module, PYTHONPATH or harness/oracle is required. No new executor, model credential, enrollment or live service starts merely by package installation. Source-free permits installed interpreted modules; it excludes repository/build/harness dependencies.
+
+## Optional inference disclosure — contract1.3
+
+`constellation.la_selected_records/v1` is an owner-exported finite native
+record selection. The fixed `--accounting-record` startup path enables
+GET `/api/accounting` and a read-only pane; no HTTP file/command selector exists.
+`constellation-inference-view --record FILE` inspects the same selection.
+Native reserve/request bounds, invocations, usage source, actual cost, token
+state and milestone reconciliation remain distinct. No direct LA store access,
+new authority, budget editing, provider call or persistence model is introduced.
+Exact typed AG campaign/occurrence joins alone associate a recorded view with
+current operation; unmatched records are separate recorded operations.
+The reveal's no-LA scope is unchanged. See INFERENCE-VISIBILITY.md.

@@ -33,3 +33,19 @@ Attention distinguishes informational, attention and page classes. PagerDuty pag
 Deterministic remediation v1 remains the reference default. Qualified optional v2 uses Linear Accountant to reserve, fence, settle and reconcile inference expenditure; AG/Docket retain authority/custody and fresh observation determines recovery. The Workbench reveal did not exercise LA; separate remediation-v2 qualification did. Installation, diagnostic depth, model narration and package presence activate none of that optional authority.
 
 Build inspection: `nq --build-info`, component `--build-info` where documented, `/usr/share/constellation-workbench/build.json`, `dpkg-query`, PACKAGES.json and RUNTIME-IDENTITIES.json. Components without a native build-info command use exact package/executable/source manifests. No fabricated common build endpoint exists.
+
+## Optional inference accounting
+
+Admitted model-backed workflows can disclose the actual LA envelope before
+inference and native usage/settlement afterward. Workbench's optional read-only
+accounting pane displays selected owner-exported LA assertions. It does not
+estimate provider cost or administer budgets. A closed/revoked token's numeric
+remaining capacity is retired, not available spending. Unknown actual cost
+stays unknown; budget exhaustion offers no continuation action. Accounting is
+explicitly recorded and distinct from current evidence/effect authority.
+[Inference visibility](INFERENCE-VISIBILITY.md) describes installation and scope.
+Most Workbench workflows invoke neither a model nor LA.
+
+## Understand monitoring notices
+
+A condition ID is an exact correlation key, not an explanation. `unknown` or `indeterminate` means the available evidence cannot justify a conclusion; `stale` means it is outside the qualified age/boot boundary. None means healthy. A current `clear` applies only to the named proposition. A notification `resolved` closes that condition lifecycle: restored monitoring does not by itself prove the observed service was repaired. Inspect the evidence and scope, then the documented collector/runbook before acting. A page may require prompt human investigation because an obligation cannot be evaluated. Exact IDs remain useful when correlating native records and delivery outcomes.

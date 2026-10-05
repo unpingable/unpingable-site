@@ -20,4 +20,14 @@ Observer-only node qualification, broader diagnostic depths, Kubernetes executio
 
 ## Publication gate
 
-Owner review of this exact candidate precedes the prepared human exercise. After successful human qualification and focused corrections, the owner may authorize final combined publication and BC1 naming. Until then release/download URLs and human result remain explicitly unpublished/pending. Exact upgrade/rollback pair and limitations are described in the day-two runbook; no post-effect rollback guarantee is asserted.
+Owner review of this exact candidate precedes the prepared human exercise. Release hygiene is the final technical preparation gate; the formal stranger-human run remains separate beta usability evidence, prepared and not executed. After reviewing the exact would-be-release surface, the owner decides whether to authorize publication/BC1 naming and when to run the human study. Until then release/download URLs and human result remain explicitly unpublished/pending. Exact upgrade/rollback pair and limitations are described in the day-two runbook; no post-effect rollback guarantee is asserted.
+
+## Packaging/release hygiene changes
+
+This successor retains exact accepted native executables and core semantics.
+Package revisions declare libgcc-s1, install bounded operator docs and supplied
+licenses/notices. Workbench adds only optional recorded LA visibility, not
+budget administration or model activation. Source/build/packaging commits are
+listed separately. Exact final archive/page metadata live beside the archive
+to avoid a self-referential checksum. Clean Ubuntu release-coherence smoke is
+a machine check, not the formal stranger-human study.

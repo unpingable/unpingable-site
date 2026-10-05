@@ -6,7 +6,7 @@ Planning only, recorded 2026-10-01. Work below is not started by publication of 
 
 Cartography owns program decisions and cross-component rationale; this reviewed public documentation projection is hosted in the existing public-site repository. Linked Cartography issues and the Constellation Program Project remain private owner coordination. The complete requirements are written here; reading private evidence is not an execution prerequisite.
 
-Start from [`dev/operator-beta`](https://github.com/unpingable/cartography/tree/dev/operator-beta), canonical product reconciliation at `f90d59fdaa80d6580fd0d9a1254e8c93f1f07555`. Documentation commits after that point do not select a different product base or transfer predecessor qualification.
+Start from `dev/operator-beta` (private program record), canonical product reconciliation at `f90d59fdaa80d6580fd0d9a1254e8c93f1f07555`. Documentation commits after that point do not select a different product base or transfer predecessor qualification.
 
 The source-publication record identifies one coherent public forward line per component. Program mapping and release rationale remain here; component implementation plans live with their owning repositories.
 
@@ -32,7 +32,7 @@ Acceptance/evidence: Review scoped AG one-use, Nightshift non-actuation and NQ r
 
 Owner decisions: Maintainer, edge reviewers, acceptance procedure and reviewed public projection must be selected.
 
-Owning issue: [PA-01](https://github.com/unpingable/cartography/issues/2).
+Owning issue: PA-01 (private program record).
 
 ## PA-02: Publish a current component catalog and discovery map
 
@@ -50,7 +50,7 @@ Acceptance/evidence: Every catalog entry has an owning public repository and cur
 
 Owner decisions: None beyond a bounded work order.
 
-Owning issue: [PA-02](https://github.com/unpingable/cartography/issues/3).
+Owning issue: PA-02 (private program record).
 
 ## PA-03: Establish program ADR and supersession discipline
 
@@ -68,7 +68,7 @@ Acceptance/evidence: Demonstrate one supersession retaining historical scope and
 
 Owner decisions: Decision owners must approve the procedure; documentation does not silently establish policy.
 
-Owning issue: [PA-03](https://github.com/unpingable/cartography/issues/4).
+Owning issue: PA-03 (private program record).
 
 ## PA-04: Map requirements to scoped evidence and bounded change impact
 
@@ -80,13 +80,13 @@ Intended outcome: Map requirement-to-evidence edges and compute conservative NEE
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: [PA-01](https://github.com/unpingable/cartography/issues/2) registry decisions; component-owned definitions and reusable certificate design.
+Dependencies: PA-01 (private program record) registry decisions; component-owned definitions and reusable certificate design.
 
 Acceptance/evidence: Six examples: implementation-only, semantic strengthening, interface, formalization, packaging and runtime-environment changes identify stale and retained assessments.
 
 Owner decisions: Semantic owners approve edge scopes; registry adoption remains separate.
 
-Owning issue: [PA-04](https://github.com/unpingable/cartography/issues/5).
+Owning issue: PA-04 (private program record).
 
 ## PA-05: Design a bounded integration train
 
@@ -98,13 +98,13 @@ Intended outcome: Specify one lightweight known-good composition, exact subjects
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: Current Integration V1, packaged component identities and [PA-07](https://github.com/unpingable/cartography/issues/8) process decisions.
+Dependencies: Current Integration V1, packaged component identities and PA-07 (private program record) process decisions.
 
 Acceptance/evidence: A proposed train exercises exact interface/schema closure and records limitations without claiming whole-product qualification.
 
 Owner decisions: Train owner, cadence and admitted composition require selection.
 
-Owning issue: [PA-05](https://github.com/unpingable/cartography/issues/6).
+Owning issue: PA-05 (private program record).
 
 ## PA-06: Define promotion lifecycle and reusable qualification certificates
 
@@ -116,13 +116,13 @@ Intended outcome: Design immutable scoped certificates plus prepared/reviewed/qu
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: [PA-04](https://github.com/unpingable/cartography/issues/5) impact model; component release plans; Integration V1 execution boundaries.
+Dependencies: PA-04 (private program record) impact model; component release plans; Integration V1 execution boundaries.
 
 Acceptance/evidence: Certificate specimens bind source, lock, builder, output, scope, procedure, occurrence, review, limitations and supersession; branch/merge never implies promotion.
 
 Owner decisions: Release owners select certificate authority and review jurisdiction.
 
-Owning issue: [PA-06](https://github.com/unpingable/cartography/issues/7).
+Owning issue: PA-06 (private program record).
 
 ## PA-07: Select a durable owner for qualification harness and process tooling
 
@@ -140,7 +140,7 @@ Acceptance/evidence: Owner decision names repository/owned paths; design refusal
 
 Owner decisions: Tooling home/maintainer genuinely unresolved; no new repository or generic framework is selected.
 
-Owning issue: [PA-07](https://github.com/unpingable/cartography/issues/8).
+Owning issue: PA-07 (private program record).
 
 ## PA-08: Define bounded archaeology and custody disposition practice
 
@@ -158,7 +158,7 @@ Acceptance/evidence: Examples retain unique history and replay dependencies whil
 
 Owner decisions: None beyond a bounded work order.
 
-Owning issue: [PA-08](https://github.com/unpingable/cartography/issues/9).
+Owning issue: PA-08 (private program record).
 
 ## PA-09: Document bounded agent work contracts
 
@@ -170,13 +170,13 @@ Intended outcome: Define a concise reusable work-order checklist covering goal, 
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: Authority granularity principle and [PA-07](https://github.com/unpingable/cartography/issues/8) process decisions.
+Dependencies: Authority granularity principle and PA-07 (private program record) process decisions.
 
 Acceptance/evidence: Example contract cannot grant authority from tooling availability or override platform controls.
 
 Owner decisions: None beyond a bounded work order.
 
-Owning issue: [PA-09](https://github.com/unpingable/cartography/issues/10).
+Owning issue: PA-09 (private program record).
 
 ## PA-10: Keep the canonical beta objective and owner decisions visible
 
@@ -194,7 +194,7 @@ Acceptance/evidence: A fresh public clone can locate product claim, October 16 s
 
 Owner decisions: None beyond a bounded work order.
 
-Owning issue: [PA-10](https://github.com/unpingable/cartography/issues/11).
+Owning issue: PA-10 (private program record).
 
 ## LA-01: Record deferred Linear Accountant integration trigger
 
@@ -212,7 +212,7 @@ Acceptance/evidence: Named dispatcher consumer and exact conservation/receipt ac
 
 Owner decisions: A current consumer trigger and owner-approved thaw are required.
 
-Owning issue: [LA-01](https://github.com/unpingable/cartography/issues/12).
+Owning issue: LA-01 (private program record).
 
 ## PA-13: Plan observation-profile generation rotation and site-adapter maintenance
 
@@ -230,7 +230,7 @@ Acceptance/evidence: A bounded later work order names exact deployment generatio
 
 Owner decisions: Each operational effect requires its own owner admission; no provider-backup requirement is reintroduced after the recorded waiver.
 
-Owning issue: [PA-13](https://github.com/unpingable/cartography/issues/13).
+Owning issue: PA-13 (private program record).
 
 ## Component relationships
 

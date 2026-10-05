@@ -5,43 +5,57 @@
       "component": "nq",
       "repository": "https://github.com/unpingable/constellation-nq",
       "branch": "dev/operator-beta",
-      "commit": "7e2c821932c1607913e13445877628a67b9ee72e"
+      "commit": "996f2ca9c5b1c7bb148d9cf9e818432b6f860936",
+      "accepted_runtime_source": "7e2c821932c1607913e13445877628a67b9ee72e",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "nightshift",
       "repository": "https://github.com/unpingable/constellation-nightshift",
       "branch": "dev/operator-beta",
-      "commit": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217"
+      "commit": "6ec5e05b34111011c9e09ef278744630bca7d8cb",
+      "accepted_runtime_source": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "ag",
       "repository": "https://github.com/unpingable/constellation-ag",
       "branch": "dev/operator-beta",
-      "commit": "2ac8675274c9eb3d209d7446ec13520d688fc449"
+      "commit": "2726696c6f30847fd877ce440a18e6fb5852f180",
+      "accepted_runtime_source": "2ac8675274c9eb3d209d7446ec13520d688fc449",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "docket",
       "repository": "https://github.com/unpingable/constellation-docket",
       "branch": "dev/operator-beta",
-      "commit": "75f08ebad207f09659801eccdcb272d3c30a7613"
+      "commit": "e97454f980a6e489bb978143a7c0e1315defa9e0",
+      "accepted_runtime_source": "75f08ebad207f09659801eccdcb272d3c30a7613",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "la",
       "repository": "https://github.com/unpingable/constellation-linear-accountant",
       "branch": "dev/operator-beta",
-      "commit": "239803f83f9a54d0f181edcc3850df8b0c83e782"
+      "commit": "0cc727fe92b2c9141c602038088856542871280b",
+      "accepted_runtime_source": "239803f83f9a54d0f181edcc3850df8b0c83e782",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "monitor",
       "repository": "https://github.com/unpingable/constellation-monitor",
       "branch": "dev/operator-beta",
-      "commit": "f1313df277b17da6a243ad92c7a091f251d4772e"
+      "commit": "ea7438aa6dc365525a614620c5e091ee9643522e",
+      "accepted_runtime_source": "f1313df277b17da6a243ad92c7a091f251d4772e",
+      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
     },
     {
       "component": "workbench",
       "repository": "private canonical constellation-workbench",
       "branch": "dev/operator-beta",
-      "commit": "f28d23db894a60bcc92cfcdaf7772368d881dbf4"
+      "commit": "ca31202c66786f668153d9de98c5603ec4c1bb59",
+      "accepted_runtime_source": "ca31202c66786f668153d9de98c5603ec4c1bb59",
+      "packaging_note": "bounded read-only accounting projection added; no native LA/effect semantic change"
     }
   ],
   "build": {

@@ -9,7 +9,7 @@
       "caption": "Target unit and controller HTTP observations in the VM cohort agreed at the original capture. Historical read-only replay; not current evidence today. Captured-record replay.",
       "alt": "Healthy cohort in the retained Workbench captured-record replay",
       "sha256": "b4edd0bfccb6dd46b741f5c90060391a847106acf79f8bc0e2b5d3137414aa7c",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/healthy-cohort-desktop.png",
+      "capture_source": "retained reveal capture healthy-cohort-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:49.318Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -19,7 +19,7 @@
       "caption": "Target unit loss and the independently scoped HTTP judgment call for review. Native unsupported/indeterminate distinctions remain as recorded. Captured-record replay.",
       "alt": "Service attention in the retained Workbench captured-record replay",
       "sha256": "b9efa84fdffd3d8733353cd2ccea5a38b85f6a306eb0bef917f62308c38fbb7a",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/service-attention-desktop.png",
+      "capture_source": "retained reveal capture service-attention-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:50.130Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -29,7 +29,7 @@
       "caption": "Exact subject, owner evidence and provenance remain inspectable. Owner currentness is quoted at capture time; this record is historical now. Captured-record replay.",
       "alt": "Evidence in context in the retained Workbench captured-record replay",
       "sha256": "976d2b40db062eccff75f153a03297e02fc55b0b785c5d00becaf57e6f705912",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/evidence-desktop.png",
+      "capture_source": "retained reveal capture evidence-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:50.942Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -39,7 +39,7 @@
       "caption": "Inspect the declared objective, evidence requirements and ceilings. A displayed budget neither reserves inference stock nor grants effects. Captured-record replay.",
       "alt": "Bounded diagnostic plan in the retained Workbench captured-record replay",
       "sha256": "770bcfda27292e7136dfebe7c403daa9d126469f773a51311bd16f1ff6f98a2e",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/diagnostic-plan-desktop.png",
+      "capture_source": "retained reveal capture diagnostic-plan-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:51.745Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -49,17 +49,17 @@
       "caption": "Remediate is explicitly refused: NO_ADMITTED_KUBERNETES_EXECUTOR. The application observation interface creates no cluster-change authority. Captured-record replay.",
       "alt": "A refusal with a reason in the retained Workbench captured-record replay",
       "sha256": "103b3dd5c8f7eb560b4bcd55ae739ecece34f6cb93832dcb508fbfd72e09df76",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/refusal-desktop.png",
+      "capture_source": "retained reveal capture refusal-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:52.434Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
     {
       "path": "assets/workbench-reveal/application-relationship.png",
       "title": "Application relationship",
-      "caption": "Frontend readiness HTTP200 and semantic HTTP503 coexist in the recorded frontend → API → SQLite relationship. Captured-record replay.",
+      "caption": "Frontend readiness HTTP200 and semantic HTTP503 coexist in the recorded frontend \u2192 API \u2192 SQLite relationship. Captured-record replay.",
       "alt": "Application relationship in the retained Workbench captured-record replay",
       "sha256": "0eb279043ced849cae6bfe5bb82a88114b5302ae3c45917b8e3faf2f58ad8056",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/application-relationship-desktop.png",
+      "capture_source": "retained reveal capture application-relationship-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:53.200Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -69,7 +69,7 @@
       "caption": "Separately timed v1/v2 observations preserve mixed-version identity and semantic variation. Running or ready replicas do not establish a healthy rollout. Captured-record replay.",
       "alt": "Mixed-version observation in the retained Workbench captured-record replay",
       "sha256": "6e4e4d244c60c6b22dcfadc5f677792f2439574aeae84ab2bf3d32d2b5826cd3",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/mixed-version-desktop.png",
+      "capture_source": "retained reveal capture mixed-version-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:54.028Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     },
@@ -79,7 +79,7 @@
       "caption": "Nine Workbench HTTP lifecycle actions, one native effect, zero CLI handoffs. Scoped unit postcondition and later HTTP recovery remain separate. Captured-record replay.",
       "alt": "Governed attempt in the retained Workbench captured-record replay",
       "sha256": "26ae1d5436532bba0169ec63f624d5bb6b5db71f73f2cf3c14193a4889e61d19",
-      "capture_source": "/data/git/.lanes/workbench-reveal-campaign/a8fab4e7-17fa-40b3-9c18-f66b18a07a00/phase-c/campaign/browser/f6620c4d-9651-4ec6-bdcf-dba8281aaebe/public/governed-attempt-desktop.png",
+      "capture_source": "retained reveal capture governed-attempt-desktop.png",
       "browser_capture_time": "2026-10-05T01:25:54.834Z",
       "presentation_source": "60996bbbea8db2dc637898fc4867a3bbf3f27eca"
     }

@@ -24,7 +24,7 @@ Intended outcome: Specify pinned Ubuntu 22.04 builder/toolchain/dependency snaps
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: Component release plans; [PA-06](https://github.com/unpingable/cartography/issues/7) certificates; A2 OS baseline.
+Dependencies: Component release plans; PA-06 (private program record) certificates; A2 OS baseline.
 
 Acceptance/evidence: Two reproducible builds where claimed, exact source/output identities, ABI checks and install/upgrade/rollback evidence for the advertised profile; no campaign script dependency.
 
@@ -60,7 +60,7 @@ Intended outcome: Specify changes only from named current producers/consumers wi
 
 Scope/exclusions: Limit changes to the named outcome; preserve existing semantic and authority boundaries.
 
-Dependencies: Current V1; [PA-03](https://github.com/unpingable/cartography/issues/4) and [PA-04](https://github.com/unpingable/cartography/issues/5); component-local semantic ownership.
+Dependencies: Current V1; PA-03 (private program record) and PA-04 (private program record); component-local semantic ownership.
 
 Acceptance/evidence: Consumer-owned golden/conformance vectors and positive/refusal cases; no universal common schema or promotion by validator success.
 
@@ -96,7 +96,7 @@ Intended outcome: Link current product claim, component plans, contracts and ope
 
 Scope/exclusions: Documentation links and normal public plans; no release of held status-page/prototype work.
 
-Dependencies: [PA-02](https://github.com/unpingable/cartography/issues/3) and [PA-10](https://github.com/unpingable/cartography/issues/11); component plans; existing site draft issue #14.
+Dependencies: PA-02 (private program record) and PA-10 (private program record); component plans; existing site draft issue #14.
 
 Acceptance/evidence: All links resolve to current development refs and owning issues; no stale qualification standing or private target facts.
 

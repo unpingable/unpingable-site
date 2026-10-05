@@ -1,7 +1,7 @@
 # Operate and inspect the prepared spine
 
-Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
-This guide covers the source-defined component workflow. Workbench is the intended primary operator surface after its separate integration; use these documented CLI paths when that surface is unavailable or explicitly directs you here. This prepared cohort has no completed combined Workbench or human qualification claim.
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the supplied Workbench package-only upgrade/rollback. Historical whole-spine predecessor bytes remain separate private recovery custody, excluded from this public download. No historical qualification record is rewritten or required reading.
+This guide covers the source-defined component workflow. Workbench is the combined candidate’s primary operator surface; use these documented CLI paths when that surface is unavailable or explicitly directs you here. The combined integration is accepted within its bounded native unit scope; no formal human qualification is claimed.
 
 ## Find identity and current state
 
@@ -69,7 +69,7 @@ Inspect/reconcile make no inference debit, but take a writer lock and may create
 
 ## Restart, upgrade and rollback
 
-Use [DAY-TWO-RUNBOOK.md](DAY-TWO-RUNBOOK.md) for the prepared NQ 0.2.3 → 0.2.4 lifecycle. It archives with the old binary, retains old store/admissions together, initializes and re-admits a fresh successor, then re-enrolls/prepares the posture generation. An old-store compatibility probe does not establish active cross-build continuity.
+Use the current [combined day-two runbook](../DAY-TWO-RUNBOOK.md) for exact supplied packages, generation boundaries and recovery. Preserve state/admissions and reconcile pending effects; an old-store probe is not live continuity.
 
 After reboot, recheck current observations, host-posture preflight/health, Nightshift recurrence and attention input/outcome state. A timer active with stale data is not healthy. Qualification defaults and the profile's expected unknown support still apply.
 

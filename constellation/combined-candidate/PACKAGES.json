@@ -2,70 +2,70 @@
   "schema": "constellation.combined-packages/v1",
   "packages": [
     {
-      "file": "packages/agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
-      "sha256": "1fcb7e53d7e2de650687216084f689522d314cc59b8ca823972c826e97301a83",
-      "bytes": 3852564,
-      "control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+spine.20261004.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35)\n"
+      "file": "packages/agent-governor-ng-operator-tools_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "781d5a1abd5817d0ded3d5cebe669e77118ef170616ae7f62b8ff0ddf61bbb68",
+      "bytes": 3819338,
+      "control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1\n"
     },
     {
-      "file": "packages/agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb",
-      "sha256": "f8d7c56df0cc7ae88336ce77e68de8d55d7cf0bbebc1063a142a90608d6d50bd",
-      "bytes": 2811974,
-      "control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+spine.20261004.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), systemd (>= 249)\n"
+      "file": "packages/agent-governor-ng-systemd-executor_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "728a14e31f833e6ed26879dbc9c7e54524098bce27d418e65fed3f63a69dbd01",
+      "bytes": 2795470,
+      "control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1, systemd (>= 249)\n"
     },
     {
-      "file": "packages/constellation-attention_0.1.0+combined.20261005.1_amd64.deb",
-      "sha256": "e135a5b8229090288fe1410aac00dda19b57ad7fd6702bda565f9ecd03bee390",
-      "bytes": 1700568,
-      "control": "Package: constellation-attention\nVersion: 0.1.0+combined.20261005.1\nArchitecture: amd64\nDepends: libc6, nq-ng (>= 0.2.2)\n"
+      "file": "packages/constellation-attention_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "5b46b2ed76cb0e01c61a58d7afdbd9ff38bfb1ca2de97613914af967d3cb43c1",
+      "bytes": 1689842,
+      "control": "Package: constellation-attention\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, nq-ng (>= 0.2.2)\n"
     },
     {
-      "file": "packages/constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
-      "sha256": "4acf2ceb6b831c6a20d860a27d2d77f903261a794ff253636215fb904bbaa2d0",
-      "bytes": 1840396,
-      "control": "Package: constellation-docket\nVersion: 0.1.0+spine.20261004.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35)\n"
+      "file": "packages/constellation-docket_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "cacd23ad2ae5400a70a4c46afd2528b285469ac989e07a0815b5c6a57d7492e8",
+      "bytes": 1826116,
+      "control": "Package: constellation-docket\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1\n"
     },
     {
-      "file": "packages/constellation-host-posture_0.1.0+combined.20261005.1_amd64.deb",
-      "sha256": "0c83eeb9b286a7799ccdc65db083d82d3d7ac1953581ee5c46dcc6c8bfab9976",
-      "bytes": 2027792,
-      "control": "Package: constellation-host-posture\nVersion: 0.1.0+combined.20261005.1\nArchitecture: amd64\nDepends: libc6, nq-ng (>= 0.2.0), adduser\n"
+      "file": "packages/constellation-host-posture_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "716e747ec45e4a4dcd8482e5fc6897cdb5b2a8c907d48c75cb38d7ff40432fd6",
+      "bytes": 2012170,
+      "control": "Package: constellation-host-posture\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, nq-ng (>= 0.2.0), adduser\n"
     },
     {
-      "file": "packages/constellation-live-observation_0.1.0+combined.20261005.1_amd64.deb",
-      "sha256": "f06fa0c563ad270fae20bde8f52b8fc78684c78840dfaa2ee730d1dadbebe91d",
-      "bytes": 407568,
-      "control": "Package: constellation-live-observation\nVersion: 0.1.0+combined.20261005.1\nArchitecture: amd64\nDepends: libc6, python3 (>= 3.10), nq-ng (>= 0.2.5)\n"
+      "file": "packages/constellation-live-observation_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "75876078f7784b43a46fa45deefbbfbe5edb90f6b2bf11cd8525b45c16b17cb1",
+      "bytes": 408350,
+      "control": "Package: constellation-live-observation\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.10), nq-ng (>= 0.2.5)\n"
     },
     {
-      "file": "packages/constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb",
-      "sha256": "9b26f3a124f8271b02112031b6e845f51bc4b0231c77b71c180df46c2518a017",
-      "bytes": 5761942,
-      "control": "Package: constellation-nightshift\nVersion: 0.1.0+spine.20261004.1\nArchitecture: amd64\nDepends: libc6, adduser\n"
+      "file": "packages/constellation-nightshift_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "8e9296b28a2389c7326499e6ea496e43d72c5250002e275c7556090876632637",
+      "bytes": 5730160,
+      "control": "Package: constellation-nightshift\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, adduser\n"
     },
     {
-      "file": "packages/constellation-remediation_0.1.0+combined.20261005.1_amd64.deb",
-      "sha256": "6ea5090d403a9b0024b00c778b93642e207169ea5dfec9ea24e905e539ab916e",
-      "bytes": 1745688,
-      "control": "Package: constellation-remediation\nVersion: 0.1.0+combined.20261005.1\nArchitecture: amd64\nDepends: libc6, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+      "file": "packages/constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "b7b0e05c20e13a52a6c35b2b403ab3b43646367b1b35eb58279d5eb33c01c5cc",
+      "bytes": 1729226,
+      "control": "Package: constellation-remediation\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
     },
     {
-      "file": "packages/constellation-workbench_0.1.0+combined.20261005.1_all.deb",
-      "sha256": "ead144b2fec77c46941708b2342985d66c2be8294baa1c3d7af7eb599cd549dc",
-      "bytes": 71364,
-      "control": "Package: constellation-workbench\nVersion: 0.1.0+combined.20261005.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+      "file": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "sha256": "859863d154e08a2181ae9c54db03aedcd2162a05800dd56add5f603a87f08265",
+      "bytes": 77476,
+      "control": "Package: constellation-workbench\nVersion: 0.1.0+release.20261005.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
     },
     {
-      "file": "packages/linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb",
-      "sha256": "f83c54df61f7a68edc79d7c1a9285c5b6f7108fdc0d089f9f5b9d16a357fb4ab",
-      "bytes": 1381470,
-      "control": "Package: linear-accountant-inference\nVersion: 0.1.0+spine.20261004.1\nArchitecture: amd64\nDepends: libc6\n"
+      "file": "packages/linear-accountant-inference_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "8af0908280e0293a42339ae2e9ad9b0cd188952241dcda29785dcb316127761c",
+      "bytes": 1370468,
+      "control": "Package: linear-accountant-inference\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1\n"
     },
     {
-      "file": "packages/nq-ng_0.2.5_amd64.deb",
-      "sha256": "72fa887e093f62f92e98cd1e5d72b5c1bc4ac08f410e42ac826bc0d2c4e44238",
-      "bytes": 9424400,
-      "control": "Package: nq-ng\nVersion: 0.2.5\nArchitecture: amd64\nDepends: libc6, python3 (>= 3.8), adduser\n"
+      "file": "packages/nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "sha256": "327f782a371357643ce5ff31fbb6b4ed026fe6c71088af0063bf40035c0e0f21",
+      "bytes": 9346268,
+      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
     }
   ]
 }

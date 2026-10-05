@@ -20,7 +20,7 @@ REQUIRED = {
     "refuses", "maturity", "maturity_label", "section", "availability", "url", "use",
 }
 SECTIONS = (
-    ("core", "Core components", "The components exercised together in the alpha.6 governed-action profile."),
+    ("core", "Core components", "The bounded operational spine and its human-facing Workbench surface."),
     ("optional", "Optional and supporting components", "Each is usable on its own; none is required for every workflow."),
     ("design", "Design only", "Named and documented, not implemented."),
 )

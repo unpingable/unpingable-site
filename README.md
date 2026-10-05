@@ -1,22 +1,30 @@
 # unpingable.com
 
-Public documentation for the unpingable research program and the Constellation
-family of tools.
+Public documentation for Constellation and related research. The current product
+preparation is the [combined Operational EDA candidate](constellation/combined-candidate/README.md),
+with source-free Ubuntu22.04 artifacts, Workbench and operator documentation.
+It is a neutral owner-review candidate; BC1 is not tagged/published and the formal
+stranger-human study is prepared, not executed. Alpha.6 remains an older immutable
+released profile, not the current installation instructions.
 
-The current Constellation integration release is
-[`0.1.0-alpha.6`](https://unpingable.com/constellation/releases/0.1.0-alpha.6/guide.html).
-Start at the [Constellation front door](https://unpingable.com/constellation/)
-for the human-readable walkthrough, component map, integration guidance, and
-the explicit limits of the qualified profile.
+## Operator path
 
-## Publishing
+[Overview](constellation/index.html) → [installation](constellation/combined-candidate/INSTALLATION.md)
+→ [operation](constellation/combined-candidate/OPERATIONS.md) →
+[day two](constellation/combined-candidate/DAY-TWO-RUNBOOK.md).
+The eventual release directory supplies the archive, external checksum and
+release page together. No source checkout or private architecture record is
+required. Prepared download metadata does not claim public artifact availability.
 
-GitHub Pages serves `main` from the repository root at
-<https://unpingable.com/>. The files under
-`constellation/releases/0.1.0-alpha.6/` are an immutable release snapshot; do
-not rewrite them to update the mutable site.
+## Source and website publication
 
-Before publishing mutable documentation, run:
+`dev/operator-beta` is the canonical current documentation line. GitHub Pages
+continues to serve the separately published `main` snapshot from the root at
+https://unpingable.com/. Preparing/pushing this branch does not change Pages
+or publish BC1. Preserve immutable `constellation/releases/` snapshots and the
+byte-pinned historical reveal.
+
+Before ordinary publication, run:
 
 ```sh
 python3 tools/render_constellation.py --check
@@ -27,10 +35,6 @@ xmllint --noout sitemap.xml
 git diff --check
 ```
 
-The site contains public documentation only. Private campaign records,
-credentials, retained provider material, and local inventory data do not
-belong in this repository.
-
-## Beta work planning
-
-See the [current beta work plan](docs/BETA-WORK.md) for owned requirements, exclusions, dependencies and GitHub issues. Plan publication does not start implementation or transfer qualification.
+The site contains public-safe documentation only. Private host names, custody
+paths, credentials and private tracker URLs do not belong in its operator path.
+[Later beta planning](docs/BETA-WORK.md) does not activate future capabilities.

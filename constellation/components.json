@@ -1,12 +1,12 @@
 {
-  "as_of": "2026-09-25",
+  "as_of": "2026-10-05",
   "components": [
     {
-      "availability": "Public source. Alpha.6 pins the authorization runtime at 4dafc1a774178a9e09e75afc6e22c71052fd3dce and the public Phosphor/evidence reader at e0f30de668234935cdbc4b0bd04f5dc13838411d; no binary package is published.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "ag",
       "implementation_form": "standalone Rust authorization office",
-      "maturity": "Development source with component qualification and one actual reviewed, authorized-once, Docket-custodied alpha.6 workflow. This does not establish production deployment or arbitrary-work support.",
-      "maturity_label": "Development source",
+      "maturity": "Makes independent exact-work decisions from current evidence and owner-enrolled standing; no model output grants authority.",
+      "maturity_label": "Qualified bounded authority office",
       "name": "Constellation AG",
       "refuses": "Refuses authority that is already spent or no longer current. Does not execute work or treat a provider response as permission.",
       "relationship": "core family office",
@@ -14,14 +14,14 @@
       "role_detail": "Makes bounded, one-use authorization decisions from current inputs.",
       "section": "core",
       "url": "https://github.com/unpingable/constellation-ag",
-      "use": "Use for the documented exact-work authorization boundary. Start with the alpha.6 composition when you need the qualified end-to-end local-copy example."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
-      "availability": "Public source; released profiles pin their own revisions, including alpha.2 saved checks, alpha.4 local-successor replay, alpha.5 installed-cadence exercise, and alpha.6 bounded observation admission. The archive/rollover procedure is a source-level operator path, not an installed recurring migration. NQ 0.2.0 is also published as a component package (a Debian package and a tarball) for NQ alone: https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "nq",
       "implementation_form": "standalone Rust diagnostic engine",
-      "maturity": "Developer preview. Public examples cover saved checks, maintenance annotations, replay, local-inbox delivery and alpha.6 evidence admission. Archive/rollover is separately qualified in disposable state; production migration, transparent cross-store lookup, restoration, rollback and live Slack/Discord delivery remain unverified.",
-      "maturity_label": "Developer preview",
+      "maturity": "NQ0.2.5 adds boot-bound unit observation/export; current reference spine is qualified and Classic runtime retired. Profiles remain individually bounded.",
+      "maturity_label": "Qualified bounded observation/currentness",
       "name": "Constellation NQ",
       "refuses": "Returns a typed refusal when required evidence is missing, stale or cannot be evaluated. Its results never authorize an effect.",
       "relationship": "core family office",
@@ -29,14 +29,14 @@
       "role_detail": "Derives bounded diagnostic dispositions or typed refusals from retained evidence.",
       "section": "core",
       "url": "https://github.com/unpingable/constellation-nq",
-      "use": "Use a named diagnostic profile or retain a bounded local SQLite check. The five compiled diagnostic profiles and local saved-check interface are distinct; neither establishes general health or permission to act."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
-      "availability": "Public source. Alpha.6 pins fbcacc1dfb95f0f625a72e123f61afa41c1ddccb for its bounded local permission snapshot, attempt custody, dispatch, settlement and reconciliation.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "docket",
       "implementation_form": "standalone Rust execution-custody product",
-      "maturity": "Supported executor contracts, an operationally reusable Git-effect vertical, and one qualified alpha.6 local-copy workflow; not production-hardened.",
-      "maturity_label": "Exercised in alpha.6; not production-hardened",
+      "maturity": "Keeps exact enrolled attempt and settlement custody; a receipt is not independent recovery evidence or renewed authority.",
+      "maturity_label": "Qualified bounded execution custody",
       "name": "Constellation Docket",
       "refuses": "Refuses to execute without matching, current permission. An uncertain attempt is recorded as indeterminate and reconciled, not blindly repeated.",
       "relationship": "core family office",
@@ -44,14 +44,14 @@
       "role_detail": "Keeps custody of a bounded execution attempt and records its outcome.",
       "section": "core",
       "url": "https://github.com/unpingable/constellation-docket",
-      "use": "Use when an authorized workflow needs attempt identity and settlement custody."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
-      "availability": "Public source. Alpha.6 pins cycle runtime 9e592cbe581c24b3973677ef3938bccac4feea49 and Foreman 58639a9bfe8ddf3d6b232aab6dc231dcf82b6769; the later public lineage reader is e7c35db3ad6ce7cd53e280e6be118b042d89f63b.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "nightshift",
       "implementation_form": "standalone Rust temporal-observation office",
-      "maturity": "Development source. Saved-check recurrence, maintenance-aware attention, replay, local delivery and one actual alpha.6 occurrence/review path are exercised. No production recurring installation or complete consumer migration is claimed.",
-      "maturity_label": "Development source",
+      "maturity": "Reference observation recurrence, attention and currentness compose without authorizing effects; unknown support stays unknown.",
+      "maturity_label": "Qualified reference recurrence",
       "name": "Constellation Nightshift",
       "refuses": "Does not authorize or execute work, and does not turn old evidence into a fresh fact.",
       "relationship": "core family office",
@@ -59,7 +59,7 @@
       "role_detail": "Tracks currentness, recurrence, and attention over time.",
       "section": "core",
       "url": "https://github.com/unpingable/constellation-nightshift",
-      "use": "Use when a workflow needs temporal observation rather than authorization or execution."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
       "availability": "Public source. Alpha.6 pins d0f1375245d7fbaa05b0c6da9b8f60c6c5d388f4 for exact plan compilation, validation and the authority-neutral exclusive-create executor; other release snapshots retain their own pins.",
@@ -122,11 +122,11 @@
       "use": "Use when a workflow requires an independently custodied mandate lifecycle."
     },
     {
-      "availability": "Optional public source",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "linear-accountant",
       "implementation_form": "standalone Rust library and thin transport binary",
-      "maturity": "Frozen v0 reference component with a machine-checked arithmetic core; a scalar spend/residual-viability bridge is formalized, but no cross-stack reserve controller is implemented.",
-      "maturity_label": "Frozen v0 reference",
+      "maturity": "Separately accepted remediation-v2 uses finite reservation, send fence, actual-usage settlement and reconciliation. Workbench reveal did not exercise LA; optional recorded read projection does not administer budgets.",
+      "maturity_label": "Qualified optional inference accounting",
       "name": "Constellation Linear Accountant",
       "refuses": "Accounts for capacity only; it does not authorize action.",
       "relationship": "optional reference component",
@@ -134,14 +134,14 @@
       "role_detail": "Accounts for conserved finite capacity separately from action permission.",
       "section": "optional",
       "url": "https://github.com/unpingable/constellation-linear-accountant",
-      "use": "Use to account for finite execution capacity. A runtime guarantee of keeping mandatory obligations affordable afterward would require a separate protected-reserve admission rule; successful spend alone does not establish it."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
-      "availability": "Public source at constellation-monitor 45296872d161a79d345571d88d23725b04ff0236; no binary package is published.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "monitor",
       "implementation_form": "standalone Rust project-concern acquisition workspace hosting Pulse",
-      "maturity": "Experimental source with tested actual local acquisition into NQ, Pulse and Nightshift; no complete recurring migration claim.",
-      "maturity_label": "Experimental",
+      "maturity": "Bounded discovery, support, attention/evaluation and reference status are qualified. GET-only Kubernetes observation/diagnosis introduces no Kubernetes executor or NQ/Pulse standing.",
+      "maturity_label": "Qualified bounded observation/diagnosis",
       "name": "Constellation Monitor",
       "refuses": "Does not establish diagnostic truth or permission to act.",
       "relationship": "optional family member",
@@ -149,14 +149,14 @@
       "role_detail": "Acquires and validates bounded project concerns without establishing diagnostic truth or action authority.",
       "section": "optional",
       "url": "https://github.com/unpingable/constellation-monitor",
-      "use": "Use monitor-concerns to acquire an explicitly selected project's observations; use the local queue example for exact NQ/Pulse/Nightshift handoffs and their limits."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
-      "availability": "Hosted in the public constellation-monitor repository at 45296872d161a79d345571d88d23725b04ff0236; no separate Pulse repository or binary package is published.",
+      "availability": "Canonical dev/operator-beta source and prepared source-free Ubuntu22.04 combined candidate. Neutral owner-review artifacts are not a published BC1.",
       "id": "pulse",
       "implementation_form": "Rust subsystem and support adapters hosted within Constellation Monitor",
-      "maturity": "Host-load component checks and actual local predicate-support/attention example passed; live delivery and full recurring migration remain unqualified.",
-      "maturity_label": "Component checks passed; live delivery unqualified",
+      "maturity": "Receiver-owned evidence custody and scoped current support remain separate from NQ judgment and operational authority.",
+      "maturity_label": "Qualified scoped support/custody",
       "name": "Pulse",
       "refuses": "Support expires. It is not general health, permission to act, or delivery.",
       "relationship": "hosted optional family capability",
@@ -164,7 +164,7 @@
       "role_detail": "Evaluates proposition-specific present support under explicit coverage and policy.",
       "section": "optional",
       "url": "https://github.com/unpingable/constellation-monitor",
-      "use": "Select the adapter matching the named evidence profile and explicit source policy. Positive support expires and is not general health, action permission or delivery."
+      "use": "Use the documented candidate package/operator path and exact manifests; no arbitrary head composition or automatic enrollment."
     },
     {
       "availability": "Optional public source; no daemon, MCP server, endpoint provisioner or binary package.",
@@ -285,6 +285,21 @@
       "section": "design",
       "url": null,
       "use": "Treat as roadmap context, not an installable component or a current workflow prerequisite."
+    },
+    {
+      "id": "workbench",
+      "name": "Constellation Workbench",
+      "relationship": "human-facing operator surface",
+      "implementation_form": "packaged Python3.10 read-only operator surface and bounded native API escape",
+      "role": "Presents current owner evidence, plans, gaps and exact outcomes.",
+      "role_detail": "Human-facing Operational EDA surface over the operational spine.",
+      "refuses": "Does not turn diagnostic depth, frontend budgets, stale evidence or model narration into effect authority.",
+      "maturity": "Accepted bounded live unit loop and Kubernetes observation/diagnosis; optional recorded LA projection is subsequent composition. Historical replay is labeled. General frontend coverage and stranger-human operability remain unclaimed.",
+      "maturity_label": "Qualified bounded operator surface",
+      "section": "core",
+      "availability": "Included in the prepared Ubuntu22.04 combined candidate; implementation repository remains private. No public source-availability claim.",
+      "url": null,
+      "use": "Enter through the source-free operator guide; no Cartography or private repository is required."
     }
   ],
   "schema": "constellation.components/v2"

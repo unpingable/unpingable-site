@@ -6,7 +6,7 @@ Status: `CONSTELLATION_ALPHA2_BLOCKED_ON_OWNER_DECISION`. The selected direction
 
 ## Bounded diagnosis
 
-Read-only inspection on crow found active systemd-timesyncd, `NTPSynchronized=yes`, clocksource `tsc`, and an existing `ntp.ubuntu.com` source. One retained sample reports root distance3.523ms, offset+2.248ms and delay85.479ms; these are synchronization observations, not an enrolled Constellation clock-qualification decision. Read-only `adjtimex` used `modes=0`; no clock/configuration was changed and no new time-service connection was initiated. No fresh guest was launched, so no guest synchronization or host-to-guest error bound is claimed.
+Read-only inspection on qualification build host found active systemd-timesyncd, `NTPSynchronized=yes`, clocksource `tsc`, and an existing `ntp.ubuntu.com` source. One retained sample reports root distance3.523ms, offset+2.248ms and delay85.479ms; these are synchronization observations, not an enrolled Constellation clock-qualification decision. Read-only `adjtimex` used `modes=0`; no clock/configuration was changed and no new time-service connection was initiated. No fresh guest was launched, so no guest synchronization or host-to-guest error bound is claimed.
 
 The Jammy [systemd249 implementation](https://github.com/systemd/systemd/blob/v249/src/timesync/timesyncd-manager.c#L223-L246) sets kernel `maxerror` and `esterror` to zero when adjusting the clock. Those fields cannot simply be copied as a proven zero UTC-error bound. NTP measurements can contribute evidence under an explicitly admitted qualification rule; the measurements do not establish that rule, its reference accuracy, guest transfer premises or currentness themselves.
 

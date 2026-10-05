@@ -1,6 +1,6 @@
 # Install the prepared operational spine
 
-Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the exact supplied 0.2.4 predecessor ↔ 0.2.5 combined boundary. No historical qualification record is rewritten or required reading.
+Historical accepted spine recipe, supplied for reference configuration details. Run commands from the **combined candidate root**, not this reference subdirectory. Install packages using the main INSTALLATION.md and current PACKAGES.json; the historical nine-package table/explicit install command and 0.2.3→0.2.4 qualification examples below are not the combined install/upgrade path. Main DAY-TWO-RUNBOOK.md defines the supplied Workbench package-only upgrade/rollback. Historical whole-spine predecessor bytes remain separate private recovery custody, excluded from this public download. No historical qualification record is rewritten or required reading.
 This exact neutral prework cohort is bound by PACKAGES.json, installed-SHA256SUMS and QUALIFICATION-SUMMARY.json. The retained fresh-origin Ubuntu lifecycle and composed package/canary checks passed within that recorded scope. Workbench is included by the combined installation; human qualification remains unexecuted. Live enrollment still requires the owner’s explicit installation/authority choice.
 
 ## Requirements and artifacts
@@ -47,7 +47,7 @@ The packages create documented service accounts/directories and install disabled
 
 ## Enroll the observation profile first
 
-For the current fresh installation, follow [DAY-TWO-RUNBOOK.md, section 2](DAY-TWO-RUNBOOK.md#2-initial-enrollment), with the already installed combined NQ 0.2.5 cohort. Do not reinstall its section-1 NQ 0.2.3 baseline. Use that document's sandboxed `nq-helper-run` wrapper and exact configuration/admission/ownership procedure, not an unsandboxed helper shortcut.
+For the current fresh installation, follow [DAY-TWO-RUNBOOK.md, section 2](DAY-TWO-RUNBOOK.md#2-initial-enrollment), with the already installed combined NQ 0.2.5 cohort. Its initial setup uses the already installed current manifest; do not substitute an older NQ package. Use that document's sandboxed `nq-helper-run` wrapper and exact configuration/admission/ownership procedure, not an unsandboxed helper shortcut.
 
 Record the actual machine/filesystem identity, NQ store genesis, first artifact, admitted profile and host-posture policy generation. Choose the unique local issuance shown in the runbook. Its source, build and qualification-result identities remain pinned to this exact package cohort; the issuance label grants no effect authority. Stop if the host-posture sample still contains `REPLACE` fields. The required order is NQ test/admit/acquire, host-posture enroll, prepare-qualification, preflight, then start. Qualification-input records must be included by this exact package cohort; do not borrow an unrelated old qualification result.
 

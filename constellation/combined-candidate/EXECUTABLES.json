@@ -4,7 +4,7 @@
     {
       "path": "/usr/bin/ag-loopctl",
       "sha256": "54dac28e6aae8895a4140ad6038aafd2d142a256b65167635713cb12da2ff6be",
-      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "agent-governor-ng-operator-tools_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 8609096,
       "needed": [
         "libgcc_s.so.1",
@@ -16,7 +16,7 @@
     {
       "path": "/usr/bin/ag-operator-ui",
       "sha256": "5e3e24fc6c0327d09f815a043c53bd60ddc09e8263ef7614094e7b860c711e7c",
-      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "agent-governor-ng-operator-tools_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 5232360,
       "needed": [
         "libgcc_s.so.1",
@@ -27,7 +27,7 @@
     {
       "path": "/usr/bin/ag-standing-resolver",
       "sha256": "f0c2ba2a6e0cb2fa1c5f2a3d62af7b0bc2fc8c002510af750e2352a7306941ce",
-      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "agent-governor-ng-operator-tools_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 2359600,
       "needed": [
         "libgcc_s.so.1",
@@ -38,7 +38,7 @@
     {
       "path": "/usr/libexec/agent-governor-ng/ag-effectd",
       "sha256": "01a422e93fda34c267ed394604daf33015a6ab71c9ff27414fc1da6a2e78e195",
-      "package": "agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "agent-governor-ng-systemd-executor_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 9109240,
       "needed": [
         "libgcc_s.so.1",
@@ -50,7 +50,7 @@
     {
       "path": "/usr/bin/constellation-attention",
       "sha256": "f7c1aa85bd49e1ab811b592f65c503205ffef0a26bcf9adbdb0f45907daeefde",
-      "package": "constellation-attention_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-attention_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 4481448,
       "needed": [
         "libgcc_s.so.1",
@@ -62,7 +62,7 @@
     {
       "path": "/usr/bin/docket",
       "sha256": "29c73e681d51fd5a18a7a692024cf3c8da61e452faf2ac44c945440239b2957a",
-      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "constellation-docket_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 4457328,
       "needed": [
         "libgcc_s.so.1",
@@ -74,7 +74,7 @@
     {
       "path": "/usr/bin/docket-standing-grant-resolver",
       "sha256": "7438d8ee3e47060e9c0a5dd3686c9603907491d98323abb911bf401140c86660",
-      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "constellation-docket_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 932624,
       "needed": [
         "libgcc_s.so.1",
@@ -85,7 +85,7 @@
     {
       "path": "/usr/bin/docket-standing-resolver",
       "sha256": "a69d8aed932f95ef3622fce16abefb616bb82466b2922738a79f626afa0b0a9e",
-      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "constellation-docket_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 837352,
       "needed": [
         "libgcc_s.so.1",
@@ -96,7 +96,7 @@
     {
       "path": "/usr/bin/constellation-host-posture",
       "sha256": "b38946c05ee578c1bcbdaae981497afe651d23b0afb167470a06d305fc8215e6",
-      "package": "constellation-host-posture_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-host-posture_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 6584504,
       "needed": [
         "libgcc_s.so.1",
@@ -107,7 +107,7 @@
     {
       "path": "/usr/bin/constellation-status",
       "sha256": "5531e2d6c2b86a30eddebfd05d7751d6a0b02cbd32e11ce4632d5f7a9ff56d52",
-      "package": "constellation-host-posture_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-host-posture_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 885176,
       "needed": [
         "libgcc_s.so.1",
@@ -118,7 +118,7 @@
     {
       "path": "/usr/bin/pulse-nq-load-support",
       "sha256": "ebd6b398beebad74fd8e2fdeec6cfb26741be84673340767bd66b8c138d9b494",
-      "package": "constellation-host-posture_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-host-posture_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 1216536,
       "needed": [
         "libgcc_s.so.1",
@@ -129,7 +129,7 @@
     {
       "path": "/usr/bin/constellation-nq-boot-unit-resolver",
       "sha256": "27bfa8aba0c7ac34afe3f5e7496e85208814c26e32660e410ccc338845827cb3",
-      "package": "constellation-live-observation_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-live-observation_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 1011600,
       "needed": [
         "libgcc_s.so.1",
@@ -140,7 +140,7 @@
     {
       "path": "/usr/bin/nightshift",
       "sha256": "7b77061ee17344ae185ab6da004a9d2d296d7753c5217362b793d4f715a2ad01",
-      "package": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "constellation-nightshift_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 13375432,
       "needed": [
         "libgcc_s.so.1",
@@ -152,7 +152,7 @@
     {
       "path": "/usr/bin/nightshift-observation-resolver",
       "sha256": "b48375c53d6f71b86ff15ed5efdc8cc3e534cba67f881c7258dfdd4dc8e1f516",
-      "package": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "constellation-nightshift_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 7940248,
       "needed": [
         "libgcc_s.so.1",
@@ -164,7 +164,7 @@
     {
       "path": "/usr/bin/constellation-nq-unit-resolver",
       "sha256": "f4ceb28f8c8908044ab48233cf64e777dbfa4cda1c9184ce3a4859d220cef410",
-      "package": "constellation-remediation_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 935536,
       "needed": [
         "libgcc_s.so.1",
@@ -175,7 +175,7 @@
     {
       "path": "/usr/bin/constellation-remediation-consumer",
       "sha256": "83ffe2ebe9c28d68f943e33f79c2b200cdaf1c984e55b4a8de21dcf3122d0628",
-      "package": "constellation-remediation_0.1.0+combined.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 4809528,
       "needed": [
         "libgcc_s.so.1",
@@ -186,7 +186,7 @@
     {
       "path": "/usr/bin/la_inference",
       "sha256": "41045051b89462512df024a4ce64fa02bed3ed1660c64a3ae6de1a0c950a6576",
-      "package": "linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb",
+      "package": "linear-accountant-inference_0.1.0+release.20261005.1_amd64.deb",
       "bytes": 3445872,
       "needed": [
         "libgcc_s.so.1",
@@ -198,7 +198,7 @@
     {
       "path": "/usr/bin/nq",
       "sha256": "f05163dde4d2e4cd2b2eb8a0408d323ea536eca49a8cd033f5b699969f235563",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 24800648,
       "needed": [
         "libgcc_s.so.1",
@@ -210,7 +210,7 @@
     {
       "path": "/usr/bin/nqd",
       "sha256": "29691482e846e14fc1a04c32ca0b46b607ebd4034145de766db827f7c769a1b6",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 498776,
       "needed": [
         "libgcc_s.so.1",
@@ -221,7 +221,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-host-helper",
       "sha256": "072f2b0ebe2b9cd71afd05d04e56516c378b4db914637dcb6de527835eed30f3",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 1672544,
       "needed": [
         "libgcc_s.so.1",
@@ -232,7 +232,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-host-resource-helper",
       "sha256": "8e3f6844fd9e63e757a38d505c9691e0082e8db59e5d3565c83e773e7a244197",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 2098184,
       "needed": [
         "libgcc_s.so.1",
@@ -243,7 +243,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-operator-beta-helper",
       "sha256": "f4ef55bb1cdd304a52f554e26b3e2925a64c29cc062f7834cd7c97e53f207c77",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 5318864,
       "needed": [
         "libgcc_s.so.1",
@@ -254,7 +254,7 @@
     {
       "path": "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper",
       "sha256": "32fb088d9ce352fc95d8f8f82545c0fd3a389332672fe776be44615b455fb17e",
-      "package": "nq-ng_0.2.5_amd64.deb",
+      "package": "nq-ng_0.2.5+release.20261005.1_amd64.deb",
       "bytes": 3771536,
       "needed": [
         "libgcc_s.so.1",
