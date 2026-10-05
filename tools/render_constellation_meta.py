@@ -15,6 +15,11 @@ BASE = "https://unpingable.com/constellation/"
 IMAGE = "https://unpingable.com/og-card.png"
 IMAGE_ALT = "unpingable — evidence, authority, action. James Beck."
 PAGES = {
+    "release-hygiene-candidate-20261005.html": (
+        "Constellation prepared release surface",
+        "Exact unpublished Ubuntu22.04 combined candidate, package hashes, Workbench operator docs, scoped claims and passing release-coherence smoke; owner review pending.",
+        BASE + "release-hygiene-candidate-20261005.html",
+    ),
     "index.html": (
         "Constellation — independent evidence for automated work",
         "An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.",
@@ -72,7 +77,7 @@ PAGES = {
     ),
     "start.html": (
         "Start with Constellation",
-        "Start with the verified alpha.6 walkthrough, public component source and earlier scoped Constellation tutorials.",
+        "Start with the prepared source-free Ubuntu22.04 combined candidate and Workbench operator guide; older released examples remain scoped history.",
         BASE + "start.html",
     ),
     "notifications.html": (
