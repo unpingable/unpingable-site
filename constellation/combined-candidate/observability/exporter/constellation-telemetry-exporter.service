@@ -1,0 +1,43 @@
+[Unit]
+Description=Constellation operational telemetry textfile exporter
+Documentation=file:///usr/local/lib/constellation-telemetry/README
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=nq
+Group=nq
+# Creates /var/lib/constellation-telemetry owned by nq, mode 0755 so the
+# node_exporter user can read the .prom file.
+StateDirectory=constellation-telemetry
+StateDirectoryMode=0755
+ExecStart=/usr/bin/python3 /usr/local/lib/constellation-telemetry/constellation-textfile-exporter.py --nightshift-db /var/lib/nightshift/nightshift.sqlite
+TimeoutStartSec=90
+Nice=10
+MemoryMax=128M
+CPUQuota=25%
+
+# Sandbox. Only the output directory (and the Nightshift store directory, so
+# SQLite can open its WAL -shm even for a mode=ro connection) is writable.
+ProtectSystem=strict
+ReadWritePaths=/var/lib/constellation-telemetry
+ReadWritePaths=-/var/lib/nightshift
+# Read-only inputs (already read-only under ProtectSystem=strict; listed so the
+# unit documents what it touches):
+#   /var/www/constellation-status/status.json, render-timings.json
+#   /var/lib/constellation-attention/report.json, state.json (0600 nq)
+#   /var/lib/nq, /var/lib/nq-ops (file sizes, validation-watermark sidecar)
+ReadOnlyPaths=-/var/www/constellation-status -/var/lib/constellation-attention -/var/lib/nq -/var/lib/nq-ops
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+NoNewPrivileges=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictNamespaces=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_UNIX
+SystemCallArchitectures=native
+UMask=0022

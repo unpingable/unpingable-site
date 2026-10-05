@@ -1,0 +1,9 @@
+# Formalization consideration
+
+Owner: integration owner; independent convergence acceptance is separate. Exact source and result identities: SOURCE-IDENTITIES.json, RUNTIME-IDENTITIES.json, QUALIFICATION-SUMMARY.json and the sealed external convergence receipt.
+
+Propositions: (1) the packaged Workbench reads the same accepted bounded native contracts without renewing evidence or widening authority; (2) additive NQ boot-bound observation and Monitor readers preserve existing v1/v2 authority/currentness laws; (3) explicit fixture enrollment is finite, fresh-only, one-use and separate from inert installation; (4) package/source and historical replay/export correspond to the named exact bytes.
+
+Scope: trusted fixed installed commands, native stores/issuer/custodian, explicit owner disposable-VM admission, local boot/clock and credential custody. Hash/schema correspondence alone cannot authenticate truth, constrain a root owner or prove universal no-action topology. Guest native API binds all interfaces and requires private VM networking; UI loopback binding does not make it a public deployment. Exclusive claim prevents ordinary reapply; partially failed effects require reconciliation, not transactional rollback. No post-effect downgrade proof or universal health model is claimed.
+
+Decision: existing native deterministic vectors, changed-cone source tests, actual source-free installed checks and independent source/package review are sufficient for this finite packaging/composition correction. New golden boot-unit vectors are shared exactly between NQ and Monitor. No new semantic state machine or cross-language wire format is introduced. A bounded future installation/recovery transition model could improve partial-effect reasoning; it does not expand this task. Failed container-account and site-metadata checks are retained as demonstrated apparatus/integration seams, not rewritten into passing historical records.

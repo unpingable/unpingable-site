@@ -1,0 +1,23 @@
+# VictoriaMetrics -promscrape.config. Targets are on the host loopback because
+# the containers use host networking.
+global:
+  scrape_interval: 30s
+scrape_configs:
+  # The Linode's node_exporter :9100 (which also serves the
+  # constellation.prom textfile) through the SSH forward unit
+  # linode-node-exporter-forward.service.
+  - job_name: node
+    static_configs:
+      - targets: ["127.0.0.1:19100"]
+        labels:
+          site: reference
+  - job_name: victoriametrics
+    static_configs:
+      - targets: ["127.0.0.1:8428"]
+        labels:
+          site: central-monitor
+  - job_name: vmalert
+    static_configs:
+      - targets: ["127.0.0.1:8880"]
+        labels:
+          site: central-monitor

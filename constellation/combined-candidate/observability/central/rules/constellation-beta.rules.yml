@@ -1,0 +1,112 @@
+# Operational subset of the beta alert registry (../../../alerts/constellation-beta.rules.yml)
+# for the central-monitor MVP. vmalert evaluates these against exporter + node_exporter
+# series only and keeps alert state in VictoriaMetrics (ALERTS); nothing is
+# notified.
+#
+# Every rule is severity="operational": "the telemetry machinery or the host
+# looks wrong". None of them is a page and none carries PagerDuty semantics.
+# Product conditions (what the operator must act on, and the page decision)
+# belong to the Constellation attention evaluator, which owns them. A rule
+# here never restates or replaces an evaluator rule.
+#
+# Dropped from the pack registry because their metrics do not exist yet:
+#   NqNoFreshAcquisition, NqAcquisitionLatencyNearBound, NqStoreOpenCostGrowing,
+#   NqPendingAcquisitionStuck, HostPostureRefusalsRepeating,
+#   HostPostureRetentionNearBound, NightshiftEvidenceStale,
+#   NightshiftCycleDurationNearSlot, Docket*, Ag*, BuildIdentityUnexpected,
+#   ConstellationServiceDown (job regex constellation-.* has no targets; the
+#   Linode scrape is job="node").
+groups:
+  - name: constellation-operational
+    interval: 30s
+    rules:
+      - alert: LinodeNodeTargetDown
+        expr: up{job="node"} == 0
+        for: 3m
+        labels: {severity: operational, area: telemetry, runbook: service-down}
+        annotations:
+          summary: "node_exporter on the Linode is unreachable through the SSH forward ({{ $labels.site }})"
+      - alert: ExporterStale
+        expr: time() - max by (site) (constellation_exporter_last_run_timestamp_seconds) > 300
+        for: 5m
+        labels: {severity: operational, area: telemetry}
+        annotations:
+          summary: "constellation textfile exporter has not run for {{ $value | humanizeDuration }} ({{ $labels.site }})"
+      - alert: ExporterInputUnreadable
+        expr: max by (site, input) (constellation_exporter_input_ok{input!="render_timings"}) == 0
+        for: 15m
+        labels: {severity: operational, area: telemetry}
+        annotations:
+          summary: "exporter cannot read input {{ $labels.input }} ({{ $labels.site }})"
+      - alert: StatusSiteRenderStale
+        expr: time() - max by (site) (constellation_status_site_rendered_timestamp_seconds) > 900
+        for: 5m
+        labels: {severity: operational, area: observation}
+        annotations:
+          summary: "status.json was last rendered {{ $value | humanizeDuration }} ago ({{ $labels.site }})"
+      - alert: HostPostureUnknownPersisting
+        expr: max by (site) (constellation_host_posture_projection_state{state="unknown"}) == 1
+        for: 10m
+        labels: {severity: operational, area: observation, runbook: host-posture-unknown}
+        annotations:
+          summary: "Host-posture projection has been unknown (absent or past fresh_until) for 10m ({{ $labels.site }})"
+      - alert: NqWatcherObservationStale
+        expr: time() - max by (site, instance) (constellation_nq_watcher_observed_timestamp_seconds) > 600
+        for: 5m
+        labels: {severity: operational, area: observation}
+        annotations:
+          summary: "NQ watcher {{ $labels.instance }} last observed {{ $value | humanizeDuration }} ago ({{ $labels.site }})"
+      - alert: NqStatusExportSlow
+        expr: max by (site) (constellation_nq_status_export_duration_seconds) > 20
+        for: 15m
+        labels: {severity: operational, area: observation}
+        annotations:
+          summary: "nq status export takes {{ $value }}s (renderer timeout is 30s) ({{ $labels.site }})"
+      - alert: NqValidateFullNotSucceeding
+        expr: max by (site) (constellation_nq_validate_full_last_result{result="success"}) == 0
+        for: 5m
+        labels: {severity: operational, area: observation}
+        annotations:
+          summary: "last nq-validate-full run did not succeed ({{ $labels.site }})"
+      - alert: NightshiftRecurrenceMissing
+        expr: time() - max by (site) (constellation_nightshift_last_closed_cycle_timestamp_seconds) > 1800
+        for: 5m
+        labels: {severity: operational, area: recurrence, runbook: nightshift-recurrence-missing}
+        annotations:
+          summary: "No Nightshift cycle has closed for {{ $value | humanizeDuration }} ({{ $labels.site }})"
+      - alert: NightshiftTickNotSucceeding
+        expr: max by (site) (constellation_nightshift_tick_last_result{result="success"}) == 0
+        for: 15m
+        labels: {severity: operational, area: recurrence}
+        annotations:
+          summary: "last nightshift-observation-cycle run did not succeed ({{ $labels.site }})"
+      - alert: AttentionEvaluatorStale
+        expr: time() - max by (site) (constellation_attention_report_evaluated_timestamp_seconds) > 900
+        for: 5m
+        labels: {severity: operational, area: attention}
+        annotations:
+          summary: "attention evaluator report is {{ $value | humanizeDuration }} old ({{ $labels.site }})"
+      - alert: AttentionPassNotSucceeding
+        expr: max by (site) (constellation_attention_pass_last_result{result="success"}) == 0
+        for: 10m
+        labels: {severity: operational, area: attention}
+        annotations:
+          summary: "last constellation-attention run did not succeed ({{ $labels.site }})"
+      - alert: AttentionUnresolvedDeliveries
+        expr: max by (site) (constellation_attention_unresolved_deliveries) > 0
+        for: 30m
+        labels: {severity: operational, area: attention}
+        annotations:
+          summary: "{{ $value }} attention deliveries unresolved for 30m; the evaluator owns the decision ({{ $labels.site }})"
+      - alert: PublicCertificateExpiryNear
+        expr: min by (site) (constellation_tls_days_remaining) < 14
+        for: 1h
+        labels: {severity: operational, area: observation}
+        annotations:
+          summary: "public certificate expires in {{ $value }} days ({{ $labels.site }})"
+      - alert: HostRootFilesystemNearFull
+        expr: 1 - node_filesystem_avail_bytes{job="node",mountpoint="/"} / node_filesystem_size_bytes{job="node",mountpoint="/"} > 0.85
+        for: 15m
+        labels: {severity: operational, area: observation, runbook: host-disk}
+        annotations:
+          summary: "Root filesystem {{ $value | humanizePercentage }} used ({{ $labels.site }})"

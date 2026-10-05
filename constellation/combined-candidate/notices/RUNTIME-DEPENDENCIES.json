@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "supported_target": "Source-free Ubuntu22.04 AMD64 spine; exact scope/results in QUALIFICATION-SUMMARY.json",
+  "supported_baseline": {
+    "glibc": "2.35 (supported target baseline; not a statement every executable requires exactly this symbol version)",
+    "systemd": "249 for separately packaged AG standalone systemd-dbus executor; daemon package is not included and retains its separate252 floor",
+    "python": "3.10 for source-free site scripts; NQ package separately declares python3>=3.8",
+    "other_installed_dependencies": [
+      "adduser",
+      "systemd/D-Bus services as selected by installed units",
+      "ordinary distribution libc/shared libraries as declared by exact package controls",
+      "coreutils (sha256sum, install and ordinary file tools)",
+      "util-linux (setpriv observation/resolver account switching)",
+      "openssl CLI (optional canary issuer generation and DER conversion)"
+    ]
+  },
+  "inspected_package_metadata": [
+    {
+      "filename": "nq-ng_0.2.4_amd64.deb",
+      "sha256": "24bd8c916232775e72c3e9d301bdbebbbbd0b86955e2ff1b1deadb472bbee3f3",
+      "control_fields": "Package: nq-ng\nVersion: 0.2.4\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: NQ contributors\nDepends: libc6, python3 (>= 3.8), adduser\nConflicts: nq\nDescription: local-first operational evidence service\n NQ-ng supervises bounded watcher helpers, admits versioned evidence, stores\n durable local custody records, and exposes a read-only local operator view.\n This package is a developer preview and does not initialize or migrate state\n during installation.\n"
+    },
+    {
+      "filename": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "9b26f3a124f8271b02112031b6e845f51bc4b0231c77b71c180df46c2518a017",
+      "control_fields": "Package: constellation-nightshift\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n"
+    },
+    {
+      "filename": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "1fcb7e53d7e2de650687216084f689522d314cc59b8ca823972c826e97301a83",
+      "control_fields": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Agent Governor governed-loop operator tools\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n"
+    },
+    {
+      "filename": "agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f8d7c56df0cc7ae88336ce77e68de8d55d7cf0bbebc1063a142a90608d6d50bd",
+      "control_fields": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), systemd (>= 249)\nDescription: Agent Governor target-local systemd effect process adapter\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n"
+    },
+    {
+      "filename": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "4acf2ceb6b831c6a20d860a27d2d77f903261a794ff253636215fb904bbaa2d0",
+      "control_fields": "Package: constellation-docket\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Docket governed-loop custody and reconciliation CLI\n Inert CLI payload. Installs no issuer trust, observer/executor enrollment,\n configuration, credentials or state. Experimental VM/session executors and\n the Git work provider/broker profile are not included.\n"
+    },
+    {
+      "filename": "linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f83c54df61f7a68edc79d7c1a9285c5b6f7108fdc0d089f9f5b9d16a357fb4ab",
+      "control_fields": "Package: linear-accountant-inference\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6\nDescription: Linear Accountant durable inference accounting (la_inference)\n Durable episode and invocation accounting for the Constellation remediation\n consumer's model decider: owner-enrolled finite stock, per-episode\n reservations, per-call send fences and settlements without refunds, and a\n read-only reconcile. Installation is inert: it creates the root-only store\n directory and installs no enrollment, admission file or credential.\n"
+    },
+    {
+      "filename": "constellation-attention_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f99594e753484d5d8cdc2be2264aa022c28c7a73270399c7add6553fa31800fb",
+      "control_fields": "Package: constellation-attention\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, nq-ng (>= 0.2.2)\nDescription: bounded operator-attention evaluator for Constellation\n Evaluates a closed registry of attention rules over qualified, current\n Constellation state once a minute and asks NQ to deliver notification\n intents (PagerDuty pages, Slack/Discord/local notices). Requires NQ 0.2.2\n or later (the response_class intent contract). Installation creates the\n state directory only; configuration, qualification and enabling the timer\n are explicit operator steps documented in\n /usr/share/doc/constellation-attention/README.md.\n"
+    },
+    {
+      "filename": "constellation-remediation_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "6797df2f363c9f5081caa0dd7cdcf4aa6de93201868fa9b57df8d5579b26db6a",
+      "control_fields": "Package: constellation-remediation\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\nDescription: Constellation bounded autonomous remediation consumer (v1)\n A deterministic oneshot consumer (30 s timer) that asks AG for one governed\n start of one owner-enrolled unit per attention condition episode, plus the\n NQ unit observation resolver AG pins for the precondition and the\n postcondition. Installation is inert: no configuration, enrollment, keys or\n grants; the timer is neither enabled nor started.\n"
+    },
+    {
+      "filename": "constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "a3794eddf939274fb41fee35b2fb88bbce969ceee8c78384a026a3740dd0c71c",
+      "control_fields": "Package: constellation-host-posture\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, nq-ng (>= 0.2.0), adduser\nDescription: installed filesystem-capacity host-posture observation profile\n Runs the narrow constellation-host-posture composition over an installed\n NQ-ng watcher and publishes a read-only status projection. Also ships the\n exact NQ host-load-pressure support family (producer, receiver and the\n pulse-support-resolver Nightshift consults). Installation\n creates directories only; enrollment, qualification preparation, unit\n enablement and start are explicit operator steps documented in\n /usr/share/doc/constellation-host-posture/host-posture-runner.md.\n"
+    }
+  ],
+  "optional_central_observability": {
+    "VictoriaMetrics": "1.106.1",
+    "Grafana": "11.3.1",
+    "scope": "Optional separately installed images/configuration, not bundled image bytes or proof of deployed image behavior. VictoriaMetrics/vmalert 1.106.1 and Grafana11.3.1 configuration pins; node-exporter remains an explicit distribution dependency."
+  },
+  "limits": [
+    "No Rust toolchain/compiler installed in the source-free runtime. Standard-library notices supplied, compiler full COPYRIGHT referenced only in private preparation evidence.",
+    "Package metadata inspection does not replace ELF shared-library/symbol or fresh target qualification."
+  ]
+}

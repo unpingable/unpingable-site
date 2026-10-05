@@ -1,0 +1,27 @@
+[Unit]
+Description=Render the Constellation public status site (projection)
+Documentation=file:///usr/local/share/constellation-status-site/README.md
+After=network.target
+
+[Service]
+Type=oneshot
+User=nq
+Group=nq
+ExecStart=/usr/bin/python3 /usr/local/lib/constellation-status-site/render_status.py --out /var/www/constellation-status --nightshift-db /var/lib/nightshift/nightshift.sqlite --no-tls
+TimeoutStartSec=120
+Nice=10
+# The unit only reads inputs and writes the output directory.
+ProtectSystem=strict
+ReadWritePaths=/var/www/constellation-status -/var/lib/nightshift
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+NoNewPrivileges=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+UMask=0022
