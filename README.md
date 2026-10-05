@@ -12,7 +12,7 @@ released profile, not the current installation instructions.
 [Overview](constellation/index.html) → [installation](constellation/combined-candidate/INSTALLATION.md)
 → [operation](constellation/combined-candidate/OPERATIONS.md) →
 [day two](constellation/combined-candidate/DAY-TWO-RUNBOOK.md).
-The eventual release directory supplies the archive, external checksum and
+The [prepared release surface](constellation/release-hygiene-candidate-20261005.html) records the exact archive and passing machine smoke. The eventual release directory supplies the archive, external checksum and
 release page together. No source checkout or private architecture record is
 required. Prepared download metadata does not claim public artifact availability.
 

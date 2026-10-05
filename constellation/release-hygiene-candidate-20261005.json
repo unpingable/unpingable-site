@@ -1,0 +1,156 @@
+{
+  "schema": "constellation.release-hygiene-artifact/v1",
+  "identity": "constellation-release-hygiene-candidate-20261005",
+  "file": "constellation-release-hygiene-candidate-20261005.tar.gz",
+  "sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
+  "bytes": 31177993,
+  "stage_manifest_sha256": "abaeaf725d71886c1056017369c90dc1965372dbc172c9600514d4cb2a83c9c9",
+  "documentation_commit": "dd5a9cbacdad935e27fb1066a5f781b53ef5a54b",
+  "package_count": 11,
+  "runtime_files": 44,
+  "upgrade_fixture_count": 1,
+  "historical_rollback_count": 0,
+  "human": "prepared, not executed",
+  "BC1": "not tagged or published",
+  "download": "prepared unpublished surface; owner approval required before publication",
+  "contract": "constellation.workbench-integration/1.3",
+  "source_identities": {
+    "schema": "constellation.spine_sources.v1",
+    "sources": [
+      {
+        "component": "nq",
+        "repository": "https://github.com/unpingable/constellation-nq",
+        "branch": "dev/operator-beta",
+        "commit": "996f2ca9c5b1c7bb148d9cf9e818432b6f860936",
+        "accepted_runtime_source": "7e2c821932c1607913e13445877628a67b9ee72e",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "nightshift",
+        "repository": "https://github.com/unpingable/constellation-nightshift",
+        "branch": "dev/operator-beta",
+        "commit": "6ec5e05b34111011c9e09ef278744630bca7d8cb",
+        "accepted_runtime_source": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "ag",
+        "repository": "https://github.com/unpingable/constellation-ag",
+        "branch": "dev/operator-beta",
+        "commit": "2726696c6f30847fd877ce440a18e6fb5852f180",
+        "accepted_runtime_source": "2ac8675274c9eb3d209d7446ec13520d688fc449",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "docket",
+        "repository": "https://github.com/unpingable/constellation-docket",
+        "branch": "dev/operator-beta",
+        "commit": "e97454f980a6e489bb978143a7c0e1315defa9e0",
+        "accepted_runtime_source": "75f08ebad207f09659801eccdcb272d3c30a7613",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "la",
+        "repository": "https://github.com/unpingable/constellation-linear-accountant",
+        "branch": "dev/operator-beta",
+        "commit": "0cc727fe92b2c9141c602038088856542871280b",
+        "accepted_runtime_source": "239803f83f9a54d0f181edcc3850df8b0c83e782",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "monitor",
+        "repository": "https://github.com/unpingable/constellation-monitor",
+        "branch": "dev/operator-beta",
+        "commit": "ea7438aa6dc365525a614620c5e091ee9643522e",
+        "accepted_runtime_source": "f1313df277b17da6a243ad92c7a091f251d4772e",
+        "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      },
+      {
+        "component": "workbench",
+        "repository": "private canonical constellation-workbench",
+        "branch": "dev/operator-beta",
+        "commit": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
+        "accepted_runtime_source": "ca31202c66786f668153d9de98c5603ec4c1bb59",
+        "packaging_note": "bounded read-only accounting projection added; no native LA/effect semantic change"
+      }
+    ],
+    "build": {
+      "toolchain": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+      "target": "x86_64-unknown-linux-gnu",
+      "image_sha256": "b1f3e621da0cbb4f670db35cabcb9967768cd037d7021a6becdfc1f15caed03e",
+      "glibc_floor_observed": "2.34",
+      "supported_glibc": "2.35",
+      "systemd_executor_floor": "249"
+    },
+    "site_documentation": "Frozen by bundle SOURCE.json and file checksums; no self-referential commit/hash promise"
+  },
+  "packages": [
+    {
+      "file": "packages/agent-governor-ng-operator-tools_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "781d5a1abd5817d0ded3d5cebe669e77118ef170616ae7f62b8ff0ddf61bbb68",
+      "bytes": 3819338,
+      "control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1\n"
+    },
+    {
+      "file": "packages/agent-governor-ng-systemd-executor_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "728a14e31f833e6ed26879dbc9c7e54524098bce27d418e65fed3f63a69dbd01",
+      "bytes": 2795470,
+      "control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1, systemd (>= 249)\n"
+    },
+    {
+      "file": "packages/constellation-attention_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "5b46b2ed76cb0e01c61a58d7afdbd9ff38bfb1ca2de97613914af967d3cb43c1",
+      "bytes": 1689842,
+      "control": "Package: constellation-attention\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, nq-ng (>= 0.2.2)\n"
+    },
+    {
+      "file": "packages/constellation-docket_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "cacd23ad2ae5400a70a4c46afd2528b285469ac989e07a0815b5c6a57d7492e8",
+      "bytes": 1826116,
+      "control": "Package: constellation-docket\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6 (>= 2.35), libgcc-s1\n"
+    },
+    {
+      "file": "packages/constellation-host-posture_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "716e747ec45e4a4dcd8482e5fc6897cdb5b2a8c907d48c75cb38d7ff40432fd6",
+      "bytes": 2012170,
+      "control": "Package: constellation-host-posture\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, nq-ng (>= 0.2.0), adduser\n"
+    },
+    {
+      "file": "packages/constellation-live-observation_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "75876078f7784b43a46fa45deefbbfbe5edb90f6b2bf11cd8525b45c16b17cb1",
+      "bytes": 408350,
+      "control": "Package: constellation-live-observation\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.10), nq-ng (>= 0.2.5)\n"
+    },
+    {
+      "file": "packages/constellation-nightshift_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "8e9296b28a2389c7326499e6ea496e43d72c5250002e275c7556090876632637",
+      "bytes": 5730160,
+      "control": "Package: constellation-nightshift\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, adduser\n"
+    },
+    {
+      "file": "packages/constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "b7b0e05c20e13a52a6c35b2b403ab3b43646367b1b35eb58279d5eb33c01c5cc",
+      "bytes": 1729226,
+      "control": "Package: constellation-remediation\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+    },
+    {
+      "file": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "sha256": "77a2a74555d40bd42054e7671e79f90799de6e3e8a8a91b365b0d12c48ccbcc7",
+      "bytes": 77448,
+      "control": "Package: constellation-workbench\nVersion: 0.1.0+release.20261005.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+    },
+    {
+      "file": "packages/linear-accountant-inference_0.1.0+release.20261005.1_amd64.deb",
+      "sha256": "8af0908280e0293a42339ae2e9ad9b0cd188952241dcda29785dcb316127761c",
+      "bytes": 1370468,
+      "control": "Package: linear-accountant-inference\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1\n"
+    },
+    {
+      "file": "packages/nq-ng_0.2.5+release.20261005.1_amd64.deb",
+      "sha256": "327f782a371357643ce5ff31fbb6b4ed026fe6c71088af0063bf40035c0e0f21",
+      "bytes": 9346268,
+      "control": "Package: nq-ng\nVersion: 0.2.5+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
+    }
+  ],
+  "time": "2026-10-05T13:37:31.517176+00:00"
+}

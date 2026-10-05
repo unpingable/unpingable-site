@@ -1,0 +1,34 @@
+{
+  "schema": "constellation.release-coherence/v1",
+  "candidate_sha256": "d665c0baaf4114ab76b184accb16ea002fb3f50ddec8f6791db63b1f7c430bdc",
+  "verdict": "PASS",
+  "Ubuntu": "22.04.5 LTS amd64",
+  "consumer_path": "private HTTP serving exact published-style directory; guest downloaded archive/checksum, no source checkout",
+  "run": "8352413b-9f87-49b4-a819-e6655b5b1d08",
+  "protocol_sha256": "6b89c2b69f9524715775e2efe7580769631435cf1db5f25e995beb562e7d8130",
+  "result_sha256": "8e379ef65e48c2b80c644ee9dc2d8b38ed8e29d4b268691514ca858695828f8d",
+  "commands_passed": 16,
+  "checks": [
+    "archive/internal/installed44runtimehashverification",
+    "11declaredpackagesinstalled, no newnativeELFbytes",
+    "inert installation, explicit boundedfresh enrollment",
+    "Workbench/currentnativeunitreads andbuildidentity",
+    "LA actualselectedacceptedceiling/reservation/providersettlement/remainingretiredcapacity/reconciliation",
+    "nativebudgetexhaustion withoutaction/continuation",
+    "realreboot/newboot/currentnativeunitrecovery",
+    "Workbenchpackage-onlyupgrade.1-.2-.1, same runtime hashes"
+  ],
+  "native_executables_unchanged": 23,
+  "runtime_files": 44,
+  "model_calls_this_pass": 0,
+  "historical_reveal": "unchanged labeledrecorded, reveal did not exercise LA",
+  "limitations": [
+    "not formal stranger-human qualification",
+    "not newLA/provider/effectsemanticqualification",
+    "optionalaccounting is authenticowner-exported recordeddata, no automaticlivepublisher",
+    "whole-spine historicalpredecessor packagesexcluded public download/privatecustody",
+    "Workbenchunitfixture doesnotenrollallreference metrics/Grafana/evaluator paths; prior standing retained",
+    "noBC1/publicsite/productionmodeactivation"
+  ],
+  "time": "2026-10-05T13:40:20.796853+00:00"
+}
