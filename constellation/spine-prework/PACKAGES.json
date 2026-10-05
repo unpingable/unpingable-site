@@ -1,0 +1,175 @@
+{
+  "schema": "constellation.spine_package_manifest.v1",
+  "identity": "bc1-spine-candidate-prework-20261004",
+  "target": "Ubuntu22.04 amd64/systemd249/glibc2.35",
+  "packages": [
+    {
+      "component": "nq",
+      "file": "nq-ng_0.2.4_amd64.deb",
+      "sha256": "24bd8c916232775e72c3e9d301bdbebbbbd0b86955e2ff1b1deadb472bbee3f3",
+      "bytes": 9383504,
+      "source": {
+        "sha": "9c1a1604f3e833dd5e671c198caf42b7ddb6e4b5",
+        "tree": "80b158e3abc46c9028f01f05a605ab3c040c69dd",
+        "archive_sha256": "7c8c94852ccd8d9d90075a1f3f35a4a3ec1dc1260b2cf26af825eab631f23407",
+        "epoch": 1791156204
+      },
+      "package_control": "Package: nq-ng\nVersion: 0.2.4\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: NQ contributors\nDepends: libc6, python3 (>= 3.8), adduser\nConflicts: nq\nDescription: local-first operational evidence service\n NQ-ng supervises bounded watcher helpers, admits versioned evidence, stores\n durable local custody records, and exposes a read-only local operator view.\n This package is a developer preview and does not initialize or migrate state\n during installation.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "nightshift",
+      "file": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "9b26f3a124f8271b02112031b6e845f51bc4b0231c77b71c180df46c2518a017",
+      "bytes": 5761942,
+      "source": {
+        "sha": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217",
+        "tree": "f5121b444e403a4cae4295520e9c3ab32b3dcf03",
+        "archive_sha256": "0f88388c8eb603c925d7f87405b8cde08efc9f7d3b7366bae38cdf9f4458277e",
+        "epoch": 1790908027
+      },
+      "package_control": "Package: constellation-nightshift\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, adduser\nRecommends: nq-ng\nDescription: Nightshift recurrence, applicability and observation-cycle runtime\n Installs the nightshift and nightshift-observation-resolver executables, the\n canonical observation-cycle unit and timer, and the site environment example.\n Installation creates the nightshift account and layout only; the site\n environment file, cycle request, timer enablement and start are explicit\n operator steps. The packaged unit differs from deploy/systemd only in the\n executable path (/usr/bin instead of /usr/local/bin).\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "ag",
+      "file": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "1fcb7e53d7e2de650687216084f689522d314cc59b8ca823972c826e97301a83",
+      "bytes": 3852564,
+      "source": {
+        "sha": "2ac8675274c9eb3d209d7446ec13520d688fc449",
+        "tree": "8c1d66b08ee2f7e7b70f533d1a8604d4c87d7d31",
+        "archive_sha256": "a3f4c206587fc2e134f71b7a1f0fd911593c9564b9fa124a1678de57314ac584",
+        "epoch": 1791155618
+      },
+      "package_control": "Package: agent-governor-ng-operator-tools\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Agent Governor governed-loop operator tools\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "ag",
+      "file": "agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f8d7c56df0cc7ae88336ce77e68de8d55d7cf0bbebc1063a142a90608d6d50bd",
+      "bytes": 2811974,
+      "source": {
+        "sha": "2ac8675274c9eb3d209d7446ec13520d688fc449",
+        "tree": "8c1d66b08ee2f7e7b70f533d1a8604d4c87d7d31",
+        "archive_sha256": "a3f4c206587fc2e134f71b7a1f0fd911593c9564b9fa124a1678de57314ac584",
+        "epoch": 1791155618
+      },
+      "package_control": "Package: agent-governor-ng-systemd-executor\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35), systemd (>= 249)\nDescription: Agent Governor target-local systemd effect process adapter\n Inert runtime payload. Installs no configuration, credentials or mutable state\n and enables or starts no service. Build and publication do not establish\n release promotion or authorize effects.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "docket",
+      "file": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "4acf2ceb6b831c6a20d860a27d2d77f903261a794ff253636215fb904bbaa2d0",
+      "bytes": 1840396,
+      "source": {
+        "sha": "75f08ebad207f09659801eccdcb272d3c30a7613",
+        "tree": "075a4a37bf42461e378a99ad2f44f7d674b92c26",
+        "archive_sha256": "8347eebace03a7e712d3c9ce2e1459d31d4c2ad9bdccacf39528c9e8665e97a2",
+        "epoch": 1791155618
+      },
+      "package_control": "Package: constellation-docket\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6 (>= 2.35)\nDescription: Docket governed-loop custody and reconciliation CLI\n Inert CLI payload. Installs no issuer trust, observer/executor enrollment,\n configuration, credentials or state. Experimental VM/session executors and\n the Git work provider/broker profile are not included.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "la",
+      "file": "linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f83c54df61f7a68edc79d7c1a9285c5b6f7108fdc0d089f9f5b9d16a357fb4ab",
+      "bytes": 1381470,
+      "source": {
+        "sha": "239803f83f9a54d0f181edcc3850df8b0c83e782",
+        "tree": "1e7a837b7d11f4966bd63acd00d1ed1695cc1dad",
+        "archive_sha256": "bb8f35b74ba1724a20c28ef2687c9da5dbb66364796889c2bd6c03342e0c13a5",
+        "epoch": 1791155254
+      },
+      "package_control": "Package: linear-accountant-inference\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6\nDescription: Linear Accountant durable inference accounting (la_inference)\n Durable episode and invocation accounting for the Constellation remediation\n consumer's model decider: owner-enrolled finite stock, per-episode\n reservations, per-call send fences and settlements without refunds, and a\n read-only reconcile. Installation is inert: it creates the root-only store\n directory and installs no enrollment, admission file or credential.\n",
+      "role": "qualified optional; accounting unenrolled/modeldisabled"
+    },
+    {
+      "component": "monitor",
+      "file": "constellation-attention_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "f99594e753484d5d8cdc2be2264aa022c28c7a73270399c7add6553fa31800fb",
+      "bytes": 1700810,
+      "source": {
+        "sha": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+        "tree": "f73b218eeb719d2433ebf6a149f8cd19d91eb7a1",
+        "archive_sha256": "a7a776e893eb77baaf296e79865e81432a4df691fc64ae87da5c5a485dbfe259",
+        "epoch": 1791157537,
+        "environment": {
+          "MONITOR_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_REPOSITORY": "https://github.com/unpingable/constellation-monitor",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_TREE_DIGEST": "sha256:c68418f69729f0a1f9137908b9d68a789528a6aabe3ab3928345fecb4925fb28",
+          "CONSTELLATION_HOST_POSTURE_TOOLCHAIN_IDENTITY": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+          "CONSTELLATION_HOST_POSTURE_TARGET_TRIPLE": "x86_64-unknown-linux-gnu",
+          "CONSTELLATION_HOST_POSTURE_BUILD_PROFILE": "release",
+          "CONSTELLATION_HOST_POSTURE_ENABLED_FEATURES_JSON": "[]",
+          "CONSTELLATION_HOST_POSTURE_CARGO_LOCK_DIGEST": "sha256:6307cada2966f0524ca421e1130f53d3ffe5597fddf2913cca63140b012bfc18"
+        }
+      },
+      "package_control": "Package: constellation-attention\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, nq-ng (>= 0.2.2)\nDescription: bounded operator-attention evaluator for Constellation\n Evaluates a closed registry of attention rules over qualified, current\n Constellation state once a minute and asks NQ to deliver notification\n intents (PagerDuty pages, Slack/Discord/local notices). Requires NQ 0.2.2\n or later (the response_class intent contract). Installation creates the\n state directory only; configuration, qualification and enabling the timer\n are explicit operator steps documented in\n /usr/share/doc/constellation-attention/README.md.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "monitor",
+      "file": "constellation-remediation_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "6797df2f363c9f5081caa0dd7cdcf4aa6de93201868fa9b57df8d5579b26db6a",
+      "bytes": 1744784,
+      "source": {
+        "sha": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+        "tree": "f73b218eeb719d2433ebf6a149f8cd19d91eb7a1",
+        "archive_sha256": "a7a776e893eb77baaf296e79865e81432a4df691fc64ae87da5c5a485dbfe259",
+        "epoch": 1791157537,
+        "environment": {
+          "MONITOR_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_REPOSITORY": "https://github.com/unpingable/constellation-monitor",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_TREE_DIGEST": "sha256:c68418f69729f0a1f9137908b9d68a789528a6aabe3ab3928345fecb4925fb28",
+          "CONSTELLATION_HOST_POSTURE_TOOLCHAIN_IDENTITY": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+          "CONSTELLATION_HOST_POSTURE_TARGET_TRIPLE": "x86_64-unknown-linux-gnu",
+          "CONSTELLATION_HOST_POSTURE_BUILD_PROFILE": "release",
+          "CONSTELLATION_HOST_POSTURE_ENABLED_FEATURES_JSON": "[]",
+          "CONSTELLATION_HOST_POSTURE_CARGO_LOCK_DIGEST": "sha256:6307cada2966f0524ca421e1130f53d3ffe5597fddf2913cca63140b012bfc18"
+        }
+      },
+      "package_control": "Package: constellation-remediation\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\nDescription: Constellation bounded autonomous remediation consumer (v1)\n A deterministic oneshot consumer (30 s timer) that asks AG for one governed\n start of one owner-enrolled unit per attention condition episode, plus the\n NQ unit observation resolver AG pins for the precondition and the\n postcondition. Installation is inert: no configuration, enrollment, keys or\n grants; the timer is neither enabled nor started.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    },
+    {
+      "component": "host-posture",
+      "file": "constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb",
+      "sha256": "a3794eddf939274fb41fee35b2fb88bbce969ceee8c78384a026a3740dd0c71c",
+      "bytes": 2026544,
+      "source": {
+        "sha": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+        "tree": "f73b218eeb719d2433ebf6a149f8cd19d91eb7a1",
+        "archive_sha256": "a7a776e893eb77baaf296e79865e81432a4df691fc64ae87da5c5a485dbfe259",
+        "epoch": 1791157537,
+        "environment": {
+          "MONITOR_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_REPOSITORY": "https://github.com/unpingable/constellation-monitor",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_COMMIT": "b0240b2646e46e00c8c8fb2949862b5144ba830e",
+          "CONSTELLATION_HOST_POSTURE_SOURCE_TREE_DIGEST": "sha256:c68418f69729f0a1f9137908b9d68a789528a6aabe3ab3928345fecb4925fb28",
+          "CONSTELLATION_HOST_POSTURE_TOOLCHAIN_IDENTITY": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+          "CONSTELLATION_HOST_POSTURE_TARGET_TRIPLE": "x86_64-unknown-linux-gnu",
+          "CONSTELLATION_HOST_POSTURE_BUILD_PROFILE": "release",
+          "CONSTELLATION_HOST_POSTURE_ENABLED_FEATURES_JSON": "[]",
+          "CONSTELLATION_HOST_POSTURE_CARGO_LOCK_DIGEST": "sha256:6307cada2966f0524ca421e1130f53d3ffe5597fddf2913cca63140b012bfc18"
+        }
+      },
+      "package_control": "Package: constellation-host-posture\nVersion: 0.1.0+spine.20261004.1\nSection: admin\nPriority: optional\nArchitecture: amd64\nMaintainer: Constellation contributors\nDepends: libc6, nq-ng (>= 0.2.0), adduser\nDescription: installed filesystem-capacity host-posture observation profile\n Runs the narrow constellation-host-posture composition over an installed\n NQ-ng watcher and publishes a read-only status projection. Also ships the\n exact NQ host-load-pressure support family (producer, receiver and the\n pulse-support-resolver Nightshift consults). Installation\n creates directories only; enrollment, qualification preparation, unit\n enablement and start are explicit operator steps documented in\n /usr/share/doc/constellation-host-posture/host-posture-runner.md.\n",
+      "role": "selected reference runtime; explicit enrollment/activation required"
+    }
+  ],
+  "feature_contract": {
+    "remediation": "ordinary default features=[]; qualification-loopback omitted; defaultdecider deterministic",
+    "agentic_v2": "qualified optional; no LAstock/model/providercredential enrolled by install"
+  },
+  "qualified_installed_data": [
+    "NQ normative contract fixtures/profiles required by ordinarypackage",
+    "host-posture actual canonical qualificationinputs and commandlogs"
+  ],
+  "qualification": "See final QUALIFICATION-SUMMARY.json; packageaudit eefb67b8-b276-4be0-b04f-ca857d1709dc separatefrominstallacceptance"
+}

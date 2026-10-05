@@ -1,0 +1,50 @@
+{
+  "schema": "constellation.spine_sources.v1",
+  "sources": [
+    {
+      "component": "nq",
+      "repository": "https://github.com/unpingable/constellation-nq",
+      "branch": "dev/operator-beta",
+      "commit": "9c1a1604f3e833dd5e671c198caf42b7ddb6e4b5"
+    },
+    {
+      "component": "nightshift",
+      "repository": "https://github.com/unpingable/constellation-nightshift",
+      "branch": "dev/operator-beta",
+      "commit": "3333c791d32cae33dbb8c8302fc69ca2ba0ec217"
+    },
+    {
+      "component": "ag",
+      "repository": "https://github.com/unpingable/constellation-ag",
+      "branch": "dev/operator-beta",
+      "commit": "2ac8675274c9eb3d209d7446ec13520d688fc449"
+    },
+    {
+      "component": "docket",
+      "repository": "https://github.com/unpingable/constellation-docket",
+      "branch": "dev/operator-beta",
+      "commit": "75f08ebad207f09659801eccdcb272d3c30a7613"
+    },
+    {
+      "component": "la",
+      "repository": "https://github.com/unpingable/constellation-linear-accountant",
+      "branch": "dev/operator-beta",
+      "commit": "239803f83f9a54d0f181edcc3850df8b0c83e782"
+    },
+    {
+      "component": "monitor",
+      "repository": "https://github.com/unpingable/constellation-monitor",
+      "branch": "dev/operator-beta",
+      "commit": "b0240b2646e46e00c8c8fb2949862b5144ba830e"
+    }
+  ],
+  "build": {
+    "toolchain": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
+    "target": "x86_64-unknown-linux-gnu",
+    "image_sha256": "b1f3e621da0cbb4f670db35cabcb9967768cd037d7021a6becdfc1f15caed03e",
+    "glibc_floor_observed": "2.34",
+    "supported_glibc": "2.35",
+    "systemd_executor_floor": "249"
+  },
+  "site_documentation": "Frozen by bundle SOURCE.json and file checksums; no self-referential commit/hash promise"
+}

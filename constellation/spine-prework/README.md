@@ -1,0 +1,11 @@
+# Constellation operational spine prework
+
+This is a prepared source-free Ubuntu 22.04 amd64 operator spine. It brings together observation, current-state evaluation, attention, bounded deterministic remediation, custody and inference-accounting inspection. It is **not Beta Candidate 1**, a combined Workbench release or a completed human operability qualification.
+
+Start with [installation](INSTALLATION.md), then [operations](OPERATIONS.md). The [support contract](SUPPORT.md) states the current limits and useful diagnostic records. [Release draft](RELEASE-DRAFT.md) records the exact source basis and the remaining artifact/acceptance fields. [Day-two runbook](DAY-TWO-RUNBOOK.md) covers the retained NQ 0.2.3 → 0.2.4 upgrade and rollback exercise. [Human operability protocol](HUMAN-OPERABILITY.md) prepares the later 12-step test; it has not been executed. [Workbench integration contract](WORKBENCH-INTEGRATION-CONTRACT.md) is the input to its separate implementation owner, not a working UI promise.
+
+The default remediation consumer uses deterministic v1. Installing a package does not enroll observation, enable a service, grant an effect, supply a provider credential or enable model mode. Optional v2 has its own owner enrollment, disclosure and accounting requirements; this prework installs no model credential and authorizes no provider call.
+
+The supported effect envelope is one explicitly enrolled `attention-canary.service` start. It does not cover fleet administration, arbitrary service restart, NAS management or a general shell executor. Qualification notifications stay local. A dedicated TEST PagerDuty route requires separate explicit enrollment; production PagerDuty receives no qualification traffic.
+
+Source-free means the operator needs the frozen packages, checksums, scripts/site adapter and these documents, rather than Rust, a compiler, a source checkout or private campaign notes. PACKAGES.json, EXECUTABLES.json, SOURCE-IDENTITIES.json and QUALIFICATION-SUMMARY.json bind the prepared spine; extracted-bundle SOURCE.json and SHA256SUMS freeze its documentation and payload. Workbench identity and combined-human receipts remain future inputs. The release draft is not an instruction to deploy.

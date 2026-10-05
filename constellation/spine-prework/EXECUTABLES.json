@@ -1,0 +1,730 @@
+{
+  "schema": "constellation.spine_executables.v1",
+  "executables": [
+    {
+      "path": "/usr/bin/nq",
+      "sha256": "959be64a79b67b1c705f8e48bb6d1be3bf3b33327bf165af495878105d098414",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.2",
+        "2.3.4",
+        "2.4",
+        "2.5",
+        "2.7",
+        "2.9",
+        "2.10",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.27",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/nqd",
+      "sha256": "4bbbc12ecd521c90f1dbbbdb376cf5606e46effda266c6c3f24db66acf54b974",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.9",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/lib/nq/helpers/nq-host-helper",
+      "sha256": "9214eb1eadb76a3ba7777f692e027b6c85f563677bd3b71efa10f21584294717",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/lib/nq/helpers/nq-host-resource-helper",
+      "sha256": "a120b51c55e9128f67ceaf63863c3c53ca6e0c32de3ddf899d8eaf4bf0b0d3ce",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/lib/nq/helpers/nq-operator-beta-helper",
+      "sha256": "8bbf80de6ca13ec03fe4690527a10e7317d364e1578ee852bdee391eeeee8f80",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.2",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper",
+      "sha256": "baf7836a2cf44c96399aa93cccfd896e5ca8df3f8b95707c51caa325d5bf7198",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.14",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "nq-ng_0.2.4_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/nightshift",
+      "sha256": "7b77061ee17344ae185ab6da004a9d2d296d7753c5217362b793d4f715a2ad01",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.27",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/nightshift-observation-resolver",
+      "sha256": "b48375c53d6f71b86ff15ed5efdc8cc3e534cba67f881c7258dfdd4dc8e1f516",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-nightshift_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/ag-loopctl",
+      "sha256": "54dac28e6aae8895a4140ad6038aafd2d142a256b65167635713cb12da2ff6be",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/ag-operator-ui",
+      "sha256": "5e3e24fc6c0327d09f815a043c53bd60ddc09e8263ef7614094e7b860c711e7c",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.9",
+        "2.10",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/ag-standing-resolver",
+      "sha256": "f0c2ba2a6e0cb2fa1c5f2a3d62af7b0bc2fc8c002510af750e2352a7306941ce",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "agent-governor-ng-operator-tools_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/libexec/agent-governor-ng/ag-effectd",
+      "sha256": "01a422e93fda34c267ed394604daf33015a6ab71c9ff27414fc1da6a2e78e195",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.2",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "agent-governor-ng-systemd-executor_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/docket",
+      "sha256": "29c73e681d51fd5a18a7a692024cf3c8da61e452faf2ac44c945440239b2957a",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/docket-standing-grant-resolver",
+      "sha256": "7438d8ee3e47060e9c0a5dd3686c9603907491d98323abb911bf401140c86660",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/docket-standing-resolver",
+      "sha256": "a69d8aed932f95ef3622fce16abefb616bb82466b2922738a79f626afa0b0a9e",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-docket_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/la_inference",
+      "sha256": "41045051b89462512df024a4ce64fa02bed3ed1660c64a3ae6de1a0c950a6576",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.14",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "linear-accountant-inference_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/constellation-attention",
+      "sha256": "8608fac4da4d47eb39d3abb67e46075417540eba4d6e72a4e184b7e57bdc2fff",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libm.so.6",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-attention_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/constellation-nq-unit-resolver",
+      "sha256": "f2aa68f2c40a67b18d3f37ff0de66f3fc58d0b86919e4e409e944d4f6c03d66c",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-remediation_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/constellation-remediation-consumer",
+      "sha256": "a3570ccbe455fd52321c71256e539f41a72ff4d415da198da3e0395d84c56480",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.25",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-remediation_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/constellation-host-posture",
+      "sha256": "c5b04d3be757ce158963992d32f59e72cdc0379e54e88cf86f0689b768d6325b",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.9",
+        "2.14",
+        "2.15",
+        "2.16",
+        "2.17",
+        "2.18",
+        "2.28",
+        "2.29",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/constellation-status",
+      "sha256": "5531e2d6c2b86a30eddebfd05d7751d6a0b02cbd32e11ce4632d5f7a9ff56d52",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb"
+    },
+    {
+      "path": "/usr/bin/pulse-nq-load-support",
+      "sha256": "ebd6b398beebad74fd8e2fdeec6cfb26741be84673340767bd66b8c138d9b494",
+      "target_match": true,
+      "required_glibc_versions": [
+        "2.2.5",
+        "2.3",
+        "2.3.4",
+        "2.14",
+        "2.16",
+        "2.18",
+        "2.28",
+        "2.30",
+        "2.32",
+        "2.33",
+        "2.34"
+      ],
+      "max_glibc": "2.34",
+      "needed_libraries": [
+        "libgcc_s.so.1",
+        "libc.so.6",
+        "ld-linux-x86-64.so.2"
+      ],
+      "machine": "Advanced Micro Devices X86-64",
+      "interpreter": [
+        "/lib64/ld-linux-x86-64.so.2"
+      ],
+      "package": "constellation-host-posture_0.1.0+spine.20261004.1_amd64.deb"
+    }
+  ]
+}

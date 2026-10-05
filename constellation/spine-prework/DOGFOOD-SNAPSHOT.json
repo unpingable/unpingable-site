@@ -1,0 +1,102 @@
+{
+  "schema": "constellation.spine_dogfood_snapshot.v1",
+  "observed_at": "2026-10-05T00:34:35.372005+00:00",
+  "source": "Ordinary reference installation, preserved unchanged; distinct from newly assembled spine packages",
+  "production_default": "deterministicv1",
+  "model_enabled": false,
+  "grant": {
+    "uses": 0,
+    "revoked": false
+  },
+  "core_service_last_results": {
+    "nqd-ops.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=n/a",
+      "ExecMainStatus=0",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "constellation-host-posture.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=n/a",
+      "ExecMainStatus=0",
+      "ActiveState=active",
+      "SubState=running"
+    ],
+    "nightshift-observation-cycle.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Mon 2026-10-05 00:30:02 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "constellation-attention.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Mon 2026-10-05 00:34:03 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "constellation-remediation-consumer.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Mon 2026-10-05 00:34:21 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "constellation-status-site.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Mon 2026-10-05 00:31:10 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "constellation-telemetry-exporter.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Mon 2026-10-05 00:33:51 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "nq-validate-full.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=Sun 2026-10-04 04:23:57 UTC",
+      "ExecMainStatus=0",
+      "ActiveState=inactive",
+      "SubState=dead"
+    ],
+    "attention-canary.service": [
+      "Result=success",
+      "ExecMainExitTimestamp=n/a",
+      "ExecMainStatus=0",
+      "ActiveState=active",
+      "SubState=running"
+    ]
+  },
+  "telemetry": {
+    "input_ok_count": 19,
+    "series_count": 180,
+    "unresolved_deliveries": 0,
+    "status_export_seconds_at_sample": 1.11,
+    "status_export_max_previous_observed_hour": 5.614,
+    "ordinary_range": "19 exporterinputseries minimum1 over existing last1h query; samplecoverage/gaps notqualified as continuousuptime",
+    "active_condition": "Existing application SQLite savedcheck condition present, observe_only; product reported honestly; no coreproductregression established"
+  },
+  "store_growth": {
+    "initial_time": "2026-10-04T23:19:51.947045+00:00",
+    "final_time": "2026-10-05T00:34:35.372005+00:00",
+    "observation_db_initial": 88948736,
+    "observation_db_final": 92684288,
+    "ops_db_initial": 771723264,
+    "ops_db_final": 806920192,
+    "attribution": "Comparable identified DBsizes only. Filesystem totals/otherwriters are concurrent; no hostwide causalallocation claim."
+  },
+  "storage": {
+    "root_free_bytes": 33721499648,
+    "reserve_bytes": 64424509440,
+    "status": "Below established floor: existing ownerstorage followup remains blocked; no bulkremoteallocation or cleanup performed"
+  },
+  "classic": "nq-blackbox/nq-publish/nq-serve masked; nqd disabled; no Classicbytes shipped",
+  "qualification_routes": "New localVM notifications only; productionroutes leftunchanged; no productionqualification page",
+  "raw_private_evidence_sha256": "78d4348199d4e6aeda337d16b687ea7732194206afe2ed2ecd493e1d168a49b1"
+}

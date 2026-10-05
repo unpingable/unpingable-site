@@ -1,0 +1,142 @@
+{
+  "schema": "constellation.spine_qualification_summary.v1",
+  "identity": "bc1-spine-candidate-prework-20261004",
+  "prepared_at": "2026-10-05T00:42:37.797759+00:00",
+  "spine_run": "4f957ede-578f-4e8e-aab7-f088efe86b0b",
+  "receipts": [
+    {
+      "scope": "native NQ/Nightshift build entries; earlier AGfailure retained",
+      "record": "build/BUILD-RESULT.json",
+      "sha256": "c0c516df98bdedea88cd85ddfdf466fb956758d4f80037e5446a6fdff41a0fd7"
+    },
+    {
+      "scope": "AG/Docket/LA exactbuild checks",
+      "record": "build-successor-1/BUILD-RESULT.json",
+      "sha256": "c4c61e926352724f48be11d11c52601ca7e47df306fcd8708efe2271445ac42d"
+    },
+    {
+      "scope": "Monitor formatted/strictclippy/workspace576tests9ignored",
+      "record": "monitor-build/CHECK-RESULT.json",
+      "sha256": "dc403793d238cac4447b8ac83ba1a3862e72fd9b8dfe3c971bd8c23b39632cf1"
+    },
+    {
+      "scope": "corrected hostposture schemaordered gate-input assembly",
+      "record": "monitor-build-successor-3/RESULT.json",
+      "sha256": "fd68a93e231ee740cfa80c46e800b380e5055d602d8c3038a8d64ac9a0705383"
+    },
+    {
+      "scope": "ninepackage integrity/22ELF audit",
+      "record": ".lanes/package_integrity_review/eefb67b8-b276-4be0-b04f-ca857d1709dc/ACCEPTANCE.json",
+      "sha256": "2ca9a537d00297a63830f25a1521b8093332b13c43083812a5e522f41985500c"
+    },
+    {
+      "scope": "15runtimeglue source review",
+      "record": "runtime-glue-review/838a418d-86c1-4fd1-bcd1-e57a70ecfb38/REPORT.md",
+      "sha256": "5f35fb8c83ab5f7ad6d5568d27d9b855dd53f05221196ffef661dcc52d4aceec"
+    },
+    {
+      "scope": "tenlifecyclecase terminal",
+      "record": "daytwo-successor-1/record/RESULT.json",
+      "sha256": "422801ccf9f360d2bc77dd5a5eea3d66acd8f88eb749272ce9ded4ae421bc8b3"
+    },
+    {
+      "scope": "onecanary/defaultmode/statusmetrics cone",
+      "record": "focused-resumed-successor-1/RESULT.json",
+      "sha256": "1e23584cd786e1096f00dabdb5e79274718ae66a2271564bcdb64d122dc43c33"
+    },
+    {
+      "scope": "exactcanary custody/postcondition witness",
+      "record": "focused-resumed-successor-1/focused.log",
+      "sha256": "52144584851f32075de7befab1e51fe7411dc293bef25c6cbffa2c93e36e555c"
+    }
+  ],
+  "installed_target": {
+    "os": "Ubuntu22.04 amd64",
+    "kernel": "5.15.0-191-generic",
+    "lifecycle_run": "5c88d76e-bec8-4c0d-b1eb-c0428afd62a9",
+    "sequence": "Fresh Ubuntu origin: inert four-package install at NQ0.2.3, explicit enrollment and real reboot, upgrade/rollback/bad-upgrade/recovery to exact NQ0.2.4; remaining five inert packages installed in that same retained guest, then exact frozen enrollment helper and canary/status/metrics cone. This is not a new direct nine-package fresh0.2.4 installation campaign.",
+    "lifecycle_steps": [
+      {
+        "name": "install",
+        "status": "passed"
+      },
+      {
+        "name": "enroll",
+        "status": "passed"
+      },
+      {
+        "name": "reboot",
+        "status": "passed"
+      },
+      {
+        "name": "upgrade",
+        "status": "passed"
+      },
+      {
+        "name": "post-upgrade",
+        "status": "passed"
+      },
+      {
+        "name": "rollback-completed-upgrade",
+        "status": "passed"
+      },
+      {
+        "name": "bad-upgrade",
+        "status": "passed"
+      },
+      {
+        "name": "rollback-bad-upgrade",
+        "status": "passed"
+      },
+      {
+        "name": "reupgrade",
+        "status": "passed"
+      },
+      {
+        "name": "final-identities",
+        "status": "passed"
+      }
+    ],
+    "focused_run": "964ff50a-2524-4259-8fec-940aa6cf3b3b",
+    "focused_status": "passed",
+    "canary": {
+      "AG": "completed",
+      "Docket": "settled/success",
+      "fresh_postcondition": "active",
+      "grant_uses": 1,
+      "canary_starts": 1,
+      "page_intents": 0,
+      "network_notifications": false,
+      "decider": "deterministic",
+      "model": null
+    }
+  },
+  "change_impact": {
+    "nq": "Docprivacy only after accepted0.2.4; catalog/schema unchanged; rebuild/package installedlifecycle cone",
+    "nightshift": "Retain accepted exactworkschema/M2 fixes; sourceunchanged; recurring installedcycle exercised",
+    "ag": "Doc/packageclosure; accepted runtimeunchanged; exactcanary admission/effect/postcondition exercised",
+    "docket": "Install alreadyaccepted standingguide; runtimeunchanged; exact attempt/settlement exercised",
+    "la": "Merge accepted inference into forward retirementdoctrine; commentaryonly delta. Nativefmt/clippy/tests/no-default and ordinaryinference package verified; v1hasno enrolledbook. Priorv2 realprovider accounting remains accepted, no newprovider call necessary.",
+    "monitor": "Replay acceptedattention/remediation onto publicforwardsource, preserve existingno_std/M2, sharedvectors/lockclosure; strictworkspace checks576passed9ignored and exactnativepackage cone. qualification-loopback notbuilt/packaged.",
+    "site_glue": "Fresh enrollment guards, schema13 read guard, actualunit/store paths, canarypredicate negativecontrols under Python-O; exact helper/actionenrollment/statusmetrics exercise."
+  },
+  "retained_standing": [
+    "boundedFreeBSD qualification",
+    "notification routing/productionTEST separation",
+    "deterministicv1 boundary",
+    "modelv2/LA allinvocations settled",
+    "Classic retirement",
+    "observabilityMVP"
+  ],
+  "not_claimed": [
+    "Workbench integration acceptance",
+    "combinedhumanoperability",
+    "BetaCandidate1 publication",
+    "arbitrary storecontinuity",
+    "model defaultactivation",
+    "newprovider/external notification qualification",
+    "general fleet/target expansion",
+    "centralimage byte inclusion or newcentral deployment"
+  ],
+  "failure_records": "All prior build/fixture/canonical-input and qualification assertion failures retained privately by run; exact corrected successors bind currentresult. No failed occurrence rewritten."
+}

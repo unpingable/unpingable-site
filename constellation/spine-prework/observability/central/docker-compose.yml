@@ -1,0 +1,59 @@
+# Beta Observability MVP backend on central-monitor. Operational telemetry only.
+# All three services use host networking so that VictoriaMetrics can scrape the
+# SSH-forwarded node_exporter on the host loopback (127.0.0.1:19100); every
+# listener is bound to 127.0.0.1 explicitly.
+#   cp .env.example .env && chmod 600 .env && $EDITOR .env
+#   docker compose up -d
+name: constellation-obs
+services:
+  victoriametrics:
+    image: ${VM_IMAGE:-victoriametrics/victoria-metrics:v1.106.1}
+    network_mode: host
+    restart: unless-stopped
+    command:
+      - -httpListenAddr=127.0.0.1:8428
+      - -storageDataPath=/storage
+      - -retentionPeriod=90d
+      - -promscrape.config=/etc/vm/prometheus-scrape.yml
+    volumes:
+      - vm-data:/storage
+      - ./prometheus-scrape.yml:/etc/vm/prometheus-scrape.yml:ro
+
+  vmalert:
+    image: ${VMALERT_IMAGE:-victoriametrics/vmalert:v1.106.1}
+    network_mode: host
+    restart: unless-stopped
+    depends_on: [victoriametrics]
+    command:
+      - -httpListenAddr=127.0.0.1:8880
+      - -rule=/etc/vmalert/rules/*.yml
+      - -datasource.url=http://127.0.0.1:8428
+      - -remoteWrite.url=http://127.0.0.1:8428
+      - -remoteRead.url=http://127.0.0.1:8428
+      - -evaluationInterval=30s
+      # Alert state only (ALERTS in VictoriaMetrics); no notifier is configured.
+      - -notifier.blackhole
+    volumes:
+      - ./rules:/etc/vmalert/rules:ro
+
+  grafana:
+    image: ${GRAFANA_IMAGE:-grafana/grafana-oss:11.3.1}
+    network_mode: host
+    restart: unless-stopped
+    depends_on: [victoriametrics]
+    env_file: .env
+    environment:
+      GF_SERVER_HTTP_ADDR: 127.0.0.1
+      GF_SERVER_HTTP_PORT: "3100"
+      GF_SECURITY_ADMIN_USER: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/etc/grafana/constellation-dashboards:ro
+
+volumes:
+  vm-data:
+  grafana-data:
