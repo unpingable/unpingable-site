@@ -1,0 +1,2133 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Constellation / Orchestrated application</title><style>:root{color-scheme:dark;--bg:#0d0d0b;--surface:#141410;--panel:#1a1a15;--raised:#22221b;--line:#555247;--line-soft:#35332c;--text:#e7e0ce;--muted:#aaa28f;--amber:#d3a445;--blue:#8299ad;--green:#849b72;--oxide:#b36d55;--focus:#f0c66d;}
+*{box-sizing:border-box}html{scroll-padding-top:5rem}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,sans-serif}
+a{color:#e2b95f;text-underline-offset:.2em}a:hover{text-decoration-thickness:2px}a,summary,button,input,textarea{touch-action:manipulation}
+:focus-visible{outline:3px solid var(--focus);outline-offset:4px}.skip{position:absolute;left:-10000px;top:.7rem;z-index:40}.skip:focus{left:1rem;background:var(--raised);padding:.7rem}
+.top{border-bottom:3px double var(--line);background:var(--surface);padding:.9rem max(1.2rem,calc((100vw - 1200px)/2));display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+.brand{color:var(--text);font:800 .9rem/1.3 ui-monospace,monospace;letter-spacing:.06em;text-decoration:none}.top nav{display:flex;gap:1rem;flex-wrap:wrap;margin:0}.top nav a{color:var(--muted)}
+main{max-width:1200px;margin:auto;padding:2.5rem 1.5rem 4rem;min-width:0}h1,h2,h3,p{margin-top:0;overflow-wrap:anywhere}h1{font-size:clamp(1.85rem,4vw,3rem);line-height:1.12;letter-spacing:-.025em;max-width:28ch;margin-bottom:1rem}h2{font-size:1.3rem;line-height:1.3}h3{font-size:1.05rem;line-height:1.4}
+p{max-width:82ch}.lede{font-size:1.1rem;color:var(--text)}.eyebrow,.kind,.label{font:700 .73rem/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+section{border-top:1px solid var(--line);padding:1.5rem 0;margin-top:1.8rem;min-width:0}article{border-top:1px solid var(--line-soft);padding:1.2rem 0;min-width:0}article:first-of-type{border-top:0}.notice,.gap{border-left:3px solid var(--amber);padding:1rem 1.15rem;background:var(--surface);margin:1rem 0;max-width:none}.gap{border-color:var(--oxide)}
+.meta,.muted{color:var(--muted);font-size:.86rem}.meta{max-width:none}code,pre,.identity,.mono{font-family:ui-monospace,monospace;overflow-wrap:anywhere;word-break:break-word}pre{font-size:.8rem;line-height:1.6;white-space:pre-wrap;margin:.75rem 0;background:var(--surface);padding:1rem;max-width:100%;min-width:0}code{font-size:.86em}
+details{margin:.8rem 0;border:1px solid var(--line-soft);min-width:0}summary{cursor:pointer;padding:.65rem .8rem;background:var(--raised);font-weight:650;overflow-wrap:anywhere}details>pre,details>dl,details>p,details>a,details>details{margin:.8rem}details[open]>summary{border-bottom:1px solid var(--line-soft)}
+dl{display:grid;grid-template-columns:minmax(9rem,13rem) minmax(0,1fr);gap:.45rem 1rem;margin:1rem 0}dt{color:var(--muted)}dd{margin:0;min-width:0;overflow-wrap:anywhere}.assertion{border-left:2px solid var(--blue);padding-left:1rem;margin:1.2rem 0}.state{display:block;font:700 .95rem/1.5 ui-monospace,monospace;overflow-wrap:anywhere;margin:.5rem 0}.register{margin-top:2rem}.journey ol{display:flex;gap:.5rem 1.5rem;flex-wrap:wrap;padding-left:1.5rem}.journey{margin:1.5rem 0}
+.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(16rem,1fr);gap:1.5rem}.panel{background:var(--panel);border:1px solid var(--line);padding:1.1rem;min-width:0}.panel dl{grid-template-columns:1fr;gap:.15rem}.panel dd{margin-bottom:.6rem}.host-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+button{background:#2b2415;color:#f1d28c;border:1px solid var(--amber);font:700 1rem system-ui;padding:.65rem .9rem;cursor:pointer}input,textarea{font:inherit;color:var(--text);background:var(--raised);border:1px solid var(--line);padding:.5rem;max-width:100%}textarea{width:100%}label{display:block}input[type=checkbox]{accent-color:var(--amber)}footer{margin-top:2.5rem;border-top:3px double var(--line);padding-top:1rem}
+.state[data-native-state="SUPPORT_CURRENT"],.state[data-native-state="CURRENT"],.state[data-native-state="current"]{border-left:3px solid var(--green);padding-left:.7rem}
+.state[data-native-state="STALE_OWNER_ASSERTION"],.state[data-native-state="STALE"],.state[data-native-state="stale"],.state[data-native-state="UNSUPPORTED"],.state[data-native-state="unsupported"],.state[data-native-state="CONTRADICTORY"],.state[data-native-state="contradictory"]{border-left:3px solid var(--amber);padding-left:.7rem}
+.state[data-native-state="REFUSED"],.state[data-native-state="refused"],.state[data-native-state="BINDING_REFUSED"]{border:3px double var(--oxide);padding:.5rem .7rem}
+.state[data-native-state="INDETERMINATE"],.state[data-native-state="indeterminate"],.state[data-native-state="UNAVAILABLE"],.state[data-native-state="READ_UNAVAILABLE"]{border-left:3px dashed var(--line);padding-left:.7rem}
+@media(max-width:760px){main{padding:1.5rem 1rem 3rem}.top{padding:.8rem 1rem;gap:.7rem 1rem}.layout,.host-list{grid-template-columns:1fr}dl{grid-template-columns:1fr;gap:.15rem}dd{margin-bottom:.6rem}.journey ol{display:block}.journey li{margin:.5rem 0}h1{max-width:none}pre{padding:.75rem}section{margin-top:1.2rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.replay-banner{position:sticky;top:0;z-index:20;margin:0;border-bottom:3px double var(--amber);background:var(--raised);padding:.65rem 1rem;font-size:.86rem}.replay-banner p{margin:.2rem 0}.replay-banner code{font-size:inherit}
+</style></head><body><aside class="notice replay-banner" aria-label="Captured record boundary"><strong>CAPTURED-RECORD REPLAY · NOT LIVE</strong><p>Original capture: <code>2026-10-05T00:33:11.568847+00:00</code>. No actions or authority. Native currentness is <strong>AS RECORDED</strong>; it is not current today.</p><a href="index.html">All captured views</a> · <a href="records/mixed-version.json">Captured JSON</a> · <a href="manifest.json">Source identities</a></aside><a class=skip href="#main">Skip to inspection</a><header class=top><a class=brand href="mixed-version.html">CONSTELLATION WORKBENCH</a><nav aria-label=Workbench><a href="mixed-version.html">Application</a><a href="refusal.html">Diagnostic plan</a><a href="records/mixed-version.json">Read JSON</a></nav></header><main id=main tabindex="-1"><section><p class=eyebrow>Captured journey / mixed-version</p><h2>Mixed-version observations</h2><p>Four separately timed public snapshots; outcomes vary and establish no complete rollout diagnosis.</p><p class=meta>Source record SHA-256: <code>91c68dbaab70319575b235f867b45e3c03fdee6f153c5dd8cfe2566eeb2affd8</code>. Export omissions, when present, are listed in captured JSON.</p></section><p class=eyebrow>Operational EDA / orchestrated application</p><h1>Retained three-service application</h1><p class=lede>Inspect the application and its relationships. Keep orchestration readiness separate from application behavior.</p><p class=meta>Admitted topology · frontend → API → state</p><div class=panel><p class=eyebrow>Monitor / native probe facts</p><dl><dt>Frontend readiness HTTP status</dt><dd>200<span class="state" data-native-state="ACQUIRED">ACQUIRED</span></dd><dt>Readiness acquired at</dt><dd><code>2026-10-05T00:33:11.659470Z</code></dd><dt>Semantic HTTP status</dt><dd>200<span class="state" data-native-state="ACQUIRED">ACQUIRED</span></dd><dt>Semantic acquired at</dt><dd><code>2026-10-05T00:33:11.659470Z</code></dd></dl><p class=meta>Native Monitor acquisition only; no qualified current standing asserted. Readiness and semantic HTTP status are separate observations; the snapshot is non-atomic.</p></div><p class=notice><strong>Captured acquisition · replay only.</strong> A fresh API response establishes acquisition, not independent current qualified support. Controller timestamps and native resource versions remain inspectable. Remediation requires a separately admitted executor.</p><p><a href="mixed-version.html">Inspect captured observations</a> · <a href="refusal.html">Inspect diagnostic bounds</a></p><details><summary>Exact admitted topology — declared relationships</summary><pre>[
+  &quot;frontend \u2192 API \u2192 state&quot;
+]</pre></details><section><p class=eyebrow>Reasoning / acquired facts</p><h2>What is available to the operator</h2><article><h3>Namespace</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.namespace.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+        &quot;name&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;638&quot;,
+        &quot;uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;
+      }
+    }
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: &quot;a29053cd5f31533dd89aaaea87adf7dbc144269a1f2aad1c63a4da801e03ca86&quot;
+}</pre></details></article><article><h3>Nodes</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.nodes.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;MemoryPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;DiskPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;PIDPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:08Z&quot;,
+          &quot;reason&quot;: &quot;KubeletReady&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+        &quot;name&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;,
+        &quot;resourceVersion&quot;: &quot;1731&quot;,
+        &quot;uid&quot;: &quot;e4780936-43b2-4704-9fa9-f66f43b05113&quot;
+      },
+      &quot;node_info&quot;: {
+        &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+        &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+        &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+        &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+        &quot;machineID&quot;: &quot;&quot;,
+        &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+        &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;MemoryPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;DiskPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;PIDPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:08Z&quot;,
+          &quot;reason&quot;: &quot;KubeletReady&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+        &quot;name&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;,
+        &quot;resourceVersion&quot;: &quot;1709&quot;,
+        &quot;uid&quot;: &quot;0351728b-80ee-4070-956d-55b36ae32262&quot;
+      },
+      &quot;node_info&quot;: {
+        &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+        &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+        &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+        &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+        &quot;machineID&quot;: &quot;&quot;,
+        &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+        &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;MemoryPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;DiskPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+          &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+          &quot;status&quot;: &quot;False&quot;,
+          &quot;type&quot;: &quot;PIDPressure&quot;
+        },
+        {
+          &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+          &quot;reason&quot;: &quot;KubeletReady&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+        &quot;name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+        &quot;resourceVersion&quot;: &quot;1611&quot;,
+        &quot;uid&quot;: &quot;4e46f888-d9ef-4bb5-8080-fd849a973515&quot;
+      },
+      &quot;node_info&quot;: {
+        &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+        &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+        &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+        &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+        &quot;machineID&quot;: &quot;&quot;,
+        &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+        &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+      }
+    }
+  ],
+  &quot;missing_nodes&quot;: [],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: [
+    &quot;7a7544c20de2fd9a88b64e2f73d3b3ed7275ab469b5234fc0a6297634647d2e6&quot;,
+    &quot;0271d63acc72739f6a1b30af4ac4e3c180d8f00e46bd36484218f8dd79da6660&quot;,
+    &quot;02106f150e5db091ba71950a4f2c14e6112422911292457def379f61ff5aff13&quot;
+  ]
+}</pre></details></article><article><h3>Pods</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.pods.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:01Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Initialized&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;ContainersReady&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodScheduled&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+          &quot;name&quot;: &quot;api&quot;,
+          &quot;ready&quot;: true,
+          &quot;restartCount&quot;: 0,
+          &quot;started&quot;: true,
+          &quot;state&quot;: {
+            &quot;running&quot;: {
+              &quot;startedAt&quot;: &quot;2026-10-05T00:25:00Z&quot;
+            }
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;api-65ddd78bb5-jptlf&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1309&quot;,
+        &quot;uid&quot;: &quot;92dc0442-5cd0-4bdb-99a0-0811c3ef7e15&quot;
+      },
+      &quot;owner_references&quot;: [
+        {
+          &quot;controller&quot;: true,
+          &quot;kind&quot;: &quot;ReplicaSet&quot;,
+          &quot;name&quot;: &quot;api-65ddd78bb5&quot;,
+          &quot;uid&quot;: &quot;13f986be-6688-4b0a-86e1-18b214e36296&quot;
+        }
+      ],
+      &quot;spec&quot;: {
+        &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;
+      },
+      &quot;status&quot;: {
+        &quot;hostIP&quot;: &quot;172.23.0.4&quot;,
+        &quot;phase&quot;: &quot;Running&quot;,
+        &quot;podIP&quot;: &quot;10.42.0.6&quot;,
+        &quot;startTime&quot;: &quot;2026-10-05T00:24:59Z&quot;
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:15Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Initialized&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;ContainersReady&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodScheduled&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v2&quot;,
+          &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:571f60778ef5acc2ca44641ca72f08a62a7489762686f32caef3bf59654017bb&quot;,
+          &quot;name&quot;: &quot;api&quot;,
+          &quot;ready&quot;: true,
+          &quot;restartCount&quot;: 0,
+          &quot;started&quot;: true,
+          &quot;state&quot;: {
+            &quot;running&quot;: {
+              &quot;startedAt&quot;: &quot;2026-10-05T00:32:14Z&quot;
+            }
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;api-canary-55c5577dd-pw7rc&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1711&quot;,
+        &quot;uid&quot;: &quot;3a4cc983-d6a0-47f6-ac13-8a39cde82a33&quot;
+      },
+      &quot;owner_references&quot;: [
+        {
+          &quot;controller&quot;: true,
+          &quot;kind&quot;: &quot;ReplicaSet&quot;,
+          &quot;name&quot;: &quot;api-canary-55c5577dd&quot;,
+          &quot;uid&quot;: &quot;16ae8d0b-97f5-4e3a-b173-3af155daa106&quot;
+        }
+      ],
+      &quot;spec&quot;: {
+        &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;
+      },
+      &quot;status&quot;: {
+        &quot;hostIP&quot;: &quot;172.23.0.5&quot;,
+        &quot;phase&quot;: &quot;Running&quot;,
+        &quot;podIP&quot;: &quot;10.42.2.3&quot;,
+        &quot;startTime&quot;: &quot;2026-10-05T00:32:11Z&quot;
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:06Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Initialized&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:09Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:09Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;ContainersReady&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodScheduled&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+          &quot;name&quot;: &quot;frontend&quot;,
+          &quot;ready&quot;: true,
+          &quot;restartCount&quot;: 0,
+          &quot;started&quot;: true,
+          &quot;state&quot;: {
+            &quot;running&quot;: {
+              &quot;startedAt&quot;: &quot;2026-10-05T00:26:06Z&quot;
+            }
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;frontend-674ff5659b-qzv67&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1430&quot;,
+        &quot;uid&quot;: &quot;8aae2081-e84f-434f-85ee-270622df13f6&quot;
+      },
+      &quot;owner_references&quot;: [
+        {
+          &quot;controller&quot;: true,
+          &quot;kind&quot;: &quot;ReplicaSet&quot;,
+          &quot;name&quot;: &quot;frontend-674ff5659b&quot;,
+          &quot;uid&quot;: &quot;0fbb162d-08ab-4fb2-a550-c27b2df83fd7&quot;
+        }
+      ],
+      &quot;spec&quot;: {
+        &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;
+      },
+      &quot;status&quot;: {
+        &quot;hostIP&quot;: &quot;172.23.0.3&quot;,
+        &quot;phase&quot;: &quot;Running&quot;,
+        &quot;podIP&quot;: &quot;10.42.1.6&quot;,
+        &quot;startTime&quot;: &quot;2026-10-05T00:26:04Z&quot;
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Initialized&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Ready&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;ContainersReady&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;PodScheduled&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+          &quot;name&quot;: &quot;state&quot;,
+          &quot;ready&quot;: true,
+          &quot;restartCount&quot;: 0,
+          &quot;started&quot;: true,
+          &quot;state&quot;: {
+            &quot;running&quot;: {
+              &quot;startedAt&quot;: &quot;2026-10-05T00:11:14Z&quot;
+            }
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;state-7698dddb7b-llwt4&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;757&quot;,
+        &quot;uid&quot;: &quot;d648a448-7726-4397-b27a-338ebf31912d&quot;
+      },
+      &quot;owner_references&quot;: [
+        {
+          &quot;controller&quot;: true,
+          &quot;kind&quot;: &quot;ReplicaSet&quot;,
+          &quot;name&quot;: &quot;state-7698dddb7b&quot;,
+          &quot;uid&quot;: &quot;e98cf25a-d1ef-434f-b56b-d3be3adfed4a&quot;
+        }
+      ],
+      &quot;spec&quot;: {
+        &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;
+      },
+      &quot;status&quot;: {
+        &quot;hostIP&quot;: &quot;172.23.0.3&quot;,
+        &quot;phase&quot;: &quot;Running&quot;,
+        &quot;podIP&quot;: &quot;10.42.1.5&quot;,
+        &quot;startTime&quot;: &quot;2026-10-05T00:11:14Z&quot;
+      }
+    }
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: &quot;3066dd1515b3b44e30ea3cb25ffab400267f052753d004b47a1102cfcfd01937&quot;
+}</pre></details></article><article><h3>Deployments</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.deployments.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+          &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Available&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+          &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Progressing&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;name&quot;: &quot;api&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 3,
+        &quot;name&quot;: &quot;api&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1328&quot;,
+        &quot;uid&quot;: &quot;f6cd5c98-8a1a-4244-9cac-89dd1308d9c0&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;replicas&quot;: 1
+      },
+      &quot;status&quot;: {
+        &quot;availableReplicas&quot;: 1,
+        &quot;observedGeneration&quot;: 3,
+        &quot;readyReplicas&quot;: 1,
+        &quot;replicas&quot;: 1,
+        &quot;updatedReplicas&quot;: 1
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+          &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Available&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+          &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Progressing&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v2&quot;,
+          &quot;name&quot;: &quot;api&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;api-canary&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1715&quot;,
+        &quot;uid&quot;: &quot;3f1453ff-6455-49ab-b5e9-e365069a097b&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;replicas&quot;: 1
+      },
+      &quot;status&quot;: {
+        &quot;availableReplicas&quot;: 1,
+        &quot;observedGeneration&quot;: 1,
+        &quot;readyReplicas&quot;: 1,
+        &quot;replicas&quot;: 1,
+        &quot;updatedReplicas&quot;: 1
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:11Z&quot;,
+          &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Available&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+          &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Progressing&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;name&quot;: &quot;frontend&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 3,
+        &quot;name&quot;: &quot;frontend&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1483&quot;,
+        &quot;uid&quot;: &quot;942f03e3-4369-4616-9e71-cc96c2bd2ec0&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;replicas&quot;: 1
+      },
+      &quot;status&quot;: {
+        &quot;availableReplicas&quot;: 1,
+        &quot;observedGeneration&quot;: 3,
+        &quot;readyReplicas&quot;: 1,
+        &quot;replicas&quot;: 1,
+        &quot;updatedReplicas&quot;: 1
+      }
+    },
+    {
+      &quot;conditions&quot;: [
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+          &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Available&quot;
+        },
+        {
+          &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+          &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+          &quot;status&quot;: &quot;True&quot;,
+          &quot;type&quot;: &quot;Progressing&quot;
+        }
+      ],
+      &quot;containers&quot;: [
+        {
+          &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+          &quot;name&quot;: &quot;state&quot;
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+        &quot;generation&quot;: 1,
+        &quot;name&quot;: &quot;state&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;761&quot;,
+        &quot;uid&quot;: &quot;b1f18c23-7619-4c87-8dcc-79574c523366&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;replicas&quot;: 1
+      },
+      &quot;status&quot;: {
+        &quot;availableReplicas&quot;: 1,
+        &quot;observedGeneration&quot;: 1,
+        &quot;readyReplicas&quot;: 1,
+        &quot;replicas&quot;: 1,
+        &quot;updatedReplicas&quot;: 1
+      }
+    }
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: &quot;83ef2b028349ac51f3928a1cbaf6154b74a4e993e56d10c60416ad6977629ee9&quot;
+}</pre></details></article><article><h3>Services</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.services.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;name&quot;: &quot;api&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;670&quot;,
+        &quot;uid&quot;: &quot;989fbf97-2ffb-492d-a135-0fc5739225d8&quot;
+      },
+      &quot;ports&quot;: [
+        {
+          &quot;port&quot;: 8080,
+          &quot;protocol&quot;: &quot;TCP&quot;,
+          &quot;targetPort&quot;: 8080
+        }
+      ],
+      &quot;selector&quot;: {
+        &quot;app&quot;: &quot;api&quot;,
+        &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;clusterIP&quot;: &quot;10.43.234.15&quot;,
+        &quot;type&quot;: &quot;ClusterIP&quot;
+      }
+    },
+    {
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;name&quot;: &quot;frontend&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;691&quot;,
+        &quot;uid&quot;: &quot;e0e67779-d2cf-419c-ac19-27545534ea78&quot;
+      },
+      &quot;ports&quot;: [
+        {
+          &quot;nodePort&quot;: 30080,
+          &quot;port&quot;: 8080,
+          &quot;protocol&quot;: &quot;TCP&quot;,
+          &quot;targetPort&quot;: 8080
+        }
+      ],
+      &quot;selector&quot;: {
+        &quot;app&quot;: &quot;frontend&quot;,
+        &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;clusterIP&quot;: &quot;10.43.201.220&quot;,
+        &quot;type&quot;: &quot;NodePort&quot;
+      }
+    },
+    {
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;name&quot;: &quot;state&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;650&quot;,
+        &quot;uid&quot;: &quot;507d6070-e514-42cd-baa0-7f014c2ef066&quot;
+      },
+      &quot;ports&quot;: [
+        {
+          &quot;port&quot;: 8080,
+          &quot;protocol&quot;: &quot;TCP&quot;,
+          &quot;targetPort&quot;: 8080
+        }
+      ],
+      &quot;selector&quot;: {
+        &quot;app&quot;: &quot;state&quot;,
+        &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+      },
+      &quot;spec&quot;: {
+        &quot;clusterIP&quot;: &quot;10.43.8.103&quot;,
+        &quot;type&quot;: &quot;ClusterIP&quot;
+      }
+    }
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: &quot;f8734163c30a89105be3cf8a911399a71cba30102b6a861646e4573fb2ab223d&quot;
+}</pre></details></article><article><h3>Service endpoints</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.endpointslices.published/v1</p><details><summary>Inspect native identities, state and source timestamps</summary><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;items&quot;: [
+    {
+      &quot;address_type&quot;: &quot;IPv4&quot;,
+      &quot;endpoints&quot;: [
+        {
+          &quot;addresses&quot;: [
+            &quot;10.42.0.6&quot;
+          ],
+          &quot;conditions&quot;: {
+            &quot;ready&quot;: true,
+            &quot;serving&quot;: true,
+            &quot;terminating&quot;: false
+          },
+          &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;,
+          &quot;target_ref&quot;: {
+            &quot;kind&quot;: &quot;Pod&quot;,
+            &quot;name&quot;: &quot;api-65ddd78bb5-jptlf&quot;,
+            &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+            &quot;uid&quot;: &quot;92dc0442-5cd0-4bdb-99a0-0811c3ef7e15&quot;
+          }
+        },
+        {
+          &quot;addresses&quot;: [
+            &quot;10.42.2.3&quot;
+          ],
+          &quot;conditions&quot;: {
+            &quot;ready&quot;: true,
+            &quot;serving&quot;: true,
+            &quot;terminating&quot;: false
+          },
+          &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;,
+          &quot;target_ref&quot;: {
+            &quot;kind&quot;: &quot;Pod&quot;,
+            &quot;name&quot;: &quot;api-canary-55c5577dd-pw7rc&quot;,
+            &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+            &quot;uid&quot;: &quot;3a4cc983-d6a0-47f6-ac13-8a39cde82a33&quot;
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 16,
+        &quot;name&quot;: &quot;api-klqvp&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1713&quot;,
+        &quot;uid&quot;: &quot;b0c1a6cf-c0a4-47d0-b90b-9cecb22cb586&quot;
+      },
+      &quot;service_name&quot;: &quot;api&quot;
+    },
+    {
+      &quot;address_type&quot;: &quot;IPv4&quot;,
+      &quot;endpoints&quot;: [
+        {
+          &quot;addresses&quot;: [
+            &quot;10.42.1.6&quot;
+          ],
+          &quot;conditions&quot;: {
+            &quot;ready&quot;: true,
+            &quot;serving&quot;: true,
+            &quot;terminating&quot;: false
+          },
+          &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+          &quot;target_ref&quot;: {
+            &quot;kind&quot;: &quot;Pod&quot;,
+            &quot;name&quot;: &quot;frontend-674ff5659b-qzv67&quot;,
+            &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+            &quot;uid&quot;: &quot;8aae2081-e84f-434f-85ee-270622df13f6&quot;
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 11,
+        &quot;name&quot;: &quot;frontend-nbcfm&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;1481&quot;,
+        &quot;uid&quot;: &quot;2e3a731c-6fbd-4639-9c9c-cb3e770d0ceb&quot;
+      },
+      &quot;service_name&quot;: &quot;frontend&quot;
+    },
+    {
+      &quot;address_type&quot;: &quot;IPv4&quot;,
+      &quot;endpoints&quot;: [
+        {
+          &quot;addresses&quot;: [
+            &quot;10.42.1.5&quot;
+          ],
+          &quot;conditions&quot;: {
+            &quot;ready&quot;: true,
+            &quot;serving&quot;: true,
+            &quot;terminating&quot;: false
+          },
+          &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+          &quot;target_ref&quot;: {
+            &quot;kind&quot;: &quot;Pod&quot;,
+            &quot;name&quot;: &quot;state-7698dddb7b-llwt4&quot;,
+            &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+            &quot;uid&quot;: &quot;d648a448-7726-4397-b27a-338ebf31912d&quot;
+          }
+        }
+      ],
+      &quot;metadata&quot;: {
+        &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+        &quot;generation&quot;: 3,
+        &quot;name&quot;: &quot;state-26brn&quot;,
+        &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+        &quot;resourceVersion&quot;: &quot;759&quot;,
+        &quot;uid&quot;: &quot;e0b40d5b-ea13-4d77-94fb-400f0279bdf3&quot;
+      },
+      &quot;service_name&quot;: &quot;state&quot;
+    }
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;source_sha256&quot;: &quot;4bb760857821204f7adc6781b2feaa02e3f9da6809a5ebd7ce7a581664d97c82&quot;
+}</pre></details></article><article><h3>Readiness</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.readiness.published/v1</p><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;http_status&quot;: 200,
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;probe&quot;: &quot;/readyz&quot;,
+  &quot;response&quot;: {
+    &quot;ok&quot;: true,
+    &quot;role&quot;: &quot;frontend&quot;,
+    &quot;version&quot;: &quot;v1&quot;
+  },
+  &quot;source_sha256&quot;: &quot;28d92a515c6115b2ec17a8afa0e1be5e38031525653155e6c56592296b99549b&quot;
+}</pre></article><article><h3>Version</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.version.published/v1</p><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;http_status&quot;: 200,
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;probe&quot;: &quot;/version&quot;,
+  &quot;response&quot;: {
+    &quot;ok&quot;: true,
+    &quot;role&quot;: &quot;frontend&quot;,
+    &quot;version&quot;: &quot;v1&quot;
+  },
+  &quot;source_sha256&quot;: &quot;28d92a515c6115b2ec17a8afa0e1be5e38031525653155e6c56592296b99549b&quot;
+}</pre></article><article><h3>Semantic</h3><span class="state" data-native-state="ACQUIRED">ACQUIRED</span><p>Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.</p><p class=meta>Monitor · observed 2026-10-05T00:33:11.659470Z · monitor.kubernetes.semantic.published/v1</p><pre>{
+  &quot;acquisition&quot;: {
+    &quot;duration_ms&quot;: 43,
+    &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+    &quot;snapshot_atomic&quot;: false,
+    &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+    &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+  },
+  &quot;http_status&quot;: 200,
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;probe&quot;: &quot;/semantic&quot;,
+  &quot;response&quot;: {
+    &quot;counter&quot;: 10,
+    &quot;dependency_ok&quot;: true,
+    &quot;ok&quot;: true,
+    &quot;role&quot;: &quot;frontend&quot;,
+    &quot;version&quot;: &quot;v1&quot;
+  },
+  &quot;source_sha256&quot;: &quot;daa1a1c6bc5299b7924da5123a47c0b58f5a22efaae31549de9fc214f8d94053&quot;
+}</pre></article></section><section><p class=eyebrow>Custody / exact bindings</p><h2>Observation provenance</h2><details><summary>Exact admitted source and observation digest</summary><pre>{
+  &quot;observation_digest&quot;: &quot;8b40f18e8b38ae8a01dc656cb2acaf6987a048794119ae1b7fe8de3829ea76e7&quot;,
+  &quot;owner&quot;: &quot;Monitor&quot;,
+  &quot;qualification&quot;: &quot;Acquisition only; no NQ/Pulse current qualified support asserted.&quot;,
+  &quot;read_at&quot;: &quot;2026-10-05T00:33:11.568847+00:00&quot;,
+  &quot;schema&quot;: &quot;operational_eda.orchestrated-read/v1&quot;,
+  &quot;source&quot;: {
+    &quot;collector_sha256&quot;: &quot;95ca5f0f80094d733a197f78df766c4472e02c6c003166274af5a98c029c32f8&quot;,
+    &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+    &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+    &quot;source_revision&quot;: &quot;6cc7d00a1f9a5979b917fe50540e4bf1d5310d5a&quot;
+  }
+}</pre></details><details><summary>Exact Monitor envelope</summary><pre>{
+  &quot;authority&quot;: {
+    &quot;effects&quot;: [],
+    &quot;kind&quot;: &quot;read-only-published-api&quot;
+  },
+  &quot;concerns&quot;: [
+    {
+      &quot;description&quot;: &quot;Published Kubernetes namespace observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.namespace&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+                &quot;name&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;638&quot;,
+                &quot;uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;
+              }
+            }
+          ],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: &quot;a29053cd5f31533dd89aaaea87adf7dbc144269a1f2aad1c63a4da801e03ca86&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.namespace.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes nodes observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.nodes&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;MemoryPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;DiskPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;PIDPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:47Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:08Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletReady&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                &quot;name&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;,
+                &quot;resourceVersion&quot;: &quot;1731&quot;,
+                &quot;uid&quot;: &quot;e4780936-43b2-4704-9fa9-f66f43b05113&quot;
+              },
+              &quot;node_info&quot;: {
+                &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+                &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+                &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+                &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+                &quot;machineID&quot;: &quot;&quot;,
+                &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+                &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;MemoryPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;DiskPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;PIDPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:08Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletReady&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:07Z&quot;,
+                &quot;name&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;,
+                &quot;resourceVersion&quot;: &quot;1709&quot;,
+                &quot;uid&quot;: &quot;0351728b-80ee-4070-956d-55b36ae32262&quot;
+              },
+              &quot;node_info&quot;: {
+                &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+                &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+                &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+                &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+                &quot;machineID&quot;: &quot;&quot;,
+                &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+                &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientMemory&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;MemoryPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasNoDiskPressure&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;DiskPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletHasSufficientPID&quot;,
+                  &quot;status&quot;: &quot;False&quot;,
+                  &quot;type&quot;: &quot;PIDPressure&quot;
+                },
+                {
+                  &quot;lastHeartbeatTime&quot;: &quot;2026-10-05T00:30:33Z&quot;,
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+                  &quot;reason&quot;: &quot;KubeletReady&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:08:04Z&quot;,
+                &quot;name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+                &quot;resourceVersion&quot;: &quot;1611&quot;,
+                &quot;uid&quot;: &quot;4e46f888-d9ef-4bb5-8080-fd849a973515&quot;
+              },
+              &quot;node_info&quot;: {
+                &quot;bootID&quot;: &quot;8e3c5976-b721-4f15-bb2c-7748d26af611&quot;,
+                &quot;containerRuntimeVersion&quot;: &quot;containerd://2.2.7-k3s1&quot;,
+                &quot;kernelVersion&quot;: &quot;6.5.0-44-generic&quot;,
+                &quot;kubeletVersion&quot;: &quot;v1.35.9+k3s1&quot;,
+                &quot;machineID&quot;: &quot;&quot;,
+                &quot;osImage&quot;: &quot;K3s v1.35.9+k3s1&quot;,
+                &quot;systemUUID&quot;: &quot;03560274-043c-0575-fd06-740700080009&quot;
+              }
+            }
+          ],
+          &quot;missing_nodes&quot;: [],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: [
+            &quot;7a7544c20de2fd9a88b64e2f73d3b3ed7275ab469b5234fc0a6297634647d2e6&quot;,
+            &quot;0271d63acc72739f6a1b30af4ac4e3c180d8f00e46bd36484218f8dd79da6660&quot;,
+            &quot;02106f150e5db091ba71950a4f2c14e6112422911292457def379f61ff5aff13&quot;
+          ]
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.nodes.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes pods observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.pods&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:01Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Initialized&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;ContainersReady&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodScheduled&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+                  &quot;name&quot;: &quot;api&quot;,
+                  &quot;ready&quot;: true,
+                  &quot;restartCount&quot;: 0,
+                  &quot;started&quot;: true,
+                  &quot;state&quot;: {
+                    &quot;running&quot;: {
+                      &quot;startedAt&quot;: &quot;2026-10-05T00:25:00Z&quot;
+                    }
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:24:59Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;api-65ddd78bb5-jptlf&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1309&quot;,
+                &quot;uid&quot;: &quot;92dc0442-5cd0-4bdb-99a0-0811c3ef7e15&quot;
+              },
+              &quot;owner_references&quot;: [
+                {
+                  &quot;controller&quot;: true,
+                  &quot;kind&quot;: &quot;ReplicaSet&quot;,
+                  &quot;name&quot;: &quot;api-65ddd78bb5&quot;,
+                  &quot;uid&quot;: &quot;13f986be-6688-4b0a-86e1-18b214e36296&quot;
+                }
+              ],
+              &quot;spec&quot;: {
+                &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;
+              },
+              &quot;status&quot;: {
+                &quot;hostIP&quot;: &quot;172.23.0.4&quot;,
+                &quot;phase&quot;: &quot;Running&quot;,
+                &quot;podIP&quot;: &quot;10.42.0.6&quot;,
+                &quot;startTime&quot;: &quot;2026-10-05T00:24:59Z&quot;
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:15Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Initialized&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;ContainersReady&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodScheduled&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v2&quot;,
+                  &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:571f60778ef5acc2ca44641ca72f08a62a7489762686f32caef3bf59654017bb&quot;,
+                  &quot;name&quot;: &quot;api&quot;,
+                  &quot;ready&quot;: true,
+                  &quot;restartCount&quot;: 0,
+                  &quot;started&quot;: true,
+                  &quot;state&quot;: {
+                    &quot;running&quot;: {
+                      &quot;startedAt&quot;: &quot;2026-10-05T00:32:14Z&quot;
+                    }
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;api-canary-55c5577dd-pw7rc&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1711&quot;,
+                &quot;uid&quot;: &quot;3a4cc983-d6a0-47f6-ac13-8a39cde82a33&quot;
+              },
+              &quot;owner_references&quot;: [
+                {
+                  &quot;controller&quot;: true,
+                  &quot;kind&quot;: &quot;ReplicaSet&quot;,
+                  &quot;name&quot;: &quot;api-canary-55c5577dd&quot;,
+                  &quot;uid&quot;: &quot;16ae8d0b-97f5-4e3a-b173-3af155daa106&quot;
+                }
+              ],
+              &quot;spec&quot;: {
+                &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;
+              },
+              &quot;status&quot;: {
+                &quot;hostIP&quot;: &quot;172.23.0.5&quot;,
+                &quot;phase&quot;: &quot;Running&quot;,
+                &quot;podIP&quot;: &quot;10.42.2.3&quot;,
+                &quot;startTime&quot;: &quot;2026-10-05T00:32:11Z&quot;
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:06Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Initialized&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:09Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:09Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;ContainersReady&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodScheduled&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+                  &quot;name&quot;: &quot;frontend&quot;,
+                  &quot;ready&quot;: true,
+                  &quot;restartCount&quot;: 0,
+                  &quot;started&quot;: true,
+                  &quot;state&quot;: {
+                    &quot;running&quot;: {
+                      &quot;startedAt&quot;: &quot;2026-10-05T00:26:06Z&quot;
+                    }
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:26:04Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;frontend-674ff5659b-qzv67&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1430&quot;,
+                &quot;uid&quot;: &quot;8aae2081-e84f-434f-85ee-270622df13f6&quot;
+              },
+              &quot;owner_references&quot;: [
+                {
+                  &quot;controller&quot;: true,
+                  &quot;kind&quot;: &quot;ReplicaSet&quot;,
+                  &quot;name&quot;: &quot;frontend-674ff5659b&quot;,
+                  &quot;uid&quot;: &quot;0fbb162d-08ab-4fb2-a550-c27b2df83fd7&quot;
+                }
+              ],
+              &quot;spec&quot;: {
+                &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;
+              },
+              &quot;status&quot;: {
+                &quot;hostIP&quot;: &quot;172.23.0.3&quot;,
+                &quot;phase&quot;: &quot;Running&quot;,
+                &quot;podIP&quot;: &quot;10.42.1.6&quot;,
+                &quot;startTime&quot;: &quot;2026-10-05T00:26:04Z&quot;
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodReadyToStartContainers&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Initialized&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Ready&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;ContainersReady&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:14Z&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;PodScheduled&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;imageID&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture@sha256:427e5a0eed09784b791b54c5e1ea2a676e3846b496b9dd9ef34b70169afe5b8d&quot;,
+                  &quot;name&quot;: &quot;state&quot;,
+                  &quot;ready&quot;: true,
+                  &quot;restartCount&quot;: 0,
+                  &quot;started&quot;: true,
+                  &quot;state&quot;: {
+                    &quot;running&quot;: {
+                      &quot;startedAt&quot;: &quot;2026-10-05T00:11:14Z&quot;
+                    }
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;state-7698dddb7b-llwt4&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;757&quot;,
+                &quot;uid&quot;: &quot;d648a448-7726-4397-b27a-338ebf31912d&quot;
+              },
+              &quot;owner_references&quot;: [
+                {
+                  &quot;controller&quot;: true,
+                  &quot;kind&quot;: &quot;ReplicaSet&quot;,
+                  &quot;name&quot;: &quot;state-7698dddb7b&quot;,
+                  &quot;uid&quot;: &quot;e98cf25a-d1ef-434f-b56b-d3be3adfed4a&quot;
+                }
+              ],
+              &quot;spec&quot;: {
+                &quot;nodeName&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;
+              },
+              &quot;status&quot;: {
+                &quot;hostIP&quot;: &quot;172.23.0.3&quot;,
+                &quot;phase&quot;: &quot;Running&quot;,
+                &quot;podIP&quot;: &quot;10.42.1.5&quot;,
+                &quot;startTime&quot;: &quot;2026-10-05T00:11:14Z&quot;
+              }
+            }
+          ],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: &quot;3066dd1515b3b44e30ea3cb25ffab400267f052753d004b47a1102cfcfd01937&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.pods.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes deployments observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.deployments&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:25:02Z&quot;,
+                  &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Available&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                  &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Progressing&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;name&quot;: &quot;api&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 3,
+                &quot;name&quot;: &quot;api&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1328&quot;,
+                &quot;uid&quot;: &quot;f6cd5c98-8a1a-4244-9cac-89dd1308d9c0&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;replicas&quot;: 1
+              },
+              &quot;status&quot;: {
+                &quot;availableReplicas&quot;: 1,
+                &quot;observedGeneration&quot;: 3,
+                &quot;readyReplicas&quot;: 1,
+                &quot;replicas&quot;: 1,
+                &quot;updatedReplicas&quot;: 1
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:16Z&quot;,
+                  &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Available&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+                  &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Progressing&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v2&quot;,
+                  &quot;name&quot;: &quot;api&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:32:11Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;api-canary&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1715&quot;,
+                &quot;uid&quot;: &quot;3f1453ff-6455-49ab-b5e9-e365069a097b&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;replicas&quot;: 1
+              },
+              &quot;status&quot;: {
+                &quot;availableReplicas&quot;: 1,
+                &quot;observedGeneration&quot;: 1,
+                &quot;readyReplicas&quot;: 1,
+                &quot;replicas&quot;: 1,
+                &quot;updatedReplicas&quot;: 1
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:11Z&quot;,
+                  &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Available&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                  &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Progressing&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;name&quot;: &quot;frontend&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 3,
+                &quot;name&quot;: &quot;frontend&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1483&quot;,
+                &quot;uid&quot;: &quot;942f03e3-4369-4616-9e71-cc96c2bd2ec0&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;replicas&quot;: 1
+              },
+              &quot;status&quot;: {
+                &quot;availableReplicas&quot;: 1,
+                &quot;observedGeneration&quot;: 3,
+                &quot;readyReplicas&quot;: 1,
+                &quot;replicas&quot;: 1,
+                &quot;updatedReplicas&quot;: 1
+              }
+            },
+            {
+              &quot;conditions&quot;: [
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:15Z&quot;,
+                  &quot;reason&quot;: &quot;MinimumReplicasAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Available&quot;
+                },
+                {
+                  &quot;lastTransitionTime&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+                  &quot;reason&quot;: &quot;NewReplicaSetAvailable&quot;,
+                  &quot;status&quot;: &quot;True&quot;,
+                  &quot;type&quot;: &quot;Progressing&quot;
+                }
+              ],
+              &quot;containers&quot;: [
+                {
+                  &quot;image&quot;: &quot;k3d-eda-reg-c72e8f44:5000/fixture:v1&quot;,
+                  &quot;name&quot;: &quot;state&quot;
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:07Z&quot;,
+                &quot;generation&quot;: 1,
+                &quot;name&quot;: &quot;state&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;761&quot;,
+                &quot;uid&quot;: &quot;b1f18c23-7619-4c87-8dcc-79574c523366&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;replicas&quot;: 1
+              },
+              &quot;status&quot;: {
+                &quot;availableReplicas&quot;: 1,
+                &quot;observedGeneration&quot;: 1,
+                &quot;readyReplicas&quot;: 1,
+                &quot;replicas&quot;: 1,
+                &quot;updatedReplicas&quot;: 1
+              }
+            }
+          ],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: &quot;83ef2b028349ac51f3928a1cbaf6154b74a4e993e56d10c60416ad6977629ee9&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.deployments.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes services observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.services&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;name&quot;: &quot;api&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;670&quot;,
+                &quot;uid&quot;: &quot;989fbf97-2ffb-492d-a135-0fc5739225d8&quot;
+              },
+              &quot;ports&quot;: [
+                {
+                  &quot;port&quot;: 8080,
+                  &quot;protocol&quot;: &quot;TCP&quot;,
+                  &quot;targetPort&quot;: 8080
+                }
+              ],
+              &quot;selector&quot;: {
+                &quot;app&quot;: &quot;api&quot;,
+                &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;clusterIP&quot;: &quot;10.43.234.15&quot;,
+                &quot;type&quot;: &quot;ClusterIP&quot;
+              }
+            },
+            {
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;name&quot;: &quot;frontend&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;691&quot;,
+                &quot;uid&quot;: &quot;e0e67779-d2cf-419c-ac19-27545534ea78&quot;
+              },
+              &quot;ports&quot;: [
+                {
+                  &quot;nodePort&quot;: 30080,
+                  &quot;port&quot;: 8080,
+                  &quot;protocol&quot;: &quot;TCP&quot;,
+                  &quot;targetPort&quot;: 8080
+                }
+              ],
+              &quot;selector&quot;: {
+                &quot;app&quot;: &quot;frontend&quot;,
+                &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;clusterIP&quot;: &quot;10.43.201.220&quot;,
+                &quot;type&quot;: &quot;NodePort&quot;
+              }
+            },
+            {
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;name&quot;: &quot;state&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;650&quot;,
+                &quot;uid&quot;: &quot;507d6070-e514-42cd-baa0-7f014c2ef066&quot;
+              },
+              &quot;ports&quot;: [
+                {
+                  &quot;port&quot;: 8080,
+                  &quot;protocol&quot;: &quot;TCP&quot;,
+                  &quot;targetPort&quot;: 8080
+                }
+              ],
+              &quot;selector&quot;: {
+                &quot;app&quot;: &quot;state&quot;,
+                &quot;constellation.campaign/run&quot;: &quot;c72e8f44-4a23-4c0f-84fe-49edf23cb58f&quot;
+              },
+              &quot;spec&quot;: {
+                &quot;clusterIP&quot;: &quot;10.43.8.103&quot;,
+                &quot;type&quot;: &quot;ClusterIP&quot;
+              }
+            }
+          ],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: &quot;f8734163c30a89105be3cf8a911399a71cba30102b6a861646e4573fb2ab223d&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.services.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes endpointslices observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.endpointslices&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;items&quot;: [
+            {
+              &quot;address_type&quot;: &quot;IPv4&quot;,
+              &quot;endpoints&quot;: [
+                {
+                  &quot;addresses&quot;: [
+                    &quot;10.42.0.6&quot;
+                  ],
+                  &quot;conditions&quot;: {
+                    &quot;ready&quot;: true,
+                    &quot;serving&quot;: true,
+                    &quot;terminating&quot;: false
+                  },
+                  &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-agent-1&quot;,
+                  &quot;target_ref&quot;: {
+                    &quot;kind&quot;: &quot;Pod&quot;,
+                    &quot;name&quot;: &quot;api-65ddd78bb5-jptlf&quot;,
+                    &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                    &quot;uid&quot;: &quot;92dc0442-5cd0-4bdb-99a0-0811c3ef7e15&quot;
+                  }
+                },
+                {
+                  &quot;addresses&quot;: [
+                    &quot;10.42.2.3&quot;
+                  ],
+                  &quot;conditions&quot;: {
+                    &quot;ready&quot;: true,
+                    &quot;serving&quot;: true,
+                    &quot;terminating&quot;: false
+                  },
+                  &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-agent-0&quot;,
+                  &quot;target_ref&quot;: {
+                    &quot;kind&quot;: &quot;Pod&quot;,
+                    &quot;name&quot;: &quot;api-canary-55c5577dd-pw7rc&quot;,
+                    &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                    &quot;uid&quot;: &quot;3a4cc983-d6a0-47f6-ac13-8a39cde82a33&quot;
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 16,
+                &quot;name&quot;: &quot;api-klqvp&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1713&quot;,
+                &quot;uid&quot;: &quot;b0c1a6cf-c0a4-47d0-b90b-9cecb22cb586&quot;
+              },
+              &quot;service_name&quot;: &quot;api&quot;
+            },
+            {
+              &quot;address_type&quot;: &quot;IPv4&quot;,
+              &quot;endpoints&quot;: [
+                {
+                  &quot;addresses&quot;: [
+                    &quot;10.42.1.6&quot;
+                  ],
+                  &quot;conditions&quot;: {
+                    &quot;ready&quot;: true,
+                    &quot;serving&quot;: true,
+                    &quot;terminating&quot;: false
+                  },
+                  &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+                  &quot;target_ref&quot;: {
+                    &quot;kind&quot;: &quot;Pod&quot;,
+                    &quot;name&quot;: &quot;frontend-674ff5659b-qzv67&quot;,
+                    &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                    &quot;uid&quot;: &quot;8aae2081-e84f-434f-85ee-270622df13f6&quot;
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 11,
+                &quot;name&quot;: &quot;frontend-nbcfm&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;1481&quot;,
+                &quot;uid&quot;: &quot;2e3a731c-6fbd-4639-9c9c-cb3e770d0ceb&quot;
+              },
+              &quot;service_name&quot;: &quot;frontend&quot;
+            },
+            {
+              &quot;address_type&quot;: &quot;IPv4&quot;,
+              &quot;endpoints&quot;: [
+                {
+                  &quot;addresses&quot;: [
+                    &quot;10.42.1.5&quot;
+                  ],
+                  &quot;conditions&quot;: {
+                    &quot;ready&quot;: true,
+                    &quot;serving&quot;: true,
+                    &quot;terminating&quot;: false
+                  },
+                  &quot;node_name&quot;: &quot;k3d-eda-c72e8f44-server-0&quot;,
+                  &quot;target_ref&quot;: {
+                    &quot;kind&quot;: &quot;Pod&quot;,
+                    &quot;name&quot;: &quot;state-7698dddb7b-llwt4&quot;,
+                    &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                    &quot;uid&quot;: &quot;d648a448-7726-4397-b27a-338ebf31912d&quot;
+                  }
+                }
+              ],
+              &quot;metadata&quot;: {
+                &quot;creationTimestamp&quot;: &quot;2026-10-05T00:11:08Z&quot;,
+                &quot;generation&quot;: 3,
+                &quot;name&quot;: &quot;state-26brn&quot;,
+                &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+                &quot;resourceVersion&quot;: &quot;759&quot;,
+                &quot;uid&quot;: &quot;e0b40d5b-ea13-4d77-94fb-400f0279bdf3&quot;
+              },
+              &quot;service_name&quot;: &quot;state&quot;
+            }
+          ],
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;source_sha256&quot;: &quot;4bb760857821204f7adc6781b2feaa02e3f9da6809a5ebd7ce7a581664d97c82&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.endpointslices.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes readiness observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.readiness&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;http_status&quot;: 200,
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;probe&quot;: &quot;/readyz&quot;,
+          &quot;response&quot;: {
+            &quot;ok&quot;: true,
+            &quot;role&quot;: &quot;frontend&quot;,
+            &quot;version&quot;: &quot;v1&quot;
+          },
+          &quot;source_sha256&quot;: &quot;28d92a515c6115b2ec17a8afa0e1be5e38031525653155e6c56592296b99549b&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.readiness.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes version observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.version&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;http_status&quot;: 200,
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;probe&quot;: &quot;/version&quot;,
+          &quot;response&quot;: {
+            &quot;ok&quot;: true,
+            &quot;role&quot;: &quot;frontend&quot;,
+            &quot;version&quot;: &quot;v1&quot;
+          },
+          &quot;source_sha256&quot;: &quot;28d92a515c6115b2ec17a8afa0e1be5e38031525653155e6c56592296b99549b&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.version.published/v1&quot;,
+      &quot;required&quot;: true
+    },
+    {
+      &quot;description&quot;: &quot;Published Kubernetes semantic observation; no aggregate health claim.&quot;,
+      &quot;id&quot;: &quot;eda-c72e8f44.kubernetes.semantic&quot;,
+      &quot;observation&quot;: {
+        &quot;domain_state&quot;: null,
+        &quot;facts&quot;: {
+          &quot;acquisition&quot;: {
+            &quot;duration_ms&quot;: 43,
+            &quot;finished_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+            &quot;snapshot_atomic&quot;: false,
+            &quot;source_assertion_time_basis&quot;: &quot;native_controller_timestamps_only&quot;,
+            &quot;started_at&quot;: &quot;2026-10-05T00:33:11.615752Z&quot;
+          },
+          &quot;http_status&quot;: 200,
+          &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+          &quot;probe&quot;: &quot;/semantic&quot;,
+          &quot;response&quot;: {
+            &quot;counter&quot;: 10,
+            &quot;dependency_ok&quot;: true,
+            &quot;ok&quot;: true,
+            &quot;role&quot;: &quot;frontend&quot;,
+            &quot;version&quot;: &quot;v1&quot;
+          },
+          &quot;source_sha256&quot;: &quot;daa1a1c6bc5299b7924da5123a47c0b58f5a22efaae31549de9fc214f8d94053&quot;
+        },
+        &quot;local_state&quot;: &quot;ACQUIRED&quot;,
+        &quot;observation_present&quot;: true,
+        &quot;observed_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+        &quot;reason&quot;: &quot;Published snapshot acquisition acquired; native readiness is not semantic health and controller timestamps remain separate.&quot;,
+        &quot;valid_for_seconds&quot;: null
+      },
+      &quot;profile&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+      &quot;question&quot;: &quot;monitor.kubernetes.semantic.published/v1&quot;,
+      &quot;required&quot;: true
+    }
+  ],
+  &quot;extensions&quot;: {
+    &quot;contract&quot;: &quot;monitor.kubernetes.published/v1&quot;,
+    &quot;no_health_or_current_support_claim&quot;: true,
+    &quot;owner&quot;: &quot;Monitor&quot;,
+    &quot;scope&quot;: {
+      &quot;api_origin&quot;: &quot;https://127.0.0.1:25301&quot;,
+      &quot;ca_sha256&quot;: &quot;1d750839fd83f5c7cab75a1fa4fa1f067828ae1b2e13f7a88d765f2ea96c442a&quot;,
+      &quot;namespace&quot;: &quot;eda-c72e8f44&quot;,
+      &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+      &quot;registered_nodes&quot;: [
+        &quot;k3d-eda-c72e8f44-agent-0&quot;,
+        &quot;k3d-eda-c72e8f44-agent-1&quot;,
+        &quot;k3d-eda-c72e8f44-server-0&quot;
+      ]
+    },
+    &quot;vantage&quot;: {
+      &quot;application_origin&quot;: &quot;http://127.0.0.1:25304&quot;,
+      &quot;kind&quot;: &quot;published-control-plane-api-and-application-http&quot;
+    }
+  },
+  &quot;generated_at&quot;: &quot;2026-10-05T00:33:11.659470Z&quot;,
+  &quot;manifest&quot;: {
+    &quot;path&quot;: &quot;.ops/concerns.toml&quot;,
+    &quot;schema&quot;: &quot;project.concerns/v1&quot;
+  },
+  &quot;producer&quot;: {
+    &quot;id&quot;: &quot;monitor.kubernetes-observation&quot;,
+    &quot;session_id&quot;: &quot;a56d0694-4b0a-4325-82aa-8e3fa8075b46&quot;,
+    &quot;version&quot;: &quot;1&quot;
+  },
+  &quot;project&quot;: &quot;eda-c72e8f44&quot;,
+  &quot;schema&quot;: &quot;project.ops.status/v1&quot;
+}</pre></details></section><section><p class=eyebrow>Operations / authority boundary</p><h2>Diagnostic depth</h2><article><h3>Inspect</h3><span class="state" data-native-state="READ_ONLY_PLAN">READ_ONLY_PLAN</span><p>Native facts remain distinct from semantic diagnosis</p><p class=meta>Declared ceilings · no Linear Accountant grant or spend assertion.</p><dl><dt>Model call ceiling</dt><dd>0</dd><dt>Response ceiling</dt><dd>2,097,152 bytes (2 MiB)</dd><dt>Runtime ceiling</dt><dd>7 seconds (7,000 ms)</dd></dl><details><summary>Scope, evidence, effects and budget</summary><pre>{
+  &quot;allowed_effects&quot;: [
+    &quot;GET published observations&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;model_calls&quot;: 0,
+    &quot;response_bytes&quot;: 2097152,
+    &quot;runtime_seconds&quot;: 7
+  },
+  &quot;depth&quot;: &quot;Inspect&quot;,
+  &quot;disposition&quot;: &quot;READ_ONLY_PLAN&quot;,
+  &quot;escalation&quot;: [
+    &quot;missing acquisition&quot;,
+    &quot;insufficient causal evidence&quot;,
+    &quot;mutation requires owning executor admission&quot;
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;prohibited_effects&quot;: [
+    &quot;cluster mutation&quot;,
+    &quot;rollout&quot;,
+    &quot;rollback&quot;,
+    &quot;credential or log capture&quot;
+  ],
+  &quot;reason&quot;: &quot;Native facts remain distinct from semantic diagnosis&quot;,
+  &quot;required_observations&quot;: [
+    &quot;namespace&quot;,
+    &quot;nodes&quot;,
+    &quot;pods&quot;,
+    &quot;deployments&quot;,
+    &quot;services&quot;,
+    &quot;endpointslices&quot;,
+    &quot;readiness&quot;,
+    &quot;version&quot;,
+    &quot;semantic&quot;
+  ],
+  &quot;schema&quot;: &quot;operational_eda.orchestrated-plan/v1&quot;,
+  &quot;scope&quot;: &quot;Published Kubernetes native facts and fixed application readiness/version/semantic probes&quot;,
+  &quot;subject&quot;: &quot;eda-c72e8f44&quot;,
+  &quot;verification&quot;: &quot;Independent qualification oracle remains outside this operator read surface&quot;
+}</pre></details></article><article><h3>Diagnose</h3><span class="state" data-native-state="READ_ONLY_PLAN">READ_ONLY_PLAN</span><p>Native facts remain distinct from semantic diagnosis</p><p class=meta>Declared ceilings · no Linear Accountant grant or spend assertion.</p><dl><dt>Model call ceiling</dt><dd>0</dd><dt>Response ceiling</dt><dd>2,097,152 bytes (2 MiB)</dd><dt>Runtime ceiling</dt><dd>7 seconds (7,000 ms)</dd></dl><details><summary>Scope, evidence, effects and budget</summary><pre>{
+  &quot;allowed_effects&quot;: [
+    &quot;GET published observations&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;model_calls&quot;: 0,
+    &quot;response_bytes&quot;: 2097152,
+    &quot;runtime_seconds&quot;: 7
+  },
+  &quot;depth&quot;: &quot;Diagnose&quot;,
+  &quot;disposition&quot;: &quot;READ_ONLY_PLAN&quot;,
+  &quot;escalation&quot;: [
+    &quot;missing acquisition&quot;,
+    &quot;insufficient causal evidence&quot;,
+    &quot;mutation requires owning executor admission&quot;
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;prohibited_effects&quot;: [
+    &quot;cluster mutation&quot;,
+    &quot;rollout&quot;,
+    &quot;rollback&quot;,
+    &quot;credential or log capture&quot;
+  ],
+  &quot;reason&quot;: &quot;Native facts remain distinct from semantic diagnosis&quot;,
+  &quot;required_observations&quot;: [
+    &quot;namespace&quot;,
+    &quot;nodes&quot;,
+    &quot;pods&quot;,
+    &quot;deployments&quot;,
+    &quot;services&quot;,
+    &quot;endpointslices&quot;,
+    &quot;readiness&quot;,
+    &quot;version&quot;,
+    &quot;semantic&quot;
+  ],
+  &quot;schema&quot;: &quot;operational_eda.orchestrated-plan/v1&quot;,
+  &quot;scope&quot;: &quot;Published Kubernetes native facts and fixed application readiness/version/semantic probes&quot;,
+  &quot;subject&quot;: &quot;eda-c72e8f44&quot;,
+  &quot;verification&quot;: &quot;Independent qualification oracle remains outside this operator read surface&quot;
+}</pre></details></article><article><h3>Remediate</h3><span class="state" data-native-state="REFUSED">REFUSED</span><p>NO_ADMITTED_KUBERNETES_EXECUTOR</p><p class=meta>Declared ceilings · no Linear Accountant grant or spend assertion.</p><dl><dt>Model call ceiling</dt><dd>0</dd><dt>Response ceiling</dt><dd>2,097,152 bytes (2 MiB)</dd><dt>Runtime ceiling</dt><dd>7 seconds (7,000 ms)</dd></dl><details><summary>Scope, evidence, effects and budget</summary><pre>{
+  &quot;allowed_effects&quot;: [
+    &quot;GET published observations&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;model_calls&quot;: 0,
+    &quot;response_bytes&quot;: 2097152,
+    &quot;runtime_seconds&quot;: 7
+  },
+  &quot;depth&quot;: &quot;Remediate&quot;,
+  &quot;disposition&quot;: &quot;REFUSED&quot;,
+  &quot;escalation&quot;: [
+    &quot;missing acquisition&quot;,
+    &quot;insufficient causal evidence&quot;,
+    &quot;mutation requires owning executor admission&quot;
+  ],
+  &quot;namespace_uid&quot;: &quot;664c1093-5e87-4c43-ad48-e345a5015387&quot;,
+  &quot;prohibited_effects&quot;: [
+    &quot;cluster mutation&quot;,
+    &quot;rollout&quot;,
+    &quot;rollback&quot;,
+    &quot;credential or log capture&quot;
+  ],
+  &quot;reason&quot;: &quot;NO_ADMITTED_KUBERNETES_EXECUTOR&quot;,
+  &quot;required_observations&quot;: [
+    &quot;namespace&quot;,
+    &quot;nodes&quot;,
+    &quot;pods&quot;,
+    &quot;deployments&quot;,
+    &quot;services&quot;,
+    &quot;endpointslices&quot;,
+    &quot;readiness&quot;,
+    &quot;version&quot;,
+    &quot;semantic&quot;
+  ],
+  &quot;schema&quot;: &quot;operational_eda.orchestrated-plan/v1&quot;,
+  &quot;scope&quot;: &quot;Published Kubernetes native facts and fixed application readiness/version/semantic probes&quot;,
+  &quot;subject&quot;: &quot;eda-c72e8f44&quot;,
+  &quot;verification&quot;: &quot;Independent qualification oracle remains outside this operator read surface&quot;
+}</pre></details></article></section><section><h2>Separate captured semantic responses</h2><p>No single snapshot establishes a healthy rollout.</p><dl><dt>2026-10-05T00:33:11.568847+00:00</dt><dd>HTTP 200</dd><dt>2026-10-05T00:33:11.988780+00:00</dt><dd>HTTP 502</dd><dt>2026-10-05T00:33:12.414726+00:00</dt><dd>HTTP 502</dd><dt>2026-10-05T00:33:12.850961+00:00</dt><dd>HTTP 200</dd></dl></section></main></body></html>

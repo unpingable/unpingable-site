@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Operational EDA: a Workbench for understanding service failures, bounded diagnosis, governed changes, and independent verification.">
+  <title>Operational EDA · Workbench · unpingable</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/workbench.html">
+  <link rel="stylesheet" href="workbench.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <a class="wordmark" href="../index.html">unpingable</a>
+    <nav aria-label="Main navigation"><a href="index.html">Constellation</a><a href="components.html">Components</a><a href="workbench.html" aria-current="page">Workbench</a></nav>
+  </header>
+  <main id="main">
+    <div class="eyebrow">Operational EDA / local qualification</div>
+    <h1>A service is down.<br>What do you know?<br><em>What may you change?</em></h1>
+    <p class="lede">A green readiness check can miss a failed service. An alarming dashboard can miss the reason. Workbench brings the model, current observations, bounded diagnosis, and the record of a change into one human surface.</p>
+    <div class="intro-strip"><span>Inspect the system</span><span>Diagnose within bounds</span><span>Verify the change</span></div>
+    <p class="actions"><a class="primary" href="demo/index.html">Explore the retained demo <span aria-hidden="true">↗</span></a><a href="#qualification">Read the qualification boundary ↓</a></p>
+    <p class="small">The demo is a read-only captured-record replay with presentation polish. It does not observe or operate a live production system.</p>
+
+    <section id="story" class="story">
+      <div class="section-label">01 / The operator’s question</div>
+      <h2>Readiness is one observation.<br>Service behavior is another.</h2>
+      <p>In the local VM qualification, Workbench followed a real service failure through a fresh observation, diagnosis, an authorized native unit Start, and an independent postcondition check. The operator used the HTTP surface throughout; the VM remained usable afterward.</p>
+      <p>The useful result is a traceable change: what was known, what diagnosis supported it, which exact action was allowed, what was attempted, and what a fresh observation established afterward.</p>
+      <div class="measure"><strong>9</strong><span>Workbench HTTP actions</span><strong>1</strong><span>authorization spend</span><strong>1</strong><span>execution attempt</span><strong>0</strong><span>operator CLI handoffs</span></div>
+      <p class="small">One fresh native unit Start. This establishes the current forward live Operational EDA diagnostic loop for the qualified local case.</p>
+    </section>
+
+    <section id="flow">
+      <div class="section-label">02 / A working analogy</div>
+      <h2>EDA for operations.</h2>
+      <p>Electronic design automation gives engineers a model, instruments, checks, and a disciplined path from a design to a result. <strong>Operational EDA</strong> applies that idea to operating a system: model and instrument it, establish what is currently known, diagnose within bounds, govern changes, independently verify the result, and retain the lifecycle evidence.</p>
+      <p>This is a working analogy and a project direction, not a claim that Operational EDA is already a mature industry category.</p>
+      <div class="depths">
+        <article><span class="ordinal">I</span><h3>Inspect</h3><p>Read the system model and current cohort. Follow application relationships and evidence; distinguish attention from unknown.</p></article>
+        <article><span class="ordinal">II</span><h3>Diagnose</h3><p>Ask a bounded question against the available evidence. A diagnosis can include a typed refusal when the evidence or supported scope is insufficient.</p></article>
+        <article><span class="ordinal">III</span><h3>Remediate</h3><p>Review an exact proposed change. Authorization, execution custody, and independent verification remain separate responsibilities.</p></article>
+      </div>
+      <p class="small">Inspect, Diagnose, and Remediate describe depth of interaction. They do not describe qualification tiers or grant permission by themselves.</p>
+    </section>
+
+    <section id="orchestrated">
+      <div class="section-label">03 / A larger application, a firm boundary</div>
+      <h2>Follow the application.<br>Respect the refusal.</h2>
+      <p>A second qualification used a three-node k3d/k3s application: frontend → API → SQLite state. Workbench exercised observation and diagnostic-plan surfaces across nine externally injected conditions in that application relationship.</p>
+      <div class="cohort-line"><span><strong>72</strong> cohort read attempts</span><span><strong>69</strong> owner responses</span><span><strong>3</strong> source refusals</span></div>
+      <aside class="boundary"><h3>18 remediation-plan refusals. Zero Kubernetes product remediation.</h3><p>The orchestrated result establishes application observation and diagnosis. It does not establish product authority to change the cluster. Refusal preserves the boundary when a requested plan exceeds the supported scope.</p></aside>
+      <p class="small">These are bounded application cases, not real node boot or DiskPressure qualification, and not a full Level 3 claim.</p>
+    </section>
+
+    <section id="gallery">
+      <div class="section-label">04 / From the retained record</div>
+      <h2>See the evidence in context.</h2>
+      <p>The retained demo follows healthy observation, service attention, diagnostic evidence, a bounded plan, refusal, application relationships, mixed versions, and a governed attempt.</p>
+      <!-- WORKBENCH-GALLERY:BEGIN reviewed captured-record replay assets -->
+<div class="gallery">
+<figure><a href="assets/workbench-reveal/healthy-cohort.png"><img src="assets/workbench-reveal/healthy-cohort.png" alt="Healthy cohort in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Healthy cohort</strong><p>Target unit and controller HTTP observations in the VM cohort agreed at the original capture. Historical read-only replay; not current evidence today. Captured-record replay.</p><a href="demo/healthy-cohort.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/service-attention.png"><img src="assets/workbench-reveal/service-attention.png" alt="Service attention in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Service attention</strong><p>Target unit loss and the independently scoped HTTP judgment call for review. Native unsupported/indeterminate distinctions remain as recorded. Captured-record replay.</p><a href="demo/service-attention.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/evidence.png"><img src="assets/workbench-reveal/evidence.png" alt="Evidence in context in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Evidence in context</strong><p>Exact subject, owner evidence and provenance remain inspectable. Owner currentness is quoted at capture time; this record is historical now. Captured-record replay.</p><a href="demo/evidence.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/diagnostic-plan.png"><img src="assets/workbench-reveal/diagnostic-plan.png" alt="Bounded diagnostic plan in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Bounded diagnostic plan</strong><p>Inspect the declared objective, evidence requirements and ceilings. A displayed budget neither reserves inference stock nor grants effects. Captured-record replay.</p><a href="demo/diagnostic-plan.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/refusal.png"><img src="assets/workbench-reveal/refusal.png" alt="A refusal with a reason in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>A refusal with a reason</strong><p>Remediate is explicitly refused: NO_ADMITTED_KUBERNETES_EXECUTOR. The application observation interface creates no cluster-change authority. Captured-record replay.</p><a href="demo/refusal.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/application-relationship.png"><img src="assets/workbench-reveal/application-relationship.png" alt="Application relationship in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Application relationship</strong><p>Frontend readiness HTTP200 and semantic HTTP503 coexist in the recorded frontend → API → SQLite relationship. Captured-record replay.</p><a href="demo/application-relationship.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/mixed-version.png"><img src="assets/workbench-reveal/mixed-version.png" alt="Mixed-version observation in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Mixed-version observation</strong><p>Separately timed v1/v2 observations preserve mixed-version identity and semantic variation. Running or ready replicas do not establish a healthy rollout. Captured-record replay.</p><a href="demo/mixed-version.html">Inspect this captured record →</a></figcaption></figure>
+<figure><a href="assets/workbench-reveal/governed-attempt.png"><img src="assets/workbench-reveal/governed-attempt.png" alt="Governed attempt in the retained Workbench captured-record replay" width="1440" height="1100" loading="lazy"></a><figcaption><strong>Governed attempt</strong><p>Nine Workbench HTTP lifecycle actions, one native effect, zero CLI handoffs. Scoped unit postcondition and later HTTP recovery remain separate. Captured-record replay.</p><a href="demo/governed-attempt.html">Inspect this captured record →</a></figcaption></figure>
+</div>
+      <!-- WORKBENCH-GALLERY:END -->
+      <p><a href="demo/index.html">Open the read-only captured-record replay →</a></p>
+    </section>
+
+    <section id="qualification">
+      <div class="section-label">05 / What the result means</div>
+      <h2>Depth, tier, and intensity<br>answer different questions.</h2>
+      <p>A deeper interaction is not a higher qualification tier. A longer campaign is not broader system coverage. Keep all three axes visible.</p>
+      <details open><summary>Qualification tiers / environment and scope</summary>
+        <ol class="tiers">
+          <li><span>01</span><div><strong>Fixture / browser</strong><p>Presentation and local test-fixture behavior.</p></div></li>
+          <li><span>02</span><div><strong>Process / HTTP</strong><p>Running process and request boundaries.</p></div></li>
+          <li><span>03</span><div><strong>VM / systemd</strong><p>Bounded native service behavior in a local VM.</p></div></li>
+          <li><span>04</span><div><strong>Live Operational EDA</strong><p>The current forward diagnostic loop is established for the qualified local case.</p></div></li>
+          <li><span>05</span><div><strong>Orchestrated application</strong><p>Observation and diagnosis established within the application boundary; Kubernetes remediation remains refused.</p></div></li>
+          <li class="future"><span>06</span><div><strong>Distributed / future</strong><p>A future qualification scope, not a current result.</p></div></li>
+        </ol>
+      </details>
+      <details><summary>Campaign intensity / smoke, candidate, beta, soak</summary><p>Intensity describes the campaign’s repetition and scrutiny. A retained earlier 1,000-case soak recorded 486 good results, 351 correct refusals, 163 correct indeterminate outcomes, and zero failures. That is a different campaign; it is not the orchestrated application campaign’s throughput result.</p></details>
+      <details><summary>Composition / only the exercised path earns the claim</summary><p>Workbench is the human surface over distinct observation, diagnosis, authorization, and execution responsibilities. The demonstrated loop does not exercise every component. A source map describes available roles; it does not establish their participation in this run.</p><p><a href="components.html">Read the component source map →</a></p></details>
+    </section>
+    <section class="closing"><h2>An instrument you can question.</h2><p>Workbench keeps the observation, diagnosis, proposed action, attempted change, and independent result legible together. The next step is to inspect the retained record and its boundaries.</p><a class="primary" href="demo/index.html">Explore the retained demo →</a></section>
+  </main>
+  <footer><span>Workbench · Operational EDA</span><a href="index.html">Constellation</a><a href="../limits.html">Limits</a><span>Bounded local qualification · captured-record presentation</span></footer>
+</body>
+</html>

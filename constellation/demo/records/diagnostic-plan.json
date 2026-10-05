@@ -1,0 +1,801 @@
+{
+  "authority_boundary": "Captured record only; no current assertion, action or authority.",
+  "captured_at": "2026-10-04T23:01:08.436017+00:00",
+  "omissions": [
+    {
+      "field": "/owner_response/authority/1/raw/use_journal",
+      "reason": "runtime configuration/credential field excluded from public replay"
+    }
+  ],
+  "owner_record": {
+    "authority_boundary": "Read projection only; no grant, execution or settlement is inferred.",
+    "cohort_id": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+    "inspected_at": "2026-10-04T23:01:08.436017+00:00",
+    "owner_response": {
+      "attempts": [],
+      "authority": [
+        {
+          "contract": "ag.governed-loop.standing-mandate-store/v1",
+          "owner": "AG",
+          "raw": {
+            "mandates": [
+              {
+                "generation": 1,
+                "scope": "sha256:768b30438ba4223793518ec4e8fb877d9eee6e83bd679796baa015dd4a9d62f2",
+                "status": "active",
+                "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+                "valid_until_unix_ms": 1791161825174
+              }
+            ],
+            "schema": "ag.governed-loop.standing-mandate-store/v1"
+          }
+        },
+        {
+          "contract": "docket.owner-execution-standing-grant/v1",
+          "owner": "Docket",
+          "raw": {
+            "expires_at_unix_ms": 1791161825174,
+            "grant_id": "live/d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+            "max_uses": 1,
+            "not_before_unix_ms": 1791154566821,
+            "principal": "live-qualification-owner",
+            "revocation_marker": "/etc/constellation-live-ecad/standing/grant.revoked",
+            "schema": "docket.owner-execution-standing-grant/v1",
+            "scope": "sha256:768b30438ba4223793518ec4e8fb877d9eee6e83bd679796baa015dd4a9d62f2",
+            "standing_ttl_ms": 60000,
+            "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+            "work_schema": "ag-effectd.docket-executor-systemd-work/v2"
+          }
+        }
+      ],
+      "cohort_id": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+      "gaps": [],
+      "hosts": [
+        {
+          "boot_id": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+          "components": [
+            {
+              "build_sha256": "sha256:a30bc8a9f0905b7656e84d7782362b7f73eebd75984c4f6bf0ed2c51ed47fcb6",
+              "owner": "NQ",
+              "revision": "c83d667c4da754f2b8b4589366125fdb8ee7f977"
+            },
+            {
+              "build_sha256": "sha256:73ca352190f13ed3c18ec3987cd291cdc15716a882cf438be96f1938a8f52902",
+              "owner": "Monitor",
+              "revision": "f586cb829ad3155e931648ae6333f24ae87428b2"
+            },
+            {
+              "build_sha256": "sha256:9f1ab2242fd83b4c3fcf198f4df2dcb1a9b29964083dd65f6d0c7fd2ab210aa5",
+              "owner": "AG",
+              "revision": "d4631fdeb082800ecd4cd98eb532ce3c47e9fea7"
+            },
+            {
+              "build_sha256": "sha256:3c9d302dcb181ee0574c941a90f1d6fe8e252301d5b98b5cc23568cf4263fd71",
+              "owner": "Docket",
+              "revision": "f6137226d9b5b0370a73588f583a63f0509c8da4"
+            },
+            {
+              "build_sha256": "sha256:ccde1e5bc9d6a5f1389313b5896947ebf3670664a00f67b1bd266f54752ab938",
+              "owner": "Operational ECAD",
+              "revision": "ff55c0600399a5d3c21b937570334bf629cb22b9"
+            }
+          ],
+          "host_id": "target",
+          "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+          "role": "target"
+        },
+        {
+          "boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+          "components": [
+            {
+              "build_sha256": "sha256:a30bc8a9f0905b7656e84d7782362b7f73eebd75984c4f6bf0ed2c51ed47fcb6",
+              "owner": "NQ",
+              "revision": "c83d667c4da754f2b8b4589366125fdb8ee7f977"
+            },
+            {
+              "build_sha256": "sha256:6065886e9eff6baaba8622b93ac4030e2e79d42516b575a79d38d05c98bd1ba1",
+              "owner": "Monitor",
+              "revision": "cdd99eb5ccd743ccd01ac4f76f1301cdb37f368e"
+            },
+            {
+              "build_sha256": "sha256:9f1ab2242fd83b4c3fcf198f4df2dcb1a9b29964083dd65f6d0c7fd2ab210aa5",
+              "owner": "AG",
+              "revision": "d4631fdeb082800ecd4cd98eb532ce3c47e9fea7"
+            },
+            {
+              "build_sha256": "sha256:3c9d302dcb181ee0574c941a90f1d6fe8e252301d5b98b5cc23568cf4263fd71",
+              "owner": "Docket",
+              "revision": "f6137226d9b5b0370a73588f583a63f0509c8da4"
+            },
+            {
+              "build_sha256": "sha256:ccde1e5bc9d6a5f1389313b5896947ebf3670664a00f67b1bd266f54752ab938",
+              "owner": "Operational ECAD",
+              "revision": "ff55c0600399a5d3c21b937570334bf629cb22b9"
+            }
+          ],
+          "host_id": "controller",
+          "machine_id": "3ee6863cc08b4767b818ef2e61ec0161",
+          "role": "controller"
+        }
+      ],
+      "observations": [
+        {
+          "asserted_at": "2026-10-04T23:01:07.488000+00:00",
+          "boot_id": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+          "contract": "monitor.live-unit-read/v1",
+          "currentness": {
+            "contract": "monitor.live-unit-read/v1",
+            "owner": "Monitor",
+            "reason": "current_boot_claim_contradicted",
+            "state": "contradictory"
+          },
+          "host_id": "target",
+          "judgment": {
+            "contract": "monitor.live-unit-read/v1",
+            "owner": "Monitor",
+            "reason": "current_boot_claim_contradicted",
+            "state": "contradictory"
+          },
+          "observation_id": "sha256:038cc5bf9a7bf571ca9f24a8f12f37e8b36e05fa04566c2ce77188f8acdc9052",
+          "owner": "Monitor",
+          "profile": {
+            "digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+            "id": "nq.systemd_unit",
+            "version": 3
+          },
+          "raw": {
+            "basis": {
+              "basis_identity": "sha256:f1972defdce97d583c49665f251906b533564d5581ebad105ac86dee670e4e40",
+              "basis_type": "constellation.remediation.current-boot-systemd-active/v1",
+              "schema": "ag.governed-loop.typed-observation-basis/v1"
+            },
+            "boot_before": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+            "claim": "active",
+            "current_boot_id": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+            "currentness": "sha256:f3ebd239e88973f464d7adff2a7e4fdccfc7d7caa1f95ae2f12184880b3fb5fe",
+            "evaluation": {
+              "context": {
+                "instance_id": "live-ecad-systemd",
+                "scope": {
+                  "kind": "systemd_unit",
+                  "value": {
+                    "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                    "schema": "nq.systemd_unit_scope.v3",
+                    "unit_name": "constellation-beta-http-fixture.service"
+                  }
+                },
+                "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service",
+                "vantage": {
+                  "kind": "local",
+                  "value": {}
+                }
+              },
+              "detector": {
+                "digest": "sha256:ae72e7eb1d43280160ee2a9379da6284320735281b9085211e340e988815b0d1",
+                "id": "nq.systemd_unit.required_active",
+                "version": "2"
+              },
+              "evaluated_at": "2026-10-04T23:01:04.066Z",
+              "evaluation_id": "ae5ca790-9cbf-4a33-92a9-ba6ce702dc78",
+              "evaluator_artifact_digest": "sha256:379d855ba8c0a2719550fdb78bbefaaf13b6d2f2d8cefcdc87ed5bd4193a867a",
+              "profile": {
+                "profile": {
+                  "id": "nq.systemd_unit",
+                  "version": 3
+                },
+                "profile_digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                "profile_semantic_id": "sha256:c3d7bcd0e29f0a8dd4b4d19005a138f8ba113e0ee1282318f62f08e117f15049"
+              },
+              "result": {
+                "condition": "systemd_unit_not_active",
+                "evidence": [
+                  {
+                    "observation_ordinal": 0,
+                    "observed_at": "2026-10-04T23:01:03.997Z",
+                    "report_digest": "sha256:ecfc11c4d1888b6ba76b370dc4c443e3347abb025b18b5a6637ad8eb8b90ed8d",
+                    "report_id": "97c8590f-577a-412c-b845-b80d2343fb06",
+                    "report_sequence": 47
+                  }
+                ],
+                "limitations": [
+                  "Manager state does not establish HTTP, application health, effect causation or authority",
+                  "Acquired boot identity requires independent comparison with the current boot before present reliance"
+                ],
+                "profile": {
+                  "profile": {
+                    "id": "nq.systemd_unit",
+                    "version": 3
+                  },
+                  "profile_digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                  "profile_semantic_id": "sha256:c3d7bcd0e29f0a8dd4b4d19005a138f8ba113e0ee1282318f62f08e117f15049"
+                },
+                "refusal": null,
+                "schema": "nq.evaluation_result.v1",
+                "state": "present",
+                "summary": "the system manager reports the unit inactive in acquired boot c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+                "watermark": 47
+              },
+              "schema": "nq.evaluation_envelope.v2",
+              "started_at": "2026-10-04T23:01:04.066Z",
+              "trigger_run_id": "119de2c6-084a-47a1-96f5-69a3f198ccb5",
+              "watermark": {
+                "instance_id": "live-ecad-systemd",
+                "max_report_sequence": 47,
+                "watermark_received_at": "2026-10-04T23:01:04.007Z"
+              }
+            },
+            "instance_id": "live-ecad-systemd",
+            "judgment": {
+              "fresh_until_unix_ms": 1791154923997,
+              "reason": "current_boot_claim_contradicted",
+              "status": "contradictory"
+            },
+            "nonclaims": [
+              "Required unit state only, not HTTP or application health",
+              "Present reliance grants no acquisition, restart, effect or settlement authority"
+            ],
+            "observation_export": {
+              "backend": {
+                "implementation": {
+                  "name": "nq-host-resource-helper",
+                  "version": "0.2.1"
+                },
+                "tools": []
+              },
+              "binding": {
+                "scope": {
+                  "kind": "systemd_unit",
+                  "value": {
+                    "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                    "schema": "nq.systemd_unit_scope.v3",
+                    "unit_name": "constellation-beta-http-fixture.service"
+                  }
+                },
+                "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service",
+                "vantage": {
+                  "kind": "local",
+                  "value": {}
+                }
+              },
+              "evidence": {
+                "observation_ordinal": 0,
+                "observed_at": "2026-10-04T23:01:03.997Z",
+                "report_digest": "sha256:ecfc11c4d1888b6ba76b370dc4c443e3347abb025b18b5a6637ad8eb8b90ed8d",
+                "report_id": "97c8590f-577a-412c-b845-b80d2343fb06",
+                "report_sequence": 47
+              },
+              "instance_id": "live-ecad-systemd",
+              "observation": {
+                "kind": "systemd_unit_state_snapshot",
+                "observed_at": "2026-10-04T23:01:03.997483653Z",
+                "ordinal": 0,
+                "payload": {
+                  "active_state": "inactive",
+                  "boot_id": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+                  "evidence_basis": {
+                    "access_path": "systemd_dbus",
+                    "basis": "manager_snapshot",
+                    "capabilities_used": [
+                      "read_systemd_unit"
+                    ],
+                    "regime": "normal",
+                    "scope": {
+                      "kind": "systemd_unit",
+                      "value": {
+                        "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                        "schema": "nq.systemd_unit_scope.v3",
+                        "unit_name": "constellation-beta-http-fixture.service"
+                      }
+                    },
+                    "vantage": {
+                      "kind": "local",
+                      "value": {}
+                    }
+                  },
+                  "load_state": "loaded",
+                  "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                  "sub_state": "dead",
+                  "unit_name": "constellation-beta-http-fixture.service"
+                },
+                "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service"
+              },
+              "profile": {
+                "digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                "id": "nq.systemd_unit",
+                "version": "3"
+              },
+              "received_at": "2026-10-04T23:01:04.007Z",
+              "reference_time_basis": "evaluation_millisecond_projection",
+              "report_observed_at": "2026-10-04T23:01:03.997483653Z",
+              "report_status": "complete",
+              "schema": "nq.admitted-observation-export/v1",
+              "standing": "historical_custody_only",
+              "used_capabilities": [
+                "read_systemd_unit"
+              ]
+            },
+            "opposite_basis": {
+              "basis_identity": "sha256:4213fe24a9017c16da5aae1a598d6d9bf52188eafa869663842aeb2d65c0146b",
+              "basis_type": "constellation.remediation.current-boot-systemd-not-active/v1",
+              "schema": "ag.governed-loop.typed-observation-basis/v1"
+            },
+            "opposite_judgment": {
+              "fresh_until_unix_ms": 1791154923997,
+              "reason": "current_boot_claim_supported",
+              "status": "current"
+            },
+            "owner": "Monitor",
+            "read_at_unix_ms": 1791154867488,
+            "requested_at_unix_ms": 1791154867320,
+            "schema": "monitor.live-unit-read/v1",
+            "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service",
+            "through_sequence": 54,
+            "witness": {
+              "current_boot_after": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+              "current_boot_before": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+              "evaluation": {
+                "context": {
+                  "instance_id": "live-ecad-systemd",
+                  "scope": {
+                    "kind": "systemd_unit",
+                    "value": {
+                      "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                      "schema": "nq.systemd_unit_scope.v3",
+                      "unit_name": "constellation-beta-http-fixture.service"
+                    }
+                  },
+                  "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service",
+                  "vantage": {
+                    "kind": "local",
+                    "value": {}
+                  }
+                },
+                "detector": {
+                  "digest": "sha256:ae72e7eb1d43280160ee2a9379da6284320735281b9085211e340e988815b0d1",
+                  "id": "nq.systemd_unit.required_active",
+                  "version": "2"
+                },
+                "evaluated_at": "2026-10-04T23:01:04.066Z",
+                "evaluation_id": "ae5ca790-9cbf-4a33-92a9-ba6ce702dc78",
+                "evaluator_artifact_digest": "sha256:379d855ba8c0a2719550fdb78bbefaaf13b6d2f2d8cefcdc87ed5bd4193a867a",
+                "profile": {
+                  "profile": {
+                    "id": "nq.systemd_unit",
+                    "version": 3
+                  },
+                  "profile_digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                  "profile_semantic_id": "sha256:c3d7bcd0e29f0a8dd4b4d19005a138f8ba113e0ee1282318f62f08e117f15049"
+                },
+                "result": {
+                  "condition": "systemd_unit_not_active",
+                  "evidence": [
+                    {
+                      "observation_ordinal": 0,
+                      "observed_at": "2026-10-04T23:01:03.997Z",
+                      "report_digest": "sha256:ecfc11c4d1888b6ba76b370dc4c443e3347abb025b18b5a6637ad8eb8b90ed8d",
+                      "report_id": "97c8590f-577a-412c-b845-b80d2343fb06",
+                      "report_sequence": 47
+                    }
+                  ],
+                  "limitations": [
+                    "Manager state does not establish HTTP, application health, effect causation or authority",
+                    "Acquired boot identity requires independent comparison with the current boot before present reliance"
+                  ],
+                  "profile": {
+                    "profile": {
+                      "id": "nq.systemd_unit",
+                      "version": 3
+                    },
+                    "profile_digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                    "profile_semantic_id": "sha256:c3d7bcd0e29f0a8dd4b4d19005a138f8ba113e0ee1282318f62f08e117f15049"
+                  },
+                  "refusal": null,
+                  "schema": "nq.evaluation_result.v1",
+                  "state": "present",
+                  "summary": "the system manager reports the unit inactive in acquired boot c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+                  "watermark": 47
+                },
+                "schema": "nq.evaluation_envelope.v2",
+                "started_at": "2026-10-04T23:01:04.066Z",
+                "trigger_run_id": "119de2c6-084a-47a1-96f5-69a3f198ccb5",
+                "watermark": {
+                  "instance_id": "live-ecad-systemd",
+                  "max_report_sequence": 47,
+                  "watermark_received_at": "2026-10-04T23:01:04.007Z"
+                }
+              },
+              "evaluation_sequence": 54,
+              "observation_export": {
+                "backend": {
+                  "implementation": {
+                    "name": "nq-host-resource-helper",
+                    "version": "0.2.1"
+                  },
+                  "tools": []
+                },
+                "binding": {
+                  "scope": {
+                    "kind": "systemd_unit",
+                    "value": {
+                      "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                      "schema": "nq.systemd_unit_scope.v3",
+                      "unit_name": "constellation-beta-http-fixture.service"
+                    }
+                  },
+                  "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service",
+                  "vantage": {
+                    "kind": "local",
+                    "value": {}
+                  }
+                },
+                "evidence": {
+                  "observation_ordinal": 0,
+                  "observed_at": "2026-10-04T23:01:03.997Z",
+                  "report_digest": "sha256:ecfc11c4d1888b6ba76b370dc4c443e3347abb025b18b5a6637ad8eb8b90ed8d",
+                  "report_id": "97c8590f-577a-412c-b845-b80d2343fb06",
+                  "report_sequence": 47
+                },
+                "instance_id": "live-ecad-systemd",
+                "observation": {
+                  "kind": "systemd_unit_state_snapshot",
+                  "observed_at": "2026-10-04T23:01:03.997483653Z",
+                  "ordinal": 0,
+                  "payload": {
+                    "active_state": "inactive",
+                    "boot_id": "c1d05c62-fd67-4bcf-80e4-427c790b33cb",
+                    "evidence_basis": {
+                      "access_path": "systemd_dbus",
+                      "basis": "manager_snapshot",
+                      "capabilities_used": [
+                        "read_systemd_unit"
+                      ],
+                      "regime": "normal",
+                      "scope": {
+                        "kind": "systemd_unit",
+                        "value": {
+                          "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                          "schema": "nq.systemd_unit_scope.v3",
+                          "unit_name": "constellation-beta-http-fixture.service"
+                        }
+                      },
+                      "vantage": {
+                        "kind": "local",
+                        "value": {}
+                      }
+                    },
+                    "load_state": "loaded",
+                    "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+                    "sub_state": "dead",
+                    "unit_name": "constellation-beta-http-fixture.service"
+                  },
+                  "subject": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service"
+                },
+                "profile": {
+                  "digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+                  "id": "nq.systemd_unit",
+                  "version": "3"
+                },
+                "received_at": "2026-10-04T23:01:04.007Z",
+                "reference_time_basis": "evaluation_millisecond_projection",
+                "report_observed_at": "2026-10-04T23:01:03.997483653Z",
+                "report_status": "complete",
+                "schema": "nq.admitted-observation-export/v1",
+                "standing": "historical_custody_only",
+                "used_capabilities": [
+                  "read_systemd_unit"
+                ]
+              },
+              "profile_digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+              "reliance_ms": 60000,
+              "resolved_at_unix_ms": 1791154867488,
+              "schema": "monitor.nq-boot-unit-witness/v1",
+              "through_sequence": 54
+            }
+          },
+          "subject_id": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service"
+        },
+        {
+          "asserted_at": "2026-10-04T23:01:07.641000+00:00",
+          "boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+          "contract": "monitor.live-http-read/v1",
+          "currentness": {
+            "contract": "monitor.live-http-read/v1",
+            "owner": "Monitor",
+            "reason": "native_http_indeterminate_or_refused",
+            "state": "unsupported"
+          },
+          "host_id": "controller",
+          "judgment": {
+            "contract": "monitor.live-http-read/v1",
+            "owner": "Monitor",
+            "reason": "native_http_indeterminate_or_refused",
+            "state": "unsupported"
+          },
+          "observation_id": "sha256:8bdf00f45f16704e7ccce0ce5d7a8dd1d969db724d450949e3d741c186b8694b",
+          "owner": "Monitor",
+          "profile": {
+            "digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+            "id": "nq.http_endpoint",
+            "version": 1
+          },
+          "raw": {
+            "current_observer": {
+              "boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+              "machine_id": "3ee6863cc08b4767b818ef2e61ec0161"
+            },
+            "evaluation": {
+              "context": {
+                "instance_id": "live-ecad-http",
+                "scope": {
+                  "kind": "http_endpoint",
+                  "value": {
+                    "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                    "endpoint": "http://172.27.42.2:18080/healthz",
+                    "max_response_bytes": 1024,
+                    "method": "GET",
+                    "redirect_policy": "refuse",
+                    "schema": "nq.operator_beta.http_endpoint_scope.v1",
+                    "subject_identity": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62"
+                  }
+                },
+                "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+                "vantage": {
+                  "kind": "controller_http",
+                  "value": {
+                    "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7"
+                  }
+                }
+              },
+              "detector": {
+                "digest": "sha256:e35597a98cf37be6310766c783f7f9aeb22192e520a69916bec5b758f3a175d1",
+                "id": "nq.http_endpoint.postcondition",
+                "version": "1"
+              },
+              "evaluated_at": "2026-10-04T23:00:48.052Z",
+              "evaluation_id": "3a288088-05b0-432a-abd8-2a2f2cb8b873",
+              "evaluator_artifact_digest": "sha256:379d855ba8c0a2719550fdb78bbefaaf13b6d2f2d8cefcdc87ed5bd4193a867a",
+              "profile": {
+                "profile": {
+                  "id": "nq.http_endpoint",
+                  "version": 1
+                },
+                "profile_digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+                "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6"
+              },
+              "result": {
+                "condition": "http_endpoint_postcondition_not_met",
+                "evidence": [],
+                "limitations": [
+                  "Missing, stale, or invalid policy/evidence cannot establish absence"
+                ],
+                "profile": {
+                  "profile": {
+                    "id": "nq.http_endpoint",
+                    "version": 1
+                  },
+                  "profile_digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+                  "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6"
+                },
+                "refusal": {
+                  "origin": {
+                    "kind": "profile",
+                    "payload": {
+                      "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6",
+                      "refusal": {
+                        "boundary": "detector",
+                        "code": "cannot_evaluate",
+                        "details": {
+                          "reason": "missing_or_stale_testimony"
+                        },
+                        "instance_id": "live-ecad-http",
+                        "message": "no complete current HTTP testimony is available",
+                        "profile": {
+                          "id": "nq.http_endpoint",
+                          "version": 1
+                        }
+                      }
+                    }
+                  },
+                  "refusal_id": "6e249192-5195-42f8-9f6d-63b4ef576f05",
+                  "schema": "nq.governed_refusal.v1"
+                },
+                "schema": "nq.evaluation_result.v1",
+                "state": "cannot_evaluate",
+                "summary": "no complete current HTTP testimony is available",
+                "watermark": 32
+              },
+              "schema": "nq.evaluation_envelope.v2",
+              "started_at": "2026-10-04T23:00:48.052Z",
+              "threshold_policy": {
+                "digest": "sha256:c40da36bf17b92469eb2be160d2dede4341560afd92fd04d1f35c4927b8734d2",
+                "id": "nq.http_endpoint.postcondition.threshold_policy",
+                "version": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403"
+              },
+              "trigger_run_id": "c5600199-bd30-4767-b6ea-6d7d5b5c8788",
+              "watermark": {
+                "instance_id": "live-ecad-http",
+                "max_report_sequence": 32,
+                "watermark_received_at": "2026-10-04T23:00:48.013Z"
+              }
+            },
+            "instance_id": "live-ecad-http",
+            "judgment": {
+              "fresh_until_unix_ms": 1791154867642,
+              "reason": "native_http_indeterminate_or_refused",
+              "status": "unsupported"
+            },
+            "nonclaims": [
+              "Native HTTP postcondition only; not process, unit or global application health",
+              "Custody and present reliance grant no effect authority"
+            ],
+            "observation_export": null,
+            "owner": "Monitor",
+            "read_at_unix_ms": 1791154867641,
+            "schema": "monitor.live-http-read/v1",
+            "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+            "through_sequence": 39,
+            "witness": {
+              "evaluation": {
+                "context": {
+                  "instance_id": "live-ecad-http",
+                  "scope": {
+                    "kind": "http_endpoint",
+                    "value": {
+                      "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                      "endpoint": "http://172.27.42.2:18080/healthz",
+                      "max_response_bytes": 1024,
+                      "method": "GET",
+                      "redirect_policy": "refuse",
+                      "schema": "nq.operator_beta.http_endpoint_scope.v1",
+                      "subject_identity": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62"
+                    }
+                  },
+                  "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+                  "vantage": {
+                    "kind": "controller_http",
+                    "value": {
+                      "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7"
+                    }
+                  }
+                },
+                "detector": {
+                  "digest": "sha256:e35597a98cf37be6310766c783f7f9aeb22192e520a69916bec5b758f3a175d1",
+                  "id": "nq.http_endpoint.postcondition",
+                  "version": "1"
+                },
+                "evaluated_at": "2026-10-04T23:00:48.052Z",
+                "evaluation_id": "3a288088-05b0-432a-abd8-2a2f2cb8b873",
+                "evaluator_artifact_digest": "sha256:379d855ba8c0a2719550fdb78bbefaaf13b6d2f2d8cefcdc87ed5bd4193a867a",
+                "profile": {
+                  "profile": {
+                    "id": "nq.http_endpoint",
+                    "version": 1
+                  },
+                  "profile_digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+                  "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6"
+                },
+                "result": {
+                  "condition": "http_endpoint_postcondition_not_met",
+                  "evidence": [],
+                  "limitations": [
+                    "Missing, stale, or invalid policy/evidence cannot establish absence"
+                  ],
+                  "profile": {
+                    "profile": {
+                      "id": "nq.http_endpoint",
+                      "version": 1
+                    },
+                    "profile_digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+                    "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6"
+                  },
+                  "refusal": {
+                    "origin": {
+                      "kind": "profile",
+                      "payload": {
+                        "profile_semantic_id": "sha256:24b942cc2548abfe2800a62a0d3a57d2dfd7b5a7c710e69627b42f23a37c22d6",
+                        "refusal": {
+                          "boundary": "detector",
+                          "code": "cannot_evaluate",
+                          "details": {
+                            "reason": "missing_or_stale_testimony"
+                          },
+                          "instance_id": "live-ecad-http",
+                          "message": "no complete current HTTP testimony is available",
+                          "profile": {
+                            "id": "nq.http_endpoint",
+                            "version": 1
+                          }
+                        }
+                      }
+                    },
+                    "refusal_id": "6e249192-5195-42f8-9f6d-63b4ef576f05",
+                    "schema": "nq.governed_refusal.v1"
+                  },
+                  "schema": "nq.evaluation_result.v1",
+                  "state": "cannot_evaluate",
+                  "summary": "no complete current HTTP testimony is available",
+                  "watermark": 32
+                },
+                "schema": "nq.evaluation_envelope.v2",
+                "started_at": "2026-10-04T23:00:48.052Z",
+                "threshold_policy": {
+                  "digest": "sha256:c40da36bf17b92469eb2be160d2dede4341560afd92fd04d1f35c4927b8734d2",
+                  "id": "nq.http_endpoint.postcondition.threshold_policy",
+                  "version": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403"
+                },
+                "trigger_run_id": "c5600199-bd30-4767-b6ea-6d7d5b5c8788",
+                "watermark": {
+                  "instance_id": "live-ecad-http",
+                  "max_report_sequence": 32,
+                  "watermark_received_at": "2026-10-04T23:00:48.013Z"
+                }
+              },
+              "observation_export": null,
+              "observer_after": {
+                "boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                "machine_id": "3ee6863cc08b4767b818ef2e61ec0161"
+              },
+              "observer_before": {
+                "boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                "machine_id": "3ee6863cc08b4767b818ef2e61ec0161"
+              },
+              "reliance_ms": 60000,
+              "resolution_at_unix_ms": 1791154867641,
+              "settings": {
+                "instance_id": "live-ecad-http",
+                "observer_boot_id": "0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                "observer_machine_id": "3ee6863cc08b4767b818ef2e61ec0161",
+                "profile_digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+                "schema": "monitor.http-reliance-settings/v1",
+                "scope": {
+                  "kind": "http_endpoint",
+                  "value": {
+                    "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7",
+                    "endpoint": "http://172.27.42.2:18080/healthz",
+                    "max_response_bytes": 1024,
+                    "method": "GET",
+                    "redirect_policy": "refuse",
+                    "schema": "nq.operator_beta.http_endpoint_scope.v1",
+                    "subject_identity": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62"
+                  }
+                },
+                "service_subject": {
+                  "campaign_id": "constellation-operator-beta-2026",
+                  "fixture_run_id": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+                  "schema": "constellation.operator_beta.service_subject.v1",
+                  "target_machine_identity": "ccd6b2e205394dfcba99bce10441f230",
+                  "unit_file_sha256": "sha256:85f8b4a26ba51d298eeda83f60bc11c18d5a43d1751f9eac9bda3c9500c3c84f",
+                  "unit_name": "constellation-beta-http-fixture.service"
+                },
+                "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+                "threshold_policy": {
+                  "digest": "sha256:c40da36bf17b92469eb2be160d2dede4341560afd92fd04d1f35c4927b8734d2",
+                  "id": "nq.http_endpoint.postcondition.threshold_policy",
+                  "version": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403"
+                },
+                "vantage": {
+                  "kind": "controller_http",
+                  "value": {
+                    "controller_vantage_identity": "controller:3ee6863cc08b4767b818ef2e61ec0161:0d6adde7-71ff-4fb8-88de-c85156a937d7"
+                  }
+                }
+              }
+            },
+            "witness_sha256": "54c5523960a2b1c419b502ae64dd131dc5498fb42e572b1783c9e5e561f906fc"
+          },
+          "subject_id": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62"
+        }
+      ],
+      "read_at": "2026-10-04T23:01:08.498328+00:00",
+      "schema": "operational_ecad.live_cohort_read/v1"
+    },
+    "owner_response_sha256": "9f55e5becfd7a85f3ab394ce9afe1c9ac4d10ab6c8aba48feaa96d715765bcf7",
+    "projection_gaps": [],
+    "read_status": "READ_OK",
+    "schema": "operational_ecad.live_read/v1"
+  },
+  "replay_only": true,
+  "schema": "constellation.captured-record-replay/v1",
+  "source_sha256": "5cba41a1b8ae76e049a022573a29edaa336af20210414414e3bb5818dfba29b6",
+  "transformation": "Native values retained except listed omissions; upstream digest fields still identify original records, not this export."
+}

@@ -1,0 +1,267 @@
+{
+  "files": [
+    {
+      "bytes": 97478,
+      "path": "application-relationship.html",
+      "sha256": "1d78ab96176fee5a738c04ff4c30db415a0d3786bd3149f7bec10fc8325a8a96"
+    },
+    {
+      "bytes": 60609,
+      "path": "diagnostic-plan.html",
+      "sha256": "0b50d73292b2314846aa99b09f816c3776cdd9f5ad6e31aa393fd59b676684af"
+    },
+    {
+      "bytes": 60597,
+      "path": "evidence.html",
+      "sha256": "08e6d1c9c33f7f8a03456847de909605c84f3303720f290e4d38c7f5fb338adc"
+    },
+    {
+      "bytes": 84689,
+      "path": "governed-attempt.html",
+      "sha256": "f03682773c1d617c35d5a535e960dd00258a3f9fc338afee3e0e45e64e4285d2"
+    },
+    {
+      "bytes": 68784,
+      "path": "healthy-cohort.html",
+      "sha256": "599d8fd535f2dad107aee632e688c2bb7e60074026e6e622662f91670394c9b6"
+    },
+    {
+      "bytes": 7485,
+      "path": "index.html",
+      "sha256": "ece2413550342fe49ec3d840c707592225b8424508a981e01fc9b2b5405b668a"
+    },
+    {
+      "bytes": 108474,
+      "path": "mixed-version.html",
+      "sha256": "d13db471909fc2ecf324397596c942403ce583b10bc2b83dfcc588242f9aa2b7"
+    },
+    {
+      "bytes": 3419,
+      "path": "records/application-relationship-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417"
+    },
+    {
+      "bytes": 40694,
+      "path": "records/application-relationship.json",
+      "sha256": "bd918c321fefbae871c0c4dbfeb58d19585cf5893c6b74d75d2b42cf1fb0dcc2"
+    },
+    {
+      "bytes": 7112,
+      "path": "records/diagnostic-plan-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38"
+    },
+    {
+      "bytes": 37837,
+      "path": "records/diagnostic-plan.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a"
+    },
+    {
+      "bytes": 7112,
+      "path": "records/evidence-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38"
+    },
+    {
+      "bytes": 37837,
+      "path": "records/evidence.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a"
+    },
+    {
+      "bytes": 7072,
+      "path": "records/governed-attempt-plan.json",
+      "sha256": "c79f81baa6c663818f099a1160209508d6c176d965695501cdc9095d771876b1"
+    },
+    {
+      "bytes": 58049,
+      "path": "records/governed-attempt.json",
+      "sha256": "f243188c99d1dcb01b0e92b87d9f6f1ad901207e5d32ca6b900336fe6950ec6d"
+    },
+    {
+      "bytes": 7072,
+      "path": "records/healthy-cohort-plan.json",
+      "sha256": "fac24781ee351cc34d41133212d95961ab8f5e301d578a34d6b972189ec58055"
+    },
+    {
+      "bytes": 45688,
+      "path": "records/healthy-cohort.json",
+      "sha256": "f22af19583c7ce200435f03b325249b4161d44551e880008403831b7d270739c"
+    },
+    {
+      "bytes": 3419,
+      "path": "records/mixed-version-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417"
+    },
+    {
+      "bytes": 235159,
+      "path": "records/mixed-version.json",
+      "sha256": "1d4c0266fea42b96d3a6bb79a52507bf4ed87a44da62bb4ca3deef590e91c748"
+    },
+    {
+      "bytes": 3419,
+      "path": "records/refusal-plan.json",
+      "sha256": "b0dc86dc1a299f39daf457299ca5c636213e8a1f44bffb027fcf96288aaa2417"
+    },
+    {
+      "bytes": 40694,
+      "path": "records/refusal.json",
+      "sha256": "bd918c321fefbae871c0c4dbfeb58d19585cf5893c6b74d75d2b42cf1fb0dcc2"
+    },
+    {
+      "bytes": 7112,
+      "path": "records/service-attention-plan.json",
+      "sha256": "4babf489592b6f5649de953556cc09339fa4c9024b4051c3b063ef6c0059cd38"
+    },
+    {
+      "bytes": 37837,
+      "path": "records/service-attention.json",
+      "sha256": "9a90fa29697e8b3dc18b0214747c9b09bee8a7947406b4cf90d40f4e902a526a"
+    },
+    {
+      "bytes": 14093,
+      "path": "refusal.html",
+      "sha256": "ff6aafef14eab8724ce04c927044f22e8b013a9fa864f52ad7ba77545c916757"
+    },
+    {
+      "bytes": 60628,
+      "path": "service-attention.html",
+      "sha256": "1b5895a1d26a75917c2072bcef690d22ee66e9bc9fa9d3da8019808afe3c973e"
+    }
+  ],
+  "generator_sha256": "248838c8ab49b9a672d570c4c04af0be4bbd7118e95c5df7fa50b7a6705feb76",
+  "renderer_revision": "2da2830ceb9f4e25376e2eeba10ddd5dc079965f",
+  "renderers": [
+    {
+      "path": "src/operational_ecad/live_workbench.py",
+      "sha256": "0e150007293cf10ae94f72b1fdc092b661ed15019783917fa7c5700a0759aad7"
+    },
+    {
+      "path": "src/operational_ecad/orchestrated_workbench.py",
+      "sha256": "6543d4cf665dd4d6429c636446f2319e48a83c77f4da013d4e87c81ba1ad5136"
+    },
+    {
+      "path": "src/operational_ecad/presentation.py",
+      "sha256": "5d77191a207e19ffc2f66fbd7a7543b2a080ae6c0f1f09b3d2830688ae9c9cca"
+    }
+  ],
+  "replay_boundary": "AS RECORDED; static local inspection only, no acquisition, action or authority.",
+  "schema": "constellation.reveal-demo/v1",
+  "sources": [
+    {
+      "campaign_record": "phase-a/campaign/WORKBENCH-MANIFEST.json",
+      "sha256": "bc5dcf3f9e2b865ce7ee434026ae0ed7be69bd157bd135196d54d1d736cc2220"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-observations/baseline-fresh-oracle-72bfc802-73ae-4cee-b86b-fb3cc9cd8b6e/workbench.json",
+      "sha256": "68b8fa376ec50deecb717b9402e1f860ba557e57f6609164317b391fc48be089"
+    },
+    {
+      "campaign_record": "phase-a/campaign/fresh-operator/cohort.json",
+      "sha256": "5cba41a1b8ae76e049a022573a29edaa336af20210414414e3bb5818dfba29b6"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-observations/later-recovery-current.json",
+      "sha256": "cf05312f74f6f0f8f7575ae9a6e0aa8e6cfd8aa6e9ed2b8cfafa30cfc1d68349"
+    },
+    {
+      "campaign_record": "phase-b-successor/journey-supervised/readiness-mismatch/operator-reads.json",
+      "sha256": "c6df3ba6ea08ff402861c5730f2416744b75371af331a18a2235cfe2d8b48581"
+    },
+    {
+      "campaign_record": "phase-b-successor/journey-terminal/mixed-versions/operator-reads.json",
+      "sha256": "91c68dbaab70319575b235f867b45e3c03fdee6f153c5dd8cfe2566eeb2affd8"
+    },
+    {
+      "campaign_record": "phase-b-successor/journey-supervised/readiness-mismatch/plans.json",
+      "sha256": "072e7e0ae2cf338dd77b79b3f55306249275b35e1756c451da0895d222400854"
+    },
+    {
+      "campaign_record": "phase-b-successor/journey-terminal/mixed-versions/plans.json",
+      "sha256": "a2049efb6bca63c181e3fe67614b9dd1869582df568b34f0381544e83d1c2ead"
+    },
+    {
+      "campaign_record": "phase-a/API-LIFECYCLE-TERMINAL.json",
+      "sha256": "2285d87ed5c4ac3d1cec066f2a4ca46bb799503151cc537c2a2a7eca2ec08236"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/init-5163f3ed-79bc-48c4-b2e6-f7d25e63450b.json",
+      "sha256": "6c62e77aed255aabfe59b053c5d214dd902b635621f1b18ab5d34816814ec106"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/record-proposal-5afbfdf8-b892-4739-ac96-0d5bb881ed6b.json",
+      "sha256": "261c3817c516c6d4fc210855cb8cc2d5e99cca6784f671ed14fc5f621547ca8d"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/require-standing-6bcd8955-bea7-49cf-933d-dc84dcc8fa83.json",
+      "sha256": "75442636a3df3d98d7c6d4c8e95ef70e6e2d196c09113ff524b7e5058045ca75"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/decide-d153ae3d-48c0-4545-815c-763dc181a0e6.json",
+      "sha256": "a825855683bd064f1fdb02859dbd9c2463bdbbc65f19e1d0f92cff91b32bc9e2"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/authorize-79bea51f-eae5-413a-8697-f873ab6c64ee.json",
+      "sha256": "e41f0dd1c24fd151b97799f4e26774fb5c2f383061993a9a9bc934e64ea21a54"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/dispatch-e0acce53-d594-4d52-b0a5-6ff6404be4cd.json",
+      "sha256": "15df5fb91051c36b1d75bb91ea51b0e96b8975bdfbdcda7b3d92d6aea3289509"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/poll-4dbe3caa-cdca-45f0-87ee-110ded4281d0.json",
+      "sha256": "7fc243ee5bcd6b58d20a0b505db86649107483f8d7395ca1569ab74bd496f6ce"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/continue-c898a6e6-70ef-4b1c-9290-17ff724a8dbe.json",
+      "sha256": "44eef26f91b10c88a912d2a40a69c81867a64e1b8c83845c9efab1f639740428"
+    },
+    {
+      "campaign_record": "phase-a/campaign/operator-actions/complete-2add937d-7330-4b3d-9dad-7c5ec68b1797.json",
+      "sha256": "c96a635aa6231493536e798dad681a50ed0d64f914ba589f778162a87b3b715f"
+    },
+    {
+      "campaign_record": "phase-a/ACCEPTANCE.json",
+      "sha256": "48908ffc88826d4802fbec1dd6716ed4061038376441eb3b74da1467f7c62512"
+    }
+  ],
+  "views": [
+    {
+      "captured_at": "2026-10-04T22:59:16.479539+00:00",
+      "source_sha256": "68b8fa376ec50deecb717b9402e1f860ba557e57f6609164317b391fc48be089",
+      "view": "healthy-cohort"
+    },
+    {
+      "captured_at": "2026-10-04T23:01:08.436017+00:00",
+      "source_sha256": "5cba41a1b8ae76e049a022573a29edaa336af20210414414e3bb5818dfba29b6",
+      "view": "service-attention"
+    },
+    {
+      "captured_at": "2026-10-04T23:01:08.436017+00:00",
+      "source_sha256": "5cba41a1b8ae76e049a022573a29edaa336af20210414414e3bb5818dfba29b6",
+      "view": "evidence"
+    },
+    {
+      "captured_at": "2026-10-04T23:01:08.436017+00:00",
+      "source_sha256": "5cba41a1b8ae76e049a022573a29edaa336af20210414414e3bb5818dfba29b6",
+      "view": "diagnostic-plan"
+    },
+    {
+      "captured_at": "2026-10-05T00:26:00.396634+00:00",
+      "source_sha256": "c6df3ba6ea08ff402861c5730f2416744b75371af331a18a2235cfe2d8b48581",
+      "view": "application-relationship"
+    },
+    {
+      "captured_at": "2026-10-05T00:26:00.396634+00:00",
+      "source_sha256": "c6df3ba6ea08ff402861c5730f2416744b75371af331a18a2235cfe2d8b48581",
+      "view": "refusal"
+    },
+    {
+      "captured_at": "2026-10-05T00:33:11.568847+00:00",
+      "source_sha256": "91c68dbaab70319575b235f867b45e3c03fdee6f153c5dd8cfe2566eeb2affd8",
+      "view": "mixed-version"
+    },
+    {
+      "captured_at": "2026-10-04T23:09:58.705209+00:00",
+      "source_sha256": "cf05312f74f6f0f8f7575ae9a6e0aa8e6cfd8aa6e9ed2b8cfafa30cfc1d68349",
+      "view": "governed-attempt"
+    }
+  ]
+}

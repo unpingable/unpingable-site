@@ -1,0 +1,191 @@
+{
+  "budget": {
+    "cost_microusd": 50000,
+    "model_calls": 2,
+    "response_bytes": 2097152,
+    "runtime_ms": 900000
+  },
+  "cohort_id": "d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+  "depth_contract": {
+    "effects": [
+      "prepare_non_authorizing_proposal"
+    ],
+    "escalation": "Effect execution requires separate exact owner admission. Missing authority or postcondition: refuse or remain indeterminate.",
+    "name": "Active bounded diagnosis",
+    "scope": "Assess multiple owner observations and prepare a bounded proposal."
+  },
+  "gaps": [],
+  "level": 3,
+  "manifest_hosts": [
+    {
+      "components": [
+        {
+          "build_sha256": "sha256:a30bc8a9f0905b7656e84d7782362b7f73eebd75984c4f6bf0ed2c51ed47fcb6",
+          "owner": "NQ",
+          "revision": "c83d667c4da754f2b8b4589366125fdb8ee7f977"
+        },
+        {
+          "build_sha256": "sha256:73ca352190f13ed3c18ec3987cd291cdc15716a882cf438be96f1938a8f52902",
+          "owner": "Monitor",
+          "revision": "f586cb829ad3155e931648ae6333f24ae87428b2"
+        },
+        {
+          "build_sha256": "sha256:9f1ab2242fd83b4c3fcf198f4df2dcb1a9b29964083dd65f6d0c7fd2ab210aa5",
+          "owner": "AG",
+          "revision": "d4631fdeb082800ecd4cd98eb532ce3c47e9fea7"
+        },
+        {
+          "build_sha256": "sha256:3c9d302dcb181ee0574c941a90f1d6fe8e252301d5b98b5cc23568cf4263fd71",
+          "owner": "Docket",
+          "revision": "f6137226d9b5b0370a73588f583a63f0509c8da4"
+        },
+        {
+          "build_sha256": "sha256:ccde1e5bc9d6a5f1389313b5896947ebf3670664a00f67b1bd266f54752ab938",
+          "owner": "Operational ECAD",
+          "revision": "ff55c0600399a5d3c21b937570334bf629cb22b9"
+        }
+      ],
+      "host_id": "target",
+      "machine_id": "ccd6b2e205394dfcba99bce10441f230",
+      "role": "target"
+    },
+    {
+      "components": [
+        {
+          "build_sha256": "sha256:a30bc8a9f0905b7656e84d7782362b7f73eebd75984c4f6bf0ed2c51ed47fcb6",
+          "owner": "NQ",
+          "revision": "c83d667c4da754f2b8b4589366125fdb8ee7f977"
+        },
+        {
+          "build_sha256": "sha256:6065886e9eff6baaba8622b93ac4030e2e79d42516b575a79d38d05c98bd1ba1",
+          "owner": "Monitor",
+          "revision": "cdd99eb5ccd743ccd01ac4f76f1301cdb37f368e"
+        },
+        {
+          "build_sha256": "sha256:9f1ab2242fd83b4c3fcf198f4df2dcb1a9b29964083dd65f6d0c7fd2ab210aa5",
+          "owner": "AG",
+          "revision": "d4631fdeb082800ecd4cd98eb532ce3c47e9fea7"
+        },
+        {
+          "build_sha256": "sha256:3c9d302dcb181ee0574c941a90f1d6fe8e252301d5b98b5cc23568cf4263fd71",
+          "owner": "Docket",
+          "revision": "f6137226d9b5b0370a73588f583a63f0509c8da4"
+        },
+        {
+          "build_sha256": "sha256:ccde1e5bc9d6a5f1389313b5896947ebf3670664a00f67b1bd266f54752ab938",
+          "owner": "Operational ECAD",
+          "revision": "ff55c0600399a5d3c21b937570334bf629cb22b9"
+        }
+      ],
+      "host_id": "controller",
+      "machine_id": "3ee6863cc08b4767b818ef2e61ec0161",
+      "role": "controller"
+    }
+  ],
+  "native_authority_assertions": [
+    {
+      "contract": "ag.governed-loop.standing-mandate-store/v1",
+      "owner": "AG",
+      "raw": {
+        "mandates": [
+          {
+            "generation": 1,
+            "scope": "sha256:768b30438ba4223793518ec4e8fb877d9eee6e83bd679796baa015dd4a9d62f2",
+            "status": "active",
+            "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+            "valid_until_unix_ms": 1791161825174
+          }
+        ],
+        "schema": "ag.governed-loop.standing-mandate-store/v1"
+      }
+    },
+    {
+      "contract": "docket.owner-execution-standing-grant/v1",
+      "owner": "Docket",
+      "raw": {
+        "expires_at_unix_ms": 1791161825174,
+        "grant_id": "live/d05ebd30-f5e7-41dd-8b4b-00d96ba17403",
+        "max_uses": 1,
+        "not_before_unix_ms": 1791154566821,
+        "principal": "live-qualification-owner",
+        "revocation_marker": "/etc/constellation-live-ecad/standing/grant.revoked",
+        "schema": "docket.owner-execution-standing-grant/v1",
+        "scope": "sha256:768b30438ba4223793518ec4e8fb877d9eee6e83bd679796baa015dd4a9d62f2",
+        "standing_ttl_ms": 60000,
+        "subject": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62",
+        "work_schema": "ag-effectd.docket-executor-systemd-work/v2"
+      }
+    }
+  ],
+  "objective": "Inspect service and endpoint loss, observation expiry and reboot continuity; prepare only native owner-enrolled bounded remediation when current evidence and authority permit.",
+  "observation_inventory": [
+    {
+      "capability": {
+        "host_id": "target",
+        "id": "target-current-observation",
+        "profile": {
+          "digest": "sha256:25fbbdd320248701b79b3e5f6c3109667b6aa9388ed113678ee0e6ba3c04a853",
+          "id": "nq.systemd_unit",
+          "version": 3
+        },
+        "required_levels": [
+          1,
+          2,
+          3
+        ],
+        "subject_id": "systemd-unit:ccd6b2e205394dfcba99bce10441f230/constellation-beta-http-fixture.service"
+      },
+      "currentness": {
+        "contract": "monitor.live-unit-read/v1",
+        "owner": "Monitor",
+        "reason": "current_boot_claim_supported",
+        "state": "current"
+      },
+      "judgment": {
+        "contract": "monitor.live-unit-read/v1",
+        "owner": "Monitor",
+        "reason": "current_boot_claim_supported",
+        "state": "current"
+      },
+      "observation_id": "sha256:57514f7287e2d14e9de1ca6f1d28cd001c1de12b96b38b0b90bbbfe0687ed87d",
+      "observation_present": true
+    },
+    {
+      "capability": {
+        "host_id": "controller",
+        "id": "controller-current-observation",
+        "profile": {
+          "digest": "sha256:d277728a076d75d8bf5a5294635905b74f6b15b7a9d7a5274ea42a888eb68fae",
+          "id": "nq.http_endpoint",
+          "version": 1
+        },
+        "required_levels": [
+          1,
+          2,
+          3
+        ],
+        "subject_id": "sha256:c7c9985fb4d6218396fd24cd084fac06284e9f061776ea907425208b8c241c62"
+      },
+      "currentness": {
+        "contract": "monitor.live-http-read/v1",
+        "owner": "Monitor",
+        "reason": "native_http_postcondition_met",
+        "state": "current"
+      },
+      "judgment": {
+        "contract": "monitor.live-http-read/v1",
+        "owner": "Monitor",
+        "reason": "native_http_postcondition_met",
+        "state": "current"
+      },
+      "observation_id": "sha256:63f18a9a0a21e39c4b444e29061c36f1b6283f48d829c4a0f4d7d2151cc3ebe7",
+      "observation_present": true
+    }
+  ],
+  "owner": "Operational ECAD",
+  "proposed_instrumentation": [],
+  "refusal_boundary": "Native refusal and indeterminate assertions remain unchanged; no combined service-health verdict is inferred.",
+  "schema": "operational_ecad.diagnostic_plan/v1",
+  "source_read_status": "READ_OK",
+  "terminal_boundary": "Plan retained for inspection. Declaration, depth and budget grant no acquisition, effect or settlement authority."
+}

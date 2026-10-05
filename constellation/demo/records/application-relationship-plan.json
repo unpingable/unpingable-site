@@ -1,0 +1,122 @@
+{
+  "1": {
+    "allowed_effects": [
+      "GET published observations"
+    ],
+    "budget": {
+      "model_calls": 0,
+      "response_bytes": 2097152,
+      "runtime_seconds": 7
+    },
+    "depth": "Inspect",
+    "disposition": "READ_ONLY_PLAN",
+    "escalation": [
+      "missing acquisition",
+      "insufficient causal evidence",
+      "mutation requires owning executor admission"
+    ],
+    "namespace_uid": "664c1093-5e87-4c43-ad48-e345a5015387",
+    "prohibited_effects": [
+      "cluster mutation",
+      "rollout",
+      "rollback",
+      "credential or log capture"
+    ],
+    "reason": "Native facts remain distinct from semantic diagnosis",
+    "required_observations": [
+      "namespace",
+      "nodes",
+      "pods",
+      "deployments",
+      "services",
+      "endpointslices",
+      "readiness",
+      "version",
+      "semantic"
+    ],
+    "schema": "operational_eda.orchestrated-plan/v1",
+    "scope": "Published Kubernetes native facts and fixed application readiness/version/semantic probes",
+    "subject": "eda-c72e8f44",
+    "verification": "Independent qualification oracle remains outside this operator read surface"
+  },
+  "2": {
+    "allowed_effects": [
+      "GET published observations"
+    ],
+    "budget": {
+      "model_calls": 0,
+      "response_bytes": 2097152,
+      "runtime_seconds": 7
+    },
+    "depth": "Diagnose",
+    "disposition": "READ_ONLY_PLAN",
+    "escalation": [
+      "missing acquisition",
+      "insufficient causal evidence",
+      "mutation requires owning executor admission"
+    ],
+    "namespace_uid": "664c1093-5e87-4c43-ad48-e345a5015387",
+    "prohibited_effects": [
+      "cluster mutation",
+      "rollout",
+      "rollback",
+      "credential or log capture"
+    ],
+    "reason": "Native facts remain distinct from semantic diagnosis",
+    "required_observations": [
+      "namespace",
+      "nodes",
+      "pods",
+      "deployments",
+      "services",
+      "endpointslices",
+      "readiness",
+      "version",
+      "semantic"
+    ],
+    "schema": "operational_eda.orchestrated-plan/v1",
+    "scope": "Published Kubernetes native facts and fixed application readiness/version/semantic probes",
+    "subject": "eda-c72e8f44",
+    "verification": "Independent qualification oracle remains outside this operator read surface"
+  },
+  "3": {
+    "allowed_effects": [
+      "GET published observations"
+    ],
+    "budget": {
+      "model_calls": 0,
+      "response_bytes": 2097152,
+      "runtime_seconds": 7
+    },
+    "depth": "Remediate",
+    "disposition": "REFUSED",
+    "escalation": [
+      "missing acquisition",
+      "insufficient causal evidence",
+      "mutation requires owning executor admission"
+    ],
+    "namespace_uid": "664c1093-5e87-4c43-ad48-e345a5015387",
+    "prohibited_effects": [
+      "cluster mutation",
+      "rollout",
+      "rollback",
+      "credential or log capture"
+    ],
+    "reason": "NO_ADMITTED_KUBERNETES_EXECUTOR",
+    "required_observations": [
+      "namespace",
+      "nodes",
+      "pods",
+      "deployments",
+      "services",
+      "endpointslices",
+      "readiness",
+      "version",
+      "semantic"
+    ],
+    "schema": "operational_eda.orchestrated-plan/v1",
+    "scope": "Published Kubernetes native facts and fixed application readiness/version/semantic probes",
+    "subject": "eda-c72e8f44",
+    "verification": "Independent qualification oracle remains outside this operator read surface"
+  }
+}
