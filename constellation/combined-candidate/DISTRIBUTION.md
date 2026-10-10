@@ -1,3 +1,5 @@
+> Scope: this retained background describes earlier distribution or qualification work on predecessor candidates. Current package and source identities are in the accompanying manifests; qualification of this exact archive is recorded in `QUALIFICATION.json` beside the archive. No earlier archive identity or approval applies to this candidate.
+
 # Distribution scope
 
 Authored adjacent download-page/metadata material is also Apache-2.0 under this scoped first-party grant.

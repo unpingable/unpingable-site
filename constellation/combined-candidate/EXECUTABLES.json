@@ -164,7 +164,7 @@
     {
       "path": "/usr/bin/constellation-nq-unit-resolver",
       "sha256": "f4ceb28f8c8908044ab48233cf64e777dbfa4cda1c9184ce3a4859d220cef410",
-      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
       "bytes": 935536,
       "needed": [
         "libgcc_s.so.1",
@@ -175,7 +175,7 @@
     {
       "path": "/usr/bin/constellation-remediation-consumer",
       "sha256": "83ffe2ebe9c28d68f943e33f79c2b200cdaf1c984e55b4a8de21dcf3122d0628",
-      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
       "bytes": 4809528,
       "needed": [
         "libgcc_s.so.1",
@@ -197,9 +197,9 @@
     },
     {
       "path": "/usr/bin/nq",
-      "sha256": "f05163dde4d2e4cd2b2eb8a0408d323ea536eca49a8cd033f5b699969f235563",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 24800648,
+      "sha256": "3bc80bdfab4a5cf60d149a934fd27c1c63e38ec51cc9d3567246d611b006c515",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 25209600,
       "needed": [
         "libgcc_s.so.1",
         "libm.so.6",
@@ -209,9 +209,9 @@
     },
     {
       "path": "/usr/bin/nqd",
-      "sha256": "29691482e846e14fc1a04c32ca0b46b607ebd4034145de766db827f7c769a1b6",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 498776,
+      "sha256": "bc6e0086fb20b226b236d3e37e9f4c1b48eb5ed2ce8d34d84d4607129a6070cf",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 498784,
       "needed": [
         "libgcc_s.so.1",
         "libc.so.6",
@@ -220,9 +220,9 @@
     },
     {
       "path": "/usr/lib/nq/helpers/nq-host-helper",
-      "sha256": "072f2b0ebe2b9cd71afd05d04e56516c378b4db914637dcb6de527835eed30f3",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 1672544,
+      "sha256": "2fe87acde32e652623d0b9ffc2c1865a1627de67dcbfe0daa741c1f8cb435681",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 1671864,
       "needed": [
         "libgcc_s.so.1",
         "libc.so.6",
@@ -231,9 +231,9 @@
     },
     {
       "path": "/usr/lib/nq/helpers/nq-host-resource-helper",
-      "sha256": "8e3f6844fd9e63e757a38d505c9691e0082e8db59e5d3565c83e773e7a244197",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 2098184,
+      "sha256": "89bb264941052066b46e188559414fe2642630ef19e8ce7b4584f158c56c8383",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 2097288,
       "needed": [
         "libgcc_s.so.1",
         "libc.so.6",
@@ -242,9 +242,9 @@
     },
     {
       "path": "/usr/lib/nq/helpers/nq-operator-beta-helper",
-      "sha256": "f4ef55bb1cdd304a52f554e26b3e2925a64c29cc062f7834cd7c97e53f207c77",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 5318864,
+      "sha256": "338043fec26da3c1985ea4533948bf43c44982e641249030b80a2ab31c48590a",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 5309616,
       "needed": [
         "libgcc_s.so.1",
         "libc.so.6",
@@ -253,9 +253,9 @@
     },
     {
       "path": "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper",
-      "sha256": "32fb088d9ce352fc95d8f8f82545c0fd3a389332672fe776be44615b455fb17e",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 3771536,
+      "sha256": "d6c10eda00a8c593a602260d1ec287775325567f080f2933c97ac61bd7abebc5",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 3778520,
       "needed": [
         "libgcc_s.so.1",
         "libm.so.6",

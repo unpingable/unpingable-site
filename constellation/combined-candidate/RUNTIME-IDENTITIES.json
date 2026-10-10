@@ -100,121 +100,121 @@
     {
       "path": "/usr/bin/constellation-nq-unit-resolver",
       "sha256": "f4ceb28f8c8908044ab48233cf64e777dbfa4cda1c9184ce3a4859d220cef410",
-      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
       "bytes": 935536
     },
     {
       "path": "/usr/bin/constellation-remediation-consumer",
       "sha256": "83ffe2ebe9c28d68f943e33f79c2b200cdaf1c984e55b4a8de21dcf3122d0628",
-      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
+      "package": "constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
       "bytes": 4809528
     },
     {
       "path": "/usr/libexec/constellation-remediation/nq-ops-as-nq",
-      "sha256": "78a592ab2f2e76cf166e0f7713d2a7be479f860e1257233da623e75f9bf5eb90",
-      "package": "constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
-      "bytes": 1576
+      "sha256": "175c5bd9d19ac1a15a53983a61a8489317f6c03aa9e2ea62b528aa0189517a14",
+      "package": "constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
+      "bytes": 1728
     },
     {
       "path": "/usr/bin/constellation-application-workbench",
       "sha256": "4e7757a1f4237a9ab8eedf117dce3dae3b423123cd73a8e053f8e57c5bd84518",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 83
     },
     {
       "path": "/usr/bin/constellation-inference-view",
       "sha256": "09850e156b9e61e52b6d1b28f274b5129c747571d1d9a35aa6139b6456ce6eec",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 74
     },
     {
       "path": "/usr/bin/constellation-live-cohort-read",
       "sha256": "c36b9aaa7c5609b4b60106cc97f1433ebe6638550c4f05a7da1c6e0f7e58dfcc",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 73
     },
     {
       "path": "/usr/bin/constellation-live-enroll",
       "sha256": "ad54fe53cd5c6d6c5d03c0e8978c062bf582e164618da220c5d91e86851937eb",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 81
     },
     {
       "path": "/usr/bin/constellation-live-host-reader",
       "sha256": "9f2164a5990171bca73278dd4bcaf9710323923474a6d403d1fe00ce8a310a49",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 71
     },
     {
       "path": "/usr/bin/constellation-workbench",
       "sha256": "ee1a15e96f1f935b4e3ec751e91693bb432c97a741492047e1a9e351e41af08e",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 75
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/__init__.py",
       "sha256": "46dbc1ffa002b11784d3e5d1f044516eacef9e504ac78973ec02fc260ff480d6",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 68
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/dev_capture.py",
       "sha256": "9ded397fea969da880be42034370e45bbaa3761d706d550e85bfe3222deed079",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 4542
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/la_projection.py",
       "sha256": "387a40c27f363ef8d002efff7acce0a1c74ca995f56b27eb9bfcb90ce570ef99",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 18191
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/live_gateway.py",
       "sha256": "e361023e97f625b636a4020b006dbfa259c654c9e12db4ae74d15d62e4b06753",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 3939
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/live_guest.py",
-      "sha256": "ccde1e5bc9d6a5f1389313b5896947ebf3670664a00f67b1bd266f54752ab938",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
-      "bytes": 18101
+      "sha256": "76a771e9ab2155f8bd0fa1743c50105023974c098eb273aa3c0f314354d6f5c2",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
+      "bytes": 22570
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/live_instrumentation.py",
-      "sha256": "0208b2a3645f392e6c2eff6866af672e7cabb8d49941b79a7477d21838d08924",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
-      "bytes": 25772
+      "sha256": "44661cbf16d5f8606f0549c290ac5620ecb95856e0c36ecad2220ecf456b62d0",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
+      "bytes": 26957
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/live_planner.py",
       "sha256": "b0faba5ae1f910f211042e3d38ce08977306d32e4a4914e6e8307a2283ad4b77",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 3413
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/live_workbench.py",
-      "sha256": "50b79e1fea70625bfcda78467e6b1abe80f616e44bee9dce0f98b3fafec9af5b",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
-      "bytes": 27738
+      "sha256": "194286b1575819f35e9117c6cd52244ecd34a7454eebc65dc52f4c810a62e882",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
+      "bytes": 33836
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/orchestrated_workbench.py",
       "sha256": "6543d4cf665dd4d6429c636446f2319e48a83c77f4da013d4e87c81ba1ad5136",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 13589
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/presentation.py",
       "sha256": "5d77191a207e19ffc2f66fbd7a7543b2a080ae6c0f1f09b3d2830688ae9c9cca",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 7823
     },
     {
       "path": "/usr/lib/python3/dist-packages/operational_ecad/workbench.py",
       "sha256": "667ef5cf347cc869a916dae652647d611c2fe0443e74c4af1830873d678852d0",
-      "package": "constellation-workbench_0.1.0+release.20261005.1_all.deb",
+      "package": "constellation-workbench_0.1.0+release.20261010.1_all.deb",
       "bytes": 28186
     },
     {
@@ -225,52 +225,52 @@
     },
     {
       "path": "/usr/bin/nq",
-      "sha256": "f05163dde4d2e4cd2b2eb8a0408d323ea536eca49a8cd033f5b699969f235563",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 24800648
+      "sha256": "3bc80bdfab4a5cf60d149a934fd27c1c63e38ec51cc9d3567246d611b006c515",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 25209600
     },
     {
       "path": "/usr/bin/nqd",
-      "sha256": "29691482e846e14fc1a04c32ca0b46b607ebd4034145de766db827f7c769a1b6",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 498776
+      "sha256": "bc6e0086fb20b226b236d3e37e9f4c1b48eb5ed2ce8d34d84d4607129a6070cf",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 498784
     },
     {
       "path": "/usr/lib/nq/helpers/nq-host-helper",
-      "sha256": "072f2b0ebe2b9cd71afd05d04e56516c378b4db914637dcb6de527835eed30f3",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 1672544
+      "sha256": "2fe87acde32e652623d0b9ffc2c1865a1627de67dcbfe0daa741c1f8cb435681",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 1671864
     },
     {
       "path": "/usr/lib/nq/helpers/nq-host-resource-helper",
-      "sha256": "8e3f6844fd9e63e757a38d505c9691e0082e8db59e5d3565c83e773e7a244197",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 2098184
+      "sha256": "89bb264941052066b46e188559414fe2642630ef19e8ce7b4584f158c56c8383",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 2097288
     },
     {
       "path": "/usr/lib/nq/helpers/nq-operator-beta-helper",
-      "sha256": "f4ef55bb1cdd304a52f554e26b3e2925a64c29cc062f7834cd7c97e53f207c77",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 5318864
+      "sha256": "338043fec26da3c1985ea4533948bf43c44982e641249030b80a2ab31c48590a",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 5309616
     },
     {
       "path": "/usr/lib/nq/helpers/nq-synthetic-cache-result-helper",
-      "sha256": "32fb088d9ce352fc95d8f8f82545c0fd3a389332672fe776be44615b455fb17e",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "bytes": 3771536
+      "sha256": "d6c10eda00a8c593a602260d1ec287775325567f080f2933c97ac61bd7abebc5",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "bytes": 3778520
     },
     {
       "path": "/usr/lib/nq/helpers/nq_conformance_helper.py",
       "sha256": "f7b3f99b0649664ab177157178f2041dc6e148659ce89ea83832e06a43396526",
-      "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
+      "package": "nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
       "bytes": 20144
     }
   ],
   "components": [
     {
       "owner": "NQ",
-      "revision": "7e2c821932c1607913e13445877628a67b9ee72e",
-      "build_sha256": "sha256:f05163dde4d2e4cd2b2eb8a0408d323ea536eca49a8cd033f5b699969f235563"
+      "revision": "605d9d61b3f281e70c23e7ccdc3cc0a38a4fcf8e",
+      "build_sha256": "sha256:3bc80bdfab4a5cf60d149a934fd27c1c63e38ec51cc9d3567246d611b006c515"
     },
     {
       "owner": "Monitor",
@@ -289,8 +289,8 @@
     },
     {
       "owner": "Workbench",
-      "revision": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
-      "build_sha256": "sha256:50b79e1fea70625bfcda78467e6b1abe80f616e44bee9dce0f98b3fafec9af5b"
+      "revision": "294cecdfea7b5cc7cda6f040fd0eb3248b696959",
+      "build_sha256": "sha256:194286b1575819f35e9117c6cd52244ecd34a7454eebc65dc52f4c810a62e882"
     }
   ]
 }

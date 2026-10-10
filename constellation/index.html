@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.">
+  <meta name="description" content="Experimental tools for observing a service, authorizing one bounded action, and checking its result against fresh evidence.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="unpingable">
-  <meta property="og:title" content="Constellation — independent evidence for automated work">
-  <meta property="og:description" content="An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.">
+  <meta property="og:title" content="Constellation — observe, authorize, verify">
+  <meta property="og:description" content="Experimental tools for observing a service, authorizing one bounded action, and checking its result against fresh evidence.">
   <meta property="og:url" content="https://unpingable.com/constellation/">
   <meta property="og:image" content="https://unpingable.com/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Constellation — independent evidence for automated work">
-  <meta name="twitter:description" content="An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.">
+  <meta name="twitter:title" content="Constellation — observe, authorize, verify">
+  <meta name="twitter:description" content="Experimental tools for observing a service, authorizing one bounded action, and checking its result against fresh evidence.">
   <meta name="twitter:image" content="https://unpingable.com/og-card.png">
-  <title>Constellation — independent evidence for automated work</title>
+  <title>Constellation — observe, authorize, verify</title>
   <link rel="canonical" href="https://unpingable.com/constellation/">
   <link rel="stylesheet" href="base.css">
 </head>
@@ -37,17 +37,20 @@
   </nav>
   <main id="main">
     <section aria-labelledby="hero">
-      <p class="eyebrow">Constellation · experimental</p>
-      <h1 id="hero">Systems forget how they know.</h1>
-      <p class="lede">A command that exited zero, a green check, an agent that says &ldquo;done&rdquo;: each is evidence from one moment and one participant. None of them proves that the intended state is true now.</p>
-      <p>A CI check goes green at 09:00. At 11:00 a deploy relies on that green. Nothing in between asked whether it still held. The check was honest; the deploy treated a two-hour-old observation as a current fact.</p>
-      <p>AI coding agents make this sharper. When an agent reports that a task is done, that is a report from the worker, not evidence that the intended change exists.</p>
-      <p><strong>Constellation</strong> is an experimental set of small programs that keep that report apart from the record of what actually happened: when the outcome of a change is uncertain, it stays &ldquo;unknown&rdquo; until evidence from outside the worker settles it.</p>
+      <p class="eyebrow">Constellation · experimental · prepared candidate, not published</p>
+      <h1 id="hero">Observe a service.<br>Authorize a change.<br>Check what happened.</h1>
+      <p class="lede">Constellation connects current observations, explicit permission to act, and a record of the result. A successful command is one step; completing the task also requires fresh evidence of the intended state.</p>
+      <p>The prepared local trial watches <strong>one systemd unit</strong>. If it is inactive or failed, an operator can request one pre-enrolled action: start that unit. A one-use grant limits the action. A new observation must show the unit active before the task is complete.</p>
+      <p>This checks systemd unit state, not HTTP or application health. The Workbench page is read-only; the action is requested through a separate authenticated command path.</p>
+      <div class="actions"><a class="primary" href="recorded-cycle.html">See the recorded cycle</a><a href="start.html">Trial guide and availability</a></div>
     </section>
+    <aside class="note" aria-label="Availability"><strong>Prepared for review, not published.</strong> The combined Ubuntu 22.04 candidate is not approved and no download is available. A supervised trial and unattended hosting are separate decisions. There is no hosted signup service, and seven-day unattended operation is not qualified.</aside>
+
 
     <!-- DEMO SLOT BEGIN: current-stack demo from lane A (constellation-docket
          tag demo/indeterminate-effect-20260925 at eeb0534; demo code identical
          to run-003 at 9ebdc5e, only the README changed). -->
+    <details class="historical-demo"><summary>Earlier component demonstration: an uncertain refund</summary>
     <section id="demo" aria-labelledby="demo-heading">
       <h2 id="demo-heading">The demo: when nobody knows whether it happened</h2>
       <p>An agent asks a payment provider to refund $40.00. The request goes out and the reply never comes back. The agent reports &ldquo;Done.&rdquo; The service that keeps custody of the attempt (it is called Docket) records the refund as <strong>unknown</strong>: not success, not failure. It does not send the request again. It settles only when a separate read of the provider&rsquo;s own records says what happened.</p>
@@ -136,11 +139,13 @@ what the provider's own records show, not what the agent said.</span></pre>
            the reply was dropped.)</span></pre>
       </details>
     </section>
+    </details>
     <!-- DEMO SLOT END -->
 
     <section id="what" aria-labelledby="what-heading">
       <h2 id="what-heading">What this is</h2>
-      <p>Constellation is an experimental system that keeps a worker apart from the decisions about its work: whether that exact work may run, and whether it actually happened. A worker, whether a script or an AI agent, may propose and perform work. Separate programs decide whether it may run, keep a record of each attempt, observe the result apart from the worker&rsquo;s own report, and report &ldquo;unknown&rdquo; when the evidence does not settle the question. Approval and authorization only decide whether work may be attempted; whether it succeeded is decided by evidence. The programs remain independently useful, and combinations of them are named, pinned and tested one at a time.</p>
+      <p>Observation, authorization and execution records answer different questions: what is currently known, which exact action may run, and what happened to that attempt. Constellation keeps those answers separate. When a required fact is missing, the next step can be refused or remain unresolved.</p>
+      <p>The local trial runs on one machine with explicitly selected components and a fixed action. Broader automation and independently operated components remain separate capabilities to establish; this trial does not demonstrate them.</p>
       <p><a href="understand.html">How it works</a> &middot; <a href="components.html">Components</a></p>
     </section>
 
@@ -153,7 +158,8 @@ what the provider's own records show, not what the agent said.</span></pre>
 
     <section id="status" aria-labelledby="limits">
       <h2 id="limits">Status and limits</h2>
-      <p><strong>Prepared combined Operational EDA candidate.</strong> The accepted operational spine and Workbench are reconciled for Ubuntu 22.04 amd64. Final release hygiene and owner review precede any BC1 naming/publication. This is not a released BC1; the formal stranger-human study is prepared, not run.</p><p>Workbench is the human-facing surface: inspect current evidence, gaps, plans and native outcomes. Deterministic remediation v1 is the reference/default policy. Separately qualified model-backed v2 is optional; Linear Accountant governs its inference expenditure while AG/Docket govern effects and custody. Bounded Kubernetes observation/diagnosis has no Kubernetes executor. <a href="release-hygiene-candidate-20261005.html">Prepared release surface (unpublished)</a> · <a href="combined-candidate/README.md">Candidate/operator guide</a> · <a href="combined-candidate/SUPPORT.md">Supported scope</a> · <a href="workbench.html">Workbench and historical replay</a>.</p>
+      <p>The candidate combines observation, a read-only Workbench, and one governed service action on Ubuntu 22.04 amd64. Package installation leaves the exercise inactive until explicit enrollment. The default trial requires no model-provider or ATProto account.</p>
+      <p><a href="combined-candidate/README.md">Candidate guide</a> · <a href="combined-candidate/SUPPORT.md">Supported scope</a> · <a href="combined-candidate/KNOWN-ISSUES.md">Known issues</a>. The recorded walkthrough is an automated local qualification, not evidence of a completed human usability trial.</p>
       <p><a href="status.html">Current status</a> &middot; <a href="limits.html">Limits</a></p>
     </section>
 
@@ -165,7 +171,7 @@ what the provider's own records show, not what the agent said.</span></pre>
     <section id="doors" aria-labelledby="doors-heading">
       <h2 id="doors-heading">Where to go next</h2>
       <ul class="doors">
-        <li><a href="#run-demo">Run the demo</a><span>A few commands on a fresh Debian 12 machine; about 2 minutes 20 seconds including the build.</span></li>
+        <li><a href="recorded-cycle.html">See the operational cycle</a><span>Recorded commands, a refusal, and the before-and-after Workbench views.</span></li>
         <li><a href="understand.html">How it works</a><span>Which program owns which decision, and where the trust boundaries are.</span></li>
         <li><a href="status.html">Current status</a><span>Dated claims, evidence and maturity for each release and component.</span></li>
         <li><a href="start.html">Source and guides</a><span>Public repositories, released profiles and operating guides.</span></li>
@@ -175,7 +181,7 @@ what the provider's own records show, not what the agent said.</span></pre>
     </section>
     <section aria-label="Operational EDA in Workbench">
     <h2>Operational EDA in Workbench</h2>
-    <p><a href="workbench.html">Explore the Workbench</a>: current observation, bounded diagnosis, governed service changes, and independent verification in one human surface. The page distinguishes the established local service loop from bounded orchestrated application observation and diagnosis.</p>
+    <p><a href="workbench.html">Explore the Workbench</a>: current observations, bounded diagnosis and recorded action outcomes. Action requests use a separate authenticated path. The page distinguishes the established local service loop from bounded orchestrated application observation and diagnosis.</p>
 
     </section>
   </main>

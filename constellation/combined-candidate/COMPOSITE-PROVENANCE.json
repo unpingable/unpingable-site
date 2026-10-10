@@ -1,0 +1,34 @@
+{
+  "schema": "constellation.composite-provenance/v2",
+  "unchanged_packages": {
+    "count": 8,
+    "identical_to_archive_sha256": "0bdea16eea36a8e6b5dd2ccf0b511c8812008d6a1ec5f6ff811c6726ccc69070",
+    "note": "byte-identical to the packages of the retired 2026-10-08 candidate and of the 2026-10-05 licensing candidate"
+  },
+  "nq": {
+    "package_sha256": "6d097caa6b46513df77cde59b3cc167b4d6b834bf465f155d9828526afa5dfb5",
+    "runtime_commit": "605d9d61b3f281e70c23e7ccdc3cc0a38a4fcf8e",
+    "canonical_branch_head_containing_it": "257096b722c3dd6bbc4781ad4933743ee0290f1e",
+    "build_image": "rust:1.94.0-bookworm container image; not the Jammy packaging image used for the unchanged packages",
+    "note": "package bytes taken unchanged from the NQ bounded-retention qualification build; not rebuilt here; its version string sorts below the retired candidate's NQ package"
+  },
+  "monitor_remediation": {
+    "native_source": {
+      "owner": "Monitor",
+      "revision": "f1313df277b17da6a243ad92c7a091f251d4772e",
+      "build_sha256": "sha256:27bfa8aba0c7ac34afe3f5e7496e85208814c26e32660e410ccc338845827cb3"
+    },
+    "packaging_commit": "3d627e900cf17167bab82972214f0a998ddd0725",
+    "native_binaries": "constellation-remediation-consumer and constellation-nq-unit-resolver taken byte-identical from the retired candidate's remediation package b7b0e05c20e13a52a6c35b2b403ab3b43646367b1b35eb58279d5eb33c01c5cc; not rebuilt",
+    "payload_paths_differing_from_that_package": [
+      "/usr/libexec/constellation-remediation/nq-ops-as-nq"
+    ],
+    "two_exports_reproducible": true
+  },
+  "workbench": {
+    "commit": "294cecdfea7b5cc7cda6f040fd0eb3248b696959",
+    "tree": "471b21ca11fee295d1d9c2630e12e5e58509dd2b",
+    "two_exports_reproducible": true,
+    "upgrade_fixture_runtime_payload_identical": true
+  }
+}

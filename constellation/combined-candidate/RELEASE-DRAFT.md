@@ -1,33 +1,11 @@
-# Prepared release material — owner-review candidate
+# Canonical candidate 20261010: prepared, not approved, not published
 
-This neutral combined generation is not Beta Candidate 1. Component/source/package identities and exact SHA256s accompany it; the final candidate archive hash is recorded by the owner-review receipt outside the archive. Human-operability: **prepared, not executed**. No BC1 tag, release or public website deployment is performed by preparation.
+`constellation-canonical-candidate-20261010` is a prepared candidate. It is not approved, not published, not distributed and not Beta Candidate 1. No download is available.
 
-## Qualified reference/default policy
+Against the retired 8 October candidate, eight packages are byte-identical and three differ. `nq-ng 0.2.5+qualification.retention.20261010.2` is NQ with bounded retention (issue #27 remains open); its bytes are unchanged from the bounded-retention qualification build and its version sorts below the retired candidate's. `constellation-remediation 0.1.0+release.20261010.1` keeps its native binaries unchanged and adds resource limits to its NQ maintenance wrapper. `constellation-workbench 0.1.0+release.20261010.1` initialises NQ through that wrapper and prints the settlement outcome on the attempt line; the upgrade fixture `.2` has an identical runtime payload. See PACKAGES.json, SOURCE-IDENTITIES.json and COMPOSITE-PROVENANCE.json for exact identities.
 
-Observation/currentness, bounded evaluation, attention/page routing semantics, status and observability, supported lifecycle and deterministic remediation v1 retain their accepted scope. Reference enablement requires the documented installation/enrollment; package presence is not automatic activation. Classic NQ is retired and its runtime is excluded.
+The default trial observes one nginx systemd unit and permits one explicitly authorized Start, requested step by step by an operator. The remediation consumer is installed disabled and no automatic remediation has been run on these packages. Workbench is read-only; action uses the separate native interface. Unit active does not establish HTTP health, and AG state `completed` does not by itself mean the governed Start succeeded: read the settlement sentence.
 
-Workbench's accepted live current-forward loop is reconciled into the ordinary package path with currentness, refusal and uncertainty retained. The UI is read-only, with governed action through a separate authenticated native API. The bounded local unit exercise provides an explicit one-use Start enrollment; it does not constitute a production activation or broader host-management capability.
+NQ preserves custody dependencies while expiring eligible ordinary history, records an effective capacity envelope and refuses work when capacity cannot support it. On this trial the store still grows, at a planning figure of about 27 MB per hour, and by arithmetic from that figure reaches its 1 GiB per-file ceiling after roughly 40 hours, before anything is seven days old, so nothing expires and the seven-day retention target is never reached. No same-VM recovery is supplied. Plan a session of up to four hours and end it the same day. See KNOWN-ISSUES.md.
 
-## Qualified optional capabilities
-
-Agentic remediation v2 remains optional/default-disabled. LA bounds and settles inference use; the model is not the authority boundary; AG/Docket admit/custody exact effects; fresh postcondition decides recovery. LA's real acceptance was separate from the reveal campaign. FreeBSD portability is separately bounded and does not imply these Ubuntu packages install on FreeBSD.
-
-Bounded Tier-5 Kubernetes observation/diagnosis was accepted. No Kubernetes executor or remediation exists; absence of an admitted executor is visible. Historical reveal assets remain prominently AS RECORDED, byte-pinned to the accepted export. They do not claim live current state.
-
-## Later beta
-
-Observer-only node qualification, broader diagnostic depths, Kubernetes execution, wider remediation targets, Silverblue, federation, CI/CD/software-development management, credential-provider integrations, hardware authority and enhanced public/live reveal remain backlog. Adjacent instrumentation does not promote these features.
-
-## Publication gate
-
-Owner review of this exact candidate precedes the prepared human exercise. Release hygiene is the final technical preparation gate; the formal stranger-human run remains separate beta usability evidence, prepared and not executed. After reviewing the exact would-be-release surface, the owner decides whether to authorize publication/BC1 naming and when to run the human study. Until then release/download URLs and human result remain explicitly unpublished/pending. Exact upgrade/rollback pair and limitations are described in the day-two runbook; no post-effect rollback guarantee is asserted.
-
-## Packaging/release hygiene changes
-
-This successor retains exact accepted native executables and core semantics.
-Package revisions declare libgcc-s1, install bounded operator docs and supplied
-licenses/notices. Workbench adds only optional recorded LA visibility, not
-budget administration or model activation. Source/build/packaging commits are
-listed separately. Exact final archive/page metadata live beside the archive
-to avoid a self-referential checksum. Clean Ubuntu release-coherence smoke is
-a machine check, not the formal stranger-human study.
+Qualification of this exact archive is recorded in QUALIFICATION.json beside the archive. Predecessor qualification carries only by package byte identity, as listed in QUALIFICATION-SUMMARY.json. The human-operability exercise is prepared and has not been run. Publication and participant operation require release-approver authorization, which has not been given. No Labelwatch or Driftwatch completion is required for this selected trial.

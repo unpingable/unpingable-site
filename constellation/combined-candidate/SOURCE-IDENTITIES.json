@@ -1,13 +1,21 @@
 {
   "schema": "constellation.spine_sources.v1",
+  "candidate": "constellation-canonical-candidate-20261010",
+  "publication_status": "Whether each commit is on a public branch is recorded on the release record beside the archive; that status changes without the archive changing, so it is not stated here.",
   "sources": [
     {
       "component": "nq",
       "repository": "https://github.com/unpingable/constellation-nq",
       "branch": "dev/operator-beta",
-      "commit": "a7d37dcfd3594f44737b2e7c5af3b0a26955877a",
-      "accepted_runtime_source": "7e2c821932c1607913e13445877628a67b9ee72e",
-      "packaging_note": "licensing-only copyright correction; accepted native runtime source and executable bytes unchanged"
+      "commit": "257096b722c3dd6bbc4781ad4933743ee0290f1e",
+      "accepted_runtime_source": "605d9d61b3f281e70c23e7ccdc3cc0a38a4fcf8e",
+      "source_tree": "8fbc991637543d8c9a895d07122f6d3645412fd3",
+      "packaging_note": "Package bytes taken unchanged from the NQ bounded-retention qualification build of 605d9d6; not rebuilt for this candidate. commit is the dev/operator-beta head that contains 605d9d6. source_tree is the tree of accepted_runtime_source.",
+      "build": {
+        "image": "rust:1.94.0-bookworm",
+        "note": "not the jammy packager image recorded under build below",
+        "glibc_ceiling_observed": "2.34"
+      }
     },
     {
       "component": "nightshift",
@@ -44,21 +52,22 @@
     {
       "component": "monitor",
       "repository": "https://github.com/unpingable/constellation-monitor",
-      "branch": "dev/operator-beta",
-      "commit": "ea7438aa6dc365525a614620c5e091ee9643522e",
+      "commit": "3d627e900cf17167bab82972214f0a998ddd0725",
       "accepted_runtime_source": "f1313df277b17da6a243ad92c7a091f251d4772e",
-      "packaging_note": "native accepted runtime unchanged; canonical commits include documentation/packaging hygiene"
+      "packaging_commit": "3d627e900cf17167bab82972214f0a998ddd0725",
+      "packaging_note": "COMPOSITE: the native Monitor executables in every Monitor package were built from f1313df. The attention, host-posture and live-observation packages are byte-identical to their predecessors. The remediation package is repackaged from packaging commit 3d627e9 with its two native binaries reused byte-identical from the predecessor remediation package, not rebuilt; its NQ maintenance wrapper differs. See COMPOSITE-PROVENANCE.json."
     },
     {
       "component": "workbench",
-      "repository": "private canonical constellation-workbench",
-      "branch": "dev/operator-beta",
-      "commit": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
-      "accepted_runtime_source": "ca31202c66786f668153d9de98c5603ec4c1bb59",
-      "packaging_note": "bounded read-only accounting projection added; no native LA/effect semantic change"
+      "repository": "constellation-workbench (private repository)",
+      "commit": "294cecdfea7b5cc7cda6f040fd0eb3248b696959",
+      "accepted_runtime_source": "294cecdfea7b5cc7cda6f040fd0eb3248b696959",
+      "source_tree": "471b21ca11fee295d1d9c2630e12e5e58509dd2b",
+      "packaging_note": "Two exports of this commit yield identical packages; the upgrade fixture is built from the same commit with an identical runtime payload."
     }
   ],
   "build": {
+    "applies_to": "the eight unchanged packages and the reused remediation native binaries, as recorded for their predecessor builds; the NQ build is recorded in its own entry above",
     "toolchain": "rustc 1.94.0 (4a4ef493e 2026-03-02)",
     "target": "x86_64-unknown-linux-gnu",
     "image_sha256": "b1f3e621da0cbb4f670db35cabcb9967768cd037d7021a6becdfc1f15caed03e",

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "supported_target": "Source-free Ubuntu22.04 amd64 combined candidate; exactinstalledresults in QUALIFICATION-SUMMARY.json",
+  "supported_target": "Source-free Ubuntu22.04 amd64 combined candidate; installed results for this archive are recorded in QUALIFICATION.json beside the archive",
   "supported_baseline": {
     "glibc": "2.35 (supported target baseline; not a statement every executable requires exactly this symbol version)",
     "systemd": "249 for separately packaged AG standalone systemd-dbus executor; daemon package is not included and retains its separate252 floor",
@@ -52,14 +52,14 @@
       "control_fields": "Package: constellation-nightshift\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, adduser\n"
     },
     {
-      "filename": "packages/constellation-remediation_0.1.0+release.20261005.1_amd64.deb",
-      "sha256": "b7b0e05c20e13a52a6c35b2b403ab3b43646367b1b35eb58279d5eb33c01c5cc",
-      "control_fields": "Package: constellation-remediation\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+      "filename": "packages/constellation-remediation_0.1.0+release.20261010.1_amd64.deb",
+      "sha256": "e788e37f9774a530c22cd3243ab494f08f72e48a6af71e5111c2c217fbb6608c",
+      "control_fields": "Package: constellation-remediation\nVersion: 0.1.0+release.20261010.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1, systemd, nq-ng (>= 0.2.3), constellation-attention, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
     },
     {
-      "filename": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
-      "sha256": "77a2a74555d40bd42054e7671e79f90799de6e3e8a8a91b365b0d12c48ccbcc7",
-      "control_fields": "Package: constellation-workbench\nVersion: 0.1.0+release.20261005.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
+      "filename": "packages/constellation-workbench_0.1.0+release.20261010.1_all.deb",
+      "sha256": "9b864056d5feff45b1ae0d3da78bbfc02b827a06d3979368df8ff0de184801ba",
+      "control_fields": "Package: constellation-workbench\nVersion: 0.1.0+release.20261010.1\nArchitecture: all\nDepends: python3 (>= 3.10), adduser, systemd, util-linux, openssl, constellation-live-observation, constellation-remediation, agent-governor-ng-operator-tools, agent-governor-ng-systemd-executor, constellation-docket\n"
     },
     {
       "filename": "packages/linear-accountant-inference_0.1.0+release.20261005.1_amd64.deb",
@@ -67,9 +67,9 @@
       "control_fields": "Package: linear-accountant-inference\nVersion: 0.1.0+release.20261005.1\nArchitecture: amd64\nDepends: libc6, libgcc-s1\n"
     },
     {
-      "filename": "packages/nq-ng_0.2.5+release.20261005.2_amd64.deb",
-      "sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
-      "control_fields": "Package: nq-ng\nVersion: 0.2.5+release.20261005.2\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
+      "filename": "packages/nq-ng_0.2.5+qualification.retention.20261010.2_amd64.deb",
+      "sha256": "6d097caa6b46513df77cde59b3cc167b4d6b834bf465f155d9828526afa5dfb5",
+      "control_fields": "Package: nq-ng\nVersion: 0.2.5+qualification.retention.20261010.2\nArchitecture: amd64\nDepends: libc6, libgcc-s1, python3 (>= 3.8), adduser\n"
     }
   ],
   "optional_central_observability": {

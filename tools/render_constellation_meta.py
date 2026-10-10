@@ -21,8 +21,8 @@ PAGES = {
         BASE + "release-hygiene-candidate-20261005.html",
     ),
     "index.html": (
-        "Constellation — independent evidence for automated work",
-        "An experimental system that treats agent completion reports as claims, and decides whether automated or AI agent work succeeded from independent verification of the resulting state.",
+        "Constellation — observe, authorize, verify",
+        "Experimental tools for observing a service, authorizing one bounded action, and checking its result against fresh evidence.",
         BASE,
     ),
     "status.html": (

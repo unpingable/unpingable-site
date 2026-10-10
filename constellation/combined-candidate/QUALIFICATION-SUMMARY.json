@@ -1,115 +1,29 @@
 {
   "schema": "constellation.combined-qualification/v1",
-  "sources": {
-    "nq": "996f2ca9c5b1c7bb148d9cf9e818432b6f860936",
-    "nightshift": "6ec5e05b34111011c9e09ef278744630bca7d8cb",
-    "ag": "2726696c6f30847fd877ce440a18e6fb5852f180",
-    "docket": "e97454f980a6e489bb978143a7c0e1315defa9e0",
-    "monitor": "ea7438aa6dc365525a614620c5e091ee9643522e",
-    "la": "0cc727fe92b2c9141c602038088856542871280b",
-    "workbench": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae"
-  },
-  "retained_standing": {
-    "v1": "unchangeddefaultconsumer/v2resolver plus583sourcechecks; acceptedspineactualcanary",
-    "v2_LA": "real v2 LA admission/reserve/send-fence/actual settle/reconcile separately accepted; new Workbench optional selected-record read projection is subsequent composition, no model default activation",
-    "Tier5": "boundedrealacceptedreveal; no newk3scampaign/executor",
-    "HTTP": "acceptedreaderexactbytes plus11tests andinstalledclosure; targetVMhasnoHTTPcapability",
-    "observability": "unchangedfrozenadapter/sourcecontracts; no newGrafana/backenddeployclaim"
-  },
-  "failures_retained": [
-    "initialcontainerUID1000missingaccount",
-    "postassemblyunsupportedconsumerbuild-infoflag",
-    "VMversion/helpassertions",
-    "durableVMchildlifecycle/argv0preflightcorrespondence",
-    "predecessor HP qualification JSON byte-order selection corrected to exact published bytes",
-    "sparse exporter output-directory precondition omitted by apparatus, then supplied"
+  "candidate": "constellation-canonical-candidate-20261010",
+  "status": "prepared candidate; not approved, not published, not distributed, not Beta Candidate 1",
+  "qualification_of_this_archive": "Recorded in QUALIFICATION.json beside the archive. This file states no result for this exact archive.",
+  "scope": "Fresh private Ubuntu 22.04 amd64 VM, one enrolled unit, a supervised session of up to four hours, ended the same day. No unattended operation is claimed. The human operability study is prepared and has not been run.",
+  "changed_packages": [
+    "nq-ng",
+    "constellation-remediation",
+    "constellation-workbench"
   ],
-  "human": "13-step protocol/fixturesprepared; NOTEXECUTED",
-  "publication": "neutralownerreviewcandidate; no BC1tag/release/publicwebsite deployment",
-  "baseline_scope": "Automatedfocusedinstalledcombinedchangedcone; acceptedhistoricalstandingretained; nothumanqualification/BC1/productionpromotion",
-  "scope": "Frozen release-hygiene input; retained technical acceptance plus new optional recorded LA projection. Exact fresh release-surface smoke and final review are adjacent qualification records, not human qualification.",
-  "hygiene": {
-    "packages": 11,
-    "runtime_files": 44,
-    "unchanged_native_ELFs": 23,
-    "LA_source_tests": 6,
-    "LA_independent_controls": 14,
-    "independent_LA_acceptance_sha256": "2538d4d592ebaf54db7d7372febc28120eb697bc9a2ba9c6ecccf7cb2b244934",
-    "NQ_release_verifiers": 24,
-    "site_local_links": 1178,
-    "rollback_predecessor": "retained exact privately; excluded public download for dated machine-label docs"
+  "unchanged_packages": 8,
+  "carried_from_predecessors_by_package_byte_identity": {
+    "eight_unchanged_packages": "Byte-identical to the packages of the retired 2026-10-08 candidate and of the 2026-10-05 licensing candidate (COMPOSITE-PROVENANCE.json). Their qualification was recorded with those predecessor candidates and is not restated or bundled here.",
+    "nq_component_qualification": "The nq-ng package bytes are unchanged from the NQ bounded-retention qualification build, so that build's component qualification of dependency-aware expiry, the capacity envelope and capacity refusal carries. It was exercised at component level under different limits, not on the try path.",
+    "remediation_native_binaries": "constellation-remediation-consumer and constellation-nq-unit-resolver are byte-identical to those in the retired candidate's remediation package."
   },
-  "accepted_baseline_source_checks": {
-    "nq_rust_passed": 347,
-    "nq_release_verifiers": "21passed/3skipped as declared platform gates",
-    "nq_helper_python": "passed; rawlogretained",
-    "monitor_full_tests": 583,
-    "monitor_fmt_clippy": "passed",
-    "monitor_http_tests": 11,
-    "monitor_kubernetes_tests": 21,
-    "workbench_tests": 89,
-    "workbench_python": "Ubuntu22.04 Python3.10 stdlib runtime",
-    "site_guard_tests": 5,
-    "site_local_references": 1166
-  },
-  "accepted_baseline_installed": {
-    "Ubuntu": "22.04amd64",
-    "packages": 11,
-    "ELFs": 23,
-    "runtime_files": 42,
-    "source_free": true,
-    "steps": [
-      {
-        "name": "01-inert-upgrade-rollback",
-        "exit_code": 0,
-        "protocol_sha256": "2178a38c09c56a180dbaebd2f7c86cfda446356fa954614627be8c29e13b9fc5"
-      },
-      {
-        "name": "02-enrollment",
-        "exit_code": 0,
-        "protocol_sha256": "8de76814dc2fadf479862a3387e8e2ce19957d3fd6acdc16540c1f9d896231d5"
-      },
-      {
-        "name": "03-native-action",
-        "exit_code": 0,
-        "protocol_sha256": "636e6897e8628194341574997b2782a930d2449cad86eb8c8696ddc66780e4cc"
-      },
-      {
-        "name": "04-stale-restart",
-        "exit_code": 0,
-        "protocol_sha256": "b9e45854b3fa1e8ec8d980913020866391bf34e52d08af81e6a0c6ca8984ef86"
-      },
-      {
-        "name": "05-oldboot-and-recovery",
-        "exit_code": 0,
-        "protocol_sha256": "2ed1871c7e28f6131f890d24abfbe6b064ce49916a7ad2c375455a6b3321dc75"
-      }
-    ],
-    "one_grant_use": true,
-    "native_settlement": "settled_observation_required",
-    "successor": "authorityempty observation_required distinctoccurrence",
-    "completion": "completed after35secdwell andfreshcurrentactiveunit",
-    "stale": "exclusive60secondnativeboundary refused, thenfreshcollectionrecovered",
-    "real_reboot": "bootidentitychanged; oldboot evidence refused, freshsameboot collectionrecovered",
-    "upgrade_rollback": "Inert nine-package NQ0.2.4\u2192eleven-package NQ0.2.5\u2192predecessor\u2192combined passed; original HP predecessor variant differed only JSON key order. Exact published HP correction subsequently installed/re-upgraded successfully. Enrolled Workbench .1\u2192.2\u2192.1 package-only upgrade passed with identical runtime and current evidence.",
-    "addenda": {
-      "exact_HP": "Accepted a3794eddf939274fb41fee35b2fb88bbce969ceee8c78384a026a3740dd0c71c installed and combined restored; metadata-correction producer later failed only missing telemetry output directory, retained",
-      "tail": "dfe32fde-2821-46e8-8e4b-86cf47ff2a05 passed: documented output directory created; sparse metrics/status, actual package-only upgrade/rollback and all42runtime hashes verified",
-      "observability_limit": "Sparse adapter output with missing inputs visible; no claim all reference services enrolled on unit-only VM"
-    }
-  },
-  "licensing_correction": {
-    "source": "a7d37dcfd3594f44737b2e7c5af3b0a26955877a",
-    "package": "nq-ng_0.2.5+release.20261005.2_amd64.deb",
-    "sha256": "a73eec70dd3a96ccc99baef33c57ed32bbbc07a69bc5de762b428aca14bd3163",
-    "changes": [
-      "usr/share/doc/nq-ng/copyright",
-      "usr/share/nq/MANIFEST.sha256",
-      "control",
-      "md5sums"
-    ],
-    "all_other_payload_bytes_modes_links_unchanged": true,
-    "check": "checksum manifests and packaged NQ/nqd --build-info; prior source-free Ubuntu install standing retained because no runtime/unit/helper/maintainer-script/dependency change",
-    "human": "not executed"
-  }
+  "not_carried": "The Workbench package and the remediation NQ maintenance wrapper are new bytes. No predecessor result covers them or the assembled archive.",
+  "limits": [
+    "NQ issue #27 remains open.",
+    "At the trial's 5-second cadence the planning figure for store growth is about 27 MB per hour (about 37 KB per collection measured at component level, times 720 collections per hour); by arithmetic from that figure the store reaches the packaged 1 GiB per-file limit after roughly 40 hours, before anything is seven days old; on this trial nothing expires and the seven-day retention target is never reached.",
+    "No same-VM recovery from a capacity refusal is supplied. Restart or reboot at the ceiling was not tested.",
+    "The remediation consumer is installed disabled; no automatic remediation has been run on these packages. Every Start is requested step by step by an operator.",
+    "AG state completed does not by itself mean the governed Start succeeded; see KNOWN-ISSUES.md.",
+    "The reference/ installation path, scripts/enroll-canary-observation.sh and constellation-host-posture.service have not been run with this NQ package.",
+    "No human evidence exists for this candidate."
+  ],
+  "retired_predecessor_archive_sha256": "0bdea16eea36a8e6b5dd2ccf0b511c8812008d6a1ec5f6ff811c6726ccc69070"
 }

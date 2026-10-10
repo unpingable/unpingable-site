@@ -1,3 +1,5 @@
+> Scope: this retained background describes earlier distribution or qualification work on predecessor candidates. Current package and source identities are in the accompanying manifests; qualification of this exact archive is recorded in `QUALIFICATION.json` beside the archive. No earlier archive identity or approval applies to this candidate.
+
 # Formalization consideration
 
 Owner: integration owner; independent convergence acceptance is separate. Exact source and result identities: SOURCE-IDENTITIES.json, RUNTIME-IDENTITIES.json, QUALIFICATION-SUMMARY.json and the sealed external convergence receipt.

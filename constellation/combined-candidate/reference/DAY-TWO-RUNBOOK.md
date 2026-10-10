@@ -1,5 +1,7 @@
 # Reference filesystem observation enrollment
 
+> Do not use this path with `constellation-canonical-candidate-20261010`. It initialises NQ outside the bounded wrapper (as does `scripts/enroll-canary-observation.sh`) and starts `constellation-host-posture.service`, whose 512 MiB per-file limit cannot open a store initialised under the collector's 1 GiB limit. None of it has been run with this candidate's NQ package. It is retained as historical reference only; see [known issues](../KNOWN-ISSUES.md).
+
 Run from the verified combined candidate root as root on a separately admitted
 fresh Ubuntu22.04 VM. Install current `packages/*.deb` using ../INSTALLATION.md
 first. No source checkout or internal driver is required. Do not combine this
@@ -15,7 +17,7 @@ install -d -m 0700 "$ST" "$RET"
 ```
 
 The host filesystem/machine/profile identities come from the actual VM. Choose
-the finite retention envelope and preserve owner-managed state. Helpers run
+the finite retention envelope and preserve owner-managed state ("owner" and "state custody" are unstable terms, see the [glossary](../GLOSSARY.md)). Helpers run
 inside the documented sandbox below. Installing a package alone grants no
 observation admission or effect authority.
 
@@ -242,5 +244,5 @@ H1 --config /etc/nq/nq.toml --json doctor | python3 -c 'import json,sys; print("
 Use the current [combined day-two runbook](../DAY-TWO-RUNBOOK.md). It binds
 the exact supplied predecessor/current package sets and Workbench upgrade
 fixture. The earlier0.2.3→0.2.4 qualification is retained as historical evidence;
-it is not a command path in this download. An old-store compatibility probe
+it is not a command path in this candidate. An old-store compatibility probe
 does not establish live cross-generation continuity or post-effect rollback.

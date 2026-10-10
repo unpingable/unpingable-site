@@ -1,15 +1,11 @@
-# Neutral release-hygiene candidate changes
+# Canonical candidate 20261010: prepared, not approved, not published
 
-This preparation follows the accepted combined spine/Workbench generation. It is not BC1 and does not claim human-stranger qualification.
+`constellation-canonical-candidate-20261010` is a prepared candidate. It is not approved, not published, not distributed and not Beta Candidate 1. No download is available.
 
-- Preserve all 23 accepted native executable hashes, currentness, authority and default deterministic v1 behavior.
-- Declare native libgcc-s1 dependency and supply first-party licenses and Monitor/Nightshift notices. Replace installed development/campaign instructions with bounded operator guides.
-- Add an optional read-only Workbench projection of selected real Linear Accountant records, with admitted inference ceiling, reservation, actual settlement and reconciliation. No budget administration, provider cost estimate, live publisher or effect authority is added.
-- Reconcile current repository/site entry, source-free install, Workbench, day-two and default/optional/planned claims. Preserve the historical reveal export and screenshot hashes.
-- Keep the exact older nine-package NQ0.2.4 predecessor private because its installed dated documentation contains private machine labels. The public set supplies the current Workbench version-only upgrade/rollback pair instead.
+Against the retired 8 October candidate, eight packages are byte-identical and three differ. `nq-ng 0.2.5+qualification.retention.20261010.2` is NQ with bounded retention (issue #27 remains open); its bytes are unchanged from the bounded-retention qualification build and its version sorts below the retired candidate's. `constellation-remediation 0.1.0+release.20261010.1` keeps its native binaries unchanged and adds resource limits to its NQ maintenance wrapper. `constellation-workbench 0.1.0+release.20261010.1` initialises NQ through that wrapper and prints the settlement outcome on the attempt line; the upgrade fixture `.2` has an identical runtime payload. See PACKAGES.json, SOURCE-IDENTITIES.json and COMPOSITE-PROVENANCE.json for exact identities.
 
-Ubuntu22.04 amd64 remains the support baseline. V2 is qualified/optional/default-disabled; bounded Kubernetes observation/diagnosis has no Kubernetes executor. FreeBSD standing is separately bounded, not a claim these Ubuntu artifacts run there. See SUPPORT.md and DAY-TWO-RUNBOOK.md for limits.
+The default trial observes one nginx systemd unit and permits one explicitly authorized Start, requested step by step by an operator. The remediation consumer is installed disabled and no automatic remediation has been run on these packages. Workbench is read-only; action uses the separate native interface. Unit active does not establish HTTP health, and AG state `completed` does not by itself mean the governed Start succeeded: read the settlement sentence.
 
-## Distribution correction
+NQ preserves custody dependencies while expiring eligible ordinary history, records an effective capacity envelope and refuses work when capacity cannot support it. On this trial the store still grows, at a planning figure of about 27 MB per hour, and by arithmetic from that figure reaches its 1 GiB per-file ceiling after roughly 40 hours, before anything is seven days old, so nothing expires and the seven-day retention target is never reached. No same-VM recovery is supplied. Plan a session of up to four hours and end it the same day. See KNOWN-ISSUES.md.
 
-Explicitly license project-authored release glue under Apache-2.0; retain Docket/LA component NOTICEs and nested upstream notices. Correct NQ copyright scope/source information. Runtime behavior and native executable bytes remain unchanged.
+Qualification of this exact archive is recorded in QUALIFICATION.json beside the archive. Predecessor qualification carries only by package byte identity, as listed in QUALIFICATION-SUMMARY.json. The human-operability exercise is prepared and has not been run. Publication and participant operation require release-approver authorization, which has not been given. No Labelwatch or Driftwatch completion is required for this selected trial.

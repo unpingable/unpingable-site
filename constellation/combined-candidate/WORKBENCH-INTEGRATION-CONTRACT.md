@@ -1,5 +1,7 @@
 # Workbench Integration Contract 1.3 — combined candidate
 
+> Scope: this contract text was written for predecessor candidates, and its acceptance and qualification statements are theirs. Qualification of this exact archive is recorded in `QUALIFICATION.json` beside the archive.
+
 This version resolves the predecessor 1.1 boot/HTTP packaging hold. Exact candidate source/package manifests are authoritative; the accepted reveal remains a separate retained qualification record. No core schema rename or universal health enum is introduced.
 
 | Interface | Installed contract / source | Integration state |
@@ -11,19 +13,19 @@ This version resolves the predecessor 1.1 boot/HTTP packaging hold. Exact candid
 | Live cohort | `operational_ecad.live_cohort/v1`, `live_host_read/v1`, fixed gateway `live_gateway/v1` | stable accepted owner/read projection, validated identities and gaps |
 | Workbench read pages | `/operator.html`, `/plan.html`, GET `/api/cohort`, `/api/plan` | loopback 18861; unprivileged service; fixed installed source command |
 | Guest/API escape | GET enrollment/read/assessment-context/attempt; POST `live_action/v1` fixed actions | separately admitted disposable guest; authenticated action API on guest 8081; not a GUI action surface |
-| AG | exact work/runtime profile, typed currentness/result/refusal, authority-empty successor | frozen operator package; native decisions re-resolve exact evidence/standing |
+| AG | exact work/runtime profile, typed currentness/result/refusal, authority-empty successor | frozen operator package; native decisions re-resolve exact evidence/standing; `completed` does not read the settlement outcome |
 | Docket | exact grant/issuance/attempt/settlement and executor custody | frozen native package; effect receipt is not recovery evidence |
 | Attention / page | native report/registry/state, response class and notification custody | frozen schema; reference adapters remain separate from local unit cohort |
 | Status / metric registry | existing status/read-model and textfile observability adapter | bundled reference integration; no invented common metrics endpoint |
 | Nightshift / host posture | frozen observation cycle, accepted posture package and site adapter | stable reference path; unknown support remains explicit |
-| V1 / v2 / LA | deterministic consumer default; optional separately accepted model/LA path | runtime packages compatible; reveal did not exercise LA; separate v2 did |
+| V1 / v2 / LA | deterministic consumer, installed disabled; optional separately accepted model/LA path | consumer not enabled by the try or manual path, no automatic remediation run on these packages; reveal did not exercise LA; separate v2 qualification did, on other package bytes |
 | Kubernetes | GET-only collector and application diagnosis; no admitted executor | bounded Tier-5 claim retained; source-free collector packaging correspondence only |
 | Replay | exact `constellation.reveal-demo/v1` manifest and static captured assets | historical AS RECORDED; no acquisition/action/authority |
 | Build | package/runtime/source SHA manifest plus Workbench documentary `build/v1` | hashes identify bytes; metadata labels do not independently measure installed machine truth |
 
 NQ source testimony age and evaluation age remain independent. Native read time and browser assertion time never renew evidence. Boot change, missing/unsupported/currentness refusal and inaccessible source remain visible. HTTP failure while unit active cannot invent Start. Model output, diagnosis depth, proposed plans and prepared enrollment records create no effect standing.
 
-The predecessor 1.1 contract remains the detailed native field/enumeration reference under the accepted spine record. Its future Workbench merge hold is superseded by this candidate's installed closure and focused qualification; its temporal, provenance, notification, accounting and authority rules remain standing. Workbench's current cohort is a bounded projection, not a universal adapter for every underlying component. CLI inspection remains documented where no Workbench projection exists.
+The predecessor 1.1 contract remains the detailed native field/enumeration reference under the accepted spine record. Its future Workbench merge hold was superseded for the predecessor candidates by their installed closure and focused qualification, which is not a result for this archive; its temporal, provenance, notification, accounting and authority rules remain standing. Workbench's current cohort is a bounded projection, not a universal adapter for every underlying component. CLI inspection remains documented where no Workbench projection exists.
 
 The installed runtime is eleven ordinary Python modules and six fixed wrappers, plus one new boot reader ELF and two accepted interpreted observation readers. No runtime source checkout, `/opt` copied developer module, PYTHONPATH or harness/oracle is required. No new executor, model credential, enrollment or live service starts merely by package installation. Source-free permits installed interpreted modules; it excludes repository/build/harness dependencies.
 

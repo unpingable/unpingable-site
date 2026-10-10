@@ -1,15 +1,15 @@
 {
   "schema": "constellation.package-upgrade-fixture/v1",
-  "source": "2e3ca87e7b36a6a21cd6e62ef72a4770adc7a9ae",
+  "source": "294cecdfea7b5cc7cda6f040fd0eb3248b696959",
   "before": {
-    "file": "packages/constellation-workbench_0.1.0+release.20261005.1_all.deb",
-    "sha256": "77a2a74555d40bd42054e7671e79f90799de6e3e8a8a91b365b0d12c48ccbcc7",
-    "version": "0.1.0+release.20261005.1"
+    "file": "packages/constellation-workbench_0.1.0+release.20261010.1_all.deb",
+    "sha256": "9b864056d5feff45b1ae0d3da78bbfc02b827a06d3979368df8ff0de184801ba",
+    "version": "0.1.0+release.20261010.1"
   },
   "after": {
-    "file": "upgrade/constellation-workbench_0.1.0+release.20261005.2_all.deb",
-    "sha256": "3841386ac8fff00c613a3170cc046de6deb0d9a685ee2e084bcc4210bbfdb373",
-    "version": "0.1.0+release.20261005.2"
+    "file": "upgrade/constellation-workbench_0.1.0+release.20261010.2_all.deb",
+    "sha256": "3782e72d474f002fdd9cbf4662d7e459e6133a086f5c18982b5ad490c9c9e91d",
+    "version": "0.1.0+release.20261010.2"
   },
   "runtime_payload_identical": true,
   "claim": "ordinary package-only upgrade/rollback, no semantic generation change or new enrollment"
