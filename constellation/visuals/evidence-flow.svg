@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 838" role="img" aria-labelledby="title desc">
+<title id="title">Recorded command order</title><desc id="desc">Schematic of final N; exact excerpts are in CYCLE.md.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#727e92"/></marker></defs>
+<style>text{font-family:system-ui,sans-serif;fill:#172033}.heading{font-size:25px;font-weight:700}.caption{font-size:15px;fill:#455269}.name{font-size:19px;font-weight:650}.detail{font-size:16px;fill:#455269}.box{fill:#f4f7fb;stroke:#b7c3d6;stroke-width:1.5}.link{fill:none;stroke:#727e92;stroke-width:2;marker-end:url(#arrow)}</style>
+<rect width="560" height="838" rx="12" fill="#fff"/>
+<text x="28" y="38" class="heading">Recorded command order</text>
+<text x="28" y="64" class="caption">Schematic of final N; exact excerpts are in CYCLE.md.</text>
+<g id="step-1"><rect class="box" x="20" y="88" width="520" height="80" rx="9"/><text class="name" x="38" y="118">prepare --identity agent-preflight</text><text class="detail" x="38" y="144">Attach an assessment and explicit preparation token</text></g>
+<path class="link" d="M280 170V187"/>
+<g id="step-2"><rect class="box" x="20" y="192" width="520" height="80" rx="9"/><text class="name" x="38" y="222">init · record-proposal</text><text class="detail" x="38" y="248">Declare initial observation requirement; propose</text></g>
+<path class="link" d="M280 274V291"/>
+<g id="step-3"><rect class="box" x="20" y="296" width="520" height="80" rx="9"/><text class="name" x="38" y="326">require-standing · decide</text><text class="detail" x="38" y="352">Request standing and evaluate the proposed action</text></g>
+<path class="link" d="M280 378V395"/>
+<g id="step-4"><rect class="box" x="20" y="400" width="520" height="80" rx="9"/><text class="name" x="38" y="430">authorize · dispatch</text><text class="detail" x="38" y="456">Authorize and dispatch the bounded action</text></g>
+<path class="link" d="M280 482V499"/>
+<g id="step-5"><rect class="box" x="20" y="504" width="520" height="80" rx="9"/><text class="name" x="38" y="534">poll</text><text class="detail" x="38" y="560">Observe execution settlement</text></g>
+<path class="link" d="M280 586V603"/>
+<g id="step-6"><rect class="box" x="20" y="608" width="520" height="80" rx="9"/><text class="name" x="38" y="638">continue</text><text class="detail" x="38" y="664">Next cycle requires observation; no inherited authority</text></g>
+<path class="link" d="M280 690V707"/>
+<g id="step-7"><rect class="box" x="20" y="712" width="520" height="80" rx="9"/><text class="name" x="38" y="742">complete</text><text class="detail" x="38" y="768">Check the fresh postcondition and complete</text></g>
+<text x="28" y="826" class="caption">Conceptual explanation · not runtime output</text></svg>

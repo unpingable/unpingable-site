@@ -1,0 +1,8 @@
+%% Component map, not automatic execution order
+flowchart TD
+ NQ["NQ: native evidence and custody"] --> READ["Monitor and Workbench: read-only projection"]
+ CLI["Separate action CLI / authenticated interface"] --> AG["Agent Governor: native attempt authority"]
+ GRANT["Enrolled grant: Docket standing"] --> AG
+ AG --> DOCKET["Docket: record attempt, dispatch and settle"]
+ DOCKET --> EXEC["Fixed systemd executor: admitted unit start"]
+ EXEC --> FRESH["Fresh NQ evidence for native completion"]

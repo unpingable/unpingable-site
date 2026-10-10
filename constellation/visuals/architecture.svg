@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 922" role="img" aria-labelledby="title desc">
+<title id="title">Separate observation and action paths</title><desc id="desc">NQ evidence reaches the read-only Workbench projection. A separate action request reaches Agent Governor, which obtains Docket standing. Docket records the attempt, dispatches the fixed executor and records settlement. Fresh evidence supports completion.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="#727e92"/></marker></defs>
+<style>text{font-family:system-ui,sans-serif;fill:#172033}.heading{font-size:25px;font-weight:700}.caption{font-size:15px;fill:#455269}.name{font-size:19px;font-weight:650}.detail{font-size:16px;fill:#455269}.box{fill:#f4f7fb;stroke:#b7c3d6;stroke-width:1.5}.link{fill:none;stroke:#727e92;stroke-width:2;marker-end:url(#arrow)}</style>
+<rect width="560" height="922" rx="12" fill="#fff"/>
+<text x="28" y="38" class="heading">Component responsibilities</text>
+<text x="28" y="65" class="caption">Separate observation and requested action paths</text>
+<text x="28" y="99" class="caption">OBSERVATION</text>
+<g><rect class="box" x="20" y="112" width="520" height="80" rx="9"/><text class="name" x="38" y="142">NQ</text><text class="detail" x="38" y="168">Collect and retain native unit evidence</text></g>
+<g><rect class="box" x="20" y="218" width="520" height="80" rx="9"/><text class="name" x="38" y="248">Monitor + Workbench</text><text class="detail" x="38" y="274">Project the evidence; inspection page is read-only</text></g>
+<path class="link" d="M280 194V212"/>
+<path d="M20 322H540" stroke="#dce3ee"/><text x="28" y="350" class="caption">SEPARATE ACTION REQUEST</text>
+<g><rect class="box" x="20" y="364" width="520" height="80" rx="9"/><text class="name" x="38" y="394">Action CLI / authenticated action interface</text><text class="detail" x="38" y="420">Submit a requested action outside the read-only page</text></g>
+<g><rect class="box" x="20" y="482" width="240" height="80" rx="9"/><text class="name" x="38" y="512">Enrolled grant</text><text class="detail" x="38" y="538">Docket standing</text></g>
+<g><rect class="box" x="300" y="482" width="240" height="80" rx="9"/><text class="name" x="318" y="512">Agent Governor</text><text class="detail" x="318" y="538">Decide, authorize, track</text></g>
+<path class="link" d="M420 446V476"/>
+<path class="link" d="M262 522H294"/>
+<g><rect class="box" x="20" y="610" width="520" height="80" rx="9"/><text class="name" x="38" y="640">Docket</text><text class="detail" x="38" y="666">Record attempt; dispatch and settle</text></g>
+<g><rect class="box" x="20" y="706" width="520" height="80" rx="9"/><text class="name" x="38" y="736">Fixed systemd executor</text><text class="detail" x="38" y="762">Perform the admitted unit start</text></g>
+<path class="link" d="M420 564V586H280V604"/>
+<path class="link" d="M280 692V700"/>
+<g><rect class="box" x="20" y="812" width="520" height="80" rx="9"/><text class="name" x="38" y="842">Fresh NQ evidence</text><text class="detail" x="38" y="868">Completion checks independently collected evidence</text></g>
+<path class="link" d="M280 788V806"/>
+<text x="28" y="912" class="caption">Schematic · not recorded execution output</text></svg>

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "scope": "Identity-redacted recorded N page crops and conceptual explanations; not live runtime or operational acceptance.",
+  "files": [
+    {
+      "file": "CYCLE.md",
+      "sha256": "1e4767b79da58ec835a5f250efee62132f3f4da66d5284ef20e1c9efb06e8c16",
+      "bytes": 6685
+    },
+    {
+      "file": "EARLIER-REFUSAL.md",
+      "sha256": "6a190905c55267c6aadba3e6b5f5c51168a4aba7c9cc3c4c8c01e09e51d7328d",
+      "bytes": 2507
+    },
+    {
+      "file": "README.md",
+      "sha256": "66fc1c7b92fbf00544cd05fe97d11b407263ebf05d4e0eff64bf6258cab4573d",
+      "bytes": 2912
+    },
+    {
+      "file": "active-after-AS-RECORDED.html",
+      "sha256": "946decfac416fc243cc79f9a79185b93f90bfc613b8a7fe595ab2c7505badbf4",
+      "bytes": 41450,
+      "role": "Offline identity-redacted recorded page with added capture banner"
+    },
+    {
+      "file": "active-after-desktop.png",
+      "sha256": "dbde415afb05930a3ceaaa64bc0c269908b547286ead2753653c62f6524d3b3e",
+      "bytes": 84951,
+      "caption": "Recorded page on 8 October 2026, rendered offline. ACTIVE after governed start. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service active (running). The page also reports a completed remediation attempt.",
+      "width": 1440,
+      "height": 480
+    },
+    {
+      "file": "active-after-mobile.png",
+      "sha256": "58e9ece0ed199f0d71a77289eb1bbc8924b9ebe6476a162c79d1da24bf882763",
+      "bytes": 74725,
+      "caption": "Recorded page on 8 October 2026, rendered offline. ACTIVE after governed start. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service active (running). The page also reports a completed remediation attempt.",
+      "width": 390,
+      "height": 680
+    },
+    {
+      "file": "active-before-AS-RECORDED.html",
+      "sha256": "c4806078284ccb3a34b80a9cb7cf556a2c8a49a8f67661fb10ae2127ed382eab",
+      "bytes": 36941,
+      "role": "Offline identity-redacted recorded page with added capture banner"
+    },
+    {
+      "file": "active-before-desktop.png",
+      "sha256": "aabf35dc0b7f1620fc9880c8e126c894984b86247daf40501aa980ed0a505645",
+      "bytes": 62247,
+      "caption": "Recorded page on 8 October 2026, rendered offline. ACTIVE before deliberate stop. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service active (running).",
+      "width": 1440,
+      "height": 383
+    },
+    {
+      "file": "active-before-mobile.png",
+      "sha256": "b72e871dbee0a76dfba327b1b418175b5d1cc26327738e4eb799034dd8d2ec84",
+      "bytes": 54010,
+      "caption": "Recorded page on 8 October 2026, rendered offline. ACTIVE before deliberate stop. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service active (running).",
+      "width": 390,
+      "height": 528
+    },
+    {
+      "file": "architecture.mmd",
+      "sha256": "9a49054454ed036a2a296a7f95f83a3c8cad724888d570582763101516231828",
+      "bytes": 495,
+      "caption": "Schematic of component responsibilities. Evidence inspection and requesting an action are separate paths.",
+      "alt": "Diagram: NQ supplies evidence to Monitor and the read-only Workbench page. A separate request reaches Agent Governor with enrolled Docket standing, then Docket records the attempt, dispatches the fixed systemd executor and settles. Completion checks independently collected NQ evidence.",
+      "role": "Editable conceptual diagram relationships"
+    },
+    {
+      "file": "architecture.svg",
+      "sha256": "0b253da94f839c4b016850e9d43d6f00c54cf75ea6df2ada394b225dccd73ffb",
+      "bytes": 3324,
+      "caption": "Schematic of component responsibilities. Evidence inspection and requesting an action are separate paths.",
+      "alt": "Diagram: NQ supplies evidence to Monitor and the read-only Workbench page. A separate request reaches Agent Governor with enrolled Docket standing, then Docket records the attempt, dispatches the fixed systemd executor and settles. Completion checks independently collected NQ evidence."
+    },
+    {
+      "file": "evidence-flow.mmd",
+      "sha256": "58d62902fa8c73956891e6a4bed6456422f3fc05b407cb46ae8c532e2f430a9c",
+      "bytes": 640,
+      "caption": "Schematic command order for the recorded final N cycle. CYCLE.md contains exact selected excerpts; the diagram is not runtime output.",
+      "alt": "Command flow from prepare with an identity, through initial observation requirement and proposal, standing, decision, authorization, dispatch, settlement, an authority-empty successor cycle and completion using independently collected evidence.",
+      "role": "Editable conceptual diagram relationships"
+    },
+    {
+      "file": "evidence-flow.svg",
+      "sha256": "91de0384ab0103bea287bcf28d73089a2c5938f581d1ffe255906143432ca960",
+      "bytes": 2869,
+      "caption": "Schematic command order for the recorded final N cycle. CYCLE.md contains exact selected excerpts; the diagram is not runtime output.",
+      "alt": "Command flow from prepare with an identity, through initial observation requirement and proposal, standing, decision, authorization, dispatch, settlement, an authority-empty successor cycle and completion using independently collected evidence."
+    },
+    {
+      "file": "inactive-AS-RECORDED.html",
+      "sha256": "a3bca51802aed17001bf8a6aee892f077e0c3233f6f6a79c2f580ebd1a3b7148",
+      "bytes": 36995,
+      "role": "Offline identity-redacted recorded page with added capture banner"
+    },
+    {
+      "file": "inactive-desktop.png",
+      "sha256": "58ecc43fc673902db6aee596de16dbf4d460725ac33c41bb04e51f98a735aa8a",
+      "bytes": 62972,
+      "caption": "Recorded page on 8 October 2026, rendered offline. INACTIVE after deliberate stop. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service inactive (dead).",
+      "width": 1440,
+      "height": 383
+    },
+    {
+      "file": "inactive-mobile.png",
+      "sha256": "7b669f2bec56676d0b4e4b139bd57da2229285a5af5dff809584bd155839b98b",
+      "bytes": 54327,
+      "caption": "Recorded page on 8 October 2026, rendered offline. INACTIVE after deliberate stop. Amber banner added at capture; the page below is the recorded identity-redacted UI. Systemd unit state only, not HTTP health. \u201cLive\u201d labels and relative ages are frozen. Mobile is a responsive alternative to desktop.",
+      "alt": "Recorded Workbench page: nginx.service inactive (dead).",
+      "width": 390,
+      "height": 528
+    },
+    {
+      "file": "operator-workflow.mmd",
+      "sha256": "e38d27ee14f0d717ff5f9a4bfbcfb20ea60691421e552d14524ff697ce42b465",
+      "bytes": 590,
+      "caption": "Operator responsibilities before installation, enrollment, assessment, an action request and reconciliation. This guide is not evidence of a human trial.",
+      "alt": "Six responsibilities: verify a fresh installation, admit the selected fixture, inspect evidence, provide a preparation identity, inspect the completed attempt, and reconcile interruptions.",
+      "role": "Editable conceptual diagram relationships"
+    },
+    {
+      "file": "operator-workflow.svg",
+      "sha256": "517896c22260aedc904cc80e499edf138c70c481dac39a1beffbffee39c83116",
+      "bytes": 2646,
+      "caption": "Operator responsibilities before installation, enrollment, assessment, an action request and reconciliation. This guide is not evidence of a human trial.",
+      "alt": "Six responsibilities: verify a fresh installation, admit the selected fixture, inspect evidence, provide a preparation identity, inspect the completed attempt, and reconcile interruptions."
+    }
+  ],
+  "capture_correspondence": {
+    "head_metadata_added_after_capture": true,
+    "body_bytes_unchanged": true,
+    "png_bytes_unchanged": true,
+    "sources": [
+      {
+        "file": "active-before-AS-RECORDED.html",
+        "captured_source_sha256": "600109b63b09923203aa5059ec6570c13c372467c130a8eae9a4c4d7dae426e3",
+        "current_source_sha256": "c4806078284ccb3a34b80a9cb7cf556a2c8a49a8f67661fb10ae2127ed382eab",
+        "change": "Historicalmetadata added in head only after capture; body bytes unchanged, PNG not rerendered."
+      },
+      {
+        "file": "inactive-AS-RECORDED.html",
+        "captured_source_sha256": "5dc79e4b18331350bed681c703e18b3a8a45f67585ac6c62482a6897b8f339e3",
+        "current_source_sha256": "a3bca51802aed17001bf8a6aee892f077e0c3233f6f6a79c2f580ebd1a3b7148",
+        "change": "Historicalmetadata added in head only after capture; body bytes unchanged, PNG not rerendered."
+      },
+      {
+        "file": "active-after-AS-RECORDED.html",
+        "captured_source_sha256": "e02f45cf59902c79b6440ff0a48dfb40d4430cc0ffd978fa32a5610b2918c6c6",
+        "current_source_sha256": "946decfac416fc243cc79f9a79185b93f90bfc613b8a7fe595ab2c7505badbf4",
+        "change": "Historicalmetadata added in head only after capture; body bytes unchanged, PNG not rerendered."
+      }
+    ]
+  }
+}

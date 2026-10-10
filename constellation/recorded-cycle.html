@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A recorded local exercise: observe an inactive systemd unit, request an authorized start, and check the fresh result.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="unpingable">
+  <meta property="og:title" content="Constellation — a recorded operational cycle">
+  <meta property="og:description" content="A recorded local exercise: observe an inactive systemd unit, request an authorized start, and check the fresh result.">
+  <meta property="og:url" content="https://unpingable.com/constellation/recorded-cycle.html">
+  <meta property="og:image" content="https://unpingable.com/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="unpingable — evidence, authority, action. James Beck.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Constellation — a recorded operational cycle">
+  <meta name="twitter:description" content="A recorded local exercise: observe an inactive systemd unit, request an authorized start, and check the fresh result.">
+  <meta name="twitter:image" content="https://unpingable.com/og-card.png">
+  <title>Constellation — a recorded operational cycle</title>
+  <link rel="canonical" href="https://unpingable.com/constellation/recorded-cycle.html">
+  <link rel="stylesheet" href="base.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="site-name" href="../index.html">unpingable</a>
+    <nav class="site-nav" aria-label="Site">
+      <a href="./" aria-current="true">Constellation</a>
+      <a href="../research.html">Research</a>
+      <a href="../about.html">About</a>
+      <a href="https://neutral.zone">Writing</a>
+    </nav>
+  </header>
+  <nav class="section-nav" aria-label="Main navigation">
+    <a href="index.html">Overview</a><a href="understand.html">How it works</a><a href="workbench.html">Workbench</a><a href="status.html">Status</a><a href="limits.html">Limits</a><a href="components.html">Components</a><a href="start.html">Guides and source</a>
+  </nav>
+  <main id="main">
+    <p class="eyebrow">Recorded local exercise · 8 October 2026</p>
+    <h1>A stopped unit.<br>One authorized start.<br>A fresh result.</h1>
+    <p class="lede">This run follows a deliberately stopped nginx unit through a bounded action and a new observation. The commands and screenshots come from an automated qualification of the prepared candidate.</p>
+    <aside class="note"><strong>What this establishes:</strong> a recorded local systemd-unit exercise. It does not establish HTTP health, a completed human usability trial, or a public release. The archive used here is <code>0bdea16e…</code>; later NQ retention changes are not in it.</aside>
+    <h2>Observation and action have separate paths</h2>
+    <p>The Workbench shows what the selected components reported. Viewing a report grants no permission to change the system. The action path checks the decision and authorization, records the attempt, and requires new evidence before completion.</p>
+    <figure class="diagram"><img src="visuals/architecture.svg" alt="Conceptual diagram separating observation and read-only inspection from a separately authorized action and its fresh result."><figcaption>Conceptual relationships for this local exercise, not recorded output.</figcaption></figure>
+    <h2>1. Observe the deliberately stopped unit</h2>
+    <p>The fixture was stopped deliberately. Its recorded summary then said:</p>
+    <pre class="terminal" tabindex="0">status line: nginx.service: inactive (dead), observed 2 s ago, current boot. Unit state only, not service health.</pre>
+    <p>This is a statement about systemd's unit state at capture time. It neither diagnoses why a real service failed nor proves that an active unit serves requests.</p>
+    <figure class="cycle-capture"><picture><source media="(max-width: 600px)" srcset="visuals/inactive-mobile.png"><img src="visuals/inactive-desktop.png" alt="Recorded Workbench view: nginx.service inactive, observed two seconds before the original capture." loading="lazy"></picture><figcaption>The inactive state, rendered offline from the recorded page. The amber capture banner was added for this exhibit; the UI below it is historical. Relative ages such as “2 s ago” refer to the original observation, not now.</figcaption></figure>
+    <h2>2. Prepare and check the proposed action</h2>
+    <p>These exact subcommands were run from the extracted candidate's directory. They are excerpts from an existing run, not standalone installation instructions. Supervised participation is arranged separately with the maintainer; these excerpts do not provide an installation packet.</p>
+    <pre class="terminal" tabindex="0">sudo python3 scripts/native-action.py prepare --identity agent-preflight --prestate inactive --assessment 'Current native evidence shows the enrolled unit inactive; cause is not established.'
+sudo python3 scripts/native-action.py init
+sudo python3 scripts/native-action.py record-proposal
+sudo python3 scripts/native-action.py require-standing
+sudo python3 scripts/native-action.py decide</pre>
+    <p>The record reaches <code>admissible_pending_authorization</code>: the proposal passed its decision checks, but still needs authorization. Here <em>standing</em> refers to the required conditions for the action to be allowed. It is not supplied by reading the page.</p>
+    <p>The <code>agent-preflight</code> argument names the automation driving the exercise. Omitting it was rejected by argument validation with exit 2. That label alone does not authenticate a person or grant authority. Enrollment had already provided the bounded grant; this transcript does not depict a separate human approval dialogue.</p>
+    <h2>3. Authorize, dispatch and inspect the outcome</h2>
+    <pre class="terminal" tabindex="0">sudo python3 scripts/native-action.py authorize
+sudo python3 scripts/native-action.py dispatch
+sudo python3 scripts/native-action.py poll</pre>
+    <p>The recorded states advance through <code>authorization_consumed</code>, <code>dispatched</code>, and <code>settled_observation_required</code>. Execution has a recorded outcome; the task still needs a new observation.</p>
+    <h2>4. Obtain fresh evidence before completion</h2>
+    <pre class="terminal" tabindex="0">sudo python3 scripts/native-action.py continue
+sudo python3 scripts/native-action.py complete</pre>
+    <p><code>continue</code> opens the next observation-required cycle without inherited authority; it does not request a new collection. The collector runs independently. This is why <code>observation_required</code> appears both at initialization and here: initial evidence supports the proposal, and fresh post-action evidence supports completion. The final record has the <code>completed</code> state branch and the Workbench reports the unit active.</p>
+    <figure class="cycle-capture"><picture><source media="(max-width: 600px)" srcset="visuals/active-after-mobile.png"><img src="visuals/active-after-desktop.png" alt="Recorded Workbench view: nginx.service active and the remediation attempt completed." loading="lazy"></picture><figcaption>After the governed start: unit active and attempt completed. This is the final candidate's recorded run, not a live view or a claim of application health. The redacted short identifier refers to the boot.</figcaption></figure>
+    <details><summary>Before the deliberate stop</summary><figure class="cycle-capture"><picture><source media="(max-width: 600px)" srcset="visuals/active-before-mobile.png"><img src="visuals/active-before-desktop.png" alt="Recorded Workbench view before the exercise: nginx.service active." loading="lazy"></picture><figcaption>Unit active before the deliberate stop; a separate earlier point in the same recorded exercise.</figcaption></figure></details>
+    <p>All ten commands above recorded exit 0. State names here identify the active branch of the returned state object; they are explanations, not reconstructed terminal output. <a href="visuals/CYCLE.md">Exact selected command and output fragments</a> retain that distinction.</p>
+    <details><summary>Command and evidence flow</summary><figure class="diagram"><img src="visuals/evidence-flow.svg" alt="Conceptual sequence from preparation and decision through authorization, dispatch and settlement to an authority-empty next cycle and independently collected evidence before completion." loading="lazy"><figcaption>Conceptual command order. Consult the recorded excerpts for what this run actually returned.</figcaption></figure></details>
+    <h2>A meaningful refusal: an existing attempt cannot become a new one</h2>
+    <p><strong>Separate earlier session.</strong> A prior candidate was asked to prepare another attempt after its first one. It returned this complete, recorded refusal:</p>
+    <pre class="terminal" tabindex="0">{"owner":"Operational ECAD","reason":"ATTEMPT_ALREADY_EXISTS","schema":"operational_ecad.refusal/v1"}</pre>
+    <p>The existing attempt remained the object to inspect. Later commands were also refused; their generic error does not establish each underlying cause. This earlier session used a different helper version and is not a second action in the final-candidate run above. <a href="visuals/EARLIER-REFUSAL.md">Commands, recorded refusals and limits</a>.</p>
+    <p><em>Operational ECAD</em> remains in historical schema and CLI identifiers. <em>Operational EDA</em> is the newer descriptive wording. Neither term is an additional capability or permission.</p>
+    <h2>What the operator remains responsible for</h2>
+    <p>Select the private trial environment, verify the exact candidate, enroll the selected unit and grant, inspect the record, and decide when to stop. An interrupted command does not establish whether its action happened. Follow the recovery instructions before attempting more work.</p>
+    <figure class="diagram"><img src="visuals/operator-workflow.svg" alt="Conceptual operator responsibilities: verify the candidate and environment, enroll explicitly, inspect evidence, request within the grant, inspect the outcome and reconcile interruptions." loading="lazy"><figcaption>Conceptual responsibilities, not a record of a human usability trial.</figcaption></figure>
+    <div class="actions"><a class="primary" href="https://github.com/unpingable/unpingable-site#read-follow-or-participate">Participation information</a><a href="combined-candidate/DAY-TWO-RUNBOOK.md">Failure and recovery</a><a href="visuals/README.md">Capture provenance and limitations</a></div>
+  </main>
+  <footer class="site-footer"><ul class="links"><li><a href="../index.html">unpingable</a></li><li><a href="status.html">Status</a></li><li><a href="limits.html">Limits</a></li><li><a href="archive.html">Archive</a></li><li><a href="../research.html">Research</a></li><li><a href="https://github.com/unpingable">GitHub</a></li></ul><p class="coda">unpingable is James Beck&rsquo;s site for research and software on how systems know what happened. Constellation documentation, plain working edition.</p></footer>
+</body>
+</html>

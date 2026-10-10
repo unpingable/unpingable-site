@@ -103,3 +103,12 @@ body > footer:not(.site-footer) {
 
 /* Tables in Constellation pages are dense reference material. */
 td code, dd code { overflow-wrap: anywhere; }
+
+/* Recorded beta exercise: responsive evidence, with source text alongside it. */
+.cycle-capture { margin: var(--s5) 0; }
+.cycle-capture img { display: block; width: 100%; height: auto; border: 1px solid var(--border); }
+.cycle-capture figcaption, .diagram figcaption { margin-top: var(--s2); color: var(--fg-muted); }
+.diagram { margin: var(--s5) 0; }
+.diagram img { display: block; width: 100%; max-width: 34rem; height: auto; }
+.historical-demo { margin: var(--s5) 0; }
+.historical-demo > summary { font-size: 1.1rem; font-weight: 600; cursor: pointer; }

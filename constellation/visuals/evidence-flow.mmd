@@ -1,0 +1,15 @@
+%% Conceptual explanation, not runtime output
+flowchart TD
+ N0["prepare --identity agent-preflight / Attach an assessment and explicit preparation token"]
+ N1["init · record-proposal / Declare initial observation requirement; propose"]
+ N2["require-standing · decide / Request standing and evaluate the proposed action"]
+ N3["authorize · dispatch / Authorize and dispatch the bounded action"]
+ N4["poll / Observe execution settlement"]
+ N5["continue / Next cycle requires observation; no inherited authority"]
+ N6["complete / Check the fresh postcondition and complete"]
+ N0 --> N1
+ N1 --> N2
+ N2 --> N3
+ N3 --> N4
+ N4 --> N5
+ N5 --> N6
