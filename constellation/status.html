@@ -40,19 +40,17 @@
     <p class="lede">What exists, what has been shown, and when. Each row below is a dated statement with its evidence and the condition that would have to be met before the claim is strengthened.</p>
 
     <section aria-labelledby="summary">
-      <h2 id="summary">Summary as of 2026-10-02</h2>
-      <p><strong>Alpha 2 accepted 2026-10-02 &mdash; one governed service start on two fresh Ubuntu 22.04 virtual machines, installed from a published source-free bundle and checked by separate fresh observations; operator beta in preparation.</strong> A prerelease, not a general suite release; 0.1.0-alpha.6 remains the released integration profile.</p>
-      <p>Alpha 1, which ended with the released 0.1.0-alpha.6, proved the semantics: a real composed occurrence, its authority, custody and currentness boundaries, recovery, receipts and refusals. Alpha 2, accepted on 2026-10-02, shows that a packaged set of versions can be installed from published artifacts onto fresh machines by someone outside the development environment and run one governed effect with independent postconditions. Beta will mean an operator can actually live in it, with an operator-facing workflow, coherent status and refusal surfaces, and real setup, upgrade, recovery and day-to-day operation; that is in preparation, and nothing here claims it yet.</p>
-      <ul class="steps">
-        <li><strong>Released integration profile:</strong> <a href="releases/0.1.0-alpha.6/guide.html">0.1.0-alpha.6, <code>reviewed-local-copy/v1</code></a>. One exact plan to create a local file was independently reviewed, explicitly accepted, authorized once, executed once and settled, then checked by a separate read. Anyone can re-verify the retained evidence from public source without repeating the effect.</li>
-        <li><strong>Runnable demo:</strong> the <a href="index.html#demo">indeterminate-effect demo</a> passed a cold-clone run in a fresh virtual machine on 2026-09-25. The custody service is real and built from source; the other parts are local stand-ins. Its source is the tag <code>demo/indeterminate-effect-20260925</code>, a qualified public exhibit, not a Docket release. See the <a href="#status-indeterminate-effect-demo">ledger row</a>.</li>
-        <li><strong>Released component package:</strong> <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0">NQ 0.2.0</a>, a Debian package and tarball for NQ alone.</li>
-        <li><strong>Alpha 2, accepted 2026-10-02:</strong> a published <a href="https://github.com/unpingable/unpingable-site/releases/tag/constellation-alpha2-m2-20261001">source-free bundle</a> of six Ubuntu 22.04 packages (AG operator tools and systemd executor, Docket, Nightshift, NQ 0.2.0 and Pulse support) was installed on two fresh virtual machines; one governed start of a fixed system service was authorized once, custodied and settled, and independently confirmed by fresh unit and HTTP observations. Two setup refusals before any authority was issued were kept. The release is a prerelease; the component repositories carry the exact source on their <code>dev/operator-beta</code> branches and have no new tags. See the <a href="#status-alpha2-m2-jammy">ledger row</a>.</li>
-        <li><strong>Observation profile on one operator host (2026-10-01):</strong> NQ 0.2.0, Monitor&rsquo;s host-posture runner and a Nightshift recurrence timer were installed as services on one production-adjacent Ubuntu 22.04 host, made real capacity observations, delivered one live Slack message and ran one unattended recurrence tick. About an hour later acquisition exceeded the runner&rsquo;s time bounds and every cycle since has been refused, fail-closed; the cause is in NQ. See the <a href="observation-profile-20261001.html">record</a> and <a href="#status-observation-profile-gen1">ledger row</a>.</li>
-        <li><strong>Earlier Alpha 2 candidate (2026-09-25), history:</strong> the alpha.6 composition packaged for Debian 12 passed a clean install, a newcomer run and an upgrade-continuity run, and a hostile review&rsquo;s kit-check finding was fixed; it was never accepted and is superseded. See the <a href="#status-alpha-exit-rc-clean-install">ledger row</a>.</li>
-        <li><strong>Earlier profiles:</strong> alpha.1 through alpha.5 remain available for narrower consultation, saved-check, objective-read, connected-cache and installed-cadence paths; see <a href="start.html">guides and source</a>.</li>
-        <li><strong>Not production-ready.</strong> The boundaries are on the <a href="limits.html">limits</a> page.</li>
-      </ul>
+<!-- CONTENT:summary:BEGIN -->
+<h2 id="summary">Summary as of 2026-10-11</h2>
+<p>An experimental system that separates observation, permission for exact work, execution custody and independent verification. Workbench presents the bounded operational spine to an operator.</p>
+<p><strong>Constellation canonical candidate — 2026-10-10</strong></p>
+<p><strong>Acceptance:</strong> Owner-approved on 2026-10-10 as a candidate for human evaluation, following lab-guest qualification and AI review. This is not Beta Candidate 1 acceptance.</p>
+<p><strong>Human evaluation:</strong> The human newcomer study is prepared and has not been run.</p>
+<p><strong>Availability:</strong> Distribution is authorized for human evaluation only. The candidate is not publicly available; public pinned documents describe the earlier prepared-source snapshot.</p>
+<p><strong>Release notice:</strong> Not Beta Candidate 1 or a beta release. Alpha 2 remains the published packaged prerelease; 0.1.0-alpha.6 remains the immutable released integration profile.</p>
+<p><strong>Scope:</strong> The candidate trial is limited to a supervised session of up to four hours, ended the same day, on a disposable private Ubuntu 22.04 amd64 VM and one systemd unit. No unattended operation or general application health is claimed. NQ retention is bounded, but issue #27 remains open.</p>
+<p><a href="https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/README.md">Prepared-source guide (pinned snapshot)</a> &middot; <a href="https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md">Qualification summary</a> &middot; <a href="https://github.com/unpingable/unpingable-site/releases/tag/constellation-alpha2-m2-20261001">Published Alpha 2 prerelease</a> &middot; <a href="releases/0.1.0-alpha.6/guide.html">Immutable alpha.6 guide</a></p>
+<!-- CONTENT:summary:END -->
     </section>
 
     <section id="names" aria-labelledby="names-heading">
@@ -75,6 +73,16 @@
       <p>One row per object: what it claims, when that was last verified and by what, where the evidence lives, and what would have to happen before the claim may be strengthened. Rows are dated statements, not a live panel &mdash; a mechanical check may satisfy a promotion condition, but promotion stays an explicit editorial act.</p>
     <!-- STATUS:BEGIN generated from status.json by tools/render_status.py -->
     <div class="ledger">
+      <article class="ledger-row" id="status-canonical-candidate-20261010">
+        <h3>Constellation canonical candidate — 2026-10-10</h3>
+        <p><span class="badge accent">composition</span> <span class="badge">owner-approved for human evaluation; BC1 acceptance pending</span></p>
+        <p>The candidate trial is limited to a supervised session of up to four hours, ended the same day, on a disposable private Ubuntu 22.04 amd64 VM and one systemd unit. No unattended operation or general application health is claimed. NQ retention is bounded, but issue #27 remains open.</p>
+        <dl class="pairs">
+          <dt>verified 2026-10-11</dt><dd>Dated editorial update from the owner-approved 2026-10-10 candidate record; private evaluation custody remains private. Linked public source revision 7a63852a2edc009ac58703457aeae6e1bdffc106 is an earlier prepared-source snapshot, not the approval record.</dd>
+          <dt>evidence</dt><dd><a href="https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/README.md" target="_blank" rel="noopener">Prepared-source guide (pinned snapshot)</a> &middot; <a href="https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md" target="_blank" rel="noopener">Qualification summary</a></dd>
+          <dt>promotion</dt><dd>The human evaluation has not run. Beta Candidate 1 acceptance and public publication require separate explicit decisions; approval for evaluation does not establish either.</dd>
+        </dl>
+      </article>
       <article class="ledger-row" id="status-alpha6-reviewed-local-copy">
         <h3>Constellation 0.1.0-alpha.6 — reviewed local copy</h3>
         <p><span class="badge accent">composition</span> <span class="badge">qualified immutable integration release</span></p>
@@ -97,8 +105,8 @@
       </article>
       <article class="ledger-row" id="status-observation-profile-gen1">
         <h3>Observation profile, generation one, on one operator host</h3>
-        <p><span class="badge accent">composition</span> <span class="badge">installed and exercised 2026-10-01; acquisition failing closed since 18:49 UTC the same day</span></p>
-        <p>NQ 0.2.0, Monitor&#x27;s host-posture runner and a Nightshift recurrence timer were installed from Ubuntu 22.04 packages as services on one production-adjacent operator host. Within the first hour the runner made real filesystem-capacity observations and published a status projection, NQ delivered one live Slack message that the owner received, and the timer ran one unattended recurrence tick. From 18:49 UTC NQ&#x27;s per-invocation work exceeded the runner&#x27;s fixed time bounds, and every cycle since has been refused and published as unknown, which is the runner&#x27;s designed fail-closed response. The cause is in NQ: it validates the entire retained history on every store open, so cost grows without bound. The same mechanism was seen in an earlier sustained VM run.</p>
+        <p><span class="badge accent">composition</span> <span class="badge">historical operator-host observation record, 2026-10-01</span></p>
+        <p>NQ 0.2.0, Monitor&#x27;s host-posture runner and a Nightshift recurrence timer were installed from Ubuntu 22.04 packages as services on one production-adjacent operator host. Within the first hour the runner made real filesystem-capacity observations and published a status projection, NQ delivered one live Slack message that the owner received, and the timer ran one unattended recurrence tick. From 18:49 UTC NQ&#x27;s per-invocation work exceeded the runner&#x27;s fixed time bounds, and subsequent cycles in that dated record were refused and published as unknown, which is the runner&#x27;s designed fail-closed response. The cause is in NQ: it validates the entire retained history on every store open, so cost grows without bound. The same mechanism was seen in an earlier sustained VM run.</p>
         <dl class="pairs">
           <dt>verified 2026-10-02</dt><dd>the owner&#x27;s dated installation record and its correction of 2026-10-02 03:05 UTC, summarized on the record page with host identity removed; package digests are listed there</dd>
           <dt>evidence</dt><dd><a href="observation-profile-20261001.html">sanitized record</a> &middot; <a href="https://github.com/unpingable/constellation-nq/releases/tag/v0.2.0" target="_blank" rel="noopener">NQ 0.2.0 source</a> &middot; <a href="https://github.com/unpingable/constellation-monitor/tree/dev/operator-beta/crates/constellation-host-posture" target="_blank" rel="noopener">host-posture runner source</a></dd>
@@ -206,7 +214,7 @@
         </dl>
       </article>
     </div>
-    <p class="fine">Ledger as of 2026-10-02. Generated from
+    <p class="fine">Ledger as of 2026-10-11. Generated from
       <a href="../status.json">status.json</a> by <code>tools/render_status.py</code> in the
       <a href="https://github.com/unpingable/unpingable-site" target="_blank" rel="noopener">site repository</a>;
       it is a dated statement, not a live panel. A row moves only by an explicit

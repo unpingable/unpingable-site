@@ -1,8 +1,28 @@
 {
-  "$comment": "Canonical status source for the unpingable site. Edit here, then run tools/render_status.py. Current rows describe public releases; historical rows remain explicitly marked as history.",
+  "$comment": "Canonical mutable site content and dated status ledger. Edit this record, then run tools/render_status.py. Immutable releases are not generated.",
   "generated_note": "Rendered into constellation/status.html by tools/render_status.py. Do not hand-edit the ledger block.",
-  "as_of": "2026-10-02",
+  "as_of": "2026-10-11",
   "objects": [
+    {
+      "id": "canonical-candidate-20261010",
+      "name": "Constellation canonical candidate — 2026-10-10",
+      "kind": "composition",
+      "status": "owner-approved for human evaluation; BC1 acceptance pending",
+      "claim": "The candidate trial is limited to a supervised session of up to four hours, ended the same day, on a disposable private Ubuntu 22.04 amd64 VM and one systemd unit. No unattended operation or general application health is claimed. NQ retention is bounded, but issue #27 remains open.",
+      "verified": "2026-10-11",
+      "verified_by": "Dated editorial update from the owner-approved 2026-10-10 candidate record; private evaluation custody remains private. Linked public source revision 7a63852a2edc009ac58703457aeae6e1bdffc106 is an earlier prepared-source snapshot, not the approval record.",
+      "evidence": [
+        {
+          "label": "Prepared-source guide (pinned snapshot)",
+          "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/README.md"
+        },
+        {
+          "label": "Qualification summary",
+          "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md"
+        }
+      ],
+      "promotion": "The human evaluation has not run. Beta Candidate 1 acceptance and public publication require separate explicit decisions; approval for evaluation does not establish either."
+    },
     {
       "id": "alpha6-reviewed-local-copy",
       "name": "Constellation 0.1.0-alpha.6 — reviewed local copy",
@@ -59,8 +79,8 @@
       "id": "observation-profile-gen1",
       "name": "Observation profile, generation one, on one operator host",
       "kind": "composition",
-      "status": "installed and exercised 2026-10-01; acquisition failing closed since 18:49 UTC the same day",
-      "claim": "NQ 0.2.0, Monitor's host-posture runner and a Nightshift recurrence timer were installed from Ubuntu 22.04 packages as services on one production-adjacent operator host. Within the first hour the runner made real filesystem-capacity observations and published a status projection, NQ delivered one live Slack message that the owner received, and the timer ran one unattended recurrence tick. From 18:49 UTC NQ's per-invocation work exceeded the runner's fixed time bounds, and every cycle since has been refused and published as unknown, which is the runner's designed fail-closed response. The cause is in NQ: it validates the entire retained history on every store open, so cost grows without bound. The same mechanism was seen in an earlier sustained VM run.",
+      "status": "historical operator-host observation record, 2026-10-01",
+      "claim": "NQ 0.2.0, Monitor's host-posture runner and a Nightshift recurrence timer were installed from Ubuntu 22.04 packages as services on one production-adjacent operator host. Within the first hour the runner made real filesystem-capacity observations and published a status projection, NQ delivered one live Slack message that the owner received, and the timer ran one unattended recurrence tick. From 18:49 UTC NQ's per-invocation work exceeded the runner's fixed time bounds, and subsequent cycles in that dated record were refused and published as unknown, which is the runner's designed fail-closed response. The cause is in NQ: it validates the entire retained history on every store open, so cost grows without bound. The same mechanism was seen in an earlier sustained VM run.",
       "verified": "2026-10-02",
       "verified_by": "the owner's dated installation record and its correction of 2026-10-02 03:05 UTC, summarized on the record page with host identity removed; package digests are listed there",
       "evidence": [
@@ -303,5 +323,46 @@
       ],
       "promotion": "A separately scoped, reproducible public profile; alpha.6 does not provide one."
     }
-  ]
+  ],
+  "current": {
+    "name": "Constellation canonical candidate — 2026-10-10",
+    "intro": "An experimental system that separates observation, permission for exact work, execution custody and independent verification. Workbench presents the bounded operational spine to an operator.",
+    "acceptance": "Owner-approved on 2026-10-10 as a candidate for human evaluation, following lab-guest qualification and AI review. This is not Beta Candidate 1 acceptance.",
+    "evaluation": "The human newcomer study is prepared and has not been run.",
+    "availability": "Distribution is authorized for human evaluation only. The candidate is not publicly available; public pinned documents describe the earlier prepared-source snapshot.",
+    "release": "Not Beta Candidate 1 or a beta release. Alpha 2 remains the published packaged prerelease; 0.1.0-alpha.6 remains the immutable released integration profile.",
+    "scope": "The candidate trial is limited to a supervised session of up to four hours, ended the same day, on a disposable private Ubuntu 22.04 amd64 VM and one systemd unit. No unattended operation or general application health is claimed. NQ retention is bounded, but issue #27 remains open.",
+    "links": [
+      {
+        "label": "Prepared-source guide (pinned snapshot)",
+        "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/README.md"
+      },
+      {
+        "label": "Qualification summary",
+        "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md"
+      },
+      {
+        "label": "Published Alpha 2 prerelease",
+        "url": "https://github.com/unpingable/unpingable-site/releases/tag/constellation-alpha2-m2-20261001"
+      },
+      {
+        "label": "Immutable alpha.6 guide",
+        "url": "constellation/releases/0.1.0-alpha.6/guide.html"
+      }
+    ]
+  },
+  "absd": {
+    "name": "ABSD — public technical preview, 2026-10-10",
+    "intro": "A small experimental x86-64 operating system. The public technical preview is absd-preview-20261010; its published qualification is under QEMU and does not establish physical hardware support.",
+    "links": [
+      {
+        "label": "ABSD site",
+        "url": "https://absd.dev"
+      },
+      {
+        "label": "Public source and preview",
+        "url": "https://github.com/unpingable/absd/releases/tag/absd-preview-20261010"
+      }
+    ]
+  }
 }

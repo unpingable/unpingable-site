@@ -99,33 +99,75 @@ def splice(page: str, block: str) -> str:
     return page[:start] + block + page[stop:]
 
 
+def validate(data: dict) -> None:
+    """Reject incomplete records before changing any generated page."""
+    for field in ("name", "intro", "acceptance", "evaluation", "availability", "release", "scope"):
+        if not isinstance(data["current"].get(field), str) or not data["current"][field].strip():
+            raise ValueError(f"current.{field}: nonempty text required")
+    for record in [data["current"], data["absd"], *data["objects"]]:
+        for link in record.get("links", record.get("evidence", [])):
+            url = link["url"]
+            if ":" in url and not url.startswith("https://"):
+                raise ValueError("Only HTTPS external links are accepted")
+    ids = [o["id"] for o in data["objects"]]
+    if len(ids) != len(set(ids)):
+        raise ValueError("Duplicate ledger identities")
+
+
+def content(data: dict, key: str, target: pathlib.Path) -> str:
+    record = data["absd"] if key.startswith("absd") else data["current"]
+    def links():
+        result = []
+        for link in record["links"]:
+            url = link["url"]
+            if not url.startswith("https://"):
+                url = os.path.relpath(ROOT / url, target.parent).replace(os.sep, "/")
+            result.append(f'<a href="{esc(url)}">{esc(link["label"])}</a>')
+        return " &middot; ".join(result)
+    if key == "home":
+        return f'<li><a href="constellation/">Constellation</a><span>{esc(record["intro"])} {esc(record["name"])}. {esc(record["acceptance"])} {esc(record["evaluation"])} {esc(record["availability"])} {esc(record["release"])}</span></li>'
+    if key == "absd-home":
+        return f'<li><a href="https://absd.dev">ABSD</a><span>{esc(record["intro"])}</span></li>'
+    if key == "absd":
+        return f'<p><strong>{esc(record["name"])}</strong></p><p>{esc(record["intro"])}</p><p>{links()}</p>'
+    heading = f'<h2 id="summary">Summary as of {esc(data["as_of"])}</h2>' if key == "summary" else ""
+    lines = [heading, f'<p>{esc(record["intro"])}</p>', f'<p><strong>{esc(record["name"])}</strong></p>']
+    for field, label in [("acceptance", "Acceptance"), ("evaluation", "Human evaluation"), ("availability", "Availability"), ("release", "Release notice"), ("scope", "Scope")]:
+        lines.append(f'<p><strong>{label}:</strong> {esc(record[field])}</p>')
+    lines.append(f'<p>{links()}</p>')
+    return "\n".join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="verify, do not write")
     args = parser.parse_args()
 
     data = json.loads(SOURCE.read_text())
-    page = TARGET.read_text()
-
-    if BEGIN not in page or END not in page:
-        print(f"{TARGET.name}: status markers not found", file=sys.stderr)
-        return 2
-
-    updated = splice(page, render(data))
-
+    validate(data)
+    targets = {TARGET: splice(TARGET.read_text(), render(data))}
+    for relative, key in [("index.html", "home"), ("index.html", "absd-home"),
+                          ("constellation/index.html", "project"),
+                          ("constellation/status.html", "summary"),
+                          ("constellation/absd.html", "absd")]:
+        target = ROOT / relative
+        page = targets.get(target, target.read_text())
+        begin, end = f"<!-- CONTENT:{key}:BEGIN -->", f"<!-- CONTENT:{key}:END -->"
+        if page.count(begin) != 1 or page.count(end) != 1:
+            raise ValueError(f"{relative}: expected exactly one {key} marker pair")
+        start, stop = page.index(begin), page.index(end) + len(end)
+        targets[target] = page[:start] + begin + "\n" + content(data, key, target) + "\n" + end + page[stop:]
+    stale = [str(p.relative_to(ROOT)) for p, text in targets.items() if p.read_text() != text]
     if args.check:
-        if updated != page:
-            print(f"{TARGET.name}: status ledger is stale — run tools/render_status.py")
+        if stale:
+            print("Stale generated content: " + ", ".join(stale), file=sys.stderr)
             return 1
-        print(f"{TARGET.name}: status ledger up to date")
+        print("All mutable content and ledger blocks are up to date")
         return 0
-
-    if updated == page:
-        print(f"{TARGET.name}: already up to date")
-        return 0
-
-    TARGET.write_text(updated)
-    print(f"{TARGET.name}: status ledger rendered ({len(data['objects'])} objects)")
+    for path, text in targets.items():
+        if path.read_text() != text:
+            path.write_text(text)
+    print("Rendered mutable content and status ledger")
     return 0
 
 

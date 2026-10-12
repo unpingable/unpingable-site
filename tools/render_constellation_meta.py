@@ -37,7 +37,7 @@ PAGES = {
     ),
     "absd.html": (
         "ABSD — a small experimental operating system",
-        "ABSD is a small x86-64 operating system for stateful, recoverable workloads, with a Rust userspace, a crash- and power-loss-tested filesystem and real Constellation components, run under QEMU.",
+        "ABSD is a small experimental x86-64 operating system with a public technical preview dated 2026-10-10. Published QEMU qualification does not establish physical hardware support.",
         BASE + "absd.html",
     ),
     "archive.html": (
