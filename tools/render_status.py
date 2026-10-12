@@ -101,7 +101,7 @@ def splice(page: str, block: str) -> str:
 
 def validate(data: dict) -> None:
     """Reject incomplete records before changing any generated page."""
-    for field in ("name", "intro", "acceptance", "evaluation", "availability", "release", "scope"):
+    for field in ("name", "intro", "acceptance", "demonstrated", "evaluation", "availability", "release", "scope"):
         if not isinstance(data["current"].get(field), str) or not data["current"][field].strip():
             raise ValueError(f"current.{field}: nonempty text required")
     for record in [data["current"], data["absd"], *data["objects"]]:
@@ -125,14 +125,14 @@ def content(data: dict, key: str, target: pathlib.Path) -> str:
             result.append(f'<a href="{esc(url)}">{esc(link["label"])}</a>')
         return " &middot; ".join(result)
     if key == "home":
-        return f'<li><a href="constellation/">Constellation</a><span>{esc(record["intro"])} {esc(record["name"])}. {esc(record["acceptance"])} {esc(record["evaluation"])} {esc(record["availability"])} {esc(record["release"])}</span></li>'
+        return f'<li><a href="constellation/">Constellation</a><span>{esc(record["intro"])} {esc(record["name"])}. {esc(record["acceptance"])} {esc(record["demonstrated"])} {esc(record["evaluation"])} {esc(record["availability"])} {esc(record["release"])}</span></li>'
     if key == "absd-home":
         return f'<li><a href="https://absd.dev">ABSD</a><span>{esc(record["intro"])}</span></li>'
     if key == "absd":
         return f'<p><strong>{esc(record["name"])}</strong></p><p>{esc(record["intro"])}</p><p>{links()}</p>'
     heading = f'<h2 id="summary">Summary as of {esc(data["as_of"])}</h2>' if key == "summary" else ""
     lines = [heading, f'<p>{esc(record["intro"])}</p>', f'<p><strong>{esc(record["name"])}</strong></p>']
-    for field, label in [("acceptance", "Acceptance"), ("evaluation", "Human evaluation"), ("availability", "Availability"), ("release", "Release notice"), ("scope", "Scope")]:
+    for field, label in [("acceptance", "Acceptance"), ("demonstrated", "Demonstrated"), ("evaluation", "Human evaluation"), ("availability", "Availability"), ("release", "Release notice"), ("scope", "Scope")]:
         lines.append(f'<p><strong>{label}:</strong> {esc(record[field])}</p>')
     lines.append(f'<p>{links()}</p>')
     return "\n".join(lines)

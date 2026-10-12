@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import json
 from pathlib import Path
 import re
 import sys
@@ -14,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://unpingable.com/constellation/"
 IMAGE = "https://unpingable.com/og-card.png"
 IMAGE_ALT = "unpingable — evidence, authority, action. James Beck."
+CONTENT = json.loads((ROOT / "status.json").read_text())
 PAGES = {
     "index.html": (
         "Constellation — independent evidence for automated work",
@@ -36,8 +38,8 @@ PAGES = {
         BASE + "directions.html",
     ),
     "absd.html": (
-        "ABSD — a small experimental operating system",
-        "ABSD is a small experimental x86-64 operating system with a public technical preview dated 2026-10-10. Published QEMU qualification does not establish physical hardware support.",
+        CONTENT["absd"]["name"],
+        CONTENT["absd"]["intro"],
         BASE + "absd.html",
     ),
     "archive.html": (

@@ -18,7 +18,7 @@
         },
         {
           "label": "Qualification summary",
-          "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md"
+          "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.json"
         }
       ],
       "promotion": "The human evaluation has not run. Beta Candidate 1 acceptance and public publication require separate explicit decisions; approval for evaluation does not establish either."
@@ -339,7 +339,7 @@
       },
       {
         "label": "Qualification summary",
-        "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.md"
+        "url": "https://github.com/unpingable/unpingable-site/blob/7a63852a2edc009ac58703457aeae6e1bdffc106/constellation/combined-candidate/QUALIFICATION-SUMMARY.json"
       },
       {
         "label": "Published Alpha 2 prerelease",
@@ -349,11 +349,12 @@
         "label": "Immutable alpha.6 guide",
         "url": "constellation/releases/0.1.0-alpha.6/guide.html"
       }
-    ]
+    ],
+    "demonstrated": "Agent-driven lab checks exercised installation, a governed Start, refusal cases and reboot; these are not human-usability evidence."
   },
   "absd": {
     "name": "ABSD — public technical preview, 2026-10-10",
-    "intro": "A small experimental x86-64 operating system. The public technical preview is absd-preview-20261010; its published qualification is under QEMU and does not establish physical hardware support.",
+    "intro": "A small experimental x86-64 operating system. The public technical preview absd-preview-20261010 was built, booted and SSH smoke-tested from a clean clone under QEMU. The kernel suite and core gate were not run on these preview revisions; earlier qualification remains revision-scoped. Physical hardware support is not established.",
     "links": [
       {
         "label": "ABSD site",
@@ -361,7 +362,7 @@
       },
       {
         "label": "Public source and preview",
-        "url": "https://github.com/unpingable/absd/releases/tag/absd-preview-20261010"
+        "url": "https://github.com/unpingable/absd/tree/absd-preview-20261010"
       }
     ]
   }
