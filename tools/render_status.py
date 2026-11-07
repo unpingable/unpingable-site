@@ -104,6 +104,9 @@ def validate(data: dict) -> None:
     for field in ("name", "intro", "acceptance", "demonstrated", "evaluation", "availability", "release", "scope"):
         if not isinstance(data["current"].get(field), str) or not data["current"][field].strip():
             raise ValueError(f"current.{field}: nonempty text required")
+    summary = data["absd"].get("summary")
+    if summary is not None and (not isinstance(summary, str) or not summary.strip() or len(summary) > 200):
+        raise ValueError("absd.summary: nonempty text of at most 200 characters required")
     for record in [data["current"], data["absd"], data["absd"].get("history", {}), *data["objects"]]:
         for link in record.get("links", record.get("evidence", [])):
             url = link["url"]

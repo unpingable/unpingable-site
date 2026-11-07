@@ -354,6 +354,7 @@
   },
   "absd": {
     "name": "ABSD Developer Preview 2 — 2026-11-07",
+    "summary": "ABSD Developer Preview 2: an experimental x86-64 OS you can download and run under QEMU. Single-CPU, unsigned, not for physical hardware or production.",
     "intro": "An experimental x86-64 operating system with a public, download-and-run Developer Preview 2 (7 November 2026). Under QEMU, it creates an SSH-key-enrolled machine, runs a shell and native utilities, and keeps files across clean reboots. Source, instructions, checksums and explicit test limitations are published. The preview is single-operator, single-CPU and unsigned, with no physical-hardware or production support.",
     "links": [
       {

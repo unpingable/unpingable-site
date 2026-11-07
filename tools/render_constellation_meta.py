@@ -39,7 +39,7 @@ PAGES = {
     ),
     "absd.html": (
         CONTENT["absd"]["name"],
-        CONTENT["absd"]["intro"],
+        CONTENT["absd"].get("summary", CONTENT["absd"]["intro"]),
         BASE + "absd.html",
     ),
     "archive.html": (

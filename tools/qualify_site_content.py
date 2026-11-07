@@ -18,6 +18,7 @@ with tempfile.TemporaryDirectory(prefix="site-content-qualification-") as name:
     data["current"]["name"] = "Hypothetical successor <fixture>"
     data["absd"]["name"] = "Hypothetical ABSD preview"
     data["absd"]["intro"] = "Hypothetical QEMU-only fixture description."
+    data["absd"]["summary"] = "Hypothetical short ABSD summary."
     source.write_text(json.dumps(data))
     for script in ("render_status.py", "render_constellation_meta.py", "render_constellation.py"):
         subprocess.run(["python3", "tools/" + script], cwd=copy, check=True)
@@ -26,7 +27,8 @@ with tempfile.TemporaryDirectory(prefix="site-content-qualification-") as name:
     for relative in ("index.html", "constellation/index.html", "constellation/status.html"):
         assert "Hypothetical successor &lt;fixture&gt;" in (copy / relative).read_text()
     absd = (copy / "constellation/absd.html").read_text()
-    assert 'content="Hypothetical QEMU-only fixture description."' in absd
+    assert 'content="Hypothetical short ABSD summary."' in absd
+    assert "Hypothetical QEMU-only fixture description." in absd
     assert "Hypothetical ABSD preview" in absd
     assert all(hashlib.sha256((copy / path).read_bytes()).hexdigest() == digest
                for path, digest in releases.items())
