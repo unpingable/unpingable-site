@@ -104,7 +104,7 @@ def validate(data: dict) -> None:
     for field in ("name", "intro", "acceptance", "demonstrated", "evaluation", "availability", "release", "scope"):
         if not isinstance(data["current"].get(field), str) or not data["current"][field].strip():
             raise ValueError(f"current.{field}: nonempty text required")
-    for record in [data["current"], data["absd"], *data["objects"]]:
+    for record in [data["current"], data["absd"], data["absd"].get("history", {}), *data["objects"]]:
         for link in record.get("links", record.get("evidence", [])):
             url = link["url"]
             if ":" in url and not url.startswith("https://"):
@@ -116,9 +116,11 @@ def validate(data: dict) -> None:
 
 def content(data: dict, key: str, target: pathlib.Path) -> str:
     record = data["absd"] if key.startswith("absd") else data["current"]
-    def links():
+    def links(only=None, source=None):
         result = []
-        for link in record["links"]:
+        for link in (source if source is not None else record["links"]):
+            if only is not None and link["label"] not in only:
+                continue
             url = link["url"]
             if not url.startswith("https://"):
                 url = os.path.relpath(ROOT / url, target.parent).replace(os.sep, "/")
@@ -127,9 +129,18 @@ def content(data: dict, key: str, target: pathlib.Path) -> str:
     if key == "home":
         return f'<li><a href="constellation/">Constellation</a><span>{esc(record["intro"])} {esc(record["name"])}. {esc(record["acceptance"])} {esc(record["demonstrated"])} {esc(record["evaluation"])} {esc(record["availability"])} {esc(record["release"])}</span></li>'
     if key == "absd-home":
-        return f'<li><a href="https://absd.dev">ABSD</a><span>{esc(record["intro"])}</span></li>'
+        extra = f' {links(record["home_links"])}' if record.get("home_links") else ""
+        return f'<li><a href="https://absd.dev/">ABSD</a><span>{esc(record["intro"])}{extra}</span></li>'
     if key == "absd":
-        return f'<p><strong>{esc(record["name"])}</strong></p><p>{esc(record["intro"])}</p><p>{links()}</p>'
+        parts = [f'<p><strong>{esc(record["name"])}</strong></p>', f'<p>{esc(record["intro"])}</p>']
+        for field, label in [("limits", "Limits"), ("authorship", "Authorship")]:
+            if record.get(field):
+                parts.append(f'<p><strong>{label}:</strong> {esc(record[field])}</p>')
+        parts.append(f'<p>{links()}</p>')
+        past = record.get("history")
+        if past:
+            parts.append(f'<p><strong>Earlier record, kept as history:</strong> {esc(past["name"])}. {esc(past["intro"])} {links(source=past["links"])}</p>')
+        return "".join(parts)
     heading = f'<h2 id="summary">Summary as of {esc(data["as_of"])}</h2>' if key == "summary" else ""
     lines = [heading, f'<p>{esc(record["intro"])}</p>', f'<p><strong>{esc(record["name"])}</strong></p>']
     for field, label in [("acceptance", "Acceptance"), ("demonstrated", "Demonstrated"), ("evaluation", "Human evaluation"), ("availability", "Availability"), ("release", "Release notice"), ("scope", "Scope")]:

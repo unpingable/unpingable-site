@@ -353,17 +353,45 @@
     "demonstrated": "Agent-driven lab checks exercised installation, a governed Start, refusal cases and reboot; these are not human-usability evidence."
   },
   "absd": {
-    "name": "ABSD — public technical preview, 2026-10-10",
-    "intro": "A small experimental x86-64 operating system. The public technical preview absd-preview-20261010 was built, booted and SSH smoke-tested from a clean clone under QEMU. The kernel suite and core gate were not run on these preview revisions; earlier qualification remains revision-scoped. Physical hardware support is not established.",
+    "name": "ABSD Developer Preview 2 — 2026-11-07",
+    "intro": "An experimental x86-64 operating system with a public, download-and-run Developer Preview 2 (7 November 2026). Under QEMU, it creates an SSH-key-enrolled machine, runs a shell and native utilities, and keeps files across clean reboots. Source, instructions, checksums and explicit test limitations are published. The preview is single-operator, single-CPU and unsigned, with no physical-hardware or production support.",
     "links": [
       {
-        "label": "ABSD site",
-        "url": "https://absd.dev"
+        "label": "Try it",
+        "url": "https://absd.dev/try/"
       },
       {
-        "label": "Public source and preview",
-        "url": "https://github.com/unpingable/absd/tree/absd-preview-20261010"
+        "label": "Release and evidence",
+        "url": "https://github.com/unpingable/absd/releases/tag/absd-preview-2"
+      },
+      {
+        "label": "Quickstart",
+        "url": "https://github.com/unpingable/absd/releases/download/absd-preview-2/QUICKSTART.md"
+      },
+      {
+        "label": "ABSD site",
+        "url": "https://absd.dev/"
       }
-    ]
+    ],
+    "home_links": [
+      "Try it",
+      "Release and evidence"
+    ],
+    "limits": "Preview 2 documents QEMU TCG on a Linux x86-64 host only; KVM, several CPUs and other hosts are untested for its media. The shell is reached over SSH through the helper, with no local console. There are no sockets, DNS or outbound connections, no in-place upgrade, and no stability or security guarantees. The public-download rehearsal and outside testing had not run at publication, and the release notes disclose a failing Clippy lint and a failing fuzz self-test in the public kernel check. Public source construction agrees partially with the sealed release; byte-identical images are not claimed.",
+    "authorship": "One developer directs the work; AI coding agents did most of the implementation, testing, documentation and separate AI-run reviews. No outside human has audited it.",
+    "history": {
+      "name": "ABSD — public technical preview, 2026-10-10",
+      "intro": "A small experimental x86-64 operating system. The public technical preview absd-preview-20261010 was built, booted and SSH smoke-tested from a clean clone under QEMU. The kernel suite and core gate were not run on these preview revisions; earlier qualification remains revision-scoped. Physical hardware support is not established.",
+      "links": [
+        {
+          "label": "ABSD site",
+          "url": "https://absd.dev"
+        },
+        {
+          "label": "Public source and preview",
+          "url": "https://github.com/unpingable/absd/tree/absd-preview-20261010"
+        }
+      ]
+    }
   }
 }

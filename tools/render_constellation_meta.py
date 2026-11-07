@@ -134,6 +134,7 @@ SITE_HEADER = f'''<header class="site-header">
     <a class="site-name" href="../index.html">unpingable</a>
     <nav class="site-nav" aria-label="Site">
       <a href="./" aria-current="true">Constellation</a>
+      <a href="https://absd.dev/">ABSD</a>
       <a href="{RESEARCH}">Research</a>
       <a href="../about.html">About</a>
       <a href="https://neutral.zone">Writing</a>
